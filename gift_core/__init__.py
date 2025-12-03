@@ -32,6 +32,26 @@ from gift_core.monte_carlo import (
 )
 from gift_core._version import __version__
 
+# Optional torch integration (requires: pip install torch)
+try:
+    from gift_core.torch_optim import (
+        TORCH_AVAILABLE,
+        DifferentiableObservables,
+        K7MetricOptimizer,
+        OptimizationResult,
+        optimize_k7_metric,
+        multi_start_optimization,
+        scan_parameter_space,
+    )
+except ImportError:
+    TORCH_AVAILABLE = False
+    DifferentiableObservables = None
+    K7MetricOptimizer = None
+    OptimizationResult = None
+    optimize_k7_metric = None
+    multi_start_optimization = None
+    scan_parameter_space = None
+
 __all__ = [
     # Topological constants
     'DIM_E8', 'RANK_E8', 'DIM_E8xE8', 'DIM_G2', 'DIM_K7',
@@ -52,6 +72,10 @@ __all__ = [
     'Observable', 'OBSERVABLES',
     'MonteCarloEngine', 'KappaTRobustness',
     'run_quick_mc', 'run_kappa_analysis', 'compare_predictions_to_experiment',
+    # Torch optimization (optional)
+    'TORCH_AVAILABLE',
+    'DifferentiableObservables', 'K7MetricOptimizer', 'OptimizationResult',
+    'optimize_k7_metric', 'multi_start_optimization', 'scan_parameter_space',
     # Version
     '__version__',
 ]
