@@ -1,0 +1,2336 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Formally verified mathematical constants from the GIFT framework">
+      
+      
+        <meta name="author" content="GIFT Framework">
+      
+      
+        <link rel="canonical" href="https://gift-framework.github.io/core/theory/derivations/">
+      
+      
+        <link rel="prev" href="../background/">
+      
+      
+        <link rel="next" href="../../contributing/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Derivations - giftpy Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#derivations" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="giftpy Documentation" class="md-header__button md-logo" aria-label="giftpy Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            giftpy Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Derivations
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/gift-framework/core" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gift-framework/core
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="giftpy Documentation" class="md-nav__button md-logo" aria-label="giftpy Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    giftpy Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/gift-framework/core" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gift-framework/core
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/constants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constants
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/relations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/utilities/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Utilities
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Proofs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Formal Proofs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../proofs/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../proofs/lean/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lean 4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../proofs/coq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Coq
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theory
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Theory
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../background/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Background
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Derivations
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Derivations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#input-constants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Input Constants
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-weinberg-angle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Weinberg Angle
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Weinberg Angle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simplification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simplification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-hierarchy-parameter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Hierarchy Parameter τ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Hierarchy Parameter τ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simplification_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simplification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-metric-determinant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Metric Determinant
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Metric Determinant">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-torsion-magnitude" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Torsion Magnitude
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Torsion Magnitude">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-cp-violation-phase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. CP Violation Phase
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. CP Violation Phase">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-tau-electron-mass-ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Tau-Electron Mass Ratio
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Tau-Electron Mass Ratio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-strange-down-mass-ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Strange-Down Mass Ratio
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Strange-Down Mass Ratio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-koide-parameter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Koide Parameter
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Koide Parameter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-higgs-coupling-numerator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Higgs Coupling Numerator
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Higgs Coupling Numerator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#numerator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Numerator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#denominator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Denominator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-cohomological-dimension-h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Cohomological Dimension H*
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Cohomological Dimension H*">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-binary-duality-p2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Binary Duality p₂
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Binary Duality p₂">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-generation-number" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Generation Number
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Generation Number">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#derivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Derivation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-e8e8-dimension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. E₈×E₈ Dimension
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="13. E₈×E₈ Dimension">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#input-constants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Input Constants
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-weinberg-angle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Weinberg Angle
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Weinberg Angle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simplification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simplification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-hierarchy-parameter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Hierarchy Parameter τ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Hierarchy Parameter τ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simplification_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simplification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-metric-determinant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Metric Determinant
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Metric Determinant">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-torsion-magnitude" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Torsion Magnitude
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Torsion Magnitude">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-cp-violation-phase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. CP Violation Phase
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. CP Violation Phase">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-tau-electron-mass-ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Tau-Electron Mass Ratio
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Tau-Electron Mass Ratio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-strange-down-mass-ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Strange-Down Mass Ratio
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Strange-Down Mass Ratio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-koide-parameter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Koide Parameter
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Koide Parameter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-higgs-coupling-numerator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Higgs Coupling Numerator
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Higgs Coupling Numerator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#numerator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Numerator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#denominator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Denominator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-cohomological-dimension-h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Cohomological Dimension H*
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Cohomological Dimension H*">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-binary-duality-p2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Binary Duality p₂
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Binary Duality p₂">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-generation-number" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Generation Number
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Generation Number">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#derivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Derivation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-e8e8-dimension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. E₈×E₈ Dimension
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="13. E₈×E₈ Dimension">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calculation_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="derivations">Derivations</h1>
+<p>This page shows how each of the 13 exact relations is derived from topological invariants.</p>
+<h2 id="input-constants">Input Constants</h2>
+<p>All derivations use only these fixed topological integers:</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Value</th>
+<th>Origin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>dim(E₈)</td>
+<td>248</td>
+<td>E₈ Lie algebra dimension</td>
+</tr>
+<tr>
+<td>rank(E₈)</td>
+<td>8</td>
+<td>Cartan subalgebra dimension</td>
+</tr>
+<tr>
+<td>dim(E₈×E₈)</td>
+<td>496</td>
+<td>Product group: 2 × 248</td>
+</tr>
+<tr>
+<td>Weyl</td>
+<td>5</td>
+<td>From</td>
+</tr>
+<tr>
+<td>b₂</td>
+<td>21</td>
+<td>Second Betti number of K₇</td>
+</tr>
+<tr>
+<td>b₃</td>
+<td>77</td>
+<td>Third Betti number of K₇</td>
+</tr>
+<tr>
+<td>dim(G₂)</td>
+<td>14</td>
+<td>G₂ Lie group dimension</td>
+</tr>
+<tr>
+<td>dim(K₇)</td>
+<td>7</td>
+<td>Manifold dimension</td>
+</tr>
+<tr>
+<td>dim(J₃(𝕆))</td>
+<td>27</td>
+<td>Exceptional Jordan algebra</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="1-weinberg-angle">1. Weinberg Angle</h2>
+<div class="arithmatex">\[\sin^2\theta_W = \frac{b_2}{b_3 + \dim(G_2)}\]</div>
+<h3 id="calculation">Calculation</h3>
+<div class="arithmatex">\[\sin^2\theta_W = \frac{21}{77 + 14} = \frac{21}{91}\]</div>
+<h3 id="simplification">Simplification</h3>
+<div class="arithmatex">\[\frac{21}{91} = \frac{3 \times 7}{7 \times 13} = \frac{3}{13}\]</div>
+<h3 id="result">Result</h3>
+<div class="arithmatex">\[\sin^2\theta_W = \frac{3}{13} \approx 0.2308\]</div>
+<p><strong>Experimental value</strong>: 0.23122 ± 0.00003<br />
+<strong>Deviation</strong>: 0.19%</p>
+<hr />
+<h2 id="2-hierarchy-parameter">2. Hierarchy Parameter τ</h2>
+<div class="arithmatex">\[\tau = \frac{\dim(E_8 \times E_8) \cdot b_2}{\dim(J_3(\mathbb{O})) \cdot H^*}\]</div>
+<p>where H* = b₂ + b₃ + 1 = 99.</p>
+<h3 id="calculation_1">Calculation</h3>
+<div class="arithmatex">\[\tau = \frac{496 \times 21}{27 \times 99} = \frac{10416}{2673}\]</div>
+<h3 id="simplification_1">Simplification</h3>
+<div class="arithmatex">\[\gcd(10416, 2673) = 3\]</div>
+<div class="arithmatex">\[\tau = \frac{10416/3}{2673/3} = \frac{3472}{891}\]</div>
+<h3 id="result_1">Result</h3>
+<div class="arithmatex">\[\tau = \frac{3472}{891} \approx 3.897\]</div>
+<hr />
+<h2 id="3-metric-determinant">3. Metric Determinant</h2>
+<div class="arithmatex">\[\det(g) = \frac{\text{Weyl} \times 13}{32}\]</div>
+<h3 id="calculation_2">Calculation</h3>
+<div class="arithmatex">\[\det(g) = \frac{5 \times 13}{32} = \frac{65}{32}\]</div>
+<h3 id="result_2">Result</h3>
+<div class="arithmatex">\[\det(g) = \frac{65}{32} \approx 2.031\]</div>
+<hr />
+<h2 id="4-torsion-magnitude">4. Torsion Magnitude</h2>
+<div class="arithmatex">\[\kappa_T = \frac{1}{b_3 - \dim(G_2) - 2}\]</div>
+<h3 id="calculation_3">Calculation</h3>
+<div class="arithmatex">\[\kappa_T = \frac{1}{77 - 14 - 2} = \frac{1}{61}\]</div>
+<h3 id="result_3">Result</h3>
+<div class="arithmatex">\[\kappa_T = \frac{1}{61} \approx 0.0164\]</div>
+<p>Note: 61 is the 18th prime number.</p>
+<hr />
+<h2 id="5-cp-violation-phase">5. CP Violation Phase</h2>
+<div class="arithmatex">\[\delta_{CP} = 7 \cdot \dim(G_2) + H^*\]</div>
+<h3 id="calculation_4">Calculation</h3>
+<div class="arithmatex">\[\delta_{CP} = 7 \times 14 + 99 = 98 + 99 = 197\]</div>
+<h3 id="result_4">Result</h3>
+<div class="arithmatex">\[\delta_{CP} = 197°\]</div>
+<p><strong>Experimental value</strong>: 197° ± 24° (T2K/NOvA combined)<br />
+<strong>DUNE sensitivity</strong>: ±5° by 2030</p>
+<hr />
+<h2 id="6-tau-electron-mass-ratio">6. Tau-Electron Mass Ratio</h2>
+<div class="arithmatex">\[\frac{m_\tau}{m_e} = \dim(K_7) + 10 \cdot \dim(E_8) + 10 \cdot H^*\]</div>
+<h3 id="calculation_5">Calculation</h3>
+<div class="arithmatex">\[\frac{m_\tau}{m_e} = 7 + 10 \times 248 + 10 \times 99$$
+$$= 7 + 2480 + 990 = 3477\]</div>
+<h3 id="result_5">Result</h3>
+<div class="arithmatex">\[\frac{m_\tau}{m_e} = 3477\]</div>
+<p><strong>Experimental value</strong>: 3477.23 ± 0.23<br />
+<strong>Deviation</strong>: 0.007%</p>
+<hr />
+<h2 id="7-strange-down-mass-ratio">7. Strange-Down Mass Ratio</h2>
+<div class="arithmatex">\[\frac{m_s}{m_d} = 4 \times \text{Weyl} = b_2 - 1\]</div>
+<h3 id="calculation_6">Calculation</h3>
+<div class="arithmatex">\[\frac{m_s}{m_d} = 4 \times 5 = 20\]</div>
+<p>Or equivalently:</p>
+<div class="arithmatex">\[\frac{m_s}{m_d} = 21 - 1 = 20\]</div>
+<h3 id="result_6">Result</h3>
+<div class="arithmatex">\[\frac{m_s}{m_d} = 20\]</div>
+<p><strong>Experimental value</strong>: 20.2 ± 1.5<br />
+<strong>Deviation</strong>: 1.0%</p>
+<hr />
+<h2 id="8-koide-parameter">8. Koide Parameter</h2>
+<div class="arithmatex">\[Q = \frac{\dim(G_2)}{b_2}\]</div>
+<h3 id="calculation_7">Calculation</h3>
+<div class="arithmatex">\[Q = \frac{14}{21} = \frac{2}{3}\]</div>
+<h3 id="result_7">Result</h3>
+<div class="arithmatex">\[Q = \frac{2}{3} \approx 0.6667\]</div>
+<p><strong>Koide's original formula</strong>: Q = (m_e + m_μ + m_τ) / (√m_e + √m_μ + √m_τ)² = 0.6666...</p>
+<hr />
+<h2 id="9-higgs-coupling-numerator">9. Higgs Coupling Numerator</h2>
+<div class="arithmatex">\[\lambda_H = \sqrt{\frac{\dim(G_2) + N_{gen}}{2^{\text{Weyl}}}}\]</div>
+<h3 id="numerator">Numerator</h3>
+<div class="arithmatex">\[\text{numerator} = \dim(G_2) + N_{gen} = 14 + 3 = 17\]</div>
+<h3 id="denominator">Denominator</h3>
+<div class="arithmatex">\[\text{denominator} = 2^{\text{Weyl}} = 2^5 = 32\]</div>
+<h3 id="result_8">Result</h3>
+<div class="arithmatex">\[\lambda_H = \sqrt{\frac{17}{32}} \approx 0.729\]</div>
+<hr />
+<h2 id="10-cohomological-dimension-h">10. Cohomological Dimension H*</h2>
+<div class="arithmatex">\[H^* = b_2 + b_3 + 1\]</div>
+<h3 id="calculation_8">Calculation</h3>
+<div class="arithmatex">\[H^* = 21 + 77 + 1 = 99\]</div>
+<h3 id="result_9">Result</h3>
+<div class="arithmatex">\[H^* = 99 = 9 \times 11 = 3^2 \times 11\]</div>
+<hr />
+<h2 id="11-binary-duality-p2">11. Binary Duality p₂</h2>
+<div class="arithmatex">\[p_2 = \frac{\dim(G_2)}{\dim(K_7)}\]</div>
+<h3 id="calculation_9">Calculation</h3>
+<div class="arithmatex">\[p_2 = \frac{14}{7} = 2\]</div>
+<h3 id="result_10">Result</h3>
+<div class="arithmatex">\[p_2 = 2\]</div>
+<hr />
+<h2 id="12-generation-number">12. Generation Number</h2>
+<p>N_gen is the unique positive integer satisfying:</p>
+<div class="arithmatex">\[(\text{rank}(E_8) + N) \times b_2 = N \times b_3\]</div>
+<h3 id="derivation">Derivation</h3>
+<div class="arithmatex">\[(8 + N) \times 21 = N \times 77$$
+$$168 + 21N = 77N$$
+$$168 = 56N$$
+$$N = 3\]</div>
+<h3 id="result_11">Result</h3>
+<div class="arithmatex">\[N_{gen} = 3\]</div>
+<hr />
+<h2 id="13-e8e8-dimension">13. E₈×E₈ Dimension</h2>
+<div class="arithmatex">\[\dim(E_8 \times E_8) = 2 \times \dim(E_8)\]</div>
+<h3 id="calculation_10">Calculation</h3>
+<div class="arithmatex">\[\dim(E_8 \times E_8) = 2 \times 248 = 496\]</div>
+<h3 id="result_12">Result</h3>
+<div class="arithmatex">\[\dim(E_8 \times E_8) = 496\]</div>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>All 13 relations are arithmetic identities involving only the topological integers. No continuous parameters are adjusted.</p>
+<table>
+<thead>
+<tr>
+<th>Relation</th>
+<th>Formula</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sin²θ_W</td>
+<td>b₂/(b₃ + dim G₂)</td>
+<td>3/13</td>
+</tr>
+<tr>
+<td>τ</td>
+<td>(496×21)/(27×99)</td>
+<td>3472/891</td>
+</tr>
+<tr>
+<td>det(g)</td>
+<td>5×13/32</td>
+<td>65/32</td>
+</tr>
+<tr>
+<td>κ_T</td>
+<td>1/(77-14-2)</td>
+<td>1/61</td>
+</tr>
+<tr>
+<td>δ_CP</td>
+<td>7×14 + 99</td>
+<td>197</td>
+</tr>
+<tr>
+<td>m_τ/m_e</td>
+<td>7 + 2480 + 990</td>
+<td>3477</td>
+</tr>
+<tr>
+<td>m_s/m_d</td>
+<td>4×5</td>
+<td>20</td>
+</tr>
+<tr>
+<td>Q_Koide</td>
+<td>14/21</td>
+<td>2/3</td>
+</tr>
+<tr>
+<td>λ_H</td>
+<td>√(17/32)</td>
+<td>√17/√32</td>
+</tr>
+<tr>
+<td>H*</td>
+<td>21 + 77 + 1</td>
+<td>99</td>
+</tr>
+<tr>
+<td>p₂</td>
+<td>14/7</td>
+<td>2</td>
+</tr>
+<tr>
+<td>N_gen</td>
+<td>constraint solution</td>
+<td>3</td>
+</tr>
+<tr>
+<td>dim(E₈×E₈)</td>
+<td>2×248</td>
+<td>496</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/gift-framework" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://x.com/GIFTheory" target="_blank" rel="noopener" title="x.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M459.4 151.7c.3 4.5.3 9.1.3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53C87.4 130.8 165 172.4 252.1 176.9c-1.6-7.8-2.6-15.9-2.6-24C249.5 95.1 296.3 48 354.4 48c30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.expand", "toc.follow", "content.code.copy"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
