@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gift-core"
+dynamic = ["version"]
+description = "GIFT mathematical core - Formally verified constants (Lean 4 + Coq)"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Brieuc de La Fourniere", email = "brieuc@bdelaf.com"}
+]
+keywords = [
+    "physics", "mathematics", "formal-verification",
+    "lean4", "coq", "standard-model", "E8", "topology"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Scientific/Engineering :: Mathematics",
+]
+requires-python = ">=3.9"
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/gift-framework/core"
+Documentation = "https://github.com/gift-framework/GIFT"
+Repository = "https://github.com/gift-framework/core"
+"Lean Proofs" = "https://github.com/gift-framework/core/tree/main/Lean"
+"Coq Proofs" = "https://github.com/gift-framework/core/tree/main/COQ"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0", "pytest-cov", "black", "ruff"]
+
+[tool.setuptools.dynamic]
+version = {attr = "gift_core._version.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["gift_core*"]
+
+[tool.black]
+line-length = 88
+target-version = ["py39", "py310", "py311", "py312"]
+
+[tool.ruff]
+line-length = 88
+select = ["E", "F", "W", "I", "UP"]

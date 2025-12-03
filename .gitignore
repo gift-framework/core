@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Testing
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.hypothesis/
+
+# Lean
+Lean/.lake/
+Lean/lake-packages/
+Lean/build/
+
+# Coq
+COQ/*.vo
+COQ/*.vok
+COQ/*.vos
+COQ/*.glob
+COQ/.*.aux
+COQ/CoqMakefile
+COQ/CoqMakefile.conf
+COQ/.coqdeps.d
+
+# OS
+.DS_Store
+Thumbs.db
