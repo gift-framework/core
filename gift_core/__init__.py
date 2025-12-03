@@ -3,6 +3,9 @@ GIFT Core - Formally verified mathematical constants.
 
 All values are proven in Lean 4 and Coq proof assistants.
 Zero domain-specific axioms. Zero sorry/Admitted.
+
+Includes Monte Carlo simulation for testing robustness of
+dimensional observables across Planck/string scale variations.
 """
 
 from gift_core.constants import (
@@ -14,7 +17,40 @@ from gift_core.constants import (
 )
 from gift_core.relations import PROVEN_RELATIONS, get_relation
 from gift_core.topology import K7, G2, E8
+from gift_core.scales import (
+    M_PLANCK, M_STRING_DEFAULT, M_GUT, M_EW,
+    ScaleHierarchy, S7Parameters,
+)
+from gift_core.experimental import (
+    Measurement, Comparison, GIFT_COMPARISONS,
+    SIN2_THETA_W_EXP, DELTA_CP_EXP, M_TAU_M_E_EXP, Q_KOIDE_EXP,
+)
+from gift_core.monte_carlo import (
+    Observable, OBSERVABLES,
+    MonteCarloEngine, KappaTRobustness,
+    run_quick_mc, run_kappa_analysis, compare_predictions_to_experiment,
+)
 from gift_core._version import __version__
+
+# Optional torch integration (requires: pip install torch)
+try:
+    from gift_core.torch_optim import (
+        TORCH_AVAILABLE,
+        DifferentiableObservables,
+        K7MetricOptimizer,
+        OptimizationResult,
+        optimize_k7_metric,
+        multi_start_optimization,
+        scan_parameter_space,
+    )
+except ImportError:
+    TORCH_AVAILABLE = False
+    DifferentiableObservables = None
+    K7MetricOptimizer = None
+    OptimizationResult = None
+    optimize_k7_metric = None
+    multi_start_optimization = None
+    scan_parameter_space = None
 
 __all__ = [
     # Topological constants
@@ -26,6 +62,20 @@ __all__ = [
     'H_STAR', 'P2', 'N_GEN',
     # Structures
     'K7', 'G2', 'E8', 'PROVEN_RELATIONS', 'get_relation',
+    # Scales
+    'M_PLANCK', 'M_STRING_DEFAULT', 'M_GUT', 'M_EW',
+    'ScaleHierarchy', 'S7Parameters',
+    # Experimental data
+    'Measurement', 'Comparison', 'GIFT_COMPARISONS',
+    'SIN2_THETA_W_EXP', 'DELTA_CP_EXP', 'M_TAU_M_E_EXP', 'Q_KOIDE_EXP',
+    # Monte Carlo
+    'Observable', 'OBSERVABLES',
+    'MonteCarloEngine', 'KappaTRobustness',
+    'run_quick_mc', 'run_kappa_analysis', 'compare_predictions_to_experiment',
+    # Torch optimization (optional)
+    'TORCH_AVAILABLE',
+    'DifferentiableObservables', 'K7MetricOptimizer', 'OptimizationResult',
+    'optimize_k7_metric', 'multi_start_optimization', 'scan_parameter_space',
     # Version
     '__version__',
 ]
