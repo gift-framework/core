@@ -1,0 +1,72 @@
+name: Formal Verification
+
+on:
+  push:
+    branches: [main]
+    paths: ['Lean/**', 'COQ/**']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  lean:
+    name: Lean 4 Verification
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Lean
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: Cache .lake
+        uses: actions/cache@v4
+        with:
+          path: Lean/.lake
+          key: lean-${{ hashFiles('Lean/lakefile.lean') }}
+
+      - name: Build
+        run: |
+          lake update
+          lake exe cache get || true
+          lake build
+
+      - name: Verify zero sorry
+        run: |
+          if grep -r "sorry" GIFT/ --include="*.lean"; then
+            echo "ERROR: Found sorry!"
+            exit 1
+          fi
+
+  coq:
+    name: Coq Verification
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: COQ
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Coq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y opam
+          opam init --disable-sandboxing -y
+          eval $(opam env)
+          opam pin add coq 8.18.0 -y
+
+      - name: Build
+        run: |
+          eval $(opam env)
+          opam exec -- make -j2
+
+      - name: Verify zero Admitted
+        run: |
+          if grep -r "Admitted\." Certificate/; then
+            echo "ERROR: Found Admitted!"
+            exit 1
+          fi

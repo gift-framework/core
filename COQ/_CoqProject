@@ -1,0 +1,10 @@
+-R . GIFT
+
+Algebra/E8.v
+Algebra/G2.v
+Geometry/K7.v
+Geometry/Jordan.v
+Topology/Betti.v
+Relations/Weinberg.v
+Relations/Physical.v
+Certificate/AllProven.v

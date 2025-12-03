@@ -1,0 +1,21 @@
+{
+  "name": "GIFT Core",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "leanprover.lean4",
+        "maximedenes.vscoq",
+        "ms-python.python"
+      ]
+    }
+  },
+  "postCreateCommand": "pip install -e '.[dev]'"
+}
