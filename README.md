@@ -3,7 +3,7 @@
 [![Formal Verification](https://github.com/gift-framework/core/actions/workflows/verify.yml/badge.svg)](https://github.com/gift-framework/core/actions/workflows/verify.yml)
 [![Python Tests](https://github.com/gift-framework/core/actions/workflows/test.yml/badge.svg)](https://github.com/gift-framework/core/actions/workflows/test.yml)
 [![Publish to PyPI](https://github.com/gift-framework/core/actions/workflows/publish.yml/badge.svg)](https://github.com/gift-framework/core/actions/workflows/publish.yml)
-[![PyPI](https://img.shields.io/pypi/v/gift-core)](https://pypi.org/project/gift-core/)
+[![PyPI](https://img.shields.io/pypi/v/giftpy)](https://pypi.org/project/giftpy/)
 [![Lean 4](https://img.shields.io/badge/Lean_4-v4.14-blue)](Lean/)
 [![Coq](https://img.shields.io/badge/Coq-8.18-orange)](COQ/)
 
@@ -12,7 +12,7 @@ Formally verified mathematical constants from the GIFT framework.
 ## Install
 
 ```bash
-pip install gift-core
+pip install giftpy
 ```
 
 ## Usage

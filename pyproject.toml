@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "gift-core"
+name = "giftpy"
 dynamic = ["version"]
 description = "GIFT mathematical core - Formally verified constants (Lean 4 + Coq)"
 readme = "README.md"
