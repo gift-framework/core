@@ -7,7 +7,7 @@ namespace GIFT.Certificate
 
 open GIFT.Relations GIFT.Algebra GIFT.Topology
 
-/-- All 13 relations are proven with no sorry -/
+/-- All 13 relations are fully proven (zero axioms, zero holes) -/
 theorem all_relations_certified :
   -- 1. Weinberg angle
   b2 * 13 = 3 * (b3 + dim_G2) ∧
