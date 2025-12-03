@@ -271,8 +271,6 @@ class MonteCarloEngine:
     observables: List[Observable] = field(default_factory=lambda: OBSERVABLES.copy())
 
     def __post_init__(self):
-        if self.seed is not None:
-            random.seed(self.seed)
         self.results: Dict[str, MCResult] = {}
 
     def sample_string_scale(self) -> float:
@@ -292,6 +290,10 @@ class MonteCarloEngine:
         3. Apply perturbation to topological parameters
         4. Compute all observables
         """
+        # Set seed at run time for reproducibility
+        if self.seed is not None:
+            random.seed(self.seed)
+
         # Initialize results
         for obs in self.observables:
             self.results[obs.symbol] = MCResult(observable=obs, n_samples=self.n_samples)
