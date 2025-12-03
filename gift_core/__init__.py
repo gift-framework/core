@@ -3,6 +3,9 @@ GIFT Core - Formally verified mathematical constants.
 
 All values are proven in Lean 4 and Coq proof assistants.
 Zero domain-specific axioms. Zero sorry/Admitted.
+
+Includes Monte Carlo simulation for testing robustness of
+dimensional observables across Planck/string scale variations.
 """
 
 from gift_core.constants import (
@@ -14,6 +17,19 @@ from gift_core.constants import (
 )
 from gift_core.relations import PROVEN_RELATIONS, get_relation
 from gift_core.topology import K7, G2, E8
+from gift_core.scales import (
+    M_PLANCK, M_STRING_DEFAULT, M_GUT, M_EW,
+    ScaleHierarchy, S7Parameters,
+)
+from gift_core.experimental import (
+    Measurement, Comparison, GIFT_COMPARISONS,
+    SIN2_THETA_W_EXP, DELTA_CP_EXP, M_TAU_M_E_EXP, Q_KOIDE_EXP,
+)
+from gift_core.monte_carlo import (
+    Observable, OBSERVABLES,
+    MonteCarloEngine, KappaTRobustness,
+    run_quick_mc, run_kappa_analysis, compare_predictions_to_experiment,
+)
 from gift_core._version import __version__
 
 __all__ = [
@@ -26,6 +42,16 @@ __all__ = [
     'H_STAR', 'P2', 'N_GEN',
     # Structures
     'K7', 'G2', 'E8', 'PROVEN_RELATIONS', 'get_relation',
+    # Scales
+    'M_PLANCK', 'M_STRING_DEFAULT', 'M_GUT', 'M_EW',
+    'ScaleHierarchy', 'S7Parameters',
+    # Experimental data
+    'Measurement', 'Comparison', 'GIFT_COMPARISONS',
+    'SIN2_THETA_W_EXP', 'DELTA_CP_EXP', 'M_TAU_M_E_EXP', 'Q_KOIDE_EXP',
+    # Monte Carlo
+    'Observable', 'OBSERVABLES',
+    'MonteCarloEngine', 'KappaTRobustness',
+    'run_quick_mc', 'run_kappa_analysis', 'compare_predictions_to_experiment',
     # Version
     '__version__',
 ]
