@@ -1,5 +1,6 @@
 """
 Topological constants - All values from Lean/Coq proofs.
+Extended to 25 certified relations.
 """
 from fractions import Fraction
 
@@ -10,6 +11,7 @@ DIM_E8 = 248          # dim(E8) - Proven in Lean: E8RootSystem.lean
 RANK_E8 = 8           # rank(E8) - Cartan subalgebra dimension
 DIM_E8xE8 = 496       # dim(E8xE8) = 2 * 248
 WEYL_FACTOR = 5       # From |W(E8)| = 2^14 * 3^5 * 5^2 * 7
+WEYL_SQ = 25          # Weyl² = 5² (pentagonal structure)
 
 # =============================================================================
 # G2 EXCEPTIONAL HOLONOMY
@@ -29,13 +31,26 @@ B3 = 77               # b3(K7) = H^3(K7) - TCS: 40 + 37
 DIM_J3O = 27          # dim(J3(O)) - Octonion Jordan algebra
 
 # =============================================================================
+# M-THEORY / COSMOLOGY
+# =============================================================================
+D_BULK = 11           # Bulk dimension (M-theory)
+
+# =============================================================================
+# STANDARD MODEL GAUGE GROUPS
+# =============================================================================
+DIM_SU3 = 8           # SU(3) color
+DIM_SU2 = 3           # SU(2) weak isospin
+DIM_U1 = 1            # U(1) hypercharge
+DIM_SM_GAUGE = 12     # Total SM gauge dimension = 8 + 3 + 1
+
+# =============================================================================
 # DERIVED TOPOLOGICAL CONSTANTS
 # =============================================================================
 H_STAR = B2 + B3 + 1  # = 99 - Effective degrees of freedom
 P2 = DIM_G2 // DIM_K7 # = 2 - Second Pontryagin class contribution
 
 # =============================================================================
-# 13 PROVEN PHYSICAL RELATIONS (Lean + Coq verified)
+# 13 ORIGINAL PROVEN PHYSICAL RELATIONS (Lean + Coq verified)
 # =============================================================================
 
 # Weinberg angle: sin^2(theta_W) = b2/(b3 + dim(G2)) = 21/91 = 3/13
@@ -67,3 +82,63 @@ LAMBDA_H_NUM = 17
 
 # Number of generations: N_gen = 3 (topological)
 N_GEN = 3
+
+# =============================================================================
+# 12 TOPOLOGICAL EXTENSION RELATIONS (Lean + Coq verified)
+# =============================================================================
+
+# --- GAUGE SECTOR ---
+
+# #14: α_s denominator = dim(G2) - p2 = 12
+ALPHA_S_DENOM = DIM_G2 - P2  # = 12
+
+# #19: α_s² = 2/144 = 1/72 (structure)
+ALPHA_S_SQ_NUM = 2
+ALPHA_S_SQ_DENOM = 144  # = 12²
+
+# #25: α⁻¹ = 128 + 9 + corrections
+ALPHA_INV_ALGEBRAIC = (DIM_E8 + RANK_E8) // 2  # = 128
+ALPHA_INV_BULK = H_STAR // D_BULK              # = 9
+ALPHA_INV_BASE = ALPHA_INV_ALGEBRAIC + ALPHA_INV_BULK  # = 137
+
+# --- NEUTRINO SECTOR ---
+
+# #15: γ_GIFT = 511/884
+GAMMA_GIFT_NUM = 2 * RANK_E8 + 5 * H_STAR      # = 511
+GAMMA_GIFT_DEN = 10 * DIM_G2 + 3 * DIM_E8      # = 884
+GAMMA_GIFT = Fraction(GAMMA_GIFT_NUM, GAMMA_GIFT_DEN)
+
+# #16: δ pentagonal = 2π/25
+DELTA_PENTAGONAL_DENOM = WEYL_SQ  # = 25
+
+# #17: θ₂₃ = 85/99 rad
+THETA_23_NUM = RANK_E8 + B3  # = 85
+THETA_23_DEN = H_STAR        # = 99
+THETA_23 = Fraction(THETA_23_NUM, THETA_23_DEN)
+
+# #18: θ₁₃ = π/21, denom = b2
+THETA_13_DENOM = B2  # = 21
+
+# #21: θ₁₂ structure (δ/γ)
+THETA_12_RATIO_FACTOR = WEYL_SQ * GAMMA_GIFT_NUM  # = 12775
+
+# --- LEPTON SECTOR ---
+
+# #22: m_μ/m_e base = 27 = dim(J₃(O))
+M_MU_M_E_BASE = DIM_J3O  # = 27
+
+# #20: λ_H² = 17/1024
+LAMBDA_H_SQ_NUM = DIM_G2 + N_GEN  # = 17
+LAMBDA_H_SQ_DEN = 32 * 32         # = 1024
+LAMBDA_H_SQ = Fraction(LAMBDA_H_SQ_NUM, LAMBDA_H_SQ_DEN)
+
+# --- COSMOLOGY SECTOR ---
+
+# #23: n_s = ζ(11)/ζ(5), indices from topology
+N_S_ZETA_BULK = D_BULK       # = 11
+N_S_ZETA_WEYL = WEYL_FACTOR  # = 5
+
+# #24: Ω_DE = ln(2) × 98/99
+OMEGA_DE_NUM = H_STAR - 1  # = 98
+OMEGA_DE_DEN = H_STAR      # = 99
+OMEGA_DE_FRACTION = Fraction(OMEGA_DE_NUM, OMEGA_DE_DEN)
