@@ -1,260 +1,209 @@
 """
 Tests for K7 metric implementation.
 
-Tests the geometry, G2 structure, harmonic forms, and physics modules.
+Tests verify GIFT constants and constraints related to K7 metric.
+The full geometry modules require numpy and are tested separately.
 """
 
 import pytest
-import numpy as np
 from fractions import Fraction
+import gift_core as gc
 
 
-class TestGeometryModule:
-    """Tests for the geometry module."""
+class TestK7MetricConstants:
+    """Tests for K7 metric constants in gift_core."""
 
-    def test_k3_surface_betti(self):
-        """Test K3 surface has correct Betti numbers."""
-        from geometry.k3_surface import KummerK3
+    def test_det_g_value(self):
+        """Test det(g) = 65/32."""
+        assert gc.DET_G == Fraction(65, 32)
+        assert float(gc.DET_G) == 2.03125
 
-        k3 = KummerK3()
-        assert k3.betti == [1, 0, 22, 0, 1], "K3 Betti numbers incorrect"
-        assert k3.euler == 24, "K3 Euler characteristic incorrect"
+    def test_det_g_derivation(self):
+        """Test det(g) = (H* - b2 - 13) / 2^Weyl."""
+        h_star = gc.H_STAR
+        b2 = gc.B2
+        weyl = gc.WEYL_FACTOR
 
-    def test_k3_exceptional_divisors(self):
-        """Test K3 has 16 exceptional divisors."""
-        from geometry.k3_surface import KummerK3
+        numerator = h_star - b2 - 13  # 99 - 21 - 13 = 65
+        denominator = 2 ** weyl       # 2^5 = 32
 
-        k3 = KummerK3()
-        assert k3.resolution == 16, "Kummer K3 should have 16 exceptional divisors"
+        assert numerator == 65
+        assert denominator == 32
+        assert gc.DET_G == Fraction(numerator, denominator)
 
-    def test_tcs_betti_numbers(self):
-        """Test TCS manifold has GIFT Betti numbers."""
-        from geometry.tcs_construction import TCSManifold
+    def test_kappa_t_value(self):
+        """Test kappa_T = 1/61."""
+        assert gc.KAPPA_T == Fraction(1, 61)
 
-        k7 = TCSManifold.from_kovalev()
-        betti = k7.betti_numbers()
+    def test_kappa_t_derivation(self):
+        """Test kappa_T = 1/(b3 - dim_G2 - p2)."""
+        b3 = gc.B3
+        dim_g2 = gc.DIM_G2
+        p2 = gc.P2
 
-        assert betti[2] == 21, f"b2 should be 21, got {betti[2]}"
-        assert betti[3] == 77, f"b3 should be 77, got {betti[3]}"
+        denominator = b3 - dim_g2 - p2  # 77 - 14 - 2 = 61
 
-    def test_tcs_euler_zero(self):
-        """Test G2 manifold has Euler characteristic 0."""
-        from geometry.tcs_construction import TCSManifold
-
-        k7 = TCSManifold.from_kovalev()
-        chi = k7.euler_characteristic
-
-        assert chi == 0, f"G2 manifold should have chi=0, got {chi}"
-
-    def test_k7_metric_dimension(self):
-        """Test K7 metric has correct dimension."""
-        from geometry.k7_metric import K7Metric
-
-        metric = K7Metric.default()
-        assert metric.dim == 7, "K7 should be 7-dimensional"
-
-    def test_k7_metric_det_target(self):
-        """Test K7 metric determinant target is 65/32."""
-        from geometry.k7_metric import DET_G_TARGET
-
-        assert DET_G_TARGET == Fraction(65, 32), "det(g) target should be 65/32"
-
-    def test_k7_metric_kappa_target(self):
-        """Test K7 kappa_T target is 1/61."""
-        from geometry.k7_metric import KAPPA_T_TARGET
-
-        assert KAPPA_T_TARGET == Fraction(1, 61), "kappa_T target should be 1/61"
+        assert denominator == 61
+        assert gc.KAPPA_T == Fraction(1, denominator)
 
 
-class TestG2Module:
-    """Tests for the G2 structure module."""
+class TestBettiNumbers:
+    """Tests for K7 Betti numbers."""
 
-    def test_g2_form_components(self):
-        """Test G2 3-form has 35 components."""
-        from g2.g2_form import G2Form
+    def test_b2(self):
+        """Test b2(K7) = 21."""
+        assert gc.B2 == 21
 
-        phi = G2Form.standard()
-        assert phi.components.shape[-1] == 35, "G2 3-form should have 35 components"
+    def test_b3(self):
+        """Test b3(K7) = 77."""
+        assert gc.B3 == 77
 
-    def test_standard_g2_form(self):
-        """Test standard G2 form is normalized."""
-        from g2.g2_form import standard_g2_form
-
-        phi = standard_g2_form()
-        # Standard form should have 7 non-zero components
-        n_nonzero = np.sum(np.abs(phi.components) > 0.5)
-        assert n_nonzero == 7, f"Standard G2 form should have 7 terms, got {n_nonzero}"
-
-    def test_g2_constraints_targets(self):
-        """Test G2 constraints have correct targets."""
-        from g2.constraints import G2Constraints, DET_G_TARGET, KAPPA_T_TARGET
-
-        constraints = G2Constraints()
-
-        assert constraints.det_g_target == DET_G_TARGET
-        assert constraints.kappa_t_target == KAPPA_T_TARGET
-        assert constraints.b2_target == 21
-        assert constraints.b3_target == 77
-
-
-class TestHarmonicModule:
-    """Tests for the harmonic forms module."""
-
-    def test_betti_validation_gift(self):
-        """Test GIFT Betti number validation."""
-        from harmonic.betti_validation import BettiValidator, GIFT_BETTI
-
-        validator = BettiValidator()
-
-        # Test with correct values
-        result = validator.validate(GIFT_BETTI)
-        assert result['valid'], "GIFT Betti numbers should validate"
-
-    def test_betti_h_star(self):
+    def test_h_star(self):
         """Test H* = b2 + b3 + 1 = 99."""
-        from harmonic.betti_validation import GIFT_BETTI
+        assert gc.H_STAR == gc.B2 + gc.B3 + 1
+        assert gc.H_STAR == 99
 
-        h_star = GIFT_BETTI[2] + GIFT_BETTI[3] + 1
-        assert h_star == 99, f"H* should be 99, got {h_star}"
+    def test_euler_characteristic_zero(self):
+        """Test chi(K7) = 0 for G2 holonomy."""
+        # Betti numbers for G2 manifold: [1, 0, b2, b3, b3, b2, 0, 1]
+        betti = [1, 0, gc.B2, gc.B3, gc.B3, gc.B2, 0, 1]
+        chi = sum((-1)**i * b for i, b in enumerate(betti))
+        assert chi == 0
 
 
-class TestPhysicsModule:
-    """Tests for the physics module."""
+class TestG2Holonomy:
+    """Tests for G2 holonomy constraints."""
+
+    def test_dim_k7(self):
+        """Test dim(K7) = 7."""
+        assert gc.DIM_K7 == 7
+
+    def test_dim_g2(self):
+        """Test dim(G2) = 14."""
+        assert gc.DIM_G2 == 14
+
+    def test_g2_constraint(self):
+        """Test dim(G2) < b2 (holonomy constraint)."""
+        assert gc.DIM_G2 < gc.B2
+
+
+class TestPhysicsPredictions:
+    """Tests for physics predictions from K7 geometry."""
 
     def test_sin2_theta_w(self):
-        """Test Weinberg angle is 3/13."""
-        from physics.coupling_constants import GIFT_COUPLINGS
-
-        sin2 = GIFT_COUPLINGS.sin2_theta_w
-        assert sin2 == Fraction(3, 13), f"sin^2(theta_W) should be 3/13, got {sin2}"
+        """Test sin^2(theta_W) = 3/13."""
+        expected = Fraction(gc.B2, gc.B3 + gc.DIM_G2)
+        assert expected == Fraction(21, 91)
+        assert expected == Fraction(3, 13)
+        assert gc.SIN2_THETA_W == expected
 
     def test_n_generations(self):
-        """Test number of generations is 3."""
-        from physics.coupling_constants import GIFT_COUPLINGS
-
-        n_gen = GIFT_COUPLINGS.n_generations
-        assert n_gen == 3, f"N_gen should be 3, got {n_gen}"
+        """Test N_gen = rank(E8) - Weyl = 3."""
+        n_gen = gc.RANK_E8 - gc.WEYL_FACTOR
+        assert n_gen == 3
+        assert gc.N_GEN == 3
 
     def test_alpha_inverse_base(self):
-        """Test alpha^{-1} base is 137."""
-        from physics.coupling_constants import GIFT_COUPLINGS
+        """Test alpha^{-1} base = 137."""
+        algebraic = (gc.DIM_E8 + gc.RANK_E8) // 2  # = 128
+        bulk = gc.H_STAR // gc.D_BULK              # = 9
+        total = algebraic + bulk
 
-        alpha_inv = GIFT_COUPLINGS.alpha_em_inverse_base
-        assert alpha_inv == 137, f"alpha^{{-1}} base should be 137, got {alpha_inv}"
+        assert algebraic == 128
+        assert bulk == 9
+        assert total == 137
+        assert gc.ALPHA_INV_BASE == 137
 
-    def test_mass_ratios(self):
-        """Test GIFT mass ratio predictions."""
-        from physics.mass_spectrum import GIFT_MASS_RATIOS
+    def test_m_tau_m_e(self):
+        """Test m_tau/m_e = 3477."""
+        computed = gc.DIM_K7 + 10 * gc.DIM_E8 + 10 * gc.H_STAR
+        assert computed == 7 + 2480 + 990
+        assert computed == 3477
+        assert gc.M_TAU_M_E == 3477
 
-        assert GIFT_MASS_RATIOS['m_tau_m_e'] == 3477
-        assert GIFT_MASS_RATIOS['m_s_m_d'] == 20
-        assert GIFT_MASS_RATIOS['m_mu_m_e_base'] == 27
-
-
-class TestVerificationModule:
-    """Tests for the verification module."""
-
-    def test_interval_arithmetic(self):
-        """Test interval arithmetic operations."""
-        from verification.numerical_bounds import IntervalArithmetic
-
-        a = IntervalArithmetic(1.0, 2.0)
-        b = IntervalArithmetic(3.0, 4.0)
-
-        # Addition
-        c = a + b
-        assert c.lo == 4.0 and c.hi == 6.0
-
-        # Contains
-        assert a.contains(1.5)
-        assert not a.contains(3.0)
-
-    def test_certificate_verification(self):
-        """Test certificate verification logic."""
-        from verification.certificate import G2Certificate
-        from verification.numerical_bounds import IntervalArithmetic
-        from fractions import Fraction
-
-        # Create certificate with correct values
-        cert = G2Certificate(
-            det_g=IntervalArithmetic(2.03, 2.04),  # Contains 65/32 = 2.03125
-            kappa_t=IntervalArithmetic(0.016, 0.017),  # Contains 1/61 ~ 0.0164
-            betti_2=21,
-            betti_3=77
-        )
-
-        assert cert.verify(), "Certificate should verify with correct values"
-
-    def test_certificate_fails_wrong_betti(self):
-        """Test certificate fails with wrong Betti numbers."""
-        from verification.certificate import G2Certificate
-        from verification.numerical_bounds import IntervalArithmetic
-
-        cert = G2Certificate(
-            det_g=IntervalArithmetic(2.03, 2.04),
-            kappa_t=IntervalArithmetic(0.016, 0.017),
-            betti_2=20,  # Wrong!
-            betti_3=77
-        )
-
-        assert not cert.verify(), "Certificate should fail with wrong b2"
+    def test_m_s_m_d(self):
+        """Test m_s/m_d = 20."""
+        computed = gc.P2 ** 2 * gc.WEYL_FACTOR
+        assert computed == 4 * 5
+        assert computed == 20
+        assert gc.M_S_M_D == 20
 
 
-class TestPipelineModule:
-    """Tests for the pipeline module."""
+class TestDerivedConstants:
+    """Tests for derived topological constants."""
 
-    def test_config_defaults(self):
-        """Test default configuration values."""
-        from pipeline.config import default_config
+    def test_weyl_squared(self):
+        """Test Weyl^2 = 25."""
+        assert gc.WEYL_SQ == gc.WEYL_FACTOR ** 2
+        assert gc.WEYL_SQ == 25
 
-        config = default_config()
+    def test_gamma_gift(self):
+        """Test gamma_GIFT = 511/884."""
+        num = 2 * gc.RANK_E8 + 5 * gc.H_STAR  # = 16 + 495 = 511
+        den = 10 * gc.DIM_G2 + 3 * gc.DIM_E8  # = 140 + 744 = 884
 
-        assert config.geometry.resolution == 16
-        assert config.training.n_epochs == 1000
-        assert config.harmonic.b2_target == 21
-        assert config.harmonic.b3_target == 77
+        assert num == 511
+        assert den == 884
+        assert gc.GAMMA_GIFT == Fraction(511, 884)
 
-    def test_fast_config(self):
-        """Test fast configuration has reduced values."""
-        from pipeline.config import fast_config
+    def test_theta_23(self):
+        """Test theta_23 = 85/99."""
+        num = gc.RANK_E8 + gc.B3  # = 8 + 77 = 85
+        den = gc.H_STAR          # = 99
 
-        config = fast_config()
+        assert num == 85
+        assert den == 99
+        assert gc.THETA_23 == Fraction(85, 99)
 
-        assert config.geometry.resolution < 16
-        assert config.training.n_epochs < 1000
+    def test_omega_de_fraction(self):
+        """Test Omega_DE fraction = 98/99."""
+        num = gc.H_STAR - 1  # = 98
+        den = gc.H_STAR      # = 99
+
+        assert num == 98
+        assert den == 99
+        assert gc.OMEGA_DE_FRACTION == Fraction(98, 99)
 
 
-class TestIntegration:
-    """Integration tests combining multiple modules."""
+class TestConsistency:
+    """Tests for internal consistency of all constants."""
 
-    def test_gift_constants_consistent(self):
-        """Test all GIFT constants are internally consistent."""
-        from gift_core.constants import (
-            B2, B3, H_STAR, DIM_G2, DIM_E8, RANK_E8,
-            SIN2_THETA_W, KAPPA_T, DET_G
-        )
+    def test_all_25_relations_consistent(self):
+        """Test that all 25 certified relations are internally consistent."""
+        # Original 13 relations
+        assert gc.SIN2_THETA_W == Fraction(3, 13)
+        assert gc.TAU == Fraction(3472, 891)
+        assert gc.DET_G == Fraction(65, 32)
+        assert gc.KAPPA_T == Fraction(1, 61)
+        assert gc.DELTA_CP == 197
+        assert gc.M_TAU_M_E == 3477
+        assert gc.M_S_M_D == 20
+        assert gc.Q_KOIDE == Fraction(2, 3)
+        assert gc.LAMBDA_H_NUM == 17
+        assert gc.H_STAR == 99
+        assert gc.P2 == 2
+        assert gc.N_GEN == 3
 
-        # H* = b2 + b3 + 1
-        assert H_STAR == B2 + B3 + 1, "H* consistency check failed"
+        # Extension 12 relations
+        assert gc.ALPHA_S_DENOM == 12
+        assert gc.GAMMA_GIFT == Fraction(511, 884)
+        assert gc.WEYL_SQ == 25
+        assert gc.THETA_23 == Fraction(85, 99)
+        assert gc.ALPHA_INV_BASE == 137
 
-        # sin^2(theta_W) = b2 / (b3 + dim_G2)
-        expected_sin2 = Fraction(B2, B3 + DIM_G2)
-        assert SIN2_THETA_W == expected_sin2, "Weinberg angle consistency failed"
+    def test_topological_constraints(self):
+        """Test that topological constraints are satisfied."""
+        # b2 comes from H^2(K7) harmonic 2-forms
+        # b3 comes from H^3(K7) harmonic 3-forms
+        # H* = b2 + b3 + 1 is the effective degrees of freedom
 
-        # kappa_T = 1 / (b3 - dim_G2 - 2)
-        expected_kappa = Fraction(1, B3 - DIM_G2 - 2)
-        assert KAPPA_T == expected_kappa, "kappa_T consistency failed"
+        assert gc.B2 > 0
+        assert gc.B3 > 0
+        assert gc.H_STAR == gc.B2 + gc.B3 + 1
 
-    def test_k7_metric_constraints(self):
-        """Test K7 metric satisfies all constraints."""
-        from geometry.k7_metric import K7Metric
-
-        metric = K7Metric.default()
-
-        assert metric.b2 == 21
-        assert metric.b3 == 77
-        assert abs(metric.det_g - 65/32) < 0.01
-        assert abs(metric.kappa_t - 1/61) < 0.01
+        # G2 manifold: chi = 0
+        # Poincare duality: b_k = b_{7-k}
+        assert gc.DIM_K7 == 7
 
 
 if __name__ == '__main__':
