@@ -35,7 +35,7 @@ print(SIN2_THETA_W)  # Fraction(3, 13)
 print(TAU)           # Fraction(3472, 891)
 print(KAPPA_T)       # Fraction(1, 61)
 
-# NEW in v1.1.0: 12 additional topological relations
+# v1.1.0: 12 additional topological relations
 print(GAMMA_GIFT)    # Fraction(511, 884)
 print(THETA_23)      # Fraction(85, 99)
 print(ALPHA_INV_BASE)  # 137
@@ -43,6 +43,46 @@ print(ALPHA_INV_BASE)  # 137
 # All proven relations
 for r in PROVEN_RELATIONS:
     print(f"{r.symbol} = {r.value}")
+```
+
+### K7 Metric Pipeline (v1.2.0)
+
+Build your own G2 holonomy metrics on K7 manifolds:
+
+```python
+import gift_core as gc
+
+# Check if numpy is available (required for K7 modules)
+if gc.NUMPY_AVAILABLE:
+    # Configure the pipeline
+    config = gc.PipelineConfig(
+        neck_length=15.0,      # TCS gluing parameter
+        resolution=32,         # Grid resolution
+        pinn_epochs=1000,      # Neural network training
+        use_pinn=True          # Enable physics-informed learning
+    )
+
+    # Run the full G2 geometry pipeline
+    result = gc.run_pipeline(config)
+
+    # Access computed values
+    print(f"det(g) = {result.det_g}")      # Should match 65/32
+    print(f"kappa_T = {result.kappa_T}")    # Should match 1/61
+    print(f"b2 = {result.betti[2]}")        # 21
+    print(f"b3 = {result.betti[3]}")        # 77
+
+    # Export certificate to Lean/Coq
+    lean_proof = result.certificate.to_lean()
+    coq_proof = result.certificate.to_coq()
+
+    # Physics extraction
+    yukawa = gc.YukawaTensor(result.harmonic_forms)
+    masses = yukawa.fermion_masses()
+```
+
+**Requirements**: K7 modules require `numpy`. Install with:
+```bash
+pip install giftpy numpy
 ```
 
 ---
@@ -166,6 +206,65 @@ COQ/
 
 ---
 
+## K7 Metric Modules (v1.2.0)
+
+The K7 pipeline enables computation of G2 holonomy metrics on twisted connected sum (TCS) manifolds.
+
+### Module Architecture
+
+```
+gift_core/
+├── geometry/          # Manifold construction
+│   ├── kummer_k3.py   # Kummer K3 surface (T^4/Z_2 resolution)
+│   ├── acyl_cy3.py    # Asymptotically cylindrical CY3
+│   ├── tcs_construction.py  # TCS gluing (X+ ∪ X-)
+│   └── k7_metric.py   # Full K7 metric assembly
+│
+├── g2/                # G2 geometry
+│   ├── g2_form.py     # 3-form φ with 35 components
+│   ├── holonomy.py    # Holonomy group computation
+│   ├── torsion.py     # Torsion-free conditions (dφ=0, d*φ=0)
+│   └── constraints.py # GIFT constraints (det_g, κ_T)
+│
+├── harmonic/          # Hodge theory
+│   ├── hodge_laplacian.py   # Δ = dd* + d*d
+│   ├── harmonic_forms.py    # Kernel extraction
+│   └── betti_validator.py   # Validate b2=21, b3=77
+│
+├── nn/                # Machine learning
+│   ├── fourier_features.py  # Positional encoding
+│   └── g2_pinn.py     # Physics-informed neural network
+│
+├── physics/           # Observable extraction
+│   ├── yukawa.py      # Yukawa tensor from harmonic 3-forms
+│   ├── mass_spectrum.py     # Fermion mass hierarchies
+│   └── gauge_couplings.py   # sin²θ_W, α_s from geometry
+│
+├── verification/      # Certified computation
+│   ├── interval.py    # Interval arithmetic bounds
+│   ├── certificate.py # G2Certificate generation
+│   └── lean_export.py # Export proofs to Lean/Coq
+│
+└── pipeline/          # End-to-end workflow
+    └── pipeline.py    # GIFTPipeline orchestration
+```
+
+### Key Classes
+
+| Class | Purpose |
+|-------|---------|
+| `KummerK3` | T^4/Z_2 resolution with 16 blown-up singularities |
+| `ACylCY3` | Asymptotically cylindrical Calabi-Yau 3-fold |
+| `TCSManifold` | Twisted connected sum K7 = X+ ∪_φ X- |
+| `G2Form` | Associative 3-form with 35 independent components |
+| `HodgeLaplacian` | Discrete Laplacian for harmonic form extraction |
+| `G2PINN` | Neural network satisfying G2 torsion constraints |
+| `YukawaTensor` | Yukawa couplings from triple harmonic integrals |
+| `G2Certificate` | Certified bounds exportable to Lean/Coq |
+| `GIFTPipeline` | Full end-to-end metric computation |
+
+---
+
 ## Experimental Comparison
 
 For context, these exact values may be compared to experimental measurements. Discrepancies, if any, could indicate either experimental uncertainty or limitations of the conjectured physical correspondence.
@@ -187,6 +286,7 @@ For context, these exact values may be compared to experimental measurements. Di
 - **25 exact relations** with formal proofs (13 original + 12 extension)
 - Python interface for numerical computation
 - Cross-verified mathematical identities
+- **K7 metric pipeline** (v1.2.0): Build G2 holonomy metrics from scratch
 
 ### What This Package Does Not Claim
 
@@ -242,4 +342,4 @@ This work benefited from computational assistance provided by various AI systems
 
 ---
 
-*GIFT Core v1.1.0 - 25 Certified Relations*
+*GIFT Core v1.2.0 - 25 Certified Relations + K7 Metric Pipeline*
