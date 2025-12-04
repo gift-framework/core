@@ -134,6 +134,6 @@ theorem all_25_relations_certified :
   repeat (first | constructor | native_decide | rfl)
 
 -- Backward compatibility alias
-theorem all_relations_certified := all_13_relations_certified
+abbrev all_relations_certified := all_13_relations_certified
 
 end GIFT.Certificate
