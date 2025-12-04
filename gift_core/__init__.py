@@ -66,6 +66,117 @@ except ImportError:
     multi_start_optimization = None
     scan_parameter_space = None
 
+# =============================================================================
+# K7 METRIC MODULES (v1.2.0) - Requires numpy
+# =============================================================================
+# These modules provide numerical computation of G2 metrics on K7
+# pip install numpy scipy torch (optional)
+
+NUMPY_AVAILABLE = False
+
+try:
+    import numpy as np
+    NUMPY_AVAILABLE = True
+
+    # Geometry: TCS construction and K7 metric
+    from gift_core.geometry import (
+        KummerK3,
+        ACylCY3,
+        TCSManifold,
+        K7Metric,
+    )
+
+    # G2 structure: 3-form, holonomy, torsion, constraints
+    from gift_core.g2 import (
+        G2Form,
+        G2Form4,
+        standard_g2_form,
+        G2Holonomy,
+        compute_holonomy,
+        G2Torsion,
+        torsion_classes,
+        G2Constraints,
+        GIFT_CONSTRAINTS,
+    )
+
+    # Harmonic forms: Hodge Laplacian, Betti numbers
+    from gift_core.harmonic import (
+        HodgeLaplacian,
+        laplacian_eigenvalues,
+        HarmonicExtractor,
+        HarmonicBasis,
+        validate_betti,
+        BettiValidator,
+    )
+
+    # Physics: Yukawa couplings, mass spectrum
+    from gift_core.physics import (
+        YukawaTensor,
+        compute_yukawa,
+        MassSpectrum,
+        compute_masses,
+        GaugeCouplings,
+        GIFT_COUPLINGS,
+    )
+
+    # Verification: certificates, Lean/Coq export
+    from gift_core.verification import (
+        IntervalArithmetic,
+        certified_interval,
+        G2Certificate,
+        generate_certificate,
+        LeanExporter,
+        export_to_lean,
+    )
+
+    # Pipeline: end-to-end computation
+    from gift_core.pipeline import (
+        PipelineConfig,
+        default_config,
+        GIFTPipeline,
+        PipelineResult,
+        run_pipeline,
+    )
+
+except ImportError:
+    # numpy not available - K7 metric modules disabled
+    KummerK3 = None
+    ACylCY3 = None
+    TCSManifold = None
+    K7Metric = None
+    G2Form = None
+    G2Form4 = None
+    standard_g2_form = None
+    G2Holonomy = None
+    compute_holonomy = None
+    G2Torsion = None
+    torsion_classes = None
+    G2Constraints = None
+    GIFT_CONSTRAINTS = None
+    HodgeLaplacian = None
+    laplacian_eigenvalues = None
+    HarmonicExtractor = None
+    HarmonicBasis = None
+    validate_betti = None
+    BettiValidator = None
+    YukawaTensor = None
+    compute_yukawa = None
+    MassSpectrum = None
+    compute_masses = None
+    GaugeCouplings = None
+    GIFT_COUPLINGS = None
+    IntervalArithmetic = None
+    certified_interval = None
+    G2Certificate = None
+    generate_certificate = None
+    LeanExporter = None
+    export_to_lean = None
+    PipelineConfig = None
+    default_config = None
+    GIFTPipeline = None
+    PipelineResult = None
+    run_pipeline = None
+
 __all__ = [
     # Fundamental topological constants
     'DIM_E8', 'RANK_E8', 'DIM_E8xE8', 'DIM_G2', 'DIM_K7',
@@ -102,6 +213,30 @@ __all__ = [
     'TORCH_AVAILABLE',
     'DifferentiableObservables', 'K7MetricOptimizer', 'OptimizationResult',
     'optimize_k7_metric', 'multi_start_optimization', 'scan_parameter_space',
+    # K7 Metric modules (v1.2.0, requires numpy)
+    'NUMPY_AVAILABLE',
+    # Geometry
+    'KummerK3', 'ACylCY3', 'TCSManifold', 'K7Metric',
+    # G2 structure
+    'G2Form', 'G2Form4', 'standard_g2_form',
+    'G2Holonomy', 'compute_holonomy',
+    'G2Torsion', 'torsion_classes',
+    'G2Constraints', 'GIFT_CONSTRAINTS',
+    # Harmonic forms
+    'HodgeLaplacian', 'laplacian_eigenvalues',
+    'HarmonicExtractor', 'HarmonicBasis',
+    'validate_betti', 'BettiValidator',
+    # Physics
+    'YukawaTensor', 'compute_yukawa',
+    'MassSpectrum', 'compute_masses',
+    'GaugeCouplings', 'GIFT_COUPLINGS',
+    # Verification
+    'IntervalArithmetic', 'certified_interval',
+    'G2Certificate', 'generate_certificate',
+    'LeanExporter', 'export_to_lean',
+    # Pipeline
+    'PipelineConfig', 'default_config',
+    'GIFTPipeline', 'PipelineResult', 'run_pipeline',
     # Version
     '__version__',
 ]
