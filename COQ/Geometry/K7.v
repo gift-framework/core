@@ -62,7 +62,9 @@ Theorem g2_holonomy_constraint : 14 < 21.
 Proof. lia. Qed.
 
 (** Euler characteristic of G2 manifold is zero *)
-(** chi(K7) = 1 - 0 + 21 - 77 + 77 - 21 + 0 - 1 = 0 *)
+(** chi(K7) = b0 - b1 + b2 - b3 + b4 - b5 + b6 - b7 = 0 *)
+(** Equivalent: (b0 + b2 + b4 + b6) = (b1 + b3 + b5 + b7) *)
+(** For K7: (1 + 21 + 77 + 0) = (0 + 77 + 21 + 1) = 99 *)
 Theorem k7_euler_characteristic :
-  1 - 0 + 21 - 77 + 77 - 21 + 0 - 1 = 0.
+  1 + 21 + 77 + 0 = 0 + 77 + 21 + 1.
 Proof. reflexivity. Qed.
