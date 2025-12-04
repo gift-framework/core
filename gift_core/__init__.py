@@ -9,11 +9,25 @@ dimensional observables across Planck/string scale variations.
 """
 
 from gift_core.constants import (
+    # Fundamental constants
     DIM_E8, RANK_E8, DIM_E8xE8, DIM_G2, DIM_K7,
-    B2, B3, WEYL_FACTOR, DIM_J3O,
+    B2, B3, WEYL_FACTOR, WEYL_SQ, DIM_J3O,
+    D_BULK, DIM_SU3, DIM_SU2, DIM_U1, DIM_SM_GAUGE,
+    # Original 13 proven relations
     SIN2_THETA_W, TAU, DET_G, KAPPA_T, DELTA_CP,
     M_TAU_M_E, M_S_M_D, Q_KOIDE, LAMBDA_H_NUM,
     H_STAR, P2, N_GEN,
+    # Extension: 12 topological relations (v1.1.0)
+    ALPHA_S_DENOM, ALPHA_S_SQ_NUM, ALPHA_S_SQ_DENOM,
+    ALPHA_INV_ALGEBRAIC, ALPHA_INV_BULK, ALPHA_INV_BASE,
+    GAMMA_GIFT_NUM, GAMMA_GIFT_DEN, GAMMA_GIFT,
+    DELTA_PENTAGONAL_DENOM,
+    THETA_23_NUM, THETA_23_DEN, THETA_23,
+    THETA_13_DENOM, THETA_12_RATIO_FACTOR,
+    M_MU_M_E_BASE,
+    LAMBDA_H_SQ_NUM, LAMBDA_H_SQ_DEN, LAMBDA_H_SQ,
+    N_S_ZETA_BULK, N_S_ZETA_WEYL,
+    OMEGA_DE_NUM, OMEGA_DE_DEN, OMEGA_DE_FRACTION,
 )
 from gift_core.relations import PROVEN_RELATIONS, get_relation
 from gift_core.topology import K7, G2, E8
@@ -53,13 +67,25 @@ except ImportError:
     scan_parameter_space = None
 
 __all__ = [
-    # Topological constants
+    # Fundamental topological constants
     'DIM_E8', 'RANK_E8', 'DIM_E8xE8', 'DIM_G2', 'DIM_K7',
-    'B2', 'B3', 'WEYL_FACTOR', 'DIM_J3O',
-    # Physical relations
+    'B2', 'B3', 'WEYL_FACTOR', 'WEYL_SQ', 'DIM_J3O',
+    'D_BULK', 'DIM_SU3', 'DIM_SU2', 'DIM_U1', 'DIM_SM_GAUGE',
+    # Original 13 proven relations
     'SIN2_THETA_W', 'TAU', 'DET_G', 'KAPPA_T', 'DELTA_CP',
     'M_TAU_M_E', 'M_S_M_D', 'Q_KOIDE', 'LAMBDA_H_NUM',
     'H_STAR', 'P2', 'N_GEN',
+    # Extension: 12 topological relations (v1.1.0)
+    'ALPHA_S_DENOM', 'ALPHA_S_SQ_NUM', 'ALPHA_S_SQ_DENOM',
+    'ALPHA_INV_ALGEBRAIC', 'ALPHA_INV_BULK', 'ALPHA_INV_BASE',
+    'GAMMA_GIFT_NUM', 'GAMMA_GIFT_DEN', 'GAMMA_GIFT',
+    'DELTA_PENTAGONAL_DENOM',
+    'THETA_23_NUM', 'THETA_23_DEN', 'THETA_23',
+    'THETA_13_DENOM', 'THETA_12_RATIO_FACTOR',
+    'M_MU_M_E_BASE',
+    'LAMBDA_H_SQ_NUM', 'LAMBDA_H_SQ_DEN', 'LAMBDA_H_SQ',
+    'N_S_ZETA_BULK', 'N_S_ZETA_WEYL',
+    'OMEGA_DE_NUM', 'OMEGA_DE_DEN', 'OMEGA_DE_FRACTION',
     # Structures
     'K7', 'G2', 'E8', 'PROVEN_RELATIONS', 'get_relation',
     # Scales
