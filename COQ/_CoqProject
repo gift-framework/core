@@ -7,4 +7,8 @@ Geometry/Jordan.v
 Topology/Betti.v
 Relations/Weinberg.v
 Relations/Physical.v
+Relations/GaugeSector.v
+Relations/NeutrinoSector.v
+Relations/LeptonSector.v
+Relations/Cosmology.v
 Certificate/AllProven.v

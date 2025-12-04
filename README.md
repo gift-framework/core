@@ -30,14 +30,15 @@ pip install giftpy
 ```python
 from gift_core import *
 
-# Exact rational values
+# Original 13 certified relations
 print(SIN2_THETA_W)  # Fraction(3, 13)
 print(TAU)           # Fraction(3472, 891)
 print(KAPPA_T)       # Fraction(1, 61)
 
-# Integer constants
-print(B2, B3)        # 21 77
-print(N_GEN)         # 3
+# NEW in v1.1.0: 12 additional topological relations
+print(GAMMA_GIFT)    # Fraction(511, 884)
+print(THETA_23)      # Fraction(85, 99)
+print(ALPHA_INV_BASE)  # 137
 
 # All proven relations
 for r in PROVEN_RELATIONS:
@@ -46,25 +47,44 @@ for r in PROVEN_RELATIONS:
 
 ---
 
-## Proven Relations
+## Proven Relations (25 Total)
 
-The following 13 relations are formally verified in both Lean 4 and Coq. Each relation is a mathematical identity; no fitting or approximation is involved.
+All relations are formally verified in both Lean 4 and Coq. Each relation is a mathematical identity; no fitting or approximation is involved.
 
-| Symbol | Value | Derivation | Status |
-|--------|-------|------------|--------|
-| sin²θ_W | 3/13 | b₂/(b₃ + dim(G₂)) = 21/91 | Lean + Coq |
-| τ | 3472/891 | dim(E₈×E₈)·b₂ / (dim(J₃O)·H*) | Lean + Coq |
-| κ_T | 1/61 | 1/(b₃ - dim(G₂) - p₂) | Lean + Coq |
-| det(g) | 65/32 | (H* - b₂ - 13) / 2^(Weyl) | Lean + Coq |
-| Q_Koide | 2/3 | dim(G₂)/b₂ = 14/21 | Lean + Coq |
-| m_τ/m_e | 3477 | dim(K₇) + 10·dim(E₈) + 10·H* | Lean + Coq |
-| m_s/m_d | 20 | p₂² × Weyl = 4 × 5 | Lean + Coq |
-| δ_CP | 197 | dim(K₇)·dim(G₂) + H* | Lean + Coq |
-| λ_H (num) | 17 | H* - b₂ - 61 | Lean + Coq |
-| H* | 99 | b₂ + b₃ + 1 | Lean + Coq |
-| p₂ | 2 | dim(G₂)/dim(K₇) | Lean + Coq |
-| N_gen | 3 | rank(E₈) - Weyl | Lean + Coq |
-| dim(E₈×E₈) | 496 | 2 × 248 | Lean + Coq |
+### Original 13 Relations
+
+| # | Symbol | Value | Derivation | Status |
+|---|--------|-------|------------|--------|
+| 1 | sin²θ_W | 3/13 | b₂/(b₃ + dim(G₂)) = 21/91 | Lean + Coq |
+| 2 | τ | 3472/891 | dim(E₈×E₈)·b₂ / (dim(J₃O)·H*) | Lean + Coq |
+| 3 | κ_T | 1/61 | 1/(b₃ - dim(G₂) - p₂) | Lean + Coq |
+| 4 | det(g) | 65/32 | (H* - b₂ - 13) / 2^(Weyl) | Lean + Coq |
+| 5 | Q_Koide | 2/3 | dim(G₂)/b₂ = 14/21 | Lean + Coq |
+| 6 | m_τ/m_e | 3477 | dim(K₇) + 10·dim(E₈) + 10·H* | Lean + Coq |
+| 7 | m_s/m_d | 20 | p₂² × Weyl = 4 × 5 | Lean + Coq |
+| 8 | δ_CP | 197° | dim(K₇)·dim(G₂) + H* | Lean + Coq |
+| 9 | λ_H (num) | 17 | H* - b₂ - 61 | Lean + Coq |
+| 10 | H* | 99 | b₂ + b₃ + 1 | Lean + Coq |
+| 11 | p₂ | 2 | dim(G₂)/dim(K₇) | Lean + Coq |
+| 12 | N_gen | 3 | rank(E₈) - Weyl | Lean + Coq |
+| 13 | dim(E₈×E₈) | 496 | 2 × 248 | Lean + Coq |
+
+### Topological Extension (12 New Relations) - v1.1.0
+
+| # | Symbol | Value | Derivation | Status |
+|---|--------|-------|------------|--------|
+| 14 | α_s denom | 12 | dim(G₂) - p₂ | Lean + Coq |
+| 15 | γ_GIFT | 511/884 | (2·rank(E₈) + 5·H*) / (10·dim(G₂) + 3·dim(E₈)) | Lean + Coq |
+| 16 | δ penta | 25 | Weyl² (pentagonal structure) | Lean + Coq |
+| 17 | θ₂₃ | 85/99 | (rank(E₈) + b₃) / H* | Lean + Coq |
+| 18 | θ₁₃ denom | 21 | b₂ (Betti number) | Lean + Coq |
+| 19 | α_s² denom | 144 | (dim(G₂) - p₂)² | Lean + Coq |
+| 20 | λ_H² | 17/1024 | (dim(G₂) + N_gen) / 32² | Lean + Coq |
+| 21 | θ₁₂ factor | 12775 | Weyl² × γ_num | Lean + Coq |
+| 22 | m_μ/m_e base | 27 | dim(J₃(O)) | Lean + Coq |
+| 23 | n_s indices | 11, 5 | D_bulk, Weyl_factor | Lean + Coq |
+| 24 | Ω_DE frac | 98/99 | (H* - 1) / H* | Lean + Coq |
+| 25 | α⁻¹ base | 137 | (dim(E₈) + rank(E₈))/2 + H*/11 | Lean + Coq |
 
 ### Topological Constants
 
@@ -80,6 +100,7 @@ The relations above derive from these fixed mathematical structures:
 | dim(E₈) | 248 | Dimension of E₈ Lie algebra |
 | dim(J₃O) | 27 | Dimension of exceptional Jordan algebra |
 | Weyl | 5 | Weyl factor from E₈ structure |
+| D_bulk | 11 | M-theory bulk dimension |
 
 ---
 
@@ -115,16 +136,32 @@ cd COQ && make
 
 ```
 Lean/
-├── GiftCore/
-│   ├── Basic.lean          # Topological constants
-│   ├── Relations.lean      # Derived relations
-│   └── Proofs.lean         # Formal proofs
+├── GIFT/
+│   ├── Algebra.lean           # E8, G2 structures
+│   ├── Topology.lean          # Betti numbers
+│   ├── Geometry.lean          # K7, Jordan algebra
+│   ├── Relations.lean         # Original 13 relations
+│   ├── Relations/
+│   │   ├── GaugeSector.lean   # α_s, α⁻¹ structure
+│   │   ├── NeutrinoSector.lean # θ₁₂, θ₁₃, θ₂₃, γ_GIFT
+│   │   ├── LeptonSector.lean  # m_μ/m_e, λ_H²
+│   │   └── Cosmology.lean     # n_s, Ω_DE
+│   └── Certificate.lean       # Master theorem (25 relations)
 └── lakefile.lean
 
 COQ/
-├── GiftCore.v              # Constants and definitions
-├── Relations.v             # Relation statements
-└── Proofs.v                # Formal proofs
+├── Algebra/                   # E8, G2 structures
+├── Topology/                  # Betti numbers
+├── Geometry/                  # K7, Jordan algebra
+├── Relations/                 # All relation files
+│   ├── Weinberg.v
+│   ├── Physical.v
+│   ├── GaugeSector.v          # NEW
+│   ├── NeutrinoSector.v       # NEW
+│   ├── LeptonSector.v         # NEW
+│   └── Cosmology.v            # NEW
+└── Certificate/
+    └── AllProven.v            # Master theorem (25 relations)
 ```
 
 ---
@@ -147,7 +184,7 @@ For context, these exact values may be compared to experimental measurements. Di
 
 ### What This Package Provides
 
-- Exact rational and integer constants with formal proofs
+- **25 exact relations** with formal proofs (13 original + 12 extension)
 - Python interface for numerical computation
 - Cross-verified mathematical identities
 
@@ -187,7 +224,7 @@ If referencing this work:
   title = {GIFT Core: Formally Verified Mathematical Constants},
   year = {2025},
   url = {https://github.com/gift-framework/core},
-  note = {Lean 4 and Coq verified}
+  note = {Lean 4 and Coq verified, 25 certified relations}
 }
 ```
 
@@ -205,4 +242,4 @@ This work benefited from computational assistance provided by various AI systems
 
 ---
 
-*GIFT Core v1.0.0*
+*GIFT Core v1.1.0 - 25 Certified Relations*
