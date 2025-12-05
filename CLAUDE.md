@@ -231,4 +231,4 @@ python -c "from gift_core import *; print(GAMMA_GIFT)"
 
 ---
 
-*Last updated: 2025-12-04 - 25 certified relations*
+*Last updated: 2025-12-05 - 35 certified relations*
