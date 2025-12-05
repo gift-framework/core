@@ -6,7 +6,6 @@
 [![PyPI](https://img.shields.io/pypi/v/giftpy)](https://pypi.org/project/giftpy/)
 [![Lean 4](https://img.shields.io/badge/Lean_4-v4.14-blue)](Lean/)
 [![Coq](https://img.shields.io/badge/Coq-8.18-orange)](COQ/)
-[![Relations](https://img.shields.io/badge/Relations-35_certified-green)]()
 
 ---
 
