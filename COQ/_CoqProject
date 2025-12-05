@@ -12,4 +12,6 @@ Relations/NeutrinoSector.v
 Relations/LeptonSector.v
 Relations/Cosmology.v
 Relations/YukawaDuality.v
+Relations/IrrationalSector.v
+Relations/GoldenRatio.v
 Certificate/AllProven.v

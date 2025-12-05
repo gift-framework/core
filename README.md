@@ -47,6 +47,12 @@ print(ALPHA_PROD_A + 1)  # 43 (visible sector)
 print(ALPHA_PROD_B + 1)  # 61 (kappa_T inverse)
 print(DUALITY_GAP)   # 18 (colored sector correction)
 
+# v1.4.0: Irrational sector (exact rationals!)
+print(ALPHA_INV_COMPLETE)  # Fraction(267489, 1952) ~ 137.033
+print(THETA_13_DEGREES_SIMPLIFIED)  # Fraction(60, 7) ~ 8.571 degrees
+print(PHI_LOWER_BOUND)  # Fraction(1618, 1000) = 1.618
+print(M_MU_M_E_LOWER)   # 206 < 27^phi < 208
+
 # All proven relations
 for r in PROVEN_RELATIONS:
     print(f"{r.symbol} = {r.value}")
@@ -94,7 +100,7 @@ pip install giftpy numpy
 
 ---
 
-## Proven Relations (35 Total)
+## Proven Relations (39 Total)
 
 All relations are formally verified in both Lean 4 and Coq. Each relation is a mathematical identity; no fitting or approximation is involved.
 
@@ -157,6 +163,22 @@ The torsion κ_T = 1/61 mediates between topology and physics.
 | 34 | hidden_dim | 34 | b₃ - visible_dim | Lean + Coq |
 | 35 | Jordan gap | 27 | 61 - 34 = dim(J₃(𝕆)) | Lean + Coq |
 
+### Irrational Sector (4 New Relations) - v1.4.0
+
+Relations involving irrational numbers (pi, phi) with certified rational parts:
+
+| # | Symbol | Value | Derivation | Status |
+|---|--------|-------|------------|--------|
+| 36 | alpha^-1 complete | 267489/1952 | 128 + 9 + (65/32)(1/61) | Lean + Coq |
+| 37 | theta_13 degrees | 60/7 | 180/b2 = 180/21 | Lean + Coq |
+| 38 | phi bounds | (1.618, 1.619) | sqrt(5) in (2.236, 2.237) | Lean + Coq |
+| 39 | m_mu/m_e bounds | (206, 208) | 27^phi | Lean + Coq |
+
+**Key insight**: The fine structure constant inverse alpha^-1 = 267489/1952 is an *exact rational*, not an approximation! This comes from:
+- 128 = (dim(E8) + rank(E8))/2 = algebraic component
+- 9 = H*/D_bulk = bulk component
+- 65/1952 = det(g) * kappa_T = torsion correction
+
 ### Topological Constants
 
 The relations above derive from these fixed mathematical structures:
@@ -217,8 +239,10 @@ Lean/
 │   │   ├── NeutrinoSector.lean # θ₁₂, θ₁₃, θ₂₃, γ_GIFT
 │   │   ├── LeptonSector.lean  # m_μ/m_e, λ_H²
 │   │   ├── Cosmology.lean     # n_s, Ω_DE
-│   │   └── YukawaDuality.lean # α² duality (v1.3.0)
-│   └── Certificate.lean       # Master theorem (35 relations)
+│   │   ├── YukawaDuality.lean # α² duality (v1.3.0)
+│   │   ├── IrrationalSector.lean  # θ₁₃, θ₂₃, α⁻¹ (v1.4.0)
+│   │   └── GoldenRatio.lean   # φ, m_μ/m_e (v1.4.0)
+│   └── Certificate.lean       # Master theorem (39 relations)
 └── lakefile.lean
 
 COQ/
@@ -232,9 +256,11 @@ COQ/
 │   ├── NeutrinoSector.v
 │   ├── LeptonSector.v
 │   ├── Cosmology.v
-│   └── YukawaDuality.v        # v1.3.0
+│   ├── YukawaDuality.v        # v1.3.0
+│   ├── IrrationalSector.v     # v1.4.0
+│   └── GoldenRatio.v          # v1.4.0
 └── Certificate/
-    └── AllProven.v            # Master theorem (35 relations)
+    └── AllProven.v            # Master theorem (39 relations)
 ```
 
 ---
@@ -316,11 +342,12 @@ For context, these exact values may be compared to experimental measurements. Di
 
 ### What This Package Provides
 
-- **35 exact relations** with formal proofs (13 original + 12 extension + 10 Yukawa duality)
+- **39 exact relations** with formal proofs (13 original + 12 extension + 10 Yukawa + 4 irrational)
 - Python interface for numerical computation
 - Cross-verified mathematical identities
 - **K7 metric pipeline** (v1.2.0): Build G2 holonomy metrics from scratch
 - **Yukawa duality** (v1.3.0): Topological ↔ dynamical α² structure
+- **Irrational sector** (v1.4.0): Exact alpha^-1, golden ratio bounds
 
 ### What This Package Does Not Claim
 
@@ -358,7 +385,7 @@ If referencing this work:
   title = {GIFT Core: Formally Verified Mathematical Constants},
   year = {2025},
   url = {https://github.com/gift-framework/core},
-  note = {Lean 4 and Coq verified, 35 certified relations}
+  note = {Lean 4 and Coq verified, 39 certified relations}
 }
 ```
 
@@ -376,4 +403,4 @@ This work benefited from computational assistance provided by various AI systems
 
 ---
 
-*GIFT Core v1.3.0 - 35 Certified Relations + K7 Metric Pipeline + Yukawa Duality*
+*GIFT Core v1.4.0 - 39 Certified Relations + K7 Metric Pipeline + Yukawa Duality + Irrational Sector*
