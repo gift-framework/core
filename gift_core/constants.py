@@ -195,3 +195,44 @@ DUALITY_GAP_FROM_COLOR = P2 * N_GEN * N_GEN  # = 18
 
 # κ_T⁻¹ = Π(α²_B) + 1 = 61 = b3 - dim(G2) - p2
 KAPPA_T_INV = ALPHA_PROD_B + 1  # = 61
+
+# =============================================================================
+# IRRATIONAL SECTOR RELATIONS (v1.4.0) - Lean + Coq verified
+# =============================================================================
+
+# --- THETA_13: pi/21 ---
+
+# θ₁₃ divisor = b2 = 21
+THETA_13_DIVISOR = B2  # = 21
+
+# θ₁₃ degrees (rational part): 180/21 = 60/7
+THETA_13_DEGREES_NUM = 180
+THETA_13_DEGREES_DEN = 21
+THETA_13_DEGREES_SIMPLIFIED = Fraction(60, 7)  # ≈ 8.571°
+
+# --- ALPHA^-1 COMPLETE (EXACT RATIONAL!) ---
+
+# α⁻¹ = 128 + 9 + (65/32)·(1/61) = 267489/1952
+ALPHA_INV_TORSION_NUM = 65
+ALPHA_INV_TORSION_DEN = 32 * 61  # = 1952
+ALPHA_INV_COMPLETE_NUM = 267489
+ALPHA_INV_COMPLETE_DEN = 1952
+ALPHA_INV_COMPLETE = Fraction(ALPHA_INV_COMPLETE_NUM, ALPHA_INV_COMPLETE_DEN)  # ≈ 137.033
+
+# --- GOLDEN RATIO SECTOR ---
+
+# φ = (1 + √5)/2 ∈ (1.618, 1.619)
+# Bounds as integers: 1618/1000 < φ < 1619/1000
+PHI_LOWER_BOUND = Fraction(1618, 1000)
+PHI_UPPER_BOUND = Fraction(1619, 1000)
+
+# √5 bounds: 2.236 < √5 < 2.237
+SQRT5_LOWER_BOUND = Fraction(2236, 1000)
+SQRT5_UPPER_BOUND = Fraction(2237, 1000)
+
+# m_μ/m_e = 27^φ ∈ (206, 208)
+M_MU_M_E_LOWER = 206
+M_MU_M_E_UPPER = 208
+
+# 27 = 3³ = dim(J₃(O))
+M_MU_M_E_BASE_CUBE = 3 ** 3  # = 27

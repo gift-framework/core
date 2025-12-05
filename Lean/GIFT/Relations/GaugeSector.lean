@@ -66,4 +66,41 @@ theorem alpha_inv_base_certified : alpha_inv_algebraic + alpha_inv_bulk = 137 :=
 /-- SM gauge group total dimension = 8 + 3 + 1 = 12 = dim(G₂) - p₂ -/
 theorem SM_gauge_equals_alpha_s_denom : dim_SM_gauge = dim_G2 - p2 := by native_decide
 
+-- =============================================================================
+-- RELATION #36: α⁻¹ COMPLETE (EXACT RATIONAL!)
+-- α⁻¹ = 128 + 9 + det(g)·κ_T = 128 + 9 + (65/32)·(1/61) = 267489/1952
+-- =============================================================================
+
+/-- Torsion correction numerator: det(g)_num × 1 = 65 -/
+def alpha_inv_torsion_num : Nat := 65
+
+/-- Torsion correction denominator: det(g)_den × κ_T_den = 32 × 61 = 1952 -/
+def alpha_inv_torsion_den : Nat := 32 * 61
+
+theorem alpha_inv_torsion_den_certified : alpha_inv_torsion_den = 1952 := by native_decide
+
+/-- α⁻¹ numerator: 137 × 1952 + 65 = 267489 -/
+def alpha_inv_complete_num : Nat := 137 * 1952 + 65
+
+theorem alpha_inv_complete_num_certified : alpha_inv_complete_num = 267489 := by native_decide
+
+/-- α⁻¹ denominator: 1952 -/
+def alpha_inv_complete_den : Nat := 1952
+
+/-- α⁻¹ complete verification: components match -/
+theorem alpha_inv_complete_components :
+  137 * 1952 = 267424 ∧ 267424 + 65 = 267489 := by native_decide
+
+/-- α⁻¹ = 267489/1952 ≈ 137.033 (exact rational!) -/
+theorem alpha_inv_complete_certified :
+  alpha_inv_complete_num = 267489 ∧
+  alpha_inv_complete_den = 1952 ∧
+  137 * alpha_inv_complete_den < alpha_inv_complete_num ∧
+  alpha_inv_complete_num < 138 * alpha_inv_complete_den := by
+  native_decide
+
+/-- Breakdown: 128 + 9 + 65/1952 -/
+theorem alpha_inv_breakdown :
+  (128 + 9) * 1952 + 65 = 267489 := by native_decide
+
 end GIFT.Relations.GaugeSector
