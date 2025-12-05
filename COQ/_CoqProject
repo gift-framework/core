@@ -11,4 +11,5 @@ Relations/GaugeSector.v
 Relations/NeutrinoSector.v
 Relations/LeptonSector.v
 Relations/Cosmology.v
+Relations/YukawaDuality.v
 Certificate/AllProven.v

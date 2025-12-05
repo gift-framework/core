@@ -142,3 +142,56 @@ N_S_ZETA_WEYL = WEYL_FACTOR  # = 5
 OMEGA_DE_NUM = H_STAR - 1  # = 98
 OMEGA_DE_DEN = H_STAR      # = 99
 OMEGA_DE_FRACTION = Fraction(OMEGA_DE_NUM, OMEGA_DE_DEN)
+
+# =============================================================================
+# YUKAWA DUALITY RELATIONS (v1.3.0) - Lean + Coq verified
+# =============================================================================
+
+# Visible/Hidden sector dimensions
+VISIBLE_DIM = 43          # Visible sector dimension
+HIDDEN_DIM = 34           # Hidden sector dimension
+
+# --- STRUCTURE A: TOPOLOGICAL α² ---
+
+# α²_lepton (A) = 2 (from Q = 2/3 constraint)
+ALPHA_SQ_LEPTON_A = 2
+
+# α²_up (A) = 3 (from K3 signature_+)
+ALPHA_SQ_UP_A = 3
+
+# α²_down (A) = 7 (from dim(K7))
+ALPHA_SQ_DOWN_A = DIM_K7  # = 7
+
+# Sum: 2 + 3 + 7 = 12 = dim(SM gauge)
+ALPHA_SUM_A = ALPHA_SQ_LEPTON_A + ALPHA_SQ_UP_A + ALPHA_SQ_DOWN_A  # = 12
+
+# Product + 1: 2 × 3 × 7 + 1 = 43 = visible_dim
+ALPHA_PROD_A = ALPHA_SQ_LEPTON_A * ALPHA_SQ_UP_A * ALPHA_SQ_DOWN_A  # = 42
+
+# --- STRUCTURE B: DYNAMICAL α² ---
+
+# α²_lepton (B) = 2 (unchanged - no color)
+ALPHA_SQ_LEPTON_B = 2
+
+# α²_up (B) = 5 = Weyl factor = dim(K7) - p2
+ALPHA_SQ_UP_B = WEYL_FACTOR  # = 5
+
+# α²_down (B) = 6 = 2 × N_gen = dim(G2) - rank(E8)
+ALPHA_SQ_DOWN_B = 2 * N_GEN  # = 6
+
+# Sum: 2 + 5 + 6 = 13 = rank(E8) + Weyl
+ALPHA_SUM_B = ALPHA_SQ_LEPTON_B + ALPHA_SQ_UP_B + ALPHA_SQ_DOWN_B  # = 13
+
+# Product + 1: 2 × 5 × 6 + 1 = 61 = κ_T⁻¹
+ALPHA_PROD_B = ALPHA_SQ_LEPTON_B * ALPHA_SQ_UP_B * ALPHA_SQ_DOWN_B  # = 60
+
+# --- DUALITY GAP ---
+
+# Gap: 61 - 43 = 18 = p2 × N_gen² (colored sector correction)
+DUALITY_GAP = 18
+DUALITY_GAP_FROM_COLOR = P2 * N_GEN * N_GEN  # = 18
+
+# --- TORSION MEDIATION ---
+
+# κ_T⁻¹ = Π(α²_B) + 1 = 61 = b3 - dim(G2) - p2
+KAPPA_T_INV = ALPHA_PROD_B + 1  # = 61

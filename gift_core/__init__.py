@@ -28,6 +28,13 @@ from gift_core.constants import (
     LAMBDA_H_SQ_NUM, LAMBDA_H_SQ_DEN, LAMBDA_H_SQ,
     N_S_ZETA_BULK, N_S_ZETA_WEYL,
     OMEGA_DE_NUM, OMEGA_DE_DEN, OMEGA_DE_FRACTION,
+    # Yukawa duality relations (v1.3.0)
+    VISIBLE_DIM, HIDDEN_DIM,
+    ALPHA_SQ_LEPTON_A, ALPHA_SQ_UP_A, ALPHA_SQ_DOWN_A,
+    ALPHA_SUM_A, ALPHA_PROD_A,
+    ALPHA_SQ_LEPTON_B, ALPHA_SQ_UP_B, ALPHA_SQ_DOWN_B,
+    ALPHA_SUM_B, ALPHA_PROD_B,
+    DUALITY_GAP, DUALITY_GAP_FROM_COLOR, KAPPA_T_INV,
 )
 from gift_core.relations import PROVEN_RELATIONS, get_relation
 from gift_core.topology import K7, G2, E8
@@ -197,6 +204,13 @@ __all__ = [
     'LAMBDA_H_SQ_NUM', 'LAMBDA_H_SQ_DEN', 'LAMBDA_H_SQ',
     'N_S_ZETA_BULK', 'N_S_ZETA_WEYL',
     'OMEGA_DE_NUM', 'OMEGA_DE_DEN', 'OMEGA_DE_FRACTION',
+    # Yukawa duality relations (v1.3.0)
+    'VISIBLE_DIM', 'HIDDEN_DIM',
+    'ALPHA_SQ_LEPTON_A', 'ALPHA_SQ_UP_A', 'ALPHA_SQ_DOWN_A',
+    'ALPHA_SUM_A', 'ALPHA_PROD_A',
+    'ALPHA_SQ_LEPTON_B', 'ALPHA_SQ_UP_B', 'ALPHA_SQ_DOWN_B',
+    'ALPHA_SUM_B', 'ALPHA_PROD_B',
+    'DUALITY_GAP', 'DUALITY_GAP_FROM_COLOR', 'KAPPA_T_INV',
     # Structures
     'K7', 'G2', 'E8', 'PROVEN_RELATIONS', 'get_relation',
     # Scales

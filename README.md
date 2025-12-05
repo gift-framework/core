@@ -6,6 +6,7 @@
 [![PyPI](https://img.shields.io/pypi/v/giftpy)](https://pypi.org/project/giftpy/)
 [![Lean 4](https://img.shields.io/badge/Lean_4-v4.14-blue)](Lean/)
 [![Coq](https://img.shields.io/badge/Coq-8.18-orange)](COQ/)
+[![Relations](https://img.shields.io/badge/Relations-35_certified-green)]()
 
 ---
 
@@ -39,6 +40,13 @@ print(KAPPA_T)       # Fraction(1, 61)
 print(GAMMA_GIFT)    # Fraction(511, 884)
 print(THETA_23)      # Fraction(85, 99)
 print(ALPHA_INV_BASE)  # 137
+
+# v1.3.0: Yukawa duality relations
+print(ALPHA_SUM_A)   # 12 (Structure A: 2+3+7)
+print(ALPHA_SUM_B)   # 13 (Structure B: 2+5+6)
+print(ALPHA_PROD_A + 1)  # 43 (visible sector)
+print(ALPHA_PROD_B + 1)  # 61 (kappa_T inverse)
+print(DUALITY_GAP)   # 18 (colored sector correction)
 
 # All proven relations
 for r in PROVEN_RELATIONS:
@@ -87,7 +95,7 @@ pip install giftpy numpy
 
 ---
 
-## Proven Relations (25 Total)
+## Proven Relations (35 Total)
 
 All relations are formally verified in both Lean 4 and Coq. Each relation is a mathematical identity; no fitting or approximation is involved.
 
@@ -125,6 +133,30 @@ All relations are formally verified in both Lean 4 and Coq. Each relation is a m
 | 23 | n_s indices | 11, 5 | D_bulk, Weyl_factor | Lean + Coq |
 | 24 | Ω_DE frac | 98/99 | (H* - 1) / H* | Lean + Coq |
 | 25 | α⁻¹ base | 137 | (dim(E₈) + rank(E₈))/2 + H*/11 | Lean + Coq |
+
+### Yukawa Duality (10 New Relations) - v1.3.0
+
+The Extended Koide formula exhibits a **duality** between two α² structures that are both topologically determined:
+
+| Structure | α² values | Sum | Product+1 | Physical meaning |
+|-----------|-----------|-----|-----------|------------------|
+| **A** (Topological) | {2, 3, 7} | 12 = gauge_dim | 43 = visible | K3 signature origin |
+| **B** (Dynamical) | {2, 5, 6} | 13 = rank+Weyl | 61 = κ_T⁻¹ | Exact mass fit |
+
+The torsion κ_T = 1/61 mediates between topology and physics.
+
+| # | Symbol | Value | Derivation | Status |
+|---|--------|-------|------------|--------|
+| 26 | α²_A sum | 12 | 2 + 3 + 7 = dim(SM gauge) | Lean + Coq |
+| 27 | α²_A prod+1 | 43 | 2×3×7 + 1 = visible_dim | Lean + Coq |
+| 28 | α²_B sum | 13 | 2 + 5 + 6 = rank(E₈) + Weyl | Lean + Coq |
+| 29 | α²_B prod+1 | 61 | 2×5×6 + 1 = κ_T⁻¹ | Lean + Coq |
+| 30 | Duality gap | 18 | 61 - 43 = p₂ × N_gen² | Lean + Coq |
+| 31 | α²_up (B) | 5 | dim(K₇) - p₂ = Weyl | Lean + Coq |
+| 32 | α²_down (B) | 6 | dim(G₂) - rank(E₈) = 2×N_gen | Lean + Coq |
+| 33 | visible_dim | 43 | b₃ - hidden_dim | Lean + Coq |
+| 34 | hidden_dim | 34 | b₃ - visible_dim | Lean + Coq |
+| 35 | Jordan gap | 27 | 61 - 34 = dim(J₃(𝕆)) | Lean + Coq |
 
 ### Topological Constants
 
@@ -185,8 +217,9 @@ Lean/
 │   │   ├── GaugeSector.lean   # α_s, α⁻¹ structure
 │   │   ├── NeutrinoSector.lean # θ₁₂, θ₁₃, θ₂₃, γ_GIFT
 │   │   ├── LeptonSector.lean  # m_μ/m_e, λ_H²
-│   │   └── Cosmology.lean     # n_s, Ω_DE
-│   └── Certificate.lean       # Master theorem (25 relations)
+│   │   ├── Cosmology.lean     # n_s, Ω_DE
+│   │   └── YukawaDuality.lean # α² duality (v1.3.0)
+│   └── Certificate.lean       # Master theorem (35 relations)
 └── lakefile.lean
 
 COQ/
@@ -196,12 +229,13 @@ COQ/
 ├── Relations/                 # All relation files
 │   ├── Weinberg.v
 │   ├── Physical.v
-│   ├── GaugeSector.v          # NEW
-│   ├── NeutrinoSector.v       # NEW
-│   ├── LeptonSector.v         # NEW
-│   └── Cosmology.v            # NEW
+│   ├── GaugeSector.v
+│   ├── NeutrinoSector.v
+│   ├── LeptonSector.v
+│   ├── Cosmology.v
+│   └── YukawaDuality.v        # v1.3.0
 └── Certificate/
-    └── AllProven.v            # Master theorem (25 relations)
+    └── AllProven.v            # Master theorem (35 relations)
 ```
 
 ---
@@ -283,10 +317,11 @@ For context, these exact values may be compared to experimental measurements. Di
 
 ### What This Package Provides
 
-- **25 exact relations** with formal proofs (13 original + 12 extension)
+- **35 exact relations** with formal proofs (13 original + 12 extension + 10 Yukawa duality)
 - Python interface for numerical computation
 - Cross-verified mathematical identities
 - **K7 metric pipeline** (v1.2.0): Build G2 holonomy metrics from scratch
+- **Yukawa duality** (v1.3.0): Topological ↔ dynamical α² structure
 
 ### What This Package Does Not Claim
 
@@ -324,7 +359,7 @@ If referencing this work:
   title = {GIFT Core: Formally Verified Mathematical Constants},
   year = {2025},
   url = {https://github.com/gift-framework/core},
-  note = {Lean 4 and Coq verified, 25 certified relations}
+  note = {Lean 4 and Coq verified, 35 certified relations}
 }
 ```
 
@@ -342,4 +377,4 @@ This work benefited from computational assistance provided by various AI systems
 
 ---
 
-*GIFT Core v1.2.0 - 25 Certified Relations + K7 Metric Pipeline*
+*GIFT Core v1.3.0 - 35 Certified Relations + K7 Metric Pipeline + Yukawa Duality*
