@@ -207,9 +207,9 @@ theorem irrational_sector_relations_certified :
     (21 : Nat) = b2 ∧
     -- theta_23 rational
     rank_E8 + b3 = 85 ∧ H_star = 99 ∧
-    -- alpha^-1 complete
-    alpha_inv_complete_num = 267489 ∧
-    alpha_inv_complete_den = 1952 := by
+    -- alpha^-1 complete (from GaugeSector)
+    GaugeSector.alpha_inv_complete_num = 267489 ∧
+    GaugeSector.alpha_inv_complete_den = 1952 := by
   refine ⟨rfl, ?_, ?_, ?_, ?_⟩
   all_goals native_decide
 
@@ -241,8 +241,8 @@ theorem all_39_relations_certified :
     -- v1.4.0: Irrational sector (4 new)
     ((21 : Nat) = b2) ∧
     (rank_E8 + b3 = 85) ∧
-    (alpha_inv_complete_num = 267489) ∧
-    (alpha_inv_complete_den = 1952) := by
+    (GaugeSector.alpha_inv_complete_num = 267489) ∧
+    (GaugeSector.alpha_inv_complete_den = 1952) := by
   repeat (first | constructor | native_decide | rfl)
 
 end GIFT.Certificate

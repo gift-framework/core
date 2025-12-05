@@ -2,6 +2,7 @@
 (** Original 13 + 12 TOPOLOGICAL + 10 YUKAWA + 4 IRRATIONAL (v1.4.0) *)
 
 Require Import Coq.Arith.Arith.
+Require Import Lia.
 Require Import GIFT.Algebra.E8.
 Require Import GIFT.Algebra.G2.
 Require Import GIFT.Geometry.K7.
@@ -273,7 +274,7 @@ Theorem golden_ratio_relations_certified :
   (* sqrt(5) bounds *)
   2236 * 2236 < 5 * 1000000 /\ 5 * 1000000 < 2237 * 2237.
 Proof.
-  repeat split; reflexivity.
+  repeat split; try reflexivity; lia.
 Qed.
 
 (** =========================================================================== *)

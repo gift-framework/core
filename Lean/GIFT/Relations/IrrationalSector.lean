@@ -51,28 +51,17 @@ def theta_23_degrees_factor : Nat := 180
 
 -- =============================================================================
 -- alpha^-1 COMPLETE (EXACT RATIONAL!)
+-- Defined in GaugeSector.lean - here we just reference it
 -- alpha^-1 = 128 + 9 + (65/32)*(1/61) = 267489/1952
 -- =============================================================================
 
-/-- alpha^-1 torsion correction denominator -/
-def alpha_inv_torsion_den : Nat := 32 * 61
+/-- alpha^-1 torsion correction denominator (reference) -/
+def alpha_inv_torsion_den_ref : Nat := 32 * 61
 
-theorem alpha_inv_torsion_den_value : alpha_inv_torsion_den = 1952 := by native_decide
+theorem alpha_inv_torsion_den_ref_value : alpha_inv_torsion_den_ref = 1952 := by native_decide
 
-/-- alpha^-1 complete numerator -/
-def alpha_inv_complete_num : Nat := 137 * 1952 + 65
-
-theorem alpha_inv_complete_num_value : alpha_inv_complete_num = 267489 := by native_decide
-
-/-- alpha^-1 complete denominator -/
-def alpha_inv_complete_den : Nat := 1952
-
-/-- alpha^-1 = 267489/1952 is between 137 and 138 -/
-theorem alpha_inv_complete_bounds :
-    137 * 1952 < 267489 ∧ 267489 < 138 * 1952 := by native_decide
-
-/-- Breakdown verification -/
-theorem alpha_inv_breakdown :
+/-- Breakdown verification (reference) -/
+theorem alpha_inv_breakdown_ref :
     (128 + 9) * 1952 + 65 = 267489 := by native_decide
 
 -- =============================================================================
@@ -85,11 +74,8 @@ theorem irrational_sector_certified :
     (21 : Nat) = b2 ∧
     8 * 7 < 60 ∧ 60 < 9 * 7 ∧
     -- theta_23 rational part
-    rank_E8 + b3 = 85 ∧ H_star = 99 ∧
-    -- alpha^-1 complete
-    alpha_inv_complete_num = 267489 ∧
-    alpha_inv_complete_den = 1952 := by
-  refine ⟨rfl, ?_, ?_, ?_, ?_, ?_, ?_⟩
+    rank_E8 + b3 = 85 ∧ H_star = 99 := by
+  refine ⟨rfl, ?_, ?_, ?_, ?_⟩
   all_goals native_decide
 
 end GIFT.Relations.IrrationalSector

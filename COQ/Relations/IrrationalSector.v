@@ -8,6 +8,7 @@
  *)
 
 Require Import Coq.Arith.Arith.
+Require Import Lia.
 Require Import GIFT.Topology.Betti.
 Require Import GIFT.Algebra.E8.
 
@@ -32,7 +33,7 @@ Proof. split; reflexivity. Qed.
 (** theta_13 rational bounds: 8 < 60/7 < 9 *)
 Theorem theta_13_rational_bounds :
   8 * 7 < 60 /\ 60 < 9 * 7.
-Proof. split; reflexivity. Qed.
+Proof. split; lia. Qed.
 
 (* =============================================================================
    RELATION: theta_23 = 85/99 rad (rational in radians!)
@@ -79,7 +80,7 @@ Definition alpha_inv_complete_den : nat := 1952.
 (** alpha^-1 = 267489/1952 is between 137 and 138 *)
 Theorem alpha_inv_complete_bounds :
   137 * 1952 < 267489 /\ 267489 < 138 * 1952.
-Proof. split; reflexivity. Qed.
+Proof. split; lia. Qed.
 
 (** Breakdown verification *)
 Theorem alpha_inv_breakdown :
@@ -101,5 +102,5 @@ Theorem irrational_sector_certified :
   alpha_inv_complete_num = 267489 /\
   alpha_inv_complete_den = 1952.
 Proof.
-  repeat split; reflexivity.
+  repeat split; try reflexivity; lia.
 Qed.
