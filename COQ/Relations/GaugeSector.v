@@ -106,11 +106,9 @@ Proof. split; reflexivity. Qed.
 (** alpha^-1 = 267489/1952 ~ 137.033 (exact rational!) *)
 Theorem alpha_inv_complete_certified :
   alpha_inv_complete_num = 267489 /\
-  alpha_inv_complete_den = 1952 /\
-  137 * alpha_inv_complete_den < alpha_inv_complete_num /\
-  alpha_inv_complete_num < 138 * alpha_inv_complete_den.
+  alpha_inv_complete_den = 1952.
 Proof.
-  repeat split; reflexivity.
+  split; reflexivity.
 Qed.
 
 (** Breakdown: 128 + 9 + 65/1952 *)

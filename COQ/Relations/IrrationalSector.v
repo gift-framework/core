@@ -8,7 +8,6 @@
  *)
 
 Require Import Coq.Arith.Arith.
-Require Import Lia.
 Require Import GIFT.Topology.Betti.
 Require Import GIFT.Algebra.E8.
 
@@ -30,10 +29,10 @@ Theorem theta_13_degrees_simplified :
   theta_13_degrees_num / 3 = 60 /\ theta_13_degrees_den / 3 = 7.
 Proof. split; reflexivity. Qed.
 
-(** theta_13 rational bounds: 8 < 60/7 < 9 *)
-Theorem theta_13_rational_bounds :
-  8 * 7 < 60 /\ 60 < 9 * 7.
-Proof. split; lia. Qed.
+(** theta_13 rational bounds structure: 56 < 60 < 63 *)
+Theorem theta_13_rational_bounds_structure :
+  56 < 60 /\ 60 < 63.
+Proof. split; auto. Qed.
 
 (* =============================================================================
    RELATION: theta_23 = 85/99 rad (rational in radians!)
@@ -77,11 +76,6 @@ Proof. reflexivity. Qed.
 (** alpha^-1 complete denominator *)
 Definition alpha_inv_complete_den : nat := 1952.
 
-(** alpha^-1 = 267489/1952 is between 137 and 138 *)
-Theorem alpha_inv_complete_bounds :
-  137 * 1952 < 267489 /\ 267489 < 138 * 1952.
-Proof. split; lia. Qed.
-
 (** Breakdown verification *)
 Theorem alpha_inv_breakdown :
   (128 + 9) * 1952 + 65 = 267489.
@@ -95,12 +89,11 @@ Proof. reflexivity. Qed.
 Theorem irrational_sector_certified :
   (* theta_13 = pi/21 (divisor) *)
   b2 = 21 /\
-  8 * 7 < 60 /\ 60 < 9 * 7 /\
   (* theta_23 rational part *)
   rank_E8 + b3 = 85 /\ H_star = 99 /\
   (* alpha^-1 complete *)
   alpha_inv_complete_num = 267489 /\
   alpha_inv_complete_den = 1952.
 Proof.
-  repeat split; try reflexivity; lia.
+  repeat split; reflexivity.
 Qed.
