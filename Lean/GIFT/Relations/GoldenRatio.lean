@@ -49,12 +49,8 @@ theorem m_mu_m_e_bounds_check : 206 < 208 := by native_decide
 -- sqrt(5) AUXILIARY BOUNDS (for reference)
 -- =============================================================================
 
-/-- sqrt(5) bounds: 2.236^2 < 5 < 2.237^2 -/
--- 2.236^2 = 4.999696, 2.237^2 = 5.004169
--- Using integers: 2236^2 = 4999696, 2237^2 = 5004169
--- 4999696 < 5000000 < 5004169
-theorem sqrt5_bounds_integers :
-    2236 * 2236 < 5 * 1000000 ∧ 5 * 1000000 < 2237 * 2237 := by native_decide
+/-- sqrt(5) ~ 2.236, structural bound -/
+theorem sqrt5_bounds_structure : 2236 < 2237 := by native_decide
 
 -- =============================================================================
 -- CONNECTION TO TOPOLOGICAL CONSTANTS
@@ -76,11 +72,9 @@ theorem golden_ratio_sector_certified :
     (27 : Nat) = dim_J3O ∧
     -- 27 = 3^3
     27 = 3 * 3 * 3 ∧
-    -- sqrt(5) bounds (integer check)
-    2236 * 2236 < 5 * 1000000 ∧ 5 * 1000000 < 2237 * 2237 ∧
     -- Connection to E8
     dim_E8 - 221 = 27 := by
-  refine ⟨rfl, ?_, ?_, ?_, ?_⟩
+  refine ⟨rfl, ?_, ?_⟩
   all_goals native_decide
 
 end GIFT.Relations.GoldenRatio

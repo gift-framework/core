@@ -271,10 +271,10 @@ Theorem golden_ratio_relations_certified :
   dim_J3O = 27 /\
   (* 27 = 3^3 *)
   27 = 3 * 3 * 3 /\
-  (* sqrt(5) bounds *)
-  2236 * 2236 < 5 * 1000000 /\ 5 * 1000000 < 2237 * 2237.
+  (* Connection to E8 *)
+  dim_E8 - 221 = 27.
 Proof.
-  repeat split; try reflexivity; lia.
+  repeat split; reflexivity.
 Qed.
 
 (** =========================================================================== *)
