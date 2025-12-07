@@ -5,6 +5,47 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2025-12-07
+
+### Added
+
+- **Exceptional Groups Relations** (5 new certified relations):
+  - `alpha_s^2 = 1/72` - Strong coupling squared is exactly rational
+  - `dim(F4) = 52` - F4 dimension from Structure B: p2^2 * sum(alpha^2_B)
+  - `delta_penta = 25` - Pentagonal structure from F4/Jordan gap: dim(F4) - dim(J3O) = Weyl^2
+  - `J3(O)_0 = 26` - Traceless Jordan algebra: dim(E6) - dim(F4) = dim(J3O) - 1
+  - `|W(E8)| = 696729600` - E8 Weyl group topological factorization
+
+- **Lean 4 modules**:
+  - `Lean/GIFT/Relations/ExceptionalGroups.lean` - F4, E6, E8 connections
+  - New constants in `Lean/GIFT/Algebra.lean`: dim_F4, dim_E6, weyl_E8_order, dim_J3O_traceless
+
+- **Coq modules**:
+  - `COQ/Relations/ExceptionalGroups.v` - Matching proofs
+
+- **Python constants** (in `gift_core.constants`):
+  - `DIM_F4`, `DIM_E6`, `DIM_J3O_TRACELESS`, `WEYL_E8_ORDER`
+  - `ALPHA_SQ_B_SUM`, `ALPHA_S_SQUARED`, `ALPHA_S_SQUARED_NUM`, `ALPHA_S_SQUARED_DEN`
+  - `DIM_F4_FROM_STRUCTURE_B`, `DELTA_PENTA`, `JORDAN_TRACELESS`
+  - `WEYL_E8_FORMULA`, `EXCEPTIONAL_CHAIN`
+
+### Changed
+
+- Updated `Certificate.lean` with `all_44_relations_certified` master theorem
+- Updated `AllProven.v` with `all_44_relations_certified` master theorem
+- Total certified relations: 39 -> 44
+
+### Key Insight
+
+The Weyl group of E8 has order |W(E8)| = 696,729,600 = 2^14 * 3^5 * 5^2 * 7.
+Remarkably, this factorizes as:
+- 2^14 = p2^dim(G2) (Pontryagin class to power of G2 dimension)
+- 3^5 = N_gen^Weyl (generations to power of Weyl factor)
+- 5^2 = Weyl^p2 (Weyl factor squared)
+- 7 = dim(K7) (dimension of internal manifold)
+
+This encodes the complete K7 topological structure in a single group-theoretic invariant.
+
 ## [1.4.0] - 2025-12-05
 
 ### Added

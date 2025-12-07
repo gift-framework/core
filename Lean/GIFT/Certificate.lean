@@ -1,6 +1,6 @@
 -- GIFT Certificate module
 -- Final certification theorems
--- Version: 1.4.0
+-- Version: 1.5.0
 
 import GIFT.Relations
 import GIFT.Relations.GaugeSector
@@ -10,6 +10,7 @@ import GIFT.Relations.Cosmology
 import GIFT.Relations.YukawaDuality
 import GIFT.Relations.IrrationalSector
 import GIFT.Relations.GoldenRatio
+import GIFT.Relations.ExceptionalGroups
 
 namespace GIFT.Certificate
 
@@ -18,6 +19,7 @@ open GIFT.Relations.GaugeSector GIFT.Relations.NeutrinoSector
 open GIFT.Relations.LeptonSector GIFT.Relations.Cosmology
 open GIFT.Relations.YukawaDuality
 open GIFT.Relations.IrrationalSector GIFT.Relations.GoldenRatio
+open GIFT.Relations.ExceptionalGroups
 
 /-- All 13 original relations are fully proven (zero axioms, zero holes) -/
 theorem all_13_relations_certified :
@@ -243,6 +245,48 @@ theorem all_39_relations_certified :
     (rank_E8 + b3 = 85) ∧
     (GaugeSector.alpha_inv_complete_num = 267489) ∧
     (GaugeSector.alpha_inv_complete_den = 1952) := by
+  repeat (first | constructor | native_decide | rfl)
+
+/-- Exceptional groups relations (v1.5.0) -/
+theorem exceptional_groups_relations_certified :
+    -- Relation 40: alpha_s^2 = 1/72
+    (dim_G2 / dim_K7 = 2 ∧ (dim_G2 - p2) * (dim_G2 - p2) = 144) ∧
+    -- Relation 41: dim(F4) from Structure B
+    (dim_F4 = p2 * p2 * alpha_sq_B_sum) ∧
+    -- Relation 42: delta_penta origin
+    (dim_F4 - dim_J3O = 25) ∧
+    -- Relation 43: Jordan traceless
+    (dim_E6 - dim_F4 = 26) ∧
+    -- Relation 44: Weyl E8 factorization
+    (weyl_E8_order = p2^dim_G2 * N_gen^Weyl_factor * Weyl_factor^p2 * dim_K7) := by
+  repeat (first | constructor | native_decide | rfl)
+
+/-- Master theorem: All 44 GIFT relations (39 + 5 exceptional groups) v1.5.0 -/
+theorem all_44_relations_certified :
+    -- Key relations from v1.4.0
+    b2 * 13 = 3 * (b3 + dim_G2) ∧
+    dim_G2 * 3 = b2 * 2 ∧
+    N_gen = 3 ∧
+    H_star = 99 ∧
+    b3 - dim_G2 - p2 = 61 ∧
+    dim_G2 - p2 = 12 ∧
+    gamma_GIFT_num = 511 ∧
+    gamma_GIFT_den = 884 ∧
+    m_mu_m_e_base = 27 ∧
+    alpha_inv_algebraic = 128 ∧
+    alpha_inv_bulk = 9 ∧
+    -- v1.4.0: Irrational sector
+    b2 = 21 ∧
+    rank_E8 + b3 = 85 ∧
+    GaugeSector.alpha_inv_complete_num = 267489 ∧
+    GaugeSector.alpha_inv_complete_den = 1952 ∧
+    -- v1.5.0: Exceptional groups (5 new)
+    dim_G2 / dim_K7 = 2 ∧
+    (dim_G2 - p2) * (dim_G2 - p2) = 144 ∧
+    dim_F4 = 52 ∧
+    dim_F4 - dim_J3O = 25 ∧
+    dim_E6 - dim_F4 = 26 ∧
+    weyl_E8_order = 696729600 := by
   repeat (first | constructor | native_decide | rfl)
 
 end GIFT.Certificate

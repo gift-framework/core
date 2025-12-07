@@ -236,3 +236,51 @@ M_MU_M_E_UPPER = 208
 
 # 27 = 3³ = dim(J₃(O))
 M_MU_M_E_BASE_CUBE = 3 ** 3  # = 27
+
+# =============================================================================
+# EXCEPTIONAL GROUPS RELATIONS (v1.5.0) - Lean + Coq verified
+# =============================================================================
+
+# --- NEW CONSTANTS ---
+
+# Dimension of the exceptional Lie group F4
+DIM_F4 = 52
+
+# Dimension of the exceptional Lie group E6
+DIM_E6 = 78
+
+# Dimension of traceless Jordan algebra J3(O)_0
+DIM_J3O_TRACELESS = 26
+
+# Order of the Weyl group of E8: |W(E8)| = 2^14 × 3^5 × 5^2 × 7
+WEYL_E8_ORDER = 696729600
+
+# Sum of Structure B alpha² values: 2 + 5 + 6 = 13
+ALPHA_SQ_B_SUM = 13
+
+# --- RELATION 40: α_s² = 1/72 ---
+# α_s² = dim(G2)/dim(K7) / (dim(G2)-p2)² = 2/144 = 1/72
+ALPHA_S_SQUARED = Fraction(1, 72)
+ALPHA_S_SQUARED_NUM = DIM_G2 // DIM_K7  # = 2
+ALPHA_S_SQUARED_DEN = (DIM_G2 - P2) ** 2  # = 144
+
+# --- RELATION 41: dim(F4) = p2² × Σ(α²_B) ---
+# dim(F4) = 4 × 13 = 52
+DIM_F4_FROM_STRUCTURE_B = P2 ** 2 * ALPHA_SQ_B_SUM  # = 52
+
+# --- RELATION 42: δ_penta origin ---
+# dim(F4) - dim(J3O) = 52 - 27 = 25 = Weyl²
+DELTA_PENTA = DIM_F4 - DIM_J3O  # = 25
+
+# --- RELATION 43: Jordan traceless ---
+# dim(E6) - dim(F4) = 78 - 52 = 26 = dim(J3O) - 1
+JORDAN_TRACELESS = DIM_E6 - DIM_F4  # = 26
+
+# --- RELATION 44: |W(E8)| topological factorization ---
+# |W(E8)| = p2^dim(G2) × N_gen^Weyl × Weyl^p2 × dim(K7)
+#         = 2^14 × 3^5 × 5^2 × 7 = 696729600
+WEYL_E8_FORMULA = (P2 ** DIM_G2) * (N_GEN ** WEYL_FACTOR) * (WEYL_FACTOR ** P2) * DIM_K7
+
+# --- EXCEPTIONAL CHAIN ---
+# E8 → F4 → J3(O): dim(E8) - dim(F4) - dim(J3O) = 248 - 52 - 27 = 169 = 13²
+EXCEPTIONAL_CHAIN = DIM_E8 - DIM_F4 - DIM_J3O  # = 169

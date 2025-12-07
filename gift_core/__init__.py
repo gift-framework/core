@@ -43,6 +43,11 @@ from gift_core.constants import (
     PHI_LOWER_BOUND, PHI_UPPER_BOUND,
     SQRT5_LOWER_BOUND, SQRT5_UPPER_BOUND,
     M_MU_M_E_LOWER, M_MU_M_E_UPPER, M_MU_M_E_BASE_CUBE,
+    # Exceptional groups relations (v1.5.0)
+    DIM_F4, DIM_E6, DIM_J3O_TRACELESS, WEYL_E8_ORDER,
+    ALPHA_SQ_B_SUM, ALPHA_S_SQUARED, ALPHA_S_SQUARED_NUM, ALPHA_S_SQUARED_DEN,
+    DIM_F4_FROM_STRUCTURE_B, DELTA_PENTA, JORDAN_TRACELESS,
+    WEYL_E8_FORMULA, EXCEPTIONAL_CHAIN,
 )
 from gift_core.relations import PROVEN_RELATIONS, get_relation
 from gift_core.topology import K7, G2, E8
@@ -227,6 +232,11 @@ __all__ = [
     'PHI_LOWER_BOUND', 'PHI_UPPER_BOUND',
     'SQRT5_LOWER_BOUND', 'SQRT5_UPPER_BOUND',
     'M_MU_M_E_LOWER', 'M_MU_M_E_UPPER', 'M_MU_M_E_BASE_CUBE',
+    # Exceptional groups relations (v1.5.0)
+    'DIM_F4', 'DIM_E6', 'DIM_J3O_TRACELESS', 'WEYL_E8_ORDER',
+    'ALPHA_SQ_B_SUM', 'ALPHA_S_SQUARED', 'ALPHA_S_SQUARED_NUM', 'ALPHA_S_SQUARED_DEN',
+    'DIM_F4_FROM_STRUCTURE_B', 'DELTA_PENTA', 'JORDAN_TRACELESS',
+    'WEYL_E8_FORMULA', 'EXCEPTIONAL_CHAIN',
     # Structures
     'K7', 'G2', 'E8', 'PROVEN_RELATIONS', 'get_relation',
     # Scales
