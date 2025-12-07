@@ -100,6 +100,16 @@ pip install giftpy numpy
 
 ---
 
+## Interactive Visualizations
+
+[View GIFT Lean Blueprint](https://gift-framework.github.io/GIFT/docs/figures/gift_blueprint.html)
+---
+[View K7 Manifold Lean Blueprint](https://gift-framework.github.io/GIFT/docs/figures/k7_blueprint.html)
+---
+[created with Lean Blueprint Copilot](https://github.com/augustepoiroux/LeanBlueprintCopilot)
+
+---
+
 ## Proven Relations (39 Total)
 
 All relations are formally verified in both Lean 4 and Coq. Each relation is a mathematical identity; no fitting or approximation is involved.
