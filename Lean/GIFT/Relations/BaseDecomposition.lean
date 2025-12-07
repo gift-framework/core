@@ -1,0 +1,159 @@
+/-
+Copyright (c) 2025 GIFT Framework. All rights reserved.
+Released under MIT license.
+-/
+import GIFT.Algebra
+import GIFT.Topology
+import GIFT.Geometry
+import GIFT.Relations
+import GIFT.Relations.ExceptionalGroups
+
+/-!
+# Base Decomposition Relations (v1.6.0)
+
+This file proves relations involving the decomposition of GIFT topological
+constants using the Structure B sum ALPHA_SUM_B = rank(E8) + Weyl = 13.
+
+## Main Results
+
+* `kappa_T_inv_decomposition` : kappa_T^-1 = dim(F4) + N_gen^2 = 61
+* `b2_base_decomposition` : b2 = ALPHA_SUM_B + rank(E8) = 21
+* `b3_base_decomposition` : b3 = ALPHA_SUM_B * Weyl + 12 = 77
+* `H_star_base_decomposition` : H* = ALPHA_SUM_B * dim(K7) + rank(E8) = 99
+* `quotient_sum` : dim(U1) + Weyl + dim(K7) = 13
+* `omega_DE_numerator` : dim(K7) * dim(G2) = 98
+
+## Key Insight
+
+The Structure B sum (2 + 5 + 6 = 13 = rank(E8) + Weyl_factor) provides a
+consistent decomposition base for all primary GIFT topological constants.
+-/
+
+namespace GIFT.Relations.BaseDecomposition
+
+open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Relations.ExceptionalGroups
+
+/-! ## Relation 45: kappa_T^-1 decomposition -/
+
+/-- kappa_T inverse equals dim(F4) plus N_gen squared -/
+theorem kappa_T_inv_from_F4 : dim_F4 + N_gen * N_gen = 61 := by native_decide
+
+/-- Verification: 52 + 9 = 61 -/
+theorem kappa_T_inv_decomposition : 52 + 9 = 61 := rfl
+
+/-- Cross-check: b3 - dim(G2) - p2 = 61 = dim(F4) + N_gen^2 -/
+theorem kappa_T_inv_consistency :
+    b3 - dim_G2 - p2 = dim_F4 + N_gen * N_gen := by native_decide
+
+/-! ## Relation 46: b2 decomposition -/
+
+/-- Second Betti number: b2 = ALPHA_SUM_B + rank(E8) = 13 + 8 = 21 -/
+theorem b2_base_decomposition : b2 = alpha_sq_B_sum + rank_E8 := by native_decide
+
+/-- Verification: 13 + 8 = 21 -/
+theorem b2_decomposition_check : 13 + 8 = 21 := rfl
+
+/-- Alternative: b2 = alpha_sum_B + rank(E8) -/
+theorem b2_from_rank : b2 = 13 + 8 := by native_decide
+
+/-! ## Relation 47: b3 decomposition -/
+
+/-- Third Betti number: b3 = ALPHA_SUM_B * Weyl + 12 = 65 + 12 = 77 -/
+theorem b3_base_decomposition : b3 = alpha_sq_B_sum * Weyl_factor + 12 := by native_decide
+
+/-- Verification: 13 * 5 + 12 = 77 -/
+theorem b3_decomposition_check : 13 * 5 + 12 = 77 := rfl
+
+/-- Alternative form: b3 = 65 + dim(SM gauge) -/
+theorem b3_with_gauge : b3 = 65 + 12 := by native_decide
+
+/-- Cross-relation: 65 = ALPHA_SUM_B * Weyl -/
+theorem b3_intermediate : alpha_sq_B_sum * Weyl_factor = 65 := by native_decide
+
+/-! ## Relation 48: H* decomposition -/
+
+/-- Effective degrees of freedom: H* = ALPHA_SUM_B * dim(K7) + rank(E8) = 91 + 8 = 99 -/
+theorem H_star_base_decomposition : H_star = alpha_sq_B_sum * dim_K7 + rank_E8 := by native_decide
+
+/-- Verification: 13 * 7 + 8 = 99 -/
+theorem H_star_decomposition_check : 13 * 7 + 8 = 99 := rfl
+
+/-- Cross-check: H_star = b2 + b3 + 1 = 99 -/
+theorem H_star_from_betti : H_star = b2 + b3 + 1 := by native_decide
+
+/-- Intermediate: 91 = ALPHA_SUM_B * dim(K7) -/
+theorem H_star_intermediate : alpha_sq_B_sum * dim_K7 = 91 := by native_decide
+
+/-! ## Relation 49: Quotient sum -/
+
+/-- Define the dimension of U(1) -/
+def dim_U1 : Nat := 1
+
+/-- The three quotient-derived constants sum to ALPHA_SUM_B -/
+theorem quotient_sum : dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum := by native_decide
+
+/-- Verification: 1 + 5 + 7 = 13 -/
+theorem quotient_sum_check : 1 + 5 + 7 = 13 := rfl
+
+/-- Quotient origins:
+    - 1 = dim(U1) = gauge singleton
+    - 5 = Weyl = dim(K7) - p2
+    - 7 = dim(K7) = manifold dimension -/
+theorem quotient_origins :
+    dim_U1 = 1 ∧ Weyl_factor = dim_K7 - p2 ∧ dim_K7 = 7 := by
+  constructor; rfl
+  constructor; native_decide
+  rfl
+
+/-! ## Relation 50: Omega_DE numerator -/
+
+/-- Dark energy fraction numerator: dim(K7) * dim(G2) = 98 = H* - 1 -/
+theorem omega_DE_numerator : dim_K7 * dim_G2 = 98 := by native_decide
+
+/-- Verification: 7 * 14 = 98 -/
+theorem omega_DE_numerator_check : 7 * 14 = 98 := rfl
+
+/-- Cross-check: 98 = H* - 1 -/
+theorem omega_DE_from_H_star : dim_K7 * dim_G2 = H_star - 1 := by native_decide
+
+/-- The 98/99 ratio comes from dimensional product over effective DOF -/
+theorem omega_DE_ratio :
+    dim_K7 * dim_G2 = 98 ∧ H_star = 99 := by
+  constructor <;> native_decide
+
+/-! ## Cross-Relations -/
+
+/-- All constants decompose consistently using ALPHA_SUM_B -/
+theorem base_decomposition_consistency :
+    -- b2 = 13 + 8 = 21
+    b2 = alpha_sq_B_sum + rank_E8 ∧
+    -- b3 = 13 * 5 + 12 = 77
+    b3 = alpha_sq_B_sum * Weyl_factor + 12 ∧
+    -- H* = 13 * 7 + 8 = 99
+    H_star = alpha_sq_B_sum * dim_K7 + rank_E8 := by
+  repeat (first | constructor | native_decide)
+
+/-- The sum 1 + 5 + 7 = 13 reflects gauge-holonomy-manifold structure -/
+theorem gauge_holonomy_manifold_sum :
+    1 + 5 + 7 = alpha_sq_B_sum := by native_decide
+
+/-! ## Summary Theorem -/
+
+/-- All 6 base decomposition relations are certified -/
+theorem all_6_base_decomposition_certified :
+    -- Relation 45: kappa_T^-1 from F4
+    (dim_F4 + N_gen * N_gen = 61 ∧ b3 - dim_G2 - p2 = 61) ∧
+    -- Relation 46: b2 decomposition
+    (b2 = alpha_sq_B_sum + rank_E8) ∧
+    -- Relation 47: b3 decomposition
+    (b3 = alpha_sq_B_sum * Weyl_factor + 12) ∧
+    -- Relation 48: H* decomposition
+    (H_star = alpha_sq_B_sum * dim_K7 + rank_E8) ∧
+    -- Relation 49: quotient sum
+    (dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum) ∧
+    -- Relation 50: Omega_DE numerator
+    (dim_K7 * dim_G2 = 98 ∧ dim_K7 * dim_G2 = H_star - 1) := by
+  repeat (first | constructor | native_decide | rfl)
+
+end GIFT.Relations.BaseDecomposition

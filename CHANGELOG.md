@@ -5,6 +5,47 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2025-12-07
+
+### Added
+
+- **Base Decomposition Relations** (6 new certified relations):
+  - `kappa_T^-1 = dim(F4) + N_gen^2 = 61` - Torsion inverse from F4 and generations
+  - `b2 = ALPHA_SUM_B + rank(E8) = 21` - Second Betti number decomposition
+  - `b3 = ALPHA_SUM_B * Weyl + 12 = 77` - Third Betti number decomposition
+  - `H* = ALPHA_SUM_B * dim(K7) + rank(E8) = 99` - Effective DOF decomposition
+  - `quotient_sum = 1 + 5 + 7 = 13` - Gauge-holonomy-manifold sum
+  - `omega_DE_num = dim(K7) * dim(G2) = 98` - Dark energy numerator product
+
+- **Lean 4 modules**:
+  - `Lean/GIFT/Relations/BaseDecomposition.lean` - All 6 decomposition relations
+
+- **Coq modules**:
+  - `COQ/Relations/BaseDecomposition.v` - Matching proofs
+
+- **Python constants** (in `gift_core.constants`):
+  - `KAPPA_T_INV_FROM_F4`, `B2_BASE_DECOMPOSITION`
+  - `B3_INTERMEDIATE`, `B3_BASE_DECOMPOSITION`
+  - `H_STAR_INTERMEDIATE`, `H_STAR_BASE_DECOMPOSITION`
+  - `QUOTIENT_SUM`, `OMEGA_DE_PRODUCT`
+
+### Changed
+
+- Updated `Certificate.lean` with `all_50_relations_certified` master theorem
+- Updated `AllProven.v` with `all_50_relations_certified` master theorem
+- Total certified relations: 44 -> 50
+
+### Key Insight
+
+The Structure B sum (2 + 5 + 6 = 13 = ALPHA_SUM_B = rank(E8) + Weyl) provides a
+consistent base for decomposing all primary GIFT topological constants:
+- b2 = 13 + 8 (base + rank)
+- b3 = 13 * 5 + 12 (base * Weyl + gauge_dim)
+- H* = 13 * 7 + 8 (base * manifold_dim + rank)
+
+The quotient sum 1 + 5 + 7 = 13 reflects gauge (U(1)), holonomy (Weyl), and
+manifold (K7) contributions to the decomposition base.
+
 ## [1.5.0] - 2025-12-07
 
 ### Added

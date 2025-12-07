@@ -1,5 +1,5 @@
-(** GIFT - Final certification: All 44 relations proven *)
-(** Original 13 + 12 TOPOLOGICAL + 10 YUKAWA + 4 IRRATIONAL + 5 EXCEPTIONAL (v1.5.0) *)
+(** GIFT - Final certification: All 50 relations proven *)
+(** Original 13 + 12 TOPOLOGICAL + 10 YUKAWA + 4 IRRATIONAL + 5 EXCEPTIONAL + 6 BASE (v1.6.0) *)
 
 Require Import Coq.Arith.Arith.
 Require Import Lia.
@@ -18,6 +18,7 @@ Require Import GIFT.Relations.YukawaDuality.
 Require Import GIFT.Relations.IrrationalSector.
 Require Import GIFT.Relations.GoldenRatio.
 Require Import GIFT.Relations.ExceptionalGroups.
+Require Import GIFT.Relations.BaseDecomposition.
 
 (** =========================================================================== *)
 (** ORIGINAL 13 RELATIONS *)
@@ -373,3 +374,70 @@ Qed.
 
 (** Certificate: Zero Admitted in all 44 relations *)
 Print Assumptions all_44_relations_certified.
+
+(** =========================================================================== *)
+(** BASE DECOMPOSITION: 6 NEW RELATIONS (v1.6.0) *)
+(** =========================================================================== *)
+
+(** Base decomposition relations (v1.6.0) *)
+Theorem base_decomposition_relations_certified :
+  (* Relation 45: kappa_T^-1 from F4 *)
+  (dim_F4 + N_gen * N_gen = 61) /\
+  (* Relation 46: b2 decomposition *)
+  (b2 = alpha_sq_B_sum + rank_E8) /\
+  (* Relation 47: b3 decomposition *)
+  (b3 = alpha_sq_B_sum * Weyl_factor + 12) /\
+  (* Relation 48: H* decomposition *)
+  (H_star = alpha_sq_B_sum * dim_K7 + rank_E8) /\
+  (* Relation 49: quotient sum *)
+  (dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum) /\
+  (* Relation 50: Omega_DE numerator *)
+  (dim_K7 * dim_G2 = 98).
+Proof.
+  repeat split; reflexivity.
+Qed.
+
+(** Certificate: Zero Admitted in base decomposition relations *)
+Print Assumptions base_decomposition_relations_certified.
+
+(** =========================================================================== *)
+(** MASTER THEOREM: ALL 50 RELATIONS (v1.6.0) *)
+(** =========================================================================== *)
+
+(** Master theorem: All 50 GIFT relations (44 + 6 base decomposition) v1.6.0 *)
+Theorem all_50_relations_certified :
+  (* Key relations from v1.5.0 *)
+  b2 * 13 = 3 * (b3 + dim_G2) /\
+  dim_G2 * 3 = b2 * 2 /\
+  N_gen = 3 /\
+  H_star = 99 /\
+  b3 - dim_G2 - p2 = 61 /\
+  dim_G2 - p2 = 12 /\
+  gamma_GIFT_num = 511 /\
+  gamma_GIFT_den = 884 /\
+  m_mu_m_e_base = 27 /\
+  alpha_inv_algebraic = 128 /\
+  alpha_inv_bulk = 9 /\
+  b2 = 21 /\
+  rank_E8 + b3 = 85 /\
+  alpha_inv_complete_num = 267489 /\
+  alpha_inv_complete_den = 1952 /\
+  dim_G2 / dim_K7 = 2 /\
+  (dim_G2 - p2) * (dim_G2 - p2) = 144 /\
+  dim_F4 = 52 /\
+  dim_F4 - dim_J3O = 25 /\
+  dim_E6 - dim_F4 = 26 /\
+  weyl_E8_order = 696729600 /\
+  (* v1.6.0: Base decomposition (6 new) *)
+  dim_F4 + N_gen * N_gen = 61 /\
+  b2 = alpha_sq_B_sum + rank_E8 /\
+  b3 = alpha_sq_B_sum * Weyl_factor + 12 /\
+  H_star = alpha_sq_B_sum * dim_K7 + rank_E8 /\
+  dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum /\
+  dim_K7 * dim_G2 = 98.
+Proof.
+  repeat split; reflexivity.
+Qed.
+
+(** Certificate: Zero Admitted in all 50 relations *)
+Print Assumptions all_50_relations_certified.

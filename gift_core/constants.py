@@ -284,3 +284,33 @@ WEYL_E8_FORMULA = (P2 ** DIM_G2) * (N_GEN ** WEYL_FACTOR) * (WEYL_FACTOR ** P2) 
 # --- EXCEPTIONAL CHAIN ---
 # E8 → F4 → J3(O): dim(E8) - dim(F4) - dim(J3O) = 248 - 52 - 27 = 169 = 13²
 EXCEPTIONAL_CHAIN = DIM_E8 - DIM_F4 - DIM_J3O  # = 169
+
+# =============================================================================
+# BASE DECOMPOSITION RELATIONS (v1.6.0) - Lean + Coq verified
+# =============================================================================
+
+# --- RELATION 45: κ_T⁻¹ decomposition ---
+# κ_T⁻¹ = dim(F4) + N_gen² = 52 + 9 = 61
+KAPPA_T_INV_FROM_F4 = DIM_F4 + N_GEN ** 2  # = 61
+
+# --- RELATION 46: b₂ decomposition ---
+# b₂ = ALPHA_SUM_B + rank(E8) = 13 + 8 = 21
+B2_BASE_DECOMPOSITION = ALPHA_SUM_B + RANK_E8  # = 21
+
+# --- RELATION 47: b₃ decomposition ---
+# b₃ = ALPHA_SUM_B × Weyl + 12 = 65 + 12 = 77
+B3_INTERMEDIATE = ALPHA_SUM_B * WEYL_FACTOR  # = 65
+B3_BASE_DECOMPOSITION = B3_INTERMEDIATE + 12  # = 77
+
+# --- RELATION 48: H* decomposition ---
+# H* = ALPHA_SUM_B × dim(K7) + rank(E8) = 91 + 8 = 99
+H_STAR_INTERMEDIATE = ALPHA_SUM_B * DIM_K7  # = 91
+H_STAR_BASE_DECOMPOSITION = H_STAR_INTERMEDIATE + RANK_E8  # = 99
+
+# --- RELATION 49: Quotient sum ---
+# dim(U1) + Weyl + dim(K7) = 1 + 5 + 7 = 13 = ALPHA_SUM_B
+QUOTIENT_SUM = DIM_U1 + WEYL_FACTOR + DIM_K7  # = 13
+
+# --- RELATION 50: Ω_DE numerator ---
+# dim(K7) × dim(G2) = 7 × 14 = 98 = H* - 1
+OMEGA_DE_PRODUCT = DIM_K7 * DIM_G2  # = 98

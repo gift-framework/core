@@ -101,3 +101,85 @@ def test_exceptional_groups_constants():
     assert DIM_E6 == 78
     assert DIM_J3O_TRACELESS == 26
     assert WEYL_E8_ORDER == 696729600
+
+
+# =============================================================================
+# BASE DECOMPOSITION RELATIONS (v1.6.0)
+# =============================================================================
+
+
+def test_relation_45_kappa_T_inv_from_F4():
+    """kappa_T^-1 = dim(F4) + N_gen^2 = 61"""
+    from gift_core import DIM_F4, N_GEN, KAPPA_T_INV_FROM_F4, B3, DIM_G2, P2
+    assert DIM_F4 + N_GEN ** 2 == 61
+    assert KAPPA_T_INV_FROM_F4 == 61
+    # Cross-check with b3 - dim(G2) - p2
+    assert B3 - DIM_G2 - P2 == 61
+
+
+def test_relation_46_b2_decomposition():
+    """b2 = ALPHA_SUM_B + rank(E8) = 13 + 8 = 21"""
+    from gift_core import B2, ALPHA_SUM_B, RANK_E8, B2_BASE_DECOMPOSITION
+    assert ALPHA_SUM_B + RANK_E8 == 21
+    assert B2 == 21
+    assert B2_BASE_DECOMPOSITION == 21
+
+
+def test_relation_47_b3_decomposition():
+    """b3 = ALPHA_SUM_B * Weyl + 12 = 65 + 12 = 77"""
+    from gift_core import (
+        B3, ALPHA_SUM_B, WEYL_FACTOR,
+        B3_INTERMEDIATE, B3_BASE_DECOMPOSITION
+    )
+    assert ALPHA_SUM_B * WEYL_FACTOR == 65
+    assert B3_INTERMEDIATE == 65
+    assert ALPHA_SUM_B * WEYL_FACTOR + 12 == 77
+    assert B3 == 77
+    assert B3_BASE_DECOMPOSITION == 77
+
+
+def test_relation_48_H_star_decomposition():
+    """H* = ALPHA_SUM_B * dim(K7) + rank(E8) = 91 + 8 = 99"""
+    from gift_core import (
+        H_STAR, ALPHA_SUM_B, DIM_K7, RANK_E8,
+        H_STAR_INTERMEDIATE, H_STAR_BASE_DECOMPOSITION
+    )
+    assert ALPHA_SUM_B * DIM_K7 == 91
+    assert H_STAR_INTERMEDIATE == 91
+    assert ALPHA_SUM_B * DIM_K7 + RANK_E8 == 99
+    assert H_STAR == 99
+    assert H_STAR_BASE_DECOMPOSITION == 99
+
+
+def test_relation_49_quotient_sum():
+    """1 + 5 + 7 = 13 = ALPHA_SUM_B"""
+    from gift_core import DIM_U1, WEYL_FACTOR, DIM_K7, ALPHA_SUM_B, QUOTIENT_SUM
+    assert DIM_U1 == 1
+    assert WEYL_FACTOR == 5
+    assert DIM_K7 == 7
+    assert DIM_U1 + WEYL_FACTOR + DIM_K7 == 13
+    assert QUOTIENT_SUM == 13
+    assert QUOTIENT_SUM == ALPHA_SUM_B
+
+
+def test_relation_50_omega_DE_product():
+    """dim(K7) * dim(G2) = 98 = H* - 1"""
+    from gift_core import DIM_K7, DIM_G2, H_STAR, OMEGA_DE_PRODUCT
+    assert DIM_K7 * DIM_G2 == 98
+    assert OMEGA_DE_PRODUCT == 98
+    assert OMEGA_DE_PRODUCT == H_STAR - 1
+
+
+def test_base_decomposition_consistency():
+    """All base decompositions are mutually consistent"""
+    from gift_core import (
+        B2, B3, H_STAR, ALPHA_SUM_B, RANK_E8, WEYL_FACTOR, DIM_K7
+    )
+    # b2 = 13 + 8
+    assert B2 == ALPHA_SUM_B + RANK_E8
+    # b3 = 13 * 5 + 12
+    assert B3 == ALPHA_SUM_B * WEYL_FACTOR + 12
+    # H* = 13 * 7 + 8
+    assert H_STAR == ALPHA_SUM_B * DIM_K7 + RANK_E8
+    # H* = b2 + b3 + 1
+    assert H_STAR == B2 + B3 + 1

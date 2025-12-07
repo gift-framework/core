@@ -15,4 +15,5 @@ Relations/YukawaDuality.v
 Relations/IrrationalSector.v
 Relations/GoldenRatio.v
 Relations/ExceptionalGroups.v
+Relations/BaseDecomposition.v
 Certificate/AllProven.v
