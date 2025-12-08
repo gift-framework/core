@@ -50,8 +50,9 @@ cd COQ && make
 
 ## Documentation
 
-- **Full framework**: [gift-framework/GIFT](https://github.com/gift-framework/GIFT)
+- **giftpy usage guide**: [docs/USAGE.md](docs/USAGE.md) — all constants, K7 pipeline, examples
 - **Changelog**: [CHANGELOG.md](CHANGELOG.md)
+- **Full framework**: [gift-framework/GIFT](https://github.com/gift-framework/GIFT)
 - **Lean Blueprint**: [Interactive visualization](https://gift-framework.github.io/GIFT/docs/figures/gift_blueprint.html)
 
 ## License
