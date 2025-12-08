@@ -53,9 +53,24 @@ from gift_core.constants import (
     B3_INTERMEDIATE, B3_BASE_DECOMPOSITION,
     H_STAR_INTERMEDIATE, H_STAR_BASE_DECOMPOSITION,
     QUOTIENT_SUM, OMEGA_DE_PRODUCT,
-    # Extended decomposition relations (v1.7.0)
+    # Extended decomposition relations (v1.5.0)
     TAU_NUM_VALUE, TAU_DEN_VALUE, TAU_NUM_BASE13, to_base_13,
     N_OBSERVABLES, E6_DUAL_OBSERVABLES, H0_TOPOLOGICAL,
+    # Mass factorization theorem (v1.6.0)
+    PRIME_8, MASS_FACTOR_NGEN, MASS_FACTOR_PRIME, MASS_FACTOR_TORSION,
+    MASS_FACTORIZATION, B_18_DENOM, B_18_INDEX,
+    # T_61 manifold structure (v1.6.0)
+    T61_DIM, W1_DIM, W7_DIM, W14_DIM, W27_DIM, W_SUM,
+    T61_RESIDUE, T61_RESIDUE_INTERPRETATION,
+    # Triade 9-18-34 structure (v1.6.0)
+    IMPEDANCE, DUALITY_GAP_LUCAS, HIDDEN_DIM_FIBO,
+    fibonacci, lucas, F_8, F_9, F_12, L_6, L_7,
+    FIBO_8_IS_B2, LUCAS_6_IS_GAP,
+    # Alpha A/B duality (v1.6.0)
+    ALPHA_A_SUM_IS_SM, ALPHA_B_SUM_IS_EXCEPTIONAL, GAP_COLOR_FORMULA,
+    # Predictions (v1.6.0)
+    STERILE_MASS_LUCAS_NUM, STERILE_MASS_LUCAS_SCALE,
+    HIDDEN_SCALAR_MASS_GEV, N_HIDDEN_STATES,
 )
 from gift_core.relations import PROVEN_RELATIONS, get_relation
 from gift_core.topology import K7, G2, E8
@@ -250,9 +265,24 @@ __all__ = [
     'B3_INTERMEDIATE', 'B3_BASE_DECOMPOSITION',
     'H_STAR_INTERMEDIATE', 'H_STAR_BASE_DECOMPOSITION',
     'QUOTIENT_SUM', 'OMEGA_DE_PRODUCT',
-    # Extended decomposition relations (v1.7.0)
+    # Extended decomposition relations (v1.5.0)
     'TAU_NUM_VALUE', 'TAU_DEN_VALUE', 'TAU_NUM_BASE13', 'to_base_13',
     'N_OBSERVABLES', 'E6_DUAL_OBSERVABLES', 'H0_TOPOLOGICAL',
+    # Mass factorization theorem (v1.6.0)
+    'PRIME_8', 'MASS_FACTOR_NGEN', 'MASS_FACTOR_PRIME', 'MASS_FACTOR_TORSION',
+    'MASS_FACTORIZATION', 'B_18_DENOM', 'B_18_INDEX',
+    # T_61 manifold structure (v1.6.0)
+    'T61_DIM', 'W1_DIM', 'W7_DIM', 'W14_DIM', 'W27_DIM', 'W_SUM',
+    'T61_RESIDUE', 'T61_RESIDUE_INTERPRETATION',
+    # Triade 9-18-34 structure (v1.6.0)
+    'IMPEDANCE', 'DUALITY_GAP_LUCAS', 'HIDDEN_DIM_FIBO',
+    'fibonacci', 'lucas', 'F_8', 'F_9', 'F_12', 'L_6', 'L_7',
+    'FIBO_8_IS_B2', 'LUCAS_6_IS_GAP',
+    # Alpha A/B duality (v1.6.0)
+    'ALPHA_A_SUM_IS_SM', 'ALPHA_B_SUM_IS_EXCEPTIONAL', 'GAP_COLOR_FORMULA',
+    # Predictions (v1.6.0)
+    'STERILE_MASS_LUCAS_NUM', 'STERILE_MASS_LUCAS_SCALE',
+    'HIDDEN_SCALAR_MASS_GEV', 'N_HIDDEN_STATES',
     # Structures
     'K7', 'G2', 'E8', 'PROVEN_RELATIONS', 'get_relation',
     # Scales

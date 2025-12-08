@@ -16,4 +16,5 @@ Relations/IrrationalSector.v
 Relations/GoldenRatio.v
 Relations/ExceptionalGroups.v
 Relations/BaseDecomposition.v
+Relations/MassFactorization.v
 Certificate/AllProven.v

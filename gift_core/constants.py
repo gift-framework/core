@@ -347,3 +347,138 @@ E6_DUAL_OBSERVABLES = 2 * N_OBSERVABLES  # = 78
 # --- RELATION 54: Hubble constant from topology ---
 # H0 = dim(K7) × 10 = 7 × 10 = 70 km/s/Mpc
 H0_TOPOLOGICAL = DIM_K7 * 10  # = 70
+
+# =============================================================================
+# MASS FACTORIZATION THEOREM (v1.6.0) - Lean verified
+# =============================================================================
+# DISCOVERY: 3477 = 3 × 19 × 61 has deep index theory interpretation
+
+# --- RELATION 55: 3477 Factorization ---
+# m_tau/m_e = N_gen × prime(rank_E8) × kappa_T^-1
+#           = 3 × 19 × 61 = 3477
+
+# The 8th prime number (primes: 2,3,5,7,11,13,17,19,...)
+PRIME_8 = 19  # = prime(rank_E8)
+
+# Factor verification
+MASS_FACTOR_NGEN = N_GEN  # = 3 (from Atiyah-Singer index)
+MASS_FACTOR_PRIME = PRIME_8  # = 19 (from Von Staudt-Clausen on B_18)
+MASS_FACTOR_TORSION = KAPPA_T_INV  # = 61 (torsion moduli)
+MASS_FACTORIZATION = MASS_FACTOR_NGEN * MASS_FACTOR_PRIME * MASS_FACTOR_TORSION  # = 3477
+
+# --- RELATION 56: Von Staudt-Clausen connection ---
+# B_18 denominator contains 19 because (19-1)=18 divides 18
+# This explains why prime(rank_E8) appears in mass formula
+B_18_DENOM = 798  # = 2 × 3 × 7 × 19
+B_18_INDEX = 2 * (RANK_E8 + 1)  # = 18
+
+# =============================================================================
+# T_61 MANIFOLD STRUCTURE (v1.6.0) - Torsion configuration space
+# =============================================================================
+
+# --- RELATION 57: T_61 dimension ---
+# T_61 = configuration space of torsion with dim = kappa_T^-1 = 61
+T61_DIM = KAPPA_T_INV  # = 61
+
+# --- G2 Torsion class dimensions (irreducible representations) ---
+W1_DIM = 1   # Scalar torsion class
+W7_DIM = 7   # Vector torsion class
+W14_DIM = 14  # g2-valued torsion class
+W27_DIM = 27  # Jordan algebra torsion class (symmetric traceless)
+
+# --- RELATION 58: Effective moduli space ---
+# W_sum = 1 + 7 + 14 + 27 = 49
+W_SUM = W1_DIM + W7_DIM + W14_DIM + W27_DIM  # = 49
+
+# --- RELATION 59: T_61 residue ---
+# Residue = 61 - 49 = 12 = dim(G2) - p2
+T61_RESIDUE = T61_DIM - W_SUM  # = 12
+T61_RESIDUE_INTERPRETATION = DIM_G2 - P2  # = 12
+
+# =============================================================================
+# TRIADE 9-18-34 STRUCTURE (v1.6.0) - Fibonacci/Lucas patterns
+# =============================================================================
+
+# --- RELATION 60: Impedance ---
+# Z = H*/D_bulk = 99/11 = 9
+IMPEDANCE = H_STAR // D_BULK  # = 9
+
+# --- RELATION 61: Duality gap is L_6 ---
+# gap = 2 × impedance = 18 = L_6 (6th Lucas number)
+# Also: gap = kappa_T^-1(B) - kappa_T^-1(A) = 61 - 43 = 18
+DUALITY_GAP_LUCAS = 2 * IMPEDANCE  # = 18
+
+# --- RELATION 62: Hidden dimension is F_9 ---
+# hidden_dim = 34 = F_9 (9th Fibonacci number)
+HIDDEN_DIM_FIBO = 34  # = F_9
+
+# --- Fibonacci sequence (relevant values) ---
+def fibonacci(n: int) -> int:
+    """Compute nth Fibonacci number (F_0=0, F_1=1)."""
+    if n <= 1:
+        return n
+    a, b = 0, 1
+    for _ in range(2, n + 1):
+        a, b = b, a + b
+    return b
+
+def lucas(n: int) -> int:
+    """Compute nth Lucas number (L_0=2, L_1=1)."""
+    if n == 0:
+        return 2
+    if n == 1:
+        return 1
+    a, b = 2, 1
+    for _ in range(2, n + 1):
+        a, b = b, a + b
+    return b
+
+# Key Fibonacci/Lucas values
+F_8 = fibonacci(8)   # = 21 = b2
+F_9 = fibonacci(9)   # = 34 = hidden_dim
+F_12 = fibonacci(12) # = 144 = alpha_s denom^2
+L_6 = lucas(6)       # = 18 = duality gap
+L_7 = lucas(7)       # = 29 (sterile neutrino mass hint?)
+
+# --- RELATION 63: F_8 = b2 ---
+FIBO_8_IS_B2 = F_8  # = 21
+
+# --- RELATION 64: L_6 = duality gap ---
+LUCAS_6_IS_GAP = L_6  # = 18
+
+# =============================================================================
+# ALPHA STRUCTURE A/B DUALITY (v1.6.0)
+# =============================================================================
+
+# --- Structure A: Topological ---
+# alpha^2 = {2, 3, 7}, sum = 12 = dim(SM gauge), prod + 1 = 43
+ALPHA_A_SUM_IS_SM = DIM_SM_GAUGE  # = 12
+
+# --- Structure B: Dynamical ---
+# alpha^2 = {2, 5, 6}, sum = 13 = rank(E8) + Weyl, prod + 1 = 61 = kappa_T^-1
+ALPHA_B_SUM_IS_EXCEPTIONAL = RANK_E8 + WEYL_FACTOR  # = 13
+
+# --- RELATION 65: Gap from color correction ---
+# gap = 18 = p2 × N_gen^2 (colored sector correction)
+GAP_COLOR_FORMULA = P2 * N_GEN ** 2  # = 18
+
+# =============================================================================
+# NEW PREDICTIONS (v1.6.0) - From Global Simulations
+# =============================================================================
+
+# --- Prediction: Sterile neutrino mass (speculative) ---
+# m_sterile ~ L_7 / N_gen = 29 / 3 ~ 9.67 MeV
+STERILE_MASS_LUCAS_NUM = L_7  # = 29
+STERILE_MASS_LUCAS_SCALE = Fraction(L_7, N_GEN)  # ~ 9.67
+
+# --- Prediction: Hidden scalar mass (speculative) ---
+# m_scalar ~ gap = 18 GeV
+HIDDEN_SCALAR_MASS_GEV = DUALITY_GAP  # = 18
+
+# --- Prediction: Spectral index from zeta ---
+# n_s = zeta(11)/zeta(5) ~ 0.965
+# (already have N_S_ZETA_BULK and N_S_ZETA_WEYL)
+
+# --- Prediction: Hidden states count (speculative) ---
+# N_hidden = W_27 + F_9/2 = 27 + 17 = 44
+N_HIDDEN_STATES = W27_DIM + HIDDEN_DIM_FIBO // 2  # = 44

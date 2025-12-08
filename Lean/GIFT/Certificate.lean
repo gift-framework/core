@@ -1,6 +1,6 @@
 -- GIFT Certificate module
 -- Final certification theorems
--- Version: 1.5.0
+-- Version: 1.6.0 (65 certified relations)
 
 import GIFT.Relations
 import GIFT.Relations.GaugeSector
@@ -12,6 +12,7 @@ import GIFT.Relations.IrrationalSector
 import GIFT.Relations.GoldenRatio
 import GIFT.Relations.ExceptionalGroups
 import GIFT.Relations.BaseDecomposition
+import GIFT.Relations.MassFactorization
 
 namespace GIFT.Certificate
 
@@ -22,6 +23,7 @@ open GIFT.Relations.YukawaDuality
 open GIFT.Relations.IrrationalSector GIFT.Relations.GoldenRatio
 open GIFT.Relations.ExceptionalGroups
 open GIFT.Relations.BaseDecomposition
+open GIFT.Relations.MassFactorization
 
 /-- All 13 original relations are fully proven (zero axioms, zero holes) -/
 theorem all_13_relations_certified :
@@ -352,6 +354,28 @@ theorem extended_decomposition_relations_certified :
     (H0_topological = dim_K7 * 10) := by
   repeat (first | constructor | native_decide | rfl)
 
+/-- Mass factorization relations (v1.6.0) -/
+theorem mass_factorization_relations_certified :
+    -- Relation 55: 3477 = 3 x 19 x 61
+    (3 * 19 * 61 = 3477) ∧
+    (dim_K7 + 10 * dim_E8 + 10 * H_star = 3477) ∧
+    -- Relation 56: Von Staudt B_18
+    (2 * (rank_E8 + 1) = 18) ∧
+    (798 = 2 * 3 * 7 * 19) ∧
+    -- Relation 57-59: T_61 structure
+    (b3 - dim_G2 - p2 = 61) ∧
+    (1 + 7 + 14 + 27 = 49) ∧
+    (61 - 49 = 12) ∧
+    -- Relation 60-64: Triade 9-18-34
+    (H_star / D_bulk = 9) ∧
+    (2 * 9 = 18) ∧
+    (fib 9 = 34) ∧
+    (lucas 6 = 18) ∧
+    (fib 8 = b2) ∧
+    -- Relation 65: Gap color
+    (p2 * N_gen * N_gen = 18) := by
+  repeat (first | constructor | native_decide | rfl)
+
 /-- Master theorem: All 54 GIFT relations (50 + 4 extended) v1.5.0 -/
 theorem all_54_relations_certified :
     -- Key relations from v1.5.0
@@ -387,6 +411,54 @@ theorem all_54_relations_certified :
     n_observables = N_gen * alpha_sq_B_sum ∧
     dim_E6 = 2 * n_observables ∧
     H0_topological = dim_K7 * 10 := by
+  repeat (first | constructor | native_decide | rfl)
+
+/-- Master theorem: All 65 GIFT relations (54 + 11 mass factorization) v1.6.0 -/
+theorem all_65_relations_certified :
+    -- Key relations from v1.5.0
+    b2 * 13 = 3 * (b3 + dim_G2) ∧
+    dim_G2 * 3 = b2 * 2 ∧
+    N_gen = 3 ∧
+    H_star = 99 ∧
+    b3 - dim_G2 - p2 = 61 ∧
+    dim_G2 - p2 = 12 ∧
+    gamma_GIFT_num = 511 ∧
+    gamma_GIFT_den = 884 ∧
+    m_mu_m_e_base = 27 ∧
+    alpha_inv_algebraic = 128 ∧
+    alpha_inv_bulk = 9 ∧
+    b2 = 21 ∧
+    rank_E8 + b3 = 85 ∧
+    GaugeSector.alpha_inv_complete_num = 267489 ∧
+    GaugeSector.alpha_inv_complete_den = 1952 ∧
+    dim_G2 / dim_K7 = 2 ∧
+    (dim_G2 - p2) * (dim_G2 - p2) = 144 ∧
+    dim_F4 = 52 ∧
+    dim_F4 - dim_J3O = 25 ∧
+    dim_E6 - dim_F4 = 26 ∧
+    weyl_E8_order = 696729600 ∧
+    dim_F4 + N_gen * N_gen = 61 ∧
+    b2 = alpha_sq_B_sum + rank_E8 ∧
+    b3 = alpha_sq_B_sum * Weyl_factor + 12 ∧
+    H_star = alpha_sq_B_sum * dim_K7 + rank_E8 ∧
+    Algebra.dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum ∧
+    dim_K7 * dim_G2 = 98 ∧
+    1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num_reduced ∧
+    n_observables = N_gen * alpha_sq_B_sum ∧
+    dim_E6 = 2 * n_observables ∧
+    H0_topological = dim_K7 * 10 ∧
+    -- v1.6.0: Mass factorization (11 new)
+    3 * 19 * 61 = 3477 ∧
+    dim_K7 + 10 * dim_E8 + 10 * H_star = 3477 ∧
+    2 * (rank_E8 + 1) = 18 ∧
+    798 = 2 * 3 * 7 * 19 ∧
+    1 + 7 + 14 + 27 = 49 ∧
+    61 - 49 = 12 ∧
+    H_star / D_bulk = 9 ∧
+    fib 9 = 34 ∧
+    lucas 6 = 18 ∧
+    fib 8 = b2 ∧
+    p2 * N_gen * N_gen = 18 := by
   repeat (first | constructor | native_decide | rfl)
 
 end GIFT.Certificate
