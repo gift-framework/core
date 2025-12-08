@@ -5,6 +5,70 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2025-12-08
+
+### Added
+
+- **Mass Factorization Theorem** (11 new certified relations):
+  - `3477 = 3 x 19 x 61` - The tau/electron mass ratio factorizes with index-theoretic meaning
+  - `prime(8) = 19` - 8th prime via Von Staudt-Clausen theorem (B_18 denominator)
+  - `T_61 manifold` - Torsion configuration space with G2 structure
+  - `W_sum = 1 + 7 + 14 + 27 = 49 = 7^2` - G2 torsion class dimensions
+  - `T_61 residue = 12 = dim(G2) - p2` - Residual gauge structure
+  - `Impedance = H*/D_bulk = 9` - Triade anchor
+  - `Duality gap = 18 = L_6` (Lucas sequence)
+  - `Hidden dimension = 34 = F_9` (Fibonacci sequence)
+  - `F_8 = 21 = b2` - Fibonacci encodes Betti number
+  - `L_6 = 18 = duality gap` - Lucas encodes gap
+  - `Gap color = 18 = p2 x N_gen^2` - Color correction formula
+
+- **Lean 4 modules**:
+  - `Lean/GIFT/Relations/MassFactorization.lean` - Complete proof of all 11 relations
+  - Fibonacci and Lucas sequence definitions with certified values
+
+- **Coq modules**:
+  - `COQ/Relations/MassFactorization.v` - Matching proofs
+
+- **Python constants** (in `gift_core.constants`):
+  - `PRIME_8`, `MASS_FACTORIZATION` (3477 = 3 x 19 x 61)
+  - `T61_DIM`, `W1_DIM`, `W7_DIM`, `W14_DIM`, `W27_DIM`, `W_SUM`
+  - `T61_RESIDUE`, `IMPEDANCE`, `DUALITY_GAP_LUCAS`
+  - `HIDDEN_DIM_FIBO`, `GAP_COLOR_FORMULA`
+  - `B_18_DENOM`, `B_18_INDEX` (Von Staudt-Clausen)
+  - `fibonacci(n)`, `lucas(n)` - Sequence helper functions
+
+### Changed
+
+- Updated `Certificate.lean` with `all_65_relations_certified` master theorem
+- Updated `AllProven.v` with `all_65_relations_certified` master theorem
+- Total certified relations: 54 -> 65
+
+### Key Insights
+
+**The 3477 Factorization**: The tau/electron mass ratio m_tau/m_e = 3477 admits a deep factorization:
+```
+3477 = 3 x 19 x 61
+     = N_gen x prime(rank_E8) x kappa_T^-1
+```
+
+Each factor has index-theoretic meaning:
+- **3 = N_gen**: Number of generations from Atiyah-Singer index theorem
+- **19 = prime(8)**: The 8th prime, appearing via Von Staudt-Clausen theorem in B_18 denominator
+- **61 = kappa_T^-1**: Inverse torsion coefficient = b3 - dim(G2) - p2
+
+**Von Staudt-Clausen Connection**: The Bernoulli number B_18 has denominator 798 = 2 x 3 x 7 x 19.
+The prime 19 appears because (19-1) = 18 = 2 x (rank_E8 + 1), connecting E8 rank to number theory.
+
+**T_61 Manifold Structure**: The torsion configuration space T_61 decomposes as:
+- W classes: 1 + 7 + 14 + 27 = 49 = 7^2 (G2 irreducible representations)
+- Residue: 61 - 49 = 12 = dim(G2) - p2 (gauge structure)
+
+**Fibonacci/Lucas Encoding**: The Triade 9-18-34 encodes Fibonacci and Lucas structure:
+- F_8 = 21 = b2 (second Betti number)
+- F_9 = 34 = hidden dimension
+- L_6 = 18 = duality gap
+- Impedance = 9 anchors the triade
+
 ## [1.5.0] - 2025-12-08
 
 ### Added
