@@ -88,9 +88,6 @@ Proof. reflexivity. Qed.
 (** 1 + 5 + 7 = 13 = ALPHA_SUM_B *)
 (** =========================================================================== *)
 
-(** Dimension of U(1) gauge group *)
-Definition dim_U1 : nat := 1.
-
 (** The three quotient-derived constants sum to ALPHA_SUM_B *)
 Theorem quotient_sum : dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum.
 Proof. reflexivity. Qed.
@@ -176,28 +173,32 @@ Print Assumptions all_6_base_decomposition_certified.
 (** tau numerator = [1, 7, 7, 1] in base 13, with dim(K7) = 7 at center *)
 (** =========================================================================== *)
 
-(** The hierarchy parameter numerator *)
-Definition tau_num : nat := 3472.
+(** The hierarchy parameter numerator (reduced form: 10416/3 = 3472) *)
+Definition tau_num_reduced : nat := 3472.
 
-(** The hierarchy parameter denominator *)
-Definition tau_den : nat := 891.
+(** The hierarchy parameter denominator (reduced form: 2673/3 = 891) *)
+Definition tau_den_reduced : nat := 891.
 
 (** tau numerator in base 13: 1*13^3 + 7*13^2 + 7*13 + 1 = 3472 *)
-Theorem tau_num_base13 : 1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num.
+Theorem tau_num_base13 : 1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num_reduced.
 Proof. reflexivity. Qed.
 
 (** The central digits are dim(K7) = 7 repeated *)
 Theorem tau_central_digits :
-  tau_num = 1 * 13^3 + dim_K7 * 13^2 + dim_K7 * 13 + 1.
+  tau_num_reduced = 1 * 13^3 + dim_K7 * 13^2 + dim_K7 * 13 + 1.
 Proof. reflexivity. Qed.
 
 (** tau numerator mod 13 = 1 *)
-Theorem tau_num_mod13 : tau_num mod alpha_sq_B_sum = 1.
+Theorem tau_num_mod13 : tau_num_reduced mod alpha_sq_B_sum = 1.
 Proof. reflexivity. Qed.
 
 (** tau denominator mod 13 = 7 = dim(K7) *)
-Theorem tau_den_mod13 : tau_den mod alpha_sq_B_sum = dim_K7.
+Theorem tau_den_mod13 : tau_den_reduced mod alpha_sq_B_sum = dim_K7.
 Proof. reflexivity. Qed.
+
+(** Reduced form is equivalent: 10416/3 = 3472, 2673/3 = 891 *)
+Theorem tau_reduction : tau_num / 3 = tau_num_reduced /\ tau_den / 3 = tau_den_reduced.
+Proof. split; reflexivity. Qed.
 
 (** =========================================================================== *)
 (** RELATION #52: Number of observables *)
@@ -270,7 +271,7 @@ Theorem all_10_decomposition_certified :
   (dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum) /\
   (dim_K7 * dim_G2 = 98) /\
   (* Relations 51-54: extended *)
-  (1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num) /\
+  (1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num_reduced) /\
   (n_observables = N_gen * alpha_sq_B_sum) /\
   (dim_E6 = 2 * n_observables) /\
   (H0_topological = dim_K7 * 10).

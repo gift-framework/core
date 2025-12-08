@@ -87,11 +87,8 @@ theorem H_star_intermediate : alpha_sq_B_sum * dim_K7 = 91 := by native_decide
 
 /-! ## Relation 49: Quotient sum -/
 
-/-- Define the dimension of U(1) -/
-def dim_U1 : Nat := 1
-
 /-- The three quotient-derived constants sum to ALPHA_SUM_B -/
-theorem quotient_sum : dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum := by native_decide
+theorem quotient_sum : Algebra.dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum := by native_decide
 
 /-- Verification: 1 + 5 + 7 = 13 -/
 theorem quotient_sum_check : 1 + 5 + 7 = 13 := rfl
@@ -101,7 +98,7 @@ theorem quotient_sum_check : 1 + 5 + 7 = 13 := rfl
     - 5 = Weyl = dim(K7) - p2
     - 7 = dim(K7) = manifold dimension -/
 theorem quotient_origins :
-    dim_U1 = 1 ∧ Weyl_factor = dim_K7 - p2 ∧ dim_K7 = 7 := by
+    Algebra.dim_U1 = 1 ∧ Weyl_factor = dim_K7 - p2 ∧ dim_K7 = 7 := by
   constructor; rfl
   constructor; native_decide
   rfl
@@ -151,7 +148,7 @@ theorem all_6_base_decomposition_certified :
     -- Relation 48: H* decomposition
     (H_star = alpha_sq_B_sum * dim_K7 + rank_E8) ∧
     -- Relation 49: quotient sum
-    (dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum) ∧
+    (Algebra.dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum) ∧
     -- Relation 50: Omega_DE numerator
     (dim_K7 * dim_G2 = 98 ∧ dim_K7 * dim_G2 = H_star - 1) := by
   repeat (first | constructor | native_decide | rfl)
@@ -160,24 +157,28 @@ theorem all_6_base_decomposition_certified :
 
 /-! ## Relation 51: tau base-13 digit structure -/
 
-/-- The hierarchy parameter numerator -/
-def tau_num : Nat := 3472
+/-- The hierarchy parameter numerator (reduced form: 10416/3 = 3472) -/
+def tau_num_reduced : Nat := 3472
 
-/-- The hierarchy parameter denominator -/
-def tau_den : Nat := 891
+/-- The hierarchy parameter denominator (reduced form: 2673/3 = 891) -/
+def tau_den_reduced : Nat := 891
 
 /-- tau numerator in base 13: 1*13^3 + 7*13^2 + 7*13 + 1 = 3472 -/
-theorem tau_num_base13 : 1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num := by native_decide
+theorem tau_num_base13 : 1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num_reduced := by native_decide
 
 /-- The central digits are dim(K7) = 7 repeated -/
 theorem tau_central_digits :
-    tau_num = 1 * 13^3 + dim_K7 * 13^2 + dim_K7 * 13 + 1 := by native_decide
+    tau_num_reduced = 1 * 13^3 + dim_K7 * 13^2 + dim_K7 * 13 + 1 := by native_decide
 
 /-- tau numerator mod 13 = 1 -/
-theorem tau_num_mod13 : tau_num % alpha_sq_B_sum = 1 := by native_decide
+theorem tau_num_mod13 : tau_num_reduced % alpha_sq_B_sum = 1 := by native_decide
 
 /-- tau denominator mod 13 = 7 = dim(K7) -/
-theorem tau_den_mod13 : tau_den % alpha_sq_B_sum = dim_K7 := by native_decide
+theorem tau_den_mod13 : tau_den_reduced % alpha_sq_B_sum = dim_K7 := by native_decide
+
+/-- Reduced form is equivalent: 10416/3 = 3472, 2673/3 = 891 -/
+theorem tau_reduction : Relations.tau_num / 3 = tau_num_reduced ∧
+    Relations.tau_den / 3 = tau_den_reduced := by native_decide
 
 /-! ## Relation 52: Number of observables -/
 
@@ -227,10 +228,10 @@ theorem all_10_decomposition_certified :
     (b2 = alpha_sq_B_sum + rank_E8) ∧
     (b3 = alpha_sq_B_sum * Weyl_factor + 12) ∧
     (H_star = alpha_sq_B_sum * dim_K7 + rank_E8) ∧
-    (dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum) ∧
+    (Algebra.dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum) ∧
     (dim_K7 * dim_G2 = 98) ∧
     -- Relations 51-54 (extended)
-    (1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num) ∧
+    (1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num_reduced) ∧
     (n_observables = N_gen * alpha_sq_B_sum) ∧
     (dim_E6 = 2 * n_observables) ∧
     (H0_topological = dim_K7 * 10) := by

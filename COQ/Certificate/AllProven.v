@@ -449,7 +449,7 @@ Print Assumptions all_50_relations_certified.
 (** Extended decomposition relations (v1.7.0) *)
 Theorem extended_decomposition_relations_certified :
   (* Relation 51: tau base-13 structure *)
-  (1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num) /\
+  (1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num_reduced) /\
   (* Relation 52: n_observables *)
   (n_observables = N_gen * alpha_sq_B_sum) /\
   (* Relation 53: E6 dual structure *)
@@ -498,7 +498,7 @@ Theorem all_54_relations_certified :
   dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum /\
   dim_K7 * dim_G2 = 98 /\
   (* v1.7.0: Extended decomposition (4 new) *)
-  1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num /\
+  1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num_reduced /\
   n_observables = N_gen * alpha_sq_B_sum /\
   dim_E6 = 2 * n_observables /\
   H0_topological = dim_K7 * 10.
