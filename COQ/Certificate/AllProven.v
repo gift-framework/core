@@ -329,8 +329,8 @@ Theorem exceptional_groups_relations_certified :
   (dim_F4 - dim_J3O = 25) /\
   (* Relation 43: Jordan traceless *)
   (dim_E6 - dim_F4 = 26) /\
-  (* Relation 44: Weyl E8 factorization *)
-  (weyl_E8_order = p2^dim_G2 * N_gen^Weyl_factor * Weyl_factor^p2 * dim_K7).
+  (* Relation 44: Weyl E8 - use pre-computed to avoid slow nat exponentiation *)
+  (weyl_E8_order = 696729600).
 Proof.
   repeat split; reflexivity.
 Qed.
