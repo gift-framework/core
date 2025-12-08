@@ -16,10 +16,14 @@
 import GIFT.Algebra
 import GIFT.Topology
 import GIFT.Geometry
+import GIFT.Relations
 
 namespace GIFT.Relations.MassFactorization
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry
+open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+
+/-- Inverse torsion coefficient (= kappa_T_den = 61) -/
+def kappa_T_inv : Nat := 61
 
 -- =============================================================================
 -- MASS FACTORIZATION THEOREM (Relations 55-56)

@@ -19,8 +19,13 @@ Require Import Nat.
 Require Import GIFT.Algebra.E8.
 Require Import GIFT.Algebra.G2.
 Require Import GIFT.Topology.Betti.
+Require Import GIFT.Geometry.K7.
+Require Import GIFT.Relations.Physical.
 
 Open Scope nat_scope.
+
+(** Inverse torsion coefficient = 61 *)
+Definition kappa_T_inv : nat := 61.
 
 (* ============================================================================= *)
 (* MASS FACTORIZATION THEOREM (Relations 55-56) *)
@@ -30,7 +35,7 @@ Open Scope nat_scope.
 Definition prime_8 : nat := 19.
 
 (** Factor 1: N_gen = 3 (from Atiyah-Singer index) *)
-Definition mass_factor_Ngen : nat := N_gen.
+Definition mass_factor_Ngen : nat := Physical.N_gen.
 
 (** Factor 2: prime(rank_E8) = 19 *)
 Definition mass_factor_prime : nat := prime_8.
@@ -53,7 +58,7 @@ Proof. reflexivity. Qed.
 
 (** Factored equals original *)
 Theorem mass_factorization_theorem :
-  m_tau_m_e_factored = 3477 /\ m_tau_m_e = 3477.
+  m_tau_m_e_factored = 3477 /\ Physical.m_tau_m_e = 3477.
 Proof. split; reflexivity. Qed.
 
 (** RELATION 56: Von Staudt-Clausen connection *)
@@ -193,7 +198,7 @@ Proof. reflexivity. Qed.
 
 (** RELATION 65: Gap from color correction *)
 (** gap = 18 = p2 x N_gen^2 *)
-Definition gap_color_formula : nat := p2 * N_gen * N_gen.
+Definition gap_color_formula : nat := p2 * Physical.N_gen * Physical.N_gen.
 
 Theorem gap_color_is_18 : gap_color_formula = 18.
 Proof. reflexivity. Qed.
