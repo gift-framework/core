@@ -61,4 +61,4 @@ MIT
 
 ---
 
-*GIFT Core v1.7.0 — 54 certified relations*
+*GIFT Core v1.5.0 — 54 certified relations*
