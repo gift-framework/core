@@ -9,7 +9,7 @@ import GIFT.Relations
 import GIFT.Relations.ExceptionalGroups
 
 /-!
-# Base Decomposition Relations (v1.6.0)
+# Base Decomposition Relations (v1.5.0)
 
 This file proves relations involving the decomposition of GIFT topological
 constants using the Structure B sum ALPHA_SUM_B = rank(E8) + Weyl = 13.
@@ -153,7 +153,7 @@ theorem all_6_base_decomposition_certified :
     (dim_K7 * dim_G2 = 98 ∧ dim_K7 * dim_G2 = H_star - 1) := by
   repeat (first | constructor | native_decide | rfl)
 
-/-! ## Extended Relations (v1.7.0) -/
+/-! ## Extended Relations (v1.5.0) -/
 
 /-! ## Relation 51: tau base-13 digit structure -/
 

@@ -104,7 +104,7 @@ def test_exceptional_groups_constants():
 
 
 # =============================================================================
-# BASE DECOMPOSITION RELATIONS (v1.6.0)
+# BASE DECOMPOSITION RELATIONS (v1.5.0)
 # =============================================================================
 
 
@@ -186,7 +186,7 @@ def test_base_decomposition_consistency():
 
 
 # =============================================================================
-# EXTENDED DECOMPOSITION RELATIONS (v1.7.0)
+# EXTENDED DECOMPOSITION RELATIONS (v1.5.0)
 # =============================================================================
 
 
