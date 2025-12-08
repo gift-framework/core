@@ -468,7 +468,7 @@ theorem exceptional_chain_relations_certified :
     -- Relation 66: tau_num = dim(K7) x dim(E8xE8)
     (dim_K7 * dim_E8xE8 = 3472) ∧
     -- Relation 67: dim(E7) = dim(K7) x prime(8)
-    (dim_E7 = dim_K7 * prime_8) ∧
+    (dim_E7 = dim_K7 * Algebra.prime_8) ∧
     -- Relation 68: dim(E7) = b3 + rank(E8) x dim(K7)
     (dim_E7 = b3 + rank_E8 * dim_K7) ∧
     -- Relation 69: m_tau/m_e = (fund_E7 + 1) x kappa_T^-1
@@ -484,7 +484,7 @@ theorem exceptional_chain_relations_certified :
     -- Relation 74: dim(E6) = b3 + 1
     (b3 + 1 = dim_E6) ∧
     -- Relation 75: Exceptional chain
-    (dim_E6 = 6 * prime_6 ∧ dim_E7 = 7 * prime_8 ∧ dim_E8 = 8 * prime_11) := by
+    (dim_E6 = 6 * prime_6 ∧ dim_E7 = 7 * Algebra.prime_8 ∧ dim_E8 = 8 * prime_11) := by
   repeat (first | constructor | native_decide | rfl)
 
 /-- Master theorem: All 75 GIFT relations (65 + 10 exceptional chain) v1.7.0 -/
@@ -535,7 +535,7 @@ theorem all_75_relations_certified :
     p2 * N_gen * N_gen = 18 ∧
     -- v1.7.0: Exceptional chain (10 new)
     dim_K7 * dim_E8xE8 = 3472 ∧
-    dim_E7 = dim_K7 * prime_8 ∧
+    dim_E7 = dim_K7 * Algebra.prime_8 ∧
     dim_E7 = b3 + rank_E8 * dim_K7 ∧
     m_tau_m_e = (dim_fund_E7 + 1) * kappa_T_inv ∧
     dim_fund_E7 = rank_E8 * dim_K7 ∧
@@ -544,7 +544,7 @@ theorem all_75_relations_certified :
     (dim_fund_E7 + Algebra.dim_U1) * kappa_T_inv = m_tau_m_e ∧
     b3 + 1 = dim_E6 ∧
     dim_E6 = 6 * prime_6 ∧
-    dim_E7 = 7 * prime_8 ∧
+    dim_E7 = 7 * Algebra.prime_8 ∧
     dim_E8 = 8 * prime_11 := by
   repeat (first | constructor | native_decide | rfl)
 

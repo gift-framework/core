@@ -33,6 +33,9 @@ namespace GIFT.Relations.ExceptionalChain
 open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
 open GIFT.Relations.MassFactorization
 
+-- Use Algebra versions of primes to avoid ambiguity with MassFactorization.prime_8
+-- Algebra.prime_6, Algebra.prime_8, Algebra.prime_11 are the canonical definitions
+
 -- =============================================================================
 -- RELATION 66: tau_num = dim(K7) x dim(E8xE8) = 3472
 -- =============================================================================
@@ -50,7 +53,7 @@ theorem tau_num_factorization : dim_K7 * dim_E8xE8 = 3472 := by native_decide
 -- =============================================================================
 
 /-- RELATION 67: dim(E7) = 7 x 19 = 133 -/
-theorem dim_E7_from_K7_prime : dim_E7 = dim_K7 * prime_8 := by native_decide
+theorem dim_E7_from_K7_prime : dim_E7 = dim_K7 * Algebra.prime_8 := by native_decide
 
 theorem dim_E7_factorization : 7 * 19 = 133 := by native_decide
 
@@ -152,7 +155,7 @@ theorem palindrome_from_b3 : 77 + 1 = 78 := by native_decide
 theorem E6_chain : dim_E6 = 6 * prime_6 := by native_decide
 
 /-- E7 = 7 x prime(8) = 7 x 19 = 133 -/
-theorem E7_chain : dim_E7 = 7 * prime_8 := by native_decide
+theorem E7_chain : dim_E7 = 7 * Algebra.prime_8 := by native_decide
 
 /-- E8 = 8 x prime(11) = 8 x 31 = 248 -/
 theorem E8_chain : dim_E8 = 8 * prime_11 := by native_decide
@@ -168,7 +171,7 @@ theorem exceptional_chain_pattern :
 
 /-- Prime indices follow: 6 -> 6, 7 -> 8 (rank_E8), 8 -> 11 (D_bulk) -/
 theorem chain_prime_indices :
-    prime_6 = 13 ∧ prime_8 = 19 ∧ prime_11 = 31 := by
+    prime_6 = 13 ∧ Algebra.prime_8 = 19 ∧ prime_11 = 31 := by
   constructor; rfl
   constructor; rfl
   rfl
@@ -199,7 +202,7 @@ theorem all_exceptional_chain_relations_certified :
     -- Relation 66: tau_num = dim(K7) x dim(E8xE8)
     (dim_K7 * dim_E8xE8 = 3472) ∧
     -- Relation 67: dim(E7) = dim(K7) x prime(8)
-    (dim_E7 = dim_K7 * prime_8) ∧
+    (dim_E7 = dim_K7 * Algebra.prime_8) ∧
     -- Relation 68: dim(E7) = b3 + rank(E8) x dim(K7)
     (dim_E7 = b3 + rank_E8 * dim_K7) ∧
     -- Relation 69: m_tau/m_e = (fund_E7 + 1) x kappa_T^-1
@@ -215,7 +218,7 @@ theorem all_exceptional_chain_relations_certified :
     -- Relation 74: dim(E6) = b3 + 1
     (b3 + 1 = dim_E6) ∧
     -- Relation 75: Exceptional chain
-    (dim_E6 = 6 * prime_6 ∧ dim_E7 = 7 * prime_8 ∧ dim_E8 = 8 * prime_11) := by
+    (dim_E6 = 6 * prime_6 ∧ dim_E7 = 7 * Algebra.prime_8 ∧ dim_E8 = 8 * prime_11) := by
   repeat (first | constructor | native_decide | rfl)
 
 end GIFT.Relations.ExceptionalChain
