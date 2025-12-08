@@ -86,6 +86,29 @@ for r in PROVEN_RELATIONS:
 | `DELTA_PENTA` | 25 | Pentagonal structure (Weyl^2) |
 | `WEYL_E8_ORDER` | 696729600 | Order of Weyl(E8) |
 
+### Mass Factorization (v1.6.0)
+
+| Constant | Value | Description |
+|----------|-------|-------------|
+| `MASS_FACTORIZATION` | 3477 | 3 x 19 x 61 (tau/electron mass ratio) |
+| `PRIME_8` | 19 | 8th prime (Von Staudt-Clausen) |
+| `T61_DIM` | 61 | Torsion configuration space |
+| `W_SUM` | 49 | G2 torsion classes (1+7+14+27) |
+| `T61_RESIDUE` | 12 | Gauge residue (dim(G2) - p2) |
+| `IMPEDANCE` | 9 | H*/D_bulk |
+| `DUALITY_GAP_LUCAS` | 18 | Lucas L_6 |
+| `HIDDEN_DIM_FIBO` | 34 | Fibonacci F_9 |
+| `GAP_COLOR_FORMULA` | 18 | p2 x N_gen^2 |
+
+```python
+# Fibonacci and Lucas sequences
+from gift_core import fibonacci, lucas
+
+print(fibonacci(8))  # 21 = b2
+print(fibonacci(9))  # 34 = hidden_dim
+print(lucas(6))      # 18 = duality_gap
+```
+
 ## Topological Constants
 
 These are the fundamental constants from which relations are derived:
