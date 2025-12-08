@@ -236,3 +236,114 @@ M_MU_M_E_UPPER = 208
 
 # 27 = 3³ = dim(J₃(O))
 M_MU_M_E_BASE_CUBE = 3 ** 3  # = 27
+
+# =============================================================================
+# EXCEPTIONAL GROUPS RELATIONS (v1.5.0) - Lean + Coq verified
+# =============================================================================
+
+# --- NEW CONSTANTS ---
+
+# Dimension of the exceptional Lie group F4
+DIM_F4 = 52
+
+# Dimension of the exceptional Lie group E6
+DIM_E6 = 78
+
+# Dimension of traceless Jordan algebra J3(O)_0
+DIM_J3O_TRACELESS = 26
+
+# Order of the Weyl group of E8: |W(E8)| = 2^14 × 3^5 × 5^2 × 7
+WEYL_E8_ORDER = 696729600
+
+# Sum of Structure B alpha² values: 2 + 5 + 6 = 13
+ALPHA_SQ_B_SUM = 13
+
+# --- RELATION 40: α_s² = 1/72 ---
+# α_s² = dim(G2)/dim(K7) / (dim(G2)-p2)² = 2/144 = 1/72
+ALPHA_S_SQUARED = Fraction(1, 72)
+ALPHA_S_SQUARED_NUM = DIM_G2 // DIM_K7  # = 2
+ALPHA_S_SQUARED_DEN = (DIM_G2 - P2) ** 2  # = 144
+
+# --- RELATION 41: dim(F4) = p2² × Σ(α²_B) ---
+# dim(F4) = 4 × 13 = 52
+DIM_F4_FROM_STRUCTURE_B = P2 ** 2 * ALPHA_SQ_B_SUM  # = 52
+
+# --- RELATION 42: δ_penta origin ---
+# dim(F4) - dim(J3O) = 52 - 27 = 25 = Weyl²
+DELTA_PENTA = DIM_F4 - DIM_J3O  # = 25
+
+# --- RELATION 43: Jordan traceless ---
+# dim(E6) - dim(F4) = 78 - 52 = 26 = dim(J3O) - 1
+JORDAN_TRACELESS = DIM_E6 - DIM_F4  # = 26
+
+# --- RELATION 44: |W(E8)| topological factorization ---
+# |W(E8)| = p2^dim(G2) × N_gen^Weyl × Weyl^p2 × dim(K7)
+#         = 2^14 × 3^5 × 5^2 × 7 = 696729600
+WEYL_E8_FORMULA = (P2 ** DIM_G2) * (N_GEN ** WEYL_FACTOR) * (WEYL_FACTOR ** P2) * DIM_K7
+
+# --- EXCEPTIONAL CHAIN ---
+# E8 → F4 → J3(O): dim(E8) - dim(F4) - dim(J3O) = 248 - 52 - 27 = 169 = 13²
+EXCEPTIONAL_CHAIN = DIM_E8 - DIM_F4 - DIM_J3O  # = 169
+
+# =============================================================================
+# BASE DECOMPOSITION RELATIONS (v1.6.0) - Lean + Coq verified
+# =============================================================================
+
+# --- RELATION 45: κ_T⁻¹ decomposition ---
+# κ_T⁻¹ = dim(F4) + N_gen² = 52 + 9 = 61
+KAPPA_T_INV_FROM_F4 = DIM_F4 + N_GEN ** 2  # = 61
+
+# --- RELATION 46: b₂ decomposition ---
+# b₂ = ALPHA_SUM_B + rank(E8) = 13 + 8 = 21
+B2_BASE_DECOMPOSITION = ALPHA_SUM_B + RANK_E8  # = 21
+
+# --- RELATION 47: b₃ decomposition ---
+# b₃ = ALPHA_SUM_B × Weyl + 12 = 65 + 12 = 77
+B3_INTERMEDIATE = ALPHA_SUM_B * WEYL_FACTOR  # = 65
+B3_BASE_DECOMPOSITION = B3_INTERMEDIATE + 12  # = 77
+
+# --- RELATION 48: H* decomposition ---
+# H* = ALPHA_SUM_B × dim(K7) + rank(E8) = 91 + 8 = 99
+H_STAR_INTERMEDIATE = ALPHA_SUM_B * DIM_K7  # = 91
+H_STAR_BASE_DECOMPOSITION = H_STAR_INTERMEDIATE + RANK_E8  # = 99
+
+# --- RELATION 49: Quotient sum ---
+# dim(U1) + Weyl + dim(K7) = 1 + 5 + 7 = 13 = ALPHA_SUM_B
+QUOTIENT_SUM = DIM_U1 + WEYL_FACTOR + DIM_K7  # = 13
+
+# --- RELATION 50: Ω_DE numerator ---
+# dim(K7) × dim(G2) = 7 × 14 = 98 = H* - 1
+OMEGA_DE_PRODUCT = DIM_K7 * DIM_G2  # = 98
+
+# =============================================================================
+# EXTENDED DECOMPOSITION RELATIONS (v1.7.0) - Lean + Coq verified
+# =============================================================================
+
+# --- RELATION 51: τ base-13 digit structure ---
+# τ numerator = [1, 7, 7, 1] in base 13, with dim(K7) = 7 at center
+TAU_NUM_VALUE = 3472
+TAU_DEN_VALUE = 891
+
+def to_base_13(n: int) -> list:
+    """Convert integer to base 13 digits (most significant first)."""
+    if n == 0:
+        return [0]
+    digits = []
+    while n > 0:
+        digits.append(n % 13)
+        n //= 13
+    return digits[::-1]
+
+TAU_NUM_BASE13 = to_base_13(TAU_NUM_VALUE)  # = [1, 7, 7, 1]
+
+# --- RELATION 52: Number of observables ---
+# N_observables = N_gen × ALPHA_SUM_B = 3 × 13 = 39
+N_OBSERVABLES = N_GEN * ALPHA_SUM_B  # = 39
+
+# --- RELATION 53: E6 dual structure ---
+# dim(E6) = 2 × N_observables = 2 × 39 = 78
+E6_DUAL_OBSERVABLES = 2 * N_OBSERVABLES  # = 78
+
+# --- RELATION 54: Hubble constant from topology ---
+# H0 = dim(K7) × 10 = 7 × 10 = 70 km/s/Mpc
+H0_TOPOLOGICAL = DIM_K7 * 10  # = 70

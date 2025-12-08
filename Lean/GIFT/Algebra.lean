@@ -45,4 +45,25 @@ def dim_SM_gauge : Nat := dim_SU3 + dim_SU2 + dim_U1
 
 theorem SM_gauge_certified : dim_SM_gauge = 12 := rfl
 
+-- =============================================================================
+-- EXCEPTIONAL GROUPS F4, E6 (v1.5.0)
+-- =============================================================================
+
+/-- Dimension of the exceptional Lie group F4 -/
+def dim_F4 : Nat := 52
+
+/-- Dimension of the exceptional Lie group E6 -/
+def dim_E6 : Nat := 78
+
+/-- Order of the Weyl group of E8: |W(E8)| = 2^14 * 3^5 * 5^2 * 7 -/
+def weyl_E8_order : Nat := 696729600
+
+/-- Dimension of traceless Jordan algebra J3(O)_0 -/
+def dim_J3O_traceless : Nat := 26
+
+theorem dim_F4_certified : dim_F4 = 52 := rfl
+theorem dim_E6_certified : dim_E6 = 78 := rfl
+theorem weyl_E8_order_certified : weyl_E8_order = 696729600 := rfl
+theorem dim_J3O_traceless_certified : dim_J3O_traceless = 26 := rfl
+
 end GIFT.Algebra
