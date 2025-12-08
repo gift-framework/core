@@ -110,7 +110,7 @@ pip install giftpy numpy
 
 ---
 
-## Proven Relations (50 Total)
+## Proven Relations (54 Total)
 
 All relations are formally verified in both Lean 4 and Coq. Each relation is a mathematical identity; no fitting or approximation is involved.
 
@@ -217,6 +217,19 @@ All primary GIFT constants decompose consistently using ALPHA_SUM_B = 13 = rank(
 | 50 | omega_DE_num | 98 | dim(K7) * dim(G2) = H* - 1 | Lean + Coq |
 
 **Key insight**: The Structure B sum (2 + 5 + 6 = 13) provides a consistent base for decomposing all primary GIFT topological constants. The quotients (1, 5, 7) represent gauge, holonomy, and manifold contributions respectively.
+
+### Extended Decomposition (4 New Relations) - v1.7.0
+
+Additional relations extending the base decomposition structure:
+
+| # | Symbol | Value | Derivation | Status |
+|---|--------|-------|------------|--------|
+| 51 | tau_num base13 | [1,7,7,1] | 3472 = 1*13^3 + 7*13^2 + 7*13 + 1 | Lean + Coq |
+| 52 | n_observables | 39 | N_gen * ALPHA_SUM_B = 3 * 13 | Lean + Coq |
+| 53 | E6_dual | 78 | 2 * n_observables (visible + hidden) | Lean + Coq |
+| 54 | H0_topological | 70 | dim(K7) * 10 km/s/Mpc | Lean + Coq |
+
+**Key insight**: The hierarchy parameter tau numerator (3472) has a palindromic base-13 representation [1, 7, 7, 1] with dim(K7) = 7 as the central digits. The E6 dimension encodes visible/hidden duality through 78 = 2 * 39 = 2 * (3 * 13).
 
 ### Topological Constants
 

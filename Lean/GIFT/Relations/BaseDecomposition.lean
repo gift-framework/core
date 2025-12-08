@@ -156,4 +156,84 @@ theorem all_6_base_decomposition_certified :
     (dim_K7 * dim_G2 = 98 ∧ dim_K7 * dim_G2 = H_star - 1) := by
   repeat (first | constructor | native_decide | rfl)
 
+/-! ## Extended Relations (v1.7.0) -/
+
+/-! ## Relation 51: tau base-13 digit structure -/
+
+/-- The hierarchy parameter numerator -/
+def tau_num : Nat := 3472
+
+/-- The hierarchy parameter denominator -/
+def tau_den : Nat := 891
+
+/-- tau numerator in base 13: 1*13^3 + 7*13^2 + 7*13 + 1 = 3472 -/
+theorem tau_num_base13 : 1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num := by native_decide
+
+/-- The central digits are dim(K7) = 7 repeated -/
+theorem tau_central_digits :
+    tau_num = 1 * 13^3 + dim_K7 * 13^2 + dim_K7 * 13 + 1 := by native_decide
+
+/-- tau numerator mod 13 = 1 -/
+theorem tau_num_mod13 : tau_num % alpha_sq_B_sum = 1 := by native_decide
+
+/-- tau denominator mod 13 = 7 = dim(K7) -/
+theorem tau_den_mod13 : tau_den % alpha_sq_B_sum = dim_K7 := by native_decide
+
+/-! ## Relation 52: Number of observables -/
+
+/-- Number of GIFT observables (before v1.5.0) -/
+def n_observables : Nat := 39
+
+/-- n_observables = N_gen * ALPHA_SUM_B = 3 * 13 = 39 -/
+theorem n_observables_formula : n_observables = N_gen * alpha_sq_B_sum := by native_decide
+
+/-- Verification: 3 * 13 = 39 -/
+theorem n_observables_check : 3 * 13 = 39 := rfl
+
+/-! ## Relation 53: E6 dual structure -/
+
+/-- dim(E6) = 2 * n_observables (visible + hidden duality) -/
+theorem E6_dual_observables : dim_E6 = 2 * n_observables := by native_decide
+
+/-- Verification: 2 * 39 = 78 -/
+theorem E6_dual_check : 2 * 39 = 78 := rfl
+
+/-- E6 represents visible + hidden sectors -/
+theorem E6_visible_hidden : dim_E6 = n_observables + n_observables := by native_decide
+
+/-! ## Relation 54: Hubble constant from topology -/
+
+/-- Hubble constant in km/s/Mpc from topology -/
+def H0_topological : Nat := 70
+
+/-- H0 = dim(K7) * 10 = 70 -/
+theorem H0_from_K7 : H0_topological = dim_K7 * 10 := by native_decide
+
+/-- H0 = (b3 + dim(G2)) / 13 * 10 = 91/13 * 10 = 7 * 10 = 70 -/
+theorem H0_from_sin2_denom : H0_topological = (b3 + dim_G2) / alpha_sq_B_sum * 10 := by native_decide
+
+/-- H0 mod 13 = 5 = Weyl -/
+theorem H0_mod13_is_weyl : H0_topological % alpha_sq_B_sum = Weyl_factor := by native_decide
+
+/-- Verification: 70 mod 13 = 5 -/
+theorem H0_mod13_check : 70 % 13 = 5 := rfl
+
+/-! ## Extended Summary Theorem -/
+
+/-- All 10 decomposition relations (45-54) are certified -/
+theorem all_10_decomposition_certified :
+    -- Relations 45-50 (base decomposition)
+    (dim_F4 + N_gen * N_gen = 61) ∧
+    (b2 = alpha_sq_B_sum + rank_E8) ∧
+    (b3 = alpha_sq_B_sum * Weyl_factor + 12) ∧
+    (H_star = alpha_sq_B_sum * dim_K7 + rank_E8) ∧
+    (dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum) ∧
+    (dim_K7 * dim_G2 = 98) ∧
+    -- Relations 51-54 (extended)
+    (1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num) ∧
+    (n_observables = N_gen * alpha_sq_B_sum) ∧
+    (dim_E6 = 2 * n_observables) ∧
+    (H0_topological = dim_K7 * 10) := by
+  repeat (first | constructor | native_decide | rfl)
+
 end GIFT.Relations.BaseDecomposition

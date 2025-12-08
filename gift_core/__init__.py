@@ -53,6 +53,9 @@ from gift_core.constants import (
     B3_INTERMEDIATE, B3_BASE_DECOMPOSITION,
     H_STAR_INTERMEDIATE, H_STAR_BASE_DECOMPOSITION,
     QUOTIENT_SUM, OMEGA_DE_PRODUCT,
+    # Extended decomposition relations (v1.7.0)
+    TAU_NUM_VALUE, TAU_DEN_VALUE, TAU_NUM_BASE13, to_base_13,
+    N_OBSERVABLES, E6_DUAL_OBSERVABLES, H0_TOPOLOGICAL,
 )
 from gift_core.relations import PROVEN_RELATIONS, get_relation
 from gift_core.topology import K7, G2, E8
@@ -247,6 +250,9 @@ __all__ = [
     'B3_INTERMEDIATE', 'B3_BASE_DECOMPOSITION',
     'H_STAR_INTERMEDIATE', 'H_STAR_BASE_DECOMPOSITION',
     'QUOTIENT_SUM', 'OMEGA_DE_PRODUCT',
+    # Extended decomposition relations (v1.7.0)
+    'TAU_NUM_VALUE', 'TAU_DEN_VALUE', 'TAU_NUM_BASE13', 'to_base_13',
+    'N_OBSERVABLES', 'E6_DUAL_OBSERVABLES', 'H0_TOPOLOGICAL',
     # Structures
     'K7', 'G2', 'E8', 'PROVEN_RELATIONS', 'get_relation',
     # Scales

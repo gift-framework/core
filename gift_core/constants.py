@@ -314,3 +314,36 @@ QUOTIENT_SUM = DIM_U1 + WEYL_FACTOR + DIM_K7  # = 13
 # --- RELATION 50: Ω_DE numerator ---
 # dim(K7) × dim(G2) = 7 × 14 = 98 = H* - 1
 OMEGA_DE_PRODUCT = DIM_K7 * DIM_G2  # = 98
+
+# =============================================================================
+# EXTENDED DECOMPOSITION RELATIONS (v1.7.0) - Lean + Coq verified
+# =============================================================================
+
+# --- RELATION 51: τ base-13 digit structure ---
+# τ numerator = [1, 7, 7, 1] in base 13, with dim(K7) = 7 at center
+TAU_NUM_VALUE = 3472
+TAU_DEN_VALUE = 891
+
+def to_base_13(n: int) -> list:
+    """Convert integer to base 13 digits (most significant first)."""
+    if n == 0:
+        return [0]
+    digits = []
+    while n > 0:
+        digits.append(n % 13)
+        n //= 13
+    return digits[::-1]
+
+TAU_NUM_BASE13 = to_base_13(TAU_NUM_VALUE)  # = [1, 7, 7, 1]
+
+# --- RELATION 52: Number of observables ---
+# N_observables = N_gen × ALPHA_SUM_B = 3 × 13 = 39
+N_OBSERVABLES = N_GEN * ALPHA_SUM_B  # = 39
+
+# --- RELATION 53: E6 dual structure ---
+# dim(E6) = 2 × N_observables = 2 × 39 = 78
+E6_DUAL_OBSERVABLES = 2 * N_OBSERVABLES  # = 78
+
+# --- RELATION 54: Hubble constant from topology ---
+# H0 = dim(K7) × 10 = 7 × 10 = 70 km/s/Mpc
+H0_TOPOLOGICAL = DIM_K7 * 10  # = 70

@@ -183,3 +183,75 @@ def test_base_decomposition_consistency():
     assert H_STAR == ALPHA_SUM_B * DIM_K7 + RANK_E8
     # H* = b2 + b3 + 1
     assert H_STAR == B2 + B3 + 1
+
+
+# =============================================================================
+# EXTENDED DECOMPOSITION RELATIONS (v1.7.0)
+# =============================================================================
+
+
+def test_relation_51_tau_base13():
+    """tau numerator = [1, 7, 7, 1] in base 13"""
+    from gift_core import (
+        TAU_NUM_VALUE, TAU_DEN_VALUE, TAU_NUM_BASE13, to_base_13, DIM_K7
+    )
+    # Verify tau numerator value
+    assert TAU_NUM_VALUE == 3472
+    assert TAU_DEN_VALUE == 891
+    # Verify base-13 representation
+    assert TAU_NUM_BASE13 == [1, 7, 7, 1]
+    assert to_base_13(3472) == [1, 7, 7, 1]
+    # Verify base-13 expansion: 1*13^3 + 7*13^2 + 7*13 + 1
+    assert 1 * 13**3 + 7 * 13**2 + 7 * 13 + 1 == 3472
+    # Central digits are dim(K7) = 7
+    assert TAU_NUM_BASE13[1] == DIM_K7
+    assert TAU_NUM_BASE13[2] == DIM_K7
+
+
+def test_relation_52_n_observables():
+    """n_observables = N_gen * 13 = 39"""
+    from gift_core import N_OBSERVABLES, N_GEN, ALPHA_SUM_B
+    assert N_OBSERVABLES == 39
+    assert N_OBSERVABLES == N_GEN * ALPHA_SUM_B
+    assert N_OBSERVABLES == 3 * 13
+
+
+def test_relation_53_E6_dual():
+    """dim(E6) = 2 * n_observables = 78"""
+    from gift_core import DIM_E6, E6_DUAL_OBSERVABLES, N_OBSERVABLES
+    assert DIM_E6 == 78
+    assert E6_DUAL_OBSERVABLES == 78
+    assert E6_DUAL_OBSERVABLES == 2 * N_OBSERVABLES
+    assert E6_DUAL_OBSERVABLES == DIM_E6
+
+
+def test_relation_54_H0_topological():
+    """H0 = dim(K7) * 10 = 70 km/s/Mpc"""
+    from gift_core import H0_TOPOLOGICAL, DIM_K7, WEYL_FACTOR, ALPHA_SUM_B, B3, DIM_G2
+    # Primary formula
+    assert H0_TOPOLOGICAL == 70
+    assert H0_TOPOLOGICAL == DIM_K7 * 10
+    # Modular structure: 70 mod 13 = 5 = Weyl
+    assert H0_TOPOLOGICAL % ALPHA_SUM_B == WEYL_FACTOR
+    assert 70 % 13 == 5
+    # Alternative derivation: (b3 + dim(G2)) / 13 * 10 = 7 * 10 = 70
+    assert (B3 + DIM_G2) // ALPHA_SUM_B == DIM_K7
+    assert (B3 + DIM_G2) // ALPHA_SUM_B * 10 == H0_TOPOLOGICAL
+
+
+def test_extended_decomposition_consistency():
+    """All extended decomposition relations are mutually consistent"""
+    from gift_core import (
+        TAU_NUM_VALUE, TAU_NUM_BASE13, DIM_K7, N_OBSERVABLES, N_GEN,
+        ALPHA_SUM_B, DIM_E6, E6_DUAL_OBSERVABLES, H0_TOPOLOGICAL, WEYL_FACTOR
+    )
+    # tau central structure
+    assert TAU_NUM_BASE13[1] == TAU_NUM_BASE13[2] == DIM_K7
+    # Observable count from generation and base
+    assert N_OBSERVABLES == N_GEN * ALPHA_SUM_B
+    # E6 dimension encodes visible + hidden duality
+    assert DIM_E6 == 2 * N_OBSERVABLES
+    assert E6_DUAL_OBSERVABLES == DIM_E6
+    # Hubble constant derives from K7 dimension
+    assert H0_TOPOLOGICAL == DIM_K7 * 10
+    assert H0_TOPOLOGICAL % ALPHA_SUM_B == WEYL_FACTOR

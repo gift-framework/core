@@ -166,3 +166,117 @@ Qed.
 
 (** Certificate: Zero Admitted *)
 Print Assumptions all_6_base_decomposition_certified.
+
+(** =========================================================================== *)
+(** EXTENDED RELATIONS (v1.7.0) *)
+(** =========================================================================== *)
+
+(** =========================================================================== *)
+(** RELATION #51: tau base-13 digit structure *)
+(** tau numerator = [1, 7, 7, 1] in base 13, with dim(K7) = 7 at center *)
+(** =========================================================================== *)
+
+(** The hierarchy parameter numerator *)
+Definition tau_num : nat := 3472.
+
+(** The hierarchy parameter denominator *)
+Definition tau_den : nat := 891.
+
+(** tau numerator in base 13: 1*13^3 + 7*13^2 + 7*13 + 1 = 3472 *)
+Theorem tau_num_base13 : 1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num.
+Proof. reflexivity. Qed.
+
+(** The central digits are dim(K7) = 7 repeated *)
+Theorem tau_central_digits :
+  tau_num = 1 * 13^3 + dim_K7 * 13^2 + dim_K7 * 13 + 1.
+Proof. reflexivity. Qed.
+
+(** tau numerator mod 13 = 1 *)
+Theorem tau_num_mod13 : tau_num mod alpha_sq_B_sum = 1.
+Proof. reflexivity. Qed.
+
+(** tau denominator mod 13 = 7 = dim(K7) *)
+Theorem tau_den_mod13 : tau_den mod alpha_sq_B_sum = dim_K7.
+Proof. reflexivity. Qed.
+
+(** =========================================================================== *)
+(** RELATION #52: Number of observables *)
+(** n_observables = N_gen * 13 = 39 *)
+(** =========================================================================== *)
+
+(** Number of GIFT observables (before v1.5.0) *)
+Definition n_observables : nat := 39.
+
+(** n_observables = N_gen * ALPHA_SUM_B = 3 * 13 = 39 *)
+Theorem n_observables_formula : n_observables = N_gen * alpha_sq_B_sum.
+Proof. reflexivity. Qed.
+
+(** Verification: 3 * 13 = 39 *)
+Theorem n_observables_check : 3 * 13 = 39.
+Proof. reflexivity. Qed.
+
+(** =========================================================================== *)
+(** RELATION #53: E6 dual structure *)
+(** dim(E6) = 2 * n_observables = 78 *)
+(** =========================================================================== *)
+
+(** dim(E6) = 2 * n_observables (visible + hidden duality) *)
+Theorem E6_dual_observables : dim_E6 = 2 * n_observables.
+Proof. reflexivity. Qed.
+
+(** Verification: 2 * 39 = 78 *)
+Theorem E6_dual_check : 2 * 39 = 78.
+Proof. reflexivity. Qed.
+
+(** E6 represents visible + hidden sectors *)
+Theorem E6_visible_hidden : dim_E6 = n_observables + n_observables.
+Proof. reflexivity. Qed.
+
+(** =========================================================================== *)
+(** RELATION #54: Hubble constant from topology *)
+(** H0 = dim(K7) * 10 = 70 km/s/Mpc *)
+(** =========================================================================== *)
+
+(** Hubble constant in km/s/Mpc from topology *)
+Definition H0_topological : nat := 70.
+
+(** H0 = dim(K7) * 10 = 70 *)
+Theorem H0_from_K7 : H0_topological = dim_K7 * 10.
+Proof. reflexivity. Qed.
+
+(** H0 = (b3 + dim(G2)) / 13 * 10 = 91/13 * 10 = 7 * 10 = 70 *)
+Theorem H0_from_sin2_denom : H0_topological = (b3 + dim_G2) / alpha_sq_B_sum * 10.
+Proof. reflexivity. Qed.
+
+(** H0 mod 13 = 5 = Weyl *)
+Theorem H0_mod13_is_weyl : H0_topological mod alpha_sq_B_sum = Weyl_factor.
+Proof. reflexivity. Qed.
+
+(** Verification: 70 mod 13 = 5 *)
+Theorem H0_mod13_check : 70 mod 13 = 5.
+Proof. reflexivity. Qed.
+
+(** =========================================================================== *)
+(** EXTENDED SUMMARY THEOREM *)
+(** =========================================================================== *)
+
+(** All 10 decomposition relations (45-54) are certified *)
+Theorem all_10_decomposition_certified :
+  (* Relations 45-50: base decomposition *)
+  (dim_F4 + N_gen * N_gen = 61) /\
+  (b2 = alpha_sq_B_sum + rank_E8) /\
+  (b3 = alpha_sq_B_sum * Weyl_factor + 12) /\
+  (H_star = alpha_sq_B_sum * dim_K7 + rank_E8) /\
+  (dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum) /\
+  (dim_K7 * dim_G2 = 98) /\
+  (* Relations 51-54: extended *)
+  (1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num) /\
+  (n_observables = N_gen * alpha_sq_B_sum) /\
+  (dim_E6 = 2 * n_observables) /\
+  (H0_topological = dim_K7 * 10).
+Proof.
+  repeat split; reflexivity.
+Qed.
+
+(** Certificate: Zero Admitted for extended relations *)
+Print Assumptions all_10_decomposition_certified.

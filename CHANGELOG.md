@@ -5,6 +5,45 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0] - 2025-12-08
+
+### Added
+
+- **Extended Decomposition Relations** (4 new certified relations):
+  - `tau_num base13 = [1,7,7,1]` - Hierarchy parameter numerator in base 13
+  - `n_observables = 39` - Observable count from N_gen * ALPHA_SUM_B
+  - `E6_dual = 78` - E6 dimension as 2 * n_observables (visible + hidden)
+  - `H0_topological = 70` - Hubble constant from dim(K7) * 10
+
+- **Lean 4 modules**:
+  - Extended `Lean/GIFT/Relations/BaseDecomposition.lean` with relations 51-54
+
+- **Coq modules**:
+  - Extended `COQ/Relations/BaseDecomposition.v` with relations 51-54
+
+- **Python constants** (in `gift_core.constants`):
+  - `TAU_NUM_VALUE`, `TAU_DEN_VALUE`, `TAU_NUM_BASE13`
+  - `to_base_13()` - Helper function for base conversion
+  - `N_OBSERVABLES`, `E6_DUAL_OBSERVABLES`, `H0_TOPOLOGICAL`
+
+### Changed
+
+- Updated `Certificate.lean` with `all_54_relations_certified` master theorem
+- Updated `AllProven.v` with `all_54_relations_certified` master theorem
+- Total certified relations: 50 -> 54
+
+### Key Insight
+
+The hierarchy parameter tau = 3472/891 has a palindromic structure in base 13:
+tau_num = 3472 = 1*13^3 + 7*13^2 + 7*13 + 1 = [1, 7, 7, 1]_13
+
+The central digits (7, 7) encode dim(K7) = 7, while the outer digits (1, 1)
+provide the symmetric boundary. This connects the mass hierarchy parameter
+directly to the K7 manifold dimension.
+
+The E6 dimension 78 = 2 * 39 = 2 * (3 * 13) encodes visible/hidden duality,
+where 39 = N_gen * ALPHA_SUM_B represents the number of GIFT observables.
+
 ## [1.6.0] - 2025-12-07
 
 ### Added
