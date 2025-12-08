@@ -286,7 +286,7 @@ WEYL_E8_FORMULA = (P2 ** DIM_G2) * (N_GEN ** WEYL_FACTOR) * (WEYL_FACTOR ** P2) 
 EXCEPTIONAL_CHAIN = DIM_E8 - DIM_F4 - DIM_J3O  # = 169
 
 # =============================================================================
-# BASE DECOMPOSITION RELATIONS (v1.6.0) - Lean + Coq verified
+# BASE DECOMPOSITION RELATIONS (v1.5.0) - Lean + Coq verified
 # =============================================================================
 
 # --- RELATION 45: κ_T⁻¹ decomposition ---
@@ -316,7 +316,7 @@ QUOTIENT_SUM = DIM_U1 + WEYL_FACTOR + DIM_K7  # = 13
 OMEGA_DE_PRODUCT = DIM_K7 * DIM_G2  # = 98
 
 # =============================================================================
-# EXTENDED DECOMPOSITION RELATIONS (v1.7.0) - Lean + Coq verified
+# EXTENDED DECOMPOSITION RELATIONS (v1.5.0) - Lean + Coq verified
 # =============================================================================
 
 # --- RELATION 51: τ base-13 digit structure ---

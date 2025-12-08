@@ -1,4 +1,4 @@
-(** GIFT - Base Decomposition Relations (v1.6.0) *)
+(** GIFT - Base Decomposition Relations (v1.5.0) *)
 (** Relations 45-50: Decomposition of GIFT constants using ALPHA_SUM_B *)
 
 Require Import Coq.Arith.Arith.
@@ -165,7 +165,7 @@ Qed.
 Print Assumptions all_6_base_decomposition_certified.
 
 (** =========================================================================== *)
-(** EXTENDED RELATIONS (v1.7.0) *)
+(** EXTENDED RELATIONS (v1.5.0) *)
 (** =========================================================================== *)
 
 (** =========================================================================== *)

@@ -203,7 +203,7 @@ Relations connecting the exceptional Lie groups F4, E6, E8 to GIFT structure:
 
 **Key insight**: The Weyl group of E8 factorizes as 2^14 * 3^5 * 5^2 * 7, where each prime corresponds exactly to a GIFT topological constant (p2, N_gen, Weyl, dim(K7)).
 
-### Base Decomposition (6 New Relations) - v1.6.0
+### Base Decomposition (6 New Relations) - v1.5.0
 
 All primary GIFT constants decompose consistently using ALPHA_SUM_B = 13 = rank(E8) + Weyl:
 
@@ -218,7 +218,7 @@ All primary GIFT constants decompose consistently using ALPHA_SUM_B = 13 = rank(
 
 **Key insight**: The Structure B sum (2 + 5 + 6 = 13) provides a consistent base for decomposing all primary GIFT topological constants. The quotients (1, 5, 7) represent gauge, holonomy, and manifold contributions respectively.
 
-### Extended Decomposition (4 New Relations) - v1.7.0
+### Extended Decomposition (4 New Relations) - v1.5.0
 
 Additional relations extending the base decomposition structure:
 
@@ -295,7 +295,7 @@ Lean/
 │   │   ├── IrrationalSector.lean  # θ₁₃, θ₂₃, α⁻¹ (v1.4.0)
 │   │   ├── GoldenRatio.lean   # φ, m_μ/m_e (v1.4.0)
 │   │   ├── ExceptionalGroups.lean  # F4, E6, E8 (v1.5.0)
-│   │   └── BaseDecomposition.lean  # ALPHA_SUM_B decomposition (v1.6.0)
+│   │   └── BaseDecomposition.lean  # ALPHA_SUM_B decomposition (v1.5.0)
 │   └── Certificate.lean       # Master theorem (50 relations)
 └── lakefile.lean
 
@@ -314,7 +314,7 @@ COQ/
 │   ├── IrrationalSector.v     # v1.4.0
 │   ├── GoldenRatio.v          # v1.4.0
 │   ├── ExceptionalGroups.v    # v1.5.0
-│   └── BaseDecomposition.v    # v1.6.0
+│   └── BaseDecomposition.v    # v1.5.0
 └── Certificate/
     └── AllProven.v            # Master theorem (50 relations)
 ```
@@ -405,7 +405,7 @@ For context, these exact values may be compared to experimental measurements. Di
 - **Yukawa duality** (v1.3.0): Topological ↔ dynamical α² structure
 - **Irrational sector** (v1.4.0): Exact alpha^-1, golden ratio bounds
 - **Exceptional groups** (v1.5.0): F4, E6, E8 connections and Weyl group factorization
-- **Base decomposition** (v1.6.0): Consistent decomposition of all GIFT constants using ALPHA_SUM_B
+- **Base decomposition** (v1.5.0): Consistent decomposition of all GIFT constants using ALPHA_SUM_B
 
 ### What This Package Does Not Claim
 
@@ -461,4 +461,4 @@ This work benefited from computational assistance provided by various AI systems
 
 ---
 
-*GIFT Core v1.7.0 - 54 Certified Relations + K7 Metric Pipeline + Yukawa Duality + Irrational Sector + Exceptional Groups + Base Decomposition + Extended Decomposition*
+*GIFT Core v1.5.0 - 54 Certified Relations + K7 Metric Pipeline + Yukawa Duality + Irrational Sector + Exceptional Groups + Base Decomposition + Extended Decomposition*

@@ -1,6 +1,6 @@
 -- GIFT Certificate module
 -- Final certification theorems
--- Version: 1.7.0
+-- Version: 1.5.0
 
 import GIFT.Relations
 import GIFT.Relations.GaugeSector
@@ -291,7 +291,7 @@ theorem all_44_relations_certified :
     weyl_E8_order = 696729600 := by
   repeat (first | constructor | native_decide | rfl)
 
-/-- Base decomposition relations (v1.6.0) -/
+/-- Base decomposition relations (v1.5.0) -/
 theorem base_decomposition_relations_certified :
     -- Relation 45: kappa_T^-1 from F4
     (dim_F4 + N_gen * N_gen = 61) ∧
@@ -307,7 +307,7 @@ theorem base_decomposition_relations_certified :
     (dim_K7 * dim_G2 = 98) := by
   repeat (first | constructor | native_decide | rfl)
 
-/-- Master theorem: All 50 GIFT relations (44 + 6 base decomposition) v1.6.0 -/
+/-- Master theorem: All 50 GIFT relations (44 + 6 base decomposition) v1.5.0 -/
 theorem all_50_relations_certified :
     -- Key relations from v1.5.0
     b2 * 13 = 3 * (b3 + dim_G2) ∧
@@ -331,7 +331,7 @@ theorem all_50_relations_certified :
     dim_F4 - dim_J3O = 25 ∧
     dim_E6 - dim_F4 = 26 ∧
     weyl_E8_order = 696729600 ∧
-    -- v1.6.0: Base decomposition (6 new)
+    -- v1.5.0: Base decomposition (6 new)
     dim_F4 + N_gen * N_gen = 61 ∧
     b2 = alpha_sq_B_sum + rank_E8 ∧
     b3 = alpha_sq_B_sum * Weyl_factor + 12 ∧
@@ -340,7 +340,7 @@ theorem all_50_relations_certified :
     dim_K7 * dim_G2 = 98 := by
   repeat (first | constructor | native_decide | rfl)
 
-/-- Extended decomposition relations (v1.7.0) -/
+/-- Extended decomposition relations (v1.5.0) -/
 theorem extended_decomposition_relations_certified :
     -- Relation 51: tau base-13 structure
     (1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num_reduced) ∧
@@ -352,9 +352,9 @@ theorem extended_decomposition_relations_certified :
     (H0_topological = dim_K7 * 10) := by
   repeat (first | constructor | native_decide | rfl)
 
-/-- Master theorem: All 54 GIFT relations (50 + 4 extended) v1.7.0 -/
+/-- Master theorem: All 54 GIFT relations (50 + 4 extended) v1.5.0 -/
 theorem all_54_relations_certified :
-    -- Key relations from v1.6.0
+    -- Key relations from v1.5.0
     b2 * 13 = 3 * (b3 + dim_G2) ∧
     dim_G2 * 3 = b2 * 2 ∧
     N_gen = 3 ∧
@@ -382,7 +382,7 @@ theorem all_54_relations_certified :
     H_star = alpha_sq_B_sum * dim_K7 + rank_E8 ∧
     Algebra.dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum ∧
     dim_K7 * dim_G2 = 98 ∧
-    -- v1.7.0: Extended decomposition (4 new)
+    -- v1.5.0: Extended decomposition (4 new)
     1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num_reduced ∧
     n_observables = N_gen * alpha_sq_B_sum ∧
     dim_E6 = 2 * n_observables ∧
