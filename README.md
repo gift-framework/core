@@ -461,4 +461,4 @@ This work benefited from computational assistance provided by various AI systems
 
 ---
 
-*GIFT Core v1.6.0 - 50 Certified Relations + K7 Metric Pipeline + Yukawa Duality + Irrational Sector + Exceptional Groups + Base Decomposition*
+*GIFT Core v1.7.0 - 54 Certified Relations + K7 Metric Pipeline + Yukawa Duality + Irrational Sector + Exceptional Groups + Base Decomposition + Extended Decomposition*
