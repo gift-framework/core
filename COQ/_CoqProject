@@ -17,4 +17,5 @@ Relations/GoldenRatio.v
 Relations/ExceptionalGroups.v
 Relations/BaseDecomposition.v
 Relations/MassFactorization.v
+Relations/ExceptionalChain.v
 Certificate/AllProven.v

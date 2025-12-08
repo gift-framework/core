@@ -482,3 +482,97 @@ HIDDEN_SCALAR_MASS_GEV = DUALITY_GAP  # = 18
 # --- Prediction: Hidden states count (speculative) ---
 # N_hidden = W_27 + F_9/2 = 27 + 17 = 44
 N_HIDDEN_STATES = W27_DIM + HIDDEN_DIM_FIBO // 2  # = 44
+
+# =============================================================================
+# EXCEPTIONAL CHAIN RELATIONS (v1.7.0) - E7 and E6-E7-E8 chain
+# =============================================================================
+
+# --- NEW CONSTANTS: E7 ---
+
+# Dimension of the exceptional Lie group E7
+DIM_E7 = 133
+
+# Fundamental representation of E7 (56-dimensional)
+DIM_FUND_E7 = 56
+
+# --- PRIME SEQUENCE (for exceptional chain) ---
+
+# The 6th prime number (for E6)
+PRIME_6 = 13
+
+# The 8th prime number (for E7) - already defined as PRIME_8
+# PRIME_8 = 19 (reusing from mass factorization)
+
+# The 11th prime number (for E8)
+PRIME_11 = 31
+
+# --- RELATION 66: tau_num = dim(K7) x dim(E8xE8) ---
+# tau_num (reduced) = 7 x 496 = 3472
+TAU_NUM_FROM_E8xE8 = DIM_K7 * DIM_E8xE8  # = 3472
+
+# --- RELATION 67: dim(E7) = dim(K7) x prime(rank_E8) ---
+# dim(E7) = 7 x 19 = 133
+DIM_E7_FROM_K7_PRIME = DIM_K7 * PRIME_8  # = 133
+
+# --- RELATION 68: dim(E7) = b3 + rank(E8) x dim(K7) ---
+# dim(E7) = 77 + 8 x 7 = 77 + 56 = 133
+DIM_E7_FROM_TOPOLOGY = B3 + RANK_E8 * DIM_K7  # = 133
+
+# --- RELATION 69: m_tau/m_e = (dim(fund_E7) + 1) x kappa_T^-1 ---
+# m_tau/m_e = 57 x 61 = 3477
+MASS_RATIO_FROM_E7 = (DIM_FUND_E7 + 1) * KAPPA_T_INV  # = 3477
+
+# --- RELATION 70: dim(fund_E7) = rank(E8) x dim(K7) ---
+# fund_E7 = 8 x 7 = 56
+FUND_E7_FROM_ALGEBRA = RANK_E8 * DIM_K7  # = 56
+
+# --- RELATION 71: dim(E6) base-7 palindrome ---
+# dim(E6) = [1,4,1]_7 = 1*49 + 4*7 + 1 = 78
+def to_base_7(n: int) -> list:
+    """Convert integer to base 7 digits (most significant first)."""
+    if n == 0:
+        return [0]
+    digits = []
+    while n > 0:
+        digits.append(n % 7)
+        n //= 7
+    return digits[::-1]
+
+E6_BASE7 = to_base_7(DIM_E6)  # = [1, 4, 1] - palindrome!
+E6_IS_PALINDROME_BASE7 = E6_BASE7 == E6_BASE7[::-1]  # = True
+
+# --- RELATION 72: dim(E8) = rank(E8) x prime(D_bulk) ---
+# dim(E8) = 8 x 31 = 248
+DIM_E8_FROM_PRIME = RANK_E8 * PRIME_11  # = 248
+
+# --- RELATION 73: m_tau/m_e = (dim(fund_E7) + U(1)) x dim(Torsion) ---
+# (56 + 1) x 61 = 3477 (U(1) = 1)
+MASS_RATIO_U1_INTERPRETATION = (DIM_FUND_E7 + DIM_U1) * KAPPA_T_INV  # = 3477
+
+# --- RELATION 74: dim(E6) = b3 + 1 in base-7 structure ---
+# b3 = 77 = [1,4,0]_7, dim(E6) = 78 = [1,4,1]_7
+B3_BASE7 = to_base_7(B3)  # = [1, 4, 0]
+E6_FROM_B3 = B3 + 1  # = 78
+
+# --- RELATION 75: Exceptional chain E_n = n x prime(g(n)) ---
+# E6 = 6 x 13 = 78
+# E7 = 7 x 19 = 133
+# E8 = 8 x 31 = 248
+E6_CHAIN = 6 * PRIME_6   # = 78
+E7_CHAIN = 7 * PRIME_8   # = 133
+E8_CHAIN = 8 * PRIME_11  # = 248
+
+# --- EXCEPTIONAL CHAIN PATTERN ---
+# Prime indices: 6 (E6), 8=rank_E8 (E7), 11=D_bulk (E8)
+CHAIN_PRIME_INDEX_E6 = 6
+CHAIN_PRIME_INDEX_E7 = RANK_E8  # = 8
+CHAIN_PRIME_INDEX_E8 = D_BULK   # = 11
+
+# --- CROSS-RELATIONS ---
+
+# E7 bridges E6 and E8
+E7_E6_GAP = DIM_E7 - DIM_E6  # = 55 = 5 x 11 = Weyl x D_bulk
+E8_E7_GAP = DIM_E8 - DIM_E7  # = 115
+
+# fund_E7 + dim_J3O = dim_E6 + Weyl
+E7_FUND_J3O_SUM = DIM_FUND_E7 + DIM_J3O  # = 83 = 78 + 5 = dim_E6 + Weyl

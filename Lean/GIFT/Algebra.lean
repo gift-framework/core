@@ -66,4 +66,34 @@ theorem dim_E6_certified : dim_E6 = 78 := rfl
 theorem weyl_E8_order_certified : weyl_E8_order = 696729600 := rfl
 theorem dim_J3O_traceless_certified : dim_J3O_traceless = 26 := rfl
 
+-- =============================================================================
+-- EXCEPTIONAL GROUP E7 (v1.7.0)
+-- =============================================================================
+
+/-- Dimension of the exceptional Lie group E7 -/
+def dim_E7 : Nat := 133
+
+/-- Fundamental representation of E7 (56-dimensional) -/
+def dim_fund_E7 : Nat := 56
+
+theorem dim_E7_certified : dim_E7 = 133 := rfl
+theorem dim_fund_E7_certified : dim_fund_E7 = 56 := rfl
+
+-- =============================================================================
+-- PRIME SEQUENCE (for exceptional chain)
+-- =============================================================================
+
+/-- The 6th prime number (for E6) -/
+def prime_6 : Nat := 13
+
+/-- The 8th prime number (for E7) -/
+def prime_8 : Nat := 19
+
+/-- The 11th prime number (for E8) -/
+def prime_11 : Nat := 31
+
+theorem prime_6_certified : prime_6 = 13 := rfl
+theorem prime_8_certified : prime_8 = 19 := rfl
+theorem prime_11_certified : prime_11 = 31 := rfl
+
 end GIFT.Algebra
