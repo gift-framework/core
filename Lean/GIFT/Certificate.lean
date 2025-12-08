@@ -472,7 +472,7 @@ theorem exceptional_chain_relations_certified :
     -- Relation 68: dim(E7) = b3 + rank(E8) x dim(K7)
     (dim_E7 = b3 + rank_E8 * dim_K7) ∧
     -- Relation 69: m_tau/m_e = (fund_E7 + 1) x kappa_T^-1
-    (m_tau_m_e = (dim_fund_E7 + 1) * kappa_T_inv) ∧
+    (m_tau_m_e = (dim_fund_E7 + 1) * MassFactorization.kappa_T_inv) ∧
     -- Relation 70: fund_E7 = rank(E8) x dim(K7)
     (dim_fund_E7 = rank_E8 * dim_K7) ∧
     -- Relation 71: dim(E6) base-7 palindrome
@@ -480,7 +480,7 @@ theorem exceptional_chain_relations_certified :
     -- Relation 72: dim(E8) = rank(E8) x prime(11)
     (dim_E8 = rank_E8 * prime_11) ∧
     -- Relation 73: m_tau/m_e with U(1) interpretation
-    ((dim_fund_E7 + Algebra.dim_U1) * kappa_T_inv = m_tau_m_e) ∧
+    ((dim_fund_E7 + Algebra.dim_U1) * MassFactorization.kappa_T_inv = m_tau_m_e) ∧
     -- Relation 74: dim(E6) = b3 + 1
     (b3 + 1 = dim_E6) ∧
     -- Relation 75: Exceptional chain
@@ -537,11 +537,11 @@ theorem all_75_relations_certified :
     dim_K7 * dim_E8xE8 = 3472 ∧
     dim_E7 = dim_K7 * Algebra.prime_8 ∧
     dim_E7 = b3 + rank_E8 * dim_K7 ∧
-    m_tau_m_e = (dim_fund_E7 + 1) * kappa_T_inv ∧
+    m_tau_m_e = (dim_fund_E7 + 1) * MassFactorization.kappa_T_inv ∧
     dim_fund_E7 = rank_E8 * dim_K7 ∧
     1 * 49 + 4 * 7 + 1 = dim_E6 ∧
     dim_E8 = rank_E8 * prime_11 ∧
-    (dim_fund_E7 + Algebra.dim_U1) * kappa_T_inv = m_tau_m_e ∧
+    (dim_fund_E7 + Algebra.dim_U1) * MassFactorization.kappa_T_inv = m_tau_m_e ∧
     b3 + 1 = dim_E6 ∧
     dim_E6 = 6 * prime_6 ∧
     dim_E7 = 7 * Algebra.prime_8 ∧
