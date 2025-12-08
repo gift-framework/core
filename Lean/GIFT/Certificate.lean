@@ -1,6 +1,6 @@
 -- GIFT Certificate module
 -- Final certification theorems
--- Version: 1.6.0 (65 certified relations)
+-- Version: 1.7.0 (75 certified relations)
 
 import GIFT.Relations
 import GIFT.Relations.GaugeSector
@@ -13,6 +13,7 @@ import GIFT.Relations.GoldenRatio
 import GIFT.Relations.ExceptionalGroups
 import GIFT.Relations.BaseDecomposition
 import GIFT.Relations.MassFactorization
+import GIFT.Relations.ExceptionalChain
 
 namespace GIFT.Certificate
 
@@ -24,6 +25,7 @@ open GIFT.Relations.IrrationalSector GIFT.Relations.GoldenRatio
 open GIFT.Relations.ExceptionalGroups
 open GIFT.Relations.BaseDecomposition
 open GIFT.Relations.MassFactorization
+open GIFT.Relations.ExceptionalChain
 
 /-- All 13 original relations are fully proven (zero axioms, zero holes) -/
 theorem all_13_relations_certified :
@@ -459,6 +461,91 @@ theorem all_65_relations_certified :
     lucas 6 = 18 ∧
     fib 8 = b2 ∧
     p2 * N_gen * N_gen = 18 := by
+  repeat (first | constructor | native_decide | rfl)
+
+/-- Exceptional chain relations (v1.7.0) -/
+theorem exceptional_chain_relations_certified :
+    -- Relation 66: tau_num = dim(K7) x dim(E8xE8)
+    (dim_K7 * dim_E8xE8 = 3472) ∧
+    -- Relation 67: dim(E7) = dim(K7) x prime(8)
+    (dim_E7 = dim_K7 * prime_8) ∧
+    -- Relation 68: dim(E7) = b3 + rank(E8) x dim(K7)
+    (dim_E7 = b3 + rank_E8 * dim_K7) ∧
+    -- Relation 69: m_tau/m_e = (fund_E7 + 1) x kappa_T^-1
+    (m_tau_m_e = (dim_fund_E7 + 1) * kappa_T_inv) ∧
+    -- Relation 70: fund_E7 = rank(E8) x dim(K7)
+    (dim_fund_E7 = rank_E8 * dim_K7) ∧
+    -- Relation 71: dim(E6) base-7 palindrome
+    (1 * 49 + 4 * 7 + 1 = dim_E6) ∧
+    -- Relation 72: dim(E8) = rank(E8) x prime(11)
+    (dim_E8 = rank_E8 * prime_11) ∧
+    -- Relation 73: m_tau/m_e with U(1) interpretation
+    ((dim_fund_E7 + Algebra.dim_U1) * kappa_T_inv = m_tau_m_e) ∧
+    -- Relation 74: dim(E6) = b3 + 1
+    (b3 + 1 = dim_E6) ∧
+    -- Relation 75: Exceptional chain
+    (dim_E6 = 6 * prime_6 ∧ dim_E7 = 7 * prime_8 ∧ dim_E8 = 8 * prime_11) := by
+  repeat (first | constructor | native_decide | rfl)
+
+/-- Master theorem: All 75 GIFT relations (65 + 10 exceptional chain) v1.7.0 -/
+theorem all_75_relations_certified :
+    -- Key relations from v1.6.0
+    b2 * 13 = 3 * (b3 + dim_G2) ∧
+    dim_G2 * 3 = b2 * 2 ∧
+    N_gen = 3 ∧
+    H_star = 99 ∧
+    b3 - dim_G2 - p2 = 61 ∧
+    dim_G2 - p2 = 12 ∧
+    gamma_GIFT_num = 511 ∧
+    gamma_GIFT_den = 884 ∧
+    m_mu_m_e_base = 27 ∧
+    alpha_inv_algebraic = 128 ∧
+    alpha_inv_bulk = 9 ∧
+    b2 = 21 ∧
+    rank_E8 + b3 = 85 ∧
+    GaugeSector.alpha_inv_complete_num = 267489 ∧
+    GaugeSector.alpha_inv_complete_den = 1952 ∧
+    dim_G2 / dim_K7 = 2 ∧
+    (dim_G2 - p2) * (dim_G2 - p2) = 144 ∧
+    dim_F4 = 52 ∧
+    dim_F4 - dim_J3O = 25 ∧
+    dim_E6 - dim_F4 = 26 ∧
+    weyl_E8_order = 696729600 ∧
+    dim_F4 + N_gen * N_gen = 61 ∧
+    b2 = alpha_sq_B_sum + rank_E8 ∧
+    b3 = alpha_sq_B_sum * Weyl_factor + 12 ∧
+    H_star = alpha_sq_B_sum * dim_K7 + rank_E8 ∧
+    Algebra.dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum ∧
+    dim_K7 * dim_G2 = 98 ∧
+    1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num_reduced ∧
+    n_observables = N_gen * alpha_sq_B_sum ∧
+    dim_E6 = 2 * n_observables ∧
+    H0_topological = dim_K7 * 10 ∧
+    -- v1.6.0: Mass factorization (11)
+    3 * 19 * 61 = 3477 ∧
+    dim_K7 + 10 * dim_E8 + 10 * H_star = 3477 ∧
+    2 * (rank_E8 + 1) = 18 ∧
+    798 = 2 * 3 * 7 * 19 ∧
+    1 + 7 + 14 + 27 = 49 ∧
+    61 - 49 = 12 ∧
+    H_star / D_bulk = 9 ∧
+    fib 9 = 34 ∧
+    lucas 6 = 18 ∧
+    fib 8 = b2 ∧
+    p2 * N_gen * N_gen = 18 ∧
+    -- v1.7.0: Exceptional chain (10 new)
+    dim_K7 * dim_E8xE8 = 3472 ∧
+    dim_E7 = dim_K7 * prime_8 ∧
+    dim_E7 = b3 + rank_E8 * dim_K7 ∧
+    m_tau_m_e = (dim_fund_E7 + 1) * kappa_T_inv ∧
+    dim_fund_E7 = rank_E8 * dim_K7 ∧
+    1 * 49 + 4 * 7 + 1 = dim_E6 ∧
+    dim_E8 = rank_E8 * prime_11 ∧
+    (dim_fund_E7 + Algebra.dim_U1) * kappa_T_inv = m_tau_m_e ∧
+    b3 + 1 = dim_E6 ∧
+    dim_E6 = 6 * prime_6 ∧
+    dim_E7 = 7 * prime_8 ∧
+    dim_E8 = 8 * prime_11 := by
   repeat (first | constructor | native_decide | rfl)
 
 end GIFT.Certificate

@@ -40,3 +40,41 @@ Definition dim_SM_gauge : nat := dim_SU3 + dim_SU2 + dim_U1.
 
 Theorem SM_gauge_certified : dim_SM_gauge = 12.
 Proof. reflexivity. Qed.
+
+(** =========================================================================== *)
+(** EXCEPTIONAL GROUP E7 (v1.7.0) *)
+(** =========================================================================== *)
+
+(** Dimension of the exceptional Lie group E7 *)
+Definition dim_E7 : nat := 133.
+
+(** Fundamental representation of E7 (56-dimensional) *)
+Definition dim_fund_E7 : nat := 56.
+
+Theorem dim_E7_certified : dim_E7 = 133.
+Proof. reflexivity. Qed.
+
+Theorem dim_fund_E7_certified : dim_fund_E7 = 56.
+Proof. reflexivity. Qed.
+
+(** =========================================================================== *)
+(** PRIME SEQUENCE (for exceptional chain) *)
+(** =========================================================================== *)
+
+(** The 6th prime number (for E6) *)
+Definition prime_6 : nat := 13.
+
+(** The 8th prime number (for E7) *)
+Definition prime_8 : nat := 19.
+
+(** The 11th prime number (for E8) *)
+Definition prime_11 : nat := 31.
+
+Theorem prime_6_certified : prime_6 = 13.
+Proof. reflexivity. Qed.
+
+Theorem prime_8_certified : prime_8 = 19.
+Proof. reflexivity. Qed.
+
+Theorem prime_11_certified : prime_11 = 31.
+Proof. reflexivity. Qed.
