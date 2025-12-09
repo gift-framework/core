@@ -24,6 +24,7 @@ open GIFT.Algebra GIFT.Topology GIFT.Geometry
 
 def visible_dim : Nat := 43          -- Visible sector
 def hidden_dim : Nat := 34           -- Hidden sector
+def alpha_sq_B_sum : Nat := 13       -- Sum of Structure B alphas (2+5+6)
 
 /-! ## Structure A: Topological alpha^2 -/
 

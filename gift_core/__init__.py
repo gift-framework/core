@@ -81,7 +81,48 @@ from gift_core.constants import (
     E6_CHAIN, E7_CHAIN, E8_CHAIN,
     CHAIN_PRIME_INDEX_E6, CHAIN_PRIME_INDEX_E7, CHAIN_PRIME_INDEX_E8,
     E7_E6_GAP, E8_E7_GAP, E7_FUND_J3O_SUM,
+    # V2.0 new constants
+    HUBBLE_CMB, HUBBLE_LOCAL, HUBBLE_TENSION,
+    MONSTER_DIM, MONSTER_FACTOR_47, MONSTER_FACTOR_59, MONSTER_FACTOR_71,
+    J_CONSTANT, J_COEFF_1,
+    COXETER_E8, ICOSAHEDRON_VERTICES, ICOSAHEDRON_EDGES, ICOSAHEDRON_FACES,
+    BINARY_ICOSAHEDRAL_ORDER, E8_KISSING_NUMBER,
+    PHI_SQUARED_NUM, PHI_SQUARED_DEN,
+    HEEGNER_NUMBERS, T_CMB_mK, AGE_UNIVERSE_UNIT,
 )
+
+# V2.0 New modules
+from gift_core.sequences import (
+    fib, lucas,
+    FIBONACCI_GIFT, LUCAS_GIFT,
+    fibonacci_index, lucas_index,
+    RECURRENCE_CHAIN, verify_fibonacci_recurrence,
+    PHI_RATIOS, phi_deviation,
+)
+
+from gift_core.primes import (
+    TIER1_PRIMES, TIER2_PRIMES, TIER3_PRIMES, TIER4_PRIMES,
+    HEEGNER_NUMBERS as HEEGNER_DICT, SPECIAL_PRIMES, GENERATORS,
+    prime_expression, prime_generator, is_gift_prime,
+    is_heegner, verify_prime_coverage,
+)
+
+from gift_core.monster import (
+    MONSTER_DIM as MONSTER_DIMENSION,
+    MONSTER_FACTORS, MONSTER_FACTOR_EXPRESSIONS,
+    verify_monster_factorization, monster_factor_arithmetic_progression,
+    J_CONSTANT as J_INVARIANT_CONSTANT, J_CONSTANT_FACTORED, J_COEFF_1 as J_FIRST_COEFF,
+    verify_j_constant, verify_moonshine, j_E8_relations,
+)
+
+from gift_core.mckay import (
+    COXETER_E8 as MCKAY_COXETER, ICOSAHEDRON, BINARY_GROUPS, E8_KISSING_NUMBER as MCKAY_KISSING,
+    verify_mckay_coxeter, verify_euler_icosahedron, verify_E8_kissing,
+    ICOSAHEDRAL_ANGLE, PENTAGON_ANGLE, PHI_APPROX,
+    golden_emergence_chain, PHI_RATIOS as MCKAY_PHI_RATIOS,
+    ADE_BINARY_ORDERS,
+)
+
 from gift_core.relations import PROVEN_RELATIONS, get_relation
 from gift_core.topology import K7, G2, E8
 from gift_core.scales import (

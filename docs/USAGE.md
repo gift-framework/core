@@ -96,17 +96,69 @@ for r in PROVEN_RELATIONS:
 | `W_SUM` | 49 | G2 torsion classes (1+7+14+27) |
 | `T61_RESIDUE` | 12 | Gauge residue (dim(G2) - p2) |
 | `IMPEDANCE` | 9 | H*/D_bulk |
-| `DUALITY_GAP_LUCAS` | 18 | Lucas L_6 |
-| `HIDDEN_DIM_FIBO` | 34 | Fibonacci F_9 |
-| `GAP_COLOR_FORMULA` | 18 | p2 x N_gen^2 |
+
+### Sequence Embeddings (v2.0)
 
 ```python
-# Fibonacci and Lucas sequences
-from gift_core import fibonacci, lucas
+from gift_core.sequences import fib, lucas, FIBONACCI_GIFT, LUCAS_GIFT
 
-print(fibonacci(8))  # 21 = b2
-print(fibonacci(9))  # 34 = hidden_dim
-print(lucas(6))      # 18 = duality_gap
+# Fibonacci embedding: F_3...F_12 are GIFT constants
+print(fib(8))   # 21 = b2
+print(fib(9))   # 34 = hidden_dim
+print(fib(12))  # 144 = (dim_G2 - p2)^2
+
+# Lucas embedding
+print(lucas(6))  # 18 = duality_gap
+print(lucas(8))  # 47 = Monster factor
+
+# View all embeddings
+for n, (val, name) in FIBONACCI_GIFT.items():
+    print(f"F_{n} = {val} = {name}")
+```
+
+### Prime Atlas (v2.0)
+
+```python
+from gift_core.primes import prime_expression, prime_generator, is_heegner
+
+# All primes < 200 have GIFT expressions
+print(prime_expression(67))   # "b3 - 2 * Weyl_factor"
+print(prime_expression(163))  # "dim_E8 - rank_E8 - b3"
+
+# Which generator?
+print(prime_generator(59))   # "b3"
+print(prime_generator(137))  # "H_star"
+print(prime_generator(197))  # "dim_E8"
+
+# Heegner numbers
+print(is_heegner(163))  # True (largest Heegner number)
+```
+
+### Monster Group (v2.0)
+
+```python
+from gift_core.monster import MONSTER_DIM, MONSTER_FACTORS, J_CONSTANT
+
+# Monster dimension factorization
+print(MONSTER_DIM)     # 196883
+print(MONSTER_FACTORS) # (47, 59, 71) - all GIFT-expressible!
+
+# j-invariant
+print(J_CONSTANT)      # 744 = 3 x 248 = N_gen x dim_E8
+```
+
+### McKay Correspondence (v2.0)
+
+```python
+from gift_core.mckay import COXETER_E8, ICOSAHEDRON, PHI_RATIOS
+
+# E8 <-> Icosahedron correspondence
+print(COXETER_E8)           # 30 = icosahedron edges
+print(ICOSAHEDRON["faces"]) # 20 = m_s_m_d
+
+# Golden ratio from GIFT ratios
+for name, (num, den, error) in PHI_RATIOS.items():
+    print(f"{name}: {num}/{den} (error: {error:.3f}%)")
 ```
 
 ## Topological Constants

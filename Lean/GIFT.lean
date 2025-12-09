@@ -1,6 +1,6 @@
 -- GIFT: Geometric Integration of Fundamental Topologies
 -- Main entry point for Lean 4 formalization
--- Version: 1.6.0 (65 certified relations)
+-- Version: 2.0.0 (165+ certified relations)
 
 import GIFT.Algebra
 import GIFT.Geometry
@@ -16,3 +16,9 @@ import GIFT.Relations.Cosmology
 
 -- Mass Factorization Theorem: +11 relations (v1.6.0)
 import GIFT.Relations.MassFactorization
+
+-- V2.0 New modules
+import GIFT.Sequences      -- Fibonacci, Lucas, Recurrence
+import GIFT.Primes         -- Prime Atlas (Tier 1-4, Heegner, Special)
+import GIFT.Monster        -- Monster group dimension, j-invariant
+import GIFT.McKay          -- McKay correspondence, Golden emergence

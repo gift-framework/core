@@ -5,6 +5,100 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2025-12-09
+
+### Added
+
+- **Sequence Embeddings** (20+ new relations):
+  - Complete Fibonacci embedding: F_3 through F_12 are GIFT constants
+  - Complete Lucas embedding: L_0 through L_9 are GIFT constants
+  - Fibonacci recurrence chain: p2 → N_gen → Weyl → rank_E8 → alpha_sum → b2 → hidden_dim
+  - Golden ratio approximations from consecutive GIFT ratios
+
+- **Prime Atlas** (50+ new relations):
+  - **100% coverage** of all primes < 200
+  - Tier 1: 10 direct GIFT constants (p2, N_gen, Weyl, dim_K7, D_bulk, ...)
+  - Tier 2: 15 primes < 100 via GIFT expressions
+  - Tier 3: 10 primes 100-150 via H* generator
+  - Tier 4: 11 primes 150-200 via dim_E8 generator
+  - Three-generator structure: b3=77, H*=99, dim_E8=248
+  - All 9 Heegner numbers GIFT-expressible
+
+- **Monster Group** (15+ new relations):
+  - Monster dimension 196883 = 47 × 59 × 71 (all GIFT-expressible)
+  - Factor arithmetic progression with d=12 (alpha_s denominator)
+  - j-invariant: 744 = 3 × 248 = N_gen × dim_E8
+  - Monstrous Moonshine: j_coeff_1 = 196884 = Monster_dim + 1
+
+- **McKay Correspondence** (10+ new relations):
+  - E8 ↔ Binary Icosahedral (|2I| = 120)
+  - Coxeter(E8) = 30 = icosahedron edges
+  - E8 kissing number 240 = 2 × 120 = rank_E8 × Coxeter
+  - Golden ratio emergence via McKay chain
+
+- **Lean 4 modules**:
+  - `Lean/GIFT/Sequences/` - Fibonacci, Lucas, Recurrence
+  - `Lean/GIFT/Primes/` - Tier1, Tier2, Generators, Heegner, Special
+  - `Lean/GIFT/Monster/` - Dimension, JInvariant
+  - `Lean/GIFT/McKay/` - Correspondence, GoldenEmergence
+
+- **Python modules** (in `gift_core`):
+  - `sequences/` - fib(), lucas(), FIBONACCI_GIFT, LUCAS_GIFT, phi_deviation()
+  - `primes/` - prime_expression(), prime_generator(), verify_prime_coverage()
+  - `monster/` - MONSTER_DIM, verify_monster_factorization(), j_E8_relations()
+  - `mckay/` - COXETER_E8, golden_emergence_chain(), PHI_RATIOS
+
+### Changed
+
+- Updated `Certificate.lean` with `gift_v2_master_certificate` (165+ relations)
+- Total certified relations: 75 → 165+
+
+### Key Insights
+
+**Monster Factorization**: The Monster dimension 196883 factorizes into three primes:
+```
+196883 = 47 × 59 × 71
+       = lucas_8 × (b3 - lucas_6) × (b3 - 6)
+```
+These form an arithmetic progression with common difference 12 = dim(G2) - p2.
+
+**Three-Generator Structure**: All primes < 200 are expressible using three generators:
+- b3 = 77 generates primes 30-90
+- H* = 99 generates primes 90-150
+- dim_E8 = 248 generates primes 150-250
+
+**Fibonacci in GIFT**: The Fibonacci sequence F_3...F_12 maps exactly to GIFT constants:
+```
+F_3=2=p2, F_4=3=N_gen, F_5=5=Weyl, F_6=8=rank_E8,
+F_7=13=alpha_sum, F_8=21=b2, F_9=34=hidden, ...
+```
+
+## [1.7.0] - 2025-12-08
+
+### Added
+
+- **Exceptional Chain Relations** (10 new certified relations):
+  - `tau_num = dim(K7) x dim(E8xE8)` - Hierarchy parameter from exceptional groups
+  - `dim(E7) = dim(K7) x prime(8)` - E7 dimension formula
+  - `dim(E7) = b3 + rank(E8) x dim(K7)` - E7 from Betti and E8
+  - `m_tau/m_e = (fund(E7) + 1) x kappa_T^-1` - Tau mass from E7
+  - `fund(E7) = rank(E8) x dim(K7)` - E7 fundamental representation
+  - `dim(E6) = [1,4,1]_7` - Base-7 palindrome
+  - `dim(E8) = rank(E8) x prime(11)` - E8 dimension formula
+  - `dim(E6) = b3 + 1` - E6 from third Betti number
+  - Exceptional chain: E6=6×13, E7=7×19, E8=8×31
+
+- **Lean 4 modules**:
+  - `Lean/GIFT/Relations/ExceptionalChain.lean` - Complete proof of all 10 relations
+
+- **Coq modules**:
+  - `COQ/Relations/ExceptionalChain.v` - Matching proofs
+
+### Changed
+
+- Updated `Certificate.lean` with `all_75_relations_certified` master theorem
+- Total certified relations: 65 → 75
+
 ## [1.6.0] - 2025-12-08
 
 ### Added
