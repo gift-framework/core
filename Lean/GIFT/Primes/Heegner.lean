@@ -147,13 +147,15 @@ theorem all_heegner_gift_expressible :
 /-- Complete Heegner relations certified -/
 theorem all_heegner_relations_certified :
     -- All 9 Heegner numbers expressible
-    all_heegner_gift_expressible ∧
+    ((1 = Algebra.dim_U1) ∧ (2 = p2) ∧ (3 = N_gen) ∧ (7 = dim_K7) ∧ (11 = D_bulk) ∧
+     (19 = Algebra.prime_8) ∧ (43 = visible_dim) ∧ (67 = b3 - 2 * Weyl_factor) ∧
+     (163 = dim_E8 - rank_E8 - b3)) ∧
     -- All except 1 are prime
     Nat.Prime 2 ∧ Nat.Prime 3 ∧ Nat.Prime 7 ∧
     Nat.Prime 11 ∧ Nat.Prime 19 ∧ Nat.Prime 43 ∧
     Nat.Prime 67 ∧ Nat.Prime 163 := by
   constructor
   · exact all_heegner_gift_expressible
-  · repeat (first | constructor | decide)
+  · repeat (first | constructor | native_decide)
 
 end GIFT.Primes.Heegner

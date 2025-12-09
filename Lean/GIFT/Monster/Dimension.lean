@@ -12,6 +12,7 @@ import GIFT.Topology
 import GIFT.Geometry
 import GIFT.Relations
 import GIFT.Sequences.Lucas
+import Mathlib.Data.Nat.Prime.Basic
 
 namespace GIFT.Monster.Dimension
 
@@ -75,27 +76,27 @@ theorem monster_diff_is_alpha_s : 12 = dim_G2 - p2 := by native_decide
 -- MONSTROUS MOONSHINE CONNECTION
 -- =============================================================================
 
-/-- The McKay-Thompson conjecture relates Monster to modular functions -/
-/-- j(tau) - 744 has leading coefficient 1, then 196884 = 196883 + 1 -/
+-- The McKay-Thompson conjecture relates Monster to modular functions
+-- j(tau) - 744 has leading coefficient 1, then 196884 = 196883 + 1
 def monstrous_moonshine_coeff : Nat := monster_dim + 1
 
 theorem moonshine_coeff : monstrous_moonshine_coeff = 196884 := by native_decide
 
-/-- 196884 = 2^2 x 3 x 47 x 349 -/
-theorem moonshine_coeff_factored : (196884 : Nat) = 4 * 3 * 47 * 349 := by native_decide
+-- 196884 = 2^2 x 3^3 x 1823 (note: 47 is NOT a factor of 196884)
+theorem moonshine_coeff_factored : (196884 : Nat) = 4 * 27 * 1823 := by native_decide
 
 -- =============================================================================
 -- MONSTER AND E8
 -- =============================================================================
 
-/-- Monster dimension mod 248 -/
-theorem monster_mod_E8 : monster_dim % dim_E8 = 203 := by native_decide
+-- Monster dimension mod 248: 196883 = 793 * 248 + 219
+theorem monster_mod_E8 : monster_dim % dim_E8 = 219 := by native_decide
 
-/-- Monster dimension / 248 = 794 -/
-theorem monster_div_E8 : monster_dim / dim_E8 = 794 := by native_decide
+-- Monster dimension / 248: 196883 / 248 = 793
+theorem monster_div_E8 : monster_dim / dim_E8 = 793 := by native_decide
 
-/-- 794 = 2 x 397 -/
-theorem monster_quotient : (794 : Nat) = 2 * 397 := by native_decide
+-- 793 = 13 x 61 = alpha_sq_B_sum x kappa_T_inv
+theorem monster_quotient : (793 : Nat) = 13 * 61 := by native_decide
 
 -- =============================================================================
 -- MASTER THEOREM

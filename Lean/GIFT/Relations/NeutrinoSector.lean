@@ -146,7 +146,7 @@ theorem G2_in_PMNS :
 theorem PMNS_unitary : Algebra.dim_U1 = 1 := rfl
 
 /-- RELATION 228: CP violation phase 197 is prime -/
-theorem delta_CP_prime : Nat.Prime 197 := by decide
+theorem delta_CP_prime : Nat.Prime 197 := by native_decide
 
 /-- RELATION 229: Jarlskog invariant structure
     J ~ 0.033, structure involves N_gen = 3 -/
@@ -181,6 +181,6 @@ theorem all_neutrino_v2_relations_certified :
     (N_gen = 3) ∧
     -- Mass hierarchy
     (H_star = 99) := by
-  repeat (first | constructor | decide | native_decide | rfl)
+  repeat (first | constructor | native_decide | rfl)
 
 end GIFT.Relations.NeutrinoSector

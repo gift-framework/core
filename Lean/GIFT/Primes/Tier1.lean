@@ -129,6 +129,6 @@ theorem all_tier1_relations_certified :
     Nat.Prime Algebra.prime_8 ∧
     Nat.Prime prime_11 ∧
     Nat.Prime (61 : Nat) := by  -- kappa_T_inv
-  repeat (first | constructor | decide)
+  repeat (first | constructor | native_decide)
 
 end GIFT.Primes.Tier1
