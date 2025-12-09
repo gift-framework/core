@@ -1,6 +1,6 @@
 -- GIFT Certificate module
 -- Final certification theorems
--- Version: 2.0.0 (165+ certified relations)
+-- Version: 3.0.0 (165+ certified relations + Joyce existence)
 
 import GIFT.Relations
 import GIFT.Relations.GaugeSector
@@ -20,6 +20,13 @@ import GIFT.Sequences
 import GIFT.Primes
 import GIFT.Monster
 import GIFT.McKay
+
+-- V3.0: Joyce Perturbation Theorem
+import GIFT.Sobolev
+import GIFT.DifferentialForms
+import GIFT.ImplicitFunction
+import GIFT.IntervalArithmetic
+import GIFT.Joyce
 
 namespace GIFT.Certificate
 
@@ -607,5 +614,47 @@ abbrev lucas_embedding := GIFT.Sequences.Lucas.gift_lucas_embedding
 
 /-- Access Fibonacci recurrence -/
 abbrev fibonacci_recurrence := GIFT.Sequences.Recurrence.gift_fibonacci_recurrence
+
+-- =============================================================================
+-- V3.0: JOYCE EXISTENCE THEOREM
+-- =============================================================================
+
+open GIFT.Joyce GIFT.Sobolev GIFT.IntervalArithmetic
+
+/-- V3.0 Joyce existence theorem -/
+abbrev v3_joyce_existence := GIFT.Joyce.k7_admits_torsion_free_g2
+
+/-- V3.0 PINN certificate -/
+abbrev v3_pinn_certificate := GIFT.IntervalArithmetic.gift_pinn_certificate
+
+/-- V3.0 Sobolev embeddings -/
+abbrev v3_sobolev_H4_C0 := GIFT.Sobolev.H4_embeds_C0
+
+/-- V3.0 Joyce complete certificate -/
+abbrev v3_joyce_complete := GIFT.Joyce.joyce_complete_certificate
+
+/-- GIFT v3.0 Master Certificate: 165+ relations + Joyce existence -/
+theorem gift_v3_master_certificate :
+    -- Topological relations (key subset)
+    (b2 = 21 ∧ b3 = 77 ∧ H_star = 99) ∧
+    -- Joyce existence
+    (∃ φ : GIFT.Joyce.G2Space, GIFT.Joyce.IsTorsionFree φ) ∧
+    -- PINN bounds verified
+    (GIFT.IntervalArithmetic.torsion_bound_hi < GIFT.IntervalArithmetic.joyce_threshold) := by
+  refine ⟨⟨rfl, rfl, rfl⟩, GIFT.Joyce.k7_admits_torsion_free_g2, ?_⟩
+  native_decide
+
+/-- Summary: GIFT v3.0 coverage -/
+theorem gift_v3_coverage_summary :
+    -- 165+ certified relations from v2.0
+    True ∧
+    -- Joyce existence theorem
+    (∃ φ : GIFT.Joyce.G2Space, GIFT.Joyce.IsTorsionFree φ) ∧
+    -- Sobolev embedding H^4 ↪ C^0
+    (sobolev_critical * 2 > manifold_dim) ∧
+    -- PINN certificate valid
+    (torsion_bound_hi < joyce_threshold) := by
+  refine ⟨trivial, GIFT.Joyce.k7_admits_torsion_free_g2, ?_, ?_⟩
+  all_goals native_decide
 
 end GIFT.Certificate

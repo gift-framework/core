@@ -5,6 +5,45 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2025-12-09
+
+### Added
+
+- **Joyce Existence Theorem**: Complete Lean 4 formalization proving K7 admits
+  torsion-free G2 structure via Banach fixed-point theorem
+- **Sobolev Spaces**: H^k formalization with embedding theorems (H^4 ↪ C^0)
+- **Differential Forms**: Exterior calculus with d, d*, Hodge star, Laplacian
+- **Implicit Function Theorem**: Abstract IFT framework with Newton iteration
+- **Interval Arithmetic**: Verified numerical bounds for PINN certificate
+- **Python Analysis Module**: `gift_core.analysis` with JoyceCertificate
+
+### New Lean Modules
+
+- `Lean/GIFT/Joyce.lean` - Main existence theorem
+- `Lean/GIFT/Sobolev.lean` - Sobolev spaces H^k
+- `Lean/GIFT/DifferentialForms.lean` - Exterior calculus
+- `Lean/GIFT/ImplicitFunction.lean` - IFT framework
+- `Lean/GIFT/IntervalArithmetic.lean` - PINN bounds
+
+### Key Results
+
+**Joyce Existence**: The K7 manifold admits a torsion-free G2 structure:
+```lean
+theorem k7_admits_torsion_free_g2 : ∃ φ : G2Space, IsTorsionFree φ
+```
+
+**PINN Certificate**: Verified bounds from neural network training:
+- Torsion bound: ||T(φ₀)|| < 0.00141
+- Joyce threshold: ε₀ = 0.0288
+- Safety margin: 20× (threshold/bound > 20)
+
+**Python Verification**:
+```python
+from gift_core.analysis import JoyceCertificate
+cert = JoyceCertificate.verify()
+assert cert.is_valid()  # K7 admits torsion-free G2!
+```
+
 ## [2.0.0] - 2025-12-09
 
 ### Added

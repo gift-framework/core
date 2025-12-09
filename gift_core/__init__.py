@@ -4,6 +4,9 @@ GIFT Core - Formally verified mathematical constants.
 All values are proven in Lean 4 and Coq proof assistants.
 Zero domain-specific axioms. Zero sorry/Admitted.
 
+V3.0 adds Joyce's perturbation theorem proving that K7 admits
+a torsion-free G2 structure, with verified PINN bounds.
+
 Includes Monte Carlo simulation for testing robustness of
 dimensional observables across Planck/string scale variations.
 """
@@ -121,6 +124,14 @@ from gift_core.mckay import (
     ICOSAHEDRAL_ANGLE, PENTAGON_ANGLE, PHI_APPROX,
     golden_emergence_chain, PHI_RATIOS as MCKAY_PHI_RATIOS,
     ADE_BINARY_ORDERS,
+)
+
+# V3.0: Joyce existence theorem module
+from gift_core.analysis import (
+    Interval, IntervalBound,
+    TORSION_BOUND, JOYCE_THRESHOLD, LIPSCHITZ_BOUND,
+    DET_G_BOUND, DET_G_TARGET, CONTRACTION_K,
+    JoyceCertificate, verify_pinn_bounds,
 )
 
 from gift_core.relations import PROVEN_RELATIONS, get_relation
@@ -384,6 +395,11 @@ __all__ = [
     # Pipeline
     'PipelineConfig', 'default_config',
     'GIFTPipeline', 'PipelineResult', 'run_pipeline',
+    # V3.0: Analysis module (Joyce existence)
+    'Interval', 'IntervalBound',
+    'TORSION_BOUND', 'JOYCE_THRESHOLD', 'LIPSCHITZ_BOUND',
+    'DET_G_BOUND', 'DET_G_TARGET', 'CONTRACTION_K',
+    'JoyceCertificate', 'verify_pinn_bounds',
     # Version
     '__version__',
 ]

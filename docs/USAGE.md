@@ -161,6 +161,50 @@ for name, (num, den, error) in PHI_RATIOS.items():
     print(f"{name}: {num}/{den} (error: {error:.3f}%)")
 ```
 
+### Joyce Existence Theorem (v3.0)
+
+```python
+from gift_core.analysis import JoyceCertificate, verify_pinn_bounds
+
+# Quick verification
+assert verify_pinn_bounds()  # K7 admits torsion-free G2!
+
+# Detailed certificate
+cert = JoyceCertificate.verify()
+print(cert)
+# JoyceCertificate:
+#   Torsion < threshold: True
+#   Safety margin: 20.4x
+#   Contraction K < 1: True
+#   det(g) = 65/32: True
+#   Status: VALID
+
+# Check individual conditions
+print(cert.torsion_below_threshold)  # True
+print(float(cert.safety_margin))     # ~20.4
+```
+
+### Interval Arithmetic (v3.0)
+
+```python
+from gift_core.analysis import (
+    Interval, TORSION_BOUND, JOYCE_THRESHOLD,
+    DET_G_BOUND, DET_G_TARGET
+)
+
+# PINN torsion bound: [0.00139, 0.00141]
+print(TORSION_BOUND)  # [0.001390, 0.001410]
+
+# Joyce threshold: 0.0288
+print(JOYCE_THRESHOLD.lo)  # 0.0288
+
+# Verify bound is below threshold
+print(TORSION_BOUND.hi < JOYCE_THRESHOLD.lo)  # True
+
+# det(g) verification
+print(DET_G_BOUND.contains(DET_G_TARGET))  # True
+```
+
 ## Topological Constants
 
 These are the fundamental constants from which relations are derived:
