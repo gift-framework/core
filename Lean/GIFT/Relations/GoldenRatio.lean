@@ -4,11 +4,13 @@
 -- Version: 1.4.0
 
 import GIFT.Algebra
+import GIFT.Topology
 import GIFT.Geometry
+import GIFT.Relations
 
 namespace GIFT.Relations.GoldenRatio
 
-open GIFT.Algebra GIFT.Geometry
+open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
 
 -- =============================================================================
 -- GOLDEN RATIO STRUCTURAL CONSTANTS

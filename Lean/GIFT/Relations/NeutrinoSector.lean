@@ -4,10 +4,13 @@
 
 import GIFT.Algebra
 import GIFT.Topology
+import GIFT.Geometry
+import GIFT.Relations
+import Mathlib.Data.Nat.Prime.Basic
 
 namespace GIFT.Relations.NeutrinoSector
 
-open GIFT.Algebra GIFT.Topology
+open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
 
 -- =============================================================================
 -- RELATION #15: γ_GIFT

@@ -81,13 +81,14 @@ theorem icosahedral_60_verts : icosahedral_order = icosahedron_vertices * Weyl_f
 -- EULER CHARACTERISTIC
 -- =============================================================================
 
-/-- Euler characteristic of icosahedron: V - E + F = 2 -/
+/-- Euler characteristic of icosahedron: V + F - E = 2 -/
+-- Note: Reordered to avoid Nat underflow (12 - 30 = 0 in Nat)
 theorem euler_icosahedron :
-    icosahedron_vertices - icosahedron_edges + icosahedron_faces = 2 := by native_decide
+    icosahedron_vertices + icosahedron_faces - icosahedron_edges = 2 := by native_decide
 
 /-- This equals p2! -/
 theorem euler_is_p2 :
-    icosahedron_vertices - icosahedron_edges + icosahedron_faces = p2 := by native_decide
+    icosahedron_vertices + icosahedron_faces - icosahedron_edges = p2 := by native_decide
 
 -- =============================================================================
 -- ADE CLASSIFICATION
@@ -137,8 +138,8 @@ theorem all_mckay_correspondence_relations_certified :
     (E8_kissing_number = rank_E8 * coxeter_E8) ∧
     -- Coxeter 30
     (coxeter_E8 = p2 * N_gen * Weyl_factor) ∧
-    -- Euler characteristic
-    (icosahedron_vertices - icosahedron_edges + icosahedron_faces = p2) := by
+    -- Euler characteristic (reordered for Nat: V + F - E)
+    (icosahedron_vertices + icosahedron_faces - icosahedron_edges = p2) := by
   repeat (first | constructor | native_decide | rfl)
 
 end GIFT.McKay.Correspondence

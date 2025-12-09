@@ -15,6 +15,7 @@ import GIFT.Topology
 import GIFT.Geometry
 import GIFT.Relations
 import GIFT.Relations.YukawaDuality
+import GIFT.Sequences.Fibonacci
 
 namespace GIFT.Sequences.Lucas
 
