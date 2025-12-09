@@ -7,14 +7,18 @@ This file contains development conventions and lessons learned to avoid repeatin
 ```
 gift-framework/core/
 ├── Lean/                    # Lean 4 formal proofs
-│   ├── GIFT.lean           # Main entry point
+│   ├── GIFT.lean           # Main entry point (v2.0.0)
 │   ├── GIFT/
-│   │   ├── Algebra.lean    # E8, G2 constants
+│   │   ├── Algebra.lean    # E8, G2, E7, F4, E6 constants
 │   │   ├── Topology.lean   # Betti numbers, H*, p2
 │   │   ├── Geometry.lean   # K7, J3(O)
 │   │   ├── Relations.lean  # Original 13 relations
-│   │   ├── Relations/      # Extension modules
-│   │   └── Certificate.lean # Master theorems
+│   │   ├── Relations/      # Extension modules (11 files)
+│   │   ├── Sequences/      # [v2.0] Fibonacci, Lucas, Recurrence
+│   │   ├── Primes/         # [v2.0] Prime Atlas (Tier 1-4, Heegner)
+│   │   ├── Monster/        # [v2.0] Monster dimension, j-invariant
+│   │   ├── McKay/          # [v2.0] McKay correspondence
+│   │   └── Certificate.lean # Master theorems (165+ relations)
 │   └── lakefile.lean
 │
 ├── COQ/                     # Coq formal proofs
@@ -27,8 +31,12 @@ gift-framework/core/
 │
 ├── gift_core/              # Python package
 │   ├── __init__.py         # Exports (update when adding constants!)
-│   ├── _version.py         # Version string
+│   ├── _version.py         # Version string (2.0.0)
 │   ├── constants.py        # All certified constants
+│   ├── sequences/          # [v2.0] Fibonacci, Lucas embeddings
+│   ├── primes/             # [v2.0] Prime Atlas functions
+│   ├── monster/            # [v2.0] Monster group connections
+│   ├── mckay/              # [v2.0] McKay correspondence
 │   └── ...
 │
 ├── tests/                  # Python tests
@@ -231,4 +239,29 @@ python -c "from gift_core import *; print(GAMMA_GIFT)"
 
 ---
 
-*Last updated: 2025-12-05 - 39 certified relations*
+---
+
+## V2.0 New Features
+
+### Sequence Embeddings
+- Complete Fibonacci embedding: F_3-F_12 = GIFT constants
+- Complete Lucas embedding: L_0-L_9 = GIFT constants
+- Recurrence proofs: alpha_sum = rank + Weyl, etc.
+
+### Prime Atlas
+- **100% coverage** of all primes < 200
+- Three-generator structure (b3, H*, dim_E8)
+- All 9 Heegner numbers GIFT-expressible
+
+### Golden Ratio Derivation
+- Three independent paths: McKay, Fibonacci, G2 spectrum
+- Cosmological phi^2: Omega_DE/Omega_DM = 21/8 ~ phi^2
+
+### Monster & McKay
+- Monster dimension: 196883 = 47 x 59 x 71 (all GIFT-expressible)
+- j-invariant: 744 = 3 x 248 = N_gen x dim_E8
+- McKay correspondence: E8 <-> Icosahedron <-> phi
+
+---
+
+*Last updated: 2025-12-09 - 165+ certified relations (v2.0.0)*

@@ -576,3 +576,44 @@ E8_E7_GAP = DIM_E8 - DIM_E7  # = 115
 
 # fund_E7 + dim_J3O = dim_E6 + Weyl
 E7_FUND_J3O_SUM = DIM_FUND_E7 + DIM_J3O  # = 83 = 78 + 5 = dim_E6 + Weyl
+
+# =============================================================================
+# V2.0: NEW CONSTANTS (Relations 76+)
+# =============================================================================
+
+# --- HUBBLE TENSION STRUCTURE ---
+HUBBLE_CMB = 67        # b3 - 2*Weyl_factor = 77 - 10
+HUBBLE_LOCAL = 73      # b3 - p2*p2 = 77 - 4
+HUBBLE_TENSION = 6     # = 2 * N_gen
+
+# --- MONSTER GROUP ---
+MONSTER_DIM = 196883   # = 47 x 59 x 71
+MONSTER_FACTOR_47 = 47  # Lucas_8
+MONSTER_FACTOR_59 = 59  # b3 - 18
+MONSTER_FACTOR_71 = 71  # b3 - 6
+
+# --- j-INVARIANT ---
+J_CONSTANT = 744       # = 3 x 248 = N_gen x dim_E8
+J_COEFF_1 = 196884     # = MONSTER_DIM + 1 (Monstrous Moonshine)
+
+# --- MCKAY CORRESPONDENCE ---
+COXETER_E8 = 30        # = icosahedron edges
+ICOSAHEDRON_VERTICES = 12  # = dim_G2 - p2
+ICOSAHEDRON_EDGES = 30
+ICOSAHEDRON_FACES = 20  # = m_s_m_d
+BINARY_ICOSAHEDRAL_ORDER = 120
+E8_KISSING_NUMBER = 240  # = 2 x binary_icosahedral
+
+# --- COSMOLOGICAL PHI-SQUARED ---
+# Omega_DE/Omega_DM ~ 21/8 = 2.625 ~ phi^2 = 2.618
+PHI_SQUARED_NUM = B2     # = 21
+PHI_SQUARED_DEN = RANK_E8  # = 8
+
+# --- HEEGNER NUMBERS ---
+HEEGNER_NUMBERS = [1, 2, 3, 7, 11, 19, 43, 67, 163]
+
+# --- CMB TEMPERATURE ---
+T_CMB_mK = 2725  # = 25 x 109 = Weyl^2 x 109
+
+# --- AGE OF UNIVERSE ---
+AGE_UNIVERSE_UNIT = 138  # 13.8 Gyr = dim_E7 + Weyl = 133 + 5
