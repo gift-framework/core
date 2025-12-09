@@ -51,11 +51,9 @@ def j_coeff_1 : Nat := 196884
 
 theorem j_coeff_1_monster : j_coeff_1 = monster_dim + 1 := by native_decide
 
-/-- Second coefficient: 21493760 -/
+/-- Second coefficient: 21493760 = 196884 + 21296876
+    This relates to Monster representations -/
 def j_coeff_2 : Nat := 21493760
-
-/-- j_coeff_2 = 196884 + 21296876 -/
--- This relates to Monster representations
 
 /-- The first coefficient is nearly Monster dimension -/
 theorem j_coeff_moonshine : j_coeff_1 - 1 = monster_dim := by native_decide
@@ -83,9 +81,9 @@ theorem j_E8_triality :
 -- MODULAR FORM WEIGHTS
 -- =============================================================================
 
-/-- The j-invariant is a modular form of weight 0 -/
-/-- E_4 has weight 4, E_6 has weight 6 -/
-/-- j = E_4^3 / Delta, where Delta has weight 12 -/
+-- The j-invariant is a modular form of weight 0
+-- E_4 has weight 4, E_6 has weight 6
+-- j = E_4^3 / Delta, where Delta has weight 12
 
 /-- 12 = dim_G2 - p2 = alpha_s denominator -/
 theorem modular_weight_12 : 12 = dim_G2 - p2 := by native_decide

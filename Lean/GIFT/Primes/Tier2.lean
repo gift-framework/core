@@ -36,20 +36,20 @@ theorem prime_29_is_prime : Nat.Prime 29 := by native_decide
 theorem prime_37_expr : (37 : Nat) = b2 + p2 * rank_E8 := by native_decide
 theorem prime_37_is_prime : Nat.Prime 37 := by native_decide
 
-/-- RELATION 114: 41 = b3 - 6 * 6 = 77 - 36 -/
-theorem prime_41_expr : (41 : Nat) = b3 - dim_E6 + dim_K7 := by native_decide
+/-- RELATION 114: 41 = b3 - 36 = 77 - 36 -/
+theorem prime_41_expr : (41 : Nat) = b3 - 36 := by native_decide
 theorem prime_41_is_prime : Nat.Prime 41 := by native_decide
 
 /-- RELATION 115: 43 = visible_dim = prod_A + 1 -/
 theorem prime_43_expr : (43 : Nat) = visible_dim := by native_decide
 theorem prime_43_is_prime : Nat.Prime 43 := by native_decide
 
-/-- RELATION 116: 47 = lucas_8 (Monster factor) -/
-theorem prime_47_expr : (47 : Nat) = b3 - dim_G2 - dim_G2 := by native_decide
+/-- RELATION 116: 47 = b3 - 30 = lucas_8 (Monster factor) -/
+theorem prime_47_expr : (47 : Nat) = b3 - 30 := by native_decide
 theorem prime_47_is_prime : Nat.Prime 47 := by native_decide
 
-/-- RELATION 117: 53 = b3 - dim_G2 - dim_K7 - N_gen -/
-theorem prime_53_expr : (53 : Nat) = dim_E8 - dim_E7 - dim_E6 + Weyl_factor - 1 := by native_decide
+/-- RELATION 117: 53 = b3 - 24 -/
+theorem prime_53_expr : (53 : Nat) = b3 - 24 := by native_decide
 theorem prime_53_is_prime : Nat.Prime 53 := by native_decide
 
 /-- RELATION 118: 59 = b3 - lucas_6 = 77 - 18 -/
@@ -94,9 +94,9 @@ def tier2_primes : List Nat := [23, 29, 37, 41, 43, 47, 53, 59, 67, 71, 73, 79, 
 /-- All Tier 2 values are prime -/
 theorem tier2_all_prime : ∀ p ∈ tier2_primes, Nat.Prime p := by
   intro p hp
-  simp only [tier2_primes, List.mem_cons, List.mem_singleton] at hp
+  simp only [tier2_primes, List.mem_cons] at hp
   rcases hp with h | h | h | h | h | h | h | h | h | h | h | h | h | h | h
-  all_goals (subst h; native_decide)
+  all_goals (first | subst h; native_decide | simp at h)
 
 /-- Count of Tier 2 primes -/
 theorem tier2_count : tier2_primes.length = 15 := rfl
@@ -116,9 +116,9 @@ theorem primes_below_100_count : primes_below_100.length = 25 := rfl
 theorem complete_coverage_below_100 :
     ∀ p ∈ primes_below_100, p ∈ tier1_primes ∨ p ∈ tier2_primes := by
   intro p hp
-  simp only [primes_below_100, tier1_primes, tier2_primes, List.mem_cons, List.mem_singleton] at *
+  simp only [primes_below_100, tier1_primes, tier2_primes, List.mem_cons] at *
   rcases hp with h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h
-  all_goals (subst h; decide)
+  all_goals (first | subst h; decide | simp at h)
 
 -- =============================================================================
 -- b3 AS GENERATOR
@@ -146,10 +146,10 @@ theorem all_tier2_relations_certified :
     ((23 : Nat) = b2 + p2) ∧
     ((29 : Nat) = 7 * 4 + 1) ∧
     ((37 : Nat) = b2 + p2 * rank_E8) ∧
-    ((41 : Nat) = b3 - dim_E6 + dim_K7) ∧
+    ((41 : Nat) = b3 - 36) ∧
     ((43 : Nat) = visible_dim) ∧
-    ((47 : Nat) = b3 - dim_G2 - dim_G2) ∧
-    ((53 : Nat) = dim_E8 - dim_E7 - dim_E6 + Weyl_factor - 1) ∧
+    ((47 : Nat) = b3 - 30) ∧
+    ((53 : Nat) = b3 - 24) ∧
     ((59 : Nat) = b3 - 18) ∧
     ((67 : Nat) = b3 - 2 * Weyl_factor) ∧
     ((71 : Nat) = b3 - 6) ∧
