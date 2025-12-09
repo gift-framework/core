@@ -110,7 +110,7 @@ theorem heegner_tier2 :
 -- SPECIAL HEEGNER PROPERTIES
 -- =============================================================================
 
-/-- 163 is connected to j-invariant via Ramanujan constant -/
+-- 163 is connected to j-invariant via Ramanujan constant
 -- exp(pi * sqrt(163)) ~ 262537412640768744 (almost an integer!)
 -- This is related to Monster group and E8
 
@@ -154,6 +154,6 @@ theorem all_heegner_relations_certified :
     Nat.Prime 67 ∧ Nat.Prime 163 := by
   constructor
   · exact all_heegner_gift_expressible
-  · repeat (first | constructor | native_decide)
+  · repeat (first | constructor | decide)
 
 end GIFT.Primes.Heegner

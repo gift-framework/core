@@ -21,6 +21,7 @@ namespace GIFT.Sequences.Lucas
 
 open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
 open GIFT.Relations.YukawaDuality
+open GIFT.Sequences.Fibonacci
 
 -- =============================================================================
 -- LUCAS SEQUENCE DEFINITION
@@ -97,15 +98,16 @@ theorem K7_plus_bulk_equals_gap : dim_K7 + D_bulk = 18 := by native_decide
 -- LUCAS-FIBONACCI RELATIONSHIPS
 -- =============================================================================
 
-/-- L_n = F_{n-1} + F_{n+1} identity (verified for GIFT-relevant indices) -/
--- Import Fibonacci for cross-reference
-open GIFT.Sequences.Fibonacci in
+-- L_n = F_{n-1} + F_{n+1} identity (verified for GIFT-relevant indices)
+-- Using Fibonacci.fib from GIFT.Sequences.Fibonacci
+
+/-- Lucas-Fibonacci identity: L_4 = F_3 + F_5 -/
 theorem lucas_fib_relation_4 : lucas 4 = Fibonacci.fib 3 + Fibonacci.fib 5 := by native_decide
 
-open GIFT.Sequences.Fibonacci in
+/-- Lucas-Fibonacci identity: L_5 = F_4 + F_6 -/
 theorem lucas_fib_relation_5 : lucas 5 = Fibonacci.fib 4 + Fibonacci.fib 6 := by native_decide
 
-open GIFT.Sequences.Fibonacci in
+/-- Lucas-Fibonacci identity: L_6 = F_5 + F_7 -/
 theorem lucas_fib_relation_6 : lucas 6 = Fibonacci.fib 5 + Fibonacci.fib 7 := by native_decide
 
 -- =============================================================================

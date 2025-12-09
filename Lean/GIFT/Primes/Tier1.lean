@@ -67,11 +67,7 @@ theorem kappa_T_inv_is_prime : Nat.Prime kappa_T_inv := by native_decide
 def tier1_primes : List Nat := [2, 3, 5, 7, 11, 13, 17, 19, 31, 61]
 
 /-- All Tier 1 values are prime -/
-theorem tier1_all_prime : ∀ p ∈ tier1_primes, Nat.Prime p := by
-  intro p hp
-  simp only [tier1_primes, List.mem_cons, List.mem_singleton] at hp
-  rcases hp with h | h | h | h | h | h | h | h | h | h
-  all_goals (subst h; native_decide)
+theorem tier1_all_prime : ∀ p ∈ tier1_primes, Nat.Prime p := by decide
 
 /-- Count of Tier 1 primes -/
 theorem tier1_count : tier1_primes.length = 10 := rfl
@@ -133,6 +129,6 @@ theorem all_tier1_relations_certified :
     Nat.Prime Algebra.prime_8 ∧
     Nat.Prime prime_11 ∧
     Nat.Prime (61 : Nat) := by  -- kappa_T_inv
-  repeat (first | constructor | native_decide)
+  repeat (first | constructor | decide)
 
 end GIFT.Primes.Tier1

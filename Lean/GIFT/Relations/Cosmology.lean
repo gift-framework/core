@@ -97,7 +97,7 @@ theorem hubble_tension_6 : hubble_local - hubble_cmb = 6 := by native_decide
 
 /-- RELATION 215: Both Hubble values are prime -/
 theorem hubble_primes : Nat.Prime hubble_cmb ∧ Nat.Prime hubble_local := by
-  constructor <;> native_decide
+  constructor <;> decide
 
 /-- RELATION 216: Omega_DE/Omega_DM = 21/8 approximates phi^2
     Dark energy / Dark matter ~ 0.68/0.27 ~ 2.5 ~ phi^2 -/
@@ -172,6 +172,6 @@ theorem all_cosmology_v2_relations_certified :
     (age_universe_unit = dim_E7 + Weyl_factor) ∧
     -- Hubble average
     ((hubble_cmb + hubble_local) / 2 = 70) := by
-  repeat (first | constructor | native_decide | rfl)
+  repeat (first | constructor | decide | native_decide | rfl)
 
 end GIFT.Relations.Cosmology

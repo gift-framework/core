@@ -104,28 +104,28 @@ theorem heegner_163_prime : Nat.Prime 163 := by native_decide
 -- WILSON PRIMES AND IRREGULAR PRIMES
 -- =============================================================================
 
-/-- 37 is the only irregular prime with index 2 (irregular pair (37, 32)) -/
-/-- 37 = b2 + p2*rank_E8 = 21 + 16 -/
+/-- 37 is the only irregular prime with index 2 (irregular pair (37, 32))
+    37 = b2 + p2*rank_E8 = 21 + 16 -/
 theorem irregular_37 : (37 : Nat) = b2 + p2 * rank_E8 := by native_decide
 
 /-- 59 = b3 - 18 = b3 - lucas_6 -/
 theorem irregular_59 : (59 : Nat) = b3 - 18 := by native_decide
 
-/-- 67 is an irregular prime (appears in Bernoulli numerators) -/
-/-- Already covered as Hubble CMB -/
+-- 67 is an irregular prime (appears in Bernoulli numerators)
+-- Already covered as Hubble CMB
 
 -- =============================================================================
 -- TWIN PRIMES IN GIFT RANGE
 -- =============================================================================
 
-/-- Twin prime pairs where both are GIFT-expressible -/
-/-- (3, 5), (5, 7), (11, 13), (17, 19), (29, 31), (41, 43), (59, 61), (71, 73) -/
+/-- Twin prime pairs where both are GIFT-expressible:
+    (3, 5), (5, 7), (11, 13), (17, 19), (29, 31), (41, 43), (59, 61), (71, 73) -/
 
 theorem twin_3_5 : Nat.Prime 3 ∧ Nat.Prime 5 ∧ 5 - 3 = 2 := by
-  repeat (first | constructor | native_decide)
+  repeat (first | constructor | decide)
 
 theorem twin_71_73 : Nat.Prime 71 ∧ Nat.Prime 73 ∧ 73 - 71 = 2 := by
-  repeat (first | constructor | native_decide)
+  repeat (first | constructor | decide)
 
 /-- Both 71 and 73 have b3 expressions -/
 theorem twin_71_73_gift :
@@ -154,6 +154,6 @@ theorem all_special_prime_relations_certified :
     -- Heegner 163
     (163 = dim_E8 - rank_E8 - b3) ∧
     Nat.Prime 163 := by
-  repeat (first | constructor | native_decide)
+  repeat (first | constructor | decide | native_decide)
 
 end GIFT.Primes.Special

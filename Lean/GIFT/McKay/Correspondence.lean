@@ -94,11 +94,12 @@ theorem euler_is_p2 :
 -- ADE CLASSIFICATION
 -- =============================================================================
 
-/-- A_n: Cyclic group of order n+1 -/
-/-- D_n: Binary dihedral of order 4(n-2) -/
-/-- E_6: Binary tetrahedral of order 24 -/
-/-- E_7: Binary octahedral of order 48 -/
-/-- E_8: Binary icosahedral of order 120 -/
+-- ADE Classification:
+-- A_n: Cyclic group of order n+1
+-- D_n: Binary dihedral of order 4(n-2)
+-- E_6: Binary tetrahedral of order 24
+-- E_7: Binary octahedral of order 48
+-- E_8: Binary icosahedral of order 120
 
 /-- E6 ↔ Binary Tetrahedral (24 elements) -/
 def binary_tetrahedral_order : Nat := 24
