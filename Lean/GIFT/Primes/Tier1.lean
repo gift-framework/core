@@ -128,7 +128,9 @@ theorem all_tier1_relations_certified :
     Nat.Prime lambda_H_num ∧
     Nat.Prime Algebra.prime_8 ∧
     Nat.Prime prime_11 ∧
-    Nat.Prime (61 : Nat) := by  -- kappa_T_inv
-  repeat (first | constructor | native_decide)
+    Nat.Prime (61 : Nat) :=  -- kappa_T_inv
+  ⟨p2_is_prime, N_gen_is_prime, Weyl_is_prime, dim_K7_is_prime, D_bulk_is_prime,
+   alpha_B_sum_is_prime, lambda_H_is_prime, prime_8_is_prime, prime_11_is_prime,
+   kappa_T_inv_is_prime⟩
 
 end GIFT.Primes.Tier1

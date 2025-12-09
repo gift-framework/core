@@ -171,7 +171,10 @@ theorem all_cosmology_v2_relations_certified :
     -- Age of universe
     (age_universe_unit = dim_E7 + Weyl_factor) ∧
     -- Hubble average
-    ((hubble_cmb + hubble_local) / 2 = 70) := by
-  repeat (first | constructor | native_decide | rfl)
+    ((hubble_cmb + hubble_local) / 2 = 70) :=
+  ⟨by native_decide, by native_decide, by native_decide,
+   hubble_primes.1, hubble_primes.2,
+   ⟨rfl, rfl⟩, ⟨rfl, rfl⟩,
+   by native_decide, by native_decide, by native_decide⟩
 
 end GIFT.Relations.Cosmology

@@ -121,11 +121,16 @@ theorem irregular_59 : (59 : Nat) = b3 - 18 := by native_decide
 /-- Twin prime pairs where both are GIFT-expressible:
     (3, 5), (5, 7), (11, 13), (17, 19), (29, 31), (41, 43), (59, 61), (71, 73) -/
 
-theorem twin_3_5 : Nat.Prime 3 ∧ Nat.Prime 5 ∧ 5 - 3 = 2 := by
-  repeat (first | constructor | native_decide)
+theorem prime_3 : Nat.Prime 3 := by native_decide
+theorem prime_5 : Nat.Prime 5 := by native_decide
+theorem prime_71 : Nat.Prime 71 := by native_decide
+theorem prime_73 : Nat.Prime 73 := by native_decide
 
-theorem twin_71_73 : Nat.Prime 71 ∧ Nat.Prime 73 ∧ 73 - 71 = 2 := by
-  repeat (first | constructor | native_decide)
+theorem twin_3_5 : Nat.Prime 3 ∧ Nat.Prime 5 ∧ 5 - 3 = 2 :=
+  ⟨prime_3, prime_5, rfl⟩
+
+theorem twin_71_73 : Nat.Prime 71 ∧ Nat.Prime 73 ∧ 73 - 71 = 2 :=
+  ⟨prime_71, prime_73, rfl⟩
 
 /-- Both 71 and 73 have b3 expressions -/
 theorem twin_71_73_gift :
@@ -153,7 +158,11 @@ theorem all_special_prime_relations_certified :
     Nat.Prime 67 ∧ Nat.Prime 73 ∧
     -- Heegner 163
     (163 = dim_E8 - rank_E8 - b3) ∧
-    Nat.Prime 163 := by
-  repeat (first | constructor | native_decide)
+    Nat.Prime 163 :=
+  ⟨by native_decide, by native_decide, mersenne_127_prime,
+   by native_decide, by native_decide, delta_CP_is_prime,
+   by native_decide, by native_decide, by native_decide,
+   hubble_primes.1, hubble_primes.2,
+   by native_decide, heegner_163_prime⟩
 
 end GIFT.Primes.Special

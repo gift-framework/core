@@ -153,9 +153,10 @@ theorem all_heegner_relations_certified :
     -- All except 1 are prime
     Nat.Prime 2 ∧ Nat.Prime 3 ∧ Nat.Prime 7 ∧
     Nat.Prime 11 ∧ Nat.Prime 19 ∧ Nat.Prime 43 ∧
-    Nat.Prime 67 ∧ Nat.Prime 163 := by
-  constructor
-  · exact all_heegner_gift_expressible
-  · repeat (first | constructor | native_decide)
+    Nat.Prime 67 ∧ Nat.Prime 163 :=
+  ⟨all_heegner_gift_expressible,
+   heegner_2_prime, heegner_3_prime, heegner_7_prime,
+   heegner_11_prime, heegner_19_prime, heegner_43_prime,
+   heegner_67_prime, heegner_163_prime⟩
 
 end GIFT.Primes.Heegner

@@ -46,9 +46,13 @@ theorem monster_dim_gift :
     monster_dim = lucas 8 * (b3 - lucas 6) * (b3 - 6) := by native_decide
 
 /-- RELATION 179: All three factors are prime -/
+theorem prime_47 : Nat.Prime 47 := by native_decide
+theorem prime_59 : Nat.Prime 59 := by native_decide
+theorem prime_71 : Nat.Prime 71 := by native_decide
+
 theorem monster_factors_prime :
-    Nat.Prime 47 ∧ Nat.Prime 59 ∧ Nat.Prime 71 := by
-  repeat (first | constructor | native_decide)
+    Nat.Prime 47 ∧ Nat.Prime 59 ∧ Nat.Prime 71 :=
+  ⟨prime_47, prime_59, prime_71⟩
 
 /-- RELATION 180: 71 - 47 = 24 = 2 * 12 = 2 * alpha_s_denom -/
 theorem monster_factor_gap : (71 : Nat) - 47 = 24 := by native_decide
@@ -115,7 +119,9 @@ theorem all_monster_dimension_relations_certified :
     -- All prime
     Nat.Prime 47 ∧ Nat.Prime 59 ∧ Nat.Prime 71 ∧
     -- Arithmetic progression
-    (59 - 47 = 12) ∧ (71 - 59 = 12) := by
-  repeat (first | constructor | native_decide)
+    (59 - 47 = 12) ∧ (71 - 59 = 12) :=
+  ⟨by native_decide, by native_decide, by native_decide, by native_decide,
+   by native_decide, prime_47, prime_59, prime_71,
+   by native_decide, by native_decide⟩
 
 end GIFT.Monster.Dimension

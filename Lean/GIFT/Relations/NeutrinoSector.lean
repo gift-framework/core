@@ -180,7 +180,9 @@ theorem all_neutrino_v2_relations_certified :
     -- Jarlskog
     (N_gen = 3) ∧
     -- Mass hierarchy
-    (H_star = 99) := by
-  repeat (first | constructor | native_decide | rfl)
+    (H_star = 99) :=
+  ⟨sin2_theta12_structure, ⟨sin2_theta23_structure.1, sin2_theta23_structure.2.1⟩, rfl,
+   by native_decide, by native_decide, delta_CP_prime,
+   by native_decide, rfl, rfl, rfl⟩
 
 end GIFT.Relations.NeutrinoSector

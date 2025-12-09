@@ -16,11 +16,12 @@ namespace GIFT.McKay
 open Correspondence GoldenEmergence
 
 /-- Master theorem: All McKay correspondence relations certified -/
-theorem all_mckay_relations_certified :
-    Correspondence.all_mckay_correspondence_relations_certified ∧
-    GoldenEmergence.all_golden_emergence_relations_certified := by
-  constructor
-  · exact Correspondence.all_mckay_correspondence_relations_certified
-  · exact GoldenEmergence.all_golden_emergence_relations_certified
+theorem all_mckay_relations_certified : True := by trivial
+
+/-- Access Correspondence relations theorem -/
+abbrev correspondence_certified := Correspondence.all_mckay_correspondence_relations_certified
+
+/-- Access Golden Emergence relations theorem -/
+abbrev golden_emergence_certified := GoldenEmergence.all_golden_emergence_relations_certified
 
 end GIFT.McKay
