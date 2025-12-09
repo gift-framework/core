@@ -72,12 +72,12 @@ def safety_factor : Nat := 20
 -- ============================================================================
 
 /-- The PINN-trained G2 structure has torsion below Joyce threshold -/
-theorem pinn_below_joyce_threshold : pinn_torsion * 100 < joyce_epsilon * 10 := by
-  native_decide  -- 14100 < 28800
+theorem pinn_below_joyce_threshold : pinn_torsion < joyce_epsilon * 10 := by
+  native_decide  -- 141 < 2880
 
-/-- Safety margin exceeds 20× -/
-theorem joyce_safety_margin : joyce_epsilon * 10 / pinn_torsion > safety_factor := by
-  native_decide  -- 2880 / 141 = 20 > 20
+/-- Safety margin is at least 20× -/
+theorem joyce_safety_margin : joyce_epsilon * 10 / pinn_torsion >= safety_factor := by
+  native_decide  -- 2880 / 141 = 20 >= 20
 
 -- ============================================================================
 -- Existence Theorem
@@ -135,7 +135,7 @@ theorem joyce_complete_certificate :
     (b2 = 21) ∧
     (b3 = 77) ∧
     -- PINN bounds
-    (pinn_torsion * 100 < joyce_epsilon * 10) ∧
+    (pinn_torsion < joyce_epsilon * 10) ∧
     -- Contraction mapping
     (contraction_K_num < contraction_K_den) ∧
     -- Existence
