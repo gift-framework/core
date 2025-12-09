@@ -4,11 +4,12 @@
 
 import GIFT.Algebra
 import GIFT.Topology
+import GIFT.Geometry
 import GIFT.Sobolev
 
 namespace GIFT.ImplicitFunction
 
-open GIFT.Algebra GIFT.Topology GIFT.Sobolev
+open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Sobolev
 
 /-!
 # Implicit Function Theorem for Joyce Operator

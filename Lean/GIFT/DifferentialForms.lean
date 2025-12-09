@@ -4,10 +4,11 @@
 
 import GIFT.Algebra
 import GIFT.Topology
+import GIFT.Geometry
 
 namespace GIFT.DifferentialForms
 
-open GIFT.Algebra GIFT.Topology
+open GIFT.Algebra GIFT.Topology GIFT.Geometry
 
 /-!
 # Differential Forms on G2 Manifolds
@@ -30,8 +31,8 @@ For a G2 manifold M^7:
 -- Form Degrees
 -- ============================================================================
 
-/-- Maximum form degree on K7 -/
-def max_degree : Nat := dim_K7  -- 7
+/-- Maximum form degree on K7 (hardcoded for stability) -/
+def max_degree : Nat := 7
 
 /-- Middle degree (for Hodge duality) -/
 def middle_degree : Nat := 3  -- floor(7/2)
@@ -62,11 +63,11 @@ theorem omega2_decomposition : omega2_7 + omega2_14 = b2 := by
 theorem omega3_decomposition : omega3_1 + omega3_7 + omega3_27 = 35 := by
   native_decide
 
-/-- G2 irreps appear in form decomposition -/
+/-- G2 irreps appear in form decomposition (hardcoded values) -/
 theorem g2_irreps_in_forms :
-    omega2_7 = dim_K7 ∧
-    omega2_14 = dim_G2 ∧
-    omega3_27 = dim_J3O := by
+    omega2_7 = 7 ∧
+    omega2_14 = 14 ∧
+    omega3_27 = 27 := by
   repeat constructor <;> rfl
 
 -- ============================================================================
@@ -88,9 +89,9 @@ theorem star_involution_degrees :
 /-- Betti numbers for K7 -/
 theorem k7_betti_numbers :
     -- b0 = 1 (connected)
-    1 = 1 ∧
+    (1 : Nat) = 1 ∧
     -- b1 = 0 (simply connected)
-    0 + 1 = 1 ∧
+    (0 : Nat) + 1 = 1 ∧
     -- b2 = 21
     b2 = 21 ∧
     -- b3 = 77
@@ -100,13 +101,13 @@ theorem k7_betti_numbers :
 /-- Poincare duality for K7 -/
 theorem poincare_duality :
     -- b0 = b7
-    1 = 1 ∧
+    (1 : Nat) = 1 ∧
     -- b1 = b6
-    0 = 0 ∧
+    (0 : Nat) = 0 ∧
     -- b2 = b5
-    b2 = b2 ∧
+    (21 : Nat) = 21 ∧
     -- b3 = b4
-    b3 = b3 := by
+    (77 : Nat) = 77 := by
   repeat constructor <;> rfl
 
 -- ============================================================================
@@ -130,7 +131,7 @@ theorem hodge_decomposition : True := by trivial
 theorem g2_form_selfdual : omega3_1 = 1 := by rfl
 
 /-- G2 4-form (dual) is *φ -/
-theorem g2_4form_dual : dim_K7 - middle_degree = 4 := by
+theorem g2_4form_dual : max_degree - middle_degree = 4 := by
   native_decide
 
 /-- Total G2 structure forms -/

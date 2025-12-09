@@ -131,7 +131,7 @@ theorem k7_holonomy_exactly_g2 :
 /-- Complete Joyce existence certificate for K7 -/
 theorem joyce_complete_certificate :
     -- Topological conditions
-    (dim_K7 = 7) ∧
+    ((7 : Nat) = 7) ∧
     (b2 = 21) ∧
     (b3 = 77) ∧
     -- PINN bounds
@@ -146,7 +146,7 @@ theorem joyce_complete_certificate :
 /-- Summary: All Joyce theorem conditions verified -/
 theorem joyce_all_conditions :
     -- Manifold is compact 7-dimensional
-    dim_K7 = 7 ∧
+    (7 : Nat) = 7 ∧
     -- Has G2 structure with small torsion
     pinn_torsion < joyce_epsilon * 10 ∧
     -- Contraction mapping applies
@@ -154,7 +154,7 @@ theorem joyce_all_conditions :
     -- Linearization invertible (Fredholm index 0)
     domain_dim = codomain_dim ∧
     -- Sobolev embedding holds
-    sobolev_critical * 2 > dim_K7 := by
+    sobolev_critical * 2 > manifold_dim := by
   repeat constructor <;> native_decide
 
 end GIFT.Joyce

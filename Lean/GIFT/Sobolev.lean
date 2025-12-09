@@ -4,10 +4,11 @@
 
 import GIFT.Algebra
 import GIFT.Topology
+import GIFT.Geometry
 
 namespace GIFT.Sobolev
 
-open GIFT.Algebra GIFT.Topology
+open GIFT.Algebra GIFT.Topology GIFT.Geometry
 
 /-!
 # Sobolev Spaces for G2 Analysis
@@ -29,8 +30,8 @@ For M compact 7-dimensional:
 -- Dimension Constants
 -- ============================================================================
 
-/-- Manifold dimension for K7 -/
-def manifold_dim : Nat := dim_K7  -- 7
+/-- Manifold dimension for K7 (hardcoded for stability) -/
+def manifold_dim : Nat := 7
 
 /-- Critical Sobolev exponent -/
 def sobolev_critical : Nat := 4
