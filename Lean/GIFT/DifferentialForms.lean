@@ -67,8 +67,7 @@ theorem omega3_decomposition : omega3_1 + omega3_7 + omega3_27 = 35 := by
 theorem g2_irreps_in_forms :
     omega2_7 = 7 ∧
     omega2_14 = 14 ∧
-    omega3_27 = 27 := by
-  repeat constructor <;> rfl
+    omega3_27 = 27 := ⟨rfl, rfl, rfl⟩
 
 -- ============================================================================
 -- Exterior Derivative Properties
@@ -107,8 +106,7 @@ theorem poincare_duality :
     -- b2 = b5
     (21 : Nat) = 21 ∧
     -- b3 = b4
-    (77 : Nat) = 77 := by
-  repeat constructor <;> rfl
+    (77 : Nat) = 77 := ⟨rfl, rfl, rfl, rfl⟩
 
 -- ============================================================================
 -- Laplacian Properties
