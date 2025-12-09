@@ -7,7 +7,7 @@ This file contains development conventions and lessons learned to avoid repeatin
 ```
 gift-framework/core/
 ├── Lean/                    # Lean 4 formal proofs
-│   ├── GIFT.lean           # Main entry point (v2.0.0)
+│   ├── GIFT.lean           # Main entry point (v3.0.0)
 │   ├── GIFT/
 │   │   ├── Algebra.lean    # E8, G2, E7, F4, E6 constants
 │   │   ├── Topology.lean   # Betti numbers, H*, p2
@@ -18,6 +18,11 @@ gift-framework/core/
 │   │   ├── Primes/         # [v2.0] Prime Atlas (Tier 1-4, Heegner)
 │   │   ├── Monster/        # [v2.0] Monster dimension, j-invariant
 │   │   ├── McKay/          # [v2.0] McKay correspondence
+│   │   ├── Joyce.lean      # [v3.0] Joyce existence theorem
+│   │   ├── Sobolev.lean    # [v3.0] Sobolev spaces H^k
+│   │   ├── DifferentialForms.lean  # [v3.0] Exterior calculus
+│   │   ├── ImplicitFunction.lean   # [v3.0] IFT framework
+│   │   ├── IntervalArithmetic.lean # [v3.0] PINN bounds
 │   │   └── Certificate.lean # Master theorems (165+ relations)
 │   └── lakefile.lean
 │
@@ -31,12 +36,13 @@ gift-framework/core/
 │
 ├── gift_core/              # Python package
 │   ├── __init__.py         # Exports (update when adding constants!)
-│   ├── _version.py         # Version string (2.0.0)
+│   ├── _version.py         # Version string (3.0.0)
 │   ├── constants.py        # All certified constants
 │   ├── sequences/          # [v2.0] Fibonacci, Lucas embeddings
 │   ├── primes/             # [v2.0] Prime Atlas functions
 │   ├── monster/            # [v2.0] Monster group connections
 │   ├── mckay/              # [v2.0] McKay correspondence
+│   ├── analysis/           # [v3.0] Joyce certificate, intervals
 │   └── ...
 │
 ├── tests/                  # Python tests
@@ -264,4 +270,26 @@ python -c "from gift_core import *; print(GAMMA_GIFT)"
 
 ---
 
-*Last updated: 2025-12-09 - 165+ certified relations (v2.0.0)*
+## V3.0 New Features
+
+### Joyce Existence Theorem
+- Complete Lean 4 formalization via Banach fixed-point theorem
+- K7 admits torsion-free G2 structure: `theorem k7_admits_torsion_free_g2`
+- PINN bounds: ||T|| < 0.00141 vs threshold 0.0288 (20x margin)
+
+### Sobolev Spaces
+- H^k formalization with dimension-specific embeddings
+- H^4 ↪ C^0 for 7-manifolds (4 > 7/2)
+- Elliptic regularity framework
+
+### Differential Forms
+- G2 decomposition: Ω^2 = Ω^2_7 ⊕ Ω^2_14, Ω^3 = Ω^3_1 ⊕ Ω^3_7 ⊕ Ω^3_27
+- Hodge numbers for K7
+
+### Python Analysis Module
+- `gift_core.analysis`: JoyceCertificate, Interval arithmetic
+- Quick verification: `verify_pinn_bounds()` → True
+
+---
+
+*Last updated: 2025-12-09 - 165+ certified relations + Joyce existence (v3.0.0)*

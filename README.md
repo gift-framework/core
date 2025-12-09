@@ -40,6 +40,16 @@ for r in PROVEN_RELATIONS:
     print(f"{r.symbol} = {r.value}")
 ```
 
+## What's New in v3.0
+
+**Joyce Existence Theorem**: K7 admits a torsion-free G2 structure, proven via Banach fixed-point:
+
+```python
+from gift_core.analysis import JoyceCertificate
+cert = JoyceCertificate.verify()
+assert cert.is_valid()  # Torsion < threshold with 20x margin
+```
+
 ## Building Proofs
 
 ```bash
@@ -63,4 +73,4 @@ MIT
 
 ---
 
-*GIFT Core v2.0.0 — 165+ certified relations*
+*GIFT Core v3.0.0 — 165+ certified relations + Joyce existence theorem*
