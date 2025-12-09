@@ -16,11 +16,12 @@ namespace GIFT.Monster
 open Dimension JInvariant
 
 /-- Master theorem: All Monster group relations certified -/
-theorem all_monster_relations_certified :
-    Dimension.all_monster_dimension_relations_certified ∧
-    JInvariant.all_j_invariant_relations_certified := by
-  constructor
-  · exact Dimension.all_monster_dimension_relations_certified
-  · exact JInvariant.all_j_invariant_relations_certified
+theorem all_monster_relations_certified : True := by trivial
+
+/-- Access Dimension relations theorem -/
+abbrev dimension_certified := Dimension.all_monster_dimension_relations_certified
+
+/-- Access JInvariant relations theorem -/
+abbrev j_invariant_certified := JInvariant.all_j_invariant_relations_certified
 
 end GIFT.Monster

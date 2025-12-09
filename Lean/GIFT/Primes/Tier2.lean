@@ -92,11 +92,7 @@ theorem prime_97_is_prime : Nat.Prime 97 := by native_decide
 def tier2_primes : List Nat := [23, 29, 37, 41, 43, 47, 53, 59, 67, 71, 73, 79, 83, 89, 97]
 
 /-- All Tier 2 values are prime -/
-theorem tier2_all_prime : ∀ p ∈ tier2_primes, Nat.Prime p := by
-  intro p hp
-  simp only [tier2_primes, List.mem_cons] at hp
-  rcases hp with h | h | h | h | h | h | h | h | h | h | h | h | h | h | h
-  all_goals (first | subst h; native_decide | simp at h)
+theorem tier2_all_prime : ∀ p ∈ tier2_primes, Nat.Prime p := by decide
 
 /-- Count of Tier 2 primes -/
 theorem tier2_count : tier2_primes.length = 15 := rfl
@@ -114,11 +110,7 @@ theorem primes_below_100_count : primes_below_100.length = 25 := rfl
 
 /-- All primes below 100 are covered by Tier 1 or Tier 2 -/
 theorem complete_coverage_below_100 :
-    ∀ p ∈ primes_below_100, p ∈ tier1_primes ∨ p ∈ tier2_primes := by
-  intro p hp
-  simp only [primes_below_100, tier1_primes, tier2_primes, List.mem_cons] at *
-  rcases hp with h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h
-  all_goals (first | subst h; decide | simp at h)
+    ∀ p ∈ primes_below_100, p ∈ tier1_primes ∨ p ∈ tier2_primes := by decide
 
 -- =============================================================================
 -- b3 AS GENERATOR
