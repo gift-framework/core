@@ -73,4 +73,4 @@ MIT
 
 ---
 
-*GIFT Core v3.0.0 — 165+ certified relations + Joyce existence theorem*
+*GIFT Core v3.0.0
