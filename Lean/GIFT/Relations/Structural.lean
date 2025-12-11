@@ -5,6 +5,7 @@
 import GIFT.Algebra
 import GIFT.Topology
 import GIFT.Geometry
+import Mathlib.Data.Nat.Prime.Basic
 
 namespace GIFT.Relations.Structural
 
