@@ -37,12 +37,11 @@ theorem koide_exact : 2 * 21 = 3 * 14 := by native_decide
 -- =============================================================================
 -- RELATION #34: m_τ/m_e = 3477
 -- m_τ/m_e = dim_K7 + 10 × dim_E8 + 10 × H* = 7 + 2480 + 990 = 3477
+-- Uses m_tau_m_e from GIFT.Relations
 -- =============================================================================
 
-/-- Tau/electron mass ratio -/
-def m_tau_m_e : Nat := dim_K7 + 10 * dim_E8 + 10 * H_star
-
-theorem m_tau_m_e_certified : m_tau_m_e = 3477 := by native_decide
+/-- m_tau_m_e derivation from topology -/
+theorem m_tau_m_e_from_topology : dim_K7 + 10 * dim_E8 + 10 * H_star = 3477 := by native_decide
 
 /-- Component breakdown: 7 + 2480 + 990 = 3477 -/
 theorem m_tau_m_e_components :

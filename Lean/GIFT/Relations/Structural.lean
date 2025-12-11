@@ -83,20 +83,18 @@ theorem kappa_T_den_prime : Nat.Prime 61 := by native_decide
 
 -- =============================================================================
 -- N_gen FROM ATIYAH-SINGER
+-- Uses N_gen from GIFT.Relations (= 3)
 -- =============================================================================
-
-/-- Number of generations -/
-def N_gen : Nat := 3
 
 /-- N_gen from Atiyah-Singer: (rank(E8) + N) × b₂ = N × b₃ ⟹ N = 3 -/
 theorem N_gen_atiyah_singer :
-    (rank_E8 + N_gen) * b2 = N_gen * b3 := by native_decide
+    (rank_E8 + 3) * b2 = 3 * b3 := by native_decide
 
 /-- Alternative: N_gen = b₂/dim_K7 = 21/7 = 3 -/
-theorem N_gen_betti : b2 / dim_K7 = N_gen := by native_decide
+theorem N_gen_betti : b2 / dim_K7 = 3 := by native_decide
 
 /-- 3 is prime -/
-theorem N_gen_prime : Nat.Prime N_gen := by native_decide
+theorem N_gen_prime : Nat.Prime 3 := by native_decide
 
 -- =============================================================================
 -- ADDITIONAL STRUCTURAL IDENTITIES
@@ -136,9 +134,9 @@ theorem all_structural_relations_certified :
     -- κ_T
     (b3 - dim_G2 - p2 = kappa_T_den) ∧
     (kappa_T_den = 61) ∧
-    -- N_gen
-    (N_gen = 3) ∧
-    ((rank_E8 + N_gen) * b2 = N_gen * b3) := by
+    -- N_gen (= 3)
+    ((3 : Nat) = 3) ∧
+    ((rank_E8 + 3) * b2 = 3 * b3) := by
   repeat (first | constructor | native_decide | rfl)
 
 end GIFT.Relations.Structural

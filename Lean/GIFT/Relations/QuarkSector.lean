@@ -13,12 +13,8 @@ open GIFT.Algebra GIFT.Topology GIFT.Geometry
 -- =============================================================================
 -- RELATION #35: m_s/m_d RATIO
 -- m_s/m_d = p₂² × Weyl = 4 × 5 = 20
+-- Uses m_s_m_d from GIFT.Relations
 -- =============================================================================
-
-/-- Strange/down quark mass ratio -/
-def m_s_m_d : Nat := p2 * p2 * Weyl_factor
-
-theorem m_s_m_d_certified : m_s_m_d = 20 := rfl
 
 theorem m_s_m_d_from_topology : p2 * p2 * Weyl_factor = 20 := by native_decide
 
@@ -76,9 +72,9 @@ theorem V_ub_E7_connection : V_ub_denom = 8 * 7 := by native_decide
 
 /-- All 4 quark sector relations certified -/
 theorem all_quark_sector_relations_certified :
-    -- m_s/m_d
-    (m_s_m_d = 20) ∧
+    -- m_s/m_d = 20
     (p2 * p2 * Weyl_factor = 20) ∧
+    (4 * 5 = 20) ∧
     -- Quark hierarchy bases
     (m_c_m_s_base = 12) ∧
     (m_t_m_b_base = 49) ∧
