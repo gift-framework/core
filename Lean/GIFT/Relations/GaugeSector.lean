@@ -1,13 +1,41 @@
 -- GIFT Relations: Gauge Sector
--- α_s structure and α⁻¹ components
--- Extension: +3 certified relations
+-- sin²θ_W, α_s structure and α⁻¹ components
+-- Extension: +5 certified relations
 
 import GIFT.Algebra
 import GIFT.Topology
+import GIFT.Geometry
 
 namespace GIFT.Relations.GaugeSector
 
-open GIFT.Algebra GIFT.Topology
+open GIFT.Algebra GIFT.Topology GIFT.Geometry
+
+-- =============================================================================
+-- RELATION #31: sin²θ_W = 3/13
+-- sin²θ_W = b₂/(b₃ + dim_G₂) = 21/91 = 3/13
+-- =============================================================================
+
+/-- Weinberg angle numerator: b₂ = 21 -/
+def weinberg_num : Nat := b2
+
+theorem weinberg_num_certified : weinberg_num = 21 := rfl
+
+/-- Weinberg angle denominator: b₃ + dim_G₂ = 77 + 14 = 91 -/
+def weinberg_den : Nat := b3 + dim_G2
+
+theorem weinberg_den_certified : weinberg_den = 91 := by native_decide
+
+/-- sin²θ_W = b₂/(b₃ + dim_G₂) = 21/91 = 3/13 (cross-multiplication) -/
+theorem weinberg_angle : b2 * 13 = 3 * (b3 + dim_G2) := by native_decide
+
+/-- Simplified form: 21/91 = 3/13 -/
+theorem weinberg_simplified : 21 * 13 = 3 * 91 := by native_decide
+
+/-- 91 = 7 × 13 (factorization) -/
+theorem weinberg_den_factorization : 91 = 7 * 13 := by native_decide
+
+/-- sin²θ_W ≈ 0.231 (experimental: 0.23122) -/
+theorem weinberg_approx : 3 * 1000 / 13 = 230 := by native_decide
 
 -- =============================================================================
 -- RELATION #14: α_s DENOMINATOR
