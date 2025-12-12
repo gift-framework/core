@@ -86,7 +86,7 @@ for r in PROVEN_RELATIONS:
 | `DELTA_PENTA` | 25 | Pentagonal structure (Weyl^2) |
 | `WEYL_E8_ORDER` | 696729600 | Order of Weyl(E8) |
 
-### Mass Factorization (v1.6.0)
+### Mass Factorization
 
 | Constant | Value | Description |
 |----------|-------|-------------|
@@ -97,7 +97,7 @@ for r in PROVEN_RELATIONS:
 | `T61_RESIDUE` | 12 | Gauge residue (dim(G2) - p2) |
 | `IMPEDANCE` | 9 | H*/D_bulk |
 
-### Sequence Embeddings (v2.0)
+### Sequence Embeddings
 
 ```python
 from gift_core.sequences import fib, lucas, FIBONACCI_GIFT, LUCAS_GIFT
@@ -116,52 +116,7 @@ for n, (val, name) in FIBONACCI_GIFT.items():
     print(f"F_{n} = {val} = {name}")
 ```
 
-### Prime Atlas (v2.0)
-
-```python
-from gift_core.primes import prime_expression, prime_generator, is_heegner
-
-# All primes < 200 have GIFT expressions
-print(prime_expression(67))   # "b3 - 2 * Weyl_factor"
-print(prime_expression(163))  # "dim_E8 - rank_E8 - b3"
-
-# Which generator?
-print(prime_generator(59))   # "b3"
-print(prime_generator(137))  # "H_star"
-print(prime_generator(197))  # "dim_E8"
-
-# Heegner numbers
-print(is_heegner(163))  # True (largest Heegner number)
-```
-
-### Monster Group (v2.0)
-
-```python
-from gift_core.monster import MONSTER_DIM, MONSTER_FACTORS, J_CONSTANT
-
-# Monster dimension factorization
-print(MONSTER_DIM)     # 196883
-print(MONSTER_FACTORS) # (47, 59, 71) - all GIFT-expressible!
-
-# j-invariant
-print(J_CONSTANT)      # 744 = 3 x 248 = N_gen x dim_E8
-```
-
-### McKay Correspondence (v2.0)
-
-```python
-from gift_core.mckay import COXETER_E8, ICOSAHEDRON, PHI_RATIOS
-
-# E8 <-> Icosahedron correspondence
-print(COXETER_E8)           # 30 = icosahedron edges
-print(ICOSAHEDRON["faces"]) # 20 = m_s_m_d
-
-# Golden ratio from GIFT ratios
-for name, (num, den, error) in PHI_RATIOS.items():
-    print(f"{name}: {num}/{den} (error: {error:.3f}%)")
-```
-
-### Joyce Existence Theorem (v3.0)
+### Joyce Existence Theorem
 
 ```python
 from gift_core.analysis import JoyceCertificate, verify_pinn_bounds
@@ -184,7 +139,7 @@ print(cert.torsion_below_threshold)  # True
 print(float(cert.safety_margin))     # ~20.4
 ```
 
-### Interval Arithmetic (v3.0)
+### Interval Arithmetic
 
 ```python
 from gift_core.analysis import (
