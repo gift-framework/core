@@ -64,12 +64,21 @@ noncomputable def stdBasis {n : ℕ} (i : Fin n) : EuclideanSpace ℝ (Fin n) :=
   EuclideanSpace.single i 1
 
 /-- Basis vectors are orthonormal -/
-axiom stdBasis_orthonormal {n : ℕ} (i j : Fin n) :
-    innerRn (stdBasis i) (stdBasis j) = if i = j then 1 else 0
+theorem stdBasis_orthonormal {n : ℕ} (i j : Fin n) :
+    innerRn (stdBasis i) (stdBasis j) = if i = j then 1 else 0 := by
+  unfold innerRn stdBasis
+  rw [EuclideanSpace.inner_single_left, EuclideanSpace.single_apply]
+  simp only [one_mul]
+  split_ifs with h
+  · simp [h]
+  · rfl
 
 /-- Basis vectors have norm 1 -/
-axiom stdBasis_norm {n : ℕ} (i : Fin n) :
-    ‖stdBasis (n := n) i‖ = 1
+theorem stdBasis_norm {n : ℕ} (i : Fin n) :
+    ‖stdBasis (n := n) i‖ = 1 := by
+  unfold stdBasis
+  rw [EuclideanSpace.norm_single]
+  simp
 
 /-!
 ## Integer and Half-Integer Predicates (for E8)
@@ -116,11 +125,19 @@ theorem IsHalfInteger.add_self {x y : ℝ}
 -/
 
 /-- Norm squared as sum of squares -/
-axiom normSq_eq_sum {n : ℕ} (v : EuclideanSpace ℝ (Fin n)) :
-    normSq v = ∑ i, (v i)^2
+theorem normSq_eq_sum {n : ℕ} (v : EuclideanSpace ℝ (Fin n)) :
+    normSq v = ∑ i, (v i)^2 := by
+  unfold normSq
+  rw [EuclideanSpace.norm_sq]
+  congr 1
+  funext i
+  ring
 
 /-- Inner product as sum of products -/
-axiom inner_eq_sum {n : ℕ} (v w : EuclideanSpace ℝ (Fin n)) :
-    innerRn v w = ∑ i, (v i) * (w i)
+theorem inner_eq_sum {n : ℕ} (v w : EuclideanSpace ℝ (Fin n)) :
+    innerRn v w = ∑ i, (v i) * (w i) := by
+  unfold innerRn
+  rw [EuclideanSpace.inner_piLp_equiv_symm]
+  simp only [inner, PiLp.inner_apply, RCLike.inner_apply, conj_trivial]
 
 end GIFT.Foundations.V5.InnerProductSpace

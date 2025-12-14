@@ -32,10 +32,33 @@ axiom wedge_anticomm_graded (n k l : ℕ)
     True  -- Full statement requires graded algebra structure
 
 /-- 1-forms anticommute: v ∧ w = -w ∧ v
-    Proof sketch: From ι(v)² = 0 for all v, expand (ι(v) + ι(w))² = 0
+    Proof: From ι(v)² = 0 for all v, expand (ι(v+w))² = 0
     to get ι(v)ι(w) + ι(w)ι(v) = 0, hence ι(v)ι(w) = -ι(w)ι(v) -/
-axiom wedge_anticomm_1forms (v w : Fin 7 → ℝ) :
-    ι' v ∧' ι' w = -(ι' w ∧' ι' v)
+theorem wedge_anticomm_1forms (v w : Fin 7 → ℝ) :
+    ι' v ∧' ι' w = -(ι' w ∧' ι' v) := by
+  unfold ι' wedge
+  -- Use the fact that ι(v+w)² = 0 and expand
+  have h : ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w +
+           ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v = 0 := by
+    have hvw := ExteriorAlgebra.ι_sq_zero (v + w)
+    simp only [map_add, add_mul, mul_add] at hvw
+    have hv := ExteriorAlgebra.ι_sq_zero v
+    have hw := ExteriorAlgebra.ι_sq_zero w
+    -- (ι v + ι w)² = ι v² + ι v · ι w + ι w · ι v + ι w² = 0
+    -- Since ι v² = ι w² = 0, we get ι v · ι w + ι w · ι v = 0
+    calc ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w +
+         ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v
+        = 0 + (ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w +
+               ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v) + 0 := by ring
+      _ = ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ v +
+          (ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w +
+           ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v) +
+          ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ w := by rw [hv, hw]
+      _ = (ExteriorAlgebra.ι ℝ v + ExteriorAlgebra.ι ℝ w) *
+          (ExteriorAlgebra.ι ℝ v + ExteriorAlgebra.ι ℝ w) := by ring
+      _ = 0 := hvw
+  -- From a + b = 0, derive a = -b using eq_neg_of_add_eq_zero
+  exact eq_neg_of_add_eq_zero h
 
 /-!
 ## Dimension Formulas for ℝ⁷
