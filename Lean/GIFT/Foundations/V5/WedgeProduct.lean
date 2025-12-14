@@ -53,13 +53,15 @@ theorem wedge_anticomm_1forms (v w : Fin 7 → ℝ) :
     calc ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w +
          ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v
         = 0 + (ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w +
-               ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v) + 0 := by ring
+               ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v) + 0 := by
+          simp only [zero_add, add_zero]
       _ = ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ v +
           (ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w +
            ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v) +
           ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ w := by rw [hv, hw]
       _ = (ExteriorAlgebra.ι ℝ v + ExteriorAlgebra.ι ℝ w) *
-          (ExteriorAlgebra.ι ℝ v + ExteriorAlgebra.ι ℝ w) := by ring
+          (ExteriorAlgebra.ι ℝ v + ExteriorAlgebra.ι ℝ w) := by
+          rw [add_mul, mul_add, mul_add]; ring
       _ = 0 := hvw
   -- From a + b = 0, derive a = -b
   have : ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w =
