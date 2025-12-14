@@ -24,16 +24,16 @@ H^k(M) = completion of C^∞(M) under Sobolev k-norm
 -/
 
 /-- Abstract Sobolev space -/
-axiom Sobolev (M : Type*) (k : ℕ) : Type*
+axiom Sobolev (M : Type) (k : ℕ) : Type
 
 /-- Sobolev space is a Banach space -/
-axiom Sobolev_banach (M : Type*) (k : ℕ) : NormedAddCommGroup (Sobolev M k)
+axiom Sobolev_banach (M : Type) (k : ℕ) : NormedAddCommGroup (Sobolev M k)
 
 /-- Sobolev norm -/
-axiom sobolev_norm (M : Type*) (k : ℕ) : Sobolev M k → ℝ
+axiom sobolev_norm (M : Type) (k : ℕ) : Sobolev M k → ℝ
 
 /-- Sobolev embedding: H^k ↪ C^{k-n/2} for k > n/2 -/
-axiom sobolev_embedding (M : Type*) (n k : ℕ) (h : 2 * k > n) :
+axiom sobolev_embedding (M : Type) (n k : ℕ) (h : 2 * k > n) :
   Sobolev M k → (M → ℝ)  -- Continuous functions
 
 /-!
@@ -41,21 +41,21 @@ axiom sobolev_embedding (M : Type*) (n k : ℕ) (h : 2 * k > n) :
 -/
 
 /-- Space of G2 structures on M -/
-axiom G2Structures (M : Type*) : Type*
+axiom G2Structures (M : Type) : Type
 
 /-- G2 structures form open set in Ω³(M) -/
-axiom G2_open (M : Type*) : True
+axiom G2_open (M : Type) : True
 
 /-- Abstract torsion type -/
-structure TorsionPair (M : Type*) where
+structure TorsionPair where
   dφ_component : ℝ  -- Norm of dφ
   dstar_component : ℝ  -- Norm of d*φ
 
 /-- Torsion of a G2 structure -/
-axiom Torsion (M : Type*) : G2Structures M → TorsionPair M
+axiom Torsion (M : Type) : G2Structures M → TorsionPair
 
 /-- Total torsion norm -/
-def torsion_norm {M : Type*} (T : TorsionPair M) : ℝ :=
+def torsion_norm (T : TorsionPair) : ℝ :=
   T.dφ_component + T.dstar_component
 
 /-!
@@ -66,17 +66,17 @@ Joyce uses implicit function theorem in Banach space setting.
 -/
 
 /-- Joyce nonlinear operator -/
-axiom JoyceOp (M : Type*) : G2Structures M → G2Structures M
+axiom JoyceOp (M : Type) : G2Structures M → G2Structures M
 
 /-- Joyce operator is smooth -/
-axiom JoyceOp_smooth (M : Type*) : True  -- C^∞ map
+axiom JoyceOp_smooth (M : Type) : True  -- C^∞ map
 
 /-- Linearization of Joyce operator -/
-axiom JoyceLinearization (M : Type*) (φ₀ : G2Structures M) :
+axiom JoyceLinearization (M : Type) (φ₀ : G2Structures M) :
   Sobolev M 4 → Sobolev M 4
 
 /-- Linearization is Fredholm of index 0 -/
-axiom linearization_fredholm (M : Type*) (φ₀ : G2Structures M) :
+axiom linearization_fredholm (M : Type) (φ₀ : G2Structures M) :
   True  -- Index 0 Fredholm
 
 /-!
@@ -84,13 +84,13 @@ axiom linearization_fredholm (M : Type*) (φ₀ : G2Structures M) :
 -/
 
 /-- Small torsion threshold (depends on geometry) -/
-axiom epsilon_joyce (M : Type*) : ℝ
+axiom epsilon_joyce (M : Type) : ℝ
 
 /-- epsilon is positive -/
-axiom epsilon_pos (M : Type*) : epsilon_joyce M > 0
+axiom epsilon_pos (M : Type) : epsilon_joyce M > 0
 
 /-- JOYCE'S THEOREM: Small torsion implies existence of torsion-free deformation -/
-axiom joyce_existence (M : Type*) (φ₀ : G2Structures M)
+axiom joyce_existence (M : Type) (φ₀ : G2Structures M)
     (h_small : torsion_norm (Torsion M φ₀) < epsilon_joyce M) :
     ∃ φ : G2Structures M,
       -- Torsion vanishes
@@ -151,7 +151,7 @@ The moduli space of torsion-free G2 structures on K7 has dimension b³(K7) = 77.
 theorem moduli_dimension : b 3 = 77 := rfl
 
 /-- Moduli space is smooth manifold -/
-axiom moduli_smooth (M : Type*) : True
+axiom moduli_smooth (M : Type) : True
 
 /-!
 ## Certified Constants
