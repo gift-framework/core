@@ -752,7 +752,8 @@ theorem gift_v32_foundations_certificate :
      GIFT.Foundations.V5.JoyceAnalytic.joyce_threshold_den <
      GIFT.Foundations.V5.JoyceAnalytic.joyce_threshold_num *
      GIFT.Foundations.V5.JoyceAnalytic.pinn_torsion_bound_den) := by
-  repeat (first | constructor | rfl | native_decide)
+  refine ⟨rfl, rfl, rfl, rfl, rfl, rfl, ?_, ?_, rfl, ?_⟩
+  all_goals native_decide
 
 /-- GIFT v3.2 Master Certificate -/
 theorem gift_v32_master_certificate :
