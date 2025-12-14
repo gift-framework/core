@@ -160,7 +160,7 @@ theorem E8_inner_integral (v w : R8)
     rcases hw_type with hw_int | hw_half
     · -- v half-int, w int: use symmetry
       rw [show innerRn v w = innerRn w v from by
-            unfold innerRn; exact real_inner_comm v w]
+            unfold innerRn; exact (real_inner_comm v w).symm]
       exact inner_integer_halfint_is_int w v hw_int hv_half hw_even
     · -- v half-int, w half-int
       exact halfint_inner_halfint_is_int v w hv_half hw_half hv_even hw_even

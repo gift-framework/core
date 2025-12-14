@@ -40,13 +40,13 @@ theorem wedge_anticomm_1forms (v w : Fin 7 → ℝ) :
   -- Use the fact that ι(v+w)² = 0 and expand
   have h : ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w +
            ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v = 0 := by
-    have hvw := ExteriorAlgebra.ι_sq_zero (v + w)
-    have hv := ExteriorAlgebra.ι_sq_zero v
-    have hw := ExteriorAlgebra.ι_sq_zero w
+    have hvw := ExteriorAlgebra.ι_sq_zero (R := ℝ) (v + w)
+    have hv := ExteriorAlgebra.ι_sq_zero (R := ℝ) v
+    have hw := ExteriorAlgebra.ι_sq_zero (R := ℝ) w
     -- Expand ι(v+w)² manually
     have expand : ExteriorAlgebra.ι ℝ (v + w) =
-                  ExteriorAlgebra.ι ℝ v + ExteriorAlgebra.ι ℝ w := by
-      exact (ExteriorAlgebra.ι ℝ).map_add v w
+                  ExteriorAlgebra.ι ℝ v + ExteriorAlgebra.ι ℝ w :=
+      (ExteriorAlgebra.ι ℝ).map_add v w
     rw [expand] at hvw
     -- (ι v + ι w)² = ι v² + ι v · ι w + ι w · ι v + ι w² = 0
     -- Since ι v² = ι w² = 0, we get ι v · ι w + ι w · ι v = 0
