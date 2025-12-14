@@ -84,9 +84,14 @@ Derives: b₂ = 21 = 7 + 14 from G₂ representation theory!
 -/
 
 -- Root systems (REAL enumeration: |D8| = 112, |HalfInt| = 128)
+-- Plus: bijection proofs showing enumeration ↔ actual vectors in ℝ⁸
 export RootSystems (D8_enumeration D8_card HalfInt_enumeration HalfInt_card
   E8_roots_card E8_dimension E8_dimension_from_enumeration
-  G2_root_count G2_rank G2_dimension)
+  G2_root_count G2_rank G2_dimension
+  -- Vector correspondence
+  D8_to_vector D8_to_vector_integer D8_to_vector_norm_sq_sketch D8_to_vector_injective
+  HalfInt_to_vector HalfInt_to_vector_half_integer HalfInt_to_vector_injective
+  AllInteger AllHalfInteger NormSqTwo)
 
 -- Rational constants
 export RationalConstants (sin2_theta_W sin2_theta_W_simplified
