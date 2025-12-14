@@ -15,6 +15,7 @@ import GIFT.Foundations.RationalConstants
 import GIFT.Foundations.GraphTheory
 import GIFT.Foundations.GoldenRatio
 import GIFT.Foundations.G2Holonomy
+import GIFT.Foundations.TCSConstruction
 
 namespace GIFT.Foundations
 
@@ -73,6 +74,12 @@ Derives: b₂ = 21 = 7 + 14 from G₂ representation theory!
    - Ω² = Ω²₇ ⊕ Ω²₁₄ decomposition
    - b₂(K7) = 21 = dim(K7) + dim(G₂)
 
+6. **TCSConstruction.lean**
+   - K7 as Twisted Connected Sum of CY3 building blocks
+   - b₂ = 10 + 10 + 1 = 21 from Mayer-Vietoris
+   - b₃ = 42 + 42 - 7 = 77 from TCS formula
+   - H* = 1 + 21 + 77 = 99
+
 ## Export Key Theorems
 -/
 
@@ -104,6 +111,11 @@ export G2Holonomy (dim_G2 dim_G2_is_14 dim_G2_orbit_stabilizer
   dim_Omega3_1 dim_Omega3_7 dim_Omega3_27 Omega3_decomposition
   b2_K7 b3_K7 K7_b2 K7_b3 K7_H_star b2_structure
   rep_trivial rep_standard rep_adjoint rep_symmetric)
+
+-- TCS construction
+export TCSConstruction (CHNP_block K7_b2_from_TCS K7_b3_from_TCS
+  K7_b2_is_21 K7_b3_is_77 H_star H_star_is_99 H_star_from_TCS
+  TCS_combinatorial_identity euler_K7 TCS_determines_betti)
 
 /-!
 ## Comparison: Old vs New
