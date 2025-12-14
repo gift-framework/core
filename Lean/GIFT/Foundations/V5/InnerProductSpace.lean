@@ -68,17 +68,16 @@ theorem stdBasis_orthonormal {n : ℕ} (i j : Fin n) :
     innerRn (stdBasis i) (stdBasis j) = if i = j then 1 else 0 := by
   unfold innerRn stdBasis
   rw [EuclideanSpace.inner_single_left, EuclideanSpace.single_apply]
-  simp only [one_mul]
   split_ifs with h
-  · simp [h]
-  · rfl
+  · simp only [mul_one]
+  · simp only [mul_zero]
 
 /-- Basis vectors have norm 1 -/
 theorem stdBasis_norm {n : ℕ} (i : Fin n) :
     ‖stdBasis (n := n) i‖ = 1 := by
   unfold stdBasis
   rw [EuclideanSpace.norm_single]
-  simp
+  simp only [norm_one]
 
 /-!
 ## Integer and Half-Integer Predicates (for E8)
@@ -128,16 +127,17 @@ theorem IsHalfInteger.add_self {x y : ℝ}
 theorem normSq_eq_sum {n : ℕ} (v : EuclideanSpace ℝ (Fin n)) :
     normSq v = ∑ i, (v i)^2 := by
   unfold normSq
-  rw [EuclideanSpace.norm_sq]
+  rw [EuclideanSpace.norm_eq]
+  rw [Real.sq_sqrt (Finset.sum_nonneg (fun i _ => sq_nonneg _))]
   congr 1
   funext i
-  ring
+  rfl
 
 /-- Inner product as sum of products -/
 theorem inner_eq_sum {n : ℕ} (v w : EuclideanSpace ℝ (Fin n)) :
     innerRn v w = ∑ i, (v i) * (w i) := by
   unfold innerRn
-  rw [EuclideanSpace.inner_piLp_equiv_symm]
-  simp only [inner, PiLp.inner_apply, RCLike.inner_apply, conj_trivial]
+  simp only [EuclideanSpace.inner_eq_sum]
+  rfl
 
 end GIFT.Foundations.V5.InnerProductSpace
