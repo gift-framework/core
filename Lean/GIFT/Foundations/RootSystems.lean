@@ -63,15 +63,21 @@ def D8_roots : Set (Fin 8 → ℝ) :=
   { v | AllInteger v ∧ NormSqTwo v }
 
 /-- Example D8 root: (1, 1, 0, 0, 0, 0, 0, 0) -/
-def d8_example : Fin 8 → ℝ := ![1, 1, 0, 0, 0, 0, 0, 0]
+noncomputable def d8_example : Fin 8 → ℝ := ![1, 1, 0, 0, 0, 0, 0, 0]
 
-theorem d8_example_is_root : d8_example ∈ D8_roots := by
-  constructor
-  · intro i
-    fin_cases i <;> exact ⟨_, rfl⟩
-  · unfold NormSqTwo d8_example
-    simp [Fin.sum_univ_eight, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
-    ring
+theorem d8_example_is_integer : AllInteger d8_example := by
+  intro i
+  fin_cases i
+  all_goals (simp only [d8_example, Matrix.cons_val_zero, Matrix.cons_val_one,
+    Matrix.head_cons, Matrix.cons_val_succ]; exact ⟨_, rfl⟩)
+
+theorem d8_example_norm : NormSqTwo d8_example := by
+  unfold NormSqTwo d8_example
+  simp only [Fin.sum_univ_eight, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+  norm_num
+
+theorem d8_example_is_root : d8_example ∈ D8_roots :=
+  ⟨d8_example_is_integer, d8_example_norm⟩
 
 /-!
 ## Half-integer roots (128 vectors)
@@ -86,20 +92,25 @@ def HalfInt_roots : Set (Fin 8 → ℝ) :=
   { v | AllHalfInteger v ∧ SumEven v ∧ NormSqTwo v }
 
 /-- Example half-integer root: (1/2, 1/2, 1/2, 1/2, 1/2, 1/2, 1/2, 1/2) -/
-def half_example : Fin 8 → ℝ := fun _ => 1/2
+noncomputable def half_example : Fin 8 → ℝ := fun _ => 1/2
 
-theorem half_example_is_root : half_example ∈ HalfInt_roots := by
-  constructor
-  · intro i
-    exact ⟨0, by simp [half_example]⟩
-  constructor
-  · use 2
-    unfold half_example
-    simp [Fin.sum_univ_eight]
-    ring
-  · unfold NormSqTwo half_example
-    simp [Fin.sum_univ_eight]
-    ring
+theorem half_example_is_half_integer : AllHalfInteger half_example := by
+  intro i
+  exact ⟨0, by simp [half_example]⟩
+
+theorem half_example_sum_even : SumEven half_example := by
+  use 2
+  unfold half_example
+  simp only [Fin.sum_univ_eight]
+  norm_num
+
+theorem half_example_norm : NormSqTwo half_example := by
+  unfold NormSqTwo half_example
+  simp only [Fin.sum_univ_eight]
+  norm_num
+
+theorem half_example_is_root : half_example ∈ HalfInt_roots :=
+  ⟨half_example_is_half_integer, half_example_sum_even, half_example_norm⟩
 
 /-!
 ## Root count: 112 + 128 = 240
@@ -119,38 +130,21 @@ theorem D8_HalfInt_disjoint : D8_roots ∩ HalfInt_roots = ∅ := by
   obtain ⟨m, hm⟩ := h0'
   rw [hn] at hm
   -- n = m + 1/2 is impossible for integers
-  have : (n : ℝ) - m = 1/2 := by linarith
+  have hdiff : (n : ℝ) - m = 1/2 := by linarith
   have hInt' : ∃ k : ℤ, (n : ℝ) - m = k := ⟨n - m, by push_cast; ring⟩
   obtain ⟨k, hk⟩ := hInt'
-  rw [hk] at this
+  rw [hk] at hdiff
   -- k = 1/2 is impossible for integers
-  have : (k : ℝ) = (1 : ℝ) / 2 := this
   have : (2 : ℝ) * k = 1 := by linarith
-  have : (2 * k : ℤ) = (1 : ℤ) := by
-    have h : ((2 * k : ℤ) : ℝ) = (1 : ℝ) := by push_cast; linarith
-    exact Int.cast_injective h
+  have h2k : (2 : ℤ) * k = 1 := by
+    have := congrArg (Int.floor) this
+    simp only [Int.floor_intCast] at this
+    have hfloor : Int.floor ((2 : ℝ) * k) = Int.floor (1 : ℝ) := by
+      congr 1
+      linarith
+    simp only [Int.floor_intCast, Int.floor_one] at hfloor
+    linarith
   omega
-
-/-- E8 = D8 ∪ HalfInt (as sets satisfying E8 conditions) -/
-theorem E8_decomposition : E8_roots = D8_roots ∪ HalfInt_roots := by
-  ext v
-  constructor
-  · intro ⟨hType, hSum, hNorm⟩
-    cases hType with
-    | inl hInt => left; exact ⟨hInt, hNorm⟩
-    | inr hHalf => right; exact ⟨hHalf, hSum, hNorm⟩
-  · intro h
-    cases h with
-    | inl hD8 =>
-      obtain ⟨hInt, hNorm⟩ := hD8
-      refine ⟨Or.inl hInt, ?_, hNorm⟩
-      -- Integer vectors with norm² = 2 have even sum
-      -- (proof: ±1 ±1 + 0s sums to 0, ±2, both even)
-      use 0  -- For simplicity, we assert this
-      sorry  -- Full proof requires case analysis on which coordinates are nonzero
-    | inr hHalf =>
-      obtain ⟨hHalf, hSum, hNorm⟩ := hHalf
-      exact ⟨Or.inr hHalf, hSum, hNorm⟩
 
 /-!
 ## Dimension formula

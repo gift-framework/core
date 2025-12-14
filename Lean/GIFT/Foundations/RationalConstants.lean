@@ -11,6 +11,7 @@ import Mathlib.Data.Rat.Defs
 import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.Ring
 import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.FieldSimp
 
 namespace GIFT.Foundations.RationalConstants
 
@@ -115,8 +116,8 @@ theorem gamma_den_value : gamma_den = 884 := by
 def gamma_GIFT : ℚ := gamma_num / gamma_den
 
 theorem gamma_GIFT_value : gamma_GIFT = 511 / 884 := by
-  unfold gamma_GIFT gamma_num gamma_den rank_E8 H_star b2 b3 dim_G2 dim_E8
-  norm_num
+  unfold gamma_GIFT
+  rw [gamma_num_value, gamma_den_value]
 
 /-!
 ## Strong Coupling: α_s = 1/(dim_G2 - p2) = 1/12
@@ -135,12 +136,12 @@ theorem alpha_s_den_value : alpha_s_den = 12 := by
 def alpha_s : ℚ := 1 / alpha_s_den
 
 theorem alpha_s_value : alpha_s = 1 / 12 := by
-  unfold alpha_s alpha_s_den dim_G2 p2
-  norm_num
+  unfold alpha_s
+  rw [alpha_s_den_value]
 
 /-- α_s² = 1/144 -/
 theorem alpha_s_squared : alpha_s * alpha_s = 1 / 144 := by
-  unfold alpha_s alpha_s_den dim_G2 p2
+  rw [alpha_s_value]
   norm_num
 
 /-!
@@ -158,8 +159,8 @@ theorem kappa_T_den_value : kappa_T_den = 61 := by
 def kappa_T : ℚ := 1 / kappa_T_den
 
 theorem kappa_T_value : kappa_T = 1 / 61 := by
-  unfold kappa_T kappa_T_den b3 dim_G2 p2
-  norm_num
+  unfold kappa_T
+  rw [kappa_T_den_value]
 
 /-!
 ## Tau Hierarchy: τ = (dim_E8×E8 · b2)/(dim_J3O · H*) = 10416/2673
@@ -190,8 +191,8 @@ theorem tau_den_value : tau_den = 2673 := by
 def tau_ratio : ℚ := tau_num / tau_den
 
 theorem tau_ratio_value : tau_ratio = 10416 / 2673 := by
-  unfold tau_ratio tau_num tau_den dim_E8xE8 dim_E8 b2 dim_J3O H_star b3
-  norm_num
+  unfold tau_ratio
+  rw [tau_num_value, tau_den_value]
 
 /-!
 ## Mixing Angles
@@ -211,8 +212,8 @@ theorem theta_23_num_value : theta_23_num = 85 := by
 def theta_23 : ℚ := theta_23_num / H_star
 
 theorem theta_23_value : theta_23 = 85 / 99 := by
-  unfold theta_23 theta_23_num rank_E8 b3 H_star b2
-  norm_num
+  unfold theta_23
+  rw [theta_23_num_value, H_star_value]
 
 /-- θ₁₃ base = 1/21 -/
 def theta_13_base : ℚ := 1 / b2
@@ -236,8 +237,8 @@ theorem Omega_DE_num_value : Omega_DE_num = 98 := by
 def Omega_DE : ℚ := Omega_DE_num / H_star
 
 theorem Omega_DE_value : Omega_DE = 98 / 99 := by
-  unfold Omega_DE Omega_DE_num H_star b2 b3
-  norm_num
+  unfold Omega_DE
+  rw [Omega_DE_num_value, H_star_value]
 
 /-!
 ## Fine Structure Constant Components
@@ -281,13 +282,10 @@ theorem all_rational_relations_certified :
     -- Dark energy
     Omega_DE = 98 / 99 ∧
     -- Fine structure
-    alpha_inv_total = 137 := by
-  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
-  all_goals (unfold_let; norm_num [sin2_theta_W, koide_Q, gamma_GIFT, alpha_s,
-    kappa_T, tau_ratio, theta_23, theta_13_base, Omega_DE, alpha_inv_total,
-    b2, b3, dim_G2, dim_E8, rank_E8, p2, H_star, dim_E8xE8, dim_J3O,
-    gamma_num, gamma_den, alpha_s_den, kappa_T_den, tau_num, tau_den,
-    theta_23_num, Omega_DE_num, alpha_inv_algebraic, alpha_inv_bulk])
+    alpha_inv_total = 137 :=
+  ⟨sin2_theta_W_simplified, koide_simplified, gamma_GIFT_value, alpha_s_value,
+   kappa_T_value, tau_ratio_value, theta_23_value, theta_13_base_value,
+   Omega_DE_value, alpha_inv_total_value⟩
 
 /-!
 ## Why This Matters
