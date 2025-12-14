@@ -277,18 +277,17 @@ theorem D8_HalfInt_disjoint (e : (Fin 8 × Fin 8) × (Bool × Bool))
   intro heq
   -- Find a position k that is neither e.1.1 nor e.1.2
   -- At such k: D8_to_vector e k = 0, but HalfInt_to_vector f k ≠ 0
-  -- We use position 0, 1, or 2 depending on e.1.1 and e.1.2
-  have h0 : (0 : Fin 8) ≠ e.1.1 ∨ (1 : Fin 8) ≠ e.1.1 := by
-    by_contra hcon; push_neg at hcon; omega
-  -- There exists some k ∉ {e.1.1, e.1.2}
+  -- There exists some k ∉ {e.1.1, e.1.2} since only 2 of 8 positions are taken
   have ⟨k, hk1, hk2⟩ : ∃ k : Fin 8, k ≠ e.1.1 ∧ k ≠ e.1.2 := by
-    -- Since e.1.1 < e.1.2 in Fin 8, at most 2 positions are taken
-    -- So some position in {0,1,2} is free
-    fin_cases e.1.1 <;> fin_cases e.1.2 <;> first
-      | exact ⟨0, by decide, by decide⟩
-      | exact ⟨1, by decide, by decide⟩
-      | exact ⟨2, by decide, by decide⟩
-      | exact ⟨3, by decide, by decide⟩
+    by_cases h0 : (0 : Fin 8) ≠ e.1.1 ∧ (0 : Fin 8) ≠ e.1.2
+    · exact ⟨0, h0.1, h0.2⟩
+    by_cases h1 : (1 : Fin 8) ≠ e.1.1 ∧ (1 : Fin 8) ≠ e.1.2
+    · exact ⟨1, h1.1, h1.2⟩
+    by_cases h2 : (2 : Fin 8) ≠ e.1.1 ∧ (2 : Fin 8) ≠ e.1.2
+    · exact ⟨2, h2.1, h2.2⟩
+    -- 0, 1, 2 all intersect {e.1.1, e.1.2}, but |{e.1.1, e.1.2}| ≤ 2, contradiction
+    push_neg at h0 h1 h2
+    omega
   have hD8 : D8_to_vector e k = 0 := D8_to_vector_at_other e k hk1 hk2
   have hHalf : HalfInt_to_vector f k ≠ 0 := HalfInt_to_vector_ne_zero f k
   rw [heq] at hD8
@@ -301,16 +300,15 @@ We prove ∑ i, (D8_to_vector e i)^2 = 2 formally.
 -/
 
 /-- The sum of squares at positions outside {e.1.1, e.1.2} is 0 -/
-theorem D8_to_vector_other_sq_sum (e : (Fin 8 × Fin 8) × (Bool × Bool))
-    (he : e.1.1 < e.1.2) :
+theorem D8_to_vector_other_sq_sum (e : (Fin 8 × Fin 8) × (Bool × Bool)) :
     ∀ k : Fin 8, k ≠ e.1.1 → k ≠ e.1.2 → (D8_to_vector e k)^2 = 0 := by
   intro k hk1 hk2
   rw [D8_to_vector_at_other e k hk1 hk2]
   ring
 
-/-- Full norm squared theorem for D8 vectors in valid enumeration -/
+/-- Full norm squared theorem for D8 vectors -/
 theorem D8_to_vector_norm_sq (e : (Fin 8 × Fin 8) × (Bool × Bool))
-    (he : e.1.1 < e.1.2) (hmem : e ∈ D8_enumeration) :
+    (he : e.1.1 < e.1.2) :
     (D8_to_vector e e.1.1)^2 + (D8_to_vector e e.1.2)^2 = 2 := by
   rw [D8_to_vector_at_fst, D8_to_vector_at_snd e (ne_of_lt he)]
   rw [boolToSign_sq, boolToSign_sq]
