@@ -8,8 +8,6 @@ Given a G2 structure with small torsion, perturb to torsion-free.
 Version: 3.2.0
 -/
 
-import Mathlib.Analysis.NormedSpace.BanachSteinhaus
-import Mathlib.Analysis.Calculus.ContDiff.Basic
 import Mathlib.Topology.MetricSpace.Basic
 import Mathlib.Data.Real.Basic
 import GIFT.Foundations.V5.HodgeTheory

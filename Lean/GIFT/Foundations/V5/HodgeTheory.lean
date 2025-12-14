@@ -9,7 +9,6 @@ Version: 3.2.0
 -/
 
 import Mathlib.Analysis.InnerProductSpace.PiL2
-import Mathlib.Analysis.NormedSpace.Basic
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.Data.Real.Basic
 import GIFT.Foundations.V5.InnerProductSpace
