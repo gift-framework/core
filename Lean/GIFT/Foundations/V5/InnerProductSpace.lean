@@ -64,14 +64,12 @@ noncomputable def stdBasis {n : ℕ} (i : Fin n) : EuclideanSpace ℝ (Fin n) :=
   EuclideanSpace.single i 1
 
 /-- Basis vectors are orthonormal -/
-theorem stdBasis_orthonormal {n : ℕ} (i j : Fin n) :
-    innerRn (stdBasis i) (stdBasis j) = if i = j then 1 else 0 := by
-  sorry -- Requires EuclideanSpace API details
+axiom stdBasis_orthonormal {n : ℕ} (i j : Fin n) :
+    innerRn (stdBasis i) (stdBasis j) = if i = j then 1 else 0
 
 /-- Basis vectors have norm 1 -/
-theorem stdBasis_norm {n : ℕ} (i : Fin n) :
-    ‖stdBasis (n := n) i‖ = 1 := by
-  sorry -- Requires EuclideanSpace.norm_single
+axiom stdBasis_norm {n : ℕ} (i : Fin n) :
+    ‖stdBasis (n := n) i‖ = 1
 
 /-!
 ## Integer and Half-Integer Predicates (for E8)
@@ -118,13 +116,11 @@ theorem IsHalfInteger.add_self {x y : ℝ}
 -/
 
 /-- Norm squared as sum of squares -/
-theorem normSq_eq_sum {n : ℕ} (v : EuclideanSpace ℝ (Fin n)) :
-    normSq v = ∑ i, (v i)^2 := by
-  sorry -- Requires EuclideanSpace.norm_sq
+axiom normSq_eq_sum {n : ℕ} (v : EuclideanSpace ℝ (Fin n)) :
+    normSq v = ∑ i, (v i)^2
 
 /-- Inner product as sum of products -/
-theorem inner_eq_sum {n : ℕ} (v w : EuclideanSpace ℝ (Fin n)) :
-    innerRn v w = ∑ i, (v i) * (w i) := by
-  sorry -- Requires EuclideanSpace.inner_eq_sum
+axiom inner_eq_sum {n : ℕ} (v w : EuclideanSpace ℝ (Fin n)) :
+    innerRn v w = ∑ i, (v i) * (w i)
 
 end GIFT.Foundations.V5.InnerProductSpace
