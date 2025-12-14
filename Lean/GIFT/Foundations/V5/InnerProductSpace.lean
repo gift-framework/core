@@ -138,5 +138,8 @@ theorem inner_eq_sum {n : ℕ} (v w : EuclideanSpace ℝ (Fin n)) :
   unfold innerRn
   rw [PiLp.inner_apply]
   simp only [RCLike.inner_apply, conj_trivial]
+  congr 1
+  funext i
+  ring
 
 end GIFT.Foundations.V5.InnerProductSpace
