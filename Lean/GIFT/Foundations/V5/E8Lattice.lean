@@ -135,8 +135,6 @@ theorem halfint_inner_halfint_is_int (v w : R8)
     intro i _
     rw [hnv i, hmw i]; ring
   rw [h_eq]
-  -- Split the sum
-  simp_rw [← Finset.sum_add_distrib]
   -- Sum of 1/4 over 8 terms is 2
   have h_quarter : ∑ _ : Fin 8, (1 : ℝ)/4 = 2 := by norm_num
   -- SumEven v implies ∑(nv i)/2 is integer (since v i = nv i + 1/2)
@@ -199,7 +197,6 @@ theorem inner_integer_halfint_is_int (v w : R8)
     intro i _
     rw [hnv i, hmw i]; ring
   rw [h_eq]
-  simp_rw [← Finset.sum_add_distrib]
   -- Integer products sum to integer
   have h_int_sum : IsInteger (∑ i, (nv i : ℝ) * (mw i : ℝ)) := by
     apply IsInteger_sum
@@ -238,25 +235,25 @@ theorem E8_inner_integral (v w : R8)
     · exact halfint_inner_halfint_is_int v w hv_half hw_half hv_even hw_even
 
 /-- n(n-1) is always even -/
-theorem int_mul_pred_even (n : ℤ) : Even (n * (n - 1)) := by
-  have h := Int.even_mul_pred_self n
-  exact h
+theorem int_mul_pred_even (n : ℤ) : Even (n * (n - 1)) :=
+  Int.even_mul_pred_self n
 
 /-- n² ≡ n (mod 2) for integers -/
 theorem int_sq_mod_2 (n : ℤ) : ∃ k : ℤ, n^2 = n + 2 * k := by
   have h := int_mul_pred_even n
   obtain ⟨k, hk⟩ := h
   use k
-  have : n^2 = n * n := by ring
-  have : n * n = n * (n - 1) + n := by ring
-  rw [this, hk]
-  ring
+  calc n^2 = n * n := sq n
+    _ = n * (n - 1) + n := by ring
+    _ = (k + k) + n := by rw [hk]
+    _ = n + 2 * k := by ring
 
 /-- n(n+1) is always even -/
 theorem int_mul_succ_even (n : ℤ) : ∃ k : ℤ, n * (n + 1) = 2 * k := by
   have h := Int.even_mul_succ_self n
   obtain ⟨k, hk⟩ := h
-  exact ⟨k, hk⟩
+  use k
+  rw [hk, two_mul]
 
 /-- E8 is even: ‖v‖² ∈ 2ℤ for v ∈ Λ -/
 theorem E8_even (v : R8) (hv : v ∈ E8_lattice) :
@@ -282,8 +279,7 @@ theorem E8_even (v : R8) (hv : v ∈ E8_lattice) :
           _ = (nv i : ℝ) + 2 * (kv i : ℝ) := by push_cast; ring
       have h2 : ∑ i, (nv i : ℝ)^2 = ∑ i, ((nv i : ℝ) + 2 * (kv i : ℝ)) := by
         apply Finset.sum_congr rfl; intro i _; exact h1 i
-      rw [h2]
-      simp_rw [← Finset.sum_add_distrib, ← Finset.mul_sum]
+      rw [h2, Finset.sum_add_distrib, Finset.mul_sum]
     rw [h_rewrite]
     -- SumEven gives (∑ v_i)/2 = (∑ n_i)/2 is integer
     unfold SumEven at hv_even
@@ -299,13 +295,13 @@ theorem E8_even (v : R8) (hv : v ∈ E8_lattice) :
     -- v_i = n_i + 1/2, so v_i² = n_i² + n_i + 1/4
     -- Sum = ∑(n_i² + n_i) + 2, and n(n+1) is always even
     choose nv hnv using hv_half
-    have h_eq : ∑ i, (v i)^2 = ∑ i, ((nv i : ℝ)^2 + (nv i : ℝ) + 1/4) := by
-      apply Finset.sum_congr rfl
-      intro i _; rw [hnv i]; ring
-    rw [h_eq]
-    simp_rw [← Finset.sum_add_distrib]
+    have h_eq : ∑ i, (v i)^2 = ∑ i, ((nv i : ℝ)^2 + (nv i : ℝ)) + ∑ _ : Fin 8, (1 : ℝ)/4 := by
+      have h1 : ∑ i, (v i)^2 = ∑ i, ((nv i : ℝ)^2 + (nv i : ℝ) + 1/4) := by
+        apply Finset.sum_congr rfl
+        intro i _; rw [hnv i]; ring
+      rw [h1, Finset.sum_add_distrib]
     have h_quarter : ∑ _ : Fin 8, (1 : ℝ)/4 = 2 := by norm_num
-    rw [h_quarter]
+    rw [h_eq, h_quarter]
     -- n(n+1) is even
     have h_even : ∀ i, ∃ k : ℤ, (nv i)^2 + nv i = 2 * k := fun i => by
       have := int_mul_succ_even (nv i)
@@ -382,9 +378,12 @@ theorem reflect_preserves_lattice (α : R8) (hα : α ∈ E8_roots)
   have h_inner_int : IsInteger (innerRn v α) := E8_inner_integral v α hv hα_lattice
   obtain ⟨n, hn⟩ := h_inner_int
   -- s_α(v) = v - n·α where n ∈ ℤ
+  -- The coefficient equals n (as a real), and (n : ℝ) • α = n • α for EuclideanSpace
   have h_eq : (2 * innerRn v α / normSq α) • α = n • α := by
     rw [h_coef, hn]
-    simp only [Int.smul_one_eq_cast, zsmul_eq_smul_cast ℝ]
+    ext i
+    simp only [PiLp.smul_apply, smul_eq_mul]
+    ring
   rw [h_eq]
   exact E8_lattice_sub v (n • α) hv (E8_lattice_smul n α hα_lattice)
 
