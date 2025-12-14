@@ -137,29 +137,35 @@ theorem halfint_inner_halfint_is_int (v w : R8)
   rw [h_eq]
   -- Sum of 1/4 over 8 terms is 2
   have h_quarter : ∑ _ : Fin 8, (1 : ℝ)/4 = 2 := by norm_num
-  -- SumEven v implies ∑(nv i)/2 is integer (since v i = nv i + 1/2)
+  -- SumEven v implies (∑nv)/2 is integer
   have hv_sum : IsInteger (∑ i, (nv i : ℝ) / 2) := by
     unfold SumEven at hv_even
-    have hsum : ∑ i, v i = ∑ i, ((nv i : ℝ) + 1/2) := by
-      apply Finset.sum_congr rfl; intro i _; rw [hnv i]
-    have h1 : ∑ i, ((nv i : ℝ) + 1/2) = ∑ i, (nv i : ℝ) + 4 := by
-      simp_rw [← Finset.sum_add_distrib]; norm_num
-    rw [hsum, h1] at hv_even
-    have h2 : (∑ i, (nv i : ℝ) + 4) / 2 = ∑ i, (nv i : ℝ) / 2 + 2 := by ring
+    have hsum : ∑ i, v i = ∑ i, (nv i : ℝ) + 4 := by
+      have h1 : ∑ i, v i = ∑ i, ((nv i : ℝ) + 1/2) := by
+        apply Finset.sum_congr rfl; intro i _; rw [hnv i]
+      rw [h1, Finset.sum_add_distrib]
+      norm_num
+    rw [hsum] at hv_even
+    have h2 : (∑ i, (nv i : ℝ) + 4) / 2 = (∑ i, (nv i : ℝ)) / 2 + 2 := by ring
     rw [h2] at hv_even
     obtain ⟨k, hk⟩ := hv_even
-    exact ⟨k - 2, by linarith⟩
+    use k - 2
+    have h3 : (∑ i, (nv i : ℝ)) / 2 = ∑ i, (nv i : ℝ) / 2 := (Finset.sum_div _ _ _).symm
+    linarith
   have hw_sum : IsInteger (∑ i, (mw i : ℝ) / 2) := by
     unfold SumEven at hw_even
-    have hsum : ∑ i, w i = ∑ i, ((mw i : ℝ) + 1/2) := by
-      apply Finset.sum_congr rfl; intro i _; rw [hmw i]
-    have h1 : ∑ i, ((mw i : ℝ) + 1/2) = ∑ i, (mw i : ℝ) + 4 := by
-      simp_rw [← Finset.sum_add_distrib]; norm_num
-    rw [hsum, h1] at hw_even
-    have h2 : (∑ i, (mw i : ℝ) + 4) / 2 = ∑ i, (mw i : ℝ) / 2 + 2 := by ring
+    have hsum : ∑ i, w i = ∑ i, (mw i : ℝ) + 4 := by
+      have h1 : ∑ i, w i = ∑ i, ((mw i : ℝ) + 1/2) := by
+        apply Finset.sum_congr rfl; intro i _; rw [hmw i]
+      rw [h1, Finset.sum_add_distrib]
+      norm_num
+    rw [hsum] at hw_even
+    have h2 : (∑ i, (mw i : ℝ) + 4) / 2 = (∑ i, (mw i : ℝ)) / 2 + 2 := by ring
     rw [h2] at hw_even
     obtain ⟨k, hk⟩ := hw_even
-    exact ⟨k - 2, by linarith⟩
+    use k - 2
+    have h3 : (∑ i, (mw i : ℝ)) / 2 = ∑ i, (mw i : ℝ) / 2 := (Finset.sum_div _ _ _).symm
+    linarith
   -- Integer products sum to integer
   have h_int_sum : IsInteger (∑ i, (nv i : ℝ) * (mw i : ℝ)) := by
     apply IsInteger_sum
@@ -168,14 +174,21 @@ theorem halfint_inner_halfint_is_int (v w : R8)
   -- Half sums combine
   have h_half_sum : IsInteger (∑ i, ((nv i : ℝ) + (mw i : ℝ)) / 2) := by
     have hsplit : ∑ i, ((nv i : ℝ) + (mw i : ℝ)) / 2 = ∑ i, (nv i : ℝ) / 2 + ∑ i, (mw i : ℝ) / 2 := by
-      simp_rw [add_div]; rw [Finset.sum_add_distrib]
+      conv_lhs => ext i; rw [add_div]
+      exact Finset.sum_add_distrib
     rw [hsplit]
     exact hv_sum.add hw_sum
   -- Combine everything
   have h_total : ∑ i, ((nv i : ℝ) * (mw i : ℝ) + ((nv i : ℝ) + (mw i : ℝ)) / 2 + 1/4) =
       ∑ i, (nv i : ℝ) * (mw i : ℝ) + ∑ i, ((nv i : ℝ) + (mw i : ℝ)) / 2 + 2 := by
-    simp_rw [← Finset.sum_add_distrib]
-    congr 1; norm_num
+    have h1 : ∑ i, ((nv i : ℝ) * (mw i : ℝ) + ((nv i : ℝ) + (mw i : ℝ)) / 2 + 1/4) =
+        ∑ i, ((nv i : ℝ) * (mw i : ℝ) + ((nv i : ℝ) + (mw i : ℝ)) / 2) + ∑ _ : Fin 8, (1/4 : ℝ) := by
+      conv_lhs => ext i; rw [add_assoc]
+      exact Finset.sum_add_distrib
+    have h2 : ∑ i, ((nv i : ℝ) * (mw i : ℝ) + ((nv i : ℝ) + (mw i : ℝ)) / 2) =
+        ∑ i, (nv i : ℝ) * (mw i : ℝ) + ∑ i, ((nv i : ℝ) + (mw i : ℝ)) / 2 := Finset.sum_add_distrib
+    rw [h1, h2]
+    norm_num
   rw [h_total]
   exact (h_int_sum.add h_half_sum).add ⟨2, by norm_num⟩
 
@@ -208,7 +221,7 @@ theorem inner_integer_halfint_is_int (v w : R8)
     have hsum : ∑ i, v i = ∑ i, (nv i : ℝ) := by
       apply Finset.sum_congr rfl; intro i _; rw [hnv i]
     rw [hsum] at hv_even
-    have h1 : (∑ i, (nv i : ℝ)) / 2 = ∑ i, (nv i : ℝ) / 2 := Finset.sum_div
+    have h1 : (∑ i, (nv i : ℝ)) / 2 = ∑ i, (nv i : ℝ) / 2 := (Finset.sum_div _ _ _).symm
     rw [← h1]
     exact hv_even
   -- Combine
@@ -315,7 +328,7 @@ theorem E8_even (v : R8) (hv : v ∈ E8_lattice) :
         have := hkv i
         calc (nv i : ℝ)^2 + (nv i : ℝ) = ((nv i)^2 + nv i : ℤ) := by push_cast; ring
           _ = (2 * kv i : ℤ) := by rw [this]
-          _ = 2 * (kv i : ℝ) := by push_cast
+          _ = 2 * (kv i : ℝ) := by norm_cast
       have h2 : ∑ i, ((nv i : ℝ)^2 + (nv i : ℝ)) = ∑ i, (2 * (kv i : ℝ)) := by
         apply Finset.sum_congr rfl; intro i _; exact h1 i
       rw [h2, ← Finset.mul_sum]
