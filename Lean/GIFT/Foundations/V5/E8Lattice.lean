@@ -149,8 +149,10 @@ theorem halfint_inner_halfint_is_int (v w : R8)
     have h2 : (∑ i, (nv i : ℝ) + 4) / 2 = (∑ i, (nv i : ℝ)) / 2 + 2 := by ring
     rw [h2] at hv_even
     obtain ⟨k, hk⟩ := hv_even
+    have h3 : (∑ i : Fin 8, (nv i : ℝ)) / 2 = ∑ i : Fin 8, (nv i : ℝ) / 2 :=
+      Finset.sum_div Finset.univ (fun i => (nv i : ℝ)) 2
     use k - 2
-    have h3 : (∑ i, (nv i : ℝ)) / 2 = ∑ i, (nv i : ℝ) / 2 := (Finset.sum_div _ _ _).symm
+    simp only [Int.cast_sub, Int.cast_ofNat] at *
     linarith
   have hw_sum : IsInteger (∑ i, (mw i : ℝ) / 2) := by
     unfold SumEven at hw_even
@@ -163,8 +165,10 @@ theorem halfint_inner_halfint_is_int (v w : R8)
     have h2 : (∑ i, (mw i : ℝ) + 4) / 2 = (∑ i, (mw i : ℝ)) / 2 + 2 := by ring
     rw [h2] at hw_even
     obtain ⟨k, hk⟩ := hw_even
+    have h3 : (∑ i : Fin 8, (mw i : ℝ)) / 2 = ∑ i : Fin 8, (mw i : ℝ) / 2 :=
+      Finset.sum_div Finset.univ (fun i => (mw i : ℝ)) 2
     use k - 2
-    have h3 : (∑ i, (mw i : ℝ)) / 2 = ∑ i, (mw i : ℝ) / 2 := (Finset.sum_div _ _ _).symm
+    simp only [Int.cast_sub, Int.cast_ofNat] at *
     linarith
   -- Integer products sum to integer
   have h_int_sum : IsInteger (∑ i, (nv i : ℝ) * (mw i : ℝ)) := by
@@ -174,20 +178,24 @@ theorem halfint_inner_halfint_is_int (v w : R8)
   -- Half sums combine
   have h_half_sum : IsInteger (∑ i, ((nv i : ℝ) + (mw i : ℝ)) / 2) := by
     have hsplit : ∑ i, ((nv i : ℝ) + (mw i : ℝ)) / 2 = ∑ i, (nv i : ℝ) / 2 + ∑ i, (mw i : ℝ) / 2 := by
-      conv_lhs => ext i; rw [add_div]
-      exact Finset.sum_add_distrib
+      have h1 : ∀ i, ((nv i : ℝ) + (mw i : ℝ)) / 2 = (nv i : ℝ) / 2 + (mw i : ℝ) / 2 := fun i => add_div _ _ _
+      have h2 : ∑ i, ((nv i : ℝ) + (mw i : ℝ)) / 2 = ∑ i, ((nv i : ℝ) / 2 + (mw i : ℝ) / 2) := by
+        apply Finset.sum_congr rfl; intro i _; exact h1 i
+      rw [h2, Finset.sum_add_distrib]
     rw [hsplit]
     exact hv_sum.add hw_sum
   -- Combine everything
   have h_total : ∑ i, ((nv i : ℝ) * (mw i : ℝ) + ((nv i : ℝ) + (mw i : ℝ)) / 2 + 1/4) =
       ∑ i, (nv i : ℝ) * (mw i : ℝ) + ∑ i, ((nv i : ℝ) + (mw i : ℝ)) / 2 + 2 := by
-    have h1 : ∑ i, ((nv i : ℝ) * (mw i : ℝ) + ((nv i : ℝ) + (mw i : ℝ)) / 2 + 1/4) =
+    have h1 : ∀ i, (nv i : ℝ) * (mw i : ℝ) + ((nv i : ℝ) + (mw i : ℝ)) / 2 + 1/4 =
+        ((nv i : ℝ) * (mw i : ℝ) + ((nv i : ℝ) + (mw i : ℝ)) / 2) + 1/4 := fun i => add_assoc _ _ _
+    have h2 : ∑ i, ((nv i : ℝ) * (mw i : ℝ) + ((nv i : ℝ) + (mw i : ℝ)) / 2 + 1/4) =
         ∑ i, ((nv i : ℝ) * (mw i : ℝ) + ((nv i : ℝ) + (mw i : ℝ)) / 2) + ∑ _ : Fin 8, (1/4 : ℝ) := by
-      conv_lhs => ext i; rw [add_assoc]
-      exact Finset.sum_add_distrib
-    have h2 : ∑ i, ((nv i : ℝ) * (mw i : ℝ) + ((nv i : ℝ) + (mw i : ℝ)) / 2) =
-        ∑ i, (nv i : ℝ) * (mw i : ℝ) + ∑ i, ((nv i : ℝ) + (mw i : ℝ)) / 2 := Finset.sum_add_distrib
-    rw [h1, h2]
+      have h2a : ∑ i, ((nv i : ℝ) * (mw i : ℝ) + ((nv i : ℝ) + (mw i : ℝ)) / 2 + 1/4) =
+          ∑ i, (((nv i : ℝ) * (mw i : ℝ) + ((nv i : ℝ) + (mw i : ℝ)) / 2) + 1/4) := by
+        apply Finset.sum_congr rfl; intro i _; exact h1 i
+      rw [h2a, Finset.sum_add_distrib]
+    rw [h2, Finset.sum_add_distrib]
     norm_num
   rw [h_total]
   exact (h_int_sum.add h_half_sum).add ⟨2, by norm_num⟩
@@ -221,7 +229,8 @@ theorem inner_integer_halfint_is_int (v w : R8)
     have hsum : ∑ i, v i = ∑ i, (nv i : ℝ) := by
       apply Finset.sum_congr rfl; intro i _; rw [hnv i]
     rw [hsum] at hv_even
-    have h1 : (∑ i, (nv i : ℝ)) / 2 = ∑ i, (nv i : ℝ) / 2 := (Finset.sum_div _ _ _).symm
+    have h1 : (∑ i : Fin 8, (nv i : ℝ)) / 2 = ∑ i : Fin 8, (nv i : ℝ) / 2 :=
+      Finset.sum_div Finset.univ (fun i => (nv i : ℝ)) 2
     rw [← h1]
     exact hv_even
   -- Combine
