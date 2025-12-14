@@ -107,7 +107,7 @@ theorem boolToSign_ne_zero (b : Bool) : boolToSign b ≠ 0 := by
 theorem D8_to_vector_norm_sq_sketch :
     ∀ a b : Bool, (boolToSign a)^2 + (boolToSign b)^2 = 2 := by
   intro a b
-  cases a <;> cases b <;> (simp only [boolToSign]; ring)
+  cases a <;> cases b <;> norm_num [boolToSign]
 
 /-!
 ## Injectivity: Different enumerations give different vectors
