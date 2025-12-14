@@ -110,7 +110,7 @@ theorem IsInteger_sum {n : ℕ} {f : Fin n → ℝ} (hf : ∀ i, IsInteger (f i)
   | zero => simp; exact ⟨0, by simp⟩
   | succ n ih =>
     rw [Fin.sum_univ_succ]
-    exact (ih (fun i => hf i.castSucc)).add (hf (Fin.last n))
+    exact (hf 0).add (ih (fun i => hf i.succ))
 
 /-- Integer times integer vector gives integer inner product -/
 theorem inner_integer_integer (v w : R8)
@@ -160,7 +160,7 @@ theorem E8_inner_integral (v w : R8)
     rcases hw_type with hw_int | hw_half
     · -- v half-int, w int: use symmetry
       rw [show innerRn v w = innerRn w v from by
-            unfold innerRn; exact inner_comm w v]
+            unfold innerRn; exact real_inner_comm v w]
       exact inner_integer_halfint_is_int w v hw_int hv_half hw_even
     · -- v half-int, w half-int
       exact halfint_inner_halfint_is_int v w hv_half hw_half hv_even hw_even

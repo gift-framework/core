@@ -41,9 +41,13 @@ theorem wedge_anticomm_1forms (v w : Fin 7 → ℝ) :
   have h : ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w +
            ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v = 0 := by
     have hvw := ExteriorAlgebra.ι_sq_zero (v + w)
-    simp only [map_add, add_mul, mul_add] at hvw
     have hv := ExteriorAlgebra.ι_sq_zero v
     have hw := ExteriorAlgebra.ι_sq_zero w
+    -- Expand ι(v+w)² manually
+    have expand : ExteriorAlgebra.ι ℝ (v + w) =
+                  ExteriorAlgebra.ι ℝ v + ExteriorAlgebra.ι ℝ w := by
+      exact (ExteriorAlgebra.ι ℝ).map_add v w
+    rw [expand] at hvw
     -- (ι v + ι w)² = ι v² + ι v · ι w + ι w · ι v + ι w² = 0
     -- Since ι v² = ι w² = 0, we get ι v · ι w + ι w · ι v = 0
     calc ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w +
@@ -57,8 +61,12 @@ theorem wedge_anticomm_1forms (v w : Fin 7 → ℝ) :
       _ = (ExteriorAlgebra.ι ℝ v + ExteriorAlgebra.ι ℝ w) *
           (ExteriorAlgebra.ι ℝ v + ExteriorAlgebra.ι ℝ w) := by ring
       _ = 0 := hvw
-  -- From a + b = 0, derive a = -b using eq_neg_of_add_eq_zero
-  exact eq_neg_of_add_eq_zero h
+  -- From a + b = 0, derive a = -b
+  have : ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w =
+         -(ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v) := by
+    rw [← add_eq_zero_iff_eq_neg]
+    exact h
+  exact this
 
 /-!
 ## Dimension Formulas for ℝ⁷
