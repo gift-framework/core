@@ -130,60 +130,67 @@ theorem halfint_inner_halfint_is_int (v w : R8)
     (hv_even : SumEven v) (hw_even : SumEven w) :
     IsInteger (innerRn v w) := by
   rw [inner_eq_sum]
-  -- Decompose each product: vᵢ * wᵢ = (nᵢ + 1/2)(mᵢ + 1/2)
-  -- Let nᵢ = vᵢ - 1/2 and mᵢ = wᵢ - 1/2 (both integers)
-  have h_expand : ∑ i, v i * w i =
-      ∑ i, (v i - 1/2) * (w i - 1/2) +
-      (1/2) * ∑ i, (v i - 1/2) +
-      (1/2) * ∑ i, (w i - 1/2) +
-      8 * (1/4) := by
-    simp only [Finset.card_fin, Nat.cast_ofNat]
-    have : (8 : ℝ) * (1/4) = 2 := by norm_num
-    rw [this]
-    -- Expand and collect terms
-    have expand : ∀ i, v i * w i =
-        (v i - 1/2) * (w i - 1/2) + (1/2) * (v i - 1/2) + (1/2) * (w i - 1/2) + 1/4 := by
-      intro i; ring
-    conv_lhs => arg 2; ext i; rw [expand i]
-    rw [Finset.sum_add_distrib, Finset.sum_add_distrib, Finset.sum_add_distrib]
-    rw [← Finset.sum_mul, ← Finset.sum_mul]
-    simp only [Finset.sum_const, Finset.card_fin, smul_eq_mul, Nat.cast_ofNat]
+  -- Get integer parts: nᵢ = vᵢ - 1/2
+  choose ns hns using hv
+  choose ms hms using hw
+  -- Expand: vᵢ * wᵢ = (nᵢ + 1/2)(mᵢ + 1/2) = nᵢmᵢ + (nᵢ + mᵢ)/2 + 1/4
+  have h_product : ∀ i, v i * w i = (ns i : ℝ) * (ms i) + (ns i + ms i) / 2 + 1/4 := by
+    intro i
+    rw [hns i, hms i]
     ring
-  rw [h_expand]
-  -- Term 1: ∑(vᵢ - 1/2)(wᵢ - 1/2) = integer × integer
-  have h1 : IsInteger (∑ i, (v i - 1/2) * (w i - 1/2)) := by
+  -- Compute the sum
+  have h_sum : ∑ i, v i * w i = ∑ i, (ns i : ℝ) * (ms i) +
+      (∑ i, (ns i : ℝ) + ∑ i, (ms i : ℝ)) / 2 + 2 := by
+    calc ∑ i, v i * w i
+        = ∑ i, ((ns i : ℝ) * (ms i) + (ns i + ms i) / 2 + 1/4) := by
+          congr 1; funext i; exact h_product i
+      _ = ∑ i, (ns i : ℝ) * (ms i) + ∑ i, ((ns i : ℝ) + (ms i)) / 2 + ∑ i, (1/4 : ℝ) := by
+          simp only [← Finset.sum_add_distrib]
+      _ = ∑ i, (ns i : ℝ) * (ms i) + (∑ i, ((ns i : ℝ) + (ms i))) / 2 + 2 := by
+          congr 1; congr 1
+          · rw [Finset.sum_div]
+          · simp [Finset.sum_const, Finset.card_fin]; norm_num
+      _ = ∑ i, (ns i : ℝ) * (ms i) + (∑ i, (ns i : ℝ) + ∑ i, (ms i : ℝ)) / 2 + 2 := by
+          congr 2; exact Finset.sum_add_distrib
+  rw [h_sum]
+  -- Term 1: ∑ nᵢmᵢ is integer
+  have h1 : IsInteger (∑ i, (ns i : ℝ) * (ms i)) := by
     apply IsInteger_sum
     intro i
-    obtain ⟨n, hn⟩ := hv i
-    obtain ⟨m, hm⟩ := hw i
-    have hvi : v i - 1/2 = n := by rw [hn]; ring
-    have hwi : w i - 1/2 = m := by rw [hm]; ring
-    rw [hvi, hwi]
-    exact ⟨n, rfl⟩ |>.mul ⟨m, rfl⟩
-  -- Terms 2 & 3: (1/2)∑(vᵢ - 1/2) and (1/2)∑(wᵢ - 1/2)
-  -- Note: ∑(vᵢ - 1/2) = ∑vᵢ - 4, and SumEven v means ∑vᵢ/2 is integer
-  -- So (1/2)(∑vᵢ - 4) = ∑vᵢ/2 - 2 is integer
-  have h2 : IsInteger ((1/2) * ∑ i, (v i - 1/2)) := by
-    have : ∑ i, (v i - (1:ℝ)/2) = ∑ i, v i - 4 := by
-      rw [Finset.sum_sub_distrib]
-      simp [Finset.sum_const, Finset.card_fin]
-    rw [this]
-    have : (1:ℝ)/2 * (∑ i, v i - 4) = (∑ i, v i) / 2 - 2 := by ring
-    rw [this]
-    unfold SumEven at hv_even
-    exact hv_even.add ⟨-2, by ring⟩
-  have h3 : IsInteger ((1/2) * ∑ i, (w i - 1/2)) := by
-    have : ∑ i, (w i - (1:ℝ)/2) = ∑ i, w i - 4 := by
-      rw [Finset.sum_sub_distrib]
-      simp [Finset.sum_const, Finset.card_fin]
-    rw [this]
-    have : (1:ℝ)/2 * (∑ i, w i - 4) = (∑ i, w i) / 2 - 2 := by ring
-    rw [this]
-    unfold SumEven at hw_even
-    exact hw_even.add ⟨-2, by ring⟩
-  -- Term 4: 8 * 1/4 = 2
-  have h4 : IsInteger (8 * (1/4) : ℝ) := ⟨2, by norm_num⟩
-  exact ((h1.add h2).add h3).add h4
+    exact ⟨ns i, rfl⟩ |>.mul ⟨ms i, rfl⟩
+  -- Term 2: (∑nᵢ + ∑mᵢ)/2 is integer
+  -- From SumEven: ∑vᵢ/2 = ∑(nᵢ+1/2)/2 = (∑nᵢ + 4)/2 is integer
+  -- So ∑nᵢ ≡ 0 (mod 2). Similarly for m.
+  have h2 : IsInteger ((∑ i, (ns i : ℝ) + ∑ i, (ms i : ℝ)) / 2) := by
+    -- ∑ v i = ∑ (ns i + 1/2) = ∑ ns i + 4
+    have hv_sum : ∑ i, v i = ∑ i, (ns i : ℝ) + 4 := by
+      calc ∑ i, v i = ∑ i, ((ns i : ℝ) + 1/2) := by congr 1; funext i; rw [hns i]
+        _ = ∑ i, (ns i : ℝ) + ∑ i, (1/2 : ℝ) := Finset.sum_add_distrib
+        _ = ∑ i, (ns i : ℝ) + 4 := by simp [Finset.sum_const, Finset.card_fin]; norm_num
+    have hw_sum : ∑ i, w i = ∑ i, (ms i : ℝ) + 4 := by
+      calc ∑ i, w i = ∑ i, ((ms i : ℝ) + 1/2) := by congr 1; funext i; rw [hms i]
+        _ = ∑ i, (ms i : ℝ) + ∑ i, (1/2 : ℝ) := Finset.sum_add_distrib
+        _ = ∑ i, (ms i : ℝ) + 4 := by simp [Finset.sum_const, Finset.card_fin]; norm_num
+    -- SumEven v means (∑ v i)/2 is integer, so (∑ ns i + 4)/2 is integer
+    unfold SumEven at hv_even hw_even
+    obtain ⟨mv, hmv⟩ := hv_even
+    obtain ⟨mw, hmw⟩ := hw_even
+    -- (∑ ns i + 4)/2 = mv, so ∑ ns i = 2*mv - 4
+    have hns_sum : ∑ i, (ns i : ℝ) = 2 * mv - 4 := by
+      have : (∑ i, v i) / 2 = mv := hmv
+      rw [hv_sum] at this
+      linarith
+    have hms_sum : ∑ i, (ms i : ℝ) = 2 * mw - 4 := by
+      have : (∑ i, w i) / 2 = mw := hmw
+      rw [hw_sum] at this
+      linarith
+    rw [hns_sum, hms_sum]
+    use mv + mw - 4
+    push_cast
+    ring
+  -- Term 3: 2 is integer
+  have h3 : IsInteger (2 : ℝ) := ⟨2, rfl⟩
+  exact (h1.add h2).add h3
 
 /-- Integer times half-integer inner product
     ∑ nᵢ(mᵢ + 1/2) = ∑ nᵢmᵢ + (1/2)∑ nᵢ
@@ -193,34 +200,33 @@ theorem inner_integer_halfint_is_int (v w : R8)
     (hv_even : SumEven v) :
     IsInteger (innerRn v w) := by
   rw [inner_eq_sum]
-  -- Each term vᵢ * wᵢ where wᵢ = mᵢ + 1/2
-  -- Sum = ∑ vᵢmᵢ + (1/2)∑ vᵢ
-  -- We need to show: ∑ vᵢ * wᵢ is integer
-  -- Using: wᵢ = mᵢ + 1/2, so vᵢ * wᵢ = vᵢ * mᵢ + vᵢ/2
-  -- Sum = ∑(vᵢ * mᵢ) + (1/2)∑ vᵢ
-  -- First part: integer (product of integers)
-  -- Second part: (1/2) * (even sum) = integer by SumEven
-  have h_expand : ∑ i, v i * w i = ∑ i, v i * (w i - 1/2) + (1/2) * ∑ i, v i := by
-    simp only [mul_sub, mul_one_div]
-    rw [← Finset.sum_add_distrib, ← Finset.sum_div]
-    congr 1
-    funext i
+  -- Get the integer representatives
+  choose ns hns using hv
+  choose ms hms using hw
+  -- vᵢ * wᵢ = nᵢ * (mᵢ + 1/2) = nᵢmᵢ + nᵢ/2
+  have h_product : ∀ i, v i * w i = (ns i : ℝ) * (ms i) + (ns i : ℝ) / 2 := by
+    intro i
+    rw [hns i, hms i]
     ring
-  rw [h_expand]
-  -- First sum: each v i * (w i - 1/2) is integer × integer
-  have h1 : IsInteger (∑ i, v i * (w i - 1/2)) := by
+  have h_sum : ∑ i, v i * w i = ∑ i, (ns i : ℝ) * (ms i) + (∑ i, (ns i : ℝ)) / 2 := by
+    calc ∑ i, v i * w i
+        = ∑ i, ((ns i : ℝ) * (ms i) + (ns i : ℝ) / 2) := by congr 1; funext i; exact h_product i
+      _ = ∑ i, (ns i : ℝ) * (ms i) + ∑ i, (ns i : ℝ) / 2 := Finset.sum_add_distrib
+      _ = ∑ i, (ns i : ℝ) * (ms i) + (∑ i, (ns i : ℝ)) / 2 := by rw [Finset.sum_div]
+  rw [h_sum]
+  -- Term 1: integer products sum to integer
+  have h1 : IsInteger (∑ i, (ns i : ℝ) * (ms i)) := by
     apply IsInteger_sum
     intro i
-    -- w i is half-integer, so w i - 1/2 is integer
-    obtain ⟨m, hm⟩ := hw i
-    have : w i - 1/2 = m := by rw [hm]; ring
-    rw [this]
-    exact (hv i).mul ⟨m, rfl⟩
-  -- Second term: (1/2) * ∑ v i is integer by SumEven
-  have h2 : IsInteger ((1/2) * ∑ i, v i) := by
+    exact ⟨ns i, rfl⟩ |>.mul ⟨ms i, rfl⟩
+  -- Term 2: (∑ ns i) / 2 is integer by SumEven
+  have h2 : IsInteger ((∑ i, (ns i : ℝ)) / 2) := by
+    -- ∑ v i = ∑ ns i (since v i = ns i for AllInteger)
+    have hv_sum : ∑ i, v i = ∑ i, (ns i : ℝ) := by
+      congr 1; funext i; rw [hns i]
     unfold SumEven at hv_even
-    convert hv_even using 1
-    ring
+    rw [← hv_sum]
+    exact hv_even
   exact h1.add h2
 
 /-- E8 has integral inner products: ⟨v,w⟩ ∈ ℤ for v,w ∈ Λ
@@ -248,9 +254,12 @@ theorem E8_inner_integral (v w : R8)
 
 /-- Integer squared has same parity as the integer: n² ≡ n (mod 2) -/
 theorem int_sq_parity (n : ℤ) : ∃ k : ℤ, n^2 - n = 2 * k := by
-  use n * (n - 1) / 2
-  have h : n * (n - 1) % 2 = 0 := by omega
-  omega
+  -- n(n-1) is always even since consecutive integers
+  have h : 2 ∣ n * (n - 1) := Int.two_dvd_mul_sub_one n
+  obtain ⟨k, hk⟩ := h
+  use k
+  have : n^2 - n = n * (n - 1) := by ring
+  rw [this, hk]
 
 /-- Sum of integer squares has same parity as sum of integers -/
 theorem sum_sq_parity {f : Fin 8 → ℤ} :
@@ -272,81 +281,60 @@ theorem E8_even (v : R8) (hv : v ∈ E8_lattice) :
   rw [normSq_eq_sum]
   rcases hv_type with hv_int | hv_half
   · -- Integer case: ‖v‖² = ∑ nᵢ², and ∑ nᵢ² ≡ ∑ nᵢ ≡ 0 (mod 2)
-    -- Get integer representatives
     choose ns hns using hv_int
-    -- ∑ v i ^ 2 = ∑ ns i ^ 2 (as reals)
     have h_sum_sq : ∑ i, (v i)^2 = ∑ i, ((ns i : ℝ)^2) := by
       congr 1; funext i; rw [hns i]
     rw [h_sum_sq]
-    -- From SumEven: (∑ v i) / 2 is integer, so ∑ v i = 2m for some m
     unfold SumEven at hv_even
     obtain ⟨m, hm⟩ := hv_even
-    have h_sum : ∑ i, v i = 2 * m := by
-      have : (∑ i, v i) / 2 = m := hm
-      linarith [this]
-    -- ∑ v i = ∑ ns i as reals
+    have h_sum : ∑ i, v i = 2 * m := by linarith [hm]
     have h_sum_ns : (∑ i, (ns i : ℝ)) = 2 * m := by
       calc (∑ i, (ns i : ℝ)) = ∑ i, v i := by congr 1; funext i; rw [hns i]
         _ = 2 * m := h_sum
-    -- ∑ ns i as integers
     have h_sum_ns_int : ∑ i, ns i = 2 * m := by exact_mod_cast h_sum_ns
-    -- ∑ ns i² ≡ ∑ ns i (mod 2), and ∑ ns i = 2m
     obtain ⟨k, hk⟩ := sum_sq_parity (f := ns)
-    -- ∑ ns i² = ∑ ns i + 2k = 2m + 2k = 2(m + k)
     have h_sq_sum : ∑ i, (ns i)^2 = 2 * (m + k) := by omega
     use m + k
-    simp only [Int.cast_sum, Int.cast_pow] at h_sum_sq ⊢
-    calc ∑ i, ((ns i : ℝ)^2) = ∑ i, ((ns i)^2 : ℤ) := by
-           simp only [Int.cast_pow]
-      _ = ((∑ i, (ns i)^2) : ℤ) := by rw [Int.cast_sum]
-      _ = (2 * (m + k) : ℤ) := by rw [h_sq_sum]
-      _ = 2 * ((m + k) : ℝ) := by push_cast; ring
-  · -- Half-integer case: ‖v‖² = ∑(mᵢ + 1/2)² = ∑mᵢ² + ∑mᵢ + 2
-    -- Get integer representatives (mᵢ where v i = mᵢ + 1/2)
+    have h_real : ∑ i, ((ns i : ℝ)^2) = (∑ i, (ns i)^2 : ℤ) := by
+      rw [← Int.cast_sum]; congr 1; funext i; exact (Int.cast_pow (ns i) 2).symm
+    rw [h_real, h_sq_sum]
+    simp only [Int.cast_mul, Int.cast_ofNat, Int.cast_add]
+  · -- Half-integer case
     choose ms hms using hv_half
-    -- v i = ms i + 1/2, so v i ^ 2 = (ms i)² + ms i + 1/4
     have h_expand : ∀ i, (v i)^2 = (ms i : ℝ)^2 + (ms i : ℝ) + 1/4 := by
-      intro i
-      rw [hms i]
-      ring
+      intro i; rw [hms i]; ring
     have h_sum_sq : ∑ i, (v i)^2 = ∑ i, (ms i : ℝ)^2 + ∑ i, (ms i : ℝ) + 2 := by
       calc ∑ i, (v i)^2 = ∑ i, ((ms i : ℝ)^2 + (ms i : ℝ) + 1/4) := by
              congr 1; funext i; exact h_expand i
-        _ = ∑ i, (ms i : ℝ)^2 + ∑ i, (ms i : ℝ) + ∑ i, (1/4 : ℝ) := by
-             rw [Finset.sum_add_distrib, Finset.sum_add_distrib]
+        _ = ∑ i, (ms i : ℝ)^2 + ∑ i, (ms i : ℝ) + ∑ _i, (1/4 : ℝ) := by
+             simp only [← Finset.sum_add_distrib]
         _ = ∑ i, (ms i : ℝ)^2 + ∑ i, (ms i : ℝ) + 2 := by
-             simp [Finset.sum_const, Finset.card_fin]
+             simp only [Finset.sum_const, Finset.card_fin, smul_eq_mul]; norm_num
     rw [h_sum_sq]
-    -- From SumEven: (∑ v i) / 2 is integer
-    -- ∑ v i = ∑ (ms i + 1/2) = ∑ ms i + 4
-    -- So (∑ ms i + 4) / 2 is integer, meaning ∑ ms i is even
     unfold SumEven at hv_even
     obtain ⟨m, hm⟩ := hv_even
     have h_sum_v : ∑ i, v i = ∑ i, (ms i : ℝ) + 4 := by
       calc ∑ i, v i = ∑ i, ((ms i : ℝ) + 1/2) := by congr 1; funext i; rw [hms i]
-        _ = ∑ i, (ms i : ℝ) + ∑ i, (1/2 : ℝ) := Finset.sum_add_distrib
-        _ = ∑ i, (ms i : ℝ) + 4 := by simp [Finset.sum_const, Finset.card_fin]
+        _ = ∑ i, (ms i : ℝ) + ∑ _i, (1/2 : ℝ) := Finset.sum_add_distrib
+        _ = ∑ i, (ms i : ℝ) + 4 := by simp [Finset.sum_const, Finset.card_fin]; norm_num
     have h_ms_even : ∃ p : ℤ, ∑ i, ms i = 2 * p := by
-      have h1 : (∑ i, v i) / 2 = m := hm
-      have h2 : (∑ i, (ms i : ℝ) + 4) / 2 = m := by rw [← h_sum_v]; exact h1
+      have h2 : (∑ i, (ms i : ℝ) + 4) / 2 = m := by rw [← h_sum_v]; exact hm
       have h3 : ∑ i, (ms i : ℝ) = 2 * m - 4 := by linarith
       have h4 : (∑ i, (ms i : ℤ) : ℝ) = 2 * m - 4 := by
-        calc (∑ i, (ms i : ℤ) : ℝ) = ∑ i, (ms i : ℝ) := by simp [Int.cast_sum]
-          _ = 2 * m - 4 := h3
+        rw [← Int.cast_sum]; simp only [Int.cast_sum]; exact h3
       have h5 : ∑ i, ms i = 2 * m - 4 := by exact_mod_cast h4
       exact ⟨m - 2, by omega⟩
     obtain ⟨p, hp⟩ := h_ms_even
-    -- ∑ ms i² = ∑ ms i + 2k (from sum_sq_parity)
     obtain ⟨k, hk⟩ := sum_sq_parity (f := ms)
-    -- Total: ∑ ms i² + ∑ ms i + 2 = (2p + 2k) + 2p + 2 = 4p + 2k + 2 = 2(2p + k + 1)
     use 2 * p + k + 1
     have h_sq_sum : ∑ i, (ms i)^2 = ∑ i, ms i + 2 * k := by omega
-    calc ∑ i, (ms i : ℝ)^2 + ∑ i, (ms i : ℝ) + 2
-        = ((∑ i, (ms i)^2) : ℤ) + ((∑ i, ms i) : ℤ) + 2 := by simp [Int.cast_sum, Int.cast_pow]
-      _ = (∑ i, ms i + 2 * k + ∑ i, ms i + 2 : ℤ) := by rw [h_sq_sum]; push_cast; ring
-      _ = (2 * p + 2 * k + 2 * p + 2 : ℤ) := by rw [hp]; ring
-      _ = (2 * (2 * p + k + 1) : ℤ) := by ring
-      _ = 2 * ((2 * p + k + 1) : ℝ) := by push_cast; ring
+    have h_sum_ms_real : ∑ i, (ms i : ℝ) = (∑ i, ms i : ℤ) := by
+      rw [← Int.cast_sum]
+    have h_sq_sum_real : ∑ i, (ms i : ℝ)^2 = (∑ i, (ms i)^2 : ℤ) := by
+      rw [← Int.cast_sum]; congr 1; funext i; exact (Int.cast_pow (ms i) 2).symm
+    rw [h_sum_ms_real, h_sq_sum_real, h_sq_sum, hp]
+    simp only [Int.cast_mul, Int.cast_add, Int.cast_ofNat]
+    ring
 
 /-!
 ## Lattice Closure Properties
@@ -369,8 +357,12 @@ theorem SumEven_neg (v : R8) (hv : SumEven v) : SumEven (-v) := by
   unfold SumEven at *
   obtain ⟨m, hm⟩ := hv
   use -m
-  simp only [Pi.neg_apply, Finset.sum_neg_distrib, neg_div]
-  linarith
+  have h1 : ∑ i, (-v) i = -(∑ i, v i) := by
+    simp only [Pi.neg_apply, Finset.sum_neg_distrib]
+  rw [h1]
+  have h2 : -(∑ i, v i) / 2 = -((∑ i, v i) / 2) := by ring
+  rw [h2, hm]
+  simp
 
 /-- E8 lattice is closed under negation -/
 theorem E8_lattice_neg (v : R8) (hv : v ∈ E8_lattice) : -v ∈ E8_lattice := by
@@ -387,9 +379,7 @@ theorem AllInteger_smul (n : ℤ) (v : R8) (hv : AllInteger v) :
   intro i
   obtain ⟨m, hm⟩ := hv i
   use n * m
-  simp [hm]
-  push_cast
-  ring
+  simp only [Pi.smul_apply, smul_eq_mul, hm, Int.cast_mul]
 
 /-- Even integer scalar multiplication preserves AllInteger from AllHalfInteger -/
 theorem AllInteger_smul_even_halfint (n : ℤ) (v : R8)
@@ -399,9 +389,8 @@ theorem AllInteger_smul_even_halfint (n : ℤ) (v : R8)
   obtain ⟨m, hm⟩ := hv i
   obtain ⟨k, hk⟩ := hn
   use k * (2 * m + 1)
-  simp [hm, hk]
-  push_cast
-  ring
+  simp only [Pi.smul_apply, smul_eq_mul, hm, hk]
+  push_cast; ring
 
 /-- Odd integer scalar multiplication preserves AllHalfInteger -/
 theorem AllHalfInteger_smul_odd (n : ℤ) (v : R8)
@@ -411,19 +400,20 @@ theorem AllHalfInteger_smul_odd (n : ℤ) (v : R8)
   obtain ⟨m, hm⟩ := hv i
   obtain ⟨k, hk⟩ := hn
   use n * m + k
-  simp [hm, hk]
-  push_cast
-  ring
+  simp only [Pi.smul_apply, smul_eq_mul, hm, hk]
+  push_cast; ring
 
 /-- SumEven is preserved by integer scalar multiplication -/
 theorem SumEven_smul (n : ℤ) (v : R8) (hv : SumEven v) : SumEven (n • v) := by
   unfold SumEven at *
   obtain ⟨m, hm⟩ := hv
   use n * m
-  simp only [Pi.smul_apply, smul_eq_mul, ← Finset.sum_mul]
-  calc (∑ i, (n : ℝ) * v i) / 2 = n * (∑ i, v i) / 2 := by ring
-    _ = n * ((∑ i, v i) / 2) := by ring
-    _ = n * m := by rw [hm]
+  have h1 : ∑ i, (n • v) i = (n : ℝ) * ∑ i, v i := by
+    simp only [Pi.smul_apply, smul_eq_mul, ← Finset.mul_sum]
+  rw [h1]
+  have h2 : (n : ℝ) * ∑ i, v i / 2 = (n : ℝ) * ((∑ i, v i) / 2) := by ring
+  rw [h2, hm]
+  simp only [Int.cast_mul]
 
 /-- E8 lattice is closed under integer scalar multiplication -/
 theorem E8_lattice_smul (n : ℤ) (v : R8) (hv : v ∈ E8_lattice) :
@@ -440,8 +430,8 @@ theorem E8_lattice_smul (n : ℤ) (v : R8) (hv : v ∈ E8_lattice) :
       · -- n even: n • v is integer type
         exact Or.inl (AllInteger_smul_even_halfint n v h hn)
       · -- n odd: n • v is half-integer type
-        have : Odd n := Int.odd_iff_not_even.mpr hn
-        exact Or.inr (AllHalfInteger_smul_odd n v h this)
+        have hodd : Odd n := Int.not_even_iff_odd.mp hn
+        exact Or.inr (AllHalfInteger_smul_odd n v h hodd)
   · exact SumEven_smul n v hv_even
 
 /-- Addition of two integer-type vectors -/
@@ -465,9 +455,8 @@ theorem AllHalfInteger_add_int_halfint (v w : R8)
   obtain ⟨n, hn⟩ := hv i
   obtain ⟨m, hm⟩ := hw i
   use n + m
-  simp [hn, hm]
-  push_cast
-  ring
+  simp only [Pi.add_apply, hn, hm]
+  push_cast; ring
 
 /-- SumEven is preserved by addition -/
 theorem SumEven_add (v w : R8) (hv : SumEven v) (hw : SumEven w) :
@@ -476,10 +465,12 @@ theorem SumEven_add (v w : R8) (hv : SumEven v) (hw : SumEven w) :
   obtain ⟨m, hm⟩ := hv
   obtain ⟨n, hn⟩ := hw
   use m + n
-  simp only [Pi.add_apply]
-  rw [Finset.sum_add_distrib]
+  have h1 : ∑ i, (v + w) i = ∑ i, v i + ∑ i, w i := by
+    simp only [Pi.add_apply, Finset.sum_add_distrib]
+  rw [h1]
   calc ((∑ i, v i) + (∑ i, w i)) / 2 = (∑ i, v i) / 2 + (∑ i, w i) / 2 := by ring
     _ = m + n := by rw [hm, hn]
+    _ = ↑(m + n) := by simp
 
 /-- E8 lattice is closed under addition -/
 theorem E8_lattice_add (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice) :
@@ -538,30 +529,19 @@ noncomputable def reflect (α : R8) (hα : normSq α = 2) (v : R8) : R8 :=
 theorem reflect_preserves_lattice (α : R8) (hα : α ∈ E8_roots)
     (v : R8) (hv : v ∈ E8_lattice) :
     reflect α (by obtain ⟨_, h⟩ := hα; exact h) v ∈ E8_lattice := by
-  -- α ∈ E8_roots means α ∈ E8_lattice with ‖α‖² = 2
   obtain ⟨hα_lattice, hα_norm⟩ := hα
-  -- s_α(v) = v - (2⟨v,α⟩/‖α‖²)·α = v - (2⟨v,α⟩/2)·α = v - ⟨v,α⟩·α
   unfold reflect
-  -- The coefficient 2 * innerRn v α / normSq α = 2 * innerRn v α / 2 = innerRn v α
   have h_coef : 2 * innerRn v α / normSq α = innerRn v α := by
-    rw [hα_norm]
-    ring
+    rw [hα_norm]; ring
   rw [h_coef]
-  -- ⟨v,α⟩ is an integer by E8_inner_integral
   have h_inner_int : IsInteger (innerRn v α) := E8_inner_integral v α hv hα_lattice
   obtain ⟨n, hn⟩ := h_inner_int
-  -- s_α(v) = v - n·α where n ∈ ℤ
   have h_eq : (innerRn v α) • α = n • α := by
-    ext i
-    simp [hn]
+    ext i; simp only [Pi.smul_apply, smul_eq_mul, hn, Int.cast_id]
   rw [h_eq]
-  -- v - n·α = v + (-n)·α, both terms in lattice
   have h_neg_smul : v - n • α = v + (-n) • α := by
-    ext i
-    simp [sub_eq_add_neg]
-    ring
+    ext i; simp only [Pi.sub_apply, Pi.add_apply, Pi.smul_apply, smul_eq_mul, neg_mul, sub_eq_add_neg]
   rw [h_neg_smul]
-  -- Apply closure under addition and integer scalar multiplication
   exact E8_lattice_add v ((-n) • α) hv (E8_lattice_smul (-n) α hα_lattice)
 
 /-- Weyl group order: |W(E8)| = 696729600 = 2¹⁴ × 3⁵ × 5² × 7 -/
