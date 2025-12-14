@@ -7,8 +7,7 @@
 -- Old (hack): b2 * 13 = 3 * (b3 + dim_G2)
 -- New (real): sin²θ_W = 21/91 = 3/13 as actual ℚ values
 
-import Mathlib.Data.Rat.Basic
-import Mathlib.Data.Rat.Lemmas
+import Mathlib.Data.Rat.Defs
 import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.Ring
 import Mathlib.Tactic.Linarith

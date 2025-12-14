@@ -14,8 +14,6 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
 import Mathlib.Data.Fin.VecNotation
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.Set.Card
-import Mathlib.Data.Set.Finite
-import Mathlib.Algebra.BigOperators.Ring
 
 namespace GIFT.Foundations.RootSystems
 

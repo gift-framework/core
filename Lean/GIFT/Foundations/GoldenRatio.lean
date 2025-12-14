@@ -47,26 +47,25 @@ theorem phi_psi_sum : phi + psi = 1 := by
 theorem phi_psi_product : phi * psi = -1 := by
   unfold phi psi
   have h : Real.sqrt 5 ^ 2 = 5 := Real.sq_sqrt (by norm_num : (5 : ℝ) ≥ 0)
+  have h' : Real.sqrt 5 * Real.sqrt 5 = 5 := by rw [← sq, h]
   ring_nf
-  rw [← sq]
-  rw [h]
-  ring
+  linarith
 
 /-- φ² = φ + 1 (defining property) -/
 theorem phi_squared : phi ^ 2 = phi + 1 := by
   unfold phi
   have h : Real.sqrt 5 ^ 2 = 5 := Real.sq_sqrt (by norm_num : (5 : ℝ) ≥ 0)
+  have h' : Real.sqrt 5 * Real.sqrt 5 = 5 := by rw [← sq, h]
   ring_nf
-  rw [← sq, h]
-  ring
+  linarith
 
 /-- ψ² = ψ + 1 -/
 theorem psi_squared : psi ^ 2 = psi + 1 := by
   unfold psi
   have h : Real.sqrt 5 ^ 2 = 5 := Real.sq_sqrt (by norm_num : (5 : ℝ) ≥ 0)
+  have h' : Real.sqrt 5 * Real.sqrt 5 = 5 := by rw [← sq, h]
   ring_nf
-  rw [← sq, h]
-  ring
+  linarith
 
 /-!
 ## Binet's Formula
@@ -192,8 +191,8 @@ This connects to the "golden structure" underlying GIFT constants.
 -/
 
 /-- Fibonacci recurrence -/
-theorem fib_recurrence (n : ℕ) : Nat.fib (n + 2) = Nat.fib (n + 1) + Nat.fib n :=
-  Nat.fib_add_two n
+theorem fib_recurrence (n : ℕ) : Nat.fib (n + 2) = Nat.fib (n + 1) + Nat.fib n := by
+  rw [Nat.fib_add_two, Nat.add_comm]
 
 /-- Lucas recurrence -/
 theorem lucas_recurrence (n : ℕ) : lucas (n + 2) = lucas (n + 1) + lucas n := by

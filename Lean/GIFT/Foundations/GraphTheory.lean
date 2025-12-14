@@ -7,7 +7,6 @@
 import Mathlib.Combinatorics.SimpleGraph.Basic
 import Mathlib.Combinatorics.SimpleGraph.Clique
 import Mathlib.Combinatorics.SimpleGraph.Finite
-import Mathlib.Combinatorics.SimpleGraph.Connectivity.Basic
 import Mathlib.Data.Fin.Basic
 
 namespace GIFT.Foundations.GraphTheory
