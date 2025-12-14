@@ -76,17 +76,17 @@ Derives: b₂ = 21 = 7 + 14 from G₂ representation theory!
 
 6. **TCSConstruction.lean**
    - K7 as Twisted Connected Sum of CY3 building blocks
-   - b₂ = 10 + 10 + 1 = 21 from Mayer-Vietoris
-   - b₃ = 42 + 42 - 7 = 77 from TCS formula
+   - b₂ = 10 + 10 + 1 = 21 (DERIVED from TCS Mayer-Vietoris)
+   - b₃ = 77 (INPUT from CHNP computation)
    - H* = 1 + 21 + 77 = 99
 
 ## Export Key Theorems
 -/
 
--- Root systems
-export RootSystems (E8_roots D8_roots HalfInt_roots
-  dim_E8_from_roots E8_dimension_from_roots E8_total_roots
-  rank_E8 E8_root_count dim_G2_from_roots rank_G2 G2_root_count)
+-- Root systems (REAL enumeration: |D8| = 112, |HalfInt| = 128)
+export RootSystems (D8_enumeration D8_card HalfInt_enumeration HalfInt_card
+  E8_roots_card E8_dimension E8_dimension_from_enumeration
+  G2_root_count G2_rank G2_dimension)
 
 -- Rational constants
 export RationalConstants (sin2_theta_W sin2_theta_W_simplified
@@ -112,10 +112,10 @@ export G2Holonomy (dim_G2 dim_G2_is_14 dim_G2_orbit_stabilizer
   b2_K7 b3_K7 K7_b2 K7_b3 K7_H_star b2_structure
   rep_trivial rep_standard rep_adjoint rep_symmetric)
 
--- TCS construction
-export TCSConstruction (CHNP_block K7_b2_from_TCS K7_b3_from_TCS
-  K7_b2_is_21 K7_b3_is_77 H_star H_star_is_99 H_star_from_TCS
-  TCS_combinatorial_identity euler_K7 TCS_determines_betti)
+-- TCS construction (b₂ derived, b₃ input)
+export TCSConstruction (CHNP_block TCS_b2 K7_b2 K7_b2_eq_21
+  K7_b3 K7_b3_eq_77 H_star H_star_eq_99
+  TCS_combinatorial K7_euler K7_euler_eq)
 
 /-!
 ## Comparison: Old vs New
