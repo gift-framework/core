@@ -754,8 +754,9 @@ theorem gift_v32_foundations_certificate :
     (Nat.choose 7 2 = 21) ∧
     (Nat.choose 7 3 = 35) ∧
     (2 + 2 + 3 = 7) ∧
-    -- PINN verification
-    (JoyceAnalytic.pinn_torsion_bound < JoyceAnalytic.joyce_threshold) := by
+    -- PINN verification (using Nat ratios: 141/100000 < 288/10000)
+    (JoyceAnalytic.pinn_torsion_bound_num * JoyceAnalytic.joyce_threshold_den <
+     JoyceAnalytic.joyce_threshold_num * JoyceAnalytic.pinn_torsion_bound_den) := by
   repeat (first | constructor | rfl | native_decide)
 
 /-- GIFT v3.2 Master Certificate -/
