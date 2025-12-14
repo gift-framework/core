@@ -254,7 +254,7 @@ theorem torsion_free_equations :
     n_closed + n_coclosed = 2 := rfl
 
 /-!
-## Summary: Level 2 Achievements
+## Summary
 
 1. **G₂ Structure**: Defined via associative 3-form φ₀ with 7 terms
 2. **Dimension**: dim(G₂) = 14 from orbit-stabilizer theorem
@@ -262,7 +262,7 @@ theorem torsion_free_equations :
 4. **Betti Connection**: b₂(K7) = 21 = 7 + 14 = dim(K7) + dim(G₂)
 5. **Representation Theory**: Form decompositions use G₂ irreps
 
-This is Level 2 content: deriving GIFT constants from G₂ structure theory,
+This derives GIFT constants from G₂ structure theory,
 not just from arithmetic on topological invariants.
 -/
 

@@ -1,11 +1,11 @@
 -- GIFT Foundations: Mathematical Infrastructure
--- Version 3.2 - Genuine Mathematical Content
+-- Genuine Mathematical Content
 --
 -- This module provides REAL mathematical formalization:
 -- - Root systems (E8 as 240 vectors in ℝ⁸)
 -- - Rational arithmetic (ℚ instead of Nat hacks)
 -- - Graph theory (K₄, K₇, Dynkin diagrams)
--- - G₂ holonomy (Level 2: structure group theory)
+-- - G₂ holonomy and structure group theory
 --
 -- Unlike the original GIFT modules that just define constants,
 -- these modules derive properties from mathematical definitions.
@@ -21,14 +21,14 @@ namespace GIFT.Foundations
 /-!
 ## What "Real" Formalization Means
 
-### Level 0: Constant Definition (Current GIFT)
+### Arithmetic Only (Original GIFT)
 ```
 def dim_E8 : Nat := 248
 theorem dim_E8_certified : dim_E8 = 248 := rfl
 ```
 This proves nothing - it's circular.
 
-### Level 1: Derived from Structure (This Module)
+### Derived from Structure (Foundations)
 ```
 theorem E8_dimension_from_roots :
     let root_count := 112 + 128  -- D8 + half-integer
@@ -37,7 +37,7 @@ theorem E8_dimension_from_roots :
 ```
 This derives 248 from the actual mathematical structure of E8.
 
-### Level 2: G₂ Holonomy (G2Holonomy.lean)
+### G₂ Holonomy
 ```
 theorem b2_structure : b2_K7 = dim_K7 + dim_G2 := rfl
 ```
@@ -45,30 +45,29 @@ Derives: b₂ = 21 = 7 + 14 from G₂ representation theory!
 -/
 
 /-!
-## Hierarchy of Mathematical Content
+## Module Hierarchy
 
-1. **RootSystems.lean** (Level 1)
+1. **RootSystems.lean**
    - E8 roots defined as vectors in ℝ⁸
    - Root count derived: 112 (D8) + 128 (half-integer) = 240
    - Dimension formula: 240 + 8 = 248
 
-2. **RationalConstants.lean** (Level 1)
+2. **RationalConstants.lean**
    - Weinberg angle as actual ℚ: sin²θ_W = 3/13
    - Koide parameter: Q = 2/3
    - All GIFT ratios as proper fractions
 
-3. **GraphTheory.lean** (Level 1)
+3. **GraphTheory.lean**
    - K₇ edges = 21 = b₂
    - K₄ perfect matchings = 3 = N_gen
    - Dynkin diagram structure
 
-4. **GoldenRatio.lean** (Level 1)
+4. **GoldenRatio.lean**
    - Golden ratio φ = (1 + √5)/2
    - Fibonacci embedding: F_3-F_12 = GIFT constants
    - Lucas embedding: L_0-L_9 = GIFT constants
-   - φ² cosmology connection
 
-5. **G2Holonomy.lean** (Level 2)
+5. **G2Holonomy.lean**
    - G₂ defined via associative 3-form φ₀
    - dim(G₂) = 14 from orbit-stabilizer
    - Ω² = Ω²₇ ⊕ Ω²₁₄ decomposition
@@ -99,7 +98,7 @@ export GoldenRatio (phi psi phi_squared phi_psi_sum phi_psi_product
   binet lucas fib_gift_b2 fib_gift_rank_E8 fib_gift_Weyl fib_gift_N_gen
   lucas_gift_dim_K7 lucas_gift_D_bulk lucas_gift_b3_minus_1)
 
--- G₂ holonomy (Level 2)
+-- G₂ holonomy
 export G2Holonomy (dim_G2 dim_G2_is_14 dim_G2_orbit_stabilizer
   dim_Omega2_7 dim_Omega2_14 Omega2_decomposition
   dim_Omega3_1 dim_Omega3_7 dim_Omega3_27 Omega3_decomposition
