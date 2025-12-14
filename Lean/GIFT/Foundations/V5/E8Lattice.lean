@@ -122,16 +122,68 @@ theorem inner_integer_integer (v w : R8)
   exact (hv i).mul (hw i)
 
 /-- Sum of 8 quarter-integers with even parity constraint gives integer
-    Key insight: ±1/4 terms come in pairs that sum to ±1/2 or 0,
-    and with the even sum constraint on half-integers, total is integer -/
+    Key insight: (nᵢ+1/2)(mᵢ+1/2) = nᵢmᵢ + nᵢ/2 + mᵢ/2 + 1/4
+    Sum = ∑nᵢmᵢ + (1/2)∑nᵢ + (1/2)∑mᵢ + 2
+    All terms are integers when SumEven holds -/
 theorem halfint_inner_halfint_is_int (v w : R8)
     (hv : AllHalfInteger v) (hw : AllHalfInteger w)
     (hv_even : SumEven v) (hw_even : SumEven w) :
     IsInteger (innerRn v w) := by
-  -- Each coordinate product (n + 1/2)(m + 1/2) = nm + n/2 + m/2 + 1/4
-  -- Sum over 8 coords: ∑nm + (1/2)∑n + (1/2)∑m + 8/4
-  -- = integer + (1/2)(even) + (1/2)(even) + 2 = integer
-  sorry  -- Technical proof, key insight documented above
+  rw [inner_eq_sum]
+  -- Decompose each product: vᵢ * wᵢ = (nᵢ + 1/2)(mᵢ + 1/2)
+  -- Let nᵢ = vᵢ - 1/2 and mᵢ = wᵢ - 1/2 (both integers)
+  have h_expand : ∑ i, v i * w i =
+      ∑ i, (v i - 1/2) * (w i - 1/2) +
+      (1/2) * ∑ i, (v i - 1/2) +
+      (1/2) * ∑ i, (w i - 1/2) +
+      8 * (1/4) := by
+    simp only [Finset.card_fin, Nat.cast_ofNat]
+    have : (8 : ℝ) * (1/4) = 2 := by norm_num
+    rw [this]
+    -- Expand and collect terms
+    have expand : ∀ i, v i * w i =
+        (v i - 1/2) * (w i - 1/2) + (1/2) * (v i - 1/2) + (1/2) * (w i - 1/2) + 1/4 := by
+      intro i; ring
+    conv_lhs => arg 2; ext i; rw [expand i]
+    rw [Finset.sum_add_distrib, Finset.sum_add_distrib, Finset.sum_add_distrib]
+    rw [← Finset.sum_mul, ← Finset.sum_mul]
+    simp only [Finset.sum_const, Finset.card_fin, smul_eq_mul, Nat.cast_ofNat]
+    ring
+  rw [h_expand]
+  -- Term 1: ∑(vᵢ - 1/2)(wᵢ - 1/2) = integer × integer
+  have h1 : IsInteger (∑ i, (v i - 1/2) * (w i - 1/2)) := by
+    apply IsInteger_sum
+    intro i
+    obtain ⟨n, hn⟩ := hv i
+    obtain ⟨m, hm⟩ := hw i
+    have hvi : v i - 1/2 = n := by rw [hn]; ring
+    have hwi : w i - 1/2 = m := by rw [hm]; ring
+    rw [hvi, hwi]
+    exact ⟨n, rfl⟩ |>.mul ⟨m, rfl⟩
+  -- Terms 2 & 3: (1/2)∑(vᵢ - 1/2) and (1/2)∑(wᵢ - 1/2)
+  -- Note: ∑(vᵢ - 1/2) = ∑vᵢ - 4, and SumEven v means ∑vᵢ/2 is integer
+  -- So (1/2)(∑vᵢ - 4) = ∑vᵢ/2 - 2 is integer
+  have h2 : IsInteger ((1/2) * ∑ i, (v i - 1/2)) := by
+    have : ∑ i, (v i - (1:ℝ)/2) = ∑ i, v i - 4 := by
+      rw [Finset.sum_sub_distrib]
+      simp [Finset.sum_const, Finset.card_fin]
+    rw [this]
+    have : (1:ℝ)/2 * (∑ i, v i - 4) = (∑ i, v i) / 2 - 2 := by ring
+    rw [this]
+    unfold SumEven at hv_even
+    exact hv_even.add ⟨-2, by ring⟩
+  have h3 : IsInteger ((1/2) * ∑ i, (w i - 1/2)) := by
+    have : ∑ i, (w i - (1:ℝ)/2) = ∑ i, w i - 4 := by
+      rw [Finset.sum_sub_distrib]
+      simp [Finset.sum_const, Finset.card_fin]
+    rw [this]
+    have : (1:ℝ)/2 * (∑ i, w i - 4) = (∑ i, w i) / 2 - 2 := by ring
+    rw [this]
+    unfold SumEven at hw_even
+    exact hw_even.add ⟨-2, by ring⟩
+  -- Term 4: 8 * 1/4 = 2
+  have h4 : IsInteger (8 * (1/4) : ℝ) := ⟨2, by norm_num⟩
+  exact ((h1.add h2).add h3).add h4
 
 /-- Integer times half-integer inner product
     ∑ nᵢ(mᵢ + 1/2) = ∑ nᵢmᵢ + (1/2)∑ nᵢ
@@ -140,7 +192,36 @@ theorem inner_integer_halfint_is_int (v w : R8)
     (hv : AllInteger v) (hw : AllHalfInteger w)
     (hv_even : SumEven v) :
     IsInteger (innerRn v w) := by
-  sorry  -- Similar analysis
+  rw [inner_eq_sum]
+  -- Each term vᵢ * wᵢ where wᵢ = mᵢ + 1/2
+  -- Sum = ∑ vᵢmᵢ + (1/2)∑ vᵢ
+  -- We need to show: ∑ vᵢ * wᵢ is integer
+  -- Using: wᵢ = mᵢ + 1/2, so vᵢ * wᵢ = vᵢ * mᵢ + vᵢ/2
+  -- Sum = ∑(vᵢ * mᵢ) + (1/2)∑ vᵢ
+  -- First part: integer (product of integers)
+  -- Second part: (1/2) * (even sum) = integer by SumEven
+  have h_expand : ∑ i, v i * w i = ∑ i, v i * (w i - 1/2) + (1/2) * ∑ i, v i := by
+    simp only [mul_sub, mul_one_div]
+    rw [← Finset.sum_add_distrib, ← Finset.sum_div]
+    congr 1
+    funext i
+    ring
+  rw [h_expand]
+  -- First sum: each v i * (w i - 1/2) is integer × integer
+  have h1 : IsInteger (∑ i, v i * (w i - 1/2)) := by
+    apply IsInteger_sum
+    intro i
+    -- w i is half-integer, so w i - 1/2 is integer
+    obtain ⟨m, hm⟩ := hw i
+    have : w i - 1/2 = m := by rw [hm]; ring
+    rw [this]
+    exact (hv i).mul ⟨m, rfl⟩
+  -- Second term: (1/2) * ∑ v i is integer by SumEven
+  have h2 : IsInteger ((1/2) * ∑ i, v i) := by
+    unfold SumEven at hv_even
+    convert hv_even using 1
+    ring
+  exact h1.add h2
 
 /-- E8 has integral inner products: ⟨v,w⟩ ∈ ℤ for v,w ∈ Λ
     Proof by cases on whether each vector is integer or half-integer -/
