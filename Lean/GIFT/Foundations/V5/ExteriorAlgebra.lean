@@ -36,7 +36,8 @@ noncomputable def ι' {n : ℕ} (v : Fin n → ℝ) : Exterior n :=
 noncomputable def wedge {n : ℕ} (ω η : Exterior n) : Exterior n :=
   ω * η
 
-infixl:65 " ∧' " => wedge
+-- Precedence 70 > 65 (addition) so ω₁ ∧' η + ω₂ parses as (ω₁ ∧' η) + ω₂
+infixl:70 " ∧' " => wedge
 
 /-- Wedge is associative -/
 theorem wedge_assoc {n : ℕ} (ω η ζ : Exterior n) :
@@ -46,13 +47,13 @@ theorem wedge_assoc {n : ℕ} (ω η ζ : Exterior n) :
 
 /-- Wedge is left-distributive -/
 theorem wedge_add_left {n : ℕ} (ω₁ ω₂ η : Exterior n) :
-    (ω₁ + ω₂) ∧' η = ω₁ ∧' η + ω₂ ∧' η := by
+    (ω₁ + ω₂) ∧' η = (ω₁ ∧' η) + (ω₂ ∧' η) := by
   unfold wedge
   exact add_mul ω₁ ω₂ η
 
 /-- Wedge is right-distributive -/
 theorem wedge_add_right {n : ℕ} (ω η₁ η₂ : Exterior n) :
-    ω ∧' (η₁ + η₂) = ω ∧' η₁ + ω ∧' η₂ := by
+    ω ∧' (η₁ + η₂) = (ω ∧' η₁) + (ω ∧' η₂) := by
   unfold wedge
   exact mul_add ω η₁ η₂
 

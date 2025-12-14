@@ -20,11 +20,11 @@ open HodgeTheory
 ## Harmonic Forms using HodgeData
 -/
 
-variable {M : Type*} (hd : HodgeData M)
+variable {M : Type*} (hd : HodgeData M) (lap : HodgeLaplacian M hd)
 
 /-- Space of harmonic k-forms -/
 def HarmonicSpace (k : ℕ) : Set (hd.bundle.Omega k) :=
-  { ω | IsHarmonic hd k ω }
+  { ω | IsHarmonic lap k ω }
 
 /-!
 ## Hodge Decomposition Components
@@ -43,11 +43,14 @@ def CoexactFormsSet (k : ℕ) : Set (hd.bundle.Omega k) :=
 axiom hodge_decomposition_exists (k : ℕ) :
   ∀ ω : hd.bundle.Omega k,
     ∃ (h : hd.bundle.Omega k) (α : hd.bundle.Omega (k - 1)) (β : hd.bundle.Omega (k + 1)),
-      IsHarmonic hd k h -- h is harmonic
+      IsHarmonic lap k h -- h is harmonic
 
 /-!
 ## Application to K7
 -/
+
+/-- K7 Laplacian -/
+axiom K7_laplacian : HodgeLaplacian K7 K7_hodge_data
 
 /-- dim(ℋ²(K7)) = 21 -/
 theorem K7_harmonic_2_dim : b 2 = 21 := rfl
@@ -72,10 +75,10 @@ axiom omega2_basis : Fin 21 → K7_hodge_data.bundle.Omega 2
 axiom omega3_basis : Fin 77 → K7_hodge_data.bundle.Omega 3
 
 /-- Basis elements of ω² are harmonic -/
-axiom omega2_basis_harmonic : ∀ i, IsHarmonic K7_hodge_data 2 (omega2_basis i)
+axiom omega2_basis_harmonic : ∀ i, IsHarmonic K7_laplacian 2 (omega2_basis i)
 
 /-- Basis elements of ω³ are harmonic -/
-axiom omega3_basis_harmonic : ∀ i, IsHarmonic K7_hodge_data 3 (omega3_basis i)
+axiom omega3_basis_harmonic : ∀ i, IsHarmonic K7_laplacian 3 (omega3_basis i)
 
 /-- Basis ω² is orthonormal -/
 axiom omega2_basis_orthonormal :
@@ -96,7 +99,7 @@ axiom deRham (M : Type*) (k : ℕ) : Type*
 
 /-- Hodge isomorphism: ℋᵏ(M) ≅ Hᵏ_dR(M) -/
 axiom hodge_isomorphism (k : ℕ) :
-  HarmonicSpace K7_hodge_data k ≃ deRham K7 k
+  HarmonicSpace K7_hodge_data K7_laplacian k ≃ deRham K7 k
 
 /-!
 ## Certified Relations
