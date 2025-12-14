@@ -18,6 +18,8 @@ import Mathlib.Data.Fin.Basic
 import Mathlib.Data.Real.Basic
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Tactic.FinCases
+import Mathlib.Tactic.Ring
+import Mathlib.Tactic.Linarith
 
 namespace GIFT.Foundations.RootSystems
 
@@ -178,8 +180,8 @@ theorem D8_to_vector_injective :
       -- Now h : boolToSign e1.2.1 = boolToSign e2.2.1
       cases h1' : e1.2.1 <;> cases h2' : e2.2.1
       · rfl
-      · simp [boolToSign, h1', h2'] at h  -- h : -1 = 1, contradiction
-      · simp [boolToSign, h1', h2'] at h  -- h : 1 = -1, contradiction
+      · exfalso; simp [boolToSign, h1', h2'] at h; linarith  -- h : -1 = 1
+      · exfalso; simp [boolToSign, h1', h2'] at h; linarith  -- h : 1 = -1
       · rfl
     have s2_eq : e1.2.2 = e2.2.2 := by
       have h := congrFun heq e1.1.2
@@ -188,8 +190,8 @@ theorem D8_to_vector_injective :
       -- Now h : boolToSign e1.2.2 = boolToSign e2.2.2
       cases h1' : e1.2.2 <;> cases h2' : e2.2.2
       · rfl
-      · simp [boolToSign, h1', h2'] at h  -- h : -1 = 1, contradiction
-      · simp [boolToSign, h1', h2'] at h  -- h : 1 = -1, contradiction
+      · exfalso; simp [boolToSign, h1', h2'] at h; linarith  -- h : -1 = 1
+      · exfalso; simp [boolToSign, h1', h2'] at h; linarith  -- h : 1 = -1
       · rfl
     exact Prod.ext pos_eq (Prod.ext s1_eq s2_eq)
   · -- e1.1.1 = e2.1.2 and e1.1.2 = e2.1.1 : would mean e2.1.2 < e2.1.1
@@ -250,8 +252,8 @@ theorem HalfInt_to_vector_injective :
   simp only [HalfInt_to_vector] at h
   cases hf1 : f1 i <;> cases hf2 : f2 i
   · rfl
-  · simp [hf1, hf2] at h  -- h : -1/2 = 1/2, contradiction
-  · simp [hf1, hf2] at h  -- h : 1/2 = -1/2, contradiction
+  · exfalso; simp [hf1, hf2] at h; linarith  -- h : -1/2 = 1/2
+  · exfalso; simp [hf1, hf2] at h; linarith  -- h : 1/2 = -1/2
   · rfl
 
 /-!
