@@ -82,14 +82,13 @@ theorem D8_to_vector_integer (e : (Fin 8 × Fin 8) × (Bool × Bool)) :
     AllInteger (D8_to_vector e) := by
   intro i
   simp only [D8_to_vector, boolToSign]
-  split_ifs with h1 h2
-  · cases e.2.1 with
-    | true => exact ⟨1, by norm_num⟩
-    | false => exact ⟨-1, by norm_num⟩
-  · cases e.2.2 with
-    | true => exact ⟨1, by norm_num⟩
-    | false => exact ⟨-1, by norm_num⟩
-  · exact ⟨0, by norm_num⟩
+  -- split_ifs creates 5 cases based on if-conditions
+  split_ifs with h1 h2 h3 h4
+  · exact ⟨1, by norm_num⟩      -- i = e.1.1, e.2.1 = true → value is 1
+  · exact ⟨-1, by norm_num⟩    -- i = e.1.1, e.2.1 = false → value is -1
+  · exact ⟨1, by norm_num⟩      -- i = e.1.2, e.2.2 = true → value is 1
+  · exact ⟨-1, by norm_num⟩    -- i = e.1.2, e.2.2 = false → value is -1
+  · exact ⟨0, by norm_num⟩      -- i ≠ e.1.1 ∧ i ≠ e.1.2 → value is 0
 
 /-- boolToSign squared is always 1 -/
 theorem boolToSign_sq (b : Bool) : (boolToSign b)^2 = 1 := by
@@ -106,7 +105,8 @@ theorem boolToSign_ne_zero (b : Bool) : boolToSign b ≠ 0 := by
 theorem D8_to_vector_norm_sq_sketch :
     ∀ a b : Bool, (boolToSign a)^2 + (boolToSign b)^2 = 2 := by
   intro a b
-  cases a <;> cases b <;> norm_num [boolToSign]
+  simp only [boolToSign]
+  cases a <;> cases b <;> norm_num
 
 /-!
 ## Injectivity: Different enumerations give different vectors
@@ -177,15 +177,15 @@ theorem D8_to_vector_injective :
       have := congrFun heq e1.1.1
       simp only [D8_to_vector_at_fst, h_fst, D8_to_vector_at_fst] at this
       cases h1' : e1.2.1 <;> cases h2' : e2.2.1 <;> try rfl
-      · simp [boolToSign] at this
-      · simp [boolToSign] at this
+      · simp only [boolToSign] at this; norm_num at this
+      · simp only [boolToSign] at this; norm_num at this
     have s2_eq : e1.2.2 = e2.2.2 := by
       have := congrFun heq e1.1.2
       rw [D8_to_vector_at_snd e1 (ne_of_lt h1), h_snd,
           D8_to_vector_at_snd e2 (ne_of_lt h2)] at this
       cases h1' : e1.2.2 <;> cases h2' : e2.2.2 <;> try rfl
-      · simp [boolToSign] at this
-      · simp [boolToSign] at this
+      · simp only [boolToSign] at this; norm_num at this
+      · simp only [boolToSign] at this; norm_num at this
     exact Prod.ext pos_eq (Prod.ext s1_eq s2_eq)
   · -- e1.1.1 = e2.1.2 and e1.1.2 = e2.1.1 : would mean e2.1.2 < e2.1.1
     have : e2.1.2 < e2.1.1 := by rw [← h_fst, ← h_snd]; exact h1
@@ -244,8 +244,8 @@ theorem HalfInt_to_vector_injective :
   have := congrFun heq i
   simp only [HalfInt_to_vector] at this
   cases hf1 : f1 i <;> cases hf2 : f2 i <;> try rfl
-  · norm_num at this  -- -1/2 ≠ 1/2
-  · norm_num at this  -- 1/2 ≠ -1/2
+  · simp only [hf1, hf2] at this; norm_num at this  -- -1/2 ≠ 1/2
+  · simp only [hf1, hf2] at this; norm_num at this  -- 1/2 ≠ -1/2
 
 /-!
 ## E8 Root Count: The Real Theorem
