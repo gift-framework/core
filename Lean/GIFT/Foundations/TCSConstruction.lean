@@ -10,6 +10,7 @@
 --   - Kovalev "Twisted connected sums and special Riemannian holonomy"
 
 import Mathlib.Data.Nat.Basic
+import Mathlib.Data.Nat.Choose.Basic
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 
 namespace GIFT.Foundations.TCSConstruction
