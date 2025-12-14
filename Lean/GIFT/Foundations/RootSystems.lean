@@ -62,23 +62,6 @@ These are the integer vectors of norm √2:
 def D8_roots : Set (Fin 8 → ℝ) :=
   { v | AllInteger v ∧ NormSqTwo v }
 
-/-- Example D8 root: (1, 1, 0, 0, 0, 0, 0, 0) -/
-noncomputable def d8_example : Fin 8 → ℝ := ![1, 1, 0, 0, 0, 0, 0, 0]
-
-theorem d8_example_is_integer : AllInteger d8_example := by
-  intro i
-  fin_cases i
-  all_goals (simp only [d8_example, Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.head_cons, Matrix.cons_val_succ]; exact ⟨_, rfl⟩)
-
-theorem d8_example_norm : NormSqTwo d8_example := by
-  unfold NormSqTwo d8_example
-  simp only [Fin.sum_univ_eight, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
-  norm_num
-
-theorem d8_example_is_root : d8_example ∈ D8_roots :=
-  ⟨d8_example_is_integer, d8_example_norm⟩
-
 /-!
 ## Half-integer roots (128 vectors)
 
@@ -118,7 +101,7 @@ theorem half_example_is_root : half_example ∈ HalfInt_roots :=
 The E8 root system is the disjoint union of D8_roots and HalfInt_roots.
 -/
 
-/-- D8 and HalfInt roots are disjoint -/
+/-- D8 and HalfInt roots are disjoint: an integer cannot equal a half-integer -/
 theorem D8_HalfInt_disjoint : D8_roots ∩ HalfInt_roots = ∅ := by
   ext v
   simp only [Set.mem_inter_iff, Set.mem_empty_iff_false, iff_false, not_and]
@@ -129,21 +112,15 @@ theorem D8_HalfInt_disjoint : D8_roots ∩ HalfInt_roots = ∅ := by
   obtain ⟨n, hn⟩ := h0
   obtain ⟨m, hm⟩ := h0'
   rw [hn] at hm
-  -- n = m + 1/2 is impossible for integers
+  -- n = m + 1/2 implies (n - m : ℝ) = 1/2
   have hdiff : (n : ℝ) - m = 1/2 := by linarith
-  have hInt' : ∃ k : ℤ, (n : ℝ) - m = k := ⟨n - m, by push_cast; ring⟩
-  obtain ⟨k, hk⟩ := hInt'
-  rw [hk] at hdiff
-  -- k = 1/2 is impossible for integers
-  have : (2 : ℝ) * k = 1 := by linarith
-  have h2k : (2 : ℤ) * k = 1 := by
-    have := congrArg (Int.floor) this
-    simp only [Int.floor_intCast] at this
-    have hfloor : Int.floor ((2 : ℝ) * k) = Int.floor (1 : ℝ) := by
-      congr 1
-      linarith
-    simp only [Int.floor_intCast, Int.floor_one] at hfloor
-    linarith
+  -- But n - m is an integer, so 2*(n-m) is an even integer
+  have h2diff : (2 : ℝ) * (n - m) = 1 := by linarith
+  -- Cast to show 2*(n-m) = 1 as integers... contradiction
+  have hcast : (2 : ℝ) * (n - m) = 2 * (n - m : ℤ) := by push_cast; ring
+  rw [hcast] at h2diff
+  -- 2 * integer = 1 is impossible
+  have : (2 * (n - m) : ℤ) = 1 := by exact_mod_cast h2diff
   omega
 
 /-!

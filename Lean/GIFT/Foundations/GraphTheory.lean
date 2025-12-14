@@ -54,13 +54,18 @@ instance K4_DecidableRel : DecidableRel K4.Adj := fun v w =>
 /-- K₄ edge count: C(4,2) = 6 -/
 theorem K4_edge_count : K4.edgeFinset.card = 6 := by native_decide
 
-/-- Each vertex in K₄ has degree 3 -/
-theorem K4_degree (v : Fin 4) : K4.degree v = 3 := by
-  simp only [SimpleGraph.degree, K4, completeGraph, SimpleGraph.neighborFinset_top]
-  native_decide
+/-- K₄ degree formula: each vertex has n-1 = 3 neighbors -/
+theorem K4_degree_formula : ∀ v : Fin 4, K4.degree v = 3 := by
+  intro v
+  -- In a complete graph on n vertices, each vertex has degree n-1
+  -- For K4, degree = 4 - 1 = 3
+  -- We prove this by showing degree equals edge count formula
+  have h : K4.degree v = (Finset.univ.filter (K4.Adj v)).card := rfl
+  simp only [h, K4, completeGraph]
+  fin_cases v <;> native_decide
 
 /-- K₄ is 3-regular -/
-theorem K4_is_3_regular : K4.IsRegularOfDegree 3 := K4_degree
+theorem K4_is_3_regular : K4.IsRegularOfDegree 3 := K4_degree_formula
 
 /-!
 ## K₇ Properties
@@ -84,13 +89,15 @@ theorem K7_edge_count : K7.edgeFinset.card = 21 := by native_decide
 /-- This is the second Betti number b₂! -/
 theorem K7_edges_equals_b2 : K7.edgeFinset.card = 21 := K7_edge_count
 
-/-- Each vertex in K₇ has degree 6 -/
-theorem K7_degree (v : Fin 7) : K7.degree v = 6 := by
-  simp only [SimpleGraph.degree, K7, completeGraph, SimpleGraph.neighborFinset_top]
-  native_decide
+/-- K₇ degree formula: each vertex has n-1 = 6 neighbors -/
+theorem K7_degree_formula : ∀ v : Fin 7, K7.degree v = 6 := by
+  intro v
+  have h : K7.degree v = (Finset.univ.filter (K7.Adj v)).card := rfl
+  simp only [h, K7, completeGraph]
+  fin_cases v <;> native_decide
 
 /-- K₇ is 6-regular -/
-theorem K7_is_6_regular : K7.IsRegularOfDegree 6 := K7_degree
+theorem K7_is_6_regular : K7.IsRegularOfDegree 6 := K7_degree_formula
 
 /-!
 ## Combinatorial Connection to GIFT
