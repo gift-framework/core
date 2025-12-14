@@ -16,7 +16,7 @@ import GIFT.Foundations.V5.ExteriorAlgebra
 
 namespace GIFT.Foundations.V5.WedgeProduct
 
-open ExteriorAlgebra
+open GIFT.Foundations.V5.ExteriorAlgebra
 
 /-!
 ## Graded k-forms
@@ -43,18 +43,41 @@ theorem wedge_anticomm_graded (k l : ℕ)
   sorry -- Requires graded algebra structure
 
 /-- 1-forms anticommute: v ∧ w = -w ∧ v -/
-theorem wedge_anticomm_1forms (v w : V) :
-    ι v ∧' ι w = -(ι w ∧' ι v) := by
-  -- From ι(v+w)² = 0, expand to get ιv·ιw + ιw·ιv = 0
-  have h := ExteriorAlgebra.ι_sq_zero (v + w)
-  simp only [map_add] at h
+theorem wedge_anticomm_1forms (v w : Fin 7 → ℝ) :
+    ι' v ∧' ι' w = -(ι' w ∧' ι' v) := by
+  -- From (ι'(v) + ι'(w))² = 0, expand to get ι'v·ι'w + ι'w·ι'v = 0
+  -- This means ι'v·ι'w = -ι'w·ι'v
+  have hvw := ExteriorAlgebra.ι_sq_zero (v + w)
   have hv := ExteriorAlgebra.ι_sq_zero v
   have hw := ExteriorAlgebra.ι_sq_zero w
-  -- (ιv + ιw)² = ιv² + ιv·ιw + ιw·ιv + ιw² = ιv·ιw + ιw·ιv = 0
-  calc ι v ∧' ι w
-      = ι v ∧' ι w + 0 := by ring
-    _ = ι v ∧' ι w + (ι w ∧' ι w) := by rw [ι_wedge_self_eq_zero]
-    _ = -(ι w ∧' ι v) := by sorry -- algebra manipulation
+  -- (ι(v+w))² = 0
+  -- ι(v+w) = ι(v) + ι(w) by linearity
+  -- So (ι v + ι w)² = ι v · ι v + ι v · ι w + ι w · ι v + ι w · ι w
+  --                 = 0 + ι v · ι w + ι w · ι v + 0 = 0
+  -- Therefore ι v · ι w = -ι w · ι v
+  unfold wedge ι'
+  have hlin : ExteriorAlgebra.ι ℝ (v + w) = ExteriorAlgebra.ι ℝ v + ExteriorAlgebra.ι ℝ w :=
+    map_add _ v w
+  rw [hlin] at hvw
+  -- (a + b)² = a² + ab + ba + b² = ab + ba (since a² = b² = 0)
+  have hv' : ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ v = 0 :=
+    ExteriorAlgebra.ι_sq_zero v
+  have hw' : ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ w = 0 :=
+    ExteriorAlgebra.ι_sq_zero w
+  -- Expand (a + b)² using add_mul and mul_add
+  have expand : (ExteriorAlgebra.ι ℝ v + ExteriorAlgebra.ι ℝ w) *
+                (ExteriorAlgebra.ι ℝ v + ExteriorAlgebra.ι ℝ w) =
+                ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ v +
+                ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w +
+                ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v +
+                ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ w := by
+    rw [add_mul, mul_add, mul_add]
+    abel
+  rw [expand, hv', hw', zero_add, add_zero] at hvw
+  -- hvw : ι v * ι w + ι w * ι v = 0
+  -- So ι v * ι w = -(ι w * ι v)
+  have anti := eq_neg_of_add_eq_zero_left hvw
+  exact anti
 
 /-!
 ## Dimension Formulas for ℝ⁷
