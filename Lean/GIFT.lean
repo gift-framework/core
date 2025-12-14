@@ -1,12 +1,15 @@
 -- GIFT: Geometric Integration of Fundamental Topologies
 -- Main entry point for Lean 4 formalization
--- Version: 3.0.0 (165+ certified relations + Joyce existence)
+-- Version: 4.0.0 (165+ certified relations + Joyce existence + Real Mathematics)
 
 import GIFT.Algebra
 import GIFT.Geometry
 import GIFT.Topology
 import GIFT.Relations
 import GIFT.Certificate
+
+-- V4.0: Mathematical Foundations (real content, not just arithmetic)
+import GIFT.Foundations
 
 -- Topological Extension: +12 relations (25 total)
 import GIFT.Relations.GaugeSector
