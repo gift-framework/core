@@ -105,7 +105,7 @@ theorem boolToSign_ne_zero (b : Bool) : boolToSign b ≠ 0 := by
 theorem D8_to_vector_norm_sq_sketch :
     ∀ a b : Bool, (boolToSign a)^2 + (boolToSign b)^2 = 2 := by
   intro a b
-  cases a <;> cases b <;> simp [boolToSign]
+  cases a <;> cases b <;> norm_num [boolToSign]
 
 /-!
 ## Injectivity: Different enumerations give different vectors
@@ -173,16 +173,18 @@ theorem D8_to_vector_injective :
     have pos_eq : e1.1 = e2.1 := Prod.ext h_fst h_snd
     -- Signs must also match
     have s1_eq : e1.2.1 = e2.2.1 := by
-      have := congrFun heq e1.1.1
-      simp only [D8_to_vector_at_fst, h_fst, D8_to_vector_at_fst] at this
-      cases h1' : e1.2.1 <;> cases h2' : e2.2.1 <;> try rfl
-      all_goals simp only [boolToSign, h1', h2', ite_true, ite_false] at this; norm_num at this
+      have h := congrFun heq e1.1.1
+      rw [D8_to_vector_at_fst, h_fst, D8_to_vector_at_fst] at h
+      -- Now h : boolToSign e1.2.1 = boolToSign e2.2.1
+      cases h1' : e1.2.1 <;> cases h2' : e2.2.1
+      all_goals simp_all [boolToSign]
     have s2_eq : e1.2.2 = e2.2.2 := by
-      have := congrFun heq e1.1.2
+      have h := congrFun heq e1.1.2
       rw [D8_to_vector_at_snd e1 (ne_of_lt h1), h_snd,
-          D8_to_vector_at_snd e2 (ne_of_lt h2)] at this
-      cases h1' : e1.2.2 <;> cases h2' : e2.2.2 <;> try rfl
-      all_goals simp only [boolToSign, h1', h2', ite_true, ite_false] at this; norm_num at this
+          D8_to_vector_at_snd e2 (ne_of_lt h2)] at h
+      -- Now h : boolToSign e1.2.2 = boolToSign e2.2.2
+      cases h1' : e1.2.2 <;> cases h2' : e2.2.2
+      all_goals simp_all [boolToSign]
     exact Prod.ext pos_eq (Prod.ext s1_eq s2_eq)
   · -- e1.1.1 = e2.1.2 and e1.1.2 = e2.1.1 : would mean e2.1.2 < e2.1.1
     have : e2.1.2 < e2.1.1 := by rw [← h_fst, ← h_snd]; exact h1
@@ -238,10 +240,10 @@ theorem HalfInt_to_vector_injective :
     ∀ f1 f2 : Fin 8 → Bool, HalfInt_to_vector f1 = HalfInt_to_vector f2 → f1 = f2 := by
   intro f1 f2 heq
   funext i
-  have := congrFun heq i
-  simp only [HalfInt_to_vector] at this
-  cases hf1 : f1 i <;> cases hf2 : f2 i <;> try rfl
-  all_goals simp only [hf1, hf2, ite_true, ite_false] at this; norm_num at this
+  have h := congrFun heq i
+  simp only [HalfInt_to_vector] at h
+  cases hf1 : f1 i <;> cases hf2 : f2 i
+  all_goals simp_all
 
 /-!
 ## E8 Root Count: The Real Theorem
