@@ -40,15 +40,20 @@ for r in PROVEN_RELATIONS:
     print(f"{r.symbol} = {r.value}")
 ```
 
-## What's New in v3.0
+## What's New in v3.1
 
-**Joyce Existence Theorem**: K7 admits a torsion-free G2 structure, proven via Banach fixed-point:
+**E8 Root Enumeration**: The 240 roots of E8 are now enumerated and counted, rather than defined as a constant.
 
-```python
-from gift_core.analysis import JoyceCertificate
-cert = JoyceCertificate.verify()
-assert cert.is_valid()  # Torsion < threshold with 20x margin
+```lean
+-- D8 roots: 28 position pairs × 4 sign choices = 112
+-- Half-integer roots: 128 even-sum sign patterns
+-- Total: 112 + 128 = 240
+
+theorem E8_dimension_from_enumeration :
+    D8_enumeration.card + HalfInt_enumeration.card + 8 = 248
 ```
+
+Includes bijection proofs to ℝ⁸ vectors and disjointness of the two root families.
 
 ## Building Proofs
 
@@ -73,4 +78,4 @@ MIT
 
 ---
 
-*GIFT Core v3.0.0
+*GIFT Core v3.1.0
