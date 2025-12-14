@@ -80,7 +80,7 @@ export RationalConstants (sin2_theta_W sin2_theta_W_simplified
 
 -- Graph theory
 export GraphTheory (K4 K7 K4_edge_count K7_edge_count K7_edges_equals_b2
-  K4_regular K7_regular E8_Dynkin G2_Dynkin
+  K4_is_3_regular K7_is_6_regular E8_Dynkin_edges G2_Dynkin_edges
   K4_matchings_equals_N_gen)
 
 -- Golden ratio
