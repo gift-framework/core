@@ -11,6 +11,8 @@
 import Mathlib.Data.Finset.Card
 import Mathlib.Data.Finset.Prod
 import Mathlib.Data.Fintype.Card
+import Mathlib.Data.Fintype.Pi
+import Mathlib.Data.Fintype.Prod
 import Mathlib.Data.Fin.Basic
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 
@@ -60,8 +62,7 @@ We encode sign patterns as Fin 8 → Bool, where true = +1/2, false = -1/2.
 def all_sign_patterns : Finset (Fin 8 → Bool) := Finset.univ
 
 /-- There are 2^8 = 256 sign patterns -/
-theorem all_sign_patterns_card : all_sign_patterns.card = 256 := by
-  simp only [all_sign_patterns, card_univ, Fintype.card_fun, Fintype.card_bool, Fintype.card_fin]
+theorem all_sign_patterns_card : all_sign_patterns.card = 256 := by native_decide
 
 /-- Count of true values in a pattern (= number of +1/2 entries) -/
 def count_true (f : Fin 8 → Bool) : ℕ :=
@@ -133,8 +134,8 @@ Sum = (count_true f) × (1/2) + (8 - count_true f) × (-1/2)
 This is even iff count_true f is even (since 4 is even) ✓
 -/
 
-/-- Half-integer root has norm squared 2 -/
-theorem HalfInt_norm_sq : 8 * (1 : ℚ) / 4 = 2 := by norm_num
+/-- Half-integer root has norm squared 2: 8 × (1/2)² = 8/4 = 2 -/
+theorem HalfInt_norm_sq : 8 / 4 = (2 : ℕ) := rfl
 
 /-!
 ## G2 Root System (for comparison)
