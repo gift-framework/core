@@ -715,29 +715,20 @@ theorem gift_v3_relation_count : True := by trivial
 -- V3.2: FOUNDATIONS V5 (Hodge theory, exterior algebra, E8 lattice)
 -- =============================================================================
 
-open GIFT.Foundations.V5.InnerProductSpace
-open GIFT.Foundations.V5.ExteriorAlgebra
-open GIFT.Foundations.V5.E8Lattice
-open GIFT.Foundations.V5.WedgeProduct
-open GIFT.Foundations.V5.HodgeTheory
-open GIFT.Foundations.V5.HarmonicForms
-open GIFT.Foundations.V5.G2TensorForm
-open GIFT.Foundations.V5.JoyceAnalytic
-
 /-- V3.2 E8 lattice relations -/
-abbrev v32_E8_lattice := E8Lattice.E8_lattice_certified
+abbrev v32_E8_lattice := GIFT.Foundations.V5.E8Lattice.E8_lattice_certified
 
 /-- V3.2 Hodge theory K7 Betti numbers -/
-abbrev v32_K7_betti := HodgeTheory.H_star_value
+abbrev v32_K7_betti := GIFT.Foundations.V5.HodgeTheory.H_star_value
 
 /-- V3.2 Harmonic forms relations -/
-abbrev v32_harmonic := HarmonicForms.harmonic_forms_certified
+abbrev v32_harmonic := GIFT.Foundations.V5.HarmonicForms.harmonic_forms_certified
 
 /-- V3.2 G2 tensor form relations -/
-abbrev v32_G2_tensor := G2TensorForm.G2_certified
+abbrev v32_G2_tensor := GIFT.Foundations.V5.G2TensorForm.G2_certified
 
 /-- V3.2 Joyce analytic relations -/
-abbrev v32_joyce_analytic := JoyceAnalytic.joyce_analytic_certified
+abbrev v32_joyce_analytic := GIFT.Foundations.V5.JoyceAnalytic.joyce_analytic_certified
 
 /-- GIFT v3.2 Foundations Certificate -/
 theorem gift_v32_foundations_certificate :
@@ -747,16 +738,20 @@ theorem gift_v32_foundations_certificate :
     -- G2 dimension
     (12 + 2 = 14) ∧
     -- K7 Betti numbers
-    (HodgeTheory.b 2 = 21) ∧
-    (HodgeTheory.b 3 = 77) ∧
-    (HodgeTheory.b 0 + HodgeTheory.b 2 + HodgeTheory.b 3 = 99) ∧
+    (GIFT.Foundations.V5.HodgeTheory.b 2 = 21) ∧
+    (GIFT.Foundations.V5.HodgeTheory.b 3 = 77) ∧
+    (GIFT.Foundations.V5.HodgeTheory.b 0 +
+     GIFT.Foundations.V5.HodgeTheory.b 2 +
+     GIFT.Foundations.V5.HodgeTheory.b 3 = 99) ∧
     -- Wedge product dimensions
     (Nat.choose 7 2 = 21) ∧
     (Nat.choose 7 3 = 35) ∧
     (2 + 2 + 3 = 7) ∧
     -- PINN verification (using Nat ratios: 141/100000 < 288/10000)
-    (JoyceAnalytic.pinn_torsion_bound_num * JoyceAnalytic.joyce_threshold_den <
-     JoyceAnalytic.joyce_threshold_num * JoyceAnalytic.pinn_torsion_bound_den) := by
+    (GIFT.Foundations.V5.JoyceAnalytic.pinn_torsion_bound_num *
+     GIFT.Foundations.V5.JoyceAnalytic.joyce_threshold_den <
+     GIFT.Foundations.V5.JoyceAnalytic.joyce_threshold_num *
+     GIFT.Foundations.V5.JoyceAnalytic.pinn_torsion_bound_den) := by
   repeat (first | constructor | rfl | native_decide)
 
 /-- GIFT v3.2 Master Certificate -/
