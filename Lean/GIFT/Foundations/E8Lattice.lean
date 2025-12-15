@@ -14,11 +14,14 @@
 
   Tier 1 (this file):
     A9-A10: Standard basis properties (proven)
-    A11-A12: Inner product properties (axioms - standard results)
-    A6-A8: E8 lattice properties (axioms)
+    A11-A12: Inner product properties ✓ (PROVEN v3.4 via Mathlib PiLp)
+    A6-A8: E8 lattice properties (axioms - need case analysis)
 
   Tier 2 (this file):
     B1. reflect_preserves_lattice (axiom)
+
+  v3.4 Update: A11 (normSq_eq_sum) and A12 (inner_eq_sum) converted from
+  axioms to theorems using Mathlib's EuclideanSpace.norm_eq and PiLp.inner_apply.
 
   References:
     - Conway & Sloane, "Sphere Packings, Lattices and Groups"
@@ -74,10 +77,16 @@ theorem stdBasis_norm (i : Fin 8) : ‖stdBasis i‖ = 1 := by
 ‖v‖² = ∑ᵢ vᵢ²
 
 This is a standard property of EuclideanSpace (PiLp 2).
+RESOLVED: Now a theorem via Mathlib API.
 -/
 
-/-- A11: Norm squared equals sum of squared components -/
-axiom normSq_eq_sum (v : R8) : ‖v‖^2 = ∑ i, (v i)^2
+/-- A11: Norm squared equals sum of squared components (PROVEN via Mathlib) -/
+theorem normSq_eq_sum (v : R8) : ‖v‖^2 = ∑ i, (v i)^2 := by
+  rw [EuclideanSpace.norm_eq]
+  rw [Real.sq_sqrt (Finset.sum_nonneg (fun i _ => sq_nonneg _))]
+  congr 1
+  funext i
+  rw [Real.norm_eq_abs, sq_abs]
 
 /-!
 ## Axiom A12: inner_eq_sum
@@ -85,10 +94,16 @@ axiom normSq_eq_sum (v : R8) : ‖v‖^2 = ∑ i, (v i)^2
 ⟨v,w⟩ = ∑ᵢ vᵢwᵢ
 
 This is a standard property of EuclideanSpace (PiLp 2).
+RESOLVED: Now a theorem via Mathlib API.
 -/
 
-/-- A12: Inner product equals sum of component products -/
-axiom inner_eq_sum (v w : R8) : @inner ℝ R8 _ v w = ∑ i, v i * w i
+/-- A12: Inner product equals sum of component products (PROVEN via Mathlib) -/
+theorem inner_eq_sum (v w : R8) : @inner ℝ R8 _ v w = ∑ i, v i * w i := by
+  rw [PiLp.inner_apply]
+  simp only [RCLike.inner_apply, conj_trivial]
+  congr 1
+  funext i
+  ring
 
 /-!
 ## E8 Lattice Definition
@@ -197,11 +212,16 @@ theorem E8_weyl_order_check :
 - A8: E8_basis_generates ✓
 - A9: stdBasis_orthonormal ✓
 - A10: stdBasis_norm ✓
-- A11: normSq_eq_sum (axiom - standard EuclideanSpace property)
-- A12: inner_eq_sum (axiom - standard EuclideanSpace property)
+- A11: normSq_eq_sum ✓ (PROVEN v3.4 via Mathlib PiLp)
+- A12: inner_eq_sum ✓ (PROVEN v3.4 via Mathlib PiLp)
 
 ### Tier 2 (Linear Algebra)
 - B1: reflect_preserves_lattice (axiom)
+
+### Axiom Resolution Progress
+- **Total Tier 1**: 12 axioms
+- **Proven**: 9 (A1-A5 in RootSystems, A8-A12 here)
+- **Remaining**: 3 (A6, A7 need case analysis on E8 lattice structure)
 -/
 
 end GIFT.Foundations.E8Lattice
