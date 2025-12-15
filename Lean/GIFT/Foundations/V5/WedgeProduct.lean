@@ -32,10 +32,45 @@ axiom wedge_anticomm_graded (n k l : ℕ)
     True  -- Full statement requires graded algebra structure
 
 /-- 1-forms anticommute: v ∧ w = -w ∧ v
-    Proof sketch: From ι(v)² = 0 for all v, expand (ι(v) + ι(w))² = 0
+    Proof: From ι(v)² = 0 for all v, expand (ι(v+w))² = 0
     to get ι(v)ι(w) + ι(w)ι(v) = 0, hence ι(v)ι(w) = -ι(w)ι(v) -/
-axiom wedge_anticomm_1forms (v w : Fin 7 → ℝ) :
-    ι' v ∧' ι' w = -(ι' w ∧' ι' v)
+theorem wedge_anticomm_1forms (v w : Fin 7 → ℝ) :
+    ι' v ∧' ι' w = -(ι' w ∧' ι' v) := by
+  unfold ι' wedge
+  -- Use the fact that ι(v+w)² = 0 and expand
+  have h : ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w +
+           ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v = 0 := by
+    have hvw := ExteriorAlgebra.ι_sq_zero (R := ℝ) (v + w)
+    have hv := ExteriorAlgebra.ι_sq_zero (R := ℝ) v
+    have hw := ExteriorAlgebra.ι_sq_zero (R := ℝ) w
+    -- Expand ι(v+w)² manually
+    have expand : ExteriorAlgebra.ι ℝ (v + w) =
+                  ExteriorAlgebra.ι ℝ v + ExteriorAlgebra.ι ℝ w :=
+      (ExteriorAlgebra.ι ℝ).map_add v w
+    rw [expand] at hvw
+    -- (ι v + ι w)² = ι v² + ι v · ι w + ι w · ι v + ι w² = 0
+    -- Since ι v² = ι w² = 0, we get ι v · ι w + ι w · ι v = 0
+    calc ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w +
+         ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v
+        = 0 + (ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w +
+               ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v) + 0 := by
+          simp only [zero_add, add_zero]
+      _ = ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ v +
+          (ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w +
+           ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v) +
+          ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ w := by rw [hv, hw]
+      _ = (ExteriorAlgebra.ι ℝ v + ExteriorAlgebra.ι ℝ w) *
+          (ExteriorAlgebra.ι ℝ v + ExteriorAlgebra.ι ℝ w) := by
+          rw [add_mul, mul_add, mul_add]
+          -- LHS: (a + (b + c)) + d, RHS: (a + b) + (c + d)
+          rw [add_assoc, add_assoc, add_assoc]
+      _ = 0 := hvw
+  -- From a + b = 0, derive a = -b
+  have : ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w =
+         -(ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v) := by
+    rw [← add_eq_zero_iff_eq_neg]
+    exact h
+  exact this
 
 /-!
 ## Dimension Formulas for ℝ⁷
