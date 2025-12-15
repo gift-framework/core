@@ -19,6 +19,8 @@ import GIFT.Foundations.TCSConstruction
 -- Axiom Resolution Plan: Tier 1 & 2
 import GIFT.Foundations.E8Lattice
 import GIFT.Foundations.G2CrossProduct
+-- v3.4: Mathlib E8 integration
+import GIFT.Foundations.E8Mathlib
 
 namespace GIFT.Foundations
 
@@ -143,6 +145,12 @@ export G2CrossProduct (R7 cross epsilon fano_lines fano_lines_count
   phi0 preserves_cross preserves_phi0
   dim_GL7 orbit_phi0_dim G2_dim_from_stabilizer G2_dim_from_roots)
 
+-- E8 Mathlib integration (v3.4)
+export E8Mathlib (E8_coxeter E8_coxeter_number E8_rank_val
+  E8_roots_from_coxeter gift_E8_roots enumeration_matches_coxeter
+  E8_lie_dim E8_dimension_certified E8_dimension_from_coxeter
+  E8_weyl_order E8_weyl_factored exceptional_dimensions)
+
 /-!
 ## Comparison: Old vs New
 
@@ -177,6 +185,18 @@ theorem E8_dimension_from_roots :
     root_count + rank = 248 := rfl
 ```
 Derives: |roots| + rank = 248 from root system structure
+
+### E8 Mathlib Integration (v3.4)
+
+New (GIFT.Foundations.E8Mathlib):
+```
+-- Uses CoxeterMatrix.E₈ from Mathlib!
+theorem enumeration_matches_coxeter :
+    E8_enumeration.card = E8_coxeter_number * E8_rank_val  -- 240 = 30 × 8
+
+theorem E8_dimension_certified : E8_lie_dim = 248
+```
+Connects GIFT enumeration to Mathlib's formal Coxeter structures.
 -/
 
 end GIFT.Foundations

@@ -23,7 +23,8 @@ Other modules import `GIFT.Core` and use these definitions.
 - `H_star = b2 + b3 + 1 = 99` — total topological degrees of freedom
 
 ### Exceptional Lie Algebras
-- `dim_E8 = 248`, `rank_E8 = 8`
+- `dim_E8 = 248` — **derived** via Mathlib Coxeter (see `Foundations.E8Mathlib`)
+- `rank_E8 = 8`
 - `dim_E7 = 133`, `dim_E6 = 78`, `dim_F4 = 52`
 - `dim_G2 = 14`, `rank_G2 = 2`
 
@@ -64,7 +65,15 @@ export Algebraic.BettiNumbers (b2 b3 H_star fund_E7)
 -- EXCEPTIONAL LIE ALGEBRAS
 -- =============================================================================
 
-/-- Dimension of E8 = 248 (= 240 roots + 8 Cartan) -/
+/-- Dimension of E8 = 248 (= 240 roots + 8 Cartan)
+
+Mathematical derivation in `GIFT.Foundations.E8Mathlib`:
+- 240 roots = h × rank = 30 × 8 (Coxeter formula)
+- 240 roots verified by explicit enumeration in `GIFT.Foundations.RootSystems`
+- Uses `CoxeterMatrix.E₈` from Mathlib
+
+See `GIFT.Foundations.E8Mathlib.E8_dimension_certified` for the formal proof.
+-/
 def dim_E8 : ℕ := 248
 
 /-- Rank of E8 -/
