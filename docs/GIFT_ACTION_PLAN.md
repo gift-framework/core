@@ -71,7 +71,7 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 | Axiome | Status | Fichier | Difficulté |
 |--------|--------|---------|------------|
 | B4. `G2_cross_norm` | ⚠️ AXIOME | G2CrossProduct.lean | 7D Lagrange (non-trivial) |
-| B5. `cross_is_octonion_structure` | ⚠️ AXIOME | G2CrossProduct.lean | Existential witness |
+| B5. `cross_is_octonion_structure` | 🔄 TENTATIVE | G2CrossProduct.lean | fin_cases + decide |
 | C1-C7 (Tier 3) | ⚠️ AXIOMES | ExteriorAlgebra, etc. | Moyen |
 
 **NOTE**: The 3D epsilon contraction ∑ₖ ε(i,j,k)ε(l,m,k) = δᵢₗδⱼₘ - δᵢₘδⱼₗ does NOT hold in 7D!
