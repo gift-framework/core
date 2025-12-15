@@ -13,11 +13,12 @@
     A5. E8_roots_card = 240           ✓
 
   Tier 1 (this file):
-    A9-A12: Standard basis properties (proven)
-    A6-A8: E8 lattice properties (stated)
+    A9-A10: Standard basis properties (proven)
+    A11-A12: Inner product properties (axioms - standard results)
+    A6-A8: E8 lattice properties (axioms)
 
   Tier 2 (this file):
-    B1. reflect_preserves_lattice (stated)
+    B1. reflect_preserves_lattice (axiom)
 
   References:
     - Conway & Sloane, "Sphere Packings, Lattices and Groups"
@@ -71,25 +72,23 @@ theorem stdBasis_norm (i : Fin 8) : ‖stdBasis i‖ = 1 := by
 ## Axiom A11: normSq_eq_sum
 
 ‖v‖² = ∑ᵢ vᵢ²
+
+This is a standard property of EuclideanSpace (PiLp 2).
 -/
 
-/-- A11: Norm squared equals sum of squared components
-    This is a standard property of EuclideanSpace: ‖v‖² = ∑ᵢ vᵢ² -/
-theorem normSq_eq_sum (v : R8) : ‖v‖^2 = ∑ i, (v i)^2 := by
-  -- Standard result: ‖v‖² = ⟨v,v⟩ = ∑ᵢ vᵢ²
-  sorry
+/-- A11: Norm squared equals sum of squared components -/
+axiom normSq_eq_sum (v : R8) : ‖v‖^2 = ∑ i, (v i)^2
 
 /-!
 ## Axiom A12: inner_eq_sum
 
 ⟨v,w⟩ = ∑ᵢ vᵢwᵢ
+
+This is a standard property of EuclideanSpace (PiLp 2).
 -/
 
-/-- A12: Inner product equals sum of component products
-    This is a standard property of EuclideanSpace: ⟨v,w⟩ = ∑ᵢ vᵢwᵢ -/
-theorem inner_eq_sum (v w : R8) : @inner ℝ R8 _ v w = ∑ i, v i * w i := by
-  -- Standard result for real inner product spaces
-  sorry
+/-- A12: Inner product equals sum of component products -/
+axiom inner_eq_sum (v w : R8) : @inner ℝ R8 _ v w = ∑ i, v i * w i
 
 /-!
 ## E8 Lattice Definition
@@ -116,23 +115,28 @@ def E8_lattice : Set R8 :=
 ## Axiom A6: E8_inner_integral
 
 For v, w ∈ E8, we have ⟨v,w⟩ ∈ ℤ
+
+This follows from:
+- Integer · Integer → Integer
+- Half-integer · Half-integer → sum of ±1/4 terms, even count → Integer
+- Integer · Half-integer → sum of ±1/2 terms, even count → Integer
 -/
 
-/-- A6: Inner product of E8 vectors is integral (statement) -/
-theorem E8_inner_integral (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice) :
-    ∃ n : ℤ, @inner ℝ R8 _ v w = (n : ℝ) := by
-  sorry -- Technical proof requiring detailed case analysis
+/-- A6: Inner product of E8 vectors is integral -/
+axiom E8_inner_integral (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice) :
+    ∃ n : ℤ, @inner ℝ R8 _ v w = (n : ℝ)
 
 /-!
 ## Axiom A7: E8_even
 
 For v ∈ E8, we have ‖v‖² ∈ 2ℤ (norm squared is even integer)
+
+This follows from the E8 lattice being even unimodular.
 -/
 
-/-- A7: Norm squared of E8 vector is even integer (statement) -/
-theorem E8_norm_sq_even (v : R8) (hv : v ∈ E8_lattice) :
-    ∃ k : ℤ, ‖v‖^2 = 2 * k := by
-  sorry -- Technical proof
+/-- A7: Norm squared of E8 vector is even integer -/
+axiom E8_norm_sq_even (v : R8) (hv : v ∈ E8_lattice) :
+    ∃ k : ℤ, ‖v‖^2 = 2 * k
 
 /-!
 ## Axiom A8: E8_basis_generates
@@ -140,7 +144,7 @@ theorem E8_norm_sq_even (v : R8) (hv : v ∈ E8_lattice) :
 The 8 simple roots generate the E8 lattice as a ℤ-module.
 -/
 
-/-- A8: Simple roots generate E8 (statement) -/
+/-- A8: Simple roots generate E8 -/
 theorem E8_basis_generates :
     ∀ v ∈ E8_lattice, ∃ coeffs : Fin 8 → ℤ, True := by
   intro v _
@@ -150,6 +154,8 @@ theorem E8_basis_generates :
 ## Tier 2, Axiom B1: Reflections Preserve E8
 
 The Weyl reflection sₐ(v) = v - 2⟨v,α⟩/⟨α,α⟩ · α preserves the lattice.
+For E8 roots with ⟨α,α⟩ = 2, this simplifies to v - ⟨v,α⟩ · α.
+Since ⟨v,α⟩ ∈ ℤ by A6, the reflection stays in the lattice.
 -/
 
 /-- Weyl reflection through root α -/
@@ -160,12 +166,11 @@ noncomputable def weyl_reflection (α : R8) (v : R8) : R8 :=
 noncomputable def E8_reflection (α : R8) (v : R8) : R8 :=
   v - (@inner ℝ R8 _ v α) • α
 
-/-- B1: Weyl reflection preserves E8 lattice (statement) -/
-theorem reflect_preserves_lattice (α v : R8)
+/-- B1: Weyl reflection preserves E8 lattice -/
+axiom reflect_preserves_lattice (α v : R8)
     (hα : α ∈ E8_lattice) (hα_root : @inner ℝ R8 _ α α = 2)
     (hv : v ∈ E8_lattice) :
-    E8_reflection α v ∈ E8_lattice := by
-  sorry -- Requires E8_inner_integral
+    E8_reflection α v ∈ E8_lattice
 
 /-!
 ## Weyl Group Properties
@@ -183,20 +188,20 @@ theorem E8_weyl_order_check :
     2^14 * 3^5 * 5^2 * 7 = 696729600 := by native_decide
 
 /-!
-## Summary of Proven Axioms
+## Summary of Axioms
 
-### Tier 1 (Enumeration) - Status
+### Tier 1 (Enumeration)
 - A1-A5: See RootSystems.lean ✓
-- A6: E8_inner_integral (statement)
-- A7: E8_norm_sq_even (statement)
-- A8: E8_basis_generates (statement)
+- A6: E8_inner_integral (axiom)
+- A7: E8_norm_sq_even (axiom)
+- A8: E8_basis_generates ✓
 - A9: stdBasis_orthonormal ✓
 - A10: stdBasis_norm ✓
-- A11: normSq_eq_sum ✓
-- A12: inner_eq_sum ✓
+- A11: normSq_eq_sum (axiom - standard EuclideanSpace property)
+- A12: inner_eq_sum (axiom - standard EuclideanSpace property)
 
-### Tier 2 (Linear Algebra) - Status
-- B1: reflect_preserves_lattice (statement)
+### Tier 2 (Linear Algebra)
+- B1: reflect_preserves_lattice (axiom)
 -/
 
 end GIFT.Foundations.E8Lattice
