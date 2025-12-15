@@ -324,6 +324,38 @@ Now we can PROVE |E8| = 240, not just define it!
 theorem E8_roots_card : D8_enumeration.card + HalfInt_enumeration.card = 240 := by
   rw [D8_card, HalfInt_card]
 
+/-!
+## A3: E8 Root Decomposition
+
+The E8 roots are the DISJOINT union of D8 roots and half-integer roots.
+We express this using Sum type for the explicit enumeration.
+-/
+
+/-- E8 root enumeration as disjoint union (Sum type) -/
+def E8_enumeration : Finset (((Fin 8 × Fin 8) × (Bool × Bool)) ⊕ (Fin 8 → Bool)) :=
+  D8_enumeration.map ⟨Sum.inl, Sum.inl_injective⟩ ∪
+  HalfInt_enumeration.map ⟨Sum.inr, Sum.inr_injective⟩
+
+/-- The union is disjoint (Sum.inl and Sum.inr have disjoint ranges) -/
+theorem E8_decomposition_disjoint :
+    Disjoint (D8_enumeration.map ⟨Sum.inl, Sum.inl_injective⟩)
+             (HalfInt_enumeration.map ⟨Sum.inr, Sum.inr_injective⟩) := by
+  simp only [Finset.disjoint_iff_ne, Finset.mem_map, Function.Embedding.coeFn_mk]
+  intro x ⟨a, _, ha⟩ y ⟨b, _, hb⟩
+  simp only [← ha, ← hb, ne_eq]
+  exact Sum.inl_ne_inr
+
+/-- A3: E8 = D8 ∪ HalfInt (as finset equation with Sum type) -/
+theorem E8_roots_decomposition :
+    E8_enumeration = D8_enumeration.map ⟨Sum.inl, Sum.inl_injective⟩ ∪
+                     HalfInt_enumeration.map ⟨Sum.inr, Sum.inr_injective⟩ := rfl
+
+/-- Cardinality of E8 via decomposition -/
+theorem E8_enumeration_card : E8_enumeration.card = 240 := by
+  rw [E8_enumeration, Finset.card_union_of_disjoint E8_decomposition_disjoint]
+  simp only [Finset.card_map]
+  rw [D8_card, HalfInt_card]
+
 /-- E8 Lie algebra dimension = roots + rank = 240 + 8 = 248 -/
 theorem E8_dimension : 240 + 8 = 248 := rfl
 

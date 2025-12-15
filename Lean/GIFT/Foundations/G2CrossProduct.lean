@@ -103,7 +103,7 @@ The cross product is bilinear. This follows from the definition
 as a sum of products with constant coefficients ε(i,j,k).
 -/
 
-/-- B2: Cross product is bilinear -/
+/-- B2: Cross product is bilinear - follows from sum/product linearity -/
 axiom G2_cross_bilinear :
     (∀ a : ℝ, ∀ u v w : R7, cross (a • u + v) w = a • cross u w + cross v w) ∧
     (∀ a : ℝ, ∀ u v w : R7, cross u (a • v + w) = a • cross u v + cross u w)
@@ -116,13 +116,19 @@ u × v = -v × u
 This follows from ε(i,j,k) = -ε(j,i,k) (antisymmetry of structure constants).
 -/
 
-/-- epsilon is antisymmetric in first two arguments -/
-axiom epsilon_antisymm (i j k : Fin 7) : epsilon i j k = -epsilon j i k
+/-- epsilon is antisymmetric in first two arguments - PROVEN by exhaustive check -/
+theorem epsilon_antisymm (i j k : Fin 7) : epsilon i j k = -epsilon j i k := by
+  fin_cases i <;> fin_cases j <;> fin_cases k <;> native_decide
 
-/-- B3: Cross product is antisymmetric -/
+/-- epsilon vanishes when first two indices are equal -/
+theorem epsilon_diag (i k : Fin 7) : epsilon i i k = 0 := by
+  fin_cases i <;> fin_cases k <;> native_decide
+
+/-- B3: Cross product is antisymmetric
+    Proof sketch: ε(i,j,k) = -ε(j,i,k) by epsilon_antisymm, then swap sums -/
 axiom G2_cross_antisymm (u v : R7) : cross u v = -cross v u
 
-/-- Corollary: u × u = 0 -/
+/-- Corollary: u × u = 0 (follows from x = -x in char 0) -/
 axiom cross_self (u : R7) : cross u u = 0
 
 /-!
@@ -203,8 +209,11 @@ theorem G2_dim_from_roots : 12 + 2 = 14 := rfl
 /-!
 ## Summary of Tier 2 Axioms
 
-- B2: G2_cross_bilinear (axiom - follows from definition)
-- B3: G2_cross_antisymm (axiom - follows from epsilon antisymmetry)
+- epsilon_antisymm ✅ PROVEN (exhaustive fin_cases on 7³ = 343 cases)
+- epsilon_diag ✅ PROVEN (exhaustive check on 7² = 49 cases)
+- B2: G2_cross_bilinear (axiom - Mathlib WithLp API complexity)
+- B3: G2_cross_antisymm (axiom - follows from epsilon_antisymm)
+- B3': cross_self (axiom - follows from B3)
 - B4: G2_cross_norm (axiom - Lagrange identity)
 - B5: cross_is_octonion_structure (axiom - Fano plane structure)
 -/
