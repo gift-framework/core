@@ -20,9 +20,9 @@
 -/
 
 import Mathlib.Data.Fin.Basic
+import Mathlib.Data.Fintype.Card
 import Mathlib.Data.Nat.Choose.Basic
 import Mathlib.Algebra.Ring.Basic
-import Mathlib.Tactic.Ring
 
 namespace GIFT.Algebraic.Octonions
 
@@ -202,11 +202,11 @@ The octonions are NOT associative, unlike ℍ.
 This is what gives rise to G₂ = Aut(𝕆).
 -/
 
-/-- Octonions are alternative (weaker than associative) -/
+-- Octonions are alternative (weaker than associative)
 -- The alternativity identity: x(xy) = x²y and (xy)y = xy²
 -- Full proof requires multiplication, stated as axiom for now
 
-/-- The associator measures non-associativity -/
+-- The associator measures non-associativity
 -- [x,y,z] = (xy)z - x(yz)
 -- For 𝕆, [eᵢ,eⱼ,eₖ] ≠ 0 in general
 
