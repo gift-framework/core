@@ -3,8 +3,8 @@
 -- Version: 3.1.0 (175+ certified relations + Joyce + Foundations)
 --
 -- Consolidation v3.1.0:
--- - Tier 1: 12/12 axiomes -> theorems (avec 9 helper axioms)
--- - Tier 2: 7/9 theorems (B2, B3, B3' prouvés, B4/B5 restent axiomatiques)
+-- - Tier 1: 12/12 complete (via helper axioms)
+-- - Tier 2: 6/10 theorems (B2, B3, B3' proven; B1, B4, B5 axiomatic)
 -- - 175+ relations arithmétiques certifiées
 -- - Joyce existence theorem
 
