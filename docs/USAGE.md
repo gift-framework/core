@@ -160,7 +160,7 @@ print(TORSION_BOUND.hi < JOYCE_THRESHOLD.lo)  # True
 print(DET_G_BOUND.contains(DET_G_TARGET))  # True
 ```
 
-## Algebraic Foundations (v5.0)
+## Algebraic Foundations (v3.2)
 
 GIFT constants are now **derived** from octonion algebraic structure:
 
@@ -200,7 +200,7 @@ Previous versions defined constants arbitrarily:
 DIM_E8 = 248  # Just a number
 ```
 
-V5.0 **derives** them from octonion structure:
+V3.2 **derives** them from octonion structure:
 ```
 𝕆 has 7 imaginary units
   → G₂ = Aut(𝕆) has dim = 2×7 = 14

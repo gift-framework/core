@@ -40,7 +40,7 @@ for r in PROVEN_RELATIONS:
     print(f"{r.symbol} = {r.value}")
 ```
 
-## What's New in v5.0
+## What's New in v3.2
 
 **Octonion-Based Algebraic Foundations**: GIFT constants are now **derived** from octonion structure, not arbitrary inputs!
 
@@ -96,4 +96,4 @@ MIT
 
 ---
 
-*GIFT Core v5.0.0
+*GIFT Core v3.2.0

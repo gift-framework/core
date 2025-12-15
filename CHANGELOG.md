@@ -5,7 +5,7 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [5.0.0] - 2025-12-15
+## [3.2.0] - 2025-12-15
 
 ### Added
 
@@ -64,7 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 def dim_E8 : Nat := 248  -- proves nothing about E8!
 ```
 
-V5.0 **DERIVES** everything from octonion structure:
+V3.2 **DERIVES** everything from octonion structure:
 ```lean
 -- 𝕆 has 7 imaginary units
 imaginary_count = 7
@@ -100,18 +100,6 @@ H* = b₂ + b₃ + 1 = 99
   ↓
 sin²θ_W = 3/13, Q_Koide = 2/3, N_gen = 3
 ```
-
-### Changed
-
-- Version bump: 3.2.0 → 5.0.0 (major release for algebraic foundations)
-- GIFT.lean updated with `import GIFT.Algebraic`
-- Total: 175+ certified relations + Algebraic Foundations
-
----
-
-## [3.2.0] - 2025-12-14
-
-### Added
 
 - **Foundations V5 Module** (`GIFT.Foundations.V5`):
   Exterior algebra, Hodge theory, and E8 lattice formalization.
@@ -187,8 +175,9 @@ theorem pinn_satisfies_joyce :
 ### Changed
 
 - Version bump: 3.1.0 → 3.2.0
+- GIFT.lean updated with `import GIFT.Algebraic`
 - Certificate.lean updated with V5 imports and `gift_v32_master_certificate`
-- Total: 175+ certified relations + Foundations V5
+- Total: 175+ certified relations + Algebraic Foundations + Foundations V5
 
 ## [3.1.0] - 2025-12-14
 
