@@ -127,30 +127,18 @@ theorem cross_left_linear (a : ℝ) (u v w : R7) :
   simp only [cross_apply, PiLp.add_apply, PiLp.smul_apply, smul_eq_mul]
   -- LHS: ∑ i j, ε * (a * u i + v i) * w j
   -- RHS: a * (∑ i j, ε * u i * w j) + ∑ i j, ε * v i * w j
-  simp_rw [add_mul, mul_assoc]
-  rw [← Finset.sum_add_distrib]
-  congr 1
-  · rw [Finset.mul_sum]; apply Finset.sum_congr rfl; intro i _
-    rw [Finset.mul_sum]; apply Finset.sum_congr rfl; intro j _
-    ring
-  · apply Finset.sum_congr rfl; intro i _
-    rw [← Finset.sum_add_distrib]; apply Finset.sum_congr rfl; intro j _
-    ring
+  simp_rw [add_mul, Finset.sum_add_distrib, Finset.mul_sum]
+  congr 1 <;> apply Finset.sum_congr rfl <;> intro i _ <;>
+    apply Finset.sum_congr rfl <;> intro j _ <;> ring
 
 /-- B2b: Cross product is linear in second argument (PROVEN) -/
 theorem cross_right_linear (a : ℝ) (u v w : R7) :
     cross u (a • v + w) = a • cross u v + cross u w := by
   ext k
   simp only [cross_apply, PiLp.add_apply, PiLp.smul_apply, smul_eq_mul]
-  simp_rw [mul_add]
-  rw [← Finset.sum_add_distrib]
-  congr 1
-  · rw [Finset.mul_sum]; apply Finset.sum_congr rfl; intro i _
-    rw [Finset.mul_sum]; apply Finset.sum_congr rfl; intro j _
-    ring
-  · apply Finset.sum_congr rfl; intro i _
-    rw [← Finset.sum_add_distrib]; apply Finset.sum_congr rfl; intro j _
-    ring
+  simp_rw [mul_add, Finset.sum_add_distrib, Finset.mul_sum]
+  congr 1 <;> apply Finset.sum_congr rfl <;> intro i _ <;>
+    apply Finset.sum_congr rfl <;> intro j _ <;> ring
 
 /-- B2: Cross product is bilinear (PROVEN) -/
 theorem G2_cross_bilinear :
