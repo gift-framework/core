@@ -125,11 +125,28 @@ theorem epsilon_diag (i k : Fin 7) : epsilon i i k = 0 := by
   fin_cases i <;> fin_cases k <;> native_decide
 
 /-- B3: Cross product is antisymmetric
-    Proof sketch: ε(i,j,k) = -ε(j,i,k) by epsilon_antisymm, then swap sums -/
-axiom G2_cross_antisymm (u v : R7) : cross u v = -cross v u
+    Proof: ε(i,j,k) = -ε(j,i,k) by epsilon_antisymm, then swap sums -/
+theorem G2_cross_antisymm (u v : R7) : cross u v = -cross v u := by
+  unfold cross
+  simp only [WithLp.equiv_symm_pi_apply]
+  ext k
+  simp only [Pi.neg_apply]
+  -- Goal: ∑ i, ∑ j, ε(i,j,k) * u i * v j = -(∑ i, ∑ j, ε(i,j,k) * v i * u j)
+  rw [← Finset.sum_neg_distrib]
+  apply Finset.sum_congr rfl
+  intro i _
+  rw [← Finset.sum_neg_distrib]
+  apply Finset.sum_congr rfl
+  intro j _
+  -- Goal: ε(i,j,k) * u i * v j = -(ε(i,j,k) * v i * u j)
+  rw [epsilon_antisymm j i k]
+  ring
 
 /-- Corollary: u × u = 0 (follows from x = -x in char 0) -/
-axiom cross_self (u : R7) : cross u u = 0
+theorem cross_self (u : R7) : cross u u = 0 := by
+  have h := G2_cross_antisymm u u
+  -- h: cross u u = -cross u u, so cross u u = 0 (in char 0)
+  exact neg_eq_self_iff.mp h.symm
 
 /-!
 ## Axiom B4: G2_cross_norm (Lagrange Identity)
