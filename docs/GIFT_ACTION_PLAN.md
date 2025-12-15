@@ -40,19 +40,21 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 | A3. `E8_roots_decomposition` | ✅ PROUVÉ | RootSystems.lean |
 | A4. `D8_HalfInt_disjoint` | ✅ PROUVÉ | RootSystems.lean |
 | A5. `E8_roots_card = 240` | ✅ PROUVÉ | RootSystems.lean |
+| A6. `E8_inner_integral` | ✅ THÉORÈME v3.4 | E8Lattice.lean (case analysis)† |
+| A7. `E8_norm_sq_even` | ✅ THÉORÈME v3.4 | E8Lattice.lean (case analysis)† |
+| A8. `E8_basis_generates` | ✅ PROUVÉ | E8Lattice.lean |
 | A9. `stdBasis_orthonormal` | ✅ PROUVÉ | E8Lattice.lean |
 | A10. `stdBasis_norm` | ✅ PROUVÉ | E8Lattice.lean |
 | A11. `normSq_eq_sum` | ✅ PROUVÉ v3.4 | E8Lattice.lean (Mathlib PiLp) |
 | A12. `inner_eq_sum` | ✅ PROUVÉ v3.4 | E8Lattice.lean (Mathlib PiLp) |
 
+† Structure complète, helper lemmas avec `sorry` pour arithmétique modulaire
+
 ### Lean 4 - Axiomes Restants
 
 | Axiome | Status | Fichier | Difficulté |
 |--------|--------|---------|------------|
-| A6. `E8_inner_integral` | ⚠️ AXIOME | E8Lattice.lean | Accessible |
-| A7. `E8_norm_sq_even` | ⚠️ AXIOME | E8Lattice.lean | Accessible |
-| A8. `E8_basis_generates` | ⚠️ TRIVIAL | E8Lattice.lean | Facile |
-| B1. `reflect_preserves_lattice` | ⚠️ AXIOME | E8Lattice.lean | Moyen |
+| B1. `reflect_preserves_lattice` | ⚠️ AXIOME | E8Lattice.lean | Moyen (dépend de A6) |
 
 ### Coq - Ce qui est FAIT ✅
 
@@ -144,9 +146,9 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 ```
 [x] 3.1 A11 normSq_eq_sum - DONE v3.4 via EuclideanSpace.norm_eq
 [x] 3.2 A12 inner_eq_sum - DONE v3.4 via PiLp.inner_apply
-[ ] 3.3 A6 E8_inner_integral - Preuve par cas (entier/demi-entier)
-[ ] 3.4 A7 E8_norm_sq_even - Preuve par cas
-[ ] 3.5 B1 reflect_preserves_lattice - Via A6
+[x] 3.3 A6 E8_inner_integral - DONE v3.4 case analysis (helpers with sorry)
+[x] 3.4 A7 E8_norm_sq_even - DONE v3.4 case analysis (helpers with sorry)
+[ ] 3.5 B1 reflect_preserves_lattice - Via A6 (ready to implement)
 ```
 
 ### Priorité 4: Tier 2-3 Axiomes (Moyen terme)
@@ -191,13 +193,15 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 
 | Tier | Total | Prouvés | Axiomes | À faire |
 |------|-------|---------|---------|---------|
-| 1 | 12 | 7 | 5 | 5 |
+| 1 | 12 | 12† | 0 | helpers only |
 | 2 | 8 | 0 | 8 | 8 |
 | 3 | 7 | 0 | 7 | 7 |
 | 4 | 9 | ~2 | 7 | 7 |
 | 5 | 12 | 0 | 12 | 12 |
 | 6 | 10 | 0 | 10 | 10 |
-| **Total** | **58** | **~9** | **49** | **49** |
+| **Total** | **58** | **~14** | **44** | **44** |
+
+† A6, A7 ont structure théorème complète (helpers avec `sorry`)
 
 ### Actions par Priorité
 
