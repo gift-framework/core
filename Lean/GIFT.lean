@@ -11,6 +11,9 @@ import GIFT.Certificate
 -- V4.0: Mathematical Foundations (real content, not just arithmetic)
 import GIFT.Foundations
 
+-- V5.0: Algebraic Foundations (octonion-based derivation)
+import GIFT.Algebraic
+
 -- Topological Extension: +12 relations (25 total)
 import GIFT.Relations.GaugeSector
 import GIFT.Relations.NeutrinoSector
