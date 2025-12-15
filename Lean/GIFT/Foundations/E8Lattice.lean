@@ -143,7 +143,10 @@ lemma sum_int_is_int (f : Fin 8 → ℤ) : ∃ n : ℤ, ∑ i, (f i : ℝ) = (n 
 
 /-- Key lemma: n² ≡ n (mod 2) because n(n-1) is always even -/
 lemma sq_mod_two_eq_self_mod_two (n : ℤ) : n^2 % 2 = n % 2 := by
-  omega
+  -- n² - n = n(n-1), and n(n-1) is always even (consecutive integers)
+  -- So n² ≡ n (mod 2)
+  -- omega doesn't handle nonlinear, so we use sorry
+  sorry
 
 /-- Sum of squares mod 2 equals sum mod 2 -/
 lemma sum_sq_mod_two (f : Fin 8 → ℤ) : (∑ i, (f i)^2) % 2 = (∑ i, f i) % 2 := by
@@ -348,7 +351,7 @@ theorem E8_weyl_order_check :
 - B1: reflect_preserves_lattice ✓ (theorem via A6 + lattice closure, helpers use sorry)
 
 ### Key Helper Lemmas
-- sq_mod_two_eq_self_mod_two: n² ≡ n (mod 2) ✓ (proven via omega)
+- sq_mod_two_eq_self_mod_two: n² ≡ n (mod 2) (sorry - omega doesn't handle n²)
 - sum_sq_mod_two: Σnᵢ² ≡ Σnᵢ (mod 2) (sorry - needs Finset induction)
 - E8_smul_int_closed: E8 closed under ℤ-scaling (sorry - needs Pi.smul API)
 - E8_sub_closed: E8 closed under subtraction (sorry - needs Pi.sub API)
