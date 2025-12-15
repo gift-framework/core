@@ -187,13 +187,10 @@ theorem halfint_inner_halfint_is_int (v w : R8)
   -- Combine everything
   have h_total : ∑ i, ((nv i : ℝ) * (mw i : ℝ) + ((nv i : ℝ) + (mw i : ℝ)) / 2 + 1/4) =
       ∑ i, (nv i : ℝ) * (mw i : ℝ) + ∑ i, ((nv i : ℝ) + (mw i : ℝ)) / 2 + 2 := by
-    have h1 : ∀ i, (nv i : ℝ) * (mw i : ℝ) + ((nv i : ℝ) + (mw i : ℝ)) / 2 + 1/4 =
-        ((nv i : ℝ) * (mw i : ℝ) + ((nv i : ℝ) + (mw i : ℝ)) / 2) + 1/4 := fun i => add_assoc _ _ _
     have h2 : ∑ i, ((nv i : ℝ) * (mw i : ℝ) + ((nv i : ℝ) + (mw i : ℝ)) / 2 + 1/4) =
         ∑ i, ((nv i : ℝ) * (mw i : ℝ) + ((nv i : ℝ) + (mw i : ℝ)) / 2) + ∑ _ : Fin 8, (1/4 : ℝ) := by
       have h2a : ∑ i, ((nv i : ℝ) * (mw i : ℝ) + ((nv i : ℝ) + (mw i : ℝ)) / 2 + 1/4) =
-          ∑ i, (((nv i : ℝ) * (mw i : ℝ) + ((nv i : ℝ) + (mw i : ℝ)) / 2) + 1/4) := by
-        apply Finset.sum_congr rfl; intro i _; exact h1 i
+          ∑ i, (((nv i : ℝ) * (mw i : ℝ) + ((nv i : ℝ) + (mw i : ℝ)) / 2) + 1/4) := rfl
       rw [h2a, Finset.sum_add_distrib]
     rw [h2, Finset.sum_add_distrib]
     norm_num
