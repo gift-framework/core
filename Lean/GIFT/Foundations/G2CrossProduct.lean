@@ -226,16 +226,19 @@ This is true by construction: we defined epsilon using the Fano plane
 structure which is exactly the octonion multiplication table.
 -/
 
-/-- B5: Cross product structure matches octonion multiplication
+/-- B5: Cross product structure matches octonion multiplication (PROVEN)
     Every nonzero epsilon corresponds to a Fano line permutation.
 
-    Proof strategy: exhaustive check over 7³ = 343 cases.
-    simp_all approach incomplete - requires more explicit case analysis. -/
-axiom cross_is_octonion_structure :
+    Proof: exhaustive check over 7³ = 343 cases via native_decide -/
+theorem cross_is_octonion_structure :
     ∀ i j k : Fin 7, epsilon i j k ≠ 0 →
       (∃ line ∈ fano_lines, (i, j, k) = line ∨
         (j, k, i) = line ∨ (k, i, j) = line ∨
-        (k, j, i) = line ∨ (j, i, k) = line ∨ (i, k, j) = line)
+        (k, j, i) = line ∨ (j, i, k) = line ∨ (i, k, j) = line) := by
+  intro i j k h
+  fin_cases i <;> fin_cases j <;> fin_cases k <;>
+    simp only [epsilon, fano_lines] at h ⊢ <;>
+    first | exact absurd rfl h | decide
 
 /-!
 ## Connection to G2 Holonomy
@@ -285,17 +288,17 @@ theorem G2_dim_from_roots : 12 + 2 = 14 := rfl
 /-!
 ## Summary of Tier 2 Axioms (v3.5.x)
 
-**Proven Theorems (6/8):**
+**Proven Theorems (7/8):**
 - epsilon_antisymm ✅ PROVEN (exhaustive fin_cases on 7³ = 343 cases)
 - epsilon_diag ✅ PROVEN (exhaustive check on 7² = 49 cases)
 - cross_apply ✅ PROVEN (definitional, rfl)
 - B2: G2_cross_bilinear ✅ PROVEN (via cross_apply + sum linearity)
 - B3: G2_cross_antisymm ✅ PROVEN (via epsilon_antisymm + ext)
 - B3': cross_self ✅ PROVEN (via B3 + two_ne_zero)
+- B5: cross_is_octonion_structure ✅ PROVEN (fin_cases + decide)
 
-**Remaining Axioms (2/8):**
+**Remaining Axiom (1/8):**
 - B4: G2_cross_norm (Lagrange identity - requires 7D-specific proof)
-- B5: cross_is_octonion_structure (existential witness needed)
 
 NOTE: The 3D epsilon contraction identity does NOT hold in 7D!
 The 7D cross product has different algebraic structure due to
