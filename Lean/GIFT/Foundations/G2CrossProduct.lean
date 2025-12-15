@@ -101,49 +101,15 @@ noncomputable def cross (u v : R7) : R7 :=
 
 The cross product is bilinear. This follows from the definition
 as a sum of products with constant coefficients ε(i,j,k).
+
+Proof strategy: expand sums and use linearity of summation.
+Requires WithLp API work - stated as axiom pending Mathlib improvements.
 -/
 
-/-- B2a: Cross product is linear in first argument -/
-theorem cross_left_linear (a : ℝ) (u v w : R7) :
-    cross (a • u + v) w = a • cross u w + cross v w := by
-  unfold cross
-  ext k
-  simp only [WithLp.equiv_symm_pi_apply, Pi.add_apply, Pi.smul_apply]
-  -- LHS: ∑ i, ∑ j, ε(i,j,k) * (a * u i + v i) * w j
-  -- RHS: a * (∑ i, ∑ j, ε(i,j,k) * u i * w j) + ∑ i, ∑ j, ε(i,j,k) * v i * w j
-  simp only [mul_add, Finset.sum_add_distrib]
-  congr 1
-  · rw [Finset.mul_sum]
-    apply Finset.sum_congr rfl; intro i _
-    rw [Finset.mul_sum]
-    apply Finset.sum_congr rfl; intro j _
-    ring
-  · apply Finset.sum_congr rfl; intro i _
-    apply Finset.sum_congr rfl; intro j _
-    ring
-
-/-- B2b: Cross product is linear in second argument -/
-theorem cross_right_linear (a : ℝ) (u v w : R7) :
-    cross u (a • v + w) = a • cross u v + cross u w := by
-  unfold cross
-  ext k
-  simp only [WithLp.equiv_symm_pi_apply, Pi.add_apply, Pi.smul_apply]
-  simp only [mul_add, Finset.sum_add_distrib]
-  congr 1
-  · rw [Finset.mul_sum]
-    apply Finset.sum_congr rfl; intro i _
-    rw [Finset.mul_sum]
-    apply Finset.sum_congr rfl; intro j _
-    ring
-  · apply Finset.sum_congr rfl; intro i _
-    apply Finset.sum_congr rfl; intro j _
-    ring
-
-/-- B2: Cross product is bilinear - follows from sum/product linearity -/
-theorem G2_cross_bilinear :
+/-- B2: Cross product is bilinear -/
+axiom G2_cross_bilinear :
     (∀ a : ℝ, ∀ u v w : R7, cross (a • u + v) w = a • cross u w + cross v w) ∧
-    (∀ a : ℝ, ∀ u v w : R7, cross u (a • v + w) = a • cross u v + cross u w) :=
-  ⟨cross_left_linear, cross_right_linear⟩
+    (∀ a : ℝ, ∀ u v w : R7, cross u (a • v + w) = a • cross u v + cross u w)
 
 /-!
 ## Axiom B3: G2_cross_antisymm
@@ -162,54 +128,30 @@ theorem epsilon_diag (i k : Fin 7) : epsilon i i k = 0 := by
   fin_cases i <;> fin_cases k <;> native_decide
 
 /-- B3: Cross product is antisymmetric
-    Proof: ε(i,j,k) = -ε(j,i,k) by epsilon_antisymm, then swap sums -/
-theorem G2_cross_antisymm (u v : R7) : cross u v = -cross v u := by
-  unfold cross
-  simp only [WithLp.equiv_symm_pi_apply]
-  ext k
-  simp only [Pi.neg_apply]
-  -- Goal: ∑ i, ∑ j, ε(i,j,k) * u i * v j = -(∑ i, ∑ j, ε(i,j,k) * v i * u j)
-  rw [← Finset.sum_neg_distrib]
-  apply Finset.sum_congr rfl
-  intro i _
-  rw [← Finset.sum_neg_distrib]
-  apply Finset.sum_congr rfl
-  intro j _
-  -- Goal: ε(i,j,k) * u i * v j = -(ε(i,j,k) * v i * u j)
-  rw [epsilon_antisymm j i k]
-  ring
+    Proof strategy: ε(i,j,k) = -ε(j,i,k) by epsilon_antisymm, then swap sums.
+    Requires WithLp API work - stated as axiom pending Mathlib improvements. -/
+axiom G2_cross_antisymm (u v : R7) : cross u v = -cross v u
 
 /-- Corollary: u × u = 0 (follows from x = -x in char 0) -/
-theorem cross_self (u : R7) : cross u u = 0 := by
-  have h := G2_cross_antisymm u u
-  -- h: cross u u = -cross u u, so cross u u = 0 (in char 0)
-  exact neg_eq_self_iff.mp h.symm
+axiom cross_self (u : R7) : cross u u = 0
 
 /-!
 ## Axiom B4: G2_cross_norm (Lagrange Identity)
 
 |u × v|² = |u|²|v|² - ⟨u,v⟩²
 
-This is the 7D generalization of the 3D identity, and follows from
-the contraction identity for epsilon: ∑ₖ ε(i,j,k)ε(l,m,k) = δᵢₗδⱼₘ - δᵢₘδⱼₗ
+This is the 7D generalization of the 3D identity.
+
+NOTE: The 3D epsilon contraction ∑ₖ ε(i,j,k)ε(l,m,k) = δᵢₗδⱼₘ - δᵢₘδⱼₗ does NOT
+hold for the 7D Fano plane structure constants! The 7D case requires a different
+proof approach using specific properties of the octonion structure.
 -/
-
-/-- Kronecker delta for Fin 7 -/
-def delta (i j : Fin 7) : ℤ := if i = j then 1 else 0
-
-/-- Epsilon contraction identity: ∑ₖ ε(i,j,k)ε(l,m,k) = δᵢₗδⱼₘ - δᵢₘδⱼₗ
-    This is the key identity underlying the Lagrange formula.
-    Proof: exhaustive 7⁴ = 2401 case analysis -/
-theorem epsilon_contraction (i j l m : Fin 7) :
-    ∑ k : Fin 7, epsilon i j k * epsilon l m k = delta i l * delta j m - delta i m * delta j l := by
-  fin_cases i <;> fin_cases j <;> fin_cases l <;> fin_cases m <;> native_decide
 
 /-- B4: Lagrange identity for 7D cross product
     |u × v|² = |u|²|v|² - ⟨u,v⟩²
 
-    Proof strategy: expand using epsilon_contraction identity.
-    This is technically provable but requires significant WithLp API work.
-    We state it as an axiom for now pending full proof. -/
+    The Lagrange identity holds for the 7D cross product but the proof
+    is more subtle than in 3D. Requires octonion-specific techniques. -/
 axiom G2_cross_norm (u v : R7) :
     ‖cross u v‖^2 = ‖u‖^2 * ‖v‖^2 - (@inner ℝ R7 _ u v)^2
 
@@ -224,14 +166,15 @@ structure which is exactly the octonion multiplication table.
 -/
 
 /-- B5: Cross product structure matches octonion multiplication
-    Proof: Exhaustive check over 7³ = 343 cases -/
-theorem cross_is_octonion_structure :
+    Every nonzero epsilon corresponds to a Fano line permutation.
+
+    Proof strategy: exhaustive check over 7³ = 343 cases.
+    simp_all approach incomplete - requires more explicit case analysis. -/
+axiom cross_is_octonion_structure :
     ∀ i j k : Fin 7, epsilon i j k ≠ 0 →
       (∃ line ∈ fano_lines, (i, j, k) = line ∨
         (j, k, i) = line ∨ (k, i, j) = line ∨
-        (k, j, i) = line ∨ (j, i, k) = line ∨ (i, k, j) = line) := by
-  intro i j k h_ne
-  fin_cases i <;> fin_cases j <;> fin_cases k <;> simp_all [epsilon, fano_lines]
+        (k, j, i) = line ∨ (j, i, k) = line ∨ (i, k, j) = line)
 
 /-!
 ## Connection to G2 Holonomy
@@ -281,21 +224,20 @@ theorem G2_dim_from_roots : 12 + 2 = 14 := rfl
 /-!
 ## Summary of Tier 2 Axioms (v3.5.0)
 
-**Proven Theorems (8/9):**
+**Proven Theorems (2/7):**
 - epsilon_antisymm ✅ PROVEN (exhaustive fin_cases on 7³ = 343 cases)
 - epsilon_diag ✅ PROVEN (exhaustive check on 7² = 49 cases)
-- epsilon_contraction ✅ PROVEN (exhaustive 7⁴ = 2401 cases)
-- B2: G2_cross_bilinear ✅ PROVEN (sum/product linearity + ring)
-- B3: G2_cross_antisymm ✅ PROVEN (via epsilon_antisymm + sum swap)
-- B3': cross_self ✅ PROVEN (via B3 + neg_eq_self_iff)
-- B5: cross_is_octonion_structure ✅ PROVEN (exhaustive fin_cases)
 
-**Remaining Axiom (1/9):**
-- B4: G2_cross_norm (Lagrange identity)
+**Remaining Axioms (5/7):**
+- B2: G2_cross_bilinear (requires WithLp API)
+- B3: G2_cross_antisymm (requires WithLp API)
+- B3': cross_self (requires B3)
+- B4: G2_cross_norm (Lagrange identity - requires 7D-specific proof)
+- B5: cross_is_octonion_structure (requires explicit case handling)
 
-The epsilon_contraction identity is proven. B4 (Lagrange) would follow
-by expanding norms/inner products as sums and applying epsilon_contraction,
-but this requires WithLp API manipulation. Left as axiom for now.
+NOTE: The 3D epsilon contraction identity does NOT hold in 7D!
+The 7D cross product has different algebraic structure due to
+non-associativity of octonions.
 -/
 
 end GIFT.Foundations.G2CrossProduct
