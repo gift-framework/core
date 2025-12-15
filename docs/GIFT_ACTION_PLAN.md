@@ -1,267 +1,213 @@
-# GIFT Consolidated Action Plan
+# GIFT Consolidated Action Plan v3.1.0
 
 **Date**: 2025-12-15
-**Current version**: 3.5.0
-**Consolidation of**: `AXIOMS_RESOLUTION_PLAN.md` + `GIFT_v32_IMPLEMENTATION_PLAN.md`
+**Version consolidee**: 3.1.0
 
 ---
 
 ## Executive Summary
 
-Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **fait** et ce qui **reste à faire**.
+Ce plan fait le point apres plusieurs commits iteratifs. La version est consolidee a **3.1.0**.
 
 ---
 
-## Partie 1: État Actuel (v3.4.0)
+## Partie 1: Etat Actuel (v3.1.0)
 
-### Lean 4 - Ce qui est FAIT ✅
+### Lean 4 - Modules FAITS
 
 | Module | Status | Description |
 |--------|--------|-------------|
-| `Core.lean` | ✅ | Source unique pour toutes les constantes |
-| `Algebraic/Octonions.lean` | ✅ | Structure des octonions, 7 unités imaginaires |
-| `Algebraic/G2.lean` | ✅ | dim(G₂) = 14 dérivé |
-| `Algebraic/BettiNumbers.lean` | ✅ | b₂, b₃, H* dérivés des octonions |
-| `Algebraic/SO16Decomposition.lean` | ✅ | E₈ = SO(16) ⊕ Spinor |
-| `Algebraic/GeometricSaturation.lean` | ✅ | b₂ = dim(SO(7)) |
-| `Foundations/RootSystems.lean` | ✅ | 240 racines E8 prouvées |
-| `Foundations/E8Mathlib.lean` | ✅ | Connexion à CoxeterMatrix.E₈ |
-| `Foundations/E8Lattice.lean` | ✅ | Réseau E8, EuclideanSpace |
-| `Foundations/G2CrossProduct.lean` | ✅ | Produit croisé G₂ (partiellement axiomatique) |
-| `Relations/*.lean` (15 fichiers) | ✅ | 175+ relations certifiées |
-| `Certificate.lean` | ✅ | Certificat maître |
+| `Core.lean` | OK | Source unique pour toutes les constantes |
+| `Algebraic/Octonions.lean` | OK | Structure des octonions, 7 unites imaginaires |
+| `Algebraic/G2.lean` | OK | dim(G2) = 14 derive |
+| `Algebraic/BettiNumbers.lean` | OK | b2, b3, H* derives des octonions |
+| `Algebraic/SO16Decomposition.lean` | OK | E8 = SO(16) + Spinor |
+| `Algebraic/GeometricSaturation.lean` | OK | b2 = dim(SO(7)) |
+| `Foundations/RootSystems.lean` | OK | 240 racines E8 prouvees |
+| `Foundations/E8Mathlib.lean` | OK | Connexion a CoxeterMatrix.E8 |
+| `Foundations/E8Lattice.lean` | OK | Reseau E8, EuclideanSpace |
+| `Foundations/G2CrossProduct.lean` | OK | Produit croise G2 (partiellement axiomatique) |
+| `Relations/*.lean` (15 fichiers) | OK | 175+ relations certifiees |
+| `Certificate.lean` | OK | Certificat maitre |
+| `Sequences/*.lean` | OK | Fibonacci, Lucas |
+| `Primes/*.lean` | OK | Prime Atlas Tier 1-4 |
+| `Monster/*.lean` | OK | Monster dimension |
+| `McKay/*.lean` | OK | McKay correspondence |
+| `Joyce.lean` | OK | Joyce existence theorem |
+| `Sobolev.lean` | OK | Sobolev H^k |
+| `IntervalArithmetic.lean` | OK | PINN bounds |
 
-### Lean 4 - Axiomes Résolus (Tier 1)
+### Lean 4 - Axiomes par Tier
 
-| Axiome | Status | Fichier |
-|--------|--------|---------|
-| A1. `D8_roots_card = 112` | ✅ PROUVÉ | RootSystems.lean |
-| A2. `HalfInt_roots_card = 128` | ✅ PROUVÉ | RootSystems.lean |
-| A3. `E8_roots_decomposition` | ✅ PROUVÉ | RootSystems.lean |
-| A4. `D8_HalfInt_disjoint` | ✅ PROUVÉ | RootSystems.lean |
-| A5. `E8_roots_card = 240` | ✅ PROUVÉ | RootSystems.lean |
-| A6. `E8_inner_integral` | ✅ THÉORÈME | E8Lattice.lean (case analysis, helper axioms) |
-| A7. `E8_norm_sq_even` | ✅ THÉORÈME | E8Lattice.lean (case analysis, helper axioms) |
-| A8. `E8_basis_generates` | ✅ PROUVÉ | E8Lattice.lean |
-| A9. `stdBasis_orthonormal` | ✅ PROUVÉ | E8Lattice.lean |
-| A10. `stdBasis_norm` | ✅ PROUVÉ | E8Lattice.lean |
-| A11. `normSq_eq_sum` | ✅ PROUVÉ v3.4 | E8Lattice.lean (Mathlib PiLp) |
-| A12. `inner_eq_sum` | ✅ PROUVÉ v3.4 | E8Lattice.lean (Mathlib PiLp) |
-
-### Lean 4 - Tier 2 (B1-B5 + helpers)
+#### Tier 1: E8 Root System (12/12 COMPLET)
 
 | Axiome | Status | Fichier |
 |--------|--------|---------|
-| B1. `reflect_preserves_lattice` | ✅ THÉORÈME | E8Lattice.lean (via A6 + lattice closure) |
-| `epsilon_antisymm` | ✅ THÉORÈME | G2CrossProduct.lean (7³ = 343 cases) |
-| `epsilon_diag` | ✅ THÉORÈME | G2CrossProduct.lean (7² = 49 cases) |
-| `cross_apply` | ✅ THÉORÈME | G2CrossProduct.lean (rfl) |
-| B2. `G2_cross_bilinear` | ✅ THÉORÈME | G2CrossProduct.lean (ext + cross_apply) |
-| B3. `G2_cross_antisymm` | ✅ THÉORÈME | G2CrossProduct.lean (epsilon_antisymm + ext) |
-| B3'. `cross_self` | ✅ THÉORÈME | G2CrossProduct.lean (B3 + two_ne_zero) |
+| A1. `D8_roots_card = 112` | THEOREM | RootSystems.lean |
+| A2. `HalfInt_roots_card = 128` | THEOREM | RootSystems.lean |
+| A3. `E8_roots_decomposition` | THEOREM | RootSystems.lean |
+| A4. `D8_HalfInt_disjoint` | THEOREM | RootSystems.lean |
+| A5. `E8_roots_card = 240` | THEOREM | RootSystems.lean |
+| A6. `E8_inner_integral` | THEOREM* | E8Lattice.lean |
+| A7. `E8_norm_sq_even` | THEOREM* | E8Lattice.lean |
+| A8. `E8_basis_generates` | THEOREM | E8Lattice.lean |
+| A9. `stdBasis_orthonormal` | THEOREM | E8Lattice.lean |
+| A10. `stdBasis_norm` | THEOREM | E8Lattice.lean |
+| A11. `normSq_eq_sum` | THEOREM | E8Lattice.lean |
+| A12. `inner_eq_sum` | THEOREM | E8Lattice.lean |
 
-**Helper Axioms (E8Lattice):** 9 explicit axioms for Mathlib4 API:
-- `sq_mod_two_eq_self_mod_two`, `sum_sq_mod_two` — modular arithmetic
-- `inner_int_of_*` (3) — inner product integrality cases
-- `norm_sq_even_of_*` (2) — even norm² cases
-- `E8_smul_int_closed`, `E8_sub_closed` — lattice closure
+*Via case analysis + 9 helper axioms (standard number theory)
 
-### Lean 4 - Axiomes Restants (Tier 2+)
+#### Tier 2: G2 Cross Product (7/9)
 
-| Axiome | Status | Fichier | Difficulté |
-|--------|--------|---------|------------|
-| B4. `G2_cross_norm` | ⚠️ AXIOME | G2CrossProduct.lean | 7D Lagrange (non-trivial) |
-| B5. `cross_is_octonion_structure` | ⚠️ AXIOME | G2CrossProduct.lean | 343-case existential (timeout) |
-| C1-C7 (Tier 3) | ⚠️ AXIOMES | ExteriorAlgebra, etc. | Moyen |
+| Axiome | Status | Fichier |
+|--------|--------|---------|
+| `epsilon_antisymm` | THEOREM | G2CrossProduct.lean (343 cases) |
+| `epsilon_diag` | THEOREM | G2CrossProduct.lean (49 cases) |
+| `cross_apply` | THEOREM | G2CrossProduct.lean (rfl) |
+| B1. `reflect_preserves_lattice` | THEOREM | E8Lattice.lean |
+| B2. `G2_cross_bilinear` | THEOREM | G2CrossProduct.lean |
+| B3. `G2_cross_antisymm` | THEOREM | G2CrossProduct.lean |
+| B3'. `cross_self` | THEOREM | G2CrossProduct.lean |
+| B4. `G2_cross_norm` | **AXIOM** | G2CrossProduct.lean (Lagrange 7D) |
+| B5. `cross_is_octonion_structure` | **AXIOM** | G2CrossProduct.lean (existential) |
 
-**NOTE**: The 3D epsilon contraction ∑ₖ ε(i,j,k)ε(l,m,k) = δᵢₗδⱼₘ - δᵢₘδⱼₗ does NOT hold in 7D!
+#### Helper Axioms (E8Lattice.lean)
 
-### Coq - Ce qui est FAIT ✅
+9 axiomes pour arithmetique modulaire et cloture de reseau:
+- `sq_mod_two_eq_self_mod_two`, `sum_sq_mod_two`
+- `inner_int_of_*` (3 cas)
+- `norm_sq_even_of_*` (2 cas)
+- `E8_smul_int_closed`, `E8_sub_closed`
+
+#### Tier 3+ (V5 Experimental)
+
+Le dossier `Foundations/V5/` contient des formalisations experimentales:
+- `HodgeTheory.lean` - Axiomes Hodge
+- `HarmonicForms.lean` - Axiomes formes harmoniques
+- `JoyceAnalytic.lean` - Axiomes Joyce analytique
+- `G2TensorForm.lean` - Axiomes G2 tenseur
+- `ExteriorAlgebra.lean` - Algebre exterieure
+- `WedgeProduct.lean` - Produit wedge
+
+Ces fichiers restent axiomatiques et sont reserves pour recherche future.
+
+### Coq - COMPLET
 
 | Module | Status |
 |--------|--------|
-| `Algebra/E8.v`, `Algebra/G2.v` | ✅ |
-| `Topology/Betti.v` | ✅ |
-| `Geometry/K7.v`, `Geometry/Jordan.v` | ✅ |
-| `Relations/*.v` (12 fichiers) | ✅ |
-| `Certificate/AllProven.v` | ✅ |
+| `Algebra/E8.v`, `Algebra/G2.v` | OK |
+| `Topology/Betti.v` | OK |
+| `Geometry/K7.v`, `Geometry/Jordan.v` | OK |
+| `Relations/*.v` (13 fichiers) | OK |
+| `Certificate/AllProven.v` | OK |
 
-### Coq - Ce qui MANQUE ❌
-
-| Module | Description |
-|--------|-------------|
-| `Relations/SO16Decomposition.v` | ❌ E₈ = SO(16) ⊕ Spinor |
-| `Relations/LandauerDarkEnergy.v` | ❌ ln(2) × 98/99 |
-
-### Python - Ce qui est FAIT ✅
+### Python - COMPLET
 
 | Module | Status |
 |--------|--------|
-| `constants.py` | ✅ |
-| `relations.py` | ✅ |
-| `analysis/` | ✅ |
-| `geometry/` | ✅ |
-| `physics/` | ✅ |
-
-### Python - Ce qui MANQUE ❌
-
-| Module | Description |
-|--------|-------------|
-| `so16.py` | ❌ SO(16) decomposition API |
-| `landauer.py` | ❌ Landauer dark energy API |
-| `tests/test_so16.py` | ❌ Tests SO(16) |
-| `tests/test_landauer.py` | ❌ Tests Landauer |
+| `constants.py` | OK - Toutes constantes |
+| `relations.py` | OK |
+| `sequences/` | OK - Fibonacci, Lucas |
+| `primes/` | OK - Prime Atlas |
+| `monster/` | OK |
+| `mckay/` | OK |
+| `analysis/` | OK - Joyce certificate |
+| `geometry/`, `g2/`, `harmonic/` | OK |
+| `physics/`, `verification/` | OK |
+| `pipeline.py` | OK |
 
 ---
 
-## Partie 2: Actions Restantes
+## Partie 2: Comptage Final
 
-### Priorité 1: Coq Sync (Court terme)
+### Relations Certifiees
 
-**Objectif**: Synchroniser Coq avec les nouveautés Lean v3.2-v3.4
+| Categorie | Count |
+|-----------|-------|
+| Original 13 | 13 |
+| Extension 12 | 12 |
+| Yukawa duality | 10 |
+| Irrational sector | 4 |
+| Exceptional groups | 5 |
+| Base decomposition | 6 |
+| Extended decomposition | 4 |
+| Mass factorization | 11 |
+| Exceptional chain | 10 |
+| V2.0 extensions | ~90 |
+| **Total** | **175+** |
 
-```
-[ ] 1.1 Créer COQ/Relations/SO16Decomposition.v
-    - E8_SO16_decomposition
-    - geometric_is_SO16
-    - spinorial_is_128
-    - b2_equals_SO7
-    - mersenne_31
+### Axiomes par Status
 
-[ ] 1.2 Créer COQ/Relations/LandauerDarkEnergy.v
-    - vacuum_bit
-    - bit_fraction_values
+| Category | Theorems | Axioms |
+|----------|----------|--------|
+| Tier 1 (E8 roots) | 12 | 0 |
+| Helper (number theory) | 0 | 9 |
+| Tier 2 (G2 cross) | 7 | 2 |
+| V5 experimental | 0 | ~30 |
+| **Total** | **19** | **~41** |
 
-[ ] 1.3 Mettre à jour COQ/_CoqProject
-    - Ajouter nouveaux fichiers
+---
 
-[ ] 1.4 Mettre à jour COQ/Certificate/AllProven.v
-    - Ajouter all_v34_relations
-```
+## Partie 3: Actions Restantes
 
-### Priorité 2: Python API (Court terme)
-
-**Objectif**: Compléter l'API Python pour les nouvelles relations
-
-```
-[ ] 2.1 Créer gift_core/so16.py
-    - dim_SO(n) function
-    - verify_decomposition()
-    - physical_interpretation()
-
-[ ] 2.2 Créer gift_core/landauer.py
-    - bit_structure()
-    - dark_energy_formula()
-    - landauer_derivation()
-
-[ ] 2.3 Créer tests/test_so16.py
-[ ] 2.4 Créer tests/test_landauer.py
-[ ] 2.5 Mettre à jour gift_core/__init__.py
-```
-
-### Priorité 3: Axiomes Mathlib (Moyen terme)
-
-**Objectif**: Convertir les axiomes A6, A7, A11, A12 en théorèmes via Mathlib
+### Court terme (1-2 sessions)
 
 ```
-[x] 3.1 A11 normSq_eq_sum - DONE v3.4 via EuclideanSpace.norm_eq
-[x] 3.2 A12 inner_eq_sum - DONE v3.4 via PiLp.inner_apply
-[x] 3.3 A6 E8_inner_integral - DONE v3.4 case analysis (helpers with sorry)
-[x] 3.4 A7 E8_norm_sq_even - DONE v3.4 case analysis (helpers with sorry)
-[x] 3.5 B1 reflect_preserves_lattice - DONE v3.4 via A6 + closure (helpers with sorry)
+[ ] P1: Prouver B4 (Lagrange 7D) - Difficile
+[ ] P2: Prouver B5 (existential 343 cases) - Long (timeout)
 ```
 
-### Priorité 4: Tier 2-3 Axiomes (Moyen terme)
-
-**Objectif**: Algèbre linéaire et extérieure
+### Moyen terme
 
 ```
-[ ] 4.1 B2 G2_cross_bilinear - Définition via φ₀
-[ ] 4.2 B3 G2_cross_antisymm - Via antisymétrie de φ₀
-[ ] 4.3 B4 G2_cross_norm - Identité de Lagrange
-[ ] 4.4 C1 wedge_anticomm_graded - Via Mathlib ExteriorAlgebra
-[ ] 4.5 C2 wedge_anticomm_1forms - Cas particulier de C1
+[ ] P3: Eliminer les 9 helper axioms (Mathlib number theory)
+[ ] P4: Synchroniser Coq avec SO16/Landauer (si pas fait)
 ```
 
-### Priorité 5: G₂ & Analyse (Long terme)
-
-**Objectif**: Tier 4-5 axiomes
+### Long terme (recherche)
 
 ```
-[ ] 5.1 D1 gl7_action - Action de GL(7) sur 3-formes
-[ ] 5.2 D2 g2_lie_algebra - Sous-algèbre de gl(7)
-[ ] 5.3 D3 G2_dimension_14 - Via stabilisateur (déjà fait arithmétiquement)
-[ ] 5.4 E1-E4 Espaces de Sobolev - Connexion Mathlib MeasureTheory.Lp
-[ ] 5.5 E5-E8 Opérateurs de Hodge
-```
-
-### Priorité 6: Joyce & Existence (Recherche)
-
-**Objectif**: Tier 6 - Recherche ouverte
-
-```
-[ ] 6.1 F1-F4 JoyceOp - Opérateur de Joyce
-[ ] 6.2 F5-F8 joyce_existence - Théorème principal
-[ ] 6.3 F9-F10 moduli_smooth, hodge_isomorphism
+[ ] P5: Formaliser V5 axiomes (Hodge, Joyce analytique)
+[ ] P6: Tier 3+ (algebre exterieure complete)
 ```
 
 ---
 
-## Partie 3: Résumé Quantitatif
+## Partie 4: Versions
 
-### Axiomes par Tier
-
-| Tier | Total | Théorèmes | Helper Axioms | À faire |
-|------|-------|-----------|---------------|---------|
-| 1 | 12 | **12** | 7 | ✅ Complete |
-| 2 | 9 | **7** | 2 | 2 (B4, B5) |
-| 3 | 7 | 0 | 0 | 7 |
-| 4 | 9 | ~2 | 0 | 7 |
-| 5 | 12 | 0 | 0 | 12 |
-| 6 | 10 | 0 | 0 | 10 |
-| **Total** | **59** | **~21** | **9** | **38** |
-
-**v3.5.x: Tier 1 complete (12/12), Tier 2 nearly complete (7/9).**
-**B2, B3, B3' proven via cross_apply + ext trick (avoids WithLp API issues).**
-**Remaining: B4 (Lagrange), B5 (existential witness).**
-
-### Actions par Priorité
-
-| Priorité | Effort | Impact | Recommandation |
-|----------|--------|--------|----------------|
-| P1 Coq Sync | 2-3h | Haut | **FAIRE MAINTENANT** |
-| P2 Python API | 2-3h | Moyen | **FAIRE MAINTENANT** |
-| P3 Mathlib | ✅ DONE | Haut | Completed in v3.5.0 |
-| P4 Tier 2 | 7/9 ✅ | Haut | Only B4 (Lagrange) + B5 remain |
-| P5 G2/Analyse | 1+ mois | Moyen | Quand prêt |
-| P6 Joyce | Long terme | Recherche | Collaboration |
+| Version | Contenu | Date |
+|---------|---------|------|
+| v1.0.0 | 13 relations originales | - |
+| v1.7.0 | 75 relations | - |
+| v2.0.0 | 165 relations + sequences/primes/monster | - |
+| v3.0.0 | + Joyce existence theorem | - |
+| **v3.1.0** | **Consolidation, Tier 1 complet, Tier 2 a 7/9** | 2025-12-15 |
 
 ---
 
-## Partie 4: Prochaines Étapes Immédiates
+## Fichiers Cles
 
-### Session Actuelle (Suggestions)
+```
+Lean/GIFT/
+  Core.lean                    # Constantes source
+  Certificate.lean             # Certificat maitre
+  Foundations/
+    RootSystems.lean           # Tier 1 (E8 roots)
+    E8Lattice.lean             # Tier 1 (lattice) + B1
+    G2CrossProduct.lean        # Tier 2 (B2-B5)
+    V5/                        # Experimental (axiomatique)
 
-1. **Option A**: Coq Sync (P1) - ~2h
-   - Créer SO16Decomposition.v et LandauerDarkEnergy.v
+COQ/
+  _CoqProject                  # Liste des fichiers
+  Certificate/AllProven.v      # Certificat Coq
 
-2. **Option B**: Python API (P2) - ~2h
-   - Créer so16.py et landauer.py avec tests
-
-3. **Option C**: Axiomes Mathlib (P3.1-3.2) - ~3h
-   - Résoudre A11/A12 via Mathlib PiLp API
-
-4. **Option D**: Autre priorité
-   - Selon tes préférences !
-
----
-
-## Fichiers de Plan Précédents
-
-Les fichiers suivants peuvent être archivés :
-- `docs/AXIOMS_RESOLUTION_PLAN.md` → Contenu intégré ici
-- `docs/GIFT_v32_IMPLEMENTATION_PLAN.md` → v3.2 complété, reste P1-P2
+gift_core/
+  _version.py                  # Version 3.1.0
+  constants.py                 # Constantes Python
+  __init__.py                  # Exports
+```
 
 ---
 
-*Plan consolidé généré le 2025-12-15 pour GIFT Framework v3.5.0*
+*Plan consolide v3.1.0 - 2025-12-15*

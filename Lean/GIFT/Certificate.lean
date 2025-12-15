@@ -1,6 +1,12 @@
 -- GIFT Certificate module
 -- Final certification theorems
--- Version: 3.2.0 (175+ certified relations + Joyce + Foundations V5)
+-- Version: 3.1.0 (175+ certified relations + Joyce + Foundations)
+--
+-- Consolidation v3.1.0:
+-- - Tier 1: 12/12 axiomes -> theorems (avec 9 helper axioms)
+-- - Tier 2: 7/9 theorems (B2, B3, B3' prouvés, B4/B5 restent axiomatiques)
+-- - 175+ relations arithmétiques certifiées
+-- - Joyce existence theorem
 
 import GIFT.Core
 import GIFT.Relations
