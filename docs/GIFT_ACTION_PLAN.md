@@ -42,6 +42,8 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 | A5. `E8_roots_card = 240` | ✅ PROUVÉ | RootSystems.lean |
 | A9. `stdBasis_orthonormal` | ✅ PROUVÉ | E8Lattice.lean |
 | A10. `stdBasis_norm` | ✅ PROUVÉ | E8Lattice.lean |
+| A11. `normSq_eq_sum` | ✅ PROUVÉ v3.4 | E8Lattice.lean (Mathlib PiLp) |
+| A12. `inner_eq_sum` | ✅ PROUVÉ v3.4 | E8Lattice.lean (Mathlib PiLp) |
 
 ### Lean 4 - Axiomes Restants
 
@@ -50,8 +52,6 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 | A6. `E8_inner_integral` | ⚠️ AXIOME | E8Lattice.lean | Accessible |
 | A7. `E8_norm_sq_even` | ⚠️ AXIOME | E8Lattice.lean | Accessible |
 | A8. `E8_basis_generates` | ⚠️ TRIVIAL | E8Lattice.lean | Facile |
-| A11. `normSq_eq_sum` | ⚠️ AXIOME | E8Lattice.lean | Mathlib API |
-| A12. `inner_eq_sum` | ⚠️ AXIOME | E8Lattice.lean | Mathlib API |
 | B1. `reflect_preserves_lattice` | ⚠️ AXIOME | E8Lattice.lean | Moyen |
 
 ### Coq - Ce qui est FAIT ✅
@@ -142,8 +142,8 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 **Objectif**: Convertir les axiomes A6, A7, A11, A12 en théorèmes via Mathlib
 
 ```
-[ ] 3.1 A11 normSq_eq_sum - Utiliser PiLp.norm_sq
-[ ] 3.2 A12 inner_eq_sum - Utiliser PiLp.inner_apply
+[x] 3.1 A11 normSq_eq_sum - DONE v3.4 via EuclideanSpace.norm_eq
+[x] 3.2 A12 inner_eq_sum - DONE v3.4 via PiLp.inner_apply
 [ ] 3.3 A6 E8_inner_integral - Preuve par cas (entier/demi-entier)
 [ ] 3.4 A7 E8_norm_sq_even - Preuve par cas
 [ ] 3.5 B1 reflect_preserves_lattice - Via A6
