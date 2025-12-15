@@ -7,7 +7,7 @@ This file contains development conventions and lessons learned to avoid repeatin
 ```
 gift-framework/core/
 ├── Lean/                    # Lean 4 formal proofs
-│   ├── GIFT.lean           # Main entry point (v4.0.0)
+│   ├── GIFT.lean           # Main entry point (v3.1.0)
 │   ├── GIFT/
 │   │   ├── Algebra.lean    # E8, G2, E7, F4, E6 constants
 │   │   ├── Topology.lean   # Betti numbers, H*, p2
@@ -41,7 +41,7 @@ gift-framework/core/
 │
 ├── gift_core/              # Python package
 │   ├── __init__.py         # Exports (update when adding constants!)
-│   ├── _version.py         # Version string (4.0.0)
+│   ├── _version.py         # Version string (3.1.0)
 │   ├── constants.py        # All certified constants
 │   ├── sequences/          # [v2.0] Fibonacci, Lucas embeddings
 │   ├── primes/             # [v2.0] Prime Atlas functions
@@ -361,4 +361,4 @@ Golden ratio derived from its definition, Fibonacci embedding proven.
 
 ---
 
-*Last updated: 2025-12-14 - 165+ relations + Joyce + Real Mathematics (v3.1.0)*
+*Last updated: 2025-12-15 - 175+ relations + Joyce + Tier 1 complete (v3.1.0)*
