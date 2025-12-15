@@ -2,9 +2,7 @@
 Copyright (c) 2025 GIFT Framework. All rights reserved.
 Released under MIT license.
 -/
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Relations
 import GIFT.Relations.ExceptionalGroups
 
@@ -31,7 +29,7 @@ consistent decomposition base for all primary GIFT topological constants.
 
 namespace GIFT.Relations.BaseDecomposition
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Core GIFT.Relations
 open GIFT.Relations.ExceptionalGroups
 
 /-! ## Relation 45: kappa_T^-1 decomposition -/
@@ -88,7 +86,7 @@ theorem H_star_intermediate : alpha_sq_B_sum * dim_K7 = 91 := by native_decide
 /-! ## Relation 49: Quotient sum -/
 
 /-- The three quotient-derived constants sum to ALPHA_SUM_B -/
-theorem quotient_sum : Algebra.dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum := by native_decide
+theorem quotient_sum : dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum := by native_decide
 
 /-- Verification: 1 + 5 + 7 = 13 -/
 theorem quotient_sum_check : 1 + 5 + 7 = 13 := rfl
@@ -98,7 +96,7 @@ theorem quotient_sum_check : 1 + 5 + 7 = 13 := rfl
     - 5 = Weyl = dim(K7) - p2
     - 7 = dim(K7) = manifold dimension -/
 theorem quotient_origins :
-    Algebra.dim_U1 = 1 ∧ Weyl_factor = dim_K7 - p2 ∧ dim_K7 = 7 := by
+    dim_U1 = 1 ∧ Weyl_factor = dim_K7 - p2 ∧ dim_K7 = 7 := by
   constructor; rfl
   constructor; native_decide
   rfl
@@ -148,7 +146,7 @@ theorem all_6_base_decomposition_certified :
     -- Relation 48: H* decomposition
     (H_star = alpha_sq_B_sum * dim_K7 + rank_E8) ∧
     -- Relation 49: quotient sum
-    (Algebra.dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum) ∧
+    (dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum) ∧
     -- Relation 50: Omega_DE numerator
     (dim_K7 * dim_G2 = 98 ∧ dim_K7 * dim_G2 = H_star - 1) := by
   repeat (first | constructor | native_decide | rfl)
@@ -228,7 +226,7 @@ theorem all_10_decomposition_certified :
     (b2 = alpha_sq_B_sum + rank_E8) ∧
     (b3 = alpha_sq_B_sum * Weyl_factor + 12) ∧
     (H_star = alpha_sq_B_sum * dim_K7 + rank_E8) ∧
-    (Algebra.dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum) ∧
+    (dim_U1 + Weyl_factor + dim_K7 = alpha_sq_B_sum) ∧
     (dim_K7 * dim_G2 = 98) ∧
     -- Relations 51-54 (extended)
     (1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num_reduced) ∧

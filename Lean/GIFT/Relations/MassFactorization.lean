@@ -13,14 +13,12 @@
 -- - Relation 60-64: Triade 9-18-34 (Fibonacci/Lucas)
 -- - Relation 65: Gap color formula
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Relations
 
 namespace GIFT.Relations.MassFactorization
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Core GIFT.Relations
 
 /-- Inverse torsion coefficient (= kappa_T_den = 61) -/
 def kappa_T_inv : Nat := 61
@@ -28,13 +26,6 @@ def kappa_T_inv : Nat := 61
 -- =============================================================================
 -- MASS FACTORIZATION THEOREM (Relations 55-56)
 -- =============================================================================
-
-/-- The 8th prime number -/
-def prime_8 : Nat := 19
-
-/-- Verify: 19 is the 8th prime (primes: 2,3,5,7,11,13,17,19) -/
--- We verify this by direct computation of primality
-theorem prime_8_is_19 : prime_8 = 19 := rfl
 
 /-- Factor 1: N_gen = 3 (from Atiyah-Singer index) -/
 def mass_factor_Ngen : Nat := N_gen

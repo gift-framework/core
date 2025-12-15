@@ -1,22 +1,50 @@
--- GIFT Topology module
--- Betti numbers and topological invariants
+import GIFT.Core
+
+/-!
+# GIFT Topology Module (DEPRECATED)
+
+⚠️ **DEPRECATED**: Use `import GIFT.Core` instead.
+
+This module is maintained for backward compatibility only.
+All constants are now re-exported from `GIFT.Core`.
+
+## Migration Guide
+
+Replace:
+```lean
+import GIFT.Topology
+open GIFT.Topology
+```
+
+With:
+```lean
+import GIFT.Core
+open GIFT.Core
+```
+
+## Why the change?
+
+`GIFT.Core` provides a single source of truth for all GIFT constants.
+The Betti numbers are now derived from octonion structure:
+- b₂ = C(7,2) = 21 (from imaginary unit pairs)
+- b₃ = b₂ + fund(E₇) = 77
+- H* = b₂ + b₃ + 1 = 99
+
+See `GIFT.Algebraic.BettiNumbers` for the derivation.
+-/
 
 namespace GIFT.Topology
 
-/-- Second Betti number of K7 -/
-def b2 : Nat := 21
+-- Re-export all constants from Core for backward compatibility
+export GIFT.Core (
+  b2 b3 H_star fund_E7
+  p2 kappa_T_den det_g_num det_g_den
+)
 
-/-- Third Betti number of K7 (TCS: 40 + 37) -/
-def b3 : Nat := 77
-
-/-- Effective degrees of freedom H* = b2 + b3 + 1 -/
-def H_star : Nat := b2 + b3 + 1
-
+-- Legacy theorems for compatibility
 theorem H_star_certified : H_star = 99 := rfl
-
-/-- Pontryagin class contribution p2 -/
-def p2 : Nat := 2
-
 theorem p2_certified : p2 = 2 := rfl
+theorem b2_certified : b2 = 21 := rfl
+theorem b3_certified : b3 = 77 := rfl
 
 end GIFT.Topology

@@ -1,8 +1,31 @@
-/-
-  GIFT Algebraic Foundations
-  ==========================
+-- Import all submodules
+import GIFT.Algebraic.Quaternions
+import GIFT.Algebraic.Octonions
+import GIFT.Algebraic.CayleyDickson
+import GIFT.Algebraic.G2
+import GIFT.Algebraic.BettiNumbers
+import GIFT.Algebraic.GIFTConstants
+-- V3.2: SO(16) Decomposition
+import GIFT.Algebraic.SO16Decomposition
+import GIFT.Algebraic.GeometricSaturation
 
-  Module entry point for the octonion-based formalization.
+/-!
+# GIFT Algebraic Foundations (PREFERRED)
+
+Module entry point for the octonion-based formalization.
+
+## Status: CURRENT — Use this for new code
+
+This module **derives** constants from mathematical structure rather than
+defining them as arbitrary values. Prefer this over GIFT.Algebra/Topology.
+
+## Comparison with Legacy Modules
+
+| This Module | Legacy Module | Difference |
+|-------------|---------------|------------|
+| BettiNumbers.b2 = C(7,2) | Topology.b2 = 21 | Derived vs defined |
+| G2.dim_G2 = 2 × imaginary_count | Algebra.dim_G2 = 14 | Derived vs defined |
+| Octonions.imaginary_count = 7 | (none) | Foundational |
 
   This module formalizes the algebraic chain:
     ℍ → 𝕆 → G₂ → b₂, b₃ → GIFT constants
@@ -64,17 +87,6 @@
   #check gift_from_octonions
   ```
 -/
-
--- Import all submodules
-import GIFT.Algebraic.Quaternions
-import GIFT.Algebraic.Octonions
-import GIFT.Algebraic.CayleyDickson
-import GIFT.Algebraic.G2
-import GIFT.Algebraic.BettiNumbers
-import GIFT.Algebraic.GIFTConstants
--- V3.2: SO(16) Decomposition
-import GIFT.Algebraic.SO16Decomposition
-import GIFT.Algebraic.GeometricSaturation
 
 namespace GIFT.Algebraic
 

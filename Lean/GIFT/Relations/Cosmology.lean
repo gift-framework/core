@@ -2,15 +2,13 @@
 -- n_s (spectral index), Ω_DE (dark energy density)
 -- Extension: +3 certified relations
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Relations
 import Mathlib.Data.Nat.Prime.Basic
 
 namespace GIFT.Relations.Cosmology
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Core GIFT.Relations
 
 -- =============================================================================
 -- RELATION #23: n_s INDICES
@@ -131,7 +129,7 @@ theorem age_universe_gift : age_universe_unit = dim_E7 + Weyl_factor := by nativ
 /-- RELATION 220: Critical density parameter structure
     Omega_total = 1.000 (flat universe)
     1 = dim_U1 -/
-theorem omega_total : Algebra.dim_U1 = 1 := rfl
+theorem omega_total : dim_U1 = 1 := rfl
 
 -- =============================================================================
 -- V2.0: COSMOLOGICAL PHI CONNECTIONS

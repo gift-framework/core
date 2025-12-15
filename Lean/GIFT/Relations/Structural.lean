@@ -2,14 +2,12 @@
 -- Fundamental structural relations derived from K7 topology
 -- Extension: +6 certified relations
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import Mathlib.Data.Nat.Prime.Basic
 
 namespace GIFT.Relations.Structural
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry
+open GIFT.Core
 
 -- =============================================================================
 -- RELATION #29: H* = b₂ + b₃ + 1 = 99

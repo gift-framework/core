@@ -287,6 +287,78 @@ print(r.derivation)  # How it's derived
 print(r.status)      # "Lean + Coq"
 ```
 
+## Lean 4 Usage (v3.3+)
+
+### GIFT.Core - Single Source of Truth
+
+As of v3.3, use `GIFT.Core` for all GIFT constants:
+
+```lean
+import GIFT.Core
+open GIFT.Core
+
+-- All constants are available
+#check b2        -- 21
+#check b3        -- 77
+#check H_star    -- 99
+#check dim_E8    -- 248
+#check dim_G2    -- 14
+```
+
+### Migration from Legacy Modules
+
+If you have code using `GIFT.Algebra`, `GIFT.Topology`, or `GIFT.Geometry`:
+
+**Before:**
+```lean
+import GIFT.Algebra
+import GIFT.Topology
+import GIFT.Geometry
+open GIFT.Algebra GIFT.Topology GIFT.Geometry
+```
+
+**After:**
+```lean
+import GIFT.Core
+open GIFT.Core
+```
+
+The legacy modules still work (they re-export from Core), but new code should use Core directly.
+
+### Constant Derivation Hierarchy
+
+Constants are derived from octonion structure:
+
+```
+GIFT.Algebraic.Octonions
+  └─ imaginary_count = 7
+
+GIFT.Algebraic.G2
+  └─ dim_G2 = 2 × imaginary_count = 14
+
+GIFT.Algebraic.BettiNumbers
+  ├─ b2 = C(7,2) = 21
+  ├─ fund_E7 = 2 × b2 + dim_G2 = 56
+  ├─ b3 = b2 + fund_E7 = 77
+  └─ H_star = b2 + b3 + 1 = 99
+
+GIFT.Core
+  ├─ Re-exports from Algebraic modules
+  └─ Defines remaining constants (dim_E8, dim_K7, etc.)
+```
+
+### Available Constants in GIFT.Core
+
+| Category | Constants |
+|----------|-----------|
+| **Octonion-derived** | `imaginary_count`, `dim_G2`, `rank_G2`, `b2`, `b3`, `H_star`, `fund_E7` |
+| **Exceptional Lie** | `dim_E8`, `rank_E8`, `dim_E8xE8`, `dim_E7`, `dim_E6`, `dim_F4` |
+| **Geometry** | `dim_K7`, `dim_J3O`, `D_bulk` |
+| **Topology** | `p2`, `det_g_num`, `det_g_den`, `kappa_T_den` |
+| **Weyl Group** | `Weyl_factor`, `Weyl_sq`, `weyl_E8_order` |
+| **Standard Model** | `dim_SU3`, `dim_SU2`, `dim_U1`, `dim_SM_gauge` |
+| **Primes** | `prime_6`, `prime_8`, `prime_11` |
+
 ## Version History
 
 See [CHANGELOG.md](../CHANGELOG.md) for detailed version history.

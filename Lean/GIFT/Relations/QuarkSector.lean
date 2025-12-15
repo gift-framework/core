@@ -2,13 +2,11 @@
 -- Strange/down mass ratio and quark mass structures
 -- Extension: +4 certified relations
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 
 namespace GIFT.Relations.QuarkSector
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry
+open GIFT.Core
 
 -- =============================================================================
 -- RELATION #35: m_s/m_d RATIO

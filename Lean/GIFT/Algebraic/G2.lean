@@ -168,11 +168,9 @@ theorem order_PSL27_factorization : order_PSL27 = 7 * 24 := rfl
 /-- 168 = 3 × 56 -/
 theorem order_PSL27_alt : order_PSL27 = 3 * 56 := rfl
 
-/-- Connection to GIFT: 168 = rank(E₈) × b₂ -/
-def rank_E8 : ℕ := 8
-def b2 : ℕ := 21
-
-theorem magic_168 : order_PSL27 = rank_E8 * b2 := rfl
+/-- Connection to GIFT: 168 = rank(E₈) × b₂ = 8 × 21
+    Note: Using literals to avoid circular import with BettiNumbers -/
+theorem magic_168 : order_PSL27 = 8 * 21 := rfl
 
 /-!
 ## Summary: Why dim(G₂) = 14

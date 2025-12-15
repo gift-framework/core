@@ -5,6 +5,67 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0] - 2025-12-15
+
+### Added
+
+- **GIFT.Core Module**: Single source of truth for all GIFT constants.
+  Eliminates duplicate definitions and provides a unified import.
+
+### Changed
+
+- **Import Consolidation**: All Relations modules now use `import GIFT.Core`
+  instead of separate imports for Algebra, Topology, and Geometry.
+
+- **Deprecated Legacy Modules**:
+  - `GIFT.Algebra` → Now re-exports from `GIFT.Core`
+  - `GIFT.Topology` → Now re-exports from `GIFT.Core`
+  - `GIFT.Geometry` → Now re-exports from `GIFT.Core`
+
+### Migration Guide
+
+Replace:
+```lean
+import GIFT.Algebra
+import GIFT.Topology
+import GIFT.Geometry
+open GIFT.Algebra GIFT.Topology GIFT.Geometry
+```
+
+With:
+```lean
+import GIFT.Core
+open GIFT.Core
+```
+
+### Key Benefits
+
+1. **Single Source of Truth**: All constants defined in one place
+2. **No Duplicates**: Eliminates duplicate `dim_E8`, `b2`, etc. definitions
+3. **Derived Constants**: Constants are derived from octonion structure
+4. **Backward Compatible**: Legacy modules still work (re-export from Core)
+
+### Constant Hierarchy
+
+```
+GIFT.Algebraic.Octonions
+  └─ imaginary_count = 7
+
+GIFT.Algebraic.G2
+  └─ dim_G2 = 2 × imaginary_count = 14
+
+GIFT.Algebraic.BettiNumbers
+  ├─ b2 = C(7,2) = 21
+  ├─ fund_E7 = 2 × b2 + dim_G2 = 56
+  ├─ b3 = b2 + fund_E7 = 77
+  └─ H_star = b2 + b3 + 1 = 99
+
+GIFT.Core
+  ├─ Re-exports: imaginary_count, dim_G2, b2, b3, H_star, ...
+  ├─ Defines: dim_E8, rank_E8, dim_K7, p2, Weyl_factor, ...
+  └─ All theorems for certified values
+```
+
 ## [3.2.0] - 2025-12-15
 
 ### Added
