@@ -124,34 +124,15 @@ as a sum of products with constant coefficients ε(i,j,k).
 theorem cross_left_linear (a : ℝ) (u v w : R7) :
     cross (a • u + v) w = a • cross u w + cross v w := by
   ext k
-  simp only [cross_apply, PiLp.add_apply, PiLp.smul_apply]
-  -- Expand (a • u i + v i) and distribute
-  simp only [smul_eq_mul, add_mul, mul_assoc, Finset.sum_add_distrib]
-  congr 1
-  · rw [Finset.mul_sum]
-    apply Finset.sum_congr rfl; intro i _
-    rw [Finset.mul_sum]
-    apply Finset.sum_congr rfl; intro j _
-    ring
-  · apply Finset.sum_congr rfl; intro i _
-    apply Finset.sum_congr rfl; intro j _
-    ring
+  simp only [cross_apply, PiLp.add_apply, PiLp.smul_apply, smul_eq_mul]
+  ring
 
 /-- B2b: Cross product is linear in second argument (PROVEN) -/
 theorem cross_right_linear (a : ℝ) (u v w : R7) :
     cross u (a • v + w) = a • cross u v + cross u w := by
   ext k
-  simp only [cross_apply, PiLp.add_apply, PiLp.smul_apply]
-  simp only [smul_eq_mul, mul_add, mul_assoc, Finset.sum_add_distrib]
-  congr 1
-  · rw [Finset.mul_sum]
-    apply Finset.sum_congr rfl; intro i _
-    rw [Finset.mul_sum]
-    apply Finset.sum_congr rfl; intro j _
-    ring
-  · apply Finset.sum_congr rfl; intro i _
-    apply Finset.sum_congr rfl; intro j _
-    ring
+  simp only [cross_apply, PiLp.add_apply, PiLp.smul_apply, smul_eq_mul]
+  ring
 
 /-- B2: Cross product is bilinear (PROVEN) -/
 theorem G2_cross_bilinear :
@@ -177,13 +158,12 @@ theorem G2_cross_antisymm (u v : R7) : cross u v = -cross v u := by
   conv_rhs =>
     arg 1  -- the sum inside negation
     rw [Finset.sum_comm]  -- swap order of sums
-  simp only [← Finset.sum_neg_distrib, ← Finset.sum_neg_distrib]
+  simp only [← Finset.sum_neg_distrib]
   apply Finset.sum_congr rfl; intro i _
   apply Finset.sum_congr rfl; intro j _
   -- Goal: ε(i,j,k) * u i * v j = -(ε(j,i,k) * v j * u i)
   have h := epsilon_antisymm i j k
-  simp only [Int.cast_neg] at h
-  rw [h]
+  simp only [Int.cast_neg, h]
   ring
 
 /-- B3': u × u = 0 (PROVEN) - follows from antisymmetry -/
