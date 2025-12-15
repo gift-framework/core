@@ -58,7 +58,7 @@ Ce plan fait le point apres plusieurs commits iteratifs. La version est consolid
 
 *Via case analysis + 9 helper axioms (standard number theory)
 
-#### Tier 2: G2 Cross Product (7/9)
+#### Tier 2: G2 Cross Product (8/9) - Updated v3.1.0
 
 | Axiome | Status | Fichier |
 |--------|--------|---------|
@@ -70,15 +70,22 @@ Ce plan fait le point apres plusieurs commits iteratifs. La version est consolid
 | B3. `G2_cross_antisymm` | THEOREM | G2CrossProduct.lean |
 | B3'. `cross_self` | THEOREM | G2CrossProduct.lean |
 | B4. `G2_cross_norm` | **AXIOM** | G2CrossProduct.lean (Lagrange 7D) |
-| B5. `cross_is_octonion_structure` | **AXIOM** | G2CrossProduct.lean (existential) |
+| B5. `cross_is_octonion_structure` | THEOREM | G2CrossProduct.lean (v3.1.0) |
 
-#### Helper Axioms (E8Lattice.lean)
+#### Helper Lemmas (E8Lattice.lean) - ALL PROVEN v3.1.0
 
-9 axiomes pour arithmetique modulaire et cloture de reseau:
-- `sq_mod_two_eq_self_mod_two`, `sum_sq_mod_two`
-- `inner_int_of_*` (3 cas)
-- `norm_sq_even_of_*` (2 cas)
-- `E8_smul_int_closed`, `E8_sub_closed`
+11 lemmes (anciens axiomes) maintenant prouves:
+- `sq_mod_two_eq_self_mod_two` THEOREM (via Int.even_mul_pred_self)
+- `sum_sq_mod_two` THEOREM (via sq_mod_two)
+- `inner_int_of_both_int` THEOREM
+- `inner_int_of_both_half_int` THEOREM (via SumEven)
+- `inner_int_of_int_half` THEOREM (via SumEven)
+- `norm_sq_even_of_int_even_sum` THEOREM
+- `norm_sq_even_of_half_int_even_sum` THEOREM
+- `E8_smul_int_closed` THEOREM (parity case analysis)
+- `E8_sub_closed` THEOREM (via add + neg)
+- `E8_add_closed` THEOREM (new)
+- `E8_neg_closed` THEOREM (new)
 
 #### Tier 3+ (V5 Experimental)
 
@@ -137,15 +144,15 @@ Ces fichiers restent axiomatiques et sont reserves pour recherche future.
 | V2.0 extensions | ~90 |
 | **Total** | **175+** |
 
-### Axiomes par Status
+### Axiomes par Status (Updated v3.1.0)
 
 | Category | Theorems | Axioms |
 |----------|----------|--------|
 | Tier 1 (E8 roots) | 12 | 0 |
-| Helper (number theory) | 0 | 9 |
-| Tier 2 (G2 cross) | 7 | 2 |
+| Helper lemmas | **11** | **0** |
+| Tier 2 (G2 cross) | **8** | **1** (B4 only) |
 | V5 experimental | 0 | ~30 |
-| **Total** | **19** | **~41** |
+| **Total** | **31** | **~31** |
 
 ---
 
@@ -154,14 +161,14 @@ Ces fichiers restent axiomatiques et sont reserves pour recherche future.
 ### Court terme (1-2 sessions)
 
 ```
-[ ] P1: Prouver B4 (Lagrange 7D) - Difficile
-[ ] P2: Prouver B5 (existential 343 cases) - Long (timeout)
+[ ] P1: Prouver B4 (Lagrange 7D) - Difficile (requires epsilon contraction)
+[x] P2: Prouver B5 (existential 343 cases) - DONE v3.1.0
 ```
 
 ### Moyen terme
 
 ```
-[ ] P3: Eliminer les 9 helper axioms (Mathlib number theory)
+[x] P3: Eliminer les 9 helper axioms - DONE v3.1.0 (11 theorems now)
 [ ] P4: Synchroniser Coq avec SO16/Landauer (si pas fait)
 ```
 
