@@ -103,10 +103,47 @@ The cross product is bilinear. This follows from the definition
 as a sum of products with constant coefficients ε(i,j,k).
 -/
 
+/-- B2a: Cross product is linear in first argument -/
+theorem cross_left_linear (a : ℝ) (u v w : R7) :
+    cross (a • u + v) w = a • cross u w + cross v w := by
+  unfold cross
+  ext k
+  simp only [WithLp.equiv_symm_pi_apply, Pi.add_apply, Pi.smul_apply]
+  -- LHS: ∑ i, ∑ j, ε(i,j,k) * (a * u i + v i) * w j
+  -- RHS: a * (∑ i, ∑ j, ε(i,j,k) * u i * w j) + ∑ i, ∑ j, ε(i,j,k) * v i * w j
+  simp only [mul_add, Finset.sum_add_distrib]
+  congr 1
+  · rw [Finset.mul_sum]
+    apply Finset.sum_congr rfl; intro i _
+    rw [Finset.mul_sum]
+    apply Finset.sum_congr rfl; intro j _
+    ring
+  · apply Finset.sum_congr rfl; intro i _
+    apply Finset.sum_congr rfl; intro j _
+    ring
+
+/-- B2b: Cross product is linear in second argument -/
+theorem cross_right_linear (a : ℝ) (u v w : R7) :
+    cross u (a • v + w) = a • cross u v + cross u w := by
+  unfold cross
+  ext k
+  simp only [WithLp.equiv_symm_pi_apply, Pi.add_apply, Pi.smul_apply]
+  simp only [mul_add, Finset.sum_add_distrib]
+  congr 1
+  · rw [Finset.mul_sum]
+    apply Finset.sum_congr rfl; intro i _
+    rw [Finset.mul_sum]
+    apply Finset.sum_congr rfl; intro j _
+    ring
+  · apply Finset.sum_congr rfl; intro i _
+    apply Finset.sum_congr rfl; intro j _
+    ring
+
 /-- B2: Cross product is bilinear - follows from sum/product linearity -/
-axiom G2_cross_bilinear :
+theorem G2_cross_bilinear :
     (∀ a : ℝ, ∀ u v w : R7, cross (a • u + v) w = a • cross u w + cross v w) ∧
-    (∀ a : ℝ, ∀ u v w : R7, cross u (a • v + w) = a • cross u v + cross u w)
+    (∀ a : ℝ, ∀ u v w : R7, cross u (a • v + w) = a • cross u v + cross u w) :=
+  ⟨cross_left_linear, cross_right_linear⟩
 
 /-!
 ## Axiom B3: G2_cross_antisymm
