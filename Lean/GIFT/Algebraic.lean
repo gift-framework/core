@@ -14,7 +14,7 @@
 
   1. **Quaternions.lean**: K₄ ↔ ℍ correspondence
      - dim(ℍ) = 4 = |V(K₄)|
-     - 3 imaginary units with anti-commutative multiplication
+     - 3 imaginary units
 
   2. **Octonions.lean**: 𝕆 structure
      - dim(𝕆) = 8
@@ -88,8 +88,9 @@ export G2 (dim_G2 rank_G2)
 -- Betti numbers (derived!)
 export BettiNumbers (b2 b3 H_star fund_E7)
 
--- Physical constants
-export GIFTConstants (sin2_theta_W Q_Koide N_gen gamma_GIFT)
+-- Physical constants (as integer numerator/denominator pairs)
+export GIFTConstants (N_gen sin2_theta_W_num_simp sin2_theta_W_den_simp
+                      Q_Koide_num_simp Q_Koide_den_simp)
 
 /-!
 ## Summary Theorems
@@ -100,15 +101,26 @@ theorem betti_derivation :
     BettiNumbers.b2 = Nat.choose Octonions.imaginary_count 2 ∧
     BettiNumbers.b3 = BettiNumbers.b2 + BettiNumbers.fund_E7 ∧
     BettiNumbers.H_star = BettiNumbers.b2 + BettiNumbers.b3 + 1 :=
-  ⟨rfl, by simp [BettiNumbers.b3, BettiNumbers.b2, BettiNumbers.fund_E7,
-                 G2.dim_G2, Octonions.imaginary_count]; ring, rfl⟩
+  ⟨rfl, rfl, rfl⟩
 
 /-- Physical predictions from algebraic structure -/
 theorem physical_predictions :
-    GIFTConstants.sin2_theta_W = 3 / 13 ∧
-    GIFTConstants.Q_Koide = 2 / 3 ∧
+    -- sin²θ_W = 3/13 (as fraction)
+    GIFTConstants.sin2_theta_W_num_simp = 3 ∧
+    GIFTConstants.sin2_theta_W_den_simp = 13 ∧
+    -- Q_Koide = 2/3 (as fraction)
+    GIFTConstants.Q_Koide_num_simp = 2 ∧
+    GIFTConstants.Q_Koide_den_simp = 3 ∧
+    -- N_gen = 3
     GIFTConstants.N_gen = 3 :=
-  ⟨GIFTConstants.sin2_theta_W_simplified,
-   GIFTConstants.Q_Koide_simplified, rfl⟩
+  ⟨rfl, rfl, rfl, rfl, rfl⟩
+
+/-- Cross-multiplication verification for sin²θ_W = 3/13 -/
+theorem sin2_theta_W_verified : 21 * 13 = 3 * 91 :=
+  GIFTConstants.sin2_theta_W_simplified
+
+/-- Cross-multiplication verification for Q_Koide = 2/3 -/
+theorem Q_Koide_verified : 14 * 3 = 2 * 21 :=
+  GIFTConstants.Q_Koide_simplified
 
 end GIFT.Algebraic

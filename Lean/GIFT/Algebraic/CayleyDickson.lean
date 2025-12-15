@@ -15,8 +15,9 @@
   Key imaginary sequence: 0, 1, 3, 7, 15, ... = 2ⁿ - 1
 -/
 
-import Mathlib.Algebra.Quaternion
 import Mathlib.Data.Nat.Basic
+import Mathlib.Data.Nat.Choose.Basic
+import Mathlib.Algebra.Order.Ring.Nat
 import GIFT.Algebraic.Quaternions
 import GIFT.Algebraic.Octonions
 
@@ -50,8 +51,7 @@ theorem dim_O_eq : dim_O = dim_seq 3 := rfl
 
 /-- Each step doubles dimension -/
 theorem doubling (n : ℕ) : dim_seq (n + 1) = 2 * dim_seq n := by
-  simp [dim_seq, pow_succ]
-  ring
+  simp only [dim_seq, pow_succ, mul_comm]
 
 /-!
 ## Imaginary Unit Counts
@@ -105,8 +105,7 @@ The Cayley-Dickson construction gives natural embeddings:
 
 /-- The 3 imaginary units of ℍ embed into the 7 of 𝕆 -/
 theorem quaternion_imaginary_embed :
-    Quaternions.imaginary_count ≤ Octonions.imaginary_count := by
-  simp [Quaternions.imaginary_count, Octonions.imaginary_count]
+    Quaternions.imaginary_count ≤ Octonions.imaginary_count := by decide
 
 /-- Specifically: 3 ≤ 7 with 4 new imaginary units added -/
 theorem new_imaginary_in_octonions :
@@ -114,8 +113,7 @@ theorem new_imaginary_in_octonions :
 
 /-- The 4 new units come from the doubling: ℍ × {0,1} has 4 "new" slots -/
 theorem doubling_adds_four :
-    dim_H = Octonions.imaginary_count - Quaternions.imaginary_count + 1 := by
-  simp [dim_H, Octonions.imaginary_count, Quaternions.imaginary_count]
+    dim_H = Octonions.imaginary_count - Quaternions.imaginary_count + 1 := rfl
 
 /-!
 ## Pairs Decomposition
