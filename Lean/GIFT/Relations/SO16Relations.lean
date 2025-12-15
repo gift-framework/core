@@ -13,12 +13,16 @@
 
 import GIFT.Algebraic.SO16Decomposition
 import GIFT.Algebraic.BettiNumbers
+import GIFT.Algebraic.G2
+import GIFT.Algebraic.Octonions
 import GIFT.Algebra
 
 namespace GIFT.Relations.SO16Relations
 
 open GIFT.Algebraic.SO16Decomposition
 open GIFT.Algebraic.BettiNumbers
+open GIFT.Algebraic.G2
+open GIFT.Algebraic.Octonions
 
 /-!
 ## Mersenne 31 Relations

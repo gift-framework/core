@@ -12,10 +12,11 @@
 
 import GIFT.Algebraic.BettiNumbers
 import GIFT.Algebraic.SO16Decomposition
+import GIFT.Algebraic.G2
 
 namespace GIFT.Algebraic.GeometricSaturation
 
-open BettiNumbers SO16Decomposition
+open BettiNumbers SO16Decomposition G2
 
 /-!
 ## Saturation Principle
@@ -89,8 +90,6 @@ theorem choose2_eq_dimSO (n : ℕ) (hn : n ≥ 2) :
     Nat.choose n 2 = dim_SO n := by
   unfold dim_SO
   rw [Nat.choose_two_right]
-  ring_nf
-  omega
 
 /-!
 ## Connection to G₂ Decomposition
