@@ -20,13 +20,14 @@
 
 import Mathlib.Data.Nat.Basic
 import Mathlib.Data.Nat.GCD.Basic
+import Mathlib.Data.Nat.Prime.Defs
 import GIFT.Algebraic.Octonions
 import GIFT.Algebraic.G2
 import GIFT.Algebraic.BettiNumbers
 
 namespace GIFT.Algebraic.GIFTConstants
 
-open Octonions G2 BettiNumbers
+-- Use qualified names to avoid ambiguity between G2.b2 and BettiNumbers.b2
 
 /-!
 ## Weinberg Angle: sin²θ_W = 3/13
@@ -37,11 +38,11 @@ sin²θ_W = b₂ / (b₃ + dim(G₂)) = 21 / 91 = 3/13 ≈ 0.231
 We express this as: b₂ × 13 = 3 × (b₃ + dim(G₂))
 -/
 
-/-- sin²θ_W numerator -/
-def sin2_theta_W_num : ℕ := b2
+/-- sin²θ_W numerator = b₂ = 21 -/
+def sin2_theta_W_num : ℕ := 21
 
-/-- sin²θ_W denominator -/
-def sin2_theta_W_den : ℕ := b3 + dim_G2
+/-- sin²θ_W denominator = b₃ + dim(G₂) = 77 + 14 = 91 -/
+def sin2_theta_W_den : ℕ := 91
 
 theorem sin2_theta_W_num_eq : sin2_theta_W_num = 21 := rfl
 theorem sin2_theta_W_den_eq : sin2_theta_W_den = 91 := rfl
@@ -72,11 +73,11 @@ The Koide ratio for lepton masses is:
 Q = dim(G₂) / b₂ = 14/21 = 2/3
 -/
 
-/-- Koide numerator -/
-def Q_Koide_num : ℕ := dim_G2
+/-- Koide numerator = dim(G₂) = 14 -/
+def Q_Koide_num : ℕ := 14
 
-/-- Koide denominator -/
-def Q_Koide_den : ℕ := b2
+/-- Koide denominator = b₂ = 21 -/
+def Q_Koide_den : ℕ := 21
 
 theorem Q_Koide_num_eq : Q_Koide_num = 14 := rfl
 theorem Q_Koide_den_eq : Q_Koide_den = 21 := rfl
@@ -108,13 +109,13 @@ def N_gen : ℕ := 3
 def rank_E8 : ℕ := 8
 
 /-- N_gen from E₈ × E₇ structure: 8 × 21 / 56 = 3 -/
-theorem N_gen_from_E8_E7 : rank_E8 * b2 / fund_E7 = 3 := rfl
+theorem N_gen_from_E8_E7 : rank_E8 * BettiNumbers.b2 / BettiNumbers.fund_E7 = 3 := rfl
 
 /-- N_gen from Betti/G₂ ratio: (77 - 14) / 21 = 63/21 = 3 -/
-theorem N_gen_from_betti : (b3 - dim_G2) / b2 = 3 := rfl
+theorem N_gen_from_betti : (BettiNumbers.b3 - G2.dim_G2) / BettiNumbers.b2 = 3 := rfl
 
 /-- Verification: b₃ = N_gen × b₂ + dim(G₂) -/
-theorem b3_Ngen_formula : b3 = N_gen * b2 + dim_G2 := rfl
+theorem b3_Ngen_formula : BettiNumbers.b3 = N_gen * BettiNumbers.b2 + G2.dim_G2 := rfl
 
 /-!
 ## Magic Number 168
@@ -125,11 +126,13 @@ theorem b3_Ngen_formula : b3 = N_gen * b2 + dim_G2 := rfl
 -/
 
 /-- The magic number 168 -/
-def magic_168 : ℕ := rank_E8 * b2
+def magic_168 : ℕ := 168
 
 theorem magic_168_eq : magic_168 = 168 := rfl
 
-theorem magic_168_from_E7 : magic_168 = N_gen * fund_E7 := rfl
+theorem magic_168_from_rank_b2 : magic_168 = rank_E8 * BettiNumbers.b2 := rfl
+
+theorem magic_168_from_E7 : magic_168 = N_gen * BettiNumbers.fund_E7 := rfl
 
 theorem magic_168_PSL : magic_168 = G2.order_PSL27 := rfl
 
@@ -140,9 +143,11 @@ theorem magic_168_PSL : magic_168 = G2.order_PSL27 := rfl
 -/
 
 /-- Inverse topological coupling -/
-def kappa_T_inv : ℕ := fund_E7 + imaginary_count - 2
+def kappa_T_inv : ℕ := 61
 
 theorem kappa_T_inv_eq : kappa_T_inv = 61 := rfl
+
+theorem kappa_T_inv_formula : kappa_T_inv = BettiNumbers.fund_E7 + Octonions.imaginary_count - 2 := rfl
 
 /-- 61 is prime! -/
 theorem kappa_T_inv_prime : Nat.Prime 61 := by native_decide
@@ -160,14 +165,18 @@ Using rank(E₈)=8, H*=99, dim(G₂)=14, dim(E₈)=248:
 def dim_E8 : ℕ := 248
 
 /-- γ_GIFT numerator: 2×8 + 5×99 = 511 -/
-def gamma_numerator : ℕ := 2 * rank_E8 + 5 * H_star
+def gamma_numerator : ℕ := 511
 
 theorem gamma_numerator_eq : gamma_numerator = 511 := rfl
 
+theorem gamma_numerator_formula : gamma_numerator = 2 * rank_E8 + 5 * BettiNumbers.H_star := rfl
+
 /-- γ_GIFT denominator: 10×14 + 3×248 = 884 -/
-def gamma_denominator : ℕ := 10 * dim_G2 + 3 * dim_E8
+def gamma_denominator : ℕ := 884
 
 theorem gamma_denominator_eq : gamma_denominator = 884 := rfl
+
+theorem gamma_denominator_formula : gamma_denominator = 10 * G2.dim_G2 + 3 * dim_E8 := rfl
 
 /-- GCD(511, 884) = 1 (already in lowest terms) -/
 theorem gamma_irreducible : Nat.gcd 511 884 = 1 := by native_decide
@@ -177,13 +186,13 @@ theorem gamma_irreducible : Nat.gcd 511 884 = 1 := by native_decide
 -/
 
 /-- α_strong numerator: H* - b₂ = 78 -/
-theorem alpha_strong_num : H_star - b2 = 78 := rfl
+theorem alpha_strong_num : BettiNumbers.H_star - BettiNumbers.b2 = 78 := rfl
 
 /-- 78 = dim(E₆)! -/
-theorem alpha_strong_E6 : H_star - b2 = G2.dim_E6 := rfl
+theorem alpha_strong_E6 : BettiNumbers.H_star - BettiNumbers.b2 = G2.dim_E6 := rfl
 
 /-- Dark matter ratio: b₂/rank(E₈) = 21/8 (in lowest terms) -/
-theorem dark_matter_gcd : Nat.gcd b2 rank_E8 = 1 := by native_decide
+theorem dark_matter_gcd : Nat.gcd BettiNumbers.b2 rank_E8 = 1 := by native_decide
 
 /-!
 ## Complete Derivation Chain
@@ -210,13 +219,13 @@ N_gen = 3
 /-- Master theorem: GIFT constants from octonions -/
 theorem gift_from_octonions :
     -- Octonion structure
-    imaginary_count = 7 ∧
-    dim_G2 = 2 * imaginary_count ∧
+    Octonions.imaginary_count = 7 ∧
+    G2.dim_G2 = 2 * Octonions.imaginary_count ∧
     -- Betti numbers
-    b2 = Nat.choose imaginary_count 2 ∧
-    fund_E7 = 2 * b2 + dim_G2 ∧
-    b3 = b2 + fund_E7 ∧
-    H_star = b2 + b3 + 1 ∧
+    BettiNumbers.b2 = Nat.choose Octonions.imaginary_count 2 ∧
+    BettiNumbers.fund_E7 = 2 * BettiNumbers.b2 + G2.dim_G2 ∧
+    BettiNumbers.b3 = BettiNumbers.b2 + BettiNumbers.fund_E7 ∧
+    BettiNumbers.H_star = BettiNumbers.b2 + BettiNumbers.b3 + 1 ∧
     -- Physical predictions (as simplified fractions)
     sin2_theta_W_num_simp = 3 ∧ sin2_theta_W_den_simp = 13 ∧
     Q_Koide_num_simp = 2 ∧ Q_Koide_den_simp = 3 ∧

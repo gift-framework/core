@@ -90,7 +90,7 @@ export BettiNumbers (b2 b3 H_star fund_E7)
 
 -- Physical constants (as integer numerator/denominator pairs)
 export GIFTConstants (N_gen sin2_theta_W_num_simp sin2_theta_W_den_simp
-                      Q_Koide_num_simp Q_Koide_den_simp)
+                      Q_Koide_num_simp Q_Koide_den_simp magic_168)
 
 /-!
 ## Summary Theorems
