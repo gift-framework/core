@@ -90,6 +90,8 @@ Derives: b₂ = 21 = 7 + 14 from G₂ representation theory!
 -- Plus: bijection proofs showing enumeration ↔ actual vectors in ℝ⁸
 export RootSystems (D8_enumeration D8_card HalfInt_enumeration HalfInt_card
   E8_roots_card E8_dimension E8_dimension_from_enumeration
+  -- A3: E8 = D8 ∪ HalfInt decomposition (NEW!)
+  E8_enumeration E8_decomposition_disjoint E8_roots_decomposition E8_enumeration_card
   G2_root_count G2_rank G2_dimension
   -- Vector correspondence
   D8_to_vector D8_to_vector_integer D8_to_vector_norm_sq_sketch D8_to_vector_injective
@@ -132,8 +134,12 @@ export E8Lattice (R8 stdBasis stdBasis_orthonormal stdBasis_norm
   E8_weyl_order E8_weyl_order_factored E8_weyl_order_check)
 
 -- G2 Cross Product (Tier 2 Axioms: B2-B5)
+-- B2, B3, cross_self NOW PROVEN!
 export G2CrossProduct (R7 cross epsilon fano_lines fano_lines_count
-  G2_cross_bilinear G2_cross_antisymm cross_self
+  -- B2: bilinearity (PROVEN!)
+  cross_linear_left cross_linear_right G2_cross_bilinear
+  -- B3: antisymmetry (PROVEN!)
+  epsilon_antisymm epsilon_diag G2_cross_antisymm cross_self
   phi0 preserves_cross preserves_phi0
   dim_GL7 orbit_phi0_dim G2_dim_from_stabilizer G2_dim_from_roots)
 
