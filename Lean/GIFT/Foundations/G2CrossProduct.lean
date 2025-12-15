@@ -125,8 +125,8 @@ theorem cross_left_linear (a : ℝ) (u v w : R7) :
     cross (a • u + v) w = a • cross u w + cross v w := by
   ext k
   simp only [cross_apply, PiLp.add_apply, PiLp.smul_apply]
-  -- Now both sides are sums, use algebraic manipulation
-  rw [mul_add, Finset.sum_add_distrib]
+  -- Expand (a • u i + v i) and distribute
+  simp only [smul_eq_mul, add_mul, mul_assoc, Finset.sum_add_distrib]
   congr 1
   · rw [Finset.mul_sum]
     apply Finset.sum_congr rfl; intro i _
@@ -142,7 +142,7 @@ theorem cross_right_linear (a : ℝ) (u v w : R7) :
     cross u (a • v + w) = a • cross u v + cross u w := by
   ext k
   simp only [cross_apply, PiLp.add_apply, PiLp.smul_apply]
-  rw [mul_add, Finset.sum_add_distrib]
+  simp only [smul_eq_mul, mul_add, mul_assoc, Finset.sum_add_distrib]
   congr 1
   · rw [Finset.mul_sum]
     apply Finset.sum_congr rfl; intro i _
@@ -173,17 +173,18 @@ theorem G2_cross_antisymm (u v : R7) : cross u v = -cross v u := by
   ext k
   simp only [cross_apply, PiLp.neg_apply]
   -- Goal: ∑ i, ∑ j, ε(i,j,k) * u(i) * v(j) = -(∑ i, ∑ j, ε(i,j,k) * v(i) * u(j))
-  rw [← Finset.sum_neg_distrib]
-  apply Finset.sum_congr rfl
-  intro i _
-  rw [← Finset.sum_neg_distrib]
-  apply Finset.sum_congr rfl
-  intro j _
-  -- Goal: ε(i,j,k) * u(i) * v(j) = -(ε(i,j,k) * v(i) * u(j))
-  -- Rewrite using ε(j,i,k) = -ε(i,j,k)
-  have h := epsilon_antisymm j i k
-  simp only [Int.cast_neg] at h ⊢
-  linarith [h]
+  -- Swap indices i ↔ j in RHS, then use ε(j,i,k) = -ε(i,j,k)
+  conv_rhs =>
+    arg 1  -- the sum inside negation
+    rw [Finset.sum_comm]  -- swap order of sums
+  simp only [← Finset.sum_neg_distrib, ← Finset.sum_neg_distrib]
+  apply Finset.sum_congr rfl; intro i _
+  apply Finset.sum_congr rfl; intro j _
+  -- Goal: ε(i,j,k) * u i * v j = -(ε(j,i,k) * v j * u i)
+  have h := epsilon_antisymm i j k
+  simp only [Int.cast_neg] at h
+  rw [h]
+  ring
 
 /-- B3': u × u = 0 (PROVEN) - follows from antisymmetry -/
 theorem cross_self (u : R7) : cross u u = 0 := by
