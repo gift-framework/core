@@ -16,6 +16,9 @@ import GIFT.Foundations.GraphTheory
 import GIFT.Foundations.GoldenRatio
 import GIFT.Foundations.G2Holonomy
 import GIFT.Foundations.TCSConstruction
+-- Axiom Resolution Plan: Tier 1 & 2
+import GIFT.Foundations.E8Lattice
+import GIFT.Foundations.G2CrossProduct
 
 namespace GIFT.Foundations
 
@@ -121,6 +124,19 @@ export G2Holonomy (dim_G2 dim_G2_is_14 dim_G2_orbit_stabilizer
 export TCSConstruction (CHNP_block TCS_b2 K7_b2 K7_b2_eq_21
   K7_b3 K7_b3_eq_77 H_star H_star_eq_99
   TCS_combinatorial K7_euler K7_euler_eq)
+
+-- E8 Lattice (Tier 1 Axioms: A6-A12)
+export E8Lattice (R8 stdBasis stdBasis_orthonormal stdBasis_norm
+  normSq_eq_sum inner_eq_sum E8_lattice
+  E8_simple_roots weyl_reflection E8_reflection
+  E8_weyl_order E8_weyl_order_factored E8_weyl_order_formula)
+
+-- G2 Cross Product (Tier 2 Axioms: B2-B5)
+export G2CrossProduct (R7 cross epsilon fano_lines
+  cross_linear_left cross_linear_right G2_cross_bilinear
+  G2_cross_antisymm cross_self
+  phi0 preserves_cross preserves_phi0
+  dim_GL7 orbit_phi0_dim G2_dim_from_stabilizer G2_dim_from_roots)
 
 /-!
 ## Comparison: Old vs New
