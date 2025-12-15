@@ -5,6 +5,62 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.0] - 2025-12-15
+
+### Added
+
+- **E8 Mathlib Integration** (`GIFT.Foundations.E8Mathlib`):
+  Connects GIFT's E8 root enumeration to Mathlib's formal structures.
+
+#### Key Features
+
+1. **Uses `CoxeterMatrix.E₈` from Mathlib**: The Coxeter matrix is already defined
+   in Mathlib, and we connect our enumeration to it.
+
+2. **Coxeter Formula Verification**:
+   ```lean
+   theorem E8_roots_from_coxeter : E8_coxeter_number * E8_rank_val = 240
+   -- 30 × 8 = 240
+   ```
+
+3. **Enumeration Match**:
+   ```lean
+   theorem enumeration_matches_coxeter :
+       RootSystems.E8_enumeration.card = E8_coxeter_number * E8_rank_val
+   ```
+   Our explicit 240-root enumeration matches the Coxeter formula!
+
+4. **Dimension Derivation**:
+   ```lean
+   theorem E8_dimension_certified : E8_lie_dim = 248
+   -- E8_lie_dim = |roots| + rank = 240 + 8 = 248
+   ```
+
+5. **ADE Classification Context**: All exceptional dimensions verified:
+   - G₂: 12 + 2 = 14
+   - F₄: 48 + 4 = 52
+   - E₆: 72 + 6 = 78
+   - E₇: 126 + 7 = 133
+   - E₈: 240 + 8 = 248
+
+### Changed
+
+- **Core.lean**: Updated `dim_E8` docstring to reference the mathematical
+  derivation in `GIFT.Foundations.E8Mathlib`.
+
+- **Foundations.lean**: Added E8Mathlib imports and exports.
+
+### Why This Matters
+
+Previously, `dim_E8 = 248` was just a definition. Now it's **derived** from:
+1. Explicit root enumeration (112 D8 + 128 half-integer)
+2. Coxeter number formula (h × rank = 30 × 8)
+3. Mathlib's formal `CoxeterMatrix.E₈`
+
+This makes GIFT's E8 dimension a theorem, not just an axiom!
+
+---
+
 ## [3.3.0] - 2025-12-15
 
 ### Added
