@@ -16,7 +16,7 @@ import GIFT.Algebraic.G2
 
 namespace GIFT.Algebraic.GeometricSaturation
 
-open BettiNumbers SO16Decomposition G2
+open SO16Decomposition
 
 /-!
 ## Saturation Principle
@@ -40,13 +40,13 @@ theorem tangent_rotation_eq : tangent_rotation_dim = 21 := by
   native_decide
 
 /-- SATURATION THEOREM: b₂ = dim(SO(7)) -/
-theorem b2_equals_tangent_rotations : b2 = tangent_rotation_dim := by
-  unfold b2 tangent_rotation_dim manifold_dim dim_SO
+theorem b2_equals_tangent_rotations : BettiNumbers.b2 = tangent_rotation_dim := by
+  unfold BettiNumbers.b2 tangent_rotation_dim manifold_dim dim_SO
   native_decide
 
 /-- Direct form: b₂ = dim(SO(7)) = 21 -/
-theorem b2_equals_dim_SO7 : b2 = dim_SO 7 := by
-  unfold b2 dim_SO
+theorem b2_equals_dim_SO7 : BettiNumbers.b2 = dim_SO 7 := by
+  unfold BettiNumbers.b2 dim_SO
   native_decide
 
 /-!
@@ -66,10 +66,10 @@ theorem b2_double_derivation :
 
 /-- The saturation is exact: no "wasted" degrees of freedom -/
 theorem saturation_exact :
-    b2 = Nat.choose manifold_dim 2 ∧
-    b2 = dim_SO manifold_dim := by
+    BettiNumbers.b2 = Nat.choose manifold_dim 2 ∧
+    BettiNumbers.b2 = dim_SO manifold_dim := by
   constructor
-  · unfold b2 manifold_dim; native_decide
+  · unfold BettiNumbers.b2 manifold_dim; native_decide
   · exact b2_equals_tangent_rotations
 
 /-!
@@ -83,10 +83,10 @@ rotational degrees of freedom as topological data.
 -/
 
 /-- Saturation coefficient: b₂ / dim(SO(7)) = 1 -/
-theorem saturation_ratio : b2 / dim_SO 7 = 1 := by native_decide
+theorem saturation_ratio : BettiNumbers.b2 / dim_SO 7 = 1 := by native_decide
 
 /-- Alternative: C(n,2) = n(n-1)/2 = dim(SO(n)) for all n -/
-theorem choose2_eq_dimSO (n : ℕ) (hn : n ≥ 2) :
+theorem choose2_eq_dimSO (n : ℕ) :
     Nat.choose n 2 = dim_SO n := by
   unfold dim_SO
   rw [Nat.choose_two_right]
