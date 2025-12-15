@@ -40,23 +40,25 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 | A3. `E8_roots_decomposition` | ✅ PROUVÉ | RootSystems.lean |
 | A4. `D8_HalfInt_disjoint` | ✅ PROUVÉ | RootSystems.lean |
 | A5. `E8_roots_card = 240` | ✅ PROUVÉ | RootSystems.lean |
-| A6. `E8_inner_integral` | ✅ THÉORÈME v3.4 | E8Lattice.lean (case analysis)† |
-| A7. `E8_norm_sq_even` | ✅ THÉORÈME v3.4 | E8Lattice.lean (case analysis)† |
+| A6. `E8_inner_integral` | ✅ PROUVÉ COMPLET | E8Lattice.lean (case analysis + mod arith) |
+| A7. `E8_norm_sq_even` | ✅ PROUVÉ COMPLET | E8Lattice.lean (n² ≡ n mod 2) |
 | A8. `E8_basis_generates` | ✅ PROUVÉ | E8Lattice.lean |
 | A9. `stdBasis_orthonormal` | ✅ PROUVÉ | E8Lattice.lean |
 | A10. `stdBasis_norm` | ✅ PROUVÉ | E8Lattice.lean |
 | A11. `normSq_eq_sum` | ✅ PROUVÉ v3.4 | E8Lattice.lean (Mathlib PiLp) |
 | A12. `inner_eq_sum` | ✅ PROUVÉ v3.4 | E8Lattice.lean (Mathlib PiLp) |
 
-† Structure complète, helper lemmas avec `sorry` pour arithmétique modulaire
-
 ### Lean 4 - Tier 2 Résolus
 
 | Axiome | Status | Fichier |
 |--------|--------|---------|
-| B1. `reflect_preserves_lattice` | ✅ THÉORÈME v3.4 | E8Lattice.lean (via A6 + closure)† |
+| B1. `reflect_preserves_lattice` | ✅ PROUVÉ COMPLET | E8Lattice.lean (via A6 + closure) |
 
-† Helper lemmas (`E8_smul_int_closed`, `E8_sub_closed`) avec `sorry`
+**Helpers clés (tous prouvés):**
+- `sq_mod_two_eq_self_mod_two`: n² ≡ n (mod 2)
+- `sum_sq_mod_two`: Σnᵢ² ≡ Σnᵢ (mod 2)
+- `E8_smul_int_closed`: E8 fermé sous ℤ-scaling
+- `E8_sub_closed`: E8 fermé sous soustraction
 
 ### Lean 4 - Axiomes Restants (Tier 2+)
 
@@ -201,15 +203,15 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 
 | Tier | Total | Prouvés | Axiomes | À faire |
 |------|-------|---------|---------|---------|
-| 1 | 12 | 12† | 0 | helpers only |
-| 2 | 8 | 1† | 7 | 7 |
+| 1 | 12 | **12** | 0 | ✅ COMPLET |
+| 2 | 8 | **1** | 7 | 7 |
 | 3 | 7 | 0 | 7 | 7 |
 | 4 | 9 | ~2 | 7 | 7 |
 | 5 | 12 | 0 | 12 | 12 |
 | 6 | 10 | 0 | 10 | 10 |
 | **Total** | **58** | **~15** | **43** | **43** |
 
-† A6, A7, B1 ont structure théorème complète (helpers avec `sorry`)
+**🎉 Tier 1 + B1 = ZÉRO SORRY! Toutes les preuves complètes.**
 
 ### Actions par Priorité
 
