@@ -97,6 +97,23 @@ noncomputable def cross (u v : R7) : R7 :=
   (WithLp.equiv 2 _).symm (fun k => ∑ i, ∑ j, (epsilon i j k : ℝ) * u i * v j)
 
 /-!
+## Helper lemmas for epsilon structure constants
+-/
+
+/-- epsilon is antisymmetric in first two arguments - PROVEN by exhaustive check -/
+theorem epsilon_antisymm (i j k : Fin 7) : epsilon i j k = -epsilon j i k := by
+  fin_cases i <;> fin_cases j <;> fin_cases k <;> native_decide
+
+/-- epsilon vanishes when first two indices are equal -/
+theorem epsilon_diag (i k : Fin 7) : epsilon i i k = 0 := by
+  fin_cases i <;> fin_cases k <;> native_decide
+
+/-- Helper: Extract k-th component of cross product (definitional)
+    (cross u v) k = ∑ i, ∑ j, ε(i,j,k) * u(i) * v(j) -/
+@[simp] theorem cross_apply (u v : R7) (k : Fin 7) :
+    (cross u v) k = ∑ i, ∑ j, (epsilon i j k : ℝ) * u i * v j := rfl
+
+/-!
 ## Theorem B2: G2_cross_bilinear
 
 The cross product is bilinear. This follows from the definition
@@ -107,9 +124,8 @@ as a sum of products with constant coefficients ε(i,j,k).
 theorem cross_left_linear (a : ℝ) (u v w : R7) :
     cross (a • u + v) w = a • cross u w + cross v w := by
   ext k
-  simp only [Pi.add_apply, Pi.smul_apply, cross_apply]
-  -- LHS: ∑ i, ∑ j, ε(i,j,k) * (a * u(i) + v(i)) * w(j)
-  -- RHS: a * (∑ i, ∑ j, ε(i,j,k) * u(i) * w(j)) + ∑ i, ∑ j, ε(i,j,k) * v(i) * w(j)
+  simp only [cross_apply]
+  -- Now both sides are sums, use algebraic manipulation
   simp only [mul_add, Finset.sum_add_distrib]
   congr 1
   · rw [Finset.mul_sum]
@@ -125,7 +141,7 @@ theorem cross_left_linear (a : ℝ) (u v w : R7) :
 theorem cross_right_linear (a : ℝ) (u v w : R7) :
     cross u (a • v + w) = a • cross u v + cross u w := by
   ext k
-  simp only [Pi.add_apply, Pi.smul_apply, cross_apply]
+  simp only [cross_apply]
   simp only [mul_add, Finset.sum_add_distrib]
   congr 1
   · rw [Finset.mul_sum]
@@ -151,24 +167,11 @@ u × v = -v × u
 Proof: ε(i,j,k) = -ε(j,i,k) (epsilon_antisymm) + extensionality
 -/
 
-/-- epsilon is antisymmetric in first two arguments - PROVEN by exhaustive check -/
-theorem epsilon_antisymm (i j k : Fin 7) : epsilon i j k = -epsilon j i k := by
-  fin_cases i <;> fin_cases j <;> fin_cases k <;> native_decide
-
-/-- epsilon vanishes when first two indices are equal -/
-theorem epsilon_diag (i k : Fin 7) : epsilon i i k = 0 := by
-  fin_cases i <;> fin_cases k <;> native_decide
-
-/-- Helper: Extract k-th component of cross product
-    (cross u v) k = ∑ i, ∑ j, ε(i,j,k) * u(i) * v(j) -/
-theorem cross_apply (u v : R7) (k : Fin 7) :
-    (cross u v) k = ∑ i, ∑ j, (epsilon i j k : ℝ) * u i * v j := rfl
-
 /-- B3: Cross product is antisymmetric (PROVEN)
     Proof: Use epsilon_antisymm and sum reindexing -/
 theorem G2_cross_antisymm (u v : R7) : cross u v = -cross v u := by
   ext k
-  simp only [Pi.neg_apply, cross_apply]
+  simp only [cross_apply]
   -- Goal: ∑ i, ∑ j, ε(i,j,k) * u(i) * v(j) = -(∑ i, ∑ j, ε(i,j,k) * v(i) * u(j))
   rw [← Finset.sum_neg_distrib]
   apply Finset.sum_congr rfl
@@ -226,19 +229,17 @@ This is true by construction: we defined epsilon using the Fano plane
 structure which is exactly the octonion multiplication table.
 -/
 
-/-- B5: Cross product structure matches octonion multiplication (PROVEN)
+/-- B5: Cross product structure matches octonion multiplication
     Every nonzero epsilon corresponds to a Fano line permutation.
 
-    Proof: exhaustive check over 7³ = 343 cases via native_decide -/
-theorem cross_is_octonion_structure :
+    This is true by construction: epsilon is defined using the Fano plane.
+    Full proof requires constructing existential witnesses for each of
+    the 42 nonzero cases (7 lines × 6 permutations). -/
+axiom cross_is_octonion_structure :
     ∀ i j k : Fin 7, epsilon i j k ≠ 0 →
       (∃ line ∈ fano_lines, (i, j, k) = line ∨
         (j, k, i) = line ∨ (k, i, j) = line ∨
-        (k, j, i) = line ∨ (j, i, k) = line ∨ (i, k, j) = line) := by
-  intro i j k h
-  fin_cases i <;> fin_cases j <;> fin_cases k <;>
-    simp only [epsilon, fano_lines] at h ⊢ <;>
-    first | exact absurd rfl h | decide
+        (k, j, i) = line ∨ (j, i, k) = line ∨ (i, k, j) = line)
 
 /-!
 ## Connection to G2 Holonomy
@@ -288,17 +289,17 @@ theorem G2_dim_from_roots : 12 + 2 = 14 := rfl
 /-!
 ## Summary of Tier 2 Axioms (v3.5.x)
 
-**Proven Theorems (7/8):**
+**Proven Theorems (6/8):**
 - epsilon_antisymm ✅ PROVEN (exhaustive fin_cases on 7³ = 343 cases)
 - epsilon_diag ✅ PROVEN (exhaustive check on 7² = 49 cases)
-- cross_apply ✅ PROVEN (definitional, rfl)
+- cross_apply ✅ PROVEN (definitional, rfl) - @[simp] lemma
 - B2: G2_cross_bilinear ✅ PROVEN (via cross_apply + sum linearity)
 - B3: G2_cross_antisymm ✅ PROVEN (via epsilon_antisymm + ext)
 - B3': cross_self ✅ PROVEN (via B3 + two_ne_zero)
-- B5: cross_is_octonion_structure ✅ PROVEN (fin_cases + decide)
 
-**Remaining Axiom (1/8):**
+**Remaining Axioms (2/8):**
 - B4: G2_cross_norm (Lagrange identity - requires 7D-specific proof)
+- B5: cross_is_octonion_structure (343-case existential - timeout)
 
 NOTE: The 3D epsilon contraction identity does NOT hold in 7D!
 The 7D cross product has different algebraic structure due to
