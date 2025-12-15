@@ -111,9 +111,9 @@ theorem quaternion_imaginary_embed :
 theorem new_imaginary_in_octonions :
     Octonions.imaginary_count - Quaternions.imaginary_count = 4 := rfl
 
-/-- The 4 new units come from the doubling: ℍ × {0,1} has 4 "new" slots -/
+/-- The 4 new imaginary units equal dim(ℍ) -/
 theorem doubling_adds_four :
-    dim_H = Octonions.imaginary_count - Quaternions.imaginary_count + 1 := rfl
+    dim_H = Octonions.imaginary_count - Quaternions.imaginary_count := rfl
 
 /-!
 ## Pairs Decomposition

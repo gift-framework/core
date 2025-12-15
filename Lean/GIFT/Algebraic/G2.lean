@@ -110,7 +110,7 @@ def K7_dim : ℕ := 7
 
 theorem K7_dim_eq_imaginary : K7_dim = imaginary_count := rfl
 
-/-- G₂ holonomy constrains Betti numbers -/
+-- G₂ holonomy constrains Betti numbers
 -- For a compact G₂ manifold M:
 -- b₁(M) = 0 (from holonomy)
 -- b₂(M) = number of linearly independent 2-forms in Ω²₇
