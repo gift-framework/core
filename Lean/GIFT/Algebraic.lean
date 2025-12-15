@@ -72,6 +72,9 @@ import GIFT.Algebraic.CayleyDickson
 import GIFT.Algebraic.G2
 import GIFT.Algebraic.BettiNumbers
 import GIFT.Algebraic.GIFTConstants
+-- V3.2: SO(16) Decomposition
+import GIFT.Algebraic.SO16Decomposition
+import GIFT.Algebraic.GeometricSaturation
 
 namespace GIFT.Algebraic
 
@@ -91,6 +94,13 @@ export BettiNumbers (b2 b3 H_star fund_E7)
 -- Physical constants (as integer numerator/denominator pairs)
 export GIFTConstants (N_gen sin2_theta_W_num_simp sin2_theta_W_den_simp
                       Q_Koide_num_simp Q_Koide_den_simp magic_168)
+
+-- SO(16) decomposition (V3.2)
+export SO16Decomposition (dim_SO geometric_part spinorial_part
+                          E8_SO16_decomposition geometric_is_SO16 spinorial_is_128)
+
+-- Geometric saturation (V3.2)
+export GeometricSaturation (tangent_rotation_dim b2_equals_dim_SO7 saturation_ratio)
 
 /-!
 ## Summary Theorems

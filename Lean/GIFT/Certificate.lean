@@ -26,6 +26,9 @@ import GIFT.Relations.MassFactorization
 import GIFT.Relations.ExceptionalChain
 import GIFT.Relations.Structural
 import GIFT.Relations.QuarkSector
+-- V3.2: SO(16) Relations
+import GIFT.Relations.SO16Relations
+import GIFT.Relations.LandauerDarkEnergy
 
 -- V2.0 New modules
 import GIFT.Sequences
@@ -764,5 +767,69 @@ theorem gift_v32_master_certificate :
     (12 + 2 = 14) ∧
     (Nat.choose 7 2 = 21) := by
   repeat (first | constructor | rfl | native_decide)
+
+-- =============================================================================
+-- V3.2 EXTENSION: SO(16) DECOMPOSITION (Relations 66-72)
+-- =============================================================================
+
+open GIFT.Relations.SO16Relations
+open GIFT.Relations.LandauerDarkEnergy
+
+/-- V3.2 SO(16) decomposition relations -/
+abbrev v32_so16_decomposition := SO16Relations.all_SO16_relations
+
+/-- V3.2 Landauer dark energy relations -/
+abbrev v32_landauer_DE := LandauerDarkEnergy.landauer_structure
+
+/-- GIFT v3.2 SO(16) Relations Certificate (Relations 66-72) -/
+theorem gift_v32_SO16_certificate :
+    -- Relation 66: Mersenne 31 = dim(F4) - b2
+    (Algebra.dim_F4 - b2 = 31) ∧
+    -- Relation 67: dim(E8) = rank(E8) × 31
+    (Algebra.dim_E8 = Algebra.rank_E8 * 31) ∧
+    -- Relation 68: 31 = 2^Weyl - 1
+    (2^Algebra.Weyl_factor - 1 = 31) ∧
+    -- Relation 69: Weyl group factorization
+    (SO16Relations.weyl_E8_order = 2^14 * 3^5 * 5^2 * 7) ∧
+    -- Relation 70: Geometric part = 120 = dim(SO(16))
+    (b2 + b3 + dim_G2 + Algebra.rank_E8 = 120) ∧
+    -- Relation 71: b2 = dim(SO(7))
+    (b2 = 7 * 6 / 2) ∧
+    -- Relation 72: Spinorial contribution = 2^7
+    ((2 : ℕ)^7 = 128) := by
+  repeat (first | constructor | native_decide | rfl)
+
+/-- GIFT v3.2 Landauer-Dark Energy Certificate -/
+theorem gift_v32_landauer_certificate :
+    -- Bit structure of H*
+    (LandauerDarkEnergy.total_bits = 99) ∧
+    (LandauerDarkEnergy.topological_bits = 98) ∧
+    (LandauerDarkEnergy.vacuum_bit_count = 1) ∧
+    -- Bit fraction for Ω_DE
+    (LandauerDarkEnergy.bit_fraction_num = 98) ∧
+    (LandauerDarkEnergy.bit_fraction_den = 99) ∧
+    -- Structure: topological = b2 + b3
+    (LandauerDarkEnergy.topological_bits = b2 + b3) ∧
+    -- Coprimality (irreducible fraction)
+    (Nat.gcd 98 99 = 1) := by
+  repeat (first | constructor | native_decide | rfl)
+
+/-- GIFT v3.2 Complete Master Certificate (175+ relations + SO(16)) -/
+theorem gift_v32_complete_certificate :
+    -- Core topological
+    (b2 = 21 ∧ b3 = 77 ∧ H_star = 99) ∧
+    -- E8 structure
+    (Algebra.dim_E8 = 248 ∧ Algebra.rank_E8 = 8) ∧
+    -- SO(16) decomposition: 248 = 120 + 128
+    (b2 + b3 + dim_G2 + Algebra.rank_E8 = 120) ∧
+    ((2 : ℕ)^7 = 128) ∧
+    (120 + 128 = Algebra.dim_E8) ∧
+    -- Mersenne 31 structure
+    (Algebra.dim_F4 - b2 = 31) ∧
+    (Algebra.dim_E8 = 8 * 31) ∧
+    -- Landauer: Ω_DE = ln(2) × 98/99
+    (LandauerDarkEnergy.bit_fraction_num = 98) ∧
+    (LandauerDarkEnergy.bit_fraction_den = 99) := by
+  repeat (first | constructor | native_decide | rfl)
 
 end GIFT.Certificate
