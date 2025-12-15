@@ -124,9 +124,9 @@ as a sum of products with constant coefficients ε(i,j,k).
 theorem cross_left_linear (a : ℝ) (u v w : R7) :
     cross (a • u + v) w = a • cross u w + cross v w := by
   ext k
-  simp only [cross_apply]
+  simp only [cross_apply, PiLp.add_apply, PiLp.smul_apply]
   -- Now both sides are sums, use algebraic manipulation
-  simp only [mul_add, Finset.sum_add_distrib]
+  rw [mul_add, Finset.sum_add_distrib]
   congr 1
   · rw [Finset.mul_sum]
     apply Finset.sum_congr rfl; intro i _
@@ -141,8 +141,8 @@ theorem cross_left_linear (a : ℝ) (u v w : R7) :
 theorem cross_right_linear (a : ℝ) (u v w : R7) :
     cross u (a • v + w) = a • cross u v + cross u w := by
   ext k
-  simp only [cross_apply]
-  simp only [mul_add, Finset.sum_add_distrib]
+  simp only [cross_apply, PiLp.add_apply, PiLp.smul_apply]
+  rw [mul_add, Finset.sum_add_distrib]
   congr 1
   · rw [Finset.mul_sum]
     apply Finset.sum_congr rfl; intro i _
@@ -171,7 +171,7 @@ Proof: ε(i,j,k) = -ε(j,i,k) (epsilon_antisymm) + extensionality
     Proof: Use epsilon_antisymm and sum reindexing -/
 theorem G2_cross_antisymm (u v : R7) : cross u v = -cross v u := by
   ext k
-  simp only [cross_apply]
+  simp only [cross_apply, PiLp.neg_apply]
   -- Goal: ∑ i, ∑ j, ε(i,j,k) * u(i) * v(j) = -(∑ i, ∑ j, ε(i,j,k) * v(i) * u(j))
   rw [← Finset.sum_neg_distrib]
   apply Finset.sum_congr rfl
