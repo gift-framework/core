@@ -20,9 +20,9 @@ import GIFT.Algebra
 namespace GIFT.Relations.SO16Relations
 
 open GIFT.Algebraic.SO16Decomposition
-open GIFT.Algebraic.BettiNumbers
-open GIFT.Algebraic.G2
-open GIFT.Algebraic.Octonions
+open GIFT.Algebraic.BettiNumbers  -- gives us b2, b3 directly
+open GIFT.Algebraic.Octonions     -- gives us imaginary_count
+-- Note: NOT opening G2 to avoid b2 ambiguity
 
 /-!
 ## Mersenne 31 Relations
@@ -34,20 +34,20 @@ The number 31 appears prominently in GIFT:
 -/
 
 /-- Relation 66: 31 = dim(F₄) - b₂ -/
-theorem mersenne_31 : Algebra.dim_F4 - BettiNumbers.b2 = 31 := by
-  unfold Algebra.dim_F4 BettiNumbers.b2
+theorem mersenne_31 : Algebra.dim_F4 - b2 = 31 := by
+  unfold Algebra.dim_F4 b2
   native_decide
 
 /-- The Mersenne number from F₄ and b₂ -/
-def mersenne : ℕ := Algebra.dim_F4 - BettiNumbers.b2
+def mersenne : ℕ := Algebra.dim_F4 - b2
 
 theorem mersenne_eq : mersenne = 31 := by
-  unfold mersenne Algebra.dim_F4 BettiNumbers.b2
+  unfold mersenne Algebra.dim_F4 b2
   native_decide
 
 /-- Relation 67: dim(E₈) = rank(E₈) × (dim(F₄) - b₂) -/
-theorem dim_E8_via_F4 : Algebra.dim_E8 = Algebra.rank_E8 * (Algebra.dim_F4 - BettiNumbers.b2) := by
-  unfold Algebra.dim_E8 Algebra.rank_E8 Algebra.dim_F4 BettiNumbers.b2
+theorem dim_E8_via_F4 : Algebra.dim_E8 = Algebra.rank_E8 * (Algebra.dim_F4 - b2) := by
+  unfold Algebra.dim_E8 Algebra.rank_E8 Algebra.dim_F4 b2
   native_decide
 
 /-- Simplified: 248 = 8 × 31 -/
@@ -81,8 +81,8 @@ def weyl_E8_order : ℕ := 696729600
 
 /-- Relation 69: Weyl group factorization with GIFT constants -/
 theorem weyl_E8_factorization :
-    weyl_E8_order = 2^dim_G2 * 3^Algebra.Weyl_factor * Algebra.Weyl_factor^2 * 7 := by
-  unfold weyl_E8_order dim_G2 Algebra.Weyl_factor
+    weyl_E8_order = 2^GIFT.Algebraic.G2.dim_G2 * 3^Algebra.Weyl_factor * Algebra.Weyl_factor^2 * 7 := by
+  unfold weyl_E8_order GIFT.Algebraic.G2.dim_G2 Algebra.Weyl_factor
   native_decide
 
 /-- Alternative: prime factorization form -/
@@ -93,8 +93,8 @@ theorem weyl_E8_prime_factorization :
 
 /-- The exponents are GIFT constants -/
 theorem weyl_exponents :
-    (14 = dim_G2) ∧ (5 = Algebra.Weyl_factor) ∧ (7 = 7) := by
-  unfold dim_G2 Algebra.Weyl_factor
+    (14 = GIFT.Algebraic.G2.dim_G2) ∧ (5 = Algebra.Weyl_factor) ∧ (7 = 7) := by
+  unfold GIFT.Algebraic.G2.dim_G2 Algebra.Weyl_factor
   constructor; rfl; constructor; rfl; rfl
 
 /-!
@@ -104,14 +104,14 @@ Relation 70: b₂ + b₃ + dim(G₂) + rank(E₈) = 120 = dim(SO(16))
 -/
 
 /-- Relation 70: Geometric part = dim(SO(16)) -/
-theorem geometric_120 : BettiNumbers.b2 + BettiNumbers.b3 + dim_G2 + Algebra.rank_E8 = 120 := by
-  unfold BettiNumbers.b2 BettiNumbers.b3 dim_G2 Algebra.rank_E8
+theorem geometric_120 : b2 + b3 + GIFT.Algebraic.G2.dim_G2 + Algebra.rank_E8 = 120 := by
+  unfold b2 b3 GIFT.Algebraic.G2.dim_G2 Algebra.rank_E8
   native_decide
 
 /-- Component breakdown -/
 theorem geometric_components :
-    (BettiNumbers.b2 = 21) ∧ (BettiNumbers.b3 = 77) ∧ (dim_G2 = 14) ∧ (Algebra.rank_E8 = 8) := by
-  unfold BettiNumbers.b2 BettiNumbers.b3 dim_G2 Algebra.rank_E8
+    (b2 = 21) ∧ (b3 = 77) ∧ (GIFT.Algebraic.G2.dim_G2 = 14) ∧ (Algebra.rank_E8 = 8) := by
+  unfold b2 b3 GIFT.Algebraic.G2.dim_G2 Algebra.rank_E8
   constructor; native_decide
   constructor; rfl
   constructor; rfl
@@ -124,11 +124,11 @@ Relation 71: The second Betti number equals the tangent rotation dimension.
 -/
 
 /-- Relation 71: b₂ = dim(SO(7)) -/
-theorem b2_is_SO7 : BettiNumbers.b2 = 7 * 6 / 2 := by native_decide
+theorem b2_is_SO7 : b2 = 7 * 6 / 2 := by native_decide
 
 /-- Using dim_SO formula -/
-theorem b2_is_dim_SO7 : BettiNumbers.b2 = dim_SO 7 := by
-  unfold BettiNumbers.b2 dim_SO
+theorem b2_is_dim_SO7 : b2 = dim_SO 7 := by
+  unfold b2 dim_SO
   native_decide
 
 /-!
@@ -153,11 +153,11 @@ All v3.2 SO(16) relations in one place.
 
 /-- All SO(16) relations certified -/
 theorem all_SO16_relations :
-    (Algebra.dim_F4 - BettiNumbers.b2 = 31) ∧
+    (Algebra.dim_F4 - b2 = 31) ∧
     (Algebra.dim_E8 = Algebra.rank_E8 * 31) ∧
     (2^Algebra.Weyl_factor - 1 = 31) ∧
-    (BettiNumbers.b2 + BettiNumbers.b3 + dim_G2 + Algebra.rank_E8 = 120) ∧
-    (BettiNumbers.b2 = dim_SO 7) ∧
+    (b2 + b3 + GIFT.Algebraic.G2.dim_G2 + Algebra.rank_E8 = 120) ∧
+    (b2 = dim_SO 7) ∧
     ((2 : ℕ)^7 = 128) ∧
     (120 + 128 = Algebra.dim_E8) := by
   constructor; exact mersenne_31
