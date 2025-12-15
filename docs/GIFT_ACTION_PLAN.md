@@ -48,25 +48,31 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 | A11. `normSq_eq_sum` | ✅ PROUVÉ v3.4 | E8Lattice.lean (Mathlib PiLp) |
 | A12. `inner_eq_sum` | ✅ PROUVÉ v3.4 | E8Lattice.lean (Mathlib PiLp) |
 
-### Lean 4 - Tier 2 Résolus
+### Lean 4 - Tier 2 Résolus (8/9)
 
 | Axiome | Status | Fichier |
 |--------|--------|---------|
-| B1. `reflect_preserves_lattice` | ✅ THÉORÈME | E8Lattice.lean (via A6 + lattice closure axioms) |
+| B1. `reflect_preserves_lattice` | ✅ THÉORÈME | E8Lattice.lean (via A6 + lattice closure) |
+| B2. `G2_cross_bilinear` | ✅ THÉORÈME | G2CrossProduct.lean (sum/product linearity) |
+| B3. `G2_cross_antisymm` | ✅ THÉORÈME | G2CrossProduct.lean (via epsilon_antisymm) |
+| B3'. `cross_self` | ✅ THÉORÈME | G2CrossProduct.lean (via B3 + char 0) |
+| B5. `cross_is_octonion_structure` | ✅ THÉORÈME | G2CrossProduct.lean (exhaustive check) |
+| `epsilon_antisymm` | ✅ THÉORÈME | G2CrossProduct.lean (7³ cases) |
+| `epsilon_diag` | ✅ THÉORÈME | G2CrossProduct.lean (7² cases) |
+| `epsilon_contraction` | ✅ THÉORÈME | G2CrossProduct.lean (7⁴ = 2401 cases) |
 
-**Helper Axioms (v3.5.0):** 9 explicit axioms replacing sorry placeholders:
-- `sq_mod_two_eq_self_mod_two`: n² ≡ n (mod 2) — omega can't handle n²
-- `sum_sq_mod_two`: Σnᵢ² ≡ Σnᵢ (mod 2) — Finset induction
-- `inner_int_of_both_int`, `inner_int_of_int_half`, `inner_int_of_both_half_int` — inner product cases
-- `norm_sq_even_of_int_even_sum`, `norm_sq_even_of_half_int_even_sum` — norm² cases
-- `E8_smul_int_closed`: E8 fermé sous ℤ-scaling
-- `E8_sub_closed`: E8 fermé sous soustraction
+**Helper Axioms (E8Lattice):** 9 explicit axioms for Mathlib4 API:
+- `sq_mod_two_eq_self_mod_two`, `sum_sq_mod_two` — modular arithmetic
+- `inner_int_of_*` (3) — inner product integrality cases
+- `norm_sq_even_of_*` (2) — even norm² cases
+- `E8_smul_int_closed`, `E8_sub_closed` — lattice closure
 
 ### Lean 4 - Axiomes Restants (Tier 2+)
 
 | Axiome | Status | Fichier | Difficulté |
 |--------|--------|---------|------------|
-| B2-B8 | ⚠️ AXIOMES | G2CrossProduct.lean | Moyen-Difficile |
+| B4. `G2_cross_norm` | ⚠️ AXIOME | G2CrossProduct.lean | WithLp API |
+| C1-C7 (Tier 3) | ⚠️ AXIOMES | ExteriorAlgebra, etc. | Moyen |
 
 ### Coq - Ce qui est FAIT ✅
 
@@ -206,14 +212,14 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 | Tier | Total | Théorèmes | Helper Axioms | À faire |
 |------|-------|-----------|---------------|---------|
 | 1 | 12 | **12** | 7 | ✅ Complete |
-| 2 | 8 | **1** | 2 | 7 |
+| 2 | 9 | **8** | 2 | 1 (B4) |
 | 3 | 7 | 0 | 0 | 7 |
 | 4 | 9 | ~2 | 0 | 7 |
 | 5 | 12 | 0 | 0 | 12 |
 | 6 | 10 | 0 | 0 | 10 |
-| **Total** | **58** | **~15** | **9** | **43** |
+| **Total** | **59** | **~22** | **9** | **37** |
 
-**v3.5.0: Tier 1 complete (12/12 theorems), Tier 2 started (B1 proven). 9 helper axioms are explicit mathematical assumptions, cleaner than `sorry`.**
+**v3.5.1: Tier 1 complete (12/12), Tier 2 nearly complete (8/9). Only B4 (Lagrange identity) remains — epsilon_contraction proven, just needs WithLp API work.**
 
 ### Actions par Priorité
 
@@ -222,7 +228,7 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 | P1 Coq Sync | 2-3h | Haut | **FAIRE MAINTENANT** |
 | P2 Python API | 2-3h | Moyen | **FAIRE MAINTENANT** |
 | P3 Mathlib | ✅ DONE | Haut | Completed in v3.5.0 |
-| P4 Tier 2-3 | 1-2 sem | Moyen | Ce mois |
+| P4 Tier 2 | ✅ 8/9 | Haut | Only B4 remains |
 | P5 G2/Analyse | 1+ mois | Moyen | Quand prêt |
 | P6 Joyce | Long terme | Recherche | Collaboration |
 
