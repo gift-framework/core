@@ -129,8 +129,8 @@ theorem cross_left_linear (a : ℝ) (u v w : R7) :
   -- RHS: a * (∑ i j, ε * u i * w j) + ∑ i j, ε * v i * w j
   -- First expand ε * (X + Y) = ε * X + ε * Y, then (A + B) * w = A*w + B*w
   simp_rw [mul_add, add_mul, Finset.sum_add_distrib, Finset.mul_sum]
-  congr 1 <;> apply Finset.sum_congr rfl <;> intro i _ <;>
-    apply Finset.sum_congr rfl <;> intro j _ <;> ring
+  congr 1
+  all_goals (apply Finset.sum_congr rfl; intro i _; apply Finset.sum_congr rfl; intro j _; ring)
 
 /-- B2b: Cross product is linear in second argument (PROVEN) -/
 theorem cross_right_linear (a : ℝ) (u v w : R7) :
@@ -138,8 +138,8 @@ theorem cross_right_linear (a : ℝ) (u v w : R7) :
   ext k
   simp only [cross_apply, PiLp.add_apply, PiLp.smul_apply, smul_eq_mul]
   simp_rw [mul_add, Finset.sum_add_distrib, Finset.mul_sum]
-  congr 1 <;> apply Finset.sum_congr rfl <;> intro i _ <;>
-    apply Finset.sum_congr rfl <;> intro j _ <;> ring
+  congr 1
+  all_goals (apply Finset.sum_congr rfl; intro i _; apply Finset.sum_congr rfl; intro j _; ring)
 
 /-- B2: Cross product is bilinear (PROVEN) -/
 theorem G2_cross_bilinear :
@@ -221,8 +221,8 @@ structure which is exactly the octonion multiplication table.
     Every nonzero epsilon corresponds to a Fano line permutation.
 
     This is true by construction: epsilon is defined using the Fano plane.
-    Full proof requires constructing existential witnesses for each of
-    the 42 nonzero cases (7 lines × 6 permutations). -/
+    NOTE: Exhaustive case verification (343 cases) causes deterministic timeout.
+    Kept as axiom until a more efficient proof strategy is found. -/
 axiom cross_is_octonion_structure :
     ∀ i j k : Fin 7, epsilon i j k ≠ 0 →
       (∃ line ∈ fano_lines, (i, j, k) = line ∨
@@ -275,7 +275,7 @@ theorem G2_dim_from_stabilizer : 49 - orbit_phi0_dim = 14 := rfl
 theorem G2_dim_from_roots : 12 + 2 = 14 := rfl
 
 /-!
-## Summary of Tier 2 Axioms (v3.5.x)
+## Summary of Tier 2 Axioms (v3.1.0)
 
 **Proven Theorems (6/8):**
 - epsilon_antisymm ✅ PROVEN (exhaustive fin_cases on 7³ = 343 cases)
@@ -286,12 +286,12 @@ theorem G2_dim_from_roots : 12 + 2 = 14 := rfl
 - B3': cross_self ✅ PROVEN (via B3 + two_ne_zero)
 
 **Remaining Axioms (2/8):**
-- B4: G2_cross_norm (Lagrange identity - requires 7D-specific proof)
-- B5: cross_is_octonion_structure (343-case existential - timeout)
+- B4: G2_cross_norm (Lagrange identity - requires 7D epsilon contraction)
+- B5: cross_is_octonion_structure (exhaustive proof times out)
 
-NOTE: The 3D epsilon contraction identity does NOT hold in 7D!
-The 7D cross product has different algebraic structure due to
-non-associativity of octonions.
+NOTE: B5 was attempted with exhaustive 343-case verification but causes
+deterministic timeout. The 3D epsilon contraction identity does NOT hold in 7D!
+The 7D cross product requires octonion-specific algebraic techniques.
 -/
 
 end GIFT.Foundations.G2CrossProduct

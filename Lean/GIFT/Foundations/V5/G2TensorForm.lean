@@ -107,7 +107,7 @@ structure G2Structure (M : Type*) where
   positive : True       -- φ is positive (defines metric)
 
 /-- Torsion-free G2 structure -/
-def TorsionFree (M : Type*) (g2 : G2Structure M) : Prop :=
+def TorsionFree (M : Type*) (_g2 : G2Structure M) : Prop :=
   True  -- dφ = 0 and d*φ = 0
 
 /-!
