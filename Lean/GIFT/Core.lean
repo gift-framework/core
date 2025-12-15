@@ -1,3 +1,8 @@
+-- Import derived constants from Algebraic modules
+import GIFT.Algebraic.Octonions
+import GIFT.Algebraic.G2
+import GIFT.Algebraic.BettiNumbers
+
 /-!
 # GIFT Core Constants
 
@@ -39,11 +44,6 @@ open GIFT.Core
 #check H_star    -- 99
 ```
 -/
-
--- Import derived constants from Algebraic modules
-import GIFT.Algebraic.Octonions
-import GIFT.Algebraic.G2
-import GIFT.Algebraic.BettiNumbers
 
 namespace GIFT.Core
 

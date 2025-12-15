@@ -1,3 +1,5 @@
+import GIFT.Core
+
 /-!
 # GIFT Geometry Module (DEPRECATED)
 
@@ -25,8 +27,6 @@ open GIFT.Core
 `GIFT.Core` provides a single source of truth for all GIFT constants,
 including geometry constants like dim_K7 and dim_J3O.
 -/
-
-import GIFT.Core
 
 namespace GIFT.Geometry
 

@@ -1,3 +1,5 @@
+import GIFT.Core
+
 /-!
 # GIFT Algebra Module (DEPRECATED)
 
@@ -26,8 +28,6 @@ open GIFT.Core
 eliminating duplicate definitions that were causing confusion.
 The constants are derived from octonion structure (not arbitrary values).
 -/
-
-import GIFT.Core
 
 namespace GIFT.Algebra
 

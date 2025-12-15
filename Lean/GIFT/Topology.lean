@@ -1,3 +1,5 @@
+import GIFT.Core
+
 /-!
 # GIFT Topology Module (DEPRECATED)
 
@@ -30,8 +32,6 @@ The Betti numbers are now derived from octonion structure:
 
 See `GIFT.Algebraic.BettiNumbers` for the derivation.
 -/
-
-import GIFT.Core
 
 namespace GIFT.Topology
 

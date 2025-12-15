@@ -1,3 +1,14 @@
+-- Import all submodules
+import GIFT.Algebraic.Quaternions
+import GIFT.Algebraic.Octonions
+import GIFT.Algebraic.CayleyDickson
+import GIFT.Algebraic.G2
+import GIFT.Algebraic.BettiNumbers
+import GIFT.Algebraic.GIFTConstants
+-- V3.2: SO(16) Decomposition
+import GIFT.Algebraic.SO16Decomposition
+import GIFT.Algebraic.GeometricSaturation
+
 /-!
 # GIFT Algebraic Foundations (PREFERRED)
 
@@ -76,17 +87,6 @@ defining them as arbitrary values. Prefer this over GIFT.Algebra/Topology.
   #check gift_from_octonions
   ```
 -/
-
--- Import all submodules
-import GIFT.Algebraic.Quaternions
-import GIFT.Algebraic.Octonions
-import GIFT.Algebraic.CayleyDickson
-import GIFT.Algebraic.G2
-import GIFT.Algebraic.BettiNumbers
-import GIFT.Algebraic.GIFTConstants
--- V3.2: SO(16) Decomposition
-import GIFT.Algebraic.SO16Decomposition
-import GIFT.Algebraic.GeometricSaturation
 
 namespace GIFT.Algebraic
 
