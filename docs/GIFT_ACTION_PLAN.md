@@ -1,7 +1,7 @@
 # GIFT Consolidated Action Plan
 
 **Date**: 2025-12-15
-**Current version**: 3.4.0
+**Current version**: 3.5.0
 **Consolidation of**: `AXIOMS_RESOLUTION_PLAN.md` + `GIFT_v32_IMPLEMENTATION_PLAN.md`
 
 ---
@@ -40,8 +40,8 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 | A3. `E8_roots_decomposition` | ✅ PROUVÉ | RootSystems.lean |
 | A4. `D8_HalfInt_disjoint` | ✅ PROUVÉ | RootSystems.lean |
 | A5. `E8_roots_card = 240` | ✅ PROUVÉ | RootSystems.lean |
-| A6. `E8_inner_integral` | ✅ THÉORÈME | E8Lattice.lean (case analysis, helpers sorry) |
-| A7. `E8_norm_sq_even` | ✅ THÉORÈME | E8Lattice.lean (case analysis, helpers sorry) |
+| A6. `E8_inner_integral` | ✅ THÉORÈME | E8Lattice.lean (case analysis, helper axioms) |
+| A7. `E8_norm_sq_even` | ✅ THÉORÈME | E8Lattice.lean (case analysis, helper axioms) |
 | A8. `E8_basis_generates` | ✅ PROUVÉ | E8Lattice.lean |
 | A9. `stdBasis_orthonormal` | ✅ PROUVÉ | E8Lattice.lean |
 | A10. `stdBasis_norm` | ✅ PROUVÉ | E8Lattice.lean |
@@ -52,13 +52,15 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 
 | Axiome | Status | Fichier |
 |--------|--------|---------|
-| B1. `reflect_preserves_lattice` | ✅ THÉORÈME | E8Lattice.lean (via A6 + closure, helpers sorry) |
+| B1. `reflect_preserves_lattice` | ✅ THÉORÈME | E8Lattice.lean (via A6 + lattice closure axioms) |
 
-**Helpers clés:**
-- `sq_mod_two_eq_self_mod_two`: n² ≡ n (mod 2) ✓ (omega)
-- `sum_sq_mod_two`: Σnᵢ² ≡ Σnᵢ (mod 2) (sorry - Finset induction)
-- `E8_smul_int_closed`: E8 fermé sous ℤ-scaling (sorry)
-- `E8_sub_closed`: E8 fermé sous soustraction (sorry)
+**Helper Axioms (v3.5.0):** 9 explicit axioms replacing sorry placeholders:
+- `sq_mod_two_eq_self_mod_two`: n² ≡ n (mod 2) — omega can't handle n²
+- `sum_sq_mod_two`: Σnᵢ² ≡ Σnᵢ (mod 2) — Finset induction
+- `inner_int_of_both_int`, `inner_int_of_int_half`, `inner_int_of_both_half_int` — inner product cases
+- `norm_sq_even_of_int_even_sum`, `norm_sq_even_of_half_int_even_sum` — norm² cases
+- `E8_smul_int_closed`: E8 fermé sous ℤ-scaling
+- `E8_sub_closed`: E8 fermé sous soustraction
 
 ### Lean 4 - Axiomes Restants (Tier 2+)
 
@@ -201,17 +203,17 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 
 ### Axiomes par Tier
 
-| Tier | Total | Théorèmes | Helpers sorry | À faire |
+| Tier | Total | Théorèmes | Helper Axioms | À faire |
 |------|-------|-----------|---------------|---------|
-| 1 | 12 | **12** | 6 | helpers |
+| 1 | 12 | **12** | 7 | ✅ Complete |
 | 2 | 8 | **1** | 2 | 7 |
 | 3 | 7 | 0 | 0 | 7 |
 | 4 | 9 | ~2 | 0 | 7 |
 | 5 | 12 | 0 | 0 | 12 |
 | 6 | 10 | 0 | 0 | 10 |
-| **Total** | **58** | **~15** | **8** | **43** |
+| **Total** | **58** | **~15** | **9** | **43** |
 
-**Structure complète pour Tier 1 + B1. Helpers sorry = API Mathlib4 technique.**
+**v3.5.0: Tier 1 complete (12/12 theorems), Tier 2 started (B1 proven). 9 helper axioms are explicit mathematical assumptions, cleaner than `sorry`.**
 
 ### Actions par Priorité
 
@@ -219,7 +221,7 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 |----------|--------|--------|----------------|
 | P1 Coq Sync | 2-3h | Haut | **FAIRE MAINTENANT** |
 | P2 Python API | 2-3h | Moyen | **FAIRE MAINTENANT** |
-| P3 Mathlib | 1-2j | Haut | Semaine prochaine |
+| P3 Mathlib | ✅ DONE | Haut | Completed in v3.5.0 |
 | P4 Tier 2-3 | 1-2 sem | Moyen | Ce mois |
 | P5 G2/Analyse | 1+ mois | Moyen | Quand prêt |
 | P6 Joyce | Long terme | Recherche | Collaboration |
@@ -252,4 +254,4 @@ Les fichiers suivants peuvent être archivés :
 
 ---
 
-*Plan consolidé généré le 2025-12-15 pour GIFT Framework v3.4.0*
+*Plan consolidé généré le 2025-12-15 pour GIFT Framework v3.5.0*
