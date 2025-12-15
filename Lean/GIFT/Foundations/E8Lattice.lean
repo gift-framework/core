@@ -158,28 +158,27 @@ lemma int_sq_eq_self_plus_2k (n : ℤ) : ∃ k : ℤ, n^2 = n + 2 * k := by
 /-- Key lemma: n² ≡ n (mod 2) because n(n-1) is always even (PROVEN) -/
 theorem sq_mod_two_eq_self_mod_two (n : ℤ) : n^2 % 2 = n % 2 := by
   obtain ⟨k, hk⟩ := int_sq_eq_self_plus_2k n
-  calc n^2 % 2 = (n + 2 * k) % 2 := by rw [hk]
-    _ = n % 2 := by rw [Int.add_mul_emod_self]
+  simp only [hk, Int.add_mul_emod_self_left]
 
 /-- Sum of squares mod 2 equals sum mod 2 (PROVEN via sq_mod_two) -/
 theorem sum_sq_mod_two (f : Fin 8 → ℤ) : (∑ i, (f i)^2) % 2 = (∑ i, f i) % 2 := by
+  -- Use induction on the finite sum: each n² ≡ n (mod 2)
   have h : ∀ i, (f i)^2 % 2 = f i % 2 := fun i => sq_mod_two_eq_self_mod_two (f i)
-  -- Use that ∑ (a_i mod 2) ≡ ∑ a_i (mod 2)
-  calc (∑ i, (f i)^2) % 2 = (∑ i, ((f i)^2 % 2 + 2 * ((f i)^2 / 2))) % 2 := by
-      congr 1; apply Finset.sum_congr rfl; intro i _; exact (Int.emod_add_ediv _ 2).symm
-    _ = (∑ i, (f i % 2 + 2 * ((f i)^2 / 2))) % 2 := by
-      congr 1; apply Finset.sum_congr rfl; intro i _; rw [h i]
-    _ = (∑ i, f i % 2) % 2 := by
-      rw [Finset.sum_add_distrib, Int.add_mul_emod_self]
-      simp only [Finset.mul_sum]
-      rw [Int.add_mul_emod_self]
-    _ = (∑ i, f i) % 2 := by
-      -- Each f i = (f i % 2) + 2 * (f i / 2)
-      have h2 : ∀ i, f i % 2 = f i - 2 * (f i / 2) := fun i => by omega
-      have h3 : ∑ i, f i % 2 = ∑ i, f i - 2 * ∑ i, f i / 2 := by
-        rw [Finset.sum_sub_distrib, Finset.mul_sum]
-      rw [h3, Int.sub_emod, Int.mul_emod_right, sub_zero, Int.emod_emod_of_dvd]
-      exact dvd_refl 2
+  -- The mod 2 of sum of squares = mod 2 of sum (by congruence)
+  have h_cong : (∑ i, (f i)^2) % 2 = (∑ i : Fin 8, (f i)^2 % 2) % 2 := by
+    congr 1
+    apply Finset.sum_congr rfl
+    intro i _
+    exact (Int.emod_emod_of_dvd (f i ^ 2) (dvd_refl 2)).symm
+  rw [h_cong]
+  simp_rw [h]
+  -- Now (∑ (f i % 2)) % 2 = (∑ f i) % 2
+  have h_sum : (∑ i : Fin 8, f i % 2) % 2 = (∑ i, f i) % 2 := by
+    congr 1
+    apply Finset.sum_congr rfl
+    intro i _
+    exact Int.emod_emod_of_dvd (f i) (dvd_refl 2)
+  exact h_sum
 
 /-- Inner product of two integer vectors is integer (PROVEN) -/
 theorem inner_int_of_both_int (v w : R8) (hv : AllInteger v) (hw : AllInteger w) :
@@ -610,7 +609,7 @@ theorem E8_add_closed (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice)
 
 /-- E8 lattice is closed under negation -/
 theorem E8_neg_closed (v : R8) (hv : v ∈ E8_lattice) : -v ∈ E8_lattice := by
-  have h : -v = (-1 : ℤ) • v := by simp
+  have h : -v = ((-1 : ℤ) : ℝ) • v := by simp [neg_one_smul]
   rw [h]
   exact E8_smul_int_closed (-1) v hv
 

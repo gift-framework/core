@@ -217,65 +217,17 @@ This is true by construction: we defined epsilon using the Fano plane
 structure which is exactly the octonion multiplication table.
 -/
 
-/-- B5: Cross product structure matches octonion multiplication (PROVEN)
+/-- B5: Cross product structure matches octonion multiplication
     Every nonzero epsilon corresponds to a Fano line permutation.
 
     This is true by construction: epsilon is defined using the Fano plane.
-    Proof by exhaustive verification of all 7³ = 343 cases. -/
-theorem cross_is_octonion_structure :
+    NOTE: Exhaustive case verification (343 cases) causes deterministic timeout.
+    Kept as axiom until a more efficient proof strategy is found. -/
+axiom cross_is_octonion_structure :
     ∀ i j k : Fin 7, epsilon i j k ≠ 0 →
       (∃ line ∈ fano_lines, (i, j, k) = line ∨
         (j, k, i) = line ∨ (k, i, j) = line ∨
-        (k, j, i) = line ∨ (j, i, k) = line ∨ (i, k, j) = line) := by
-  intro i j k hne
-  -- Exhaustive case analysis on all 343 = 7³ combinations
-  fin_cases i <;> fin_cases j <;> fin_cases k <;>
-  -- For each case, either epsilon = 0 (contradiction) or we find the Fano line
-  simp only [epsilon, fano_lines] at hne ⊢ <;>
-  first
-  | exact absurd rfl hne  -- epsilon = 0, contradiction
-  | exact ⟨(0, 1, 3), by simp, Or.inl rfl⟩
-  | exact ⟨(0, 1, 3), by simp, Or.inr (Or.inl rfl)⟩
-  | exact ⟨(0, 1, 3), by simp, Or.inr (Or.inr (Or.inl rfl))⟩
-  | exact ⟨(0, 1, 3), by simp, Or.inr (Or.inr (Or.inr (Or.inl rfl)))⟩
-  | exact ⟨(0, 1, 3), by simp, Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl))))⟩
-  | exact ⟨(0, 1, 3), by simp, Or.inr (Or.inr (Or.inr (Or.inr (Or.inr rfl))))⟩
-  | exact ⟨(1, 2, 4), by simp, Or.inl rfl⟩
-  | exact ⟨(1, 2, 4), by simp, Or.inr (Or.inl rfl)⟩
-  | exact ⟨(1, 2, 4), by simp, Or.inr (Or.inr (Or.inl rfl))⟩
-  | exact ⟨(1, 2, 4), by simp, Or.inr (Or.inr (Or.inr (Or.inl rfl)))⟩
-  | exact ⟨(1, 2, 4), by simp, Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl))))⟩
-  | exact ⟨(1, 2, 4), by simp, Or.inr (Or.inr (Or.inr (Or.inr (Or.inr rfl))))⟩
-  | exact ⟨(2, 3, 5), by simp, Or.inl rfl⟩
-  | exact ⟨(2, 3, 5), by simp, Or.inr (Or.inl rfl)⟩
-  | exact ⟨(2, 3, 5), by simp, Or.inr (Or.inr (Or.inl rfl))⟩
-  | exact ⟨(2, 3, 5), by simp, Or.inr (Or.inr (Or.inr (Or.inl rfl)))⟩
-  | exact ⟨(2, 3, 5), by simp, Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl))))⟩
-  | exact ⟨(2, 3, 5), by simp, Or.inr (Or.inr (Or.inr (Or.inr (Or.inr rfl))))⟩
-  | exact ⟨(3, 4, 6), by simp, Or.inl rfl⟩
-  | exact ⟨(3, 4, 6), by simp, Or.inr (Or.inl rfl)⟩
-  | exact ⟨(3, 4, 6), by simp, Or.inr (Or.inr (Or.inl rfl))⟩
-  | exact ⟨(3, 4, 6), by simp, Or.inr (Or.inr (Or.inr (Or.inl rfl)))⟩
-  | exact ⟨(3, 4, 6), by simp, Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl))))⟩
-  | exact ⟨(3, 4, 6), by simp, Or.inr (Or.inr (Or.inr (Or.inr (Or.inr rfl))))⟩
-  | exact ⟨(4, 5, 0), by simp, Or.inl rfl⟩
-  | exact ⟨(4, 5, 0), by simp, Or.inr (Or.inl rfl)⟩
-  | exact ⟨(4, 5, 0), by simp, Or.inr (Or.inr (Or.inl rfl))⟩
-  | exact ⟨(4, 5, 0), by simp, Or.inr (Or.inr (Or.inr (Or.inl rfl)))⟩
-  | exact ⟨(4, 5, 0), by simp, Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl))))⟩
-  | exact ⟨(4, 5, 0), by simp, Or.inr (Or.inr (Or.inr (Or.inr (Or.inr rfl))))⟩
-  | exact ⟨(5, 6, 1), by simp, Or.inl rfl⟩
-  | exact ⟨(5, 6, 1), by simp, Or.inr (Or.inl rfl)⟩
-  | exact ⟨(5, 6, 1), by simp, Or.inr (Or.inr (Or.inl rfl))⟩
-  | exact ⟨(5, 6, 1), by simp, Or.inr (Or.inr (Or.inr (Or.inl rfl)))⟩
-  | exact ⟨(5, 6, 1), by simp, Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl))))⟩
-  | exact ⟨(5, 6, 1), by simp, Or.inr (Or.inr (Or.inr (Or.inr (Or.inr rfl))))⟩
-  | exact ⟨(6, 0, 2), by simp, Or.inl rfl⟩
-  | exact ⟨(6, 0, 2), by simp, Or.inr (Or.inl rfl)⟩
-  | exact ⟨(6, 0, 2), by simp, Or.inr (Or.inr (Or.inl rfl))⟩
-  | exact ⟨(6, 0, 2), by simp, Or.inr (Or.inr (Or.inr (Or.inl rfl)))⟩
-  | exact ⟨(6, 0, 2), by simp, Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl))))⟩
-  | exact ⟨(6, 0, 2), by simp, Or.inr (Or.inr (Or.inr (Or.inr (Or.inr rfl))))⟩
+        (k, j, i) = line ∨ (j, i, k) = line ∨ (i, k, j) = line)
 
 /-!
 ## Connection to G2 Holonomy
@@ -325,21 +277,21 @@ theorem G2_dim_from_roots : 12 + 2 = 14 := rfl
 /-!
 ## Summary of Tier 2 Axioms (v3.1.0)
 
-**Proven Theorems (7/8):**
+**Proven Theorems (6/8):**
 - epsilon_antisymm ✅ PROVEN (exhaustive fin_cases on 7³ = 343 cases)
 - epsilon_diag ✅ PROVEN (exhaustive check on 7² = 49 cases)
 - cross_apply ✅ PROVEN (definitional, rfl) - @[simp] lemma
 - B2: G2_cross_bilinear ✅ PROVEN (via cross_apply + sum linearity)
 - B3: G2_cross_antisymm ✅ PROVEN (via epsilon_antisymm + ext)
 - B3': cross_self ✅ PROVEN (via B3 + two_ne_zero)
-- B5: cross_is_octonion_structure ✅ PROVEN (v3.1.0 - exhaustive Fano check)
 
-**Remaining Axioms (1/8):**
+**Remaining Axioms (2/8):**
 - B4: G2_cross_norm (Lagrange identity - requires 7D epsilon contraction)
+- B5: cross_is_octonion_structure (exhaustive proof times out)
 
-NOTE: The 3D epsilon contraction identity does NOT hold in 7D!
-The 7D cross product requires octonion-specific algebraic techniques
-to prove the Lagrange identity |u × v|² = |u|²|v|² - ⟨u,v⟩².
+NOTE: B5 was attempted with exhaustive 343-case verification but causes
+deterministic timeout. The 3D epsilon contraction identity does NOT hold in 7D!
+The 7D cross product requires octonion-specific algebraic techniques.
 -/
 
 end GIFT.Foundations.G2CrossProduct

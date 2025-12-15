@@ -35,7 +35,7 @@ due to Nat subtraction. We axiomatize the decomposition instead.
 
 /-- Hodge decomposition exists (axiomatized to avoid Nat subtraction issues) -/
 axiom hodge_decomposition_exists (k : ℕ) :
-  ∀ ω : hd.bundle.Omega k,
+  ∀ _ω : hd.bundle.Omega k,
     ∃ (h : hd.bundle.Omega k),
       IsHarmonic lap k h -- h is the harmonic component
 

@@ -58,7 +58,7 @@ Ce plan fait le point apres plusieurs commits iteratifs. La version est consolid
 
 *Via case analysis + 9 helper axioms (standard number theory)
 
-#### Tier 2: G2 Cross Product (8/9) - Updated v3.1.0
+#### Tier 2: G2 Cross Product (7/9) - Updated v3.1.0
 
 | Axiome | Status | Fichier |
 |--------|--------|---------|
@@ -70,7 +70,7 @@ Ce plan fait le point apres plusieurs commits iteratifs. La version est consolid
 | B3. `G2_cross_antisymm` | THEOREM | G2CrossProduct.lean |
 | B3'. `cross_self` | THEOREM | G2CrossProduct.lean |
 | B4. `G2_cross_norm` | **AXIOM** | G2CrossProduct.lean (Lagrange 7D) |
-| B5. `cross_is_octonion_structure` | THEOREM | G2CrossProduct.lean (v3.1.0) |
+| B5. `cross_is_octonion_structure` | **AXIOM** | G2CrossProduct.lean (timeout) |
 
 #### Helper Lemmas (E8Lattice.lean) - ALL PROVEN v3.1.0
 
@@ -150,9 +150,9 @@ Ces fichiers restent axiomatiques et sont reserves pour recherche future.
 |----------|----------|--------|
 | Tier 1 (E8 roots) | 12 | 0 |
 | Helper lemmas | **11** | **0** |
-| Tier 2 (G2 cross) | **8** | **1** (B4 only) |
+| Tier 2 (G2 cross) | **7** | **2** (B4, B5) |
 | V5 experimental | 0 | ~30 |
-| **Total** | **31** | **~31** |
+| **Total** | **30** | **~32** |
 
 ---
 
@@ -162,7 +162,7 @@ Ces fichiers restent axiomatiques et sont reserves pour recherche future.
 
 ```
 [ ] P1: Prouver B4 (Lagrange 7D) - Difficile (requires epsilon contraction)
-[x] P2: Prouver B5 (existential 343 cases) - DONE v3.1.0
+[ ] P2: Prouver B5 (exhaustive 343 cases) - TIMEOUT, needs efficient proof
 ```
 
 ### Moyen terme
@@ -189,7 +189,7 @@ Ces fichiers restent axiomatiques et sont reserves pour recherche future.
 | v1.7.0 | 75 relations | - |
 | v2.0.0 | 165 relations + sequences/primes/monster | - |
 | v3.0.0 | + Joyce existence theorem | - |
-| **v3.1.0** | **Consolidation, Tier 1 complet, Tier 2 a 7/9** | 2025-12-15 |
+| **v3.1.0** | **Consolidation, Tier 1 complet, Tier 2 a 7/9, helper axioms proven** | 2025-12-15 |
 
 ---
 
