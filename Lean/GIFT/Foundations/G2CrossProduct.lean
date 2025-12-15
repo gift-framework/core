@@ -127,7 +127,8 @@ theorem cross_left_linear (a : ℝ) (u v w : R7) :
   simp only [cross_apply, PiLp.add_apply, PiLp.smul_apply, smul_eq_mul]
   -- LHS: ∑ i j, ε * (a * u i + v i) * w j
   -- RHS: a * (∑ i j, ε * u i * w j) + ∑ i j, ε * v i * w j
-  simp_rw [add_mul, Finset.sum_add_distrib, Finset.mul_sum]
+  -- First expand ε * (X + Y) = ε * X + ε * Y, then (A + B) * w = A*w + B*w
+  simp_rw [mul_add, add_mul, Finset.sum_add_distrib, Finset.mul_sum]
   congr 1 <;> apply Finset.sum_congr rfl <;> intro i _ <;>
     apply Finset.sum_congr rfl <;> intro j _ <;> ring
 
