@@ -97,26 +97,7 @@ noncomputable def cross (u v : R7) : R7 :=
   (WithLp.equiv 2 _).symm (fun k => ∑ i, ∑ j, (epsilon i j k : ℝ) * u i * v j)
 
 /-!
-## Axiom B2: G2_cross_bilinear
-
-The cross product is bilinear. This follows from the definition
-as a sum of products with constant coefficients ε(i,j,k).
-
-Proof strategy: expand sums and use linearity of summation.
-Requires WithLp API work - stated as axiom pending Mathlib improvements.
--/
-
-/-- B2: Cross product is bilinear -/
-axiom G2_cross_bilinear :
-    (∀ a : ℝ, ∀ u v w : R7, cross (a • u + v) w = a • cross u w + cross v w) ∧
-    (∀ a : ℝ, ∀ u v w : R7, cross u (a • v + w) = a • cross u v + cross u w)
-
-/-!
-## Axiom B3: G2_cross_antisymm
-
-u × v = -v × u
-
-This follows from ε(i,j,k) = -ε(j,i,k) (antisymmetry of structure constants).
+## Helper lemmas for epsilon structure constants
 -/
 
 /-- epsilon is antisymmetric in first two arguments - PROVEN by exhaustive check -/
@@ -127,13 +108,84 @@ theorem epsilon_antisymm (i j k : Fin 7) : epsilon i j k = -epsilon j i k := by
 theorem epsilon_diag (i k : Fin 7) : epsilon i i k = 0 := by
   fin_cases i <;> fin_cases k <;> native_decide
 
-/-- B3: Cross product is antisymmetric
-    Proof strategy: ε(i,j,k) = -ε(j,i,k) by epsilon_antisymm, then swap sums.
-    Requires WithLp API work - stated as axiom pending Mathlib improvements. -/
-axiom G2_cross_antisymm (u v : R7) : cross u v = -cross v u
+/-- Helper: Extract k-th component of cross product (definitional)
+    (cross u v) k = ∑ i, ∑ j, ε(i,j,k) * u(i) * v(j) -/
+@[simp] theorem cross_apply (u v : R7) (k : Fin 7) :
+    (cross u v) k = ∑ i, ∑ j, (epsilon i j k : ℝ) * u i * v j := rfl
 
-/-- Corollary: u × u = 0 (follows from x = -x in char 0) -/
-axiom cross_self (u : R7) : cross u u = 0
+/-!
+## Theorem B2: G2_cross_bilinear
+
+The cross product is bilinear. This follows from the definition
+as a sum of products with constant coefficients ε(i,j,k).
+-/
+
+/-- B2a: Cross product is linear in first argument (PROVEN) -/
+theorem cross_left_linear (a : ℝ) (u v w : R7) :
+    cross (a • u + v) w = a • cross u w + cross v w := by
+  ext k
+  simp only [cross_apply, PiLp.add_apply, PiLp.smul_apply, smul_eq_mul]
+  -- LHS: ∑ i j, ε * (a * u i + v i) * w j
+  -- RHS: a * (∑ i j, ε * u i * w j) + ∑ i j, ε * v i * w j
+  -- First expand ε * (X + Y) = ε * X + ε * Y, then (A + B) * w = A*w + B*w
+  simp_rw [mul_add, add_mul, Finset.sum_add_distrib, Finset.mul_sum]
+  congr 1 <;> apply Finset.sum_congr rfl <;> intro i _ <;>
+    apply Finset.sum_congr rfl <;> intro j _ <;> ring
+
+/-- B2b: Cross product is linear in second argument (PROVEN) -/
+theorem cross_right_linear (a : ℝ) (u v w : R7) :
+    cross u (a • v + w) = a • cross u v + cross u w := by
+  ext k
+  simp only [cross_apply, PiLp.add_apply, PiLp.smul_apply, smul_eq_mul]
+  simp_rw [mul_add, Finset.sum_add_distrib, Finset.mul_sum]
+  congr 1 <;> apply Finset.sum_congr rfl <;> intro i _ <;>
+    apply Finset.sum_congr rfl <;> intro j _ <;> ring
+
+/-- B2: Cross product is bilinear (PROVEN) -/
+theorem G2_cross_bilinear :
+    (∀ a : ℝ, ∀ u v w : R7, cross (a • u + v) w = a • cross u w + cross v w) ∧
+    (∀ a : ℝ, ∀ u v w : R7, cross u (a • v + w) = a • cross u v + cross u w) :=
+  ⟨cross_left_linear, cross_right_linear⟩
+
+/-!
+## Theorem B3: G2_cross_antisymm (PROVEN)
+
+u × v = -v × u
+
+Proof: ε(i,j,k) = -ε(j,i,k) (epsilon_antisymm) + extensionality
+-/
+
+/-- B3: Cross product is antisymmetric (PROVEN)
+    Proof: Use epsilon_antisymm and sum reindexing -/
+theorem G2_cross_antisymm (u v : R7) : cross u v = -cross v u := by
+  ext k
+  simp only [cross_apply, PiLp.neg_apply]
+  -- Goal: ∑ i, ∑ j, ε(i,j,k) * u(i) * v(j) = -(∑ i, ∑ j, ε(i,j,k) * v(i) * u(j))
+  -- Swap indices i ↔ j in RHS, then use ε(j,i,k) = -ε(i,j,k)
+  conv_rhs =>
+    arg 1  -- the sum inside negation
+    rw [Finset.sum_comm]  -- swap order of sums
+  simp only [← Finset.sum_neg_distrib]
+  apply Finset.sum_congr rfl; intro i _
+  apply Finset.sum_congr rfl; intro j _
+  -- Goal: ε(i,j,k) * u i * v j = -(ε(j,i,k) * v j * u i)
+  have h := epsilon_antisymm i j k
+  simp only [Int.cast_neg, h]
+  ring
+
+/-- B3': u × u = 0 (PROVEN) - follows from antisymmetry -/
+theorem cross_self (u : R7) : cross u u = 0 := by
+  have h := G2_cross_antisymm u u
+  -- h: cross u u = -(cross u u), i.e., x = -x
+  -- In a vector space over ℝ, x = -x implies x = 0
+  have h2 : (2 : ℝ) • cross u u = 0 := by
+    calc (2 : ℝ) • cross u u
+        = cross u u + cross u u := two_smul ℝ _
+      _ = cross u u + (-cross u u) := by rw [← h]
+      _ = 0 := add_neg_cancel _
+  -- Since 2 ≠ 0 in ℝ, we get cross u u = 0
+  have h3 : (2 : ℝ) ≠ 0 := two_ne_zero
+  exact (smul_eq_zero.mp h2).resolve_left h3
 
 /-!
 ## Axiom B4: G2_cross_norm (Lagrange Identity)
@@ -168,8 +220,9 @@ structure which is exactly the octonion multiplication table.
 /-- B5: Cross product structure matches octonion multiplication
     Every nonzero epsilon corresponds to a Fano line permutation.
 
-    Proof strategy: exhaustive check over 7³ = 343 cases.
-    simp_all approach incomplete - requires more explicit case analysis. -/
+    This is true by construction: epsilon is defined using the Fano plane.
+    Full proof requires constructing existential witnesses for each of
+    the 42 nonzero cases (7 lines × 6 permutations). -/
 axiom cross_is_octonion_structure :
     ∀ i j k : Fin 7, epsilon i j k ≠ 0 →
       (∃ line ∈ fano_lines, (i, j, k) = line ∨
@@ -222,18 +275,19 @@ theorem G2_dim_from_stabilizer : 49 - orbit_phi0_dim = 14 := rfl
 theorem G2_dim_from_roots : 12 + 2 = 14 := rfl
 
 /-!
-## Summary of Tier 2 Axioms (v3.5.0)
+## Summary of Tier 2 Axioms (v3.5.x)
 
-**Proven Theorems (2/7):**
+**Proven Theorems (6/8):**
 - epsilon_antisymm ✅ PROVEN (exhaustive fin_cases on 7³ = 343 cases)
 - epsilon_diag ✅ PROVEN (exhaustive check on 7² = 49 cases)
+- cross_apply ✅ PROVEN (definitional, rfl) - @[simp] lemma
+- B2: G2_cross_bilinear ✅ PROVEN (via cross_apply + sum linearity)
+- B3: G2_cross_antisymm ✅ PROVEN (via epsilon_antisymm + ext)
+- B3': cross_self ✅ PROVEN (via B3 + two_ne_zero)
 
-**Remaining Axioms (5/7):**
-- B2: G2_cross_bilinear (requires WithLp API)
-- B3: G2_cross_antisymm (requires WithLp API)
-- B3': cross_self (requires B3)
+**Remaining Axioms (2/8):**
 - B4: G2_cross_norm (Lagrange identity - requires 7D-specific proof)
-- B5: cross_is_octonion_structure (requires explicit case handling)
+- B5: cross_is_octonion_structure (343-case existential - timeout)
 
 NOTE: The 3D epsilon contraction identity does NOT hold in 7D!
 The 7D cross product has different algebraic structure due to
