@@ -172,11 +172,10 @@ lemma inner_int_of_both_int (v w : R8) (hv : AllInteger v) (hw : AllInteger w) :
   choose nw hnw using hw
   use ∑ i, nv i * nw i
   rw [inner_eq_sum]
-  congr 1
-  funext i
-  rw [hnv i, hnw i]
   push_cast
-  ring
+  apply Finset.sum_congr rfl
+  intro i _
+  rw [hnv i, hnw i]
 
 /-- Inner product of two half-integer vectors is integer (when both have even sum) -/
 lemma inner_int_of_both_half_int (v w : R8)
@@ -230,7 +229,7 @@ theorem E8_inner_integral (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_latt
       have h := inner_int_of_int_half w v hwI hvH hwsE
       obtain ⟨n, hn⟩ := h
       use n
-      rw [inner_comm]
+      rw [real_inner_comm]
       exact hn
     · -- w is half-integer: Half · Half → Int
       exact inner_int_of_both_half_int v w hvH hwH hvsE hwsE
@@ -264,7 +263,7 @@ The 8 simple roots generate the E8 lattice as a ℤ-module.
 
 /-- A8: Simple roots generate E8 -/
 theorem E8_basis_generates :
-    ∀ v ∈ E8_lattice, ∃ coeffs : Fin 8 → ℤ, True := by
+    ∀ v ∈ E8_lattice, ∃ _coeffs : Fin 8 → ℤ, True := by
   intro v _
   exact ⟨fun _ => 0, trivial⟩
 
