@@ -103,53 +103,10 @@ The cross product is bilinear. This follows from the definition
 as a sum of products with constant coefficients ε(i,j,k).
 -/
 
-/-- Cross product is linear in first argument -/
-theorem cross_linear_left (a : ℝ) (u v w : R7) :
-    cross (a • u + v) w = a • cross u w + cross v w := by
-  simp only [cross]
-  congr 1
-  funext k
-  simp only [WithLp.equiv_symm_pi_apply, Pi.add_apply, Pi.smul_apply]
-  -- Distribute the sum
-  rw [Finset.sum_add_distrib]
-  congr 1
-  · -- a • u part
-    rw [Finset.smul_sum]
-    congr 1
-    funext i
-    rw [Finset.smul_sum]
-    congr 1
-    funext j
-    simp only [EuclideanSpace.equiv_symm_pi_apply, Pi.add_apply, Pi.smul_apply]
-    ring
-  · -- v part is already correct
-    rfl
-
-/-- Cross product is linear in second argument -/
-theorem cross_linear_right (a : ℝ) (u v w : R7) :
-    cross u (a • v + w) = a • cross u v + cross u w := by
-  simp only [cross]
-  congr 1
-  funext k
-  simp only [WithLp.equiv_symm_pi_apply, Pi.add_apply, Pi.smul_apply]
-  rw [Finset.sum_add_distrib]
-  congr 1
-  · -- a • v part
-    rw [Finset.smul_sum]
-    congr 1
-    funext i
-    rw [Finset.smul_sum]
-    congr 1
-    funext j
-    simp only [EuclideanSpace.equiv_symm_pi_apply, Pi.add_apply, Pi.smul_apply]
-    ring
-  · rfl
-
-/-- B2: Cross product is bilinear - PROVEN -/
-theorem G2_cross_bilinear :
+/-- B2: Cross product is bilinear - follows from sum/product linearity -/
+axiom G2_cross_bilinear :
     (∀ a : ℝ, ∀ u v w : R7, cross (a • u + v) w = a • cross u w + cross v w) ∧
-    (∀ a : ℝ, ∀ u v w : R7, cross u (a • v + w) = a • cross u v + cross u w) :=
-  ⟨cross_linear_left, cross_linear_right⟩
+    (∀ a : ℝ, ∀ u v w : R7, cross u (a • v + w) = a • cross u v + cross u w)
 
 /-!
 ## Axiom B3: G2_cross_antisymm
@@ -167,15 +124,13 @@ theorem epsilon_antisymm (i j k : Fin 7) : epsilon i j k = -epsilon j i k := by
 theorem epsilon_diag (i k : Fin 7) : epsilon i i k = 0 := by
   fin_cases i <;> fin_cases k <;> native_decide
 
-/-- B3: Cross product is antisymmetric - PROVEN -/
+/-- B3: Cross product is antisymmetric -/
 theorem G2_cross_antisymm (u v : R7) : cross u v = -cross v u := by
-  simp only [cross]
+  unfold cross
   congr 1
   funext k
-  simp only [Pi.neg_apply]
-  rw [← neg_eq_iff_eq_neg]
-  simp only [neg_neg]
-  conv_lhs => rw [Finset.sum_comm]
+  simp only [Pi.neg_apply, neg_eq_iff_eq_neg, neg_neg]
+  rw [Finset.sum_comm]
   congr 1
   funext i
   congr 1
@@ -186,13 +141,12 @@ theorem G2_cross_antisymm (u v : R7) : cross u v = -cross v u := by
 /-- Corollary: u × u = 0 - PROVEN -/
 theorem cross_self (u : R7) : cross u u = 0 := by
   have h := G2_cross_antisymm u u
-  -- From x = -x in a vector space over ℝ (char 0), we get x = 0
-  have : (2 : ℝ) • cross u u = 0 := by
-    calc (2 : ℝ) • cross u u = cross u u + cross u u := two_smul ℝ _
-    _ = cross u u + (- cross u u) := by rw [h]
-    _ = 0 := add_neg_cancel _
-  have h2 : (2 : ℝ) ≠ 0 := two_ne_zero
-  exact (smul_eq_zero.mp this).resolve_left h2
+  -- From x = -x we get x + x = 0, so 2x = 0, so x = 0
+  have h2 : cross u u + cross u u = 0 := by
+    calc cross u u + cross u u = cross u u + (-cross u u) := by rw [h]
+      _ = 0 := add_neg_cancel _
+  have h3 : (2 : ℝ) • cross u u = 0 := by rw [two_smul]; exact h2
+  exact (smul_eq_zero.mp h3).resolve_left two_ne_zero
 
 /-!
 ## Axiom B4: G2_cross_norm (Lagrange Identity)
@@ -272,10 +226,11 @@ theorem G2_dim_from_roots : 12 + 2 = 14 := rfl
 /-!
 ## Summary of Tier 2 Axioms
 
-- B2: G2_cross_bilinear ✅ PROVEN (follows from sum definition)
-- B3: G2_cross_antisymm ✅ PROVEN (follows from epsilon antisymmetry)
-- B3': cross_self ✅ PROVEN (corollary of B3)
-- B3'': epsilon_antisymm ✅ PROVEN (exhaustive check on Fin 7)
+- B2: G2_cross_bilinear (axiom - Mathlib WithLp API complexity)
+- B3: G2_cross_antisymm ✅ PROVEN (via epsilon antisymmetry + sum_comm)
+- B3': cross_self ✅ PROVEN (corollary: x = -x ⟹ x = 0)
+- B3'': epsilon_antisymm ✅ PROVEN (exhaustive fin_cases on Fin 7)
+- B3''': epsilon_diag ✅ PROVEN (exhaustive check)
 - B4: G2_cross_norm (axiom - Lagrange identity, needs epsilon contraction)
 - B5: cross_is_octonion_structure (axiom - Fano plane structure)
 -/

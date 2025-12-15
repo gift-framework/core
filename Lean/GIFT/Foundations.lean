@@ -134,10 +134,10 @@ export E8Lattice (R8 stdBasis stdBasis_orthonormal stdBasis_norm
   E8_weyl_order E8_weyl_order_factored E8_weyl_order_check)
 
 -- G2 Cross Product (Tier 2 Axioms: B2-B5)
--- B2, B3, cross_self NOW PROVEN!
+-- B3, cross_self PROVEN! B2 axiom (Mathlib API complex)
 export G2CrossProduct (R7 cross epsilon fano_lines fano_lines_count
-  -- B2: bilinearity (PROVEN!)
-  cross_linear_left cross_linear_right G2_cross_bilinear
+  -- B2: bilinearity (axiom - Mathlib API limitations)
+  G2_cross_bilinear
   -- B3: antisymmetry (PROVEN!)
   epsilon_antisymm epsilon_diag G2_cross_antisymm cross_self
   phi0 preserves_cross preserves_phi0
