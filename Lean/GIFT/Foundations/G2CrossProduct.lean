@@ -124,29 +124,35 @@ theorem epsilon_antisymm (i j k : Fin 7) : epsilon i j k = -epsilon j i k := by
 theorem epsilon_diag (i k : Fin 7) : epsilon i i k = 0 := by
   fin_cases i <;> fin_cases k <;> native_decide
 
-/-- B3: Cross product is antisymmetric -/
-theorem G2_cross_antisymm (u v : R7) : cross u v = -cross v u := by
-  unfold cross
-  congr 1
-  funext k
-  simp only [Pi.neg_apply, neg_eq_iff_eq_neg, neg_neg]
+/-- Helper: the inner sum satisfies antisymmetry -/
+theorem cross_inner_antisymm (u v : R7) (k : Fin 7) :
+    ∑ i, ∑ j, (epsilon i j k : ℝ) * u i * v j =
+    -(∑ i, ∑ j, (epsilon i j k : ℝ) * v i * u j) := by
   rw [Finset.sum_comm]
+  simp only [neg_eq_iff_eq_neg, ← Finset.sum_neg_distrib]
   congr 1
   funext i
+  simp only [← Finset.sum_neg_distrib]
   congr 1
   funext j
   rw [epsilon_antisymm j i k]
   ring
 
+/-- B3: Cross product is antisymmetric -/
+theorem G2_cross_antisymm (u v : R7) : cross u v = -cross v u := by
+  unfold cross
+  simp only [EuclideanSpace.neg_def, WithLp.equiv_symm_neg]
+  congr 1
+  funext k
+  exact cross_inner_antisymm u v k
+
 /-- Corollary: u × u = 0 - PROVEN -/
 theorem cross_self (u : R7) : cross u u = 0 := by
   have h := G2_cross_antisymm u u
-  -- From x = -x we get x + x = 0, so 2x = 0, so x = 0
-  have h2 : cross u u + cross u u = 0 := by
-    calc cross u u + cross u u = cross u u + (-cross u u) := by rw [h]
-      _ = 0 := add_neg_cancel _
-  have h3 : (2 : ℝ) • cross u u = 0 := by rw [two_smul]; exact h2
-  exact (smul_eq_zero.mp h3).resolve_left two_ne_zero
+  -- x = -x implies 2x = 0, so x = 0 in char 0
+  rw [eq_neg_iff_add_eq_zero] at h
+  have h2 : (2 : ℝ) • cross u u = 0 := by rw [two_smul]; exact h
+  exact (smul_eq_zero.mp h2).resolve_left two_ne_zero
 
 /-!
 ## Axiom B4: G2_cross_norm (Lagrange Identity)
