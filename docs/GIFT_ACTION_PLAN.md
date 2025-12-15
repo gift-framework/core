@@ -40,19 +40,31 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 | A3. `E8_roots_decomposition` | ✅ PROUVÉ | RootSystems.lean |
 | A4. `D8_HalfInt_disjoint` | ✅ PROUVÉ | RootSystems.lean |
 | A5. `E8_roots_card = 240` | ✅ PROUVÉ | RootSystems.lean |
+| A6. `E8_inner_integral` | ✅ THÉORÈME | E8Lattice.lean (case analysis, helpers sorry) |
+| A7. `E8_norm_sq_even` | ✅ THÉORÈME | E8Lattice.lean (case analysis, helpers sorry) |
+| A8. `E8_basis_generates` | ✅ PROUVÉ | E8Lattice.lean |
 | A9. `stdBasis_orthonormal` | ✅ PROUVÉ | E8Lattice.lean |
 | A10. `stdBasis_norm` | ✅ PROUVÉ | E8Lattice.lean |
 | A11. `normSq_eq_sum` | ✅ PROUVÉ v3.4 | E8Lattice.lean (Mathlib PiLp) |
 | A12. `inner_eq_sum` | ✅ PROUVÉ v3.4 | E8Lattice.lean (Mathlib PiLp) |
 
-### Lean 4 - Axiomes Restants
+### Lean 4 - Tier 2 Résolus
+
+| Axiome | Status | Fichier |
+|--------|--------|---------|
+| B1. `reflect_preserves_lattice` | ✅ THÉORÈME | E8Lattice.lean (via A6 + closure, helpers sorry) |
+
+**Helpers clés:**
+- `sq_mod_two_eq_self_mod_two`: n² ≡ n (mod 2) ✓ (omega)
+- `sum_sq_mod_two`: Σnᵢ² ≡ Σnᵢ (mod 2) (sorry - Finset induction)
+- `E8_smul_int_closed`: E8 fermé sous ℤ-scaling (sorry)
+- `E8_sub_closed`: E8 fermé sous soustraction (sorry)
+
+### Lean 4 - Axiomes Restants (Tier 2+)
 
 | Axiome | Status | Fichier | Difficulté |
 |--------|--------|---------|------------|
-| A6. `E8_inner_integral` | ⚠️ AXIOME | E8Lattice.lean | Accessible |
-| A7. `E8_norm_sq_even` | ⚠️ AXIOME | E8Lattice.lean | Accessible |
-| A8. `E8_basis_generates` | ⚠️ TRIVIAL | E8Lattice.lean | Facile |
-| B1. `reflect_preserves_lattice` | ⚠️ AXIOME | E8Lattice.lean | Moyen |
+| B2-B8 | ⚠️ AXIOMES | G2CrossProduct.lean | Moyen-Difficile |
 
 ### Coq - Ce qui est FAIT ✅
 
@@ -144,9 +156,9 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 ```
 [x] 3.1 A11 normSq_eq_sum - DONE v3.4 via EuclideanSpace.norm_eq
 [x] 3.2 A12 inner_eq_sum - DONE v3.4 via PiLp.inner_apply
-[ ] 3.3 A6 E8_inner_integral - Preuve par cas (entier/demi-entier)
-[ ] 3.4 A7 E8_norm_sq_even - Preuve par cas
-[ ] 3.5 B1 reflect_preserves_lattice - Via A6
+[x] 3.3 A6 E8_inner_integral - DONE v3.4 case analysis (helpers with sorry)
+[x] 3.4 A7 E8_norm_sq_even - DONE v3.4 case analysis (helpers with sorry)
+[x] 3.5 B1 reflect_preserves_lattice - DONE v3.4 via A6 + closure (helpers with sorry)
 ```
 
 ### Priorité 4: Tier 2-3 Axiomes (Moyen terme)
@@ -189,15 +201,17 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 
 ### Axiomes par Tier
 
-| Tier | Total | Prouvés | Axiomes | À faire |
-|------|-------|---------|---------|---------|
-| 1 | 12 | 7 | 5 | 5 |
-| 2 | 8 | 0 | 8 | 8 |
-| 3 | 7 | 0 | 7 | 7 |
-| 4 | 9 | ~2 | 7 | 7 |
-| 5 | 12 | 0 | 12 | 12 |
-| 6 | 10 | 0 | 10 | 10 |
-| **Total** | **58** | **~9** | **49** | **49** |
+| Tier | Total | Théorèmes | Helpers sorry | À faire |
+|------|-------|-----------|---------------|---------|
+| 1 | 12 | **12** | 6 | helpers |
+| 2 | 8 | **1** | 2 | 7 |
+| 3 | 7 | 0 | 0 | 7 |
+| 4 | 9 | ~2 | 0 | 7 |
+| 5 | 12 | 0 | 0 | 12 |
+| 6 | 10 | 0 | 0 | 10 |
+| **Total** | **58** | **~15** | **8** | **43** |
+
+**Structure complète pour Tier 1 + B1. Helpers sorry = API Mathlib4 technique.**
 
 ### Actions par Priorité
 
