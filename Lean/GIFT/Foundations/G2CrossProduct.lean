@@ -129,8 +129,8 @@ theorem cross_left_linear (a : ℝ) (u v w : R7) :
   -- RHS: a * (∑ i j, ε * u i * w j) + ∑ i j, ε * v i * w j
   -- First expand ε * (X + Y) = ε * X + ε * Y, then (A + B) * w = A*w + B*w
   simp_rw [mul_add, add_mul, Finset.sum_add_distrib, Finset.mul_sum]
-  congr 1 <;> apply Finset.sum_congr rfl <;> intro i _ <;>
-    apply Finset.sum_congr rfl <;> intro j _ <;> ring
+  congr 1
+  all_goals (apply Finset.sum_congr rfl; intro i _; apply Finset.sum_congr rfl; intro j _; ring)
 
 /-- B2b: Cross product is linear in second argument (PROVEN) -/
 theorem cross_right_linear (a : ℝ) (u v w : R7) :
@@ -138,8 +138,8 @@ theorem cross_right_linear (a : ℝ) (u v w : R7) :
   ext k
   simp only [cross_apply, PiLp.add_apply, PiLp.smul_apply, smul_eq_mul]
   simp_rw [mul_add, Finset.sum_add_distrib, Finset.mul_sum]
-  congr 1 <;> apply Finset.sum_congr rfl <;> intro i _ <;>
-    apply Finset.sum_congr rfl <;> intro j _ <;> ring
+  congr 1
+  all_goals (apply Finset.sum_congr rfl; intro i _; apply Finset.sum_congr rfl; intro j _; ring)
 
 /-- B2: Cross product is bilinear (PROVEN) -/
 theorem G2_cross_bilinear :

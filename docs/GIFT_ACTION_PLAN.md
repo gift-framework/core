@@ -58,34 +58,31 @@ Ce plan fait le point apres plusieurs commits iteratifs. La version est consolid
 
 *Via case analysis + 9 helper axioms (standard number theory)
 
-#### Tier 2: G2 Cross Product (7/9) - Updated v3.1.0
+#### Tier 2: G2 Cross Product (6/10) - Updated v3.1.0
 
 | Axiome | Status | Fichier |
 |--------|--------|---------|
 | `epsilon_antisymm` | THEOREM | G2CrossProduct.lean (343 cases) |
 | `epsilon_diag` | THEOREM | G2CrossProduct.lean (49 cases) |
 | `cross_apply` | THEOREM | G2CrossProduct.lean (rfl) |
-| B1. `reflect_preserves_lattice` | THEOREM | E8Lattice.lean |
+| B1. `reflect_preserves_lattice` | **AXIOM** | E8Lattice.lean |
 | B2. `G2_cross_bilinear` | THEOREM | G2CrossProduct.lean |
 | B3. `G2_cross_antisymm` | THEOREM | G2CrossProduct.lean |
 | B3'. `cross_self` | THEOREM | G2CrossProduct.lean |
 | B4. `G2_cross_norm` | **AXIOM** | G2CrossProduct.lean (Lagrange 7D) |
 | B5. `cross_is_octonion_structure` | **AXIOM** | G2CrossProduct.lean (timeout) |
+| `E8_smul_int_closed` | **AXIOM** | E8Lattice.lean |
 
-#### Helper Lemmas (E8Lattice.lean) - ALL PROVEN v3.1.0
+#### Helper Lemmas (E8Lattice.lean) - AXIOMS
 
-11 lemmes (anciens axiomes) maintenant prouves:
-- `sq_mod_two_eq_self_mod_two` THEOREM (via Int.even_mul_pred_self)
-- `sum_sq_mod_two` THEOREM (via sq_mod_two)
-- `inner_int_of_both_int` THEOREM
-- `inner_int_of_both_half_int` THEOREM (via SumEven)
-- `inner_int_of_int_half` THEOREM (via SumEven)
-- `norm_sq_even_of_int_even_sum` THEOREM
-- `norm_sq_even_of_half_int_even_sum` THEOREM
-- `E8_smul_int_closed` THEOREM (parity case analysis)
-- `E8_sub_closed` THEOREM (via add + neg)
-- `E8_add_closed` THEOREM (new)
-- `E8_neg_closed` THEOREM (new)
+7 lemmes axiomatiques (preuves necessitent analyse de cas avancee):
+- `sq_mod_two_eq_self_mod_two` - n² ≡ n (mod 2)
+- `sum_sq_mod_two` - ∑ nᵢ² ≡ ∑ nᵢ (mod 2)
+- `inner_int_of_both_int` - produit scalaire integers
+- `inner_int_of_both_half_int` - produit scalaire half-integers
+- `inner_int_of_int_half` - produit scalaire mixte
+- `norm_sq_even_of_int_even_sum` - norme des vecteurs entiers
+- `norm_sq_even_of_half_int_even_sum` - norme des vecteurs demi-entiers
 
 #### Tier 3+ (V5 Experimental)
 
@@ -149,10 +146,10 @@ Ces fichiers restent axiomatiques et sont reserves pour recherche future.
 | Category | Theorems | Axioms |
 |----------|----------|--------|
 | Tier 1 (E8 roots) | 12 | 0 |
-| Helper lemmas | **11** | **0** |
-| Tier 2 (G2 cross) | **7** | **2** (B4, B5) |
+| Helper lemmas | 0 | 7 |
+| Tier 2 (G2 cross) | 6 | 4 (B1, B4, B5, smul) |
 | V5 experimental | 0 | ~30 |
-| **Total** | **30** | **~32** |
+| **Total** | **18** | **~41** |
 
 ---
 
@@ -163,13 +160,14 @@ Ces fichiers restent axiomatiques et sont reserves pour recherche future.
 ```
 [ ] P1: Prouver B4 (Lagrange 7D) - Difficile (requires epsilon contraction)
 [ ] P2: Prouver B5 (exhaustive 343 cases) - TIMEOUT, needs efficient proof
+[ ] P3: Prouver helper axioms - Needs careful Mathlib API usage
 ```
 
 ### Moyen terme
 
 ```
-[x] P3: Eliminer les 9 helper axioms - DONE v3.1.0 (11 theorems now)
-[ ] P4: Synchroniser Coq avec SO16/Landauer (si pas fait)
+[ ] P4: Prouver B1 + E8_smul_int_closed (lattice closure)
+[ ] P5: Synchroniser Coq avec SO16/Landauer (si pas fait)
 ```
 
 ### Long terme (recherche)
@@ -189,7 +187,7 @@ Ces fichiers restent axiomatiques et sont reserves pour recherche future.
 | v1.7.0 | 75 relations | - |
 | v2.0.0 | 165 relations + sequences/primes/monster | - |
 | v3.0.0 | + Joyce existence theorem | - |
-| **v3.1.0** | **Consolidation, Tier 1 complet, Tier 2 a 7/9, helper axioms proven** | 2025-12-15 |
+| **v3.1.0** | **Consolidation, Tier 1 complet, Tier 2 a 6/10** | 2025-12-15 |
 
 ---
 
