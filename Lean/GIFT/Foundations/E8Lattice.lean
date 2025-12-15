@@ -73,14 +73,13 @@ theorem stdBasis_norm (i : Fin 8) : ‖stdBasis i‖ = 1 := by
 ‖v‖² = ∑ᵢ vᵢ²
 -/
 
-/-- A11: Norm squared equals sum of squared components -/
+/-- A11: Norm squared equals sum of squared components
+    This is a standard property of EuclideanSpace -/
 theorem normSq_eq_sum (v : R8) : ‖v‖^2 = ∑ i, (v i)^2 := by
-  have h := EuclideanSpace.norm_eq v
-  rw [h]
-  simp only [Real.sq_sqrt (Finset.sum_nonneg (fun _ _ => sq_nonneg _))]
-  congr 1
-  funext i
-  rw [sq_abs]
+  rw [sq, ← inner_self_eq_norm_sq_to_K]
+  simp only [PiLp.inner_apply, RCLike.inner_apply, conj_trivial]
+  ring_nf
+  rfl
 
 /-!
 ## Axiom A12: inner_eq_sum
@@ -88,9 +87,10 @@ theorem normSq_eq_sum (v : R8) : ‖v‖^2 = ∑ i, (v i)^2 := by
 ⟨v,w⟩ = ∑ᵢ vᵢwᵢ
 -/
 
-/-- A12: Inner product equals sum of component products -/
+/-- A12: Inner product equals sum of component products
+    This is a standard property of EuclideanSpace -/
 theorem inner_eq_sum (v w : R8) : @inner ℝ R8 _ v w = ∑ i, v i * w i := by
-  simp only [EuclideanSpace.inner_piLp_equiv_symm, inner, IsROrC.inner_apply, conj_trivial]
+  simp only [PiLp.inner_apply, RCLike.inner_apply, conj_trivial]
 
 /-!
 ## E8 Lattice Definition
