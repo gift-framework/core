@@ -342,7 +342,7 @@ theorem E8_decomposition_disjoint :
              (HalfInt_enumeration.map ⟨Sum.inr, Sum.inr_injective⟩) := by
   simp only [Finset.disjoint_iff_ne, Finset.mem_map, Function.Embedding.coeFn_mk]
   intro x ⟨a, _, ha⟩ y ⟨b, _, hb⟩
-  simp only [← ha, ← hb, ne_eq, Sum.inl.injEq, Sum.inr.injEq]
+  simp only [← ha, ← hb, ne_eq]
   exact Sum.inl_ne_inr
 
 /-- A3: E8 = D8 ∪ HalfInt (as finset equation with Sum type) -/
