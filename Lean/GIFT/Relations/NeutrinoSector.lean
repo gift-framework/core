@@ -2,15 +2,13 @@
 -- Mixing angles θ₁₂, θ₁₃, θ₂₃ and γ_GIFT parameter
 -- Extension: +4 certified relations
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Relations
 import Mathlib.Data.Nat.Prime.Basic
 
 namespace GIFT.Relations.NeutrinoSector
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Core GIFT.Relations
 
 -- =============================================================================
 -- RELATION #15: γ_GIFT
@@ -143,7 +141,7 @@ theorem G2_in_PMNS :
 /-- RELATION 227: PMNS matrix determinant structure
     |det(U_PMNS)| = 1 (unitary)
     1 = dim_U1 -/
-theorem PMNS_unitary : Algebra.dim_U1 = 1 := rfl
+theorem PMNS_unitary : dim_U1 = 1 := rfl
 
 /-- RELATION 228: CP violation phase 197 is prime -/
 theorem delta_CP_prime : Nat.Prime 197 := by native_decide
@@ -176,7 +174,7 @@ theorem all_neutrino_v2_relations_certified :
     -- G2 structure
     (dim_G2 = 2 * dim_K7) ∧
     -- Unitary
-    (Algebra.dim_U1 = 1) ∧
+    (dim_U1 = 1) ∧
     -- Jarlskog
     (N_gen = 3) ∧
     -- Mass hierarchy

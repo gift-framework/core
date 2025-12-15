@@ -1,13 +1,11 @@
 -- GIFT Relations module
 -- Physical relations derived from topology
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 
 namespace GIFT.Relations
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry
+open GIFT.Core
 
 /-- Weinberg angle: sin^2(theta_W) = b2/(b3 + dim_G2) = 21/91 = 3/13 -/
 theorem weinberg_angle_certified : b2 * 13 = 3 * (b3 + dim_G2) := by native_decide

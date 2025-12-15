@@ -3,12 +3,11 @@
 -- Extension: Topological relations with certified rational parts
 -- Version: 1.4.0
 
-import GIFT.Algebra
-import GIFT.Topology
+import GIFT.Core
 
 namespace GIFT.Relations.IrrationalSector
 
-open GIFT.Algebra GIFT.Topology
+open GIFT.Core
 
 -- =============================================================================
 -- RELATION: theta_13 = pi/b2 = pi/21

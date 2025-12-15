@@ -2,9 +2,7 @@
 Copyright (c) 2025 GIFT Framework. All rights reserved.
 Released under MIT license.
 -/
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Relations
 
 /-!
@@ -24,7 +22,7 @@ and their connection to GIFT topological structure.
 
 namespace GIFT.Relations.ExceptionalGroups
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Core GIFT.Relations
 
 /-! ## Relation 40: alpha_s^2 = 1/72 -/
 

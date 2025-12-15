@@ -2,6 +2,7 @@
 -- Final certification theorems
 -- Version: 3.2.0 (175+ certified relations + Joyce + Foundations V5)
 
+import GIFT.Core
 import GIFT.Relations
 
 -- V3.2: Foundations V5 (Hodge theory, exterior algebra, E8 lattice)
@@ -45,7 +46,7 @@ import GIFT.Joyce
 
 namespace GIFT.Certificate
 
-open GIFT.Relations GIFT.Algebra GIFT.Topology GIFT.Geometry
+open GIFT.Core GIFT.Relations
 open GIFT.Relations.GaugeSector GIFT.Relations.NeutrinoSector
 open GIFT.Relations.LeptonSector GIFT.Relations.Cosmology
 open GIFT.Relations.YukawaDuality
@@ -336,7 +337,7 @@ theorem base_decomposition_relations_certified :
     -- Relation 48: H* decomposition
     (H_star = YukawaDuality.alpha_sq_B_sum * dim_K7 + rank_E8) ∧
     -- Relation 49: quotient sum
-    (Algebra.dim_U1 + Weyl_factor + dim_K7 = YukawaDuality.alpha_sq_B_sum) ∧
+    (dim_U1 + Weyl_factor + dim_K7 = YukawaDuality.alpha_sq_B_sum) ∧
     -- Relation 50: Omega_DE numerator
     (dim_K7 * dim_G2 = 98) := by
   repeat (first | constructor | native_decide | rfl)
@@ -370,7 +371,7 @@ theorem all_50_relations_certified :
     b2 = YukawaDuality.alpha_sq_B_sum + rank_E8 ∧
     b3 = YukawaDuality.alpha_sq_B_sum * Weyl_factor + 12 ∧
     H_star = YukawaDuality.alpha_sq_B_sum * dim_K7 + rank_E8 ∧
-    Algebra.dim_U1 + Weyl_factor + dim_K7 = YukawaDuality.alpha_sq_B_sum ∧
+    dim_U1 + Weyl_factor + dim_K7 = YukawaDuality.alpha_sq_B_sum ∧
     dim_K7 * dim_G2 = 98 := by
   repeat (first | constructor | native_decide | rfl)
 
@@ -436,7 +437,7 @@ theorem all_54_relations_certified :
     b2 = YukawaDuality.alpha_sq_B_sum + rank_E8 ∧
     b3 = YukawaDuality.alpha_sq_B_sum * Weyl_factor + 12 ∧
     H_star = YukawaDuality.alpha_sq_B_sum * dim_K7 + rank_E8 ∧
-    Algebra.dim_U1 + Weyl_factor + dim_K7 = YukawaDuality.alpha_sq_B_sum ∧
+    dim_U1 + Weyl_factor + dim_K7 = YukawaDuality.alpha_sq_B_sum ∧
     dim_K7 * dim_G2 = 98 ∧
     -- v1.5.0: Extended decomposition (4 new)
     1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num_reduced ∧
@@ -473,7 +474,7 @@ theorem all_65_relations_certified :
     b2 = YukawaDuality.alpha_sq_B_sum + rank_E8 ∧
     b3 = YukawaDuality.alpha_sq_B_sum * Weyl_factor + 12 ∧
     H_star = YukawaDuality.alpha_sq_B_sum * dim_K7 + rank_E8 ∧
-    Algebra.dim_U1 + Weyl_factor + dim_K7 = YukawaDuality.alpha_sq_B_sum ∧
+    dim_U1 + Weyl_factor + dim_K7 = YukawaDuality.alpha_sq_B_sum ∧
     dim_K7 * dim_G2 = 98 ∧
     1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num_reduced ∧
     n_observables = Relations.N_gen * YukawaDuality.alpha_sq_B_sum ∧
@@ -498,7 +499,7 @@ theorem exceptional_chain_relations_certified :
     -- Relation 66: tau_num = dim(K7) x dim(E8xE8)
     (dim_K7 * dim_E8xE8 = 3472) ∧
     -- Relation 67: dim(E7) = dim(K7) x prime(8)
-    (dim_E7 = dim_K7 * Algebra.prime_8) ∧
+    (dim_E7 = dim_K7 * prime_8) ∧
     -- Relation 68: dim(E7) = b3 + rank(E8) x dim(K7)
     (dim_E7 = b3 + rank_E8 * dim_K7) ∧
     -- Relation 69: m_tau/m_e = (fund_E7 + 1) x kappa_T^-1
@@ -510,11 +511,11 @@ theorem exceptional_chain_relations_certified :
     -- Relation 72: dim(E8) = rank(E8) x prime(11)
     (dim_E8 = rank_E8 * prime_11) ∧
     -- Relation 73: m_tau/m_e with U(1) interpretation
-    ((dim_fund_E7 + Algebra.dim_U1) * MassFactorization.kappa_T_inv = Relations.m_tau_m_e) ∧
+    ((dim_fund_E7 + dim_U1) * MassFactorization.kappa_T_inv = Relations.m_tau_m_e) ∧
     -- Relation 74: dim(E6) = b3 + 1
     (b3 + 1 = dim_E6) ∧
     -- Relation 75: Exceptional chain
-    (dim_E6 = 6 * prime_6 ∧ dim_E7 = 7 * Algebra.prime_8 ∧ dim_E8 = 8 * prime_11) := by
+    (dim_E6 = 6 * prime_6 ∧ dim_E7 = 7 * prime_8 ∧ dim_E8 = 8 * prime_11) := by
   repeat (first | constructor | native_decide | rfl)
 
 /-- Master theorem: All 75 GIFT relations (65 + 10 exceptional chain) v1.7.0 -/
@@ -545,7 +546,7 @@ theorem all_75_relations_certified :
     b2 = YukawaDuality.alpha_sq_B_sum + rank_E8 ∧
     b3 = YukawaDuality.alpha_sq_B_sum * Weyl_factor + 12 ∧
     H_star = YukawaDuality.alpha_sq_B_sum * dim_K7 + rank_E8 ∧
-    Algebra.dim_U1 + Weyl_factor + dim_K7 = YukawaDuality.alpha_sq_B_sum ∧
+    dim_U1 + Weyl_factor + dim_K7 = YukawaDuality.alpha_sq_B_sum ∧
     dim_K7 * dim_G2 = 98 ∧
     1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num_reduced ∧
     n_observables = Relations.N_gen * YukawaDuality.alpha_sq_B_sum ∧
@@ -565,16 +566,16 @@ theorem all_75_relations_certified :
     p2 * Relations.N_gen * Relations.N_gen = 18 ∧
     -- v1.7.0: Exceptional chain (10 new)
     dim_K7 * dim_E8xE8 = 3472 ∧
-    dim_E7 = dim_K7 * Algebra.prime_8 ∧
+    dim_E7 = dim_K7 * prime_8 ∧
     dim_E7 = b3 + rank_E8 * dim_K7 ∧
     Relations.m_tau_m_e = (dim_fund_E7 + 1) * MassFactorization.kappa_T_inv ∧
     dim_fund_E7 = rank_E8 * dim_K7 ∧
     1 * 49 + 4 * 7 + 1 = dim_E6 ∧
     dim_E8 = rank_E8 * prime_11 ∧
-    (dim_fund_E7 + Algebra.dim_U1) * MassFactorization.kappa_T_inv = Relations.m_tau_m_e ∧
+    (dim_fund_E7 + dim_U1) * MassFactorization.kappa_T_inv = Relations.m_tau_m_e ∧
     b3 + 1 = dim_E6 ∧
     dim_E6 = 6 * prime_6 ∧
-    dim_E7 = 7 * Algebra.prime_8 ∧
+    dim_E7 = 7 * prime_8 ∧
     dim_E8 = 8 * prime_11 := by
   repeat (first | constructor | native_decide | rfl)
 
@@ -784,15 +785,15 @@ abbrev v32_landauer_DE := LandauerDarkEnergy.landauer_structure
 /-- GIFT v3.2 SO(16) Relations Certificate (Relations 66-72) -/
 theorem gift_v32_SO16_certificate :
     -- Relation 66: Mersenne 31 = dim(F4) - b2
-    (Algebra.dim_F4 - b2 = 31) ∧
+    (dim_F4 - b2 = 31) ∧
     -- Relation 67: dim(E8) = rank(E8) × 31
-    (Algebra.dim_E8 = Algebra.rank_E8 * 31) ∧
+    (dim_E8 = rank_E8 * 31) ∧
     -- Relation 68: 31 = 2^Weyl - 1
-    (2^Algebra.Weyl_factor - 1 = 31) ∧
+    (2^Weyl_factor - 1 = 31) ∧
     -- Relation 69: Weyl group factorization
     (SO16Relations.weyl_E8_order = 2^14 * 3^5 * 5^2 * 7) ∧
     -- Relation 70: Geometric part = 120 = dim(SO(16))
-    (b2 + b3 + dim_G2 + Algebra.rank_E8 = 120) ∧
+    (b2 + b3 + dim_G2 + rank_E8 = 120) ∧
     -- Relation 71: b2 = dim(SO(7))
     (b2 = 7 * 6 / 2) ∧
     -- Relation 72: Spinorial contribution = 2^7
@@ -819,14 +820,14 @@ theorem gift_v32_complete_certificate :
     -- Core topological
     (b2 = 21 ∧ b3 = 77 ∧ H_star = 99) ∧
     -- E8 structure
-    (Algebra.dim_E8 = 248 ∧ Algebra.rank_E8 = 8) ∧
+    (dim_E8 = 248 ∧ rank_E8 = 8) ∧
     -- SO(16) decomposition: 248 = 120 + 128
-    (b2 + b3 + dim_G2 + Algebra.rank_E8 = 120) ∧
+    (b2 + b3 + dim_G2 + rank_E8 = 120) ∧
     ((2 : ℕ)^7 = 128) ∧
-    (120 + 128 = Algebra.dim_E8) ∧
+    (120 + 128 = dim_E8) ∧
     -- Mersenne 31 structure
-    (Algebra.dim_F4 - b2 = 31) ∧
-    (Algebra.dim_E8 = 8 * 31) ∧
+    (dim_F4 - b2 = 31) ∧
+    (dim_E8 = 8 * 31) ∧
     -- Landauer: Ω_DE = ln(2) × 98/99
     (LandauerDarkEnergy.bit_fraction_num = 98) ∧
     (LandauerDarkEnergy.bit_fraction_den = 99) := by

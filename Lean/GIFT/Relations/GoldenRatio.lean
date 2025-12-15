@@ -3,14 +3,12 @@
 -- Specifically: m_mu/m_e = 27^phi
 -- Version: 1.4.0
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Relations
 
 namespace GIFT.Relations.GoldenRatio
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Core GIFT.Relations
 
 -- =============================================================================
 -- GOLDEN RATIO STRUCTURAL CONSTANTS

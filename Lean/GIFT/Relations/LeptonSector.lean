@@ -2,13 +2,11 @@
 -- Koide formula, m_τ/m_e, m_μ/m_e structure and λ_H structure
 -- Extension: +6 certified relations
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 
 namespace GIFT.Relations.LeptonSector
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry
+open GIFT.Core
 
 -- =============================================================================
 -- RELATION #33: Q_Koide = 2/3

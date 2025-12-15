@@ -12,13 +12,11 @@ Date: December 2025
 Status: PROVEN
 -/
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 
 namespace GIFT.Relations.YukawaDuality
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry
+open GIFT.Core
 
 /-! ## Yukawa-specific Constants (new definitions) -/
 

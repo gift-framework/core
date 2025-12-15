@@ -2,13 +2,11 @@
 -- sin²θ_W, α_s structure and α⁻¹ components
 -- Extension: +5 certified relations
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 
 namespace GIFT.Relations.GaugeSector
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry
+open GIFT.Core
 
 -- =============================================================================
 -- RELATION #31: sin²θ_W = 3/13

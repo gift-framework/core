@@ -11,11 +11,11 @@
   Reference: GIFT v3.2 Implementation Plan
 -/
 
-import GIFT.Algebraic.BettiNumbers
+import GIFT.Core
 
 namespace GIFT.Relations.LandauerDarkEnergy
 
-open GIFT.Algebraic.BettiNumbers
+open GIFT.Core
 
 /-!
 ## Bit Structure of H*

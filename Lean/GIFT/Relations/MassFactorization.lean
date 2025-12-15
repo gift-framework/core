@@ -13,14 +13,12 @@
 -- - Relation 60-64: Triade 9-18-34 (Fibonacci/Lucas)
 -- - Relation 65: Gap color formula
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Relations
 
 namespace GIFT.Relations.MassFactorization
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Core GIFT.Relations
 
 /-- Inverse torsion coefficient (= kappa_T_den = 61) -/
 def kappa_T_inv : Nat := 61
