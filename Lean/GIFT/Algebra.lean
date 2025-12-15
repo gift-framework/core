@@ -1,5 +1,23 @@
--- GIFT Algebra module
--- E8, G2 Lie algebra formalizations
+/-!
+# GIFT Algebra Module (LEGACY)
+
+This module provides basic constant definitions for E8, G2, and other
+exceptional Lie algebras used throughout GIFT.
+
+## Status: LEGACY (but still primary reference)
+
+This module defines constants as simple values (e.g., `dim_E8 := 248`).
+For derived/justified definitions, see:
+- `GIFT.Algebraic.G2` — dim(G₂) = 2 × |Im(𝕆)| derived from octonions
+- `GIFT.Algebraic.BettiNumbers` — b₂ = C(7,2) derived from imaginary pairs
+- `GIFT.Foundations.RootSystems` — 248 derived from E8 root enumeration
+
+## Usage
+
+Most existing GIFT code (28+ modules) imports this module.
+New code should prefer the Algebraic.* modules for documented derivations,
+but may still use this module for convenience.
+-/
 
 namespace GIFT.Algebra
 

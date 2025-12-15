@@ -1,5 +1,21 @@
--- GIFT Topology module
--- Betti numbers and topological invariants
+/-!
+# GIFT Topology Module (LEGACY)
+
+This module provides basic topological constants for K₇ manifolds.
+
+## Status: LEGACY (but still primary reference)
+
+This module defines Betti numbers as simple values (e.g., `b2 := 21`).
+For derived/justified definitions, see:
+- `GIFT.Algebraic.BettiNumbers` — b₂ = C(7,2) derived from octonion imaginary pairs
+- `GIFT.Foundations.TCSConstruction` — b₂ = 10+10+1 from Twisted Connected Sum
+- `GIFT.Foundations.G2Holonomy` — b₂ = dim(K₇) + dim(G₂) from representation theory
+
+## Usage
+
+Most existing GIFT code (28+ modules) imports this module.
+New code should prefer the Algebraic.* modules for documented derivations.
+-/
 
 namespace GIFT.Topology
 
