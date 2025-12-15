@@ -101,9 +101,12 @@ noncomputable def cross (u v : R7) : R7 :=
 
 The cross product is bilinear. This follows from the definition
 as a sum of products with constant coefficients ε(i,j,k).
+
+Proof strategy: expand sums and use linearity of summation.
+Requires WithLp API work - stated as axiom pending Mathlib improvements.
 -/
 
-/-- B2: Cross product is bilinear - follows from sum/product linearity -/
+/-- B2: Cross product is bilinear -/
 axiom G2_cross_bilinear :
     (∀ a : ℝ, ∀ u v w : R7, cross (a • u + v) w = a • cross u w + cross v w) ∧
     (∀ a : ℝ, ∀ u v w : R7, cross u (a • v + w) = a • cross u v + cross u w)
@@ -125,7 +128,8 @@ theorem epsilon_diag (i k : Fin 7) : epsilon i i k = 0 := by
   fin_cases i <;> fin_cases k <;> native_decide
 
 /-- B3: Cross product is antisymmetric
-    Proof sketch: ε(i,j,k) = -ε(j,i,k) by epsilon_antisymm, then swap sums -/
+    Proof strategy: ε(i,j,k) = -ε(j,i,k) by epsilon_antisymm, then swap sums.
+    Requires WithLp API work - stated as axiom pending Mathlib improvements. -/
 axiom G2_cross_antisymm (u v : R7) : cross u v = -cross v u
 
 /-- Corollary: u × u = 0 (follows from x = -x in char 0) -/
@@ -136,11 +140,18 @@ axiom cross_self (u : R7) : cross u u = 0
 
 |u × v|² = |u|²|v|² - ⟨u,v⟩²
 
-This is the 7D generalization of the 3D identity, and follows from
-the contraction identity for epsilon: ∑ₖ ε(i,j,k)ε(l,m,k) = δᵢₗδⱼₘ - δᵢₘδⱼₗ
+This is the 7D generalization of the 3D identity.
+
+NOTE: The 3D epsilon contraction ∑ₖ ε(i,j,k)ε(l,m,k) = δᵢₗδⱼₘ - δᵢₘδⱼₗ does NOT
+hold for the 7D Fano plane structure constants! The 7D case requires a different
+proof approach using specific properties of the octonion structure.
 -/
 
-/-- B4: Lagrange identity for 7D cross product -/
+/-- B4: Lagrange identity for 7D cross product
+    |u × v|² = |u|²|v|² - ⟨u,v⟩²
+
+    The Lagrange identity holds for the 7D cross product but the proof
+    is more subtle than in 3D. Requires octonion-specific techniques. -/
 axiom G2_cross_norm (u v : R7) :
     ‖cross u v‖^2 = ‖u‖^2 * ‖v‖^2 - (@inner ℝ R7 _ u v)^2
 
@@ -154,7 +165,11 @@ This is true by construction: we defined epsilon using the Fano plane
 structure which is exactly the octonion multiplication table.
 -/
 
-/-- B5: Cross product structure matches octonion multiplication -/
+/-- B5: Cross product structure matches octonion multiplication
+    Every nonzero epsilon corresponds to a Fano line permutation.
+
+    Proof strategy: exhaustive check over 7³ = 343 cases.
+    simp_all approach incomplete - requires more explicit case analysis. -/
 axiom cross_is_octonion_structure :
     ∀ i j k : Fin 7, epsilon i j k ≠ 0 →
       (∃ line ∈ fano_lines, (i, j, k) = line ∨
@@ -207,15 +222,22 @@ theorem G2_dim_from_stabilizer : 49 - orbit_phi0_dim = 14 := rfl
 theorem G2_dim_from_roots : 12 + 2 = 14 := rfl
 
 /-!
-## Summary of Tier 2 Axioms
+## Summary of Tier 2 Axioms (v3.5.0)
 
+**Proven Theorems (2/7):**
 - epsilon_antisymm ✅ PROVEN (exhaustive fin_cases on 7³ = 343 cases)
 - epsilon_diag ✅ PROVEN (exhaustive check on 7² = 49 cases)
-- B2: G2_cross_bilinear (axiom - Mathlib WithLp API complexity)
-- B3: G2_cross_antisymm (axiom - follows from epsilon_antisymm)
-- B3': cross_self (axiom - follows from B3)
-- B4: G2_cross_norm (axiom - Lagrange identity)
-- B5: cross_is_octonion_structure (axiom - Fano plane structure)
+
+**Remaining Axioms (5/7):**
+- B2: G2_cross_bilinear (requires WithLp API)
+- B3: G2_cross_antisymm (requires WithLp API)
+- B3': cross_self (requires B3)
+- B4: G2_cross_norm (Lagrange identity - requires 7D-specific proof)
+- B5: cross_is_octonion_structure (requires explicit case handling)
+
+NOTE: The 3D epsilon contraction identity does NOT hold in 7D!
+The 7D cross product has different algebraic structure due to
+non-associativity of octonions.
 -/
 
 end GIFT.Foundations.G2CrossProduct

@@ -48,25 +48,32 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 | A11. `normSq_eq_sum` | ✅ PROUVÉ v3.4 | E8Lattice.lean (Mathlib PiLp) |
 | A12. `inner_eq_sum` | ✅ PROUVÉ v3.4 | E8Lattice.lean (Mathlib PiLp) |
 
-### Lean 4 - Tier 2 Résolus
+### Lean 4 - Tier 2 (B1-B5 + helpers)
 
 | Axiome | Status | Fichier |
 |--------|--------|---------|
-| B1. `reflect_preserves_lattice` | ✅ THÉORÈME | E8Lattice.lean (via A6 + lattice closure axioms) |
+| B1. `reflect_preserves_lattice` | ✅ THÉORÈME | E8Lattice.lean (via A6 + lattice closure) |
+| `epsilon_antisymm` | ✅ THÉORÈME | G2CrossProduct.lean (7³ = 343 cases) |
+| `epsilon_diag` | ✅ THÉORÈME | G2CrossProduct.lean (7² = 49 cases) |
 
-**Helper Axioms (v3.5.0):** 9 explicit axioms replacing sorry placeholders:
-- `sq_mod_two_eq_self_mod_two`: n² ≡ n (mod 2) — omega can't handle n²
-- `sum_sq_mod_two`: Σnᵢ² ≡ Σnᵢ (mod 2) — Finset induction
-- `inner_int_of_both_int`, `inner_int_of_int_half`, `inner_int_of_both_half_int` — inner product cases
-- `norm_sq_even_of_int_even_sum`, `norm_sq_even_of_half_int_even_sum` — norm² cases
-- `E8_smul_int_closed`: E8 fermé sous ℤ-scaling
-- `E8_sub_closed`: E8 fermé sous soustraction
+**Helper Axioms (E8Lattice):** 9 explicit axioms for Mathlib4 API:
+- `sq_mod_two_eq_self_mod_two`, `sum_sq_mod_two` — modular arithmetic
+- `inner_int_of_*` (3) — inner product integrality cases
+- `norm_sq_even_of_*` (2) — even norm² cases
+- `E8_smul_int_closed`, `E8_sub_closed` — lattice closure
 
 ### Lean 4 - Axiomes Restants (Tier 2+)
 
 | Axiome | Status | Fichier | Difficulté |
 |--------|--------|---------|------------|
-| B2-B8 | ⚠️ AXIOMES | G2CrossProduct.lean | Moyen-Difficile |
+| B2. `G2_cross_bilinear` | ⚠️ AXIOME | G2CrossProduct.lean | WithLp API |
+| B3. `G2_cross_antisymm` | ⚠️ AXIOME | G2CrossProduct.lean | WithLp API |
+| B3'. `cross_self` | ⚠️ AXIOME | G2CrossProduct.lean | Requires B3 |
+| B4. `G2_cross_norm` | ⚠️ AXIOME | G2CrossProduct.lean | 7D Lagrange (non-trivial) |
+| B5. `cross_is_octonion_structure` | ⚠️ AXIOME | G2CrossProduct.lean | Explicit case handling |
+| C1-C7 (Tier 3) | ⚠️ AXIOMES | ExteriorAlgebra, etc. | Moyen |
+
+**NOTE**: The 3D epsilon contraction ∑ₖ ε(i,j,k)ε(l,m,k) = δᵢₗδⱼₘ - δᵢₘδⱼₗ does NOT hold in 7D!
 
 ### Coq - Ce qui est FAIT ✅
 
@@ -206,14 +213,16 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 | Tier | Total | Théorèmes | Helper Axioms | À faire |
 |------|-------|-----------|---------------|---------|
 | 1 | 12 | **12** | 7 | ✅ Complete |
-| 2 | 8 | **1** | 2 | 7 |
+| 2 | 9 | **3** | 2 | 6 (B2-B5) |
 | 3 | 7 | 0 | 0 | 7 |
 | 4 | 9 | ~2 | 0 | 7 |
 | 5 | 12 | 0 | 0 | 12 |
 | 6 | 10 | 0 | 0 | 10 |
-| **Total** | **58** | **~15** | **9** | **43** |
+| **Total** | **59** | **~17** | **9** | **42** |
 
-**v3.5.0: Tier 1 complete (12/12 theorems), Tier 2 started (B1 proven). 9 helper axioms are explicit mathematical assumptions, cleaner than `sorry`.**
+**v3.5.x: Tier 1 complete (12/12), Tier 2 partial (3/9: B1 + epsilon_antisymm + epsilon_diag).**
+**B2-B5 require WithLp API work or alternative proof approaches.**
+**The 3D epsilon contraction identity does NOT generalize to 7D!**
 
 ### Actions par Priorité
 
@@ -222,7 +231,7 @@ Ce plan consolide les deux plans précédents et fait le tri entre ce qui est **
 | P1 Coq Sync | 2-3h | Haut | **FAIRE MAINTENANT** |
 | P2 Python API | 2-3h | Moyen | **FAIRE MAINTENANT** |
 | P3 Mathlib | ✅ DONE | Haut | Completed in v3.5.0 |
-| P4 Tier 2-3 | 1-2 sem | Moyen | Ce mois |
+| P4 Tier 2 | 3/9 | Haut | B2-B5 need WithLp API |
 | P5 G2/Analyse | 1+ mois | Moyen | Quand prêt |
 | P6 Joyce | Long terme | Recherche | Collaboration |
 
