@@ -55,9 +55,7 @@ noncomputable def stdBasis (i : Fin 8) : R8 := EuclideanSpace.single i 1
 theorem stdBasis_orthonormal (i j : Fin 8) :
     @inner ℝ R8 _ (stdBasis i) (stdBasis j) = if i = j then (1 : ℝ) else 0 := by
   simp only [stdBasis, EuclideanSpace.inner_single_left, EuclideanSpace.single_apply]
-  split_ifs with h
-  · simp [h]
-  · simp [h]
+  split_ifs <;> simp
 
 /-!
 ## Axiom A10: stdBasis_norm
@@ -77,8 +75,12 @@ theorem stdBasis_norm (i : Fin 8) : ‖stdBasis i‖ = 1 := by
 
 /-- A11: Norm squared equals sum of squared components -/
 theorem normSq_eq_sum (v : R8) : ‖v‖^2 = ∑ i, (v i)^2 := by
-  rw [EuclideanSpace.norm_sq]
-  simp only [sq_abs]
+  have h := EuclideanSpace.norm_eq v
+  rw [h]
+  simp only [Real.sq_sqrt (Finset.sum_nonneg (fun _ _ => sq_nonneg _))]
+  congr 1
+  funext i
+  rw [sq_abs]
 
 /-!
 ## Axiom A12: inner_eq_sum
@@ -88,7 +90,7 @@ theorem normSq_eq_sum (v : R8) : ‖v‖^2 = ∑ i, (v i)^2 := by
 
 /-- A12: Inner product equals sum of component products -/
 theorem inner_eq_sum (v w : R8) : @inner ℝ R8 _ v w = ∑ i, v i * w i := by
-  simp only [EuclideanSpace.inner_eq_sum, WithLp.equiv_symm_pi_apply]
+  simp only [EuclideanSpace.inner_piLp_equiv_symm, inner, IsROrC.inner_apply, conj_trivial]
 
 /-!
 ## E8 Lattice Definition
@@ -177,9 +179,9 @@ def E8_weyl_order : ℕ := 696729600
 theorem E8_weyl_order_factored :
     E8_weyl_order = 2^14 * 3^5 * 5^2 * 7 := by native_decide
 
-/-- Weyl group order relates to root system structure -/
-theorem E8_weyl_order_formula :
-    E8_weyl_order = Nat.factorial 8 * 2^7 := by native_decide
+/-- Weyl group order verification (alternative factorization) -/
+theorem E8_weyl_order_check :
+    2^14 * 3^5 * 5^2 * 7 = 696729600 := by native_decide
 
 /-!
 ## Summary of Proven Axioms

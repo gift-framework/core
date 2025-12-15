@@ -129,7 +129,7 @@ export TCSConstruction (CHNP_block TCS_b2 K7_b2 K7_b2_eq_21
 export E8Lattice (R8 stdBasis stdBasis_orthonormal stdBasis_norm
   normSq_eq_sum inner_eq_sum E8_lattice AllInteger AllHalfInteger SumEven
   weyl_reflection E8_reflection
-  E8_weyl_order E8_weyl_order_factored E8_weyl_order_formula)
+  E8_weyl_order E8_weyl_order_factored E8_weyl_order_check)
 
 -- G2 Cross Product (Tier 2 Axioms: B2-B5)
 export G2CrossProduct (R7 cross epsilon fano_lines fano_lines_count
