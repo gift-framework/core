@@ -10,7 +10,7 @@ Formally verified mathematical relations from the GIFT (Geometric Information Fi
 
 ## Overview
 
-This repository contains **175+ exact mathematical identities** derived from topological invariants of E8 gauge theory on G2 holonomy manifolds. Each relation is:
+This repository contains **180+ exact mathematical identities** derived from topological invariants of E8 gauge theory on G2 holonomy manifolds. Each relation is:
 
 - An exact rational or integer value (no fitting)
 - Independently verified in two proof assistants
@@ -49,10 +49,14 @@ cd COQ && make
 - [Usage Guide](docs/USAGE.md)
 - [Full Framework](https://github.com/gift-framework/GIFT)
 
+## Acknowledgments
+
+Blueprint structure inspired by [KakeyaFiniteFields](https://github.com/math-inc/KakeyaFiniteFields).
+
 ## License
 
 MIT
 
 ---
 
-*GIFT Core v3.1.2*
+*GIFT Core v3.1.3*
