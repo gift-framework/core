@@ -579,7 +579,7 @@ theorem G2_dim_from_stabilizer : 49 - orbit_phi0_dim = 14 := rfl
 theorem G2_dim_from_roots : 12 + 2 = 14 := rfl
 
 /-!
-## Summary of Tier 2 Status (v3.3.0 - B4 PROVEN!)
+## Summary of Tier 2 Status (v3.1.3 - B4 PROVEN!)
 
 **Core Cross Product Theorems (6/6 PROVEN):**
 - epsilon_antisymm ✅ PROVEN (7³ = 343 cases)

@@ -5,6 +5,50 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.3] - 2025-12-16
+
+### Summary
+
+**B4 Lagrange Identity FULLY PROVEN!** The 7-dimensional cross product norm identity `|u × v|² = |u|²|v|² - ⟨u,v⟩²` is now a theorem, not an axiom.
+
+### Added
+
+- **G2CrossProduct.lean**: Complete B4 proof
+  - `R7_norm_sq_eq_sum`: ‖v‖² = ∑ᵢ vᵢ² - THEOREM (via Mathlib PiLp)
+  - `R7_inner_eq_sum`: ⟨u,v⟩ = ∑ᵢ uᵢvᵢ - THEOREM (via Mathlib PiLp)
+  - `G2_cross_norm`: **THEOREM** (was axiom) - Full Lagrange identity proof
+
+### Changed
+
+- **B4 Status**: AXIOM → THEOREM
+  - 130+ lines of sum manipulation proof
+  - Uses `Finset.sum_eq_single` for Kronecker delta evaluation
+  - Uses `psi_contract_vanishes` for coassociative 4-form cancellation
+
+### Technical Notes
+
+**B4 Complete Proof Structure:**
+
+```
+‖u × v‖² = ∑ₖ (∑ᵢⱼ εᵢⱼₖ uᵢ vⱼ)²
+         = ∑ᵢⱼₗₘ (∑ₖ εᵢⱼₖ εₗₘₖ) uᵢ vⱼ uₗ vₘ
+         = ∑ᵢⱼₗₘ (δᵢₗδⱼₘ - δᵢₘδⱼₗ + ψᵢⱼₗₘ) uᵢ vⱼ uₗ vₘ
+         = ‖u‖²‖v‖² - ⟨u,v⟩² + 0   (ψ vanishes by antisymmetry)
+```
+
+**Key Lemmas Used:**
+- `psi_antisym_il`: ψ(i,j,l,m) = -ψ(l,j,i,m) for all 2401 cases
+- `psi_contract_vanishes`: Antisymmetric ψ × symmetric uᵢuₗ = 0
+- `epsilon_contraction_decomp`: ∑ₖ εᵢⱼₖεₗₘₖ = Kronecker + ψ
+
+### Axiom Resolution Status
+
+**Tier 2 (G2 Cross Product): 9/10**
+- B4: G2_cross_norm - **THEOREM** (was axiom)
+- B5: cross_is_octonion_structure - Exhaustive check times out (343 cases)
+
+---
+
 ## [3.1.2] - 2025-12-16
 
 ### Summary
