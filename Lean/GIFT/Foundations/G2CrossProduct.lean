@@ -465,20 +465,22 @@ theorem G2_cross_norm (u v : R7) :
     -- Goal: ∑_l ∑_m (if i = l ∧ j = m then 1 else 0) * u i * u l * v j * v m = u i * u i * v j * v j
     -- Only the term l = i, m = j contributes
     have hl : ∑ l : Fin 7, ∑ m : Fin 7, (if i = l ∧ j = m then (1 : ℝ) else 0) * u i * u l * v j * v m
-             = ∑ m : Fin 7, (if j = m then (1 : ℝ) else 0) * u i * u i * v j * v m := by
-      apply Finset.sum_eq_single i
+             = ∑ m : Fin 7, (if i = i ∧ j = m then (1 : ℝ) else 0) * u i * u i * v j * v m := by
+      refine Finset.sum_eq_single i ?_ ?_
       · intro l _ hli
         apply Finset.sum_eq_zero; intro m _
         simp only [hli.symm, false_and, ite_false, zero_mul]
       · intro hi; exact absurd (Finset.mem_univ i) hi
+    simp only [eq_self_iff_true, true_and] at hl
     rw [hl]
     have hm : ∑ m : Fin 7, (if j = m then (1 : ℝ) else 0) * u i * u i * v j * v m
-             = u i * u i * v j * v j := by
-      apply Finset.sum_eq_single j
+             = (if j = j then (1 : ℝ) else 0) * u i * u i * v j * v j := by
+      refine Finset.sum_eq_single j ?_ ?_
       · intro m _ hmj
         simp only [hmj.symm, ite_false, zero_mul]
       · intro hj; exact absurd (Finset.mem_univ j) hj
-    rw [hm]
+    simp only [eq_self_iff_true, ite_true] at hm
+    rw [hm]; ring
   -- Second term: ∑_ijlm δ_im δ_jl u_i u_l v_j v_m = (∑_i u_i v_i)²
   have h_second : ∑ i : Fin 7, ∑ j : Fin 7, ∑ l : Fin 7, ∑ m : Fin 7,
       (if i = m ∧ j = l then (1 : ℝ) else 0) * u i * u l * v j * v m =
@@ -490,21 +492,22 @@ theorem G2_cross_norm (u v : R7) :
     -- Goal: ∑_l ∑_m (if i = m ∧ j = l then 1 else 0) * u i * u l * v j * v m = u i * v i * (u j * v j)
     -- Only the term l = j, m = i contributes
     have hl : ∑ l : Fin 7, ∑ m : Fin 7, (if i = m ∧ j = l then (1 : ℝ) else 0) * u i * u l * v j * v m
-             = ∑ m : Fin 7, (if i = m then (1 : ℝ) else 0) * u i * u j * v j * v m := by
-      apply Finset.sum_eq_single j
+             = ∑ m : Fin 7, (if i = m ∧ j = j then (1 : ℝ) else 0) * u i * u j * v j * v m := by
+      refine Finset.sum_eq_single j ?_ ?_
       · intro l _ hlj
         apply Finset.sum_eq_zero; intro m _
         simp only [hlj.symm, and_false, ite_false, zero_mul]
       · intro hj; exact absurd (Finset.mem_univ j) hj
+    simp only [eq_self_iff_true, and_true] at hl
     rw [hl]
     have hm : ∑ m : Fin 7, (if i = m then (1 : ℝ) else 0) * u i * u j * v j * v m
-             = u i * u j * v j * v i := by
-      apply Finset.sum_eq_single i
+             = (if i = i then (1 : ℝ) else 0) * u i * u j * v j * v i := by
+      refine Finset.sum_eq_single i ?_ ?_
       · intro m _ hmi
         simp only [hmi.symm, ite_false, zero_mul]
       · intro hi; exact absurd (Finset.mem_univ i) hi
-    rw [hm]
-    ring
+    simp only [eq_self_iff_true, ite_true] at hm
+    rw [hm]; ring
   -- After simp_rw, goal is: first_sum - second_sum = RHS
   rw [h_first, h_second]
   ring
