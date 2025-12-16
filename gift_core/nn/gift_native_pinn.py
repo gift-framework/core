@@ -52,11 +52,24 @@ PINN_TARGET_TORSION = 0.001  # Our target: 20x better than threshold
 
 
 # =============================================================================
-# Fano Plane Structure
+# Standard G2 3-form Structure (from Lean proof G2Holonomy.lean)
 # =============================================================================
 
-# The 7 lines of the Fano plane (cyclic triples)
-# These define octonion multiplication: e_i * e_j = epsilon_{ijk} * e_k
+# The 7 terms of the associative 3-form φ₀ on ℝ⁷
+# φ₀ = e¹²³ + e¹⁴⁵ + e¹⁶⁷ + e²⁴⁶ - e²⁵⁷ - e³⁴⁷ - e³⁵⁶
+# From Lean: phi0_terms = [(0,1,2), (0,3,4), (0,5,6), (1,3,5), (1,4,6), (2,3,6), (2,4,5)]
+# From Lean: phi0_signs = [1, 1, 1, 1, -1, -1, -1]
+STANDARD_G2_FORM = [
+    ((0, 1, 2), +1.0),  # e^123
+    ((0, 3, 4), +1.0),  # e^145
+    ((0, 5, 6), +1.0),  # e^167
+    ((1, 3, 5), +1.0),  # e^246
+    ((1, 4, 6), -1.0),  # e^257
+    ((2, 3, 6), -1.0),  # e^347
+    ((2, 4, 5), -1.0),  # e^356
+]
+
+# Fano plane structure (for cross-product, kept for reference)
 FANO_LINES = [
     (0, 1, 3),
     (1, 2, 4),
@@ -66,6 +79,18 @@ FANO_LINES = [
     (5, 6, 1),
     (6, 0, 2),
 ]
+
+
+def _form_index_3(i: int, j: int, k: int) -> int:
+    """Map (i, j, k) with i < j < k to linear index in C(7,3) = 35."""
+    count = 0
+    for a in range(7):
+        for b in range(a + 1, 7):
+            for c in range(b + 1, 7):
+                if (a, b, c) == (i, j, k):
+                    return count
+                count += 1
+    raise ValueError(f"Invalid indices: {i}, {j}, {k}")
 
 
 def build_epsilon_tensor() -> np.ndarray:
@@ -98,11 +123,49 @@ def build_epsilon_tensor() -> np.ndarray:
 EPSILON = build_epsilon_tensor()
 
 
+def build_phi0_tensor() -> np.ndarray:
+    """
+    Build the full 7×7×7 antisymmetric tensor for standard G2 form φ₀.
+
+    This uses the correct G2 form (not Fano lines!):
+    φ₀ = e¹²³ + e¹⁴⁵ + e¹⁶⁷ + e²⁴⁶ - e²⁵⁷ - e³⁴⁷ - e³⁵⁶
+
+    Returns:
+        phi0_tensor: (7, 7, 7) antisymmetric tensor
+    """
+    phi0 = np.zeros((7, 7, 7), dtype=np.float64)
+
+    for (indices, sign) in STANDARD_G2_FORM:
+        i, j, k = indices
+        # All antisymmetric permutations
+        phi0[i, j, k] = sign
+        phi0[j, k, i] = sign
+        phi0[k, i, j] = sign
+        phi0[j, i, k] = -sign
+        phi0[i, k, j] = -sign
+        phi0[k, j, i] = -sign
+
+    return phi0
+
+
+# Global phi0 tensor (the standard G2 form as 7×7×7 tensor)
+PHI0_TENSOR = build_phi0_tensor()
+
+
 def phi0_standard(normalize: bool = True) -> np.ndarray:
     """
-    Standard G2 3-form phi_0 = sum_ijk epsilon_ijk dx^i ^ dx^j ^ dx^k.
+    Standard G2 3-form φ₀ = e¹²³ + e¹⁴⁵ + e¹⁶⁷ + e²⁴⁶ - e²⁵⁷ - e³⁴⁷ - e³⁵⁶.
 
-    This is the associative 3-form on R^7 preserved by G2.
+    This is the associative 3-form on ℝ⁷ preserved by G2.
+    Reference: G2Holonomy.lean, lines 36-40
+
+    For the STANDARD form, the induced metric is the IDENTITY on ℝ⁷,
+    so det(g) = 1.
+
+    To achieve det(g) = 65/32:
+    - If φ → c·φ, then g → c²·g (since g_ij ~ φ_ikl φ_jkl)
+    - Therefore det(g) → c^14 · det(g)
+    - We need c^14 = 65/32, so c = (65/32)^{1/14}
 
     Args:
         normalize: If True, scale so det(g) = 65/32
@@ -110,19 +173,19 @@ def phi0_standard(normalize: bool = True) -> np.ndarray:
     Returns:
         phi0: (35,) vector of independent components
     """
-    # The 35 independent components of a 3-form in 7D
-    phi0 = []
-    for i in range(7):
-        for j in range(i + 1, 7):
-            for k in range(j + 1, 7):
-                phi0.append(EPSILON[i, j, k])
+    # Initialize all 35 components to zero
+    phi0 = np.zeros(35, dtype=np.float64)
 
-    phi0 = np.array(phi0, dtype=np.float64)
+    # Set the 7 nonzero components from the standard G2 form
+    for (indices, sign) in STANDARD_G2_FORM:
+        idx = _form_index_3(*indices)
+        phi0[idx] = sign
 
     if normalize:
         # Scale factor to achieve det(g) = 65/32
-        # For standard phi0, det(g) = 1, so we need scale^7 = 65/32
-        scale = (65.0 / 32.0) ** (1.0 / 7.0)
+        # Since det(c²g) = c^14 · det(g), and we want det(g) = 65/32 from det(g) = 1:
+        # c^14 = 65/32 → c = (65/32)^{1/14} ≈ 1.0543
+        scale = (65.0 / 32.0) ** (1.0 / 14.0)
         phi0 = phi0 * scale
 
     return phi0
@@ -183,7 +246,9 @@ def adjoint_to_3form_variation(adjoint_params: np.ndarray) -> np.ndarray:
 
     The action of g2 on the 3-form space gives a 35-dimensional
     representation. This function computes the Lie derivative
-    of phi0 along the g2 direction specified by adjoint_params.
+    of φ₀ along the g2 direction specified by adjoint_params.
+
+    IMPORTANT: Uses PHI0_TENSOR (correct G2 form), not EPSILON (Fano lines).
 
     Args:
         adjoint_params: (N, 14) G2 adjoint parameters
@@ -193,7 +258,6 @@ def adjoint_to_3form_variation(adjoint_params: np.ndarray) -> np.ndarray:
     """
     N = adjoint_params.shape[0]
     generators = g2_generators()
-    phi0_flat = phi0_standard(normalize=False)
 
     # Compute Lie derivative of phi0 along each generator
     # L_X phi = d(i_X phi) + i_X(dphi) = d(i_X phi) for closed phi0
@@ -215,9 +279,10 @@ def adjoint_to_3form_variation(adjoint_params: np.ndarray) -> np.ndarray:
                     # (L_X phi)_{ijk} = X_i^l phi_{ljk} + X_j^l phi_{ilk} + X_k^l phi_{ijl}
                     val = 0.0
                     for l in range(7):
-                        val += X_a[i, l] * EPSILON[l, j, k]
-                        val += X_a[j, l] * EPSILON[i, l, k]
-                        val += X_a[k, l] * EPSILON[i, j, l]
+                        # Use PHI0_TENSOR (correct G2 form), not EPSILON
+                        val += X_a[i, l] * PHI0_TENSOR[l, j, k]
+                        val += X_a[j, l] * PHI0_TENSOR[i, l, k]
+                        val += X_a[k, l] * PHI0_TENSOR[i, j, l]
                     L_a_phi[comp_idx] = val
                     comp_idx += 1
 
@@ -321,7 +386,14 @@ if HAS_TORCH:
             self._init_weights()
 
         def _precompute_g2_action(self):
-            """Precompute G2 Lie derivative matrices."""
+            """Precompute G2 Lie derivative matrices.
+
+            The Lie derivative of φ₀ along a vector field X is:
+                (L_X φ)_{ijk} = X_i^l φ_{ljk} + X_j^l φ_{ilk} + X_k^l φ_{ijl}
+
+            IMPORTANT: We use PHI0_TENSOR (the standard G2 form), NOT EPSILON
+            (the Fano plane cross-product structure). These are different!
+            """
             generators = g2_generators()
 
             # For each generator, compute its action on phi0
@@ -336,9 +408,10 @@ if HAS_TORCH:
                         for k in range(j + 1, 7):
                             val = 0.0
                             for l in range(7):
-                                val += X_a[i, l] * EPSILON[l, j, k]
-                                val += X_a[j, l] * EPSILON[i, l, k]
-                                val += X_a[k, l] * EPSILON[i, j, l]
+                                # Use PHI0_TENSOR (correct G2 form), not EPSILON
+                                val += X_a[i, l] * PHI0_TENSOR[l, j, k]
+                                val += X_a[j, l] * PHI0_TENSOR[i, l, k]
+                                val += X_a[k, l] * PHI0_TENSOR[i, j, l]
                             lie_derivatives[a, comp_idx] = val
                             comp_idx += 1
 
@@ -423,14 +496,18 @@ if HAS_TORCH:
             """
             Compute metric g_ij from phi.
 
-            g_ij is determined by phi via:
-            g_ij vol_g = (1/6) i_i phi ^ i_j phi ^ phi
+            For a G2 3-form φ, the metric is determined by:
+                g_ij vol_g = (1/6) (e_i ⌟ φ) ∧ (e_j ⌟ φ) ∧ φ
 
-            In coordinates:
-            g_ij = (1/144) phi_ikl phi_jmn phi_pqr epsilon^klmnpqr / sqrt(det)
+            This simplifies to (for G2 structures):
+                g_ij = (1/6) ∑_{k<l} φ_ikl · φ_jkl
 
-            Simplified formula (valid for G2 forms):
-            g_ij = (1/36) sum_{klm} phi_ikl * phi_jlm
+            For full antisymmetric tensors (summing over all k,l):
+                g_ij = (1/6) ∑_{k,l} φ_ikl · φ_jkl
+
+            Reference: g2_form.py lines 157-168, Bryant (1987)
+
+            Note: For standard φ₀, this gives g = identity.
 
             Args:
                 x: Coordinates, shape (N, 7)
@@ -440,8 +517,9 @@ if HAS_TORCH:
             """
             phi = self.phi_tensor(x)
 
-            # g_ij = (1/36) sum_{klm} phi_ikl * phi_jlm
-            g = torch.einsum('nikl,njlm->nij', phi, phi) / 36.0
+            # g_ij = (1/6) sum_{k,l} phi_ikl * phi_jkl
+            # Contract over the SAME indices k and l
+            g = torch.einsum('nikl,njkl->nij', phi, phi) / 6.0
 
             return g
 
@@ -1014,10 +1092,10 @@ __all__ = [
     # Constants
     'B2', 'B3', 'DIM_G2', 'DET_G_TARGET', 'DET_G_TARGET_FLOAT',
     'H_STAR', 'TORSION_THRESHOLD', 'PINN_TARGET_TORSION',
-    'FANO_LINES', 'EPSILON',
+    'FANO_LINES', 'EPSILON', 'STANDARD_G2_FORM', 'PHI0_TENSOR',
     # Functions
-    'build_epsilon_tensor', 'phi0_standard',
-    'g2_generators', 'adjoint_to_3form_variation',
+    'build_epsilon_tensor', 'build_phi0_tensor', 'phi0_standard',
+    '_form_index_3', 'g2_generators', 'adjoint_to_3form_variation',
     # Classes (if torch available)
     'GIFTNativePINN', 'GIFTNativeLoss',
     'GIFTTrainConfig', 'GIFTTrainResult',
