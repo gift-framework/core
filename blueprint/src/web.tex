@@ -1,0 +1,25 @@
+% GIFT Blueprint - Web Version
+% Entry point for web generation via leanblueprint (plasTeX)
+
+\documentclass{report}
+
+\usepackage{amssymb, amsthm, amsmath}
+\usepackage{hyperref}
+\usepackage[showmore, dep_graph]{blueprint}
+\usepackage{tikz-cd}
+\usepackage{cleveref}
+
+\input{macros/common}
+\input{macros/web}
+
+\home{https://gift-framework.github.io/core}
+\github{https://github.com/gift-framework/core}
+\dochome{https://gift-framework.github.io/core/docs}
+
+\title{GIFT: Geometric Information Field Theory}
+\author{Brieuc de La Fourni\`ere}
+
+\begin{document}
+\maketitle
+\input{content}
+\end{document}

@@ -1,0 +1,33 @@
+/* GIFT Blueprint - Custom CSS Styles
+ * Vertical lines on theorem statements and proofs
+ */
+
+div.theorem_thmcontent {
+    border-left: .15rem solid #2563eb;
+}
+
+div.proposition_thmcontent {
+    border-left: .15rem solid #2563eb;
+}
+
+div.lemma_thmcontent {
+    border-left: .1rem solid #3b82f6;
+}
+
+div.corollary_thmcontent {
+    border-left: .1rem solid #3b82f6;
+}
+
+div.definition_thmcontent {
+    border-left: .1rem solid #10b981;
+}
+
+div.proof_content {
+    border-left: .08rem solid grey;
+}
+
+/* GIFT-specific styling */
+.gift-constant {
+    color: #7c3aed;
+    font-weight: bold;
+}
