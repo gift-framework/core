@@ -6,9 +6,9 @@ on:
       - main
     paths:
       - "Lean/**/*.lean"
-      - "Lean/lean-toolchain"
-      - "Lean/lakefile.toml"
-      - "Lean/lake-manifest.json"
+      - "lean-toolchain"
+      - "lakefile.toml"
+      - "lake-manifest.json"
       - "blueprint/**"
       - "home_page/**"
   pull_request:
@@ -44,12 +44,10 @@ jobs:
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
 
       - name: Get Mathlib cache
-        working-directory: Lean
         run: |
           ~/.elan/bin/lake exe cache get || true
 
       - name: Build Lean project
-        working-directory: Lean
         run: |
           ~/.elan/bin/lake build GIFT
 
@@ -86,9 +84,8 @@ jobs:
             cp -r blueprint/web home_page/blueprint
 
       - name: Check declarations in blueprint exist in Lean
-        working-directory: Lean
         run: |
-          ~/.elan/bin/lake exe checkdecls ../blueprint/lean_decls || echo "Warning: Some declarations not found"
+          ~/.elan/bin/lake exe checkdecls blueprint/lean_decls || echo "Warning: Some declarations not found"
 
       - name: Build Jekyll site
         if: ${{ steps.check_home_page.outputs.exists == 'true' }}

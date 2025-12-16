@@ -42,9 +42,11 @@ htmlcov/
 .hypothesis/
 
 # Lean
+.lake/
 Lean/.lake/
 Lean/lake-packages/
 Lean/build/
+lake-manifest.json
 
 # Coq
 COQ/*.vo
