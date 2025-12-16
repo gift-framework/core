@@ -221,12 +221,12 @@ theorem epsilon_contraction_first_eq (i l m : Fin 7) :
 /-- The Lagrange-relevant part: when i=l and j=m (distinct), contraction = 1 -/
 theorem epsilon_contraction_same (i j : Fin 7) (h : i ≠ j) :
     epsilon_contraction i j i j = 1 := by
-  fin_cases i <;> fin_cases j <;> simp_all [epsilon_contraction, epsilon]
+  fin_cases i <;> fin_cases j <;> first | contradiction | native_decide
 
 /-- When i=m and j=l (distinct), contraction = -1 -/
 theorem epsilon_contraction_swap (i j : Fin 7) (h : i ≠ j) :
     epsilon_contraction i j j i = -1 := by
-  fin_cases i <;> fin_cases j <;> simp_all [epsilon_contraction, epsilon]
+  fin_cases i <;> fin_cases j <;> first | contradiction | native_decide
 
 /-- B4: Lagrange identity for 7D cross product
     |u × v|² = |u|²|v|² - ⟨u,v⟩²
