@@ -5,6 +5,52 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.2] - 2025-12-16
+
+### Summary
+
+B4 Lagrange identity infrastructure: **All key algebraic lemmas proven** for the 7D cross product norm identity. The coassociative 4-form approach provides a rigorous mathematical foundation.
+
+### Added
+
+- **G2CrossProduct.lean**: B4 proof infrastructure
+  - `psi`: Coassociative 4-form ψ (deviation from 3D Kronecker formula)
+  - `psi_antisym_il`: ψ(i,j,l,m) = -ψ(l,j,i,m) - THEOREM (7⁴ = 2401 cases via native_decide)
+  - `epsilon_contraction_decomp`: ∑ₖ ε(i,j,k)ε(l,m,k) = Kronecker + ψ - THEOREM
+  - `kronecker_part`: Definition of δᵢₗδⱼₘ - δᵢₘδⱼₗ
+  - `antisym_sym_contract_vanishes`: Generic lemma for antisymmetric × symmetric = 0 - THEOREM
+  - `psi_contract_vanishes`: ψ terms vanish under symmetric uᵢuₗvⱼvₘ contraction - THEOREM
+
+### Changed
+
+- **E8Lattice.lean**: Removed no-op `push_cast` linter warnings (lines 501, 534, 564)
+
+### Technical Notes
+
+**B4 Proof Strategy (Harvey & Lawson, "Calibrated Geometries"):**
+
+The 7D epsilon contraction differs from 3D:
+```
+∑ₖ ε(i,j,k)ε(l,m,k) = δᵢₗδⱼₘ - δᵢₘδⱼₗ + ψᵢⱼₗₘ
+```
+
+Key insight: ψ is antisymmetric under i↔l, but uᵢuₗ is symmetric. Therefore:
+```
+∑ᵢₗ ψᵢⱼₗₘ · uᵢuₗ = 0  (antisym × sym vanishes)
+```
+
+The Kronecker terms give exactly |u|²|v|² - ⟨u,v⟩², proving the Lagrange identity.
+
+**Status:** All algebraic lemmas proven. Final theorem kept as axiom pending EuclideanSpace norm expansion (Mathlib plumbing).
+
+### Axiom Resolution Status
+
+**Tier 2 (G2 Cross Product): 8/10 + infrastructure**
+- B4: Key lemmas PROVEN (5 theorems), final assembly pending Mathlib integration
+- B5: cross_is_octonion_structure (exhaustive check times out)
+
+---
+
 ## [3.1.1] - 2025-12-16
 
 ### Summary
