@@ -1,0 +1,4 @@
+# Use LuaLaTeX for PDF compilation (required for unicode-math)
+$pdf_mode = 4;  # 4 = lualatex
+$lualatex = 'lualatex -interaction=nonstopmode -halt-on-error %O %S';
+$out_dir = '../print';
