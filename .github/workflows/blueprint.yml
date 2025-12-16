@@ -54,11 +54,19 @@ jobs:
 
       - name: Get Mathlib cache
         run: |
-          ~/.elan/bin/lake exe cache get || true
+          for i in 1 2 3 4; do
+            ~/.elan/bin/lake exe cache get && break
+            echo "Attempt $i failed, retrying in $((i * 5)) seconds..."
+            sleep $((i * 5))
+          done
 
       - name: Build Lean project
         run: |
-          ~/.elan/bin/lake build GIFT
+          for i in 1 2 3 4; do
+            ~/.elan/bin/lake build GIFT && break
+            echo "Attempt $i failed, retrying in $((i * 10)) seconds..."
+            sleep $((i * 10))
+          done
 
       - name: Check for home_page folder
         id: check_home_page
