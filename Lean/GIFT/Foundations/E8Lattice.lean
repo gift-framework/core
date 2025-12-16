@@ -142,10 +142,38 @@ lemma sum_int_is_int (f : Fin 8 → ℤ) : ∃ n : ℤ, ∑ i, (f i : ℝ) = (n 
   ⟨∑ i, f i, by push_cast; rfl⟩
 
 /-- Key lemma: n² ≡ n (mod 2) because n(n-1) is always even -/
-axiom sq_mod_two_eq_self_mod_two (n : ℤ) : n^2 % 2 = n % 2
+theorem sq_mod_two_eq_self_mod_two (n : ℤ) : n^2 % 2 = n % 2 := by
+  -- Case analysis on n mod 2
+  rcases Int.emod_two_eq_zero_or_one n with hn | hn
+  · -- n ≡ 0 (mod 2): n² ≡ 0² ≡ 0 (mod 2)
+    calc n^2 % 2 = (n % 2)^2 % 2 := by rw [Int.pow_emod]
+      _ = 0^2 % 2 := by rw [hn]
+      _ = 0 := by norm_num
+      _ = n % 2 := hn.symm
+  · -- n ≡ 1 (mod 2): n² ≡ 1² ≡ 1 (mod 2)
+    calc n^2 % 2 = (n % 2)^2 % 2 := by rw [Int.pow_emod]
+      _ = 1^2 % 2 := by rw [hn]
+      _ = 1 := by norm_num
+      _ = n % 2 := hn.symm
 
 /-- Sum of squares mod 2 equals sum mod 2 -/
-axiom sum_sq_mod_two (f : Fin 8 → ℤ) : (∑ i, (f i)^2) % 2 = (∑ i, f i) % 2
+theorem sum_sq_mod_two (f : Fin 8 → ℤ) : (∑ i, (f i)^2) % 2 = (∑ i, f i) % 2 := by
+  -- Key: n² - n = n(n-1) is always divisible by 2 (product of consecutive integers)
+  have hdiff : ∀ n : ℤ, 2 ∣ (n^2 - n) := by
+    intro n
+    have h : n^2 - n = n * (n - 1) := by ring
+    rw [h]
+    -- Either n or n-1 is even
+    rcases Int.even_or_odd n with ⟨k, hk⟩ | ⟨k, hk⟩
+    · exact ⟨k * (n - 1), by rw [hk]; ring⟩
+    · exact ⟨n * k, by rw [hk]; ring⟩
+  -- Therefore ∑ n² ≡ ∑ n (mod 2)
+  suffices h : 2 ∣ (∑ i, (f i)^2 - ∑ i, f i) by
+    rwa [Int.emod_eq_emod_iff_emod_sub_eq_zero]
+  rw [← Finset.sum_sub_distrib]
+  apply Finset.dvd_sum
+  intro i _
+  exact hdiff (f i)
 
 /-- For integer vectors with even sum, norm squared is even -/
 axiom norm_sq_even_of_int_even_sum (v : R8) (hint : AllInteger v) (hsum : SumEven v) :
@@ -324,9 +352,11 @@ theorem E8_weyl_order_check :
 ### Tier 2 (Linear Algebra)
 - B1: reflect_preserves_lattice ✓ (theorem via A6 + lattice closure axioms)
 
-### Helper Axioms (standard lattice properties)
-- sq_mod_two_eq_self_mod_two: n² ≡ n (mod 2) [standard number theory]
-- sum_sq_mod_two: Σnᵢ² ≡ Σnᵢ (mod 2) [follows from above]
+### Helper Lemmas (proven)
+- sq_mod_two_eq_self_mod_two: n² ≡ n (mod 2) ✓ THEOREM
+- sum_sq_mod_two: Σnᵢ² ≡ Σnᵢ (mod 2) ✓ THEOREM
+
+### Helper Axioms (remaining)
 - norm_sq_even_of_int/half_int: E8 even unimodular lattice properties
 - inner_int_of_*: E8 inner product integrality
 - E8_smul_int_closed: E8 closed under ℤ-scaling
