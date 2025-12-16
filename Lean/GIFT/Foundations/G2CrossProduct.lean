@@ -429,28 +429,16 @@ theorem G2_cross_norm (u v : R7) :
     rw [← Finset.sum_mul, ← Finset.sum_mul, ← Finset.sum_mul, ← Finset.sum_mul]
     rw [show (∑ k : Fin 7, ↑(epsilon i j k) * ↑(epsilon l m k)) * u i * u l * v j * v m =
             (epsilon_contraction i j l m : ℝ) * u i * u l * v j * v m by
-      simp only [epsilon_contraction, Int.cast_sum, Int.cast_mul]; ring]
+      simp only [epsilon_contraction, Int.cast_sum, Int.cast_mul]]
   -- LHS = ∑_ijlm epsilon_contraction(i,j,l,m) * u_i * u_l * v_j * v_m
   -- Step 6: Split into Kronecker + ψ using epsilon_contraction_decomp
-  conv_lhs =>
-    arg 2; ext i
-    arg 2; ext j
-    arg 2; ext l
-    arg 2; ext m
-    rw [epsilon_contraction_decomp i j l m]
-    rw [show (↑(kronecker_part i j l m + psi i j l m) : ℝ) * u i * u l * v j * v m =
-            (kronecker_part i j l m : ℝ) * u i * u l * v j * v m +
-            (psi i j l m : ℝ) * u i * u l * v j * v m by
-      simp only [Int.cast_add]; ring]
-  -- Split the sum
-  rw [Finset.sum_add_distrib]
-  conv_lhs =>
-    arg 2; ext i
-    rw [Finset.sum_add_distrib]
-    arg 2; ext j
-    rw [Finset.sum_add_distrib]
-    arg 2; ext l
-    rw [Finset.sum_add_distrib]
+  simp_rw [epsilon_contraction_decomp]
+  simp_rw [show ∀ i j l m, (↑(kronecker_part i j l m + psi i j l m) : ℝ) * u i * u l * v j * v m =
+          (kronecker_part i j l m : ℝ) * u i * u l * v j * v m +
+          (psi i j l m : ℝ) * u i * u l * v j * v m by
+    intros; simp only [Int.cast_add]; ring]
+  -- Split the sums using simp_rw (works inside nested sums)
+  simp_rw [Finset.sum_add_distrib]
   -- LHS = (Kronecker terms) + (ψ terms)
   -- Step 7: ψ terms vanish by psi_contract_vanishes
   have h_psi : ∑ i : Fin 7, ∑ j : Fin 7, ∑ l : Fin 7, ∑ m : Fin 7,
@@ -462,32 +450,13 @@ theorem G2_cross_norm (u v : R7) :
   -- ∑_ijlm δ_il δ_jm u_i u_l v_j v_m = ∑_ij u_i u_i v_j v_j = (∑_i u_i²)(∑_j v_j²)
   -- ∑_ijlm δ_im δ_jl u_i u_l v_j v_m = ∑_ij u_i u_j v_j v_i = (∑_i u_i v_i)²
   simp only [kronecker_part]
-  -- Split the subtraction in kronecker_part
-  conv_lhs =>
-    arg 2; ext i
-    arg 2; ext j
-    arg 2; ext l
-    arg 2; ext m
-    rw [show ((if i = l ∧ j = m then (1 : ℤ) else 0) -
-             (if i = m ∧ j = l then (1 : ℤ) else 0) : ℝ) * u i * u l * v j * v m =
-            (if i = l ∧ j = m then (1 : ℝ) else 0) * u i * u l * v j * v m -
-            (if i = m ∧ j = l then (1 : ℝ) else 0) * u i * u l * v j * v m by
-      split_ifs <;> simp <;> ring]
-  rw [Finset.sum_sub_distrib]
-  conv_lhs =>
-    arg 1; arg 2; ext i
-    rw [Finset.sum_sub_distrib]
-    arg 1; arg 2; ext j
-    rw [Finset.sum_sub_distrib]
-    arg 1; arg 2; ext l
-    rw [Finset.sum_sub_distrib]
-  conv_lhs =>
-    arg 2; arg 2; ext i
-    rw [Finset.sum_sub_distrib]
-    arg 2; arg 2; ext j
-    rw [Finset.sum_sub_distrib]
-    arg 2; arg 2; ext l
-    rw [Finset.sum_sub_distrib]
+  -- Split the subtraction in kronecker_part and distribute over sums
+  simp_rw [show ∀ i j l m, ((if i = l ∧ j = m then (1 : ℤ) else 0) -
+           (if i = m ∧ j = l then (1 : ℤ) else 0) : ℝ) * u i * u l * v j * v m =
+          (if i = l ∧ j = m then (1 : ℝ) else 0) * u i * u l * v j * v m -
+          (if i = m ∧ j = l then (1 : ℝ) else 0) * u i * u l * v j * v m by
+    intros; split_ifs <;> simp <;> ring]
+  simp_rw [Finset.sum_sub_distrib]
   -- First term: ∑_ijlm δ_il δ_jm u_i u_l v_j v_m = (∑_i u_i²)(∑_j v_j²)
   have h_first : ∑ i : Fin 7, ∑ j : Fin 7, ∑ l : Fin 7, ∑ m : Fin 7,
       (if i = l ∧ j = m then (1 : ℝ) else 0) * u i * u l * v j * v m =
@@ -514,19 +483,9 @@ theorem G2_cross_norm (u v : R7) :
       simp only [Finset.mem_univ, ite_true]
     simp only [Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     ring
-  -- Combine
-  calc ∑ i : Fin 7, ∑ j : Fin 7, ∑ l : Fin 7, ∑ m : Fin 7,
-         ((if i = l ∧ j = m then (1 : ℝ) else 0) * u i * u l * v j * v m -
-          (if i = m ∧ j = l then (1 : ℝ) else 0) * u i * u l * v j * v m)
-      = (∑ i : Fin 7, ∑ j : Fin 7, ∑ l : Fin 7, ∑ m : Fin 7,
-          (if i = l ∧ j = m then (1 : ℝ) else 0) * u i * u l * v j * v m) -
-        (∑ i : Fin 7, ∑ j : Fin 7, ∑ l : Fin 7, ∑ m : Fin 7,
-          (if i = m ∧ j = l then (1 : ℝ) else 0) * u i * u l * v j * v m) := by
-        simp only [Finset.sum_sub_distrib]
-    _ = (∑ i : Fin 7, u i * u i) * (∑ j : Fin 7, v j * v j) -
-        (∑ i : Fin 7, u i * v i) * (∑ j : Fin 7, u j * v j) := by rw [h_first, h_second]
-    _ = (∑ i : Fin 7, u i * u i) * (∑ j : Fin 7, v j * v j) -
-        (∑ i : Fin 7, u i * v i) * (∑ i : Fin 7, u i * v i) := by ring
+  -- After simp_rw, goal is: first_sum - second_sum = RHS
+  rw [h_first, h_second]
+  ring
 
 /-!
 ## Axiom B5: cross_is_octonion
