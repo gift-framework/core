@@ -78,3 +78,107 @@ GIFT.Algebraic.SO16Decomposition.spinorial_part
 GIFT.Algebraic.SO16Decomposition.spinorial_is_128
 GIFT.Algebraic.SO16Decomposition.E8_SO16_decomposition
 GIFT.Algebraic.SO16Decomposition.gauge_fermion_split
+
+# Cayley-Dickson Construction
+GIFT.Algebraic.CayleyDickson.dim_R
+GIFT.Algebraic.CayleyDickson.dim_C
+GIFT.Algebraic.CayleyDickson.dim_H
+GIFT.Algebraic.CayleyDickson.dim_O
+GIFT.Algebraic.CayleyDickson.dim_seq
+GIFT.Algebraic.CayleyDickson.imaginary_seq
+GIFT.Algebraic.CayleyDickson.imaginary_O
+GIFT.Algebraic.CayleyDickson.pairs_decomposition
+GIFT.Algebraic.CayleyDickson.G2_from_imaginary
+
+# Fibonacci Embedding
+GIFT.Sequences.Fibonacci.fib
+GIFT.Sequences.Fibonacci.fib_3_is_p2
+GIFT.Sequences.Fibonacci.fib_4_is_N_gen
+GIFT.Sequences.Fibonacci.fib_5_is_Weyl
+GIFT.Sequences.Fibonacci.fib_6_is_rank_E8
+GIFT.Sequences.Fibonacci.fib_7_is_alpha_B_sum
+GIFT.Sequences.Fibonacci.fib_8_is_b2
+GIFT.Sequences.Fibonacci.fib_9_is_hidden_dim
+GIFT.Sequences.Fibonacci.fib_10_is_E7_E6_gap
+GIFT.Sequences.Fibonacci.fib_11_is_topological_sum
+GIFT.Sequences.Fibonacci.fib_12_is_alpha_s_sq
+GIFT.Sequences.Fibonacci.gift_fibonacci_embedding
+
+# Lucas Embedding
+GIFT.Sequences.Lucas.lucas
+GIFT.Sequences.Lucas.lucas_0_is_p2
+GIFT.Sequences.Lucas.lucas_2_is_N_gen
+GIFT.Sequences.Lucas.lucas_4_is_dim_K7
+GIFT.Sequences.Lucas.lucas_5_is_D_bulk
+GIFT.Sequences.Lucas.lucas_8_is_47
+GIFT.Sequences.Lucas.b3_lucas_product
+GIFT.Sequences.Lucas.gift_lucas_embedding
+
+# Prime Atlas Tier 1
+GIFT.Primes.Tier1.p2_is_prime
+GIFT.Primes.Tier1.N_gen_is_prime
+GIFT.Primes.Tier1.Weyl_is_prime
+GIFT.Primes.Tier1.dim_K7_is_prime
+GIFT.Primes.Tier1.D_bulk_is_prime
+GIFT.Primes.Tier1.alpha_B_sum_is_prime
+GIFT.Primes.Tier1.lambda_H_is_prime
+GIFT.Primes.Tier1.kappa_T_inv_is_prime
+GIFT.Primes.Tier1.tier1_primes
+GIFT.Primes.Tier1.tier1_all_prime
+
+# Heegner Numbers
+GIFT.Primes.Heegner.heegner_numbers
+GIFT.Primes.Heegner.heegner_1_expr
+GIFT.Primes.Heegner.heegner_2_expr
+GIFT.Primes.Heegner.heegner_3_expr
+GIFT.Primes.Heegner.heegner_7_expr
+GIFT.Primes.Heegner.heegner_11_expr
+GIFT.Primes.Heegner.heegner_19_expr
+GIFT.Primes.Heegner.heegner_43_expr
+GIFT.Primes.Heegner.heegner_67_expr
+GIFT.Primes.Heegner.heegner_163_expr
+GIFT.Primes.Heegner.all_heegner_gift_expressible
+
+# Monster Dimension
+GIFT.Monster.Dimension.monster_dim
+GIFT.Monster.Dimension.monster_factorization
+GIFT.Monster.Dimension.monster_factor_47
+GIFT.Monster.Dimension.monster_factor_59
+GIFT.Monster.Dimension.monster_factor_71
+GIFT.Monster.Dimension.monster_dim_gift
+GIFT.Monster.Dimension.monster_factors_prime
+GIFT.Monster.Dimension.monster_arithmetic_progression
+
+# Monster j-Invariant
+GIFT.Monster.JInvariant.j_constant
+GIFT.Monster.JInvariant.j_constant_gift
+GIFT.Monster.JInvariant.j_constant_factored
+GIFT.Monster.JInvariant.j_constant_E8
+GIFT.Monster.JInvariant.j_coeff_1
+GIFT.Monster.JInvariant.j_coeff_1_monster
+GIFT.Monster.JInvariant.j_E8_triality
+
+# McKay Correspondence
+GIFT.McKay.Correspondence.coxeter_E8
+GIFT.McKay.Correspondence.icosahedron_edges
+GIFT.McKay.Correspondence.mckay_coxeter
+GIFT.McKay.Correspondence.icosahedron_vertices
+GIFT.McKay.Correspondence.icosahedron_faces
+GIFT.McKay.Correspondence.binary_icosahedral_order
+GIFT.McKay.Correspondence.binary_icosahedral_gift
+GIFT.McKay.Correspondence.E8_kissing_number
+GIFT.McKay.Correspondence.mckay_kissing
+GIFT.McKay.Correspondence.E8_kissing_coxeter
+GIFT.McKay.Correspondence.euler_is_p2
+
+# Joyce Existence Theorem
+GIFT.Joyce.G2Space
+GIFT.Joyce.IsTorsionFree
+GIFT.Joyce.joyce_epsilon
+GIFT.Joyce.pinn_torsion
+GIFT.Joyce.pinn_below_joyce_threshold
+GIFT.Joyce.joyce_safety_margin
+GIFT.Joyce.k7_g2_structure
+GIFT.Joyce.k7_is_torsion_free
+GIFT.Joyce.k7_admits_torsion_free_g2
+GIFT.Joyce.joyce_complete_certificate
