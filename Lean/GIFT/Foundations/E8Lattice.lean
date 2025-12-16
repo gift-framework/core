@@ -501,7 +501,7 @@ theorem E8_sub_closed (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice)
             push_cast; simp only [Finset.sum_sub_distrib, Finset.sum_const, Finset.card_fin]
             ring
           linarith [h1, h2, h3, hnvsum, hnwsum]
-        linarith [hsub_sum, hkv, hkw, hgoal]
+        convert hgoal using 1; push_cast; ring
   · -- v is half-integer
     rcases hw with ⟨hwI, hwsE⟩ | ⟨hwH, hwsE⟩
     · -- Case 3: half - int = half with even sum
@@ -533,7 +533,7 @@ theorem E8_sub_closed (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice)
           have h3 : ∑ i, (nv i - nw i : ℝ) = (∑ i, (nv i : ℝ)) - (∑ i, (nw i : ℝ)) := by
             push_cast; simp only [Finset.sum_sub_distrib]
           linarith [h1, h2, h3, hnvsum, hnwsum]
-        linarith [hsub_sum, hkv, hkw, hgoal]
+        convert hgoal using 1; push_cast; ring
     · -- Case 4: half - half = int with even sum
       left
       constructor
@@ -563,7 +563,7 @@ theorem E8_sub_closed (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice)
           have h2 : ∑ i, (nv i - nw i : ℝ) = (∑ i, (nv i : ℝ)) - (∑ i, (nw i : ℝ)) := by
             push_cast; simp only [Finset.sum_sub_distrib]
           linarith [h1, h2, hnvsum, hnwsum]
-        linarith [hsub_sum, hkv, hkw, hgoal]
+        convert hgoal using 1; push_cast; ring
 
 /-- B1: Weyl reflection preserves E8 lattice (PROVEN via A6 + closure) -/
 theorem reflect_preserves_lattice (α v : R8)
