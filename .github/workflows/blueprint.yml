@@ -109,7 +109,7 @@ jobs:
         run: |
           cd home_page
           rm -f Gemfile.lock || true
-          gem install bundler
+          bundle config set --local path vendor/bundle
           bundle install --jobs 4 --retry 3
           JEKYLL_ENV=production bundle exec jekyll build -d ../.jekyll-out/site
 
