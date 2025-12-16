@@ -1,20 +1,20 @@
-# GIFT Consolidated Action Plan v3.2.0
+# GIFT Consolidated Action Plan v3.1.1
 
 **Date**: 2025-12-16
-**Version consolidee**: 3.2.0
+**Version consolidee**: 3.1.1
 
 ---
 
 ## Executive Summary
 
-Ce plan fait le point apres plusieurs commits iteratifs. La version est consolidee a **3.2.0**.
+Ce plan fait le point apres plusieurs commits iteratifs. La version est consolidee a **3.1.1**.
 
 **Progres majeur**: Tous les 9 helper axioms de E8Lattice.lean sont maintenant des theoremes!
 B1 (reflect_preserves_lattice) est aussi un theoreme.
 
 ---
 
-## Partie 1: Etat Actuel (v3.2.0)
+## Partie 1: Etat Actuel (v3.1.1)
 
 ### Lean 4 - Modules FAITS
 
@@ -59,7 +59,7 @@ B1 (reflect_preserves_lattice) est aussi un theoreme.
 | A11. `normSq_eq_sum` | THEOREM | E8Lattice.lean |
 | A12. `inner_eq_sum` | THEOREM | E8Lattice.lean |
 
-#### Tier 2: G2 Cross Product (8/10) - Updated v3.2.0
+#### Tier 2: G2 Cross Product (8/10) - Updated v3.1.1
 
 | Axiome | Status | Fichier |
 |--------|--------|---------|
@@ -74,7 +74,7 @@ B1 (reflect_preserves_lattice) est aussi un theoreme.
 | B5. `cross_is_octonion_structure` | **AXIOM** | G2CrossProduct.lean (timeout) |
 | `epsilon_contraction_*` | THEOREM | G2CrossProduct.lean (4 lemmas) |
 
-#### Helper Lemmas (E8Lattice.lean) - ALL THEOREMS v3.2.0
+#### Helper Lemmas (E8Lattice.lean) - ALL THEOREMS v3.1.1
 
 9 lemmes **TOUS PROUVES**:
 - `sq_mod_two_eq_self_mod_two` - n^2 = n (mod 2) THEOREM
@@ -144,7 +144,7 @@ Ces fichiers restent axiomatiques et sont reserves pour recherche future.
 | V2.0 extensions | ~90 |
 | **Total** | **175+** |
 
-### Axiomes par Status (Updated v3.2.0)
+### Axiomes par Status (Updated v3.1.1)
 
 | Category | Theorems | Axioms |
 |----------|----------|--------|
@@ -192,7 +192,7 @@ Ces fichiers restent axiomatiques et sont reserves pour recherche future.
 | v2.0.0 | 165 relations + sequences/primes/monster | - |
 | v3.0.0 | + Joyce existence theorem | - |
 | v3.1.0 | Consolidation, Tier 1 complet, Tier 2 a 6/10 | 2025-12-15 |
-| **v3.2.0** | **P3 COMPLETE: 9 helper theorems, B1 theorem, Tier 2 a 8/10** | 2025-12-16 |
+| **v3.1.1** | **P3 COMPLETE: 9 helper theorems, B1 theorem, Tier 2 a 8/10** | 2025-12-16 |
 
 ---
 
@@ -213,11 +213,11 @@ COQ/
   Certificate/AllProven.v      # Certificat Coq
 
 gift_core/
-  _version.py                  # Version 3.2.0
+  _version.py                  # Version 3.1.1
   constants.py                 # Constantes Python
   __init__.py                  # Exports
 ```
 
 ---
 
-*Plan consolide v3.2.0 - 2025-12-16*
+*Plan consolide v3.1.1 - 2025-12-16*
