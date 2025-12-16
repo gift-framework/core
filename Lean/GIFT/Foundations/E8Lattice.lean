@@ -176,12 +176,76 @@ theorem sum_sq_mod_two (f : Fin 8 → ℤ) : (∑ i, (f i)^2) % 2 = (∑ i, f i)
   exact hdiff (f i)
 
 /-- For integer vectors with even sum, norm squared is even -/
-axiom norm_sq_even_of_int_even_sum (v : R8) (hint : AllInteger v) (hsum : SumEven v) :
-    ∃ k : ℤ, ‖v‖^2 = 2 * k
+theorem norm_sq_even_of_int_even_sum (v : R8) (hint : AllInteger v) (hsum : SumEven v) :
+    ∃ k : ℤ, ‖v‖^2 = 2 * k := by
+  -- ‖v‖² = ∑ vᵢ²
+  rw [normSq_eq_sum]
+  -- Extract integer coefficients
+  choose nv hnv using hint
+  -- Get even sum: ∑ vᵢ = 2k
+  obtain ⟨ksum, hksum⟩ := hsum
+  -- The sum of integers equals the sum of casted integers
+  have hint_sum : (∑ i, nv i : ℝ) = 2 * ksum := by
+    have h : ∑ i, v i = ∑ i, (nv i : ℝ) := by simp_rw [hnv]
+    rw [← h, hksum]; push_cast; ring
+  -- Therefore ∑ nv i ≡ 0 (mod 2)
+  have hmod : (∑ i, nv i) % 2 = 0 := by
+    have h : (∑ i, nv i : ℝ) = (∑ i, nv i : ℤ) := by push_cast; rfl
+    rw [hint_sum] at h
+    -- 2 * ksum as real = integer cast, so ∑ nv i = 2 * ksum as integers
+    have hint2 : ∑ i, nv i = 2 * ksum := by
+      have hcast : (2 * ksum : ℝ) = ((2 * ksum : ℤ) : ℝ) := by push_cast; ring
+      rw [hcast] at h
+      exact Int.cast_injective h
+    rw [hint2]
+    simp [Int.mul_emod_right]
+  -- By sum_sq_mod_two: (∑ nᵢ²) % 2 = (∑ nᵢ) % 2 = 0
+  have hsq_mod : (∑ i, (nv i)^2) % 2 = 0 := by
+    rw [sum_sq_mod_two, hmod]
+  -- So 2 ∣ ∑ nᵢ²
+  have hdiv : 2 ∣ ∑ i, (nv i)^2 := Int.dvd_of_emod_eq_zero hsq_mod
+  obtain ⟨m, hm⟩ := hdiv
+  use m
+  -- ‖v‖² = ∑ vᵢ² = ∑ (nᵢ)² = 2m
+  calc ∑ i, (v i)^2 = ∑ i, ((nv i : ℝ))^2 := by simp_rw [hnv]
+    _ = (∑ i, (nv i)^2 : ℤ) := by push_cast; rfl
+    _ = (2 * m : ℤ) := by rw [hm]
+    _ = 2 * m := by push_cast; ring
 
 /-- For half-integer vectors with even sum, norm squared is even -/
-axiom norm_sq_even_of_half_int_even_sum (v : R8) (hhalf : AllHalfInteger v) (hsum : SumEven v) :
-    ∃ k : ℤ, ‖v‖^2 = 2 * k
+theorem norm_sq_even_of_half_int_even_sum (v : R8) (hhalf : AllHalfInteger v) (_hsum : SumEven v) :
+    ∃ k : ℤ, ‖v‖^2 = 2 * k := by
+  -- ‖v‖² = ∑ vᵢ²
+  rw [normSq_eq_sum]
+  -- Extract integer parts: vᵢ = nᵢ + 1/2
+  choose nv hnv using hhalf
+  -- vᵢ² = (nᵢ + 1/2)² = nᵢ² + nᵢ + 1/4
+  have hvq : ∀ i, (v i)^2 = (nv i : ℝ)^2 + nv i + 1/4 := by
+    intro i
+    simp only [hnv]
+    ring
+  simp_rw [hvq]
+  -- ∑ (nᵢ² + nᵢ + 1/4) = ∑ nᵢ² + ∑ nᵢ + 2
+  rw [Finset.sum_add_distrib, Finset.sum_add_distrib]
+  have hquarter : ∑ _i : Fin 8, (1 : ℝ) / 4 = 2 := by
+    simp only [Finset.sum_const, Finset.card_fin, smul_eq_mul]
+    norm_num
+  rw [hquarter]
+  -- By sum_sq_mod_two: ∑ nᵢ² ≡ ∑ nᵢ (mod 2), so ∑ nᵢ² + ∑ nᵢ is even
+  have hmod : (∑ i, (nv i)^2 + ∑ i, nv i) % 2 = 0 := by
+    have h := sum_sq_mod_two nv
+    -- ∑ n² + ∑ n ≡ ∑ n + ∑ n ≡ 2·∑ n ≡ 0 (mod 2)
+    omega
+  have hdiv : 2 ∣ (∑ i, (nv i)^2 + ∑ i, nv i) := Int.dvd_of_emod_eq_zero hmod
+  obtain ⟨m, hm⟩ := hdiv
+  use m + 1
+  -- Total: ∑ nᵢ² + ∑ nᵢ + 2 = 2m + 2 = 2(m + 1)
+  calc (∑ i, ((nv i : ℝ)^2 + ↑(nv i))) + 2
+      = (∑ i, (nv i)^2 + ∑ i, (nv i : ℝ)) + 2 := by rw [Finset.sum_add_distrib]
+    _ = ((∑ i, (nv i)^2 : ℤ) + (∑ i, nv i : ℤ) : ℝ) + 2 := by push_cast; ring
+    _ = ((∑ i, (nv i)^2 + ∑ i, nv i : ℤ) : ℝ) + 2 := by push_cast; ring
+    _ = (2 * m : ℤ) + 2 := by rw [hm]; push_cast; ring
+    _ = 2 * (m + 1) := by push_cast; ring
 
 /-- Inner product of two integer vectors is integer -/
 theorem inner_int_of_both_int (v w : R8) (hv : AllInteger v) (hw : AllInteger w) :
@@ -436,18 +500,18 @@ theorem E8_weyl_order_check :
 - inner_int_of_both_int: ⟨int,int⟩ ∈ ℤ ✓ THEOREM
 - inner_int_of_both_half_int: ⟨half,half⟩ ∈ ℤ ✓ THEOREM
 - inner_int_of_int_half: ⟨int,half⟩ ∈ ℤ ✓ THEOREM
+- norm_sq_even_of_int_even_sum: ‖int vec‖² ∈ 2ℤ ✓ THEOREM
+- norm_sq_even_of_half_int_even_sum: ‖half vec‖² ∈ 2ℤ ✓ THEOREM
 
 ### Helper Axioms (remaining)
-- norm_sq_even_of_int_even_sum: ‖int vec‖² ∈ 2ℤ
-- norm_sq_even_of_half_int_even_sum: ‖half vec‖² ∈ 2ℤ
 - E8_smul_int_closed: E8 closed under ℤ-scaling
 - E8_sub_closed: E8 closed under subtraction
 
 ### Axiom Resolution Progress
 - **Total Tier 1**: 12 axioms → ALL THEOREMS ✓
 - **Total Tier 2**: 8 axioms → 1 theorem (B1)
-- **Helper lemmas proven**: 5 (mod 2 + inner product integrality)
-- **Helper axioms remaining**: 4 (norm even + lattice closure)
+- **Helper lemmas proven**: 7 (mod 2 + inner product + norm even)
+- **Helper axioms remaining**: 2 (lattice closure)
 - **Remaining Tier 2 axioms**: 7 (B2-B8 in G2CrossProduct.lean)
 -/
 
