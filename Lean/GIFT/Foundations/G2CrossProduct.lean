@@ -449,14 +449,11 @@ theorem G2_cross_norm (u v : R7) :
   -- kronecker_part i j l m = (δ_il δ_jm - δ_im δ_jl)
   -- ∑_ijlm δ_il δ_jm u_i u_l v_j v_m = ∑_ij u_i u_i v_j v_j = (∑_i u_i²)(∑_j v_j²)
   -- ∑_ijlm δ_im δ_jl u_i u_l v_j v_m = ∑_ij u_i u_j v_j v_i = (∑_i u_i v_i)²
-  simp only [kronecker_part]
-  -- Split the subtraction in kronecker_part and distribute over sums
-  simp_rw [show ∀ i j l m, ((if i = l ∧ j = m then (1 : ℤ) else 0) -
-           (if i = m ∧ j = l then (1 : ℤ) else 0) : ℝ) * u i * u l * v j * v m =
-          (if i = l ∧ j = m then (1 : ℝ) else 0) * u i * u l * v j * v m -
-          (if i = m ∧ j = l then (1 : ℝ) else 0) * u i * u l * v j * v m by
-    intros; split_ifs <;> ring]
-  simp_rw [Finset.sum_sub_distrib]
+  -- Unfold kronecker_part and split Int cast over subtraction
+  simp_rw [kronecker_part, Int.cast_sub, Int.cast_ite, Int.cast_one, Int.cast_zero]
+  -- Now have: (if i = l ∧ j = m then 1 else 0) - (if i = m ∧ j = l then 1 else 0) : ℝ
+  -- Distribute over sums
+  simp_rw [sub_mul, Finset.sum_sub_distrib]
   -- First term: ∑_ijlm δ_il δ_jm u_i u_l v_j v_m = (∑_i u_i²)(∑_j v_j²)
   have h_first : ∑ i : Fin 7, ∑ j : Fin 7, ∑ l : Fin 7, ∑ m : Fin 7,
       (if i = l ∧ j = m then (1 : ℝ) else 0) * u i * u l * v j * v m =
