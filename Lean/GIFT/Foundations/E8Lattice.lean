@@ -183,7 +183,7 @@ theorem norm_sq_even_of_int_even_sum (v : R8) (hint : AllInteger v) (hsum : SumE
   -- The sum of integers equals the sum of casted integers
   have hint_sum : (∑ i, (nv i : ℝ)) = 2 * ksum := by
     have h : ∑ i, v i = ∑ i, (nv i : ℝ) := by simp_rw [hnv]
-    rw [← h, hksum]; push_cast; ring
+    rw [← h, hksum]
   -- Therefore ∑ nv i ≡ 0 (mod 2)
   have hmod : (∑ i, nv i) % 2 = 0 := by
     -- ∑ nv i = 2 * ksum as integers (via cast injectivity)
@@ -476,7 +476,7 @@ theorem E8_sub_closed (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice)
         obtain ⟨nv, hnv⟩ := hvI i
         obtain ⟨nw, hnw⟩ := hwH i
         use nv - nw - 1
-        rw [hsub_coord, hnv, hnw]; ring
+        rw [hsub_coord, hnv, hnw]; push_cast; ring
       · obtain ⟨kv, hkv⟩ := hvsE
         obtain ⟨kw, hkw⟩ := hwsE
         use kv - kw
@@ -489,24 +489,19 @@ theorem E8_sub_closed (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice)
           have h1 : ∑ i, w i = ∑ i, ((nw i : ℝ) + 1/2) := by simp_rw [hnw]
           have h2 : ∑ i, ((nw i : ℝ) + 1/2) = (∑ i, (nw i : ℝ)) + 4 := by
             rw [Finset.sum_add_distrib]; norm_num [Finset.sum_const, Finset.card_fin]
-          rw [h1, h2, hkw]; ring
-        rw [hsub_sum, hkv, hkw]
-        -- Need: 2 * kv - 2 * kw = 2 * (kv - kw)
-        -- But (v - w)ᵢ = nv i - (nw i + 1/2) = (nv i - nw i - 1) + 1/2
-        -- ∑ (v - w)ᵢ = ∑ ((nv i - nw i - 1) + 1/2)
-        --            = ∑ (nv i - nw i - 1) + 4
-        --            = ∑ nv i - ∑ nw i - 8 + 4
-        --            = 2kv - (2kw - 4) - 8 + 4 = 2(kv - kw)
+          linarith [h1, h2, hkw]
+        -- Compute ∑(v-w) = 2(kv - kw) via coordinate decomposition
         have hgoal : ∑ i, (v - w) i = 2 * (kv - kw) := by
           have h1 : ∑ i, (v - w) i = ∑ i, ((nv i - nw i - 1 : ℤ) + (1 : ℝ)/2) := by
-            congr 1; ext i; rw [hsub_coord, hnv i, hnw i]; ring
+            congr 1; ext i; rw [hsub_coord, hnv i, hnw i]; push_cast; ring
           have h2 : ∑ i, ((nv i - nw i - 1 : ℤ) + (1 : ℝ)/2) =
               (∑ i, (nv i - nw i - 1 : ℝ)) + 4 := by
             rw [Finset.sum_add_distrib]; norm_num [Finset.sum_const, Finset.card_fin]
           have h3 : ∑ i, (nv i - nw i - 1 : ℝ) = (∑ i, (nv i : ℝ)) - (∑ i, (nw i : ℝ)) - 8 := by
-            push_cast; simp [Finset.sum_sub_distrib, Finset.sum_const, Finset.card_fin]
-          rw [h1, h2, h3, hnvsum, hnwsum]; ring
-        exact hgoal
+            push_cast; simp only [Finset.sum_sub_distrib, Finset.sum_const, Finset.card_fin]
+            ring
+          linarith [h1, h2, h3, hnvsum, hnwsum]
+        linarith [hsub_sum, hkv, hkw, hgoal]
   · -- v is half-integer
     rcases hw with ⟨hwI, hwsE⟩ | ⟨hwH, hwsE⟩
     · -- Case 3: half - int = half with even sum
@@ -516,7 +511,7 @@ theorem E8_sub_closed (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice)
         obtain ⟨nv, hnv⟩ := hvH i
         obtain ⟨nw, hnw⟩ := hwI i
         use nv - nw
-        rw [hsub_coord, hnv, hnw]; ring
+        rw [hsub_coord, hnv, hnw]; push_cast; ring
       · obtain ⟨kv, hkv⟩ := hvsE
         obtain ⟨kw, hkw⟩ := hwsE
         use kv - kw
@@ -526,19 +521,19 @@ theorem E8_sub_closed (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice)
           have h1 : ∑ i, v i = ∑ i, ((nv i : ℝ) + 1/2) := by simp_rw [hnv]
           have h2 : ∑ i, ((nv i : ℝ) + 1/2) = (∑ i, (nv i : ℝ)) + 4 := by
             rw [Finset.sum_add_distrib]; norm_num [Finset.sum_const, Finset.card_fin]
-          rw [h1, h2, hkv]; ring
+          linarith [h1, h2, hkv]
         have hnwsum : (∑ i, nw i : ℝ) = 2 * kw := by
           have h : ∑ i, w i = ∑ i, (nw i : ℝ) := by simp_rw [hnw]
           rw [← h, hkw]
         have hgoal : ∑ i, (v - w) i = 2 * (kv - kw) := by
           have h1 : ∑ i, (v - w) i = ∑ i, ((nv i - nw i : ℤ) + (1 : ℝ)/2) := by
-            congr 1; ext i; rw [hsub_coord, hnv i, hnw i]; ring
+            congr 1; ext i; rw [hsub_coord, hnv i, hnw i]; push_cast; ring
           have h2 : ∑ i, ((nv i - nw i : ℤ) + (1 : ℝ)/2) = (∑ i, (nv i - nw i : ℝ)) + 4 := by
             rw [Finset.sum_add_distrib]; norm_num [Finset.sum_const, Finset.card_fin]
           have h3 : ∑ i, (nv i - nw i : ℝ) = (∑ i, (nv i : ℝ)) - (∑ i, (nw i : ℝ)) := by
-            push_cast; simp [Finset.sum_sub_distrib]
-          rw [h1, h2, h3, hnvsum, hnwsum]; ring
-        exact hgoal
+            push_cast; simp only [Finset.sum_sub_distrib]
+          linarith [h1, h2, h3, hnvsum, hnwsum]
+        linarith [hsub_sum, hkv, hkw, hgoal]
     · -- Case 4: half - half = int with even sum
       left
       constructor
@@ -546,7 +541,7 @@ theorem E8_sub_closed (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice)
         obtain ⟨nv, hnv⟩ := hvH i
         obtain ⟨nw, hnw⟩ := hwH i
         use nv - nw
-        rw [hsub_coord, hnv, hnw]; ring
+        rw [hsub_coord, hnv, hnw]; push_cast; ring
       · obtain ⟨kv, hkv⟩ := hvsE
         obtain ⟨kw, hkw⟩ := hwsE
         use kv - kw
@@ -556,19 +551,19 @@ theorem E8_sub_closed (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice)
           have h1 : ∑ i, v i = ∑ i, ((nv i : ℝ) + 1/2) := by simp_rw [hnv]
           have h2 : ∑ i, ((nv i : ℝ) + 1/2) = (∑ i, (nv i : ℝ)) + 4 := by
             rw [Finset.sum_add_distrib]; norm_num [Finset.sum_const, Finset.card_fin]
-          rw [h1, h2, hkv]; ring
+          linarith [h1, h2, hkv]
         have hnwsum : (∑ i, (nw i : ℝ)) = 2 * kw - 4 := by
           have h1 : ∑ i, w i = ∑ i, ((nw i : ℝ) + 1/2) := by simp_rw [hnw]
           have h2 : ∑ i, ((nw i : ℝ) + 1/2) = (∑ i, (nw i : ℝ)) + 4 := by
             rw [Finset.sum_add_distrib]; norm_num [Finset.sum_const, Finset.card_fin]
-          rw [h1, h2, hkw]; ring
+          linarith [h1, h2, hkw]
         have hgoal : ∑ i, (v - w) i = 2 * (kv - kw) := by
           have h1 : ∑ i, (v - w) i = ∑ i, (nv i - nw i : ℝ) := by
-            congr 1; ext i; rw [hsub_coord, hnv i, hnw i]; ring
+            congr 1; ext i; rw [hsub_coord, hnv i, hnw i]; push_cast; ring
           have h2 : ∑ i, (nv i - nw i : ℝ) = (∑ i, (nv i : ℝ)) - (∑ i, (nw i : ℝ)) := by
-            push_cast; simp [Finset.sum_sub_distrib]
-          rw [h1, h2, hnvsum, hnwsum]; ring
-        exact hgoal
+            push_cast; simp only [Finset.sum_sub_distrib]
+          linarith [h1, h2, hnvsum, hnwsum]
+        linarith [hsub_sum, hkv, hkw, hgoal]
 
 /-- B1: Weyl reflection preserves E8 lattice (PROVEN via A6 + closure) -/
 theorem reflect_preserves_lattice (α v : R8)
