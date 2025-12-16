@@ -1,17 +1,20 @@
-# GIFT Consolidated Action Plan v3.1.0
+# GIFT Consolidated Action Plan v3.1.1
 
-**Date**: 2025-12-15
-**Version consolidee**: 3.1.0
+**Date**: 2025-12-16
+**Version consolidee**: 3.1.1
 
 ---
 
 ## Executive Summary
 
-Ce plan fait le point apres plusieurs commits iteratifs. La version est consolidee a **3.1.0**.
+Ce plan fait le point apres plusieurs commits iteratifs. La version est consolidee a **3.1.1**.
+
+**Progres majeur**: Tous les 9 helper axioms de E8Lattice.lean sont maintenant des theoremes!
+B1 (reflect_preserves_lattice) est aussi un theoreme.
 
 ---
 
-## Partie 1: Etat Actuel (v3.1.0)
+## Partie 1: Etat Actuel (v3.1.1)
 
 ### Lean 4 - Modules FAITS
 
@@ -25,7 +28,7 @@ Ce plan fait le point apres plusieurs commits iteratifs. La version est consolid
 | `Algebraic/GeometricSaturation.lean` | OK | b2 = dim(SO(7)) |
 | `Foundations/RootSystems.lean` | OK | 240 racines E8 prouvees |
 | `Foundations/E8Mathlib.lean` | OK | Connexion a CoxeterMatrix.E8 |
-| `Foundations/E8Lattice.lean` | OK | Reseau E8, EuclideanSpace |
+| `Foundations/E8Lattice.lean` | OK | Reseau E8, **TOUS THEOREMES** |
 | `Foundations/G2CrossProduct.lean` | OK | Produit croise G2 (partiellement axiomatique) |
 | `Relations/*.lean` (15 fichiers) | OK | 175+ relations certifiees |
 | `Certificate.lean` | OK | Certificat maitre |
@@ -48,41 +51,41 @@ Ce plan fait le point apres plusieurs commits iteratifs. La version est consolid
 | A3. `E8_roots_decomposition` | THEOREM | RootSystems.lean |
 | A4. `D8_HalfInt_disjoint` | THEOREM | RootSystems.lean |
 | A5. `E8_roots_card = 240` | THEOREM | RootSystems.lean |
-| A6. `E8_inner_integral` | THEOREM* | E8Lattice.lean |
-| A7. `E8_norm_sq_even` | THEOREM* | E8Lattice.lean |
+| A6. `E8_inner_integral` | THEOREM | E8Lattice.lean |
+| A7. `E8_norm_sq_even` | THEOREM | E8Lattice.lean |
 | A8. `E8_basis_generates` | THEOREM | E8Lattice.lean |
 | A9. `stdBasis_orthonormal` | THEOREM | E8Lattice.lean |
 | A10. `stdBasis_norm` | THEOREM | E8Lattice.lean |
 | A11. `normSq_eq_sum` | THEOREM | E8Lattice.lean |
 | A12. `inner_eq_sum` | THEOREM | E8Lattice.lean |
 
-*Via case analysis + 9 helper axioms (standard number theory)
-
-#### Tier 2: G2 Cross Product (6/10) - Updated v3.1.0
+#### Tier 2: G2 Cross Product (8/10) - Updated v3.1.1
 
 | Axiome | Status | Fichier |
 |--------|--------|---------|
 | `epsilon_antisymm` | THEOREM | G2CrossProduct.lean (343 cases) |
 | `epsilon_diag` | THEOREM | G2CrossProduct.lean (49 cases) |
 | `cross_apply` | THEOREM | G2CrossProduct.lean (rfl) |
-| B1. `reflect_preserves_lattice` | **AXIOM** | E8Lattice.lean |
+| B1. `reflect_preserves_lattice` | THEOREM | E8Lattice.lean |
 | B2. `G2_cross_bilinear` | THEOREM | G2CrossProduct.lean |
 | B3. `G2_cross_antisymm` | THEOREM | G2CrossProduct.lean |
 | B3'. `cross_self` | THEOREM | G2CrossProduct.lean |
 | B4. `G2_cross_norm` | **AXIOM** | G2CrossProduct.lean (Lagrange 7D) |
 | B5. `cross_is_octonion_structure` | **AXIOM** | G2CrossProduct.lean (timeout) |
-| `E8_smul_int_closed` | **AXIOM** | E8Lattice.lean |
+| `epsilon_contraction_*` | THEOREM | G2CrossProduct.lean (4 lemmas) |
 
-#### Helper Lemmas (E8Lattice.lean) - AXIOMS
+#### Helper Lemmas (E8Lattice.lean) - ALL THEOREMS v3.1.1
 
-7 lemmes axiomatiques (preuves necessitent analyse de cas avancee):
-- `sq_mod_two_eq_self_mod_two` - n² ≡ n (mod 2)
-- `sum_sq_mod_two` - ∑ nᵢ² ≡ ∑ nᵢ (mod 2)
-- `inner_int_of_both_int` - produit scalaire integers
-- `inner_int_of_both_half_int` - produit scalaire half-integers
-- `inner_int_of_int_half` - produit scalaire mixte
-- `norm_sq_even_of_int_even_sum` - norme des vecteurs entiers
-- `norm_sq_even_of_half_int_even_sum` - norme des vecteurs demi-entiers
+9 lemmes **TOUS PROUVES**:
+- `sq_mod_two_eq_self_mod_two` - n^2 = n (mod 2) THEOREM
+- `sum_sq_mod_two` - sum n_i^2 = sum n_i (mod 2) THEOREM
+- `inner_int_of_both_int` - produit scalaire integers THEOREM
+- `inner_int_of_both_half_int` - produit scalaire half-integers THEOREM
+- `inner_int_of_int_half` - produit scalaire mixte THEOREM
+- `norm_sq_even_of_int_even_sum` - norme des vecteurs entiers THEOREM
+- `norm_sq_even_of_half_int_even_sum` - norme des vecteurs demi-entiers THEOREM
+- `E8_smul_int_closed` - E8 clos par multiplication entiere THEOREM
+- `E8_sub_closed` - E8 clos par soustraction THEOREM
 
 #### Tier 3+ (V5 Experimental)
 
@@ -141,15 +144,15 @@ Ces fichiers restent axiomatiques et sont reserves pour recherche future.
 | V2.0 extensions | ~90 |
 | **Total** | **175+** |
 
-### Axiomes par Status (Updated v3.1.0)
+### Axiomes par Status (Updated v3.1.1)
 
 | Category | Theorems | Axioms |
 |----------|----------|--------|
 | Tier 1 (E8 roots) | 12 | 0 |
-| Helper lemmas | 0 | 7 |
-| Tier 2 (G2 cross) | 6 | 4 (B1, B4, B5, smul) |
+| Helper lemmas | 9 | 0 |
+| Tier 2 (G2 cross) | 8 | 2 (B4, B5) |
 | V5 experimental | 0 | ~30 |
-| **Total** | **18** | **~41** |
+| **Total** | **29** | **~32** |
 
 ---
 
@@ -158,23 +161,24 @@ Ces fichiers restent axiomatiques et sont reserves pour recherche future.
 ### Court terme (1-2 sessions)
 
 ```
-[ ] P1: Prouver B4 (Lagrange 7D) - Difficile (requires epsilon contraction)
+[x] P1: Prouver epsilon_contraction lemmas - DONE (4 lemmas)
+[ ] P1b: Prouver B4 (Lagrange 7D) - Difficult (needs full contraction identity)
 [ ] P2: Prouver B5 (exhaustive 343 cases) - TIMEOUT, needs efficient proof
-[ ] P3: Prouver helper axioms - Needs careful Mathlib API usage
+[x] P3: Prouver helper axioms - COMPLETE! All 9 theorems
 ```
 
 ### Moyen terme
 
 ```
-[ ] P4: Prouver B1 + E8_smul_int_closed (lattice closure)
+[x] P4: Prouver B1 + E8_smul_int_closed (lattice closure) - COMPLETE!
 [ ] P5: Synchroniser Coq avec SO16/Landauer (si pas fait)
 ```
 
 ### Long terme (recherche)
 
 ```
-[ ] P5: Formaliser V5 axiomes (Hodge, Joyce analytique)
-[ ] P6: Tier 3+ (algebre exterieure complete)
+[ ] P6: Formaliser V5 axiomes (Hodge, Joyce analytique)
+[ ] P7: Tier 3+ (algebre exterieure complete)
 ```
 
 ---
@@ -187,7 +191,8 @@ Ces fichiers restent axiomatiques et sont reserves pour recherche future.
 | v1.7.0 | 75 relations | - |
 | v2.0.0 | 165 relations + sequences/primes/monster | - |
 | v3.0.0 | + Joyce existence theorem | - |
-| **v3.1.0** | **Consolidation, Tier 1 complet, Tier 2 a 6/10** | 2025-12-15 |
+| v3.1.0 | Consolidation, Tier 1 complet, Tier 2 a 6/10 | 2025-12-15 |
+| **v3.1.1** | **P3 COMPLETE: 9 helper theorems, B1 theorem, Tier 2 a 8/10** | 2025-12-16 |
 
 ---
 
@@ -199,8 +204,8 @@ Lean/GIFT/
   Certificate.lean             # Certificat maitre
   Foundations/
     RootSystems.lean           # Tier 1 (E8 roots)
-    E8Lattice.lean             # Tier 1 (lattice) + B1
-    G2CrossProduct.lean        # Tier 2 (B2-B5)
+    E8Lattice.lean             # Tier 1 + B1 (ALL THEOREMS)
+    G2CrossProduct.lean        # Tier 2 (B4, B5 remain axioms)
     V5/                        # Experimental (axiomatique)
 
 COQ/
@@ -208,11 +213,11 @@ COQ/
   Certificate/AllProven.v      # Certificat Coq
 
 gift_core/
-  _version.py                  # Version 3.1.0
+  _version.py                  # Version 3.1.1
   constants.py                 # Constantes Python
   __init__.py                  # Exports
 ```
 
 ---
 
-*Plan consolide v3.1.0 - 2025-12-15*
+*Plan consolide v3.1.1 - 2025-12-16*

@@ -142,33 +142,174 @@ lemma sum_int_is_int (f : Fin 8 → ℤ) : ∃ n : ℤ, ∑ i, (f i : ℝ) = (n 
   ⟨∑ i, f i, by push_cast; rfl⟩
 
 /-- Key lemma: n² ≡ n (mod 2) because n(n-1) is always even -/
-axiom sq_mod_two_eq_self_mod_two (n : ℤ) : n^2 % 2 = n % 2
+theorem sq_mod_two_eq_self_mod_two (n : ℤ) : n^2 % 2 = n % 2 := by
+  -- n² - n = n(n-1) is always even, so n² ≡ n (mod 2)
+  have h : 2 ∣ (n^2 - n) := by
+    have : n^2 - n = n * (n - 1) := by ring
+    rw [this]
+    rcases Int.even_or_odd n with ⟨k, hk⟩ | ⟨k, hk⟩
+    · exact ⟨k * (n - 1), by rw [hk]; ring⟩
+    · exact ⟨n * k, by rw [hk]; ring⟩
+  omega
 
 /-- Sum of squares mod 2 equals sum mod 2 -/
-axiom sum_sq_mod_two (f : Fin 8 → ℤ) : (∑ i, (f i)^2) % 2 = (∑ i, f i) % 2
+theorem sum_sq_mod_two (f : Fin 8 → ℤ) : (∑ i, (f i)^2) % 2 = (∑ i, f i) % 2 := by
+  -- Key: n² - n = n(n-1) is always divisible by 2 (product of consecutive integers)
+  have hdiff : ∀ n : ℤ, 2 ∣ (n^2 - n) := by
+    intro n
+    have h : n^2 - n = n * (n - 1) := by ring
+    rw [h]
+    -- Either n or n-1 is even
+    rcases Int.even_or_odd n with ⟨k, hk⟩ | ⟨k, hk⟩
+    · exact ⟨k * (n - 1), by rw [hk]; ring⟩
+    · exact ⟨n * k, by rw [hk]; ring⟩
+  -- Therefore ∑ n² ≡ ∑ n (mod 2)
+  have hdiv : 2 ∣ (∑ i, (f i)^2 - ∑ i, f i) := by
+    rw [← Finset.sum_sub_distrib]
+    apply Finset.dvd_sum
+    intro i _
+    exact hdiff (f i)
+  omega
 
 /-- For integer vectors with even sum, norm squared is even -/
-axiom norm_sq_even_of_int_even_sum (v : R8) (hint : AllInteger v) (hsum : SumEven v) :
-    ∃ k : ℤ, ‖v‖^2 = 2 * k
+theorem norm_sq_even_of_int_even_sum (v : R8) (hint : AllInteger v) (hsum : SumEven v) :
+    ∃ k : ℤ, ‖v‖^2 = 2 * k := by
+  -- ‖v‖² = ∑ vᵢ²
+  rw [normSq_eq_sum]
+  -- Extract integer coefficients
+  choose nv hnv using hint
+  -- Get even sum: ∑ vᵢ = 2k
+  obtain ⟨ksum, hksum⟩ := hsum
+  -- The sum of integers equals the sum of casted integers
+  have hint_sum : (∑ i, (nv i : ℝ)) = 2 * ksum := by
+    have h : ∑ i, v i = ∑ i, (nv i : ℝ) := by simp_rw [hnv]
+    rw [← h, hksum]
+  -- Therefore ∑ nv i ≡ 0 (mod 2)
+  have hmod : (∑ i, nv i) % 2 = 0 := by
+    -- ∑ nv i = 2 * ksum as integers (via cast injectivity)
+    have hint2 : ∑ i, nv i = 2 * ksum := by
+      have h1 : (∑ i, (nv i : ℝ)) = ((∑ i, nv i : ℤ) : ℝ) := by push_cast; rfl
+      have h2 : (2 * ksum : ℝ) = ((2 * ksum : ℤ) : ℝ) := by push_cast; ring
+      rw [h1, h2] at hint_sum
+      exact Int.cast_injective hint_sum
+    simp [hint2, Int.mul_emod_right]
+  -- By sum_sq_mod_two: (∑ nᵢ²) % 2 = (∑ nᵢ) % 2 = 0
+  have hsq_mod : (∑ i, (nv i)^2) % 2 = 0 := by rw [sum_sq_mod_two, hmod]
+  -- So 2 ∣ ∑ nᵢ²
+  have hdiv : 2 ∣ ∑ i, (nv i)^2 := Int.dvd_of_emod_eq_zero hsq_mod
+  obtain ⟨m, hm⟩ := hdiv
+  use m
+  -- ‖v‖² = ∑ vᵢ² = ∑ (nᵢ)² = 2m
+  calc ∑ i, (v i)^2 = ∑ i, ((nv i : ℝ))^2 := by simp_rw [hnv]
+    _ = ((∑ i, (nv i)^2 : ℤ) : ℝ) := by push_cast; rfl
+    _ = ((2 * m : ℤ) : ℝ) := by rw [hm]
+    _ = 2 * (m : ℝ) := by push_cast; ring
 
 /-- For half-integer vectors with even sum, norm squared is even -/
-axiom norm_sq_even_of_half_int_even_sum (v : R8) (hhalf : AllHalfInteger v) (hsum : SumEven v) :
-    ∃ k : ℤ, ‖v‖^2 = 2 * k
+theorem norm_sq_even_of_half_int_even_sum (v : R8) (hhalf : AllHalfInteger v) (_hsum : SumEven v) :
+    ∃ k : ℤ, ‖v‖^2 = 2 * k := by
+  -- ‖v‖² = ∑ vᵢ²
+  rw [normSq_eq_sum]
+  -- Extract integer parts: vᵢ = nᵢ + 1/2
+  choose nv hnv using hhalf
+  -- vᵢ² = (nᵢ + 1/2)² = nᵢ² + nᵢ + 1/4
+  have hvq : ∀ i, (v i)^2 = (nv i : ℝ)^2 + nv i + 1/4 := by
+    intro i; simp only [hnv]; ring
+  simp_rw [hvq]
+  -- By sum_sq_mod_two: ∑ nᵢ² ≡ ∑ nᵢ (mod 2), so ∑ nᵢ² + ∑ nᵢ is even
+  have hmod : (∑ i, (nv i)^2 + ∑ i, nv i) % 2 = 0 := by
+    have h := sum_sq_mod_two nv; omega
+  have hdiv : 2 ∣ (∑ i, (nv i)^2 + ∑ i, nv i) := Int.dvd_of_emod_eq_zero hmod
+  obtain ⟨m, hm⟩ := hdiv
+  use m + 1
+  -- ∑ (nᵢ² + nᵢ + 1/4) = ∑ nᵢ² + ∑ nᵢ + 2 = 2m + 2 = 2(m+1)
+  have hsum_split : ∑ i, ((nv i : ℝ)^2 + (nv i : ℝ) + 1/4) =
+      (∑ i, (nv i : ℝ)^2) + (∑ i, (nv i : ℝ)) + ∑ _i : Fin 8, (1 : ℝ)/4 := by
+    rw [← Finset.sum_add_distrib, ← Finset.sum_add_distrib]
+  have hquarter : ∑ _i : Fin 8, (1 : ℝ) / 4 = 2 := by norm_num [Finset.sum_const, Finset.card_fin]
+  rw [hsum_split, hquarter]
+  have heq : (∑ i, (nv i : ℝ)^2) + (∑ i, (nv i : ℝ)) = ((∑ i, (nv i)^2 + ∑ i, nv i : ℤ) : ℝ) := by
+    push_cast; ring
+  rw [heq, hm]
+  push_cast; ring
 
 /-- Inner product of two integer vectors is integer -/
-axiom inner_int_of_both_int (v w : R8) (hv : AllInteger v) (hw : AllInteger w) :
-    ∃ n : ℤ, @inner ℝ R8 _ v w = (n : ℝ)
+theorem inner_int_of_both_int (v w : R8) (hv : AllInteger v) (hw : AllInteger w) :
+    ∃ n : ℤ, @inner ℝ R8 _ v w = (n : ℝ) := by
+  -- ⟨v,w⟩ = ∑ᵢ vᵢwᵢ by inner_eq_sum
+  rw [inner_eq_sum]
+  -- Each vᵢ and wᵢ is an integer
+  choose nv hnv using hv
+  choose nw hnw using hw
+  -- So ∑ vᵢwᵢ = ∑ (nv i)(nw i) which is an integer
+  use ∑ i, nv i * nw i
+  simp only [hnv, hnw]
+  push_cast
+  rfl
 
 /-- Inner product of two half-integer vectors is integer (when both have even sum) -/
-axiom inner_int_of_both_half_int (v w : R8)
+theorem inner_int_of_both_half_int (v w : R8)
     (hv : AllHalfInteger v) (hw : AllHalfInteger w)
     (hsv : SumEven v) (hsw : SumEven w) :
-    ∃ n : ℤ, @inner ℝ R8 _ v w = (n : ℝ)
+    ∃ n : ℤ, @inner ℝ R8 _ v w = (n : ℝ) := by
+  rw [inner_eq_sum]
+  choose nv hnv using hv
+  choose nw hnw using hw
+  obtain ⟨kv, hkv⟩ := hsv
+  obtain ⟨kw, hkw⟩ := hsw
+  use ∑ i, nv i * nw i + kv + kw - 2
+  -- vᵢwᵢ = (nᵢ + 1/2)(mᵢ + 1/2) = nᵢmᵢ + (nᵢ + mᵢ)/2 + 1/4
+  have hvw : ∀ i, v i * w i = nv i * nw i + (nv i + nw i) / 2 + 1/4 := by
+    intro i; simp only [hnv, hnw]; ring
+  simp_rw [hvw]
+  -- Compute ∑ v i and ∑ w i in terms of nv, nw
+  have hv_sum : ∑ i, v i = (∑ i, (nv i : ℝ)) + 4 := by
+    conv_lhs => rw [show ∑ i, v i = ∑ i, ((nv i : ℝ) + 1/2) from by simp_rw [hnv]]
+    rw [Finset.sum_add_distrib]; norm_num [Finset.sum_const, Finset.card_fin]
+  have hw_sum : ∑ i, w i = (∑ i, (nw i : ℝ)) + 4 := by
+    conv_lhs => rw [show ∑ i, w i = ∑ i, ((nw i : ℝ) + 1/2) from by simp_rw [hnw]]
+    rw [Finset.sum_add_distrib]; norm_num [Finset.sum_const, Finset.card_fin]
+  have hsumn : (∑ i, (nv i : ℝ)) = 2 * kv - 4 := by linarith [hv_sum.symm.trans hkv]
+  have hsumm : (∑ i, (nw i : ℝ)) = 2 * kw - 4 := by linarith [hw_sum.symm.trans hkw]
+  -- Split sum and compute
+  have hsum_eq : ∑ i, ((nv i : ℝ) * nw i + ((nv i : ℝ) + nw i) / 2 + 1/4) =
+      (∑ i, (nv i : ℝ) * nw i) + ((∑ i, (nv i : ℝ)) + (∑ i, (nw i : ℝ))) / 2 + 2 := by
+    -- Split ∑(a + b + c) into ∑a + ∑b + ∑c
+    simp only [Finset.sum_add_distrib]
+    -- Now goal: (∑ nv*nw + ∑ (nv+nw)/2) + ∑ 1/4 = RHS
+    have h_quarter : ∑ _i : Fin 8, (1 : ℝ) / 4 = 2 := by
+      norm_num [Finset.sum_const, Finset.card_fin]
+    have h_div : ∑ i, ((nv i : ℝ) + nw i) / 2 = ((∑ i, (nv i : ℝ)) + (∑ i, (nw i : ℝ))) / 2 := by
+      rw [← Finset.sum_div, Finset.sum_add_distrib]
+    rw [h_quarter, h_div]
+  rw [hsum_eq, hsumn, hsumm]
+  push_cast; ring
 
 /-- Inner product of integer and half-integer vector is integer (when int has even sum) -/
-axiom inner_int_of_int_half (v w : R8)
+theorem inner_int_of_int_half (v w : R8)
     (hv : AllInteger v) (hw : AllHalfInteger w) (hsv : SumEven v) :
-    ∃ n : ℤ, @inner ℝ R8 _ v w = (n : ℝ)
+    ∃ n : ℤ, @inner ℝ R8 _ v w = (n : ℝ) := by
+  -- ⟨v,w⟩ = ∑ vᵢwᵢ
+  rw [inner_eq_sum]
+  -- Extract: vᵢ = nᵢ (integer), wᵢ = mᵢ + 1/2
+  choose nv hnv using hv
+  choose nw hnw using hw
+  -- Get even sum: ∑ vᵢ = ∑ nᵢ = 2k
+  obtain ⟨k, hk⟩ := hsv
+  -- Compute: nᵢ(mᵢ + 1/2) = nᵢmᵢ + nᵢ/2
+  -- Sum: ∑ nᵢmᵢ + (∑ nᵢ)/2 = ∑ nᵢmᵢ + k
+  have hsum_n : (∑ i, (nv i : ℝ)) = 2 * k := by
+    have h1 : ∑ i, v i = ∑ i, (nv i : ℝ) := by simp_rw [hnv]
+    rw [← h1, hk]
+  use ∑ i, nv i * nw i + k
+  have hvw : ∀ i, v i * w i = nv i * nw i + (nv i : ℝ) / 2 := by
+    intro i
+    simp only [hnv, hnw]
+    ring
+  simp_rw [hvw]
+  rw [Finset.sum_add_distrib, ← Finset.sum_div, hsum_n]
+  push_cast
+  ring
 
 /-!
 ## Axiom A6: E8_inner_integral (NOW THEOREM)
@@ -268,12 +409,161 @@ E8 is a lattice, hence closed under:
 -/
 
 /-- E8 lattice is closed under integer scalar multiplication -/
-axiom E8_smul_int_closed (n : ℤ) (v : R8) (hv : v ∈ E8_lattice) :
-    (n : ℝ) • v ∈ E8_lattice
+theorem E8_smul_int_closed (n : ℤ) (v : R8) (hv : v ∈ E8_lattice) :
+    (n : ℝ) • v ∈ E8_lattice := by
+  -- (n • v)ᵢ = n * vᵢ
+  have hsmul_coord : ∀ i, ((n : ℝ) • v) i = (n : ℝ) * v i := fun i => by simp
+  have hsmul_sum : ∑ i, ((n : ℝ) • v) i = (n : ℝ) * ∑ i, v i := by
+    simp_rw [hsmul_coord]; rw [Finset.mul_sum]
+  rcases hv with ⟨hvI, hvsE⟩ | ⟨hvH, hvsE⟩
+  · -- Case 1: v is integer with even sum
+    left
+    constructor
+    · intro i
+      obtain ⟨m, hm⟩ := hvI i
+      use n * m
+      rw [hsmul_coord, hm]; push_cast; ring
+    · obtain ⟨k, hk⟩ := hvsE
+      use n * k
+      rw [hsmul_sum, hk]; push_cast; ring
+  · -- Case 2: v is half-integer with even sum
+    obtain ⟨k, hk⟩ := hvsE
+    rcases Int.even_or_odd n with ⟨l, hl⟩ | ⟨l, hl⟩
+    · -- n = 2l (even): n • v becomes integer
+      left
+      constructor
+      · intro i
+        obtain ⟨m, hm⟩ := hvH i
+        use 2 * l * m + l
+        rw [hsmul_coord, hm, hl]; push_cast; ring
+      · use n * k
+        rw [hsmul_sum, hk]; push_cast; ring
+    · -- n = 2l + 1 (odd): n • v stays half-integer
+      right
+      constructor
+      · intro i
+        obtain ⟨m, hm⟩ := hvH i
+        use (2 * l + 1) * m + l
+        rw [hsmul_coord, hm, hl]; push_cast; ring
+      · use n * k
+        rw [hsmul_sum, hk]; push_cast; ring
 
 /-- E8 lattice is closed under subtraction -/
-axiom E8_sub_closed (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice) :
-    v - w ∈ E8_lattice
+theorem E8_sub_closed (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice) :
+    v - w ∈ E8_lattice := by
+  have hsub_coord : ∀ i, (v - w) i = v i - w i := fun i => by simp
+  have hsub_sum : ∑ i, (v - w) i = ∑ i, v i - ∑ i, w i := by
+    simp_rw [hsub_coord]; rw [Finset.sum_sub_distrib]
+  rcases hv with ⟨hvI, hvsE⟩ | ⟨hvH, hvsE⟩
+  · -- v is integer
+    rcases hw with ⟨hwI, hwsE⟩ | ⟨hwH, hwsE⟩
+    · -- Case 1: int - int = int with even sum
+      left
+      constructor
+      · intro i
+        obtain ⟨nv, hnv⟩ := hvI i
+        obtain ⟨nw, hnw⟩ := hwI i
+        use nv - nw
+        rw [hsub_coord, hnv, hnw]; push_cast; ring
+      · obtain ⟨kv, hkv⟩ := hvsE
+        obtain ⟨kw, hkw⟩ := hwsE
+        use kv - kw
+        rw [hsub_sum, hkv, hkw]; push_cast; ring
+    · -- Case 2: int - half = half with even sum
+      right
+      constructor
+      · intro i
+        obtain ⟨nv, hnv⟩ := hvI i
+        obtain ⟨nw, hnw⟩ := hwH i
+        use nv - nw - 1
+        rw [hsub_coord, hnv, hnw]; push_cast; ring
+      · obtain ⟨kv, hkv⟩ := hvsE
+        obtain ⟨kw, hkw⟩ := hwsE
+        use kv - kw
+        choose nv hnv using hvI
+        choose nw hnw using hwH
+        have hnvsum : (∑ i, (nv i : ℝ)) = 2 * kv := by
+          have h : ∑ i, v i = ∑ i, (nv i : ℝ) := by simp_rw [hnv]
+          rw [← h, hkv]
+        have hnwsum : (∑ i, (nw i : ℝ)) = 2 * kw - 4 := by
+          have h1 : ∑ i, w i = ∑ i, ((nw i : ℝ) + 1/2) := by simp_rw [hnw]
+          have h2 : ∑ i, ((nw i : ℝ) + 1/2) = (∑ i, (nw i : ℝ)) + 4 := by
+            rw [Finset.sum_add_distrib]; norm_num [Finset.sum_const, Finset.card_fin]
+          linarith [h1, h2, hkw]
+        -- Compute ∑(v-w) = 2(kv - kw) via coordinate decomposition
+        have hgoal : ∑ i, (v - w) i = 2 * (kv - kw) := by
+          have h1 : ∑ i, (v - w) i = ∑ i, ((nv i - nw i - 1 : ℤ) + (1 : ℝ)/2) := by
+            congr 1; ext i; rw [hsub_coord, hnv i, hnw i]; push_cast; ring
+          have h2 : ∑ i, ((nv i - nw i - 1 : ℤ) + (1 : ℝ)/2) =
+              (∑ i, (nv i - nw i - 1 : ℝ)) + 4 := by
+            rw [Finset.sum_add_distrib]; norm_num [Finset.sum_const, Finset.card_fin]
+          have h3 : ∑ i, (nv i - nw i - 1 : ℝ) = (∑ i, (nv i : ℝ)) - (∑ i, (nw i : ℝ)) - 8 := by
+            push_cast; simp only [Finset.sum_sub_distrib, Finset.sum_const, Finset.card_fin]
+            ring
+          linarith [h1, h2, h3, hnvsum, hnwsum]
+        convert hgoal using 1; push_cast; ring
+  · -- v is half-integer
+    rcases hw with ⟨hwI, hwsE⟩ | ⟨hwH, hwsE⟩
+    · -- Case 3: half - int = half with even sum
+      right
+      constructor
+      · intro i
+        obtain ⟨nv, hnv⟩ := hvH i
+        obtain ⟨nw, hnw⟩ := hwI i
+        use nv - nw
+        rw [hsub_coord, hnv, hnw]; push_cast; ring
+      · obtain ⟨kv, hkv⟩ := hvsE
+        obtain ⟨kw, hkw⟩ := hwsE
+        use kv - kw
+        choose nv hnv using hvH
+        choose nw hnw using hwI
+        have hnvsum : (∑ i, (nv i : ℝ)) = 2 * kv - 4 := by
+          have h1 : ∑ i, v i = ∑ i, ((nv i : ℝ) + 1/2) := by simp_rw [hnv]
+          have h2 : ∑ i, ((nv i : ℝ) + 1/2) = (∑ i, (nv i : ℝ)) + 4 := by
+            rw [Finset.sum_add_distrib]; norm_num [Finset.sum_const, Finset.card_fin]
+          linarith [h1, h2, hkv]
+        have hnwsum : (∑ i, nw i : ℝ) = 2 * kw := by
+          have h : ∑ i, w i = ∑ i, (nw i : ℝ) := by simp_rw [hnw]
+          rw [← h, hkw]
+        have hgoal : ∑ i, (v - w) i = 2 * (kv - kw) := by
+          have h1 : ∑ i, (v - w) i = ∑ i, ((nv i - nw i : ℤ) + (1 : ℝ)/2) := by
+            congr 1; ext i; rw [hsub_coord, hnv i, hnw i]; push_cast; ring
+          have h2 : ∑ i, ((nv i - nw i : ℤ) + (1 : ℝ)/2) = (∑ i, (nv i - nw i : ℝ)) + 4 := by
+            rw [Finset.sum_add_distrib]; norm_num [Finset.sum_const, Finset.card_fin]
+          have h3 : ∑ i, (nv i - nw i : ℝ) = (∑ i, (nv i : ℝ)) - (∑ i, (nw i : ℝ)) := by
+            push_cast; simp only [Finset.sum_sub_distrib]
+          linarith [h1, h2, h3, hnvsum, hnwsum]
+        convert hgoal using 1; push_cast; ring
+    · -- Case 4: half - half = int with even sum
+      left
+      constructor
+      · intro i
+        obtain ⟨nv, hnv⟩ := hvH i
+        obtain ⟨nw, hnw⟩ := hwH i
+        use nv - nw
+        rw [hsub_coord, hnv, hnw]; push_cast; ring
+      · obtain ⟨kv, hkv⟩ := hvsE
+        obtain ⟨kw, hkw⟩ := hwsE
+        use kv - kw
+        choose nv hnv using hvH
+        choose nw hnw using hwH
+        have hnvsum : (∑ i, (nv i : ℝ)) = 2 * kv - 4 := by
+          have h1 : ∑ i, v i = ∑ i, ((nv i : ℝ) + 1/2) := by simp_rw [hnv]
+          have h2 : ∑ i, ((nv i : ℝ) + 1/2) = (∑ i, (nv i : ℝ)) + 4 := by
+            rw [Finset.sum_add_distrib]; norm_num [Finset.sum_const, Finset.card_fin]
+          linarith [h1, h2, hkv]
+        have hnwsum : (∑ i, (nw i : ℝ)) = 2 * kw - 4 := by
+          have h1 : ∑ i, w i = ∑ i, ((nw i : ℝ) + 1/2) := by simp_rw [hnw]
+          have h2 : ∑ i, ((nw i : ℝ) + 1/2) = (∑ i, (nw i : ℝ)) + 4 := by
+            rw [Finset.sum_add_distrib]; norm_num [Finset.sum_const, Finset.card_fin]
+          linarith [h1, h2, hkw]
+        have hgoal : ∑ i, (v - w) i = 2 * (kv - kw) := by
+          have h1 : ∑ i, (v - w) i = ∑ i, (nv i - nw i : ℝ) := by
+            congr 1; ext i; rw [hsub_coord, hnv i, hnw i]; push_cast; ring
+          have h2 : ∑ i, (nv i - nw i : ℝ) = (∑ i, (nv i : ℝ)) - (∑ i, (nw i : ℝ)) := by
+            push_cast; simp only [Finset.sum_sub_distrib]
+          linarith [h1, h2, hnvsum, hnwsum]
+        convert hgoal using 1; push_cast; ring
 
 /-- B1: Weyl reflection preserves E8 lattice (PROVEN via A6 + closure) -/
 theorem reflect_preserves_lattice (α v : R8)
@@ -324,18 +614,21 @@ theorem E8_weyl_order_check :
 ### Tier 2 (Linear Algebra)
 - B1: reflect_preserves_lattice ✓ (theorem via A6 + lattice closure axioms)
 
-### Helper Axioms (standard lattice properties)
-- sq_mod_two_eq_self_mod_two: n² ≡ n (mod 2) [standard number theory]
-- sum_sq_mod_two: Σnᵢ² ≡ Σnᵢ (mod 2) [follows from above]
-- norm_sq_even_of_int/half_int: E8 even unimodular lattice properties
-- inner_int_of_*: E8 inner product integrality
-- E8_smul_int_closed: E8 closed under ℤ-scaling
-- E8_sub_closed: E8 closed under subtraction
+### Helper Lemmas (ALL PROVEN ✓)
+- sq_mod_two_eq_self_mod_two: n² ≡ n (mod 2) ✓ THEOREM
+- sum_sq_mod_two: Σnᵢ² ≡ Σnᵢ (mod 2) ✓ THEOREM
+- inner_int_of_both_int: ⟨int,int⟩ ∈ ℤ ✓ THEOREM
+- inner_int_of_both_half_int: ⟨half,half⟩ ∈ ℤ ✓ THEOREM
+- inner_int_of_int_half: ⟨int,half⟩ ∈ ℤ ✓ THEOREM
+- norm_sq_even_of_int_even_sum: ‖int vec‖² ∈ 2ℤ ✓ THEOREM
+- norm_sq_even_of_half_int_even_sum: ‖half vec‖² ∈ 2ℤ ✓ THEOREM
+- E8_smul_int_closed: E8 closed under ℤ-scaling ✓ THEOREM
+- E8_sub_closed: E8 closed under subtraction ✓ THEOREM
 
 ### Axiom Resolution Progress
 - **Total Tier 1**: 12 axioms → ALL THEOREMS ✓
 - **Total Tier 2**: 8 axioms → 1 theorem (B1)
-- **Helper axioms**: 9 (standard lattice/number theory facts)
+- **Helper lemmas**: 9/9 PROVEN ✓ (NO AXIOMS REMAINING)
 - **Remaining Tier 2 axioms**: 7 (B2-B8 in G2CrossProduct.lean)
 -/
 
