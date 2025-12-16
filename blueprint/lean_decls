@@ -38,3 +38,43 @@ GIFT.Algebraic.BettiNumbers.b3_from_E7
 GIFT.Core.H_star
 GIFT.Relations.Cosmology.n_s_indices_certified
 GIFT.Relations.Cosmology.Omega_DE_fraction_certified
+
+# Gauge Sector Relations
+GIFT.Relations.GaugeSector.weinberg_num
+GIFT.Relations.GaugeSector.weinberg_den
+GIFT.Relations.GaugeSector.weinberg_angle
+GIFT.Relations.GaugeSector.weinberg_simplified
+GIFT.Relations.GaugeSector.alpha_s_denom
+GIFT.Relations.GaugeSector.alpha_s_denom_certified
+GIFT.Relations.GaugeSector.alpha_inv_algebraic
+GIFT.Relations.GaugeSector.alpha_inv_algebraic_certified
+GIFT.Relations.GaugeSector.alpha_inv_bulk
+GIFT.Relations.GaugeSector.alpha_inv_bulk_certified
+GIFT.Relations.GaugeSector.alpha_inv_base_certified
+GIFT.Relations.GaugeSector.alpha_inv_complete_certified
+
+# Lepton Sector Relations
+GIFT.Relations.LeptonSector.koide_num
+GIFT.Relations.LeptonSector.koide_den
+GIFT.Relations.LeptonSector.koide_formula
+GIFT.Relations.LeptonSector.koide_simplified
+GIFT.Relations.LeptonSector.m_tau_m_e_from_topology
+GIFT.Relations.LeptonSector.m_tau_m_e_components
+GIFT.Relations.LeptonSector.m_mu_m_e_base
+GIFT.Relations.LeptonSector.m_mu_m_e_from_Jordan
+GIFT.Relations.LeptonSector.lambda_H_sq_num
+GIFT.Relations.LeptonSector.lambda_H_sq_den
+GIFT.Relations.LeptonSector.lambda_H_sq_certified
+
+# SO16 Decomposition
+GIFT.Algebraic.SO16Decomposition.dim_SO
+GIFT.Algebraic.SO16Decomposition.dim_SO16
+GIFT.Algebraic.SO16Decomposition.dim_SO7
+GIFT.Algebraic.SO16Decomposition.spinor_SO16
+GIFT.Algebraic.SO16Decomposition.spinor_from_octonions
+GIFT.Algebraic.SO16Decomposition.geometric_part
+GIFT.Algebraic.SO16Decomposition.geometric_is_SO16
+GIFT.Algebraic.SO16Decomposition.spinorial_part
+GIFT.Algebraic.SO16Decomposition.spinorial_is_128
+GIFT.Algebraic.SO16Decomposition.E8_SO16_decomposition
+GIFT.Algebraic.SO16Decomposition.gauge_fermion_split
