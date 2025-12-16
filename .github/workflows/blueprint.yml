@@ -104,6 +104,13 @@ jobs:
         run: |
           ~/.elan/bin/lake exe checkdecls blueprint/lean_decls || echo "Warning: Some declarations not found"
 
+      - name: Setup Ruby
+        if: ${{ steps.check_home_page.outputs.exists == 'true' }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: false
+
       - name: Build Jekyll site
         if: ${{ steps.check_home_page.outputs.exists == 'true' }}
         run: |
