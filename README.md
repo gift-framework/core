@@ -49,6 +49,10 @@ cd COQ && make
 - [Usage Guide](docs/USAGE.md)
 - [Full Framework](https://github.com/gift-framework/GIFT)
 
+## Acknowledgments
+
+Blueprint structure inspired by [KakeyaFiniteFields](https://github.com/math-inc/KakeyaFiniteFields).
+
 ## License
 
 MIT
