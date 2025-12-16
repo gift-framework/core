@@ -273,20 +273,26 @@ theorem antisym_sym_contract_vanishes
   -- Show S = -S, hence S = 0
   have h : ∑ i : Fin 7, ∑ l : Fin 7, T i l * u i * u l =
            -(∑ i : Fin 7, ∑ l : Fin 7, T i l * u i * u l) := by
-    -- Swap indices i ↔ l
-    conv_lhs => rw [Finset.sum_comm]
-    -- Apply antisymmetry: T l i = -T i l
-    conv_lhs =>
-      congr; ext l; congr; ext i
-      rw [hT l i]
-    -- Now have ∑ l, ∑ i, (-T i l) * u l * u i
-    simp only [neg_mul, Finset.sum_neg_distrib]
-    -- Need: -∑ l, ∑ i, T i l * u l * u i = -(∑ i, ∑ l, T i l * u i * u l)
-    congr 1
-    rw [Finset.sum_comm]
-    apply Finset.sum_congr rfl; intro i _
-    apply Finset.sum_congr rfl; intro l _
-    ring
+    calc ∑ i : Fin 7, ∑ l : Fin 7, T i l * u i * u l
+        = ∑ l : Fin 7, ∑ i : Fin 7, T l i * u l * u i := by rw [Finset.sum_comm]
+      _ = ∑ l : Fin 7, ∑ i : Fin 7, (-T i l) * u l * u i := by
+          apply Finset.sum_congr rfl; intro l _
+          apply Finset.sum_congr rfl; intro i _
+          rw [hT l i]
+      _ = ∑ l : Fin 7, ∑ i : Fin 7, (-(T i l * u l * u i)) := by
+          apply Finset.sum_congr rfl; intro l _
+          apply Finset.sum_congr rfl; intro i _
+          ring
+      _ = -(∑ l : Fin 7, ∑ i : Fin 7, T i l * u l * u i) := by
+          rw [Finset.sum_neg_distrib]
+          apply congrArg; apply Finset.sum_congr rfl; intro l _
+          rw [Finset.sum_neg_distrib]
+      _ = -(∑ i : Fin 7, ∑ l : Fin 7, T i l * u l * u i) := by rw [Finset.sum_comm]
+      _ = -(∑ i : Fin 7, ∑ l : Fin 7, T i l * u i * u l) := by
+          congr 1
+          apply Finset.sum_congr rfl; intro i _
+          apply Finset.sum_congr rfl; intro l _
+          ring
   linarith
 
 /-- The ψ correction vanishes when contracted with symmetric uᵢuₗ and vⱼvₘ -/
@@ -300,16 +306,32 @@ theorem psi_contract_vanishes (u v : Fin 7 → ℝ) :
     apply antisym_sym_contract_vanishes (fun i l => (psi i j l m : ℝ)) u
     intro i l
     have h := psi_antisym_il i j l m
-    simp only [Int.cast_neg]
-    exact congrArg (Int.cast) h
-  -- Rewrite to factor out v terms
-  have h_eq : ∀ i j l m, (psi i j l m : ℝ) * u i * u l * v j * v m =
-              ((psi i j l m : ℝ) * u i * u l) * (v j * v m) := by intros; ring
-  simp only [h_eq]
-  -- Pull v j * v m out of inner sums
-  simp only [← Finset.sum_mul]
-  -- Inner sum is 0
-  simp only [h_inner, zero_mul, Finset.sum_const_zero]
+    simp only [h, Int.cast_neg]
+  -- Reorder sums: ∑ i j l m → ∑ j m i l, then factor and apply h_inner
+  calc ∑ i : Fin 7, ∑ j : Fin 7, ∑ l : Fin 7, ∑ m : Fin 7,
+         (psi i j l m : ℝ) * u i * u l * v j * v m
+      = ∑ j : Fin 7, ∑ i : Fin 7, ∑ l : Fin 7, ∑ m : Fin 7,
+         (psi i j l m : ℝ) * u i * u l * v j * v m := by rw [Finset.sum_comm]
+    _ = ∑ j : Fin 7, ∑ m : Fin 7, ∑ i : Fin 7, ∑ l : Fin 7,
+         (psi i j l m : ℝ) * u i * u l * v j * v m := by
+        apply Finset.sum_congr rfl; intro j _
+        rw [Finset.sum_comm]
+        apply Finset.sum_congr rfl; intro m _
+        rw [Finset.sum_comm]
+    _ = ∑ j : Fin 7, ∑ m : Fin 7,
+         (∑ i : Fin 7, ∑ l : Fin 7, (psi i j l m : ℝ) * u i * u l) * (v j * v m) := by
+        apply Finset.sum_congr rfl; intro j _
+        apply Finset.sum_congr rfl; intro m _
+        rw [Finset.sum_mul, Finset.sum_mul]
+        apply Finset.sum_congr rfl; intro i _
+        rw [Finset.sum_mul]
+        apply Finset.sum_congr rfl; intro l _
+        ring
+    _ = ∑ j : Fin 7, ∑ m : Fin 7, 0 * (v j * v m) := by
+        apply Finset.sum_congr rfl; intro j _
+        apply Finset.sum_congr rfl; intro m _
+        rw [h_inner]
+    _ = 0 := by simp only [zero_mul, Finset.sum_const_zero]
 
 /-- B4: Lagrange identity for 7D cross product
     |u × v|² = |u|²|v|² - ⟨u,v⟩²
