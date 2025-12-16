@@ -184,19 +184,97 @@ axiom norm_sq_even_of_half_int_even_sum (v : R8) (hhalf : AllHalfInteger v) (hsu
     ∃ k : ℤ, ‖v‖^2 = 2 * k
 
 /-- Inner product of two integer vectors is integer -/
-axiom inner_int_of_both_int (v w : R8) (hv : AllInteger v) (hw : AllInteger w) :
-    ∃ n : ℤ, @inner ℝ R8 _ v w = (n : ℝ)
+theorem inner_int_of_both_int (v w : R8) (hv : AllInteger v) (hw : AllInteger w) :
+    ∃ n : ℤ, @inner ℝ R8 _ v w = (n : ℝ) := by
+  -- ⟨v,w⟩ = ∑ᵢ vᵢwᵢ by inner_eq_sum
+  rw [inner_eq_sum]
+  -- Each vᵢ and wᵢ is an integer
+  choose nv hnv using hv
+  choose nw hnw using hw
+  -- So ∑ vᵢwᵢ = ∑ (nv i)(nw i) which is an integer
+  use ∑ i, nv i * nw i
+  simp only [hnv, hnw]
+  push_cast
+  rfl
 
 /-- Inner product of two half-integer vectors is integer (when both have even sum) -/
-axiom inner_int_of_both_half_int (v w : R8)
+theorem inner_int_of_both_half_int (v w : R8)
     (hv : AllHalfInteger v) (hw : AllHalfInteger w)
     (hsv : SumEven v) (hsw : SumEven w) :
-    ∃ n : ℤ, @inner ℝ R8 _ v w = (n : ℝ)
+    ∃ n : ℤ, @inner ℝ R8 _ v w = (n : ℝ) := by
+  -- ⟨v,w⟩ = ∑ vᵢwᵢ
+  rw [inner_eq_sum]
+  -- Extract integer parts: vᵢ = nᵢ + 1/2, wᵢ = mᵢ + 1/2
+  choose nv hnv using hv
+  choose nw hnw using hw
+  -- Get even sum conditions: ∑ vᵢ = 2k, ∑ wᵢ = 2l
+  obtain ⟨kv, hkv⟩ := hsv
+  obtain ⟨kw, hkw⟩ := hsw
+  -- Compute: (n + 1/2)(m + 1/2) = nm + n/2 + m/2 + 1/4
+  -- Sum: ∑ nm + (∑n + ∑m)/2 + 8/4 = ∑ nm + (∑n + ∑m)/2 + 2
+  -- Since ∑ vᵢ = ∑ nᵢ + 4 = 2kv, we have ∑ nᵢ = 2kv - 4
+  -- Since ∑ wᵢ = ∑ mᵢ + 4 = 2kw, we have ∑ mᵢ = 2kw - 4
+  -- So (∑ nᵢ + ∑ mᵢ)/2 = (2kv - 4 + 2kw - 4)/2 = kv + kw - 4
+  -- Total: ∑ nᵢmᵢ + kv + kw - 4 + 2 = ∑ nᵢmᵢ + kv + kw - 2
+  use ∑ i, nv i * nw i + kv + kw - 2
+  -- Rewrite using vᵢ = nᵢ + 1/2, wᵢ = mᵢ + 1/2
+  have hvw : ∀ i, v i * w i = nv i * nw i + (nv i + nw i) / 2 + 1/4 := by
+    intro i
+    simp only [hnv, hnw]
+    ring
+  simp_rw [hvw]
+  -- ∑ (nᵢmᵢ + (nᵢ + mᵢ)/2 + 1/4)
+  rw [Finset.sum_add_distrib, Finset.sum_add_distrib]
+  -- Get the sum of integer parts
+  have hsumn : (∑ i, (nv i : ℝ)) = 2 * kv - 4 := by
+    have h1 : ∑ i, v i = ∑ i, ((nv i : ℝ) + 1/2) := by simp_rw [hnv]
+    rw [Finset.sum_add_distrib] at h1
+    simp only [Finset.sum_const, Finset.card_fin, smul_eq_mul] at h1
+    rw [hkv] at h1
+    linarith
+  have hsumm : (∑ i, (nw i : ℝ)) = 2 * kw - 4 := by
+    have h1 : ∑ i, w i = ∑ i, ((nw i : ℝ) + 1/2) := by simp_rw [hnw]
+    rw [Finset.sum_add_distrib] at h1
+    simp only [Finset.sum_const, Finset.card_fin, smul_eq_mul] at h1
+    rw [hkw] at h1
+    linarith
+  -- The 1/4 terms sum to 8 * 1/4 = 2
+  have hquarter : ∑ _i : Fin 8, (1 : ℝ) / 4 = 2 := by
+    simp only [Finset.sum_const, Finset.card_fin, smul_eq_mul]
+    norm_num
+  -- The middle terms
+  have hmiddle : ∑ i, ((nv i : ℝ) + nw i) / 2 = kv + kw - 4 := by
+    rw [← Finset.sum_div, Finset.sum_add_distrib, hsumn, hsumm]
+    ring
+  rw [hmiddle, hquarter]
+  push_cast
+  ring
 
 /-- Inner product of integer and half-integer vector is integer (when int has even sum) -/
-axiom inner_int_of_int_half (v w : R8)
+theorem inner_int_of_int_half (v w : R8)
     (hv : AllInteger v) (hw : AllHalfInteger w) (hsv : SumEven v) :
-    ∃ n : ℤ, @inner ℝ R8 _ v w = (n : ℝ)
+    ∃ n : ℤ, @inner ℝ R8 _ v w = (n : ℝ) := by
+  -- ⟨v,w⟩ = ∑ vᵢwᵢ
+  rw [inner_eq_sum]
+  -- Extract: vᵢ = nᵢ (integer), wᵢ = mᵢ + 1/2
+  choose nv hnv using hv
+  choose nw hnw using hw
+  -- Get even sum: ∑ vᵢ = ∑ nᵢ = 2k
+  obtain ⟨k, hk⟩ := hsv
+  -- Compute: nᵢ(mᵢ + 1/2) = nᵢmᵢ + nᵢ/2
+  -- Sum: ∑ nᵢmᵢ + (∑ nᵢ)/2 = ∑ nᵢmᵢ + k
+  have hsum_n : (∑ i, (nv i : ℝ)) = 2 * k := by
+    have h1 : ∑ i, v i = ∑ i, (nv i : ℝ) := by simp_rw [hnv]
+    rw [← h1, hk]
+  use ∑ i, nv i * nw i + k
+  have hvw : ∀ i, v i * w i = nv i * nw i + (nv i : ℝ) / 2 := by
+    intro i
+    simp only [hnv, hnw]
+    ring
+  simp_rw [hvw]
+  rw [Finset.sum_add_distrib, ← Finset.sum_div, hsum_n]
+  push_cast
+  ring
 
 /-!
 ## Axiom A6: E8_inner_integral (NOW THEOREM)
@@ -355,17 +433,21 @@ theorem E8_weyl_order_check :
 ### Helper Lemmas (proven)
 - sq_mod_two_eq_self_mod_two: n² ≡ n (mod 2) ✓ THEOREM
 - sum_sq_mod_two: Σnᵢ² ≡ Σnᵢ (mod 2) ✓ THEOREM
+- inner_int_of_both_int: ⟨int,int⟩ ∈ ℤ ✓ THEOREM
+- inner_int_of_both_half_int: ⟨half,half⟩ ∈ ℤ ✓ THEOREM
+- inner_int_of_int_half: ⟨int,half⟩ ∈ ℤ ✓ THEOREM
 
 ### Helper Axioms (remaining)
-- norm_sq_even_of_int/half_int: E8 even unimodular lattice properties
-- inner_int_of_*: E8 inner product integrality
+- norm_sq_even_of_int_even_sum: ‖int vec‖² ∈ 2ℤ
+- norm_sq_even_of_half_int_even_sum: ‖half vec‖² ∈ 2ℤ
 - E8_smul_int_closed: E8 closed under ℤ-scaling
 - E8_sub_closed: E8 closed under subtraction
 
 ### Axiom Resolution Progress
 - **Total Tier 1**: 12 axioms → ALL THEOREMS ✓
 - **Total Tier 2**: 8 axioms → 1 theorem (B1)
-- **Helper axioms**: 9 (standard lattice/number theory facts)
+- **Helper lemmas proven**: 5 (mod 2 + inner product integrality)
+- **Helper axioms remaining**: 4 (norm even + lattice closure)
 - **Remaining Tier 2 axioms**: 7 (B2-B8 in G2CrossProduct.lean)
 -/
 
