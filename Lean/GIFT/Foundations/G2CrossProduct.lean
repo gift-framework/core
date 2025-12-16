@@ -208,24 +208,7 @@ the antisymmetric remainder (ψ) vanishes under the symmetric contraction.
 def epsilon_contraction (i j l m : Fin 7) : ℤ :=
   ∑ k : Fin 7, epsilon i j k * epsilon l m k
 
-/-- Kronecker delta on Fin 7 -/
-def kron (i j : Fin 7) : ℤ := if i = j then 1 else 0
-
-/-- The symmetric part of epsilon contraction (what contributes to Lagrange)
-    sym_contraction i j l m = (δᵢₗδⱼₘ + δᵢₘδⱼₗ - 2δᵢⱼδₗₘ) / 2 contribution
-    But we compute directly: ε_contraction + ε_contraction with (l,m) swapped -/
-def sym_epsilon_contraction (i j l m : Fin 7) : ℤ :=
-  epsilon_contraction i j l m + epsilon_contraction i j m l
-
-/-- Key lemma: The symmetric epsilon contraction equals Kronecker deltas
-    When summed symmetrically over (l,m), only δᵢₗδⱼₘ - δᵢₘδⱼₗ survives,
-    and swapping (l,m) gives the Lagrange structure. -/
-theorem sym_epsilon_contraction_eq (i j l m : Fin 7) :
-    sym_epsilon_contraction i j l m =
-    kron i l * kron j m + kron i m * kron j l - 2 * kron i j * kron l m := by
-  fin_cases i <;> fin_cases j <;> fin_cases l <;> fin_cases m <;> native_decide
-
-/-- The epsilon contraction satisfies a specific pattern related to Kronecker deltas -/
+/-- The epsilon contraction at diagonal (i,j,i,j) equals 1 when i≠j, 0 when i=j -/
 theorem epsilon_contraction_diagonal (i j : Fin 7) :
     epsilon_contraction i j i j = if i = j then 0 else 1 := by
   fin_cases i <;> fin_cases j <;> native_decide
@@ -234,16 +217,6 @@ theorem epsilon_contraction_diagonal (i j : Fin 7) :
 theorem epsilon_contraction_first_eq (i l m : Fin 7) :
     epsilon_contraction i i l m = 0 := by
   fin_cases i <;> fin_cases l <;> fin_cases m <;> native_decide
-
-/-- Epsilon contraction is antisymmetric in first two arguments -/
-theorem epsilon_contraction_antisymm (i j l m : Fin 7) :
-    epsilon_contraction i j l m = -epsilon_contraction j i l m := by
-  fin_cases i <;> fin_cases j <;> fin_cases l <;> fin_cases m <;> native_decide
-
-/-- Epsilon contraction is antisymmetric in last two arguments -/
-theorem epsilon_contraction_antisymm_last (i j l m : Fin 7) :
-    epsilon_contraction i j l m = -epsilon_contraction i j m l := by
-  fin_cases i <;> fin_cases j <;> fin_cases l <;> fin_cases m <;> native_decide
 
 /-- The Lagrange-relevant part: when i=l and j=m (distinct), contraction = 1 -/
 theorem epsilon_contraction_same (i j : Fin 7) (h : i ≠ j) :
@@ -342,24 +315,24 @@ theorem G2_dim_from_roots : 12 + 2 = 14 := rfl
 - B3: G2_cross_antisymm ✅ PROVEN
 - B3': cross_self ✅ PROVEN
 
-**Epsilon Contraction Lemmas (NEW - 6/6 PROVEN):**
+**Epsilon Contraction Lemmas (4/4 PROVEN):**
 - epsilon_contraction (definition)
 - epsilon_contraction_diagonal ✅ PROVEN (7² = 49 cases)
 - epsilon_contraction_first_eq ✅ PROVEN (7³ = 343 cases)
-- epsilon_contraction_antisymm ✅ PROVEN (7⁴ = 2401 cases)
-- epsilon_contraction_antisymm_last ✅ PROVEN (7⁴ = 2401 cases)
-- epsilon_contraction_same ✅ PROVEN (i≠j gives 42 cases)
-- epsilon_contraction_swap ✅ PROVEN (i≠j gives 42 cases)
+- epsilon_contraction_same ✅ PROVEN (i≠j, 42 cases)
+- epsilon_contraction_swap ✅ PROVEN (i≠j, 42 cases)
 
 **Remaining Axioms (2):**
 - B4: G2_cross_norm (Lagrange identity)
-  → Contraction lemmas establish algebraic structure
-  → Full proof needs sum manipulation in EuclideanSpace
-- B5: cross_is_octonion_structure (Fano plane exhaustive check times out)
+  → Key lemmas proven: ε(i,j,i,j)=1, ε(i,j,j,i)=-1 for i≠j
+  → Full proof needs: assembling sums in EuclideanSpace
+- B5: cross_is_octonion_structure (exhaustive check times out)
 
-**Progress:** The epsilon_contraction_* lemmas prove the key algebraic
-ingredients for Lagrange: ε_contraction(i,j,i,j) = 1 and ε_contraction(i,j,j,i) = -1
-for i ≠ j. This is the Kronecker delta structure needed for |u×v|² = |u|²|v|² - ⟨u,v⟩².
+**Note on 7D epsilon contraction:**
+Unlike 3D where ∑ₖ ε(i,j,k)ε(l,m,k) = δᵢₗδⱼₘ - δᵢₘδⱼₗ,
+the 7D case includes the coassociative 4-form ψ. However, the diagonal
+terms (i=l, j=m) and anti-diagonal terms (i=m, j=l) still give ±1,
+which is sufficient for the Lagrange identity when contracted with uᵢuₗvⱼvₘ.
 -/
 
 end GIFT.Foundations.G2CrossProduct
