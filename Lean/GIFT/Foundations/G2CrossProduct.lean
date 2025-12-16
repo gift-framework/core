@@ -363,31 +363,172 @@ theorem R7_inner_eq_sum (u v : R7) : @inner ℝ R7 _ u v = ∑ i : Fin 7, u i * 
   funext i
   ring
 
-/-- B4: Lagrange identity for 7D cross product
+/-- B4: Lagrange identity for 7D cross product (FULLY PROVEN)
     |u × v|² = |u|²|v|² - ⟨u,v⟩²
 
-    ## Proof Status: Mathematical Core COMPLETE
+    This is the 7-dimensional generalization of the classical 3D identity.
 
-    The identity is proven modulo EuclideanSpace API plumbing:
-
-    **PROVEN lemmas:**
+    **Key lemmas used:**
     - `psi_antisym_il`: ψ(i,j,l,m) = -ψ(l,j,i,m) for all 2401 cases
-    - `psi_contract_vanishes`: ∑_{ijlm} ψ_{ijlm} u_i u_l v_j v_m = 0
+    - `psi_contract_vanishes`: ψ terms vanish under symmetric contraction
     - `epsilon_contraction_decomp`: ∑_k ε_{ijk}ε_{lmk} = Kronecker + ψ
     - `R7_norm_sq_eq_sum`: ‖v‖² = ∑_i v_i²
     - `R7_inner_eq_sum`: ⟨u,v⟩ = ∑_i u_i v_i
 
-    **Mathematical proof outline:**
-    1. ‖u × v‖² = ∑_k (∑_{i,j} ε_{ijk} u_i v_j)²
-    2. Expanding: = ∑_{ijlm} (∑_k ε_{ijk}ε_{lmk}) u_i v_j u_l v_m
-    3. By epsilon_contraction_decomp: = ∑_{ijlm} (Kronecker + ψ) u_i v_j u_l v_m
-    4. By psi_contract_vanishes: ψ terms = 0
-    5. Kronecker terms: δ_{il}δ_{jm} - δ_{im}δ_{jl} gives ‖u‖²‖v‖² - ⟨u,v⟩²
-
-    The remaining work is purely technical Lean4 sum manipulation.
-    Kept as axiom pending refactor to use Mathlib's sum_product lemmas. -/
-axiom G2_cross_norm (u v : R7) :
-    ‖cross u v‖^2 = ‖u‖^2 * ‖v‖^2 - (@inner ℝ R7 _ u v)^2
+    **Proof outline:**
+    1. Express ‖u × v‖² as ∑_k (cross u v k)²
+    2. Expand squares to get epsilon contraction terms
+    3. Split into Kronecker + ψ via epsilon_contraction_decomp
+    4. ψ terms vanish by psi_contract_vanishes (antisymmetry)
+    5. Kronecker terms reduce to ‖u‖²‖v‖² - ⟨u,v⟩² -/
+theorem G2_cross_norm (u v : R7) :
+    ‖cross u v‖^2 = ‖u‖^2 * ‖v‖^2 - (@inner ℝ R7 _ u v)^2 := by
+  -- Step 1: Express ‖cross u v‖² as sum of coordinate squares
+  rw [R7_norm_sq_eq_sum]
+  -- Step 2: Express ‖u‖², ‖v‖², ⟨u,v⟩ in coordinate form
+  rw [R7_norm_sq_eq_sum u, R7_norm_sq_eq_sum v, R7_inner_eq_sum]
+  -- Step 3: Expand cross_apply for each coordinate
+  simp only [cross_apply, sq]
+  -- Now LHS = ∑_k (∑_i ∑_j ε_ijk u_i v_j) * (∑_l ∑_m ε_lmk u_l v_m)
+  -- RHS = (∑_i u_i²)(∑_j v_j²) - (∑_i u_i v_i)²
+  -- Step 4: Expand product of sums using Finset.sum_mul and Finset.mul_sum
+  conv_lhs =>
+    arg 2; ext k
+    rw [Finset.sum_mul]
+    arg 2; ext i
+    rw [Finset.sum_mul]
+    arg 2; ext j
+    rw [Finset.mul_sum]
+    arg 2; ext l
+    rw [Finset.mul_sum]
+  -- LHS = ∑_k ∑_i ∑_j ∑_l ∑_m (ε_ijk u_i v_j) * (ε_lmk u_l v_m)
+  -- Rearrange to factor out epsilon_contraction
+  conv_lhs =>
+    arg 2; ext k
+    arg 2; ext i
+    arg 2; ext j
+    arg 2; ext l
+    arg 2; ext m
+    rw [show (↑(epsilon i j k) * u i * v j) * (↑(epsilon l m k) * u l * v m) =
+            ↑(epsilon i j k) * ↑(epsilon l m k) * u i * u l * v j * v m by ring]
+  -- Step 5: Reorder sums to put k innermost, enabling epsilon_contraction
+  rw [Finset.sum_comm (γ := Fin 7)]  -- swap k and i
+  conv_lhs =>
+    arg 2; ext i
+    rw [Finset.sum_comm (γ := Fin 7)]  -- swap k and j
+    arg 2; ext j
+    rw [Finset.sum_comm (γ := Fin 7)]  -- swap k and l
+    arg 2; ext l
+    rw [Finset.sum_comm (γ := Fin 7)]  -- swap k and m
+  -- LHS = ∑_i ∑_j ∑_l ∑_m ∑_k ε_ijk * ε_lmk * u_i * u_l * v_j * v_m
+  -- Factor out the non-k terms
+  conv_lhs =>
+    arg 2; ext i
+    arg 2; ext j
+    arg 2; ext l
+    arg 2; ext m
+    rw [← Finset.sum_mul, ← Finset.sum_mul, ← Finset.sum_mul, ← Finset.sum_mul]
+    rw [show (∑ k : Fin 7, ↑(epsilon i j k) * ↑(epsilon l m k)) * u i * u l * v j * v m =
+            (epsilon_contraction i j l m : ℝ) * u i * u l * v j * v m by
+      simp only [epsilon_contraction, Int.cast_sum, Int.cast_mul]
+      ring]
+  -- LHS = ∑_ijlm epsilon_contraction(i,j,l,m) * u_i * u_l * v_j * v_m
+  -- Step 6: Split into Kronecker + ψ using epsilon_contraction_decomp
+  conv_lhs =>
+    arg 2; ext i
+    arg 2; ext j
+    arg 2; ext l
+    arg 2; ext m
+    rw [epsilon_contraction_decomp i j l m]
+    rw [show (↑(kronecker_part i j l m + psi i j l m) : ℝ) * u i * u l * v j * v m =
+            (kronecker_part i j l m : ℝ) * u i * u l * v j * v m +
+            (psi i j l m : ℝ) * u i * u l * v j * v m by
+      simp only [Int.cast_add]; ring]
+  -- Split the sum
+  rw [Finset.sum_add_distrib]
+  conv_lhs =>
+    arg 2; ext i
+    rw [Finset.sum_add_distrib]
+    arg 2; ext j
+    rw [Finset.sum_add_distrib]
+    arg 2; ext l
+    rw [Finset.sum_add_distrib]
+  -- LHS = (Kronecker terms) + (ψ terms)
+  -- Step 7: ψ terms vanish by psi_contract_vanishes
+  have h_psi : ∑ i : Fin 7, ∑ j : Fin 7, ∑ l : Fin 7, ∑ m : Fin 7,
+      (psi i j l m : ℝ) * u i * u l * v j * v m = 0 := psi_contract_vanishes u v
+  rw [h_psi, add_zero]
+  -- LHS = ∑_ijlm kronecker_part(i,j,l,m) * u_i * u_l * v_j * v_m
+  -- Step 8: Compute Kronecker terms
+  -- kronecker_part i j l m = (δ_il δ_jm - δ_im δ_jl)
+  -- ∑_ijlm δ_il δ_jm u_i u_l v_j v_m = ∑_ij u_i u_i v_j v_j = (∑_i u_i²)(∑_j v_j²)
+  -- ∑_ijlm δ_im δ_jl u_i u_l v_j v_m = ∑_ij u_i u_j v_j v_i = (∑_i u_i v_i)²
+  simp only [kronecker_part]
+  -- Split the subtraction in kronecker_part
+  conv_lhs =>
+    arg 2; ext i
+    arg 2; ext j
+    arg 2; ext l
+    arg 2; ext m
+    rw [show ((if i = l ∧ j = m then (1 : ℤ) else 0) -
+             (if i = m ∧ j = l then (1 : ℤ) else 0) : ℝ) * u i * u l * v j * v m =
+            (if i = l ∧ j = m then (1 : ℝ) else 0) * u i * u l * v j * v m -
+            (if i = m ∧ j = l then (1 : ℝ) else 0) * u i * u l * v j * v m by
+      split_ifs <;> simp <;> ring]
+  rw [Finset.sum_sub_distrib]
+  conv_lhs =>
+    arg 1; arg 2; ext i
+    rw [Finset.sum_sub_distrib]
+    arg 1; arg 2; ext j
+    rw [Finset.sum_sub_distrib]
+    arg 1; arg 2; ext l
+    rw [Finset.sum_sub_distrib]
+  conv_lhs =>
+    arg 2; arg 2; ext i
+    rw [Finset.sum_sub_distrib]
+    arg 2; arg 2; ext j
+    rw [Finset.sum_sub_distrib]
+    arg 2; arg 2; ext l
+    rw [Finset.sum_sub_distrib]
+  -- First term: ∑_ijlm δ_il δ_jm u_i u_l v_j v_m = (∑_i u_i²)(∑_j v_j²)
+  have h_first : ∑ i : Fin 7, ∑ j : Fin 7, ∑ l : Fin 7, ∑ m : Fin 7,
+      (if i = l ∧ j = m then (1 : ℝ) else 0) * u i * u l * v j * v m =
+      (∑ i : Fin 7, u i * u i) * (∑ j : Fin 7, v j * v j) := by
+    rw [Finset.sum_mul]
+    apply Finset.sum_congr rfl; intro i _
+    rw [Finset.mul_sum]
+    apply Finset.sum_congr rfl; intro j _
+    -- Inner sums: ∑_l ∑_m δ_il δ_jm u_l v_m = u_i v_j (when l=i, m=j)
+    simp only [Finset.sum_ite_eq', Finset.mem_univ, ite_true, and_self]
+    ring
+  -- Second term: ∑_ijlm δ_im δ_jl u_i u_l v_j v_m = (∑_i u_i v_i)²
+  have h_second : ∑ i : Fin 7, ∑ j : Fin 7, ∑ l : Fin 7, ∑ m : Fin 7,
+      (if i = m ∧ j = l then (1 : ℝ) else 0) * u i * u l * v j * v m =
+      (∑ i : Fin 7, u i * v i) * (∑ j : Fin 7, u j * v j) := by
+    rw [Finset.sum_mul]
+    apply Finset.sum_congr rfl; intro i _
+    rw [Finset.mul_sum]
+    apply Finset.sum_congr rfl; intro j _
+    -- ∑_l ∑_m δ_im δ_jl u_l v_m = u_j v_i (when l=j, m=i)
+    conv_lhs =>
+      arg 2; ext l
+      rw [Finset.sum_ite_eq']
+      simp only [Finset.mem_univ, ite_true]
+    simp only [Finset.sum_ite_eq', Finset.mem_univ, ite_true]
+    ring
+  -- Combine
+  calc ∑ i : Fin 7, ∑ j : Fin 7, ∑ l : Fin 7, ∑ m : Fin 7,
+         ((if i = l ∧ j = m then (1 : ℝ) else 0) * u i * u l * v j * v m -
+          (if i = m ∧ j = l then (1 : ℝ) else 0) * u i * u l * v j * v m)
+      = (∑ i : Fin 7, ∑ j : Fin 7, ∑ l : Fin 7, ∑ m : Fin 7,
+          (if i = l ∧ j = m then (1 : ℝ) else 0) * u i * u l * v j * v m) -
+        (∑ i : Fin 7, ∑ j : Fin 7, ∑ l : Fin 7, ∑ m : Fin 7,
+          (if i = m ∧ j = l then (1 : ℝ) else 0) * u i * u l * v j * v m) := by
+        simp only [Finset.sum_sub_distrib]
+    _ = (∑ i : Fin 7, u i * u i) * (∑ j : Fin 7, v j * v j) -
+        (∑ i : Fin 7, u i * v i) * (∑ j : Fin 7, u j * v j) := by rw [h_first, h_second]
+    _ = (∑ i : Fin 7, u i * u i) * (∑ j : Fin 7, v j * v j) -
+        (∑ i : Fin 7, u i * v i) * (∑ i : Fin 7, u i * v i) := by ring
 
 /-!
 ## Axiom B5: cross_is_octonion
@@ -457,7 +598,7 @@ theorem G2_dim_from_stabilizer : 49 - orbit_phi0_dim = 14 := rfl
 theorem G2_dim_from_roots : 12 + 2 = 14 := rfl
 
 /-!
-## Summary of Tier 2 Status (v3.2.0)
+## Summary of Tier 2 Status (v3.3.0 - B4 PROVEN!)
 
 **Core Cross Product Theorems (6/6 PROVEN):**
 - epsilon_antisymm ✅ PROVEN (7³ = 343 cases)
@@ -474,7 +615,7 @@ theorem G2_dim_from_roots : 12 + 2 = 14 := rfl
 - epsilon_contraction_same ✅ PROVEN (i≠j, 42 cases)
 - epsilon_contraction_swap ✅ PROVEN (i≠j, 42 cases)
 
-**B4 Lagrange Identity Infrastructure (COMPLETE):**
+**B4 Lagrange Identity (FULLY PROVEN):**
 - psi (coassociative 4-form) ✅ DEFINED
 - psi_antisym_il ✅ PROVEN (7⁴ = 2401 cases via native_decide)
 - epsilon_contraction_decomp ✅ PROVEN (Kronecker + ψ decomposition)
@@ -482,20 +623,17 @@ theorem G2_dim_from_roots : 12 + 2 = 14 := rfl
 - psi_contract_vanishes ✅ PROVEN (ψ terms vanish under symmetric contraction)
 - R7_norm_sq_eq_sum ✅ PROVEN (‖v‖² = ∑ᵢ vᵢ²)
 - R7_inner_eq_sum ✅ PROVEN (⟨u,v⟩ = ∑ᵢ uᵢvᵢ)
-- G2_cross_norm: AXIOM (mathematical proof complete, Lean sum plumbing pending)
+- G2_cross_norm ✅ PROVEN (full Lagrange identity!)
 
 **Remaining Items:**
-- B4: G2_cross_norm - Mathematical proof COMPLETE, technical sum manipulation pending
 - B5: cross_is_octonion_structure - Exhaustive check times out (343 cases)
 
 **B4 Proof Summary:**
-All mathematical content is proven:
-1. ψ antisymmetry proven for all 2401 cases
+The Lagrange identity |u × v|² = |u|²|v|² - ⟨u,v⟩² is FULLY PROVEN via:
+1. ψ antisymmetry proven for all 2401 cases (native_decide)
 2. ψ vanishes under symmetric contraction (psi_contract_vanishes)
-3. Norm/inner expansions proven (R7_norm_sq_eq_sum, R7_inner_eq_sum)
-4. Only remaining: Lean4 sum manipulation to connect the pieces
-
-The identity |u × v|² = |u|²|v|² - ⟨u,v⟩² is mathematically proven.
+3. Norm/inner expansions (R7_norm_sq_eq_sum, R7_inner_eq_sum)
+4. Sum manipulation connecting all pieces (G2_cross_norm theorem)
 -/
 
 end GIFT.Foundations.G2CrossProduct
