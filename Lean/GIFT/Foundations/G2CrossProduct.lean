@@ -471,7 +471,7 @@ theorem G2_cross_norm (u v : R7) :
         apply Finset.sum_eq_zero; intro m _
         simp only [hli.symm, false_and, ite_false, zero_mul]
       · intro hi; exact absurd (Finset.mem_univ i) hi
-    simp only [eq_self_iff_true, true_and] at hl
+    simp only [true_and] at hl
     rw [hl]
     have hm : ∑ m : Fin 7, (if j = m then (1 : ℝ) else 0) * u i * u i * v j * v m
              = (if j = j then (1 : ℝ) else 0) * u i * u i * v j * v j := by
@@ -479,7 +479,7 @@ theorem G2_cross_norm (u v : R7) :
       · intro m _ hmj
         simp only [hmj.symm, ite_false, zero_mul]
       · intro hj; exact absurd (Finset.mem_univ j) hj
-    simp only [eq_self_iff_true, ite_true] at hm
+    simp only [ite_true] at hm
     rw [hm]; ring
   -- Second term: ∑_ijlm δ_im δ_jl u_i u_l v_j v_m = (∑_i u_i v_i)²
   have h_second : ∑ i : Fin 7, ∑ j : Fin 7, ∑ l : Fin 7, ∑ m : Fin 7,
@@ -498,7 +498,7 @@ theorem G2_cross_norm (u v : R7) :
         apply Finset.sum_eq_zero; intro m _
         simp only [hlj.symm, and_false, ite_false, zero_mul]
       · intro hj; exact absurd (Finset.mem_univ j) hj
-    simp only [eq_self_iff_true, and_true] at hl
+    simp only [and_true] at hl
     rw [hl]
     have hm : ∑ m : Fin 7, (if i = m then (1 : ℝ) else 0) * u i * u j * v j * v m
              = (if i = i then (1 : ℝ) else 0) * u i * u j * v j * v i := by
@@ -506,11 +506,10 @@ theorem G2_cross_norm (u v : R7) :
       · intro m _ hmi
         simp only [hmi.symm, ite_false, zero_mul]
       · intro hi; exact absurd (Finset.mem_univ i) hi
-    simp only [eq_self_iff_true, ite_true] at hm
+    simp only [ite_true] at hm
     rw [hm]; ring
   -- After simp_rw, goal is: first_sum - second_sum = RHS
   rw [h_first, h_second]
-  ring
 
 /-!
 ## Axiom B5: cross_is_octonion
