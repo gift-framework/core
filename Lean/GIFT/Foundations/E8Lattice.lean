@@ -498,8 +498,7 @@ theorem E8_sub_closed (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice)
               (∑ i, (nv i - nw i - 1 : ℝ)) + 4 := by
             rw [Finset.sum_add_distrib]; norm_num [Finset.sum_const, Finset.card_fin]
           have h3 : ∑ i, (nv i - nw i - 1 : ℝ) = (∑ i, (nv i : ℝ)) - (∑ i, (nw i : ℝ)) - 8 := by
-            simp only [Finset.sum_sub_distrib, Finset.sum_const, Finset.card_fin, Int.cast_sub,
-              Int.cast_one]
+            simp only [Finset.sum_sub_distrib, Finset.sum_const, Finset.card_fin]
             ring
           linarith [h1, h2, h3, hnvsum, hnwsum]
         convert hgoal using 1; push_cast; ring
@@ -532,7 +531,7 @@ theorem E8_sub_closed (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice)
           have h2 : ∑ i, ((nv i - nw i : ℤ) + (1 : ℝ)/2) = (∑ i, (nv i - nw i : ℝ)) + 4 := by
             rw [Finset.sum_add_distrib]; norm_num [Finset.sum_const, Finset.card_fin]
           have h3 : ∑ i, (nv i - nw i : ℝ) = (∑ i, (nv i : ℝ)) - (∑ i, (nw i : ℝ)) := by
-            simp only [Int.cast_sub, Finset.sum_sub_distrib]
+            simp only [Finset.sum_sub_distrib]
           linarith [h1, h2, h3, hnvsum, hnwsum]
         convert hgoal using 1; push_cast; ring
     · -- Case 4: half - half = int with even sum
@@ -562,7 +561,7 @@ theorem E8_sub_closed (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice)
           have h1 : ∑ i, (v - w) i = ∑ i, (nv i - nw i : ℝ) := by
             congr 1; ext i; rw [hsub_coord, hnv i, hnw i]; push_cast; ring
           have h2 : ∑ i, (nv i - nw i : ℝ) = (∑ i, (nv i : ℝ)) - (∑ i, (nw i : ℝ)) := by
-            simp only [Int.cast_sub, Finset.sum_sub_distrib]
+            simp only [Finset.sum_sub_distrib]
           linarith [h1, h2, hnvsum, hnwsum]
         convert hgoal using 1; push_cast; ring
 
