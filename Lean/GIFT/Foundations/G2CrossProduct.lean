@@ -357,9 +357,11 @@ theorem R7_norm_sq_eq_sum (v : R7) : ‖v‖^2 = ∑ i : Fin 7, (v i)^2 := by
 
 /-- Helper: Inner product of R7 vectors as sum of coordinate products -/
 theorem R7_inner_eq_sum (u v : R7) : @inner ℝ R7 _ u v = ∑ i : Fin 7, u i * v i := by
-  rw [EuclideanSpace.inner_piLp_equiv_symm]
-  simp only [WithLp.equiv_symm_pi_apply, Finset.univ_eq_attach, Finset.sum_attach]
-  rfl
+  rw [PiLp.inner_apply]
+  simp only [RCLike.inner_apply, conj_trivial]
+  congr 1
+  funext i
+  ring
 
 /-- B4: Lagrange identity for 7D cross product
     |u × v|² = |u|²|v|² - ⟨u,v⟩²
