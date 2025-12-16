@@ -106,36 +106,17 @@ jobs:
 
       - name: Build Jekyll site
         if: ${{ steps.check_home_page.outputs.exists == 'true' }}
-        uses: addnab/docker-run-action@v3
-        env:
-          JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          image: jekyll/builder:latest
-          options: >-
-            -u 0:0
-            -e JEKYLL_GITHUB_TOKEN
-            -v ${{ github.workspace }}:/work:rw
-            -w /work
-          run: |
-            bash -lc '
-              set -euxo pipefail
-              rm -rf /tmp/site-src || true
-              cp -r home_page /tmp/site-src
-              chmod -R 777 /tmp/site-src
-              cd /tmp/site-src
-              rm -f Gemfile.lock || true
-              bundle config set path /tmp/bundle
-              bundle install --jobs 4 --retry 3
-              mkdir -p /work/.jekyll-out || true
-              chmod 777 /work/.jekyll-out || true
-              umask 000
-              JEKYLL_ENV=production bundle exec jekyll build --trace -d /work/.jekyll-out/site
-            '
+        run: |
+          cd home_page
+          rm -f Gemfile.lock || true
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+          JEKYLL_ENV=production bundle exec jekyll build -d ../.jekyll-out/site
 
       - name: Prepare Pages artifact (with Jekyll)
         if: ${{ steps.check_home_page.outputs.exists == 'true' }}
         run: |
-          mkdir -p .jekyll-out/site || true
+          ls -la .jekyll-out/site || true
 
       - name: Prepare Pages artifact (without Jekyll)
         if: ${{ steps.check_home_page.outputs.exists == 'false' }}
