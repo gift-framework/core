@@ -1,0 +1,39 @@
+% GIFT Blueprint - Print Version
+% Entry point for PDF generation via leanblueprint
+
+\documentclass[a4paper]{report}
+
+\usepackage{geometry}
+\usepackage{expl3}
+\usepackage{amssymb, amsthm, mathtools}
+\usepackage[unicode,colorlinks=true,linkcolor=blue,urlcolor=magenta,citecolor=blue]{hyperref}
+\usepackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math}
+\usepackage{tikz-cd}
+\usepackage{cleveref}
+
+\input{macros/common}
+\input{macros/print}
+
+\title{GIFT: Geometric Information Field Theory\\
+       \Large Blueprint for Formal Verification}
+\author{Brieuc de La Fourni\`ere}
+\date{Version 3.1.2 --- December 2025}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This blueprint documents the formal verification of GIFT (Geometric Information Field Theory)
+in Lean 4. GIFT derives Standard Model parameters from $E_8 \times E_8$ gauge
+theory compactified on $G_2$-holonomy manifolds, achieving 0.087\% mean deviation across
+18 dimensionless predictions with 175+ machine-verified relations.
+
+The document provides mathematical definitions and theorem statements linked to their
+Lean formalizations, enabling verification of the proof dependencies and progress tracking.
+\end{abstract}
+
+\tableofcontents
+
+\input{content}
+
+\end{document}

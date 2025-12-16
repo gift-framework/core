@@ -42,9 +42,11 @@ htmlcov/
 .hypothesis/
 
 # Lean
+.lake/
 Lean/.lake/
 Lean/lake-packages/
 Lean/build/
+lake-manifest.json
 
 # Coq
 COQ/*.vo
@@ -55,6 +57,20 @@ COQ/.*.aux
 COQ/CoqMakefile
 COQ/CoqMakefile.conf
 COQ/.coqdeps.d
+
+# Blueprint (generated)
+blueprint/web/
+blueprint/print/
+home_page/blueprint/
+home_page/blueprint.pdf
+home_page/docs/
+.jekyll-out/
+
+# Jekyll
+home_page/_site/
+home_page/.sass-cache/
+home_page/.jekyll-cache/
+home_page/Gemfile.lock
 
 # OS
 .DS_Store

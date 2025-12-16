@@ -1,0 +1,150 @@
+name: Blueprint
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "Lean/**/*.lean"
+      - "lean-toolchain"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "blueprint/**"
+      - "home_page/**"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "Lean/**/*.lean"
+      - "blueprint/**"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build_blueprint:
+    runs-on: ubuntu-latest
+    name: Build Blueprint
+    steps:
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo docker image prune --all --force
+          df -h
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install elan
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: Get Mathlib cache
+        run: |
+          for i in 1 2 3 4; do
+            ~/.elan/bin/lake exe cache get && break
+            echo "Attempt $i failed, retrying in $((i * 5)) seconds..."
+            sleep $((i * 5))
+          done
+
+      - name: Build Lean project
+        run: |
+          for i in 1 2 3 4; do
+            ~/.elan/bin/lake build GIFT && break
+            echo "Attempt $i failed, retrying in $((i * 10)) seconds..."
+            sleep $((i * 10))
+          done
+
+      - name: Check for home_page folder
+        id: check_home_page
+        run: |
+          if [ -d home_page ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build blueprint and copy to home_page/blueprint
+        uses: xu-cheng/texlive-action@v2
+        with:
+          docker_image: ghcr.io/xu-cheng/texlive-full:20250101
+          run: |
+            apk update
+            apk add --update make py3-pip git pkgconfig graphviz graphviz-dev gcc musl-dev
+            git config --global --add safe.directory $GITHUB_WORKSPACE
+            git config --global --add safe.directory `pwd`
+            python3 -m venv env
+            source env/bin/activate
+            pip install --upgrade pip requests wheel
+            pip install pygraphviz --config-settings="--global-option=build_ext" \
+              --config-settings="--global-option=-L/usr/lib/graphviz/" \
+              --config-settings="--global-option=-R/usr/lib/graphviz/"
+            pip install leanblueprint
+            cd $GITHUB_WORKSPACE
+            leanblueprint pdf
+            mkdir -p home_page
+            cp blueprint/print/print.pdf home_page/blueprint.pdf
+            leanblueprint web
+            cp -r blueprint/web home_page/blueprint
+
+      - name: Check declarations in blueprint exist in Lean
+        run: |
+          ~/.elan/bin/lake exe checkdecls blueprint/lean_decls || echo "Warning: Some declarations not found"
+
+      - name: Setup Ruby
+        if: ${{ steps.check_home_page.outputs.exists == 'true' }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: false
+
+      - name: Build Jekyll site
+        if: ${{ steps.check_home_page.outputs.exists == 'true' }}
+        run: |
+          cd home_page
+          rm -f Gemfile.lock || true
+          bundle config set --local path vendor/bundle
+          bundle install --jobs 4 --retry 3
+          JEKYLL_ENV=production bundle exec jekyll build -d ../.jekyll-out/site
+
+      - name: Prepare Pages artifact (with Jekyll)
+        if: ${{ steps.check_home_page.outputs.exists == 'true' }}
+        run: |
+          ls -la .jekyll-out/site || true
+
+      - name: Prepare Pages artifact (without Jekyll)
+        if: ${{ steps.check_home_page.outputs.exists == 'false' }}
+        run: |
+          mkdir -p .jekyll-out/site
+          cp -r home_page/* .jekyll-out/site/ || true
+
+      - name: Upload Pages artifact
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .jekyll-out/site
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build_blueprint
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,27 @@
+name           = "GIFT"
+version        = "3.1.2"
+defaultTargets = ["GIFT"]
+keywords       = ["mathematics", "physics", "G2", "E8", "holonomy"]
+
+[leanOptions]
+pp.unicode.fun          = true
+autoImplicit            = false
+relaxedAutoImplicit     = false
+linter.unnecessarySimpa = false
+
+[[require]]
+name = "mathlib"
+git  = "https://github.com/leanprover-community/mathlib4.git"
+
+[[require]]
+name = "checkdecls"
+git  = "https://github.com/PatrickMassot/checkdecls.git"
+
+[[require]]
+name = "«doc-gen4»"
+git  = "https://github.com/leanprover/doc-gen4"
+rev  = "main"
+
+[[lean_lib]]
+name = "GIFT"
+globs = ["GIFT.+"]

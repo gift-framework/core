@@ -1,0 +1,6 @@
+# Use LuaLaTeX for PDF compilation (required for unicode-math)
+$pdf_mode = 4;  # 4 = lualatex
+$lualatex = 'lualatex -interaction=nonstopmode -halt-on-error %O %S';
+
+# Only compile print.tex by default (not content.tex or web.tex)
+@default_files = ('print.tex');
