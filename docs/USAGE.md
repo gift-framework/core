@@ -160,7 +160,7 @@ print(TORSION_BOUND.hi < JOYCE_THRESHOLD.lo)  # True
 print(DET_G_BOUND.contains(DET_G_TARGET))  # True
 ```
 
-## Algebraic Foundations (v3.2)
+## Algebraic Foundations (v3.1+)
 
 GIFT constants are now **derived** from octonion algebraic structure:
 
@@ -200,7 +200,7 @@ Previous versions defined constants arbitrarily:
 DIM_E8 = 248  # Just a number
 ```
 
-V3.2 **derives** them from octonion structure:
+v3.1+ **derives** them from octonion structure:
 ```
 𝕆 has 7 imaginary units
   → G₂ = Aut(𝕆) has dim = 2×7 = 14
@@ -287,11 +287,11 @@ print(r.derivation)  # How it's derived
 print(r.status)      # "Lean + Coq"
 ```
 
-## Lean 4 Usage (v3.3+)
+## Lean 4 Usage (v3.1+)
 
 ### GIFT.Core - Single Source of Truth
 
-As of v3.3, use `GIFT.Core` for all GIFT constants:
+As of v3.1, use `GIFT.Core` for all GIFT constants:
 
 ```lean
 import GIFT.Core
