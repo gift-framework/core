@@ -270,21 +270,23 @@ theorem antisym_sym_contract_vanishes
     (T : Fin 7 → Fin 7 → ℝ) (u : Fin 7 → ℝ)
     (hT : ∀ i l, T i l = -T l i) :
     ∑ i : Fin 7, ∑ l : Fin 7, T i l * u i * u l = 0 := by
-  -- Reindex the sum by swapping i ↔ l
-  have h_swap : ∑ i : Fin 7, ∑ l : Fin 7, T i l * u i * u l =
-                ∑ l : Fin 7, ∑ i : Fin 7, T l i * u l * u i := by
+  -- Show S = -S, hence S = 0
+  have h : ∑ i : Fin 7, ∑ l : Fin 7, T i l * u i * u l =
+           -(∑ i : Fin 7, ∑ l : Fin 7, T i l * u i * u l) := by
+    -- Swap indices i ↔ l
+    conv_lhs => rw [Finset.sum_comm]
+    -- Apply antisymmetry: T l i = -T i l
+    conv_lhs =>
+      congr; ext l; congr; ext i
+      rw [hT l i]
+    -- Now have ∑ l, ∑ i, (-T i l) * u l * u i
+    simp only [neg_mul, Finset.sum_neg_distrib]
+    -- Need: -∑ l, ∑ i, T i l * u l * u i = -(∑ i, ∑ l, T i l * u i * u l)
+    congr 1
     rw [Finset.sum_comm]
-  -- Use antisymmetry: T(l,i) = -T(i,l)
-  have h_neg : ∑ l : Fin 7, ∑ i : Fin 7, T l i * u l * u i =
-               -(∑ i : Fin 7, ∑ l : Fin 7, T i l * u i * u l) := by
-    rw [← Finset.sum_neg_distrib]
-    apply Finset.sum_congr rfl; intro l _
-    rw [← Finset.sum_neg_distrib]
     apply Finset.sum_congr rfl; intro i _
-    rw [hT l i]
+    apply Finset.sum_congr rfl; intro l _
     ring
-  -- S = -S implies S = 0
-  have h_eq := h_swap.trans h_neg
   linarith
 
 /-- The ψ correction vanishes when contracted with symmetric uᵢuₗ and vⱼvₘ -/
@@ -298,34 +300,33 @@ theorem psi_contract_vanishes (u v : Fin 7 → ℝ) :
     apply antisym_sym_contract_vanishes (fun i l => (psi i j l m : ℝ)) u
     intro i l
     have h := psi_antisym_il i j l m
-    simp only [Int.cast_neg, h]
-  -- Now the full sum is zero
-  simp_rw [mul_assoc, mul_comm (v _), mul_assoc]
-  conv =>
-    lhs; congr; ext j; congr; ext m
-    rw [← Finset.sum_mul, ← Finset.sum_mul]
-    arg 1; arg 1
-    rw [show ∑ i : Fin 7, ∑ l : Fin 7, (psi i j l m : ℝ) * u i * u l = 0 from h_inner j m]
-  simp
+    simp only [Int.cast_neg]
+    exact congrArg (Int.cast) h
+  -- Rewrite to factor out v terms
+  have h_eq : ∀ i j l m, (psi i j l m : ℝ) * u i * u l * v j * v m =
+              ((psi i j l m : ℝ) * u i * u l) * (v j * v m) := by intros; ring
+  simp only [h_eq]
+  -- Pull v j * v m out of inner sums
+  simp only [← Finset.sum_mul]
+  -- Inner sum is 0
+  simp only [h_inner, zero_mul, Finset.sum_const_zero]
 
-/-- B4: Lagrange identity for 7D cross product (PROVEN)
+/-- B4: Lagrange identity for 7D cross product
     |u × v|² = |u|²|v|² - ⟨u,v⟩²
 
     The proof uses the decomposition of epsilon contraction into Kronecker + ψ terms,
-    where the ψ terms vanish due to antisymmetry when contracted with symmetric tensors. -/
+    where the ψ terms vanish due to antisymmetry when contracted with symmetric tensors.
+
+    Key lemmas proven:
+    - epsilon_contraction_decomp: contraction = Kronecker + ψ
+    - psi_antisym_il: ψ is antisymmetric under i↔l
+    - psi_contract_vanishes: ψ terms vanish under symmetric contraction
+
+    The final step connecting to EuclideanSpace norms requires additional Mathlib lemmas
+    for expanding ‖·‖² and ⟨·,·⟩ in terms of coordinate sums. -/
 theorem G2_cross_norm (u v : R7) :
     ‖cross u v‖^2 = ‖u‖^2 * ‖v‖^2 - (@inner ℝ R7 _ u v)^2 := by
-  -- Expand norms and inner product in terms of coordinates
-  simp only [EuclideanSpace.norm_sq, EuclideanSpace.inner_piLp_equiv_symm,
-             WithLp.equiv_symm_pi_apply, cross_apply]
-  -- LHS = ∑ₖ (∑ᵢⱼ εᵢⱼₖ uᵢ vⱼ)²
-  -- Expand the square
-  simp only [sq, Finset.sum_mul_sum]
-  -- Use epsilon contraction decomposition
-  -- ∑ₖ εᵢⱼₖ εₗₘₖ = Kronecker + ψ
-  -- The ψ part vanishes, leaving just the Kronecker part
-  -- which gives |u|²|v|² - ⟨u,v⟩²
-  sorry -- Full algebraic manipulation requires careful Finset lemmas
+  sorry
 
 /-!
 ## Axiom B5: cross_is_octonion
