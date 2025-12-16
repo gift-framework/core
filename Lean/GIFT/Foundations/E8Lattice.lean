@@ -262,26 +262,27 @@ theorem inner_int_of_both_half_int (v w : R8)
   have hvw : ∀ i, v i * w i = nv i * nw i + (nv i + nw i) / 2 + 1/4 := by
     intro i; simp only [hnv, hnw]; ring
   simp_rw [hvw]
-  -- Compute sums of integer parts
-  have hsumn : (∑ i, (nv i : ℝ)) = 2 * kv - 4 := by
-    have h1 : ∑ i, v i = ∑ i, ((nv i : ℝ) + 1/2) := by simp_rw [hnv]
-    have h2 : ∑ i, ((nv i : ℝ) + 1/2) = (∑ i, (nv i : ℝ)) + 4 := by
-      rw [Finset.sum_add_distrib]; norm_num [Finset.sum_const, Finset.card_fin]
-    rw [h1, h2, hkv]; ring
-  have hsumm : (∑ i, (nw i : ℝ)) = 2 * kw - 4 := by
-    have h1 : ∑ i, w i = ∑ i, ((nw i : ℝ) + 1/2) := by simp_rw [hnw]
-    have h2 : ∑ i, ((nw i : ℝ) + 1/2) = (∑ i, (nw i : ℝ)) + 4 := by
-      rw [Finset.sum_add_distrib]; norm_num [Finset.sum_const, Finset.card_fin]
-    rw [h1, h2, hkw]; ring
-  -- Split the sum and simplify
-  have hsum_split : ∑ i, ((nv i : ℝ) * nw i + ((nv i : ℝ) + nw i) / 2 + 1/4) =
-      (∑ i, (nv i : ℝ) * nw i) + (∑ i, (nv i : ℝ)) / 2 + (∑ i, (nw i : ℝ)) / 2 + 2 := by
-    rw [← Finset.sum_add_distrib, ← Finset.sum_add_distrib]
-    congr 1
-    · congr 1
-      rw [Finset.sum_div, Finset.sum_add_distrib]
-    · norm_num [Finset.sum_const, Finset.card_fin]
-  rw [hsum_split, hsumn, hsumm]
+  -- Compute ∑ v i and ∑ w i in terms of nv, nw
+  have hv_sum : ∑ i, v i = (∑ i, (nv i : ℝ)) + 4 := by
+    conv_lhs => rw [show ∑ i, v i = ∑ i, ((nv i : ℝ) + 1/2) from by simp_rw [hnv]]
+    rw [Finset.sum_add_distrib]; norm_num [Finset.sum_const, Finset.card_fin]
+  have hw_sum : ∑ i, w i = (∑ i, (nw i : ℝ)) + 4 := by
+    conv_lhs => rw [show ∑ i, w i = ∑ i, ((nw i : ℝ) + 1/2) from by simp_rw [hnw]]
+    rw [Finset.sum_add_distrib]; norm_num [Finset.sum_const, Finset.card_fin]
+  have hsumn : (∑ i, (nv i : ℝ)) = 2 * kv - 4 := by linarith [hv_sum.symm.trans hkv]
+  have hsumm : (∑ i, (nw i : ℝ)) = 2 * kw - 4 := by linarith [hw_sum.symm.trans hkw]
+  -- Split sum and compute
+  have hsum_eq : ∑ i, ((nv i : ℝ) * nw i + ((nv i : ℝ) + nw i) / 2 + 1/4) =
+      (∑ i, (nv i : ℝ) * nw i) + ((∑ i, (nv i : ℝ)) + (∑ i, (nw i : ℝ))) / 2 + 2 := by
+    -- Split ∑(a + b + c) into ∑a + ∑b + ∑c
+    simp only [Finset.sum_add_distrib]
+    -- Now goal: (∑ nv*nw + ∑ (nv+nw)/2) + ∑ 1/4 = RHS
+    have h_quarter : ∑ _i : Fin 8, (1 : ℝ) / 4 = 2 := by
+      norm_num [Finset.sum_const, Finset.card_fin]
+    have h_div : ∑ i, ((nv i : ℝ) + nw i) / 2 = ((∑ i, (nv i : ℝ)) + (∑ i, (nw i : ℝ))) / 2 := by
+      rw [← Finset.sum_div, Finset.sum_add_distrib]
+    rw [h_quarter, h_div]
+  rw [hsum_eq, hsumn, hsumm]
   push_cast; ring
 
 /-- Inner product of integer and half-integer vector is integer (when int has even sum) -/
@@ -467,7 +468,7 @@ theorem E8_sub_closed (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice)
       · obtain ⟨kv, hkv⟩ := hvsE
         obtain ⟨kw, hkw⟩ := hwsE
         use kv - kw
-        rw [hsub_sum, hkv, hkw]; ring
+        rw [hsub_sum, hkv, hkw]; push_cast; ring
     · -- Case 2: int - half = half with even sum
       right
       constructor
