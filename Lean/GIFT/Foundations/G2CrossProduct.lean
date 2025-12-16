@@ -455,7 +455,7 @@ theorem G2_cross_norm (u v : R7) :
            (if i = m ∧ j = l then (1 : ℤ) else 0) : ℝ) * u i * u l * v j * v m =
           (if i = l ∧ j = m then (1 : ℝ) else 0) * u i * u l * v j * v m -
           (if i = m ∧ j = l then (1 : ℝ) else 0) * u i * u l * v j * v m by
-    intros; split_ifs <;> simp <;> ring]
+    intros; split_ifs <;> ring]
   simp_rw [Finset.sum_sub_distrib]
   -- First term: ∑_ijlm δ_il δ_jm u_i u_l v_j v_m = (∑_i u_i²)(∑_j v_j²)
   have h_first : ∑ i : Fin 7, ∑ j : Fin 7, ∑ l : Fin 7, ∑ m : Fin 7,
