@@ -252,16 +252,15 @@ def psi (i j l m : Fin 7) : ℤ :=
 theorem psi_antisym_il (i j l m : Fin 7) : psi i j l m = -psi l j i m := by
   fin_cases i <;> fin_cases j <;> fin_cases l <;> fin_cases m <;> native_decide
 
-/-- Epsilon contraction decomposition into Kronecker + ψ -/
-theorem epsilon_contraction_decomp (i j l m : Fin 7) :
-    epsilon_contraction i j l m =
-    ((if i = l ∧ j = m then 1 else 0) - (if i = m ∧ j = l then 1 else 0)) + psi i j l m := by
-  simp only [psi]
-  ring
-
 /-- The Kronecker part of epsilon contraction -/
 def kronecker_part (i j l m : Fin 7) : ℤ :=
   (if i = l ∧ j = m then 1 else 0) - (if i = m ∧ j = l then 1 else 0)
+
+/-- Epsilon contraction decomposition into Kronecker + ψ -/
+theorem epsilon_contraction_decomp (i j l m : Fin 7) :
+    epsilon_contraction i j l m = kronecker_part i j l m + psi i j l m := by
+  simp only [psi, kronecker_part]
+  ring
 
 /-- Generic lemma: antisymmetric tensor contracted with symmetric tensor vanishes.
     If T(i,l) = -T(l,i) and S(i,l) = S(l,i), then ∑ᵢₗ T(i,l)S(i,l) = 0.
@@ -430,8 +429,7 @@ theorem G2_cross_norm (u v : R7) :
     rw [← Finset.sum_mul, ← Finset.sum_mul, ← Finset.sum_mul, ← Finset.sum_mul]
     rw [show (∑ k : Fin 7, ↑(epsilon i j k) * ↑(epsilon l m k)) * u i * u l * v j * v m =
             (epsilon_contraction i j l m : ℝ) * u i * u l * v j * v m by
-      simp only [epsilon_contraction, Int.cast_sum, Int.cast_mul]
-      ring]
+      simp only [epsilon_contraction, Int.cast_sum, Int.cast_mul]; ring]
   -- LHS = ∑_ijlm epsilon_contraction(i,j,l,m) * u_i * u_l * v_j * v_m
   -- Step 6: Split into Kronecker + ψ using epsilon_contraction_decomp
   conv_lhs =>
