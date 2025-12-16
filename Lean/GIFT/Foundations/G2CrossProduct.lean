@@ -284,8 +284,8 @@ theorem antisym_sym_contract_vanishes
           apply Finset.sum_congr rfl; intro i _
           ring
       _ = -(∑ l : Fin 7, ∑ i : Fin 7, T i l * u l * u i) := by
-          rw [Finset.sum_neg_distrib]
-          apply congrArg; apply Finset.sum_congr rfl; intro l _
+          -- Apply sum_neg_distrib from inside out
+          conv_lhs => arg 2; ext l; rw [Finset.sum_neg_distrib]
           rw [Finset.sum_neg_distrib]
       _ = -(∑ i : Fin 7, ∑ l : Fin 7, T i l * u l * u i) := by rw [Finset.sum_comm]
       _ = -(∑ i : Fin 7, ∑ l : Fin 7, T i l * u i * u l) := by
@@ -307,31 +307,21 @@ theorem psi_contract_vanishes (u v : Fin 7 → ℝ) :
     intro i l
     have h := psi_antisym_il i j l m
     simp only [h, Int.cast_neg]
-  -- Reorder sums: ∑ i j l m → ∑ j m i l, then factor and apply h_inner
-  calc ∑ i : Fin 7, ∑ j : Fin 7, ∑ l : Fin 7, ∑ m : Fin 7,
-         (psi i j l m : ℝ) * u i * u l * v j * v m
-      = ∑ j : Fin 7, ∑ i : Fin 7, ∑ l : Fin 7, ∑ m : Fin 7,
-         (psi i j l m : ℝ) * u i * u l * v j * v m := by rw [Finset.sum_comm]
-    _ = ∑ j : Fin 7, ∑ m : Fin 7, ∑ i : Fin 7, ∑ l : Fin 7,
-         (psi i j l m : ℝ) * u i * u l * v j * v m := by
-        apply Finset.sum_congr rfl; intro j _
-        rw [Finset.sum_comm]
-        apply Finset.sum_congr rfl; intro m _
-        rw [Finset.sum_comm]
-    _ = ∑ j : Fin 7, ∑ m : Fin 7,
-         (∑ i : Fin 7, ∑ l : Fin 7, (psi i j l m : ℝ) * u i * u l) * (v j * v m) := by
-        apply Finset.sum_congr rfl; intro j _
-        apply Finset.sum_congr rfl; intro m _
-        rw [Finset.sum_mul, Finset.sum_mul]
-        apply Finset.sum_congr rfl; intro i _
-        rw [Finset.sum_mul]
-        apply Finset.sum_congr rfl; intro l _
-        ring
-    _ = ∑ j : Fin 7, ∑ m : Fin 7, 0 * (v j * v m) := by
-        apply Finset.sum_congr rfl; intro j _
-        apply Finset.sum_congr rfl; intro m _
-        rw [h_inner]
-    _ = 0 := by simp only [zero_mul, Finset.sum_const_zero]
+  -- Swap outer sums to put j, m outside
+  rw [Finset.sum_comm]
+  apply Finset.sum_eq_zero; intro j _
+  rw [Finset.sum_comm]
+  rw [Finset.sum_comm]
+  apply Finset.sum_eq_zero; intro m _
+  rw [Finset.sum_comm]
+  -- Now: ∑ l, ∑ i, psi(i,j,l,m) * u(i) * u(l) * v(j) * v(m) = 0
+  -- Factor out v(j) * v(m) which is constant w.r.t. i, l
+  conv_lhs =>
+    arg 2; ext l; arg 2; ext i
+    rw [show (psi i j l m : ℝ) * u i * u l * v j * v m =
+            (psi i j l m : ℝ) * u i * u l * (v j * v m) by ring]
+  rw [← Finset.sum_mul, ← Finset.sum_mul]
+  rw [h_inner j m, zero_mul]
 
 /-- B4: Lagrange identity for 7D cross product
     |u × v|² = |u|²|v|² - ⟨u,v⟩²
