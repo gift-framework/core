@@ -171,6 +171,34 @@ except ImportError:
     multi_start_optimization = None
     scan_parameter_space = None
 
+# V3.1.4: GIFT-Native PINN (requires: pip install torch)
+try:
+    from gift_core.nn.gift_native_pinn import (
+        GIFTNativePINN,
+        GIFTNativeLoss,
+        GIFTTrainConfig,
+        GIFTTrainResult,
+        create_gift_native_pinn,
+        train_gift_native_pinn,
+        extract_fourier_coefficients,
+        export_analytical_form,
+        phi0_standard,
+        FANO_LINES,
+    )
+    HAS_GIFT_NATIVE_PINN = True
+except ImportError:
+    GIFTNativePINN = None
+    GIFTNativeLoss = None
+    GIFTTrainConfig = None
+    GIFTTrainResult = None
+    create_gift_native_pinn = None
+    train_gift_native_pinn = None
+    extract_fourier_coefficients = None
+    export_analytical_form = None
+    phi0_standard = None
+    FANO_LINES = None
+    HAS_GIFT_NATIVE_PINN = False
+
 # =============================================================================
 # K7 METRIC MODULES (v1.2.0) - Requires numpy
 # =============================================================================
@@ -400,6 +428,12 @@ __all__ = [
     'TORSION_BOUND', 'JOYCE_THRESHOLD', 'LIPSCHITZ_BOUND',
     'DET_G_BOUND', 'DET_G_TARGET', 'CONTRACTION_K',
     'JoyceCertificate', 'verify_pinn_bounds',
+    # V3.1.4: GIFT-Native PINN
+    'GIFTNativePINN', 'GIFTNativeLoss',
+    'GIFTTrainConfig', 'GIFTTrainResult',
+    'create_gift_native_pinn', 'train_gift_native_pinn',
+    'extract_fourier_coefficients', 'export_analytical_form',
+    'phi0_standard', 'FANO_LINES',
     # Version
     '__version__',
 ]
