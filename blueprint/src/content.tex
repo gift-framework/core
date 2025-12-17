@@ -282,14 +282,19 @@ and defines the $\Gtwo$ holonomy structure.
 
 \begin{theorem}[B4: Lagrange Identity]\label{thm:G2_cross_norm}
     \lean{GIFT.Foundations.G2CrossProduct.G2_cross_norm}
-    \notready
+    \leanok
     \uses{def:cross, lem:psi_contract_vanishes}
     \[
         \norm{u \cross v}^2 = \norm{u}^2 \norm{v}^2 - \ip{u}{v}^2
     \]
 \end{theorem}
 \begin{proof}
-    Key lemmas proven; EuclideanSpace plumbing pending.
+    \uses{lem:psi_antisym_il, lem:psi_contract_vanishes}
+    Expand $\|u \times v\|^2$ via coordinate sums. The $\varepsilon$-contraction
+    decomposes into Kronecker deltas plus $\psi_{ijlm}$ terms. By antisymmetry
+    of $\psi$ (verified for all 2401 cases), the $\psi$-terms vanish under
+    symmetric contraction $u_i u_l v_j v_m$. The Kronecker terms yield
+    $\|u\|^2 \|v\|^2 - \langle u,v \rangle^2$.
 \end{proof}
 
 % =============================================================================
@@ -1191,7 +1196,7 @@ is the \emph{exact} analytical solution.
 \textbf{Module} & \textbf{Theorems} & \textbf{Status} \\
 \hline
 E8 Lattice & 15 & \checkmark \\
-G2 Cross Product & 10 & B4 pending \\
+G2 Cross Product & 10 & B5, B6 pending \\
 Betti Numbers & 8 & \checkmark \\
 SO(16) Decomposition & 11 & \checkmark \\
 Fibonacci/Lucas & 20 & \checkmark \\
