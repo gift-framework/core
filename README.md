@@ -3,7 +3,7 @@
 [![Formal Verification](https://github.com/gift-framework/core/actions/workflows/verify.yml/badge.svg)](https://github.com/gift-framework/core/actions/workflows/verify.yml)
 [![Python Tests](https://github.com/gift-framework/core/actions/workflows/test.yml/badge.svg)](https://github.com/gift-framework/core/actions/workflows/test.yml)
 [![PyPI](https://img.shields.io/pypi/v/giftpy)](https://pypi.org/project/giftpy/)
-[![Lean 4](https://img.shields.io/badge/Lean_4-v4.14-blue)](Lean/)
+[![Lean 4](https://img.shields.io/badge/Lean_4-v4.27-blue)](Lean/)
 [![Coq](https://img.shields.io/badge/Coq-8.18-orange)](COQ/)
 
 Formally verified mathematical relations from the GIFT (Geometric Information Field Theory) framework. All relations are proven in both **Lean 4** and **Coq**.
@@ -59,4 +59,4 @@ MIT
 
 ---
 
-*GIFT Core v3.1.3*
+*GIFT Core v3.1.4*
