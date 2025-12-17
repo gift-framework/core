@@ -1,17 +1,17 @@
--- GIFT Prime Atlas - Tier 2
+-- GIFT Prime Atlas - Derived Primes
 -- v2.0.0: Primes < 100 expressed via GIFT constants
 --
 -- All primes < 100 can be expressed using GIFT constants.
--- This module provides explicit expressions for primes not in Tier 1.
+-- This module provides explicit expressions for primes not directly GIFT constants.
 --
--- Missing from Tier 1: 23, 29, 37, 41, 43, 47, 53, 59, 67, 71, 73, 79, 83, 89, 97
+-- Derived: 23, 29, 37, 41, 43, 47, 53, 59, 67, 71, 73, 79, 83, 89, 97
 
 import GIFT.Algebra
 import GIFT.Topology
 import GIFT.Geometry
 import GIFT.Relations
 import GIFT.Relations.YukawaDuality
-import GIFT.Primes.Tier1
+import GIFT.Primes.DirectPrimes
 import Mathlib.Data.Nat.Prime.Basic
 
 namespace GIFT.Primes.Tier2
@@ -21,7 +21,7 @@ open GIFT.Relations.YukawaDuality
 open GIFT.Primes.Tier1
 
 -- =============================================================================
--- TIER 2 PRIMES: EXPRESSIBLE VIA GIFT CONSTANTS (Relations 111-125)
+-- DERIVED PRIMES: EXPRESSIBLE VIA GIFT CONSTANTS (Relations 111-125)
 -- =============================================================================
 
 /-- RELATION 111: 23 = b2 + p2 -/

@@ -1,7 +1,7 @@
--- GIFT Prime Atlas - Tier 1
--- v2.0.0: Direct GIFT constant primes
+-- GIFT Prime Atlas - Direct Primes
+-- v2.0.0: Primes appearing directly as GIFT constants
 --
--- Tier 1 primes are those that appear directly as GIFT constants:
+-- Direct primes are those that appear directly as GIFT constants:
 --   2  = p2 (Pontryagin class)
 --   3  = N_gen (generations)
 --   5  = Weyl_factor
@@ -24,7 +24,7 @@ namespace GIFT.Primes.Tier1
 open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
 
 -- =============================================================================
--- TIER 1 PRIMES: DIRECT GIFT CONSTANTS (Relations 101-110)
+-- DIRECT PRIMES: GIFT CONSTANTS (Relations 101-110)
 -- =============================================================================
 
 /-- RELATION 101: p2 = 2 is prime -/
@@ -60,23 +60,23 @@ def kappa_T_inv : Nat := 61
 theorem kappa_T_inv_is_prime : Nat.Prime kappa_T_inv := by native_decide
 
 -- =============================================================================
--- TIER 1 PRIME SET
+-- DIRECT PRIME SET
 -- =============================================================================
 
-/-- The set of Tier 1 primes (direct GIFT constants) -/
+/-- The set of direct primes (GIFT constants) -/
 def tier1_primes : List Nat := [2, 3, 5, 7, 11, 13, 17, 19, 31, 61]
 
-/-- All Tier 1 values are prime -/
+/-- All direct prime values are prime -/
 theorem tier1_all_prime : ∀ p ∈ tier1_primes, Nat.Prime p := by decide
 
-/-- Count of Tier 1 primes -/
+/-- Count of direct primes -/
 theorem tier1_count : tier1_primes.length = 10 := rfl
 
 -- =============================================================================
--- TIER 1 COVERAGE
+-- DIRECT PRIME COVERAGE
 -- =============================================================================
 
-/-- Tier 1 primes sorted -/
+/-- Direct primes sorted -/
 theorem tier1_sorted : tier1_primes = [2, 3, 5, 7, 11, 13, 17, 19, 31, 61] := rfl
 
 /-- Tier 1 covers the first 6 primes (2, 3, 5, 7, 11, 13) -/

@@ -10,9 +10,9 @@ Version: 3.2.0
 
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.Data.Real.Basic
-import GIFT.Foundations.V5.HodgeTheory
+import GIFT.Foundations.Analysis.HodgeTheory
 
-namespace GIFT.Foundations.V5.HarmonicForms
+namespace GIFT.Foundations.Analysis.HarmonicForms
 
 open HodgeTheory
 
@@ -106,4 +106,4 @@ theorem harmonic_forms_certified :
     21 * 21 * 77 = 33957 := by
   repeat (first | constructor | rfl | native_decide)
 
-end GIFT.Foundations.V5.HarmonicForms
+end GIFT.Foundations.Analysis.HarmonicForms

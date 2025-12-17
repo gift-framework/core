@@ -11,9 +11,9 @@ Version: 3.2.0
 import Mathlib.Analysis.InnerProductSpace.PiL2
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.Data.Real.Basic
-import GIFT.Foundations.V5.InnerProductSpace
+import GIFT.Foundations.Analysis.InnerProductSpace
 
-namespace GIFT.Foundations.V5.HodgeTheory
+namespace GIFT.Foundations.Analysis.HodgeTheory
 
 /-!
 ## Abstract Hodge Structure
@@ -156,4 +156,4 @@ theorem hodge_theory_certified :
     b 0 + b 2 + b 3 = 99 := by
   repeat (first | constructor | rfl)
 
-end GIFT.Foundations.V5.HodgeTheory
+end GIFT.Foundations.Analysis.HodgeTheory

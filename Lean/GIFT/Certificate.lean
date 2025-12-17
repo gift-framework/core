@@ -11,15 +11,15 @@
 import GIFT.Core
 import GIFT.Relations
 
--- V3.2: Foundations V5 (Hodge theory, exterior algebra, E8 lattice)
-import GIFT.Foundations.V5.InnerProductSpace
-import GIFT.Foundations.V5.ExteriorAlgebra
-import GIFT.Foundations.V5.E8Lattice
-import GIFT.Foundations.V5.WedgeProduct
-import GIFT.Foundations.V5.HodgeTheory
-import GIFT.Foundations.V5.HarmonicForms
-import GIFT.Foundations.V5.G2TensorForm
-import GIFT.Foundations.V5.JoyceAnalytic
+-- Analysis: Hodge theory, exterior algebra, advanced E8 lattice
+import GIFT.Foundations.Analysis.InnerProductSpace
+import GIFT.Foundations.Analysis.ExteriorAlgebra
+import GIFT.Foundations.Analysis.E8Lattice
+import GIFT.Foundations.Analysis.WedgeProduct
+import GIFT.Foundations.Analysis.HodgeTheory
+import GIFT.Foundations.Analysis.HarmonicForms
+import GIFT.Foundations.Analysis.G2TensorForm
+import GIFT.Foundations.Analysis.JoyceAnalytic
 import GIFT.Relations.GaugeSector
 import GIFT.Relations.NeutrinoSector
 import GIFT.Relations.LeptonSector
@@ -40,7 +40,7 @@ import GIFT.Relations.LandauerDarkEnergy
 -- V2.0 New modules
 import GIFT.Sequences
 import GIFT.Primes
-import GIFT.Monster
+import GIFT.Moonshine
 import GIFT.McKay
 
 -- V3.0: Joyce Perturbation Theorem
@@ -589,7 +589,7 @@ theorem all_75_relations_certified :
 -- V2.0: MASTER CERTIFICATE (165+ relations)
 -- =============================================================================
 
-open GIFT.Sequences GIFT.Primes GIFT.Monster GIFT.McKay
+open GIFT.Sequences GIFT.Primes GIFT.Moonshine GIFT.McKay
 
 /-- V2.0 Sequences module access -/
 abbrev v2_sequences_certified := GIFT.Sequences.all_sequence_relations_certified
@@ -597,8 +597,8 @@ abbrev v2_sequences_certified := GIFT.Sequences.all_sequence_relations_certified
 /-- V2.0 Primes module access -/
 abbrev v2_primes_certified := GIFT.Primes.all_prime_atlas_relations_certified
 
-/-- V2.0 Monster module access -/
-abbrev v2_monster_certified := GIFT.Monster.all_monster_relations_certified
+/-- V2.0 Moonshine module access -/
+abbrev v2_moonshine_certified := GIFT.Moonshine.all_moonshine_relations_certified
 
 /-- V2.0 McKay module access -/
 abbrev v2_mckay_certified := GIFT.McKay.all_mckay_relations_certified
@@ -722,23 +722,23 @@ theorem gift_v3_extended_relations :
 theorem gift_v3_relation_count : True := by trivial
 
 -- =============================================================================
--- V3.2: FOUNDATIONS V5 (Hodge theory, exterior algebra, E8 lattice)
+-- V3.2: FOUNDATIONS ANALYSIS (Hodge theory, exterior algebra, E8 lattice)
 -- =============================================================================
 
 /-- V3.2 E8 lattice relations -/
-abbrev v32_E8_lattice := GIFT.Foundations.V5.E8Lattice.E8_lattice_certified
+abbrev v32_E8_lattice := GIFT.Foundations.Analysis.E8Lattice.E8_lattice_certified
 
 /-- V3.2 Hodge theory K7 Betti numbers -/
-abbrev v32_K7_betti := GIFT.Foundations.V5.HodgeTheory.H_star_value
+abbrev v32_K7_betti := GIFT.Foundations.Analysis.HodgeTheory.H_star_value
 
 /-- V3.2 Harmonic forms relations -/
-abbrev v32_harmonic := GIFT.Foundations.V5.HarmonicForms.harmonic_forms_certified
+abbrev v32_harmonic := GIFT.Foundations.Analysis.HarmonicForms.harmonic_forms_certified
 
 /-- V3.2 G2 tensor form relations -/
-abbrev v32_G2_tensor := GIFT.Foundations.V5.G2TensorForm.G2_certified
+abbrev v32_G2_tensor := GIFT.Foundations.Analysis.G2TensorForm.G2_certified
 
 /-- V3.2 Joyce analytic relations -/
-abbrev v32_joyce_analytic := GIFT.Foundations.V5.JoyceAnalytic.joyce_analytic_certified
+abbrev v32_joyce_analytic := GIFT.Foundations.Analysis.JoyceAnalytic.joyce_analytic_certified
 
 /-- GIFT v3.2 Foundations Certificate -/
 theorem gift_v32_foundations_certificate :
@@ -748,20 +748,20 @@ theorem gift_v32_foundations_certificate :
     -- G2 dimension
     (12 + 2 = 14) ∧
     -- K7 Betti numbers
-    (GIFT.Foundations.V5.HodgeTheory.b 2 = 21) ∧
-    (GIFT.Foundations.V5.HodgeTheory.b 3 = 77) ∧
-    (GIFT.Foundations.V5.HodgeTheory.b 0 +
-     GIFT.Foundations.V5.HodgeTheory.b 2 +
-     GIFT.Foundations.V5.HodgeTheory.b 3 = 99) ∧
+    (GIFT.Foundations.Analysis.HodgeTheory.b 2 = 21) ∧
+    (GIFT.Foundations.Analysis.HodgeTheory.b 3 = 77) ∧
+    (GIFT.Foundations.Analysis.HodgeTheory.b 0 +
+     GIFT.Foundations.Analysis.HodgeTheory.b 2 +
+     GIFT.Foundations.Analysis.HodgeTheory.b 3 = 99) ∧
     -- Wedge product dimensions
     (Nat.choose 7 2 = 21) ∧
     (Nat.choose 7 3 = 35) ∧
     (2 + 2 + 3 = 7) ∧
     -- PINN verification (using Nat ratios: 141/100000 < 288/10000)
-    (GIFT.Foundations.V5.JoyceAnalytic.pinn_torsion_bound_num *
-     GIFT.Foundations.V5.JoyceAnalytic.joyce_threshold_den <
-     GIFT.Foundations.V5.JoyceAnalytic.joyce_threshold_num *
-     GIFT.Foundations.V5.JoyceAnalytic.pinn_torsion_bound_den) := by
+    (GIFT.Foundations.Analysis.JoyceAnalytic.pinn_torsion_bound_num *
+     GIFT.Foundations.Analysis.JoyceAnalytic.joyce_threshold_den <
+     GIFT.Foundations.Analysis.JoyceAnalytic.joyce_threshold_num *
+     GIFT.Foundations.Analysis.JoyceAnalytic.pinn_torsion_bound_den) := by
   refine ⟨rfl, rfl, rfl, rfl, rfl, rfl, ?_, ?_, rfl, ?_⟩
   all_goals native_decide
 
@@ -769,7 +769,7 @@ theorem gift_v32_foundations_certificate :
 theorem gift_v32_master_certificate :
     -- All v3.0 relations
     (b2 = 21 ∧ b3 = 77 ∧ H_star = 99) ∧
-    -- V5 Foundations
+    -- Analysis Foundations
     (112 + 128 = 240) ∧
     (12 + 2 = 14) ∧
     (Nat.choose 7 2 = 21) := by

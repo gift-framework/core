@@ -139,24 +139,24 @@ GIFT.Primes.Heegner.heegner_67_expr
 GIFT.Primes.Heegner.heegner_163_expr
 GIFT.Primes.Heegner.all_heegner_gift_expressible
 
-# Monster Dimension
-GIFT.Monster.Dimension.monster_dim
-GIFT.Monster.Dimension.monster_factorization
-GIFT.Monster.Dimension.monster_factor_47
-GIFT.Monster.Dimension.monster_factor_59
-GIFT.Monster.Dimension.monster_factor_71
-GIFT.Monster.Dimension.monster_dim_gift
-GIFT.Monster.Dimension.monster_factors_prime
-GIFT.Monster.Dimension.monster_arithmetic_progression
+# Monstrous Moonshine - Monster Dimension
+GIFT.Moonshine.MonsterDimension.monster_dim
+GIFT.Moonshine.MonsterDimension.monster_factorization
+GIFT.Moonshine.MonsterDimension.monster_factor_47
+GIFT.Moonshine.MonsterDimension.monster_factor_59
+GIFT.Moonshine.MonsterDimension.monster_factor_71
+GIFT.Moonshine.MonsterDimension.monster_dim_gift
+GIFT.Moonshine.MonsterDimension.monster_factors_prime
+GIFT.Moonshine.MonsterDimension.monster_arithmetic_progression
 
-# Monster j-Invariant
-GIFT.Monster.JInvariant.j_constant
-GIFT.Monster.JInvariant.j_constant_gift
-GIFT.Monster.JInvariant.j_constant_factored
-GIFT.Monster.JInvariant.j_constant_E8
-GIFT.Monster.JInvariant.j_coeff_1
-GIFT.Monster.JInvariant.j_coeff_1_monster
-GIFT.Monster.JInvariant.j_E8_triality
+# Monstrous Moonshine - j-Invariant
+GIFT.Moonshine.JInvariant.j_constant
+GIFT.Moonshine.JInvariant.j_constant_gift
+GIFT.Moonshine.JInvariant.j_constant_factored
+GIFT.Moonshine.JInvariant.j_constant_E8
+GIFT.Moonshine.JInvariant.j_coeff_1
+GIFT.Moonshine.JInvariant.j_coeff_1_monster
+GIFT.Moonshine.JInvariant.j_E8_triality
 
 # McKay Correspondence
 GIFT.McKay.Correspondence.coxeter_E8

@@ -11,9 +11,9 @@ Version: 3.2.0
 import Mathlib.LinearAlgebra.ExteriorAlgebra.Basic
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.Data.Real.Basic
-import GIFT.Foundations.V5.InnerProductSpace
+import GIFT.Foundations.Analysis.InnerProductSpace
 
-namespace GIFT.Foundations.V5.ExteriorAlgebra
+namespace GIFT.Foundations.Analysis.ExteriorAlgebra
 
 open InnerProductSpace
 
@@ -133,4 +133,4 @@ theorem omega2_G2_decomposition : 7 + 14 = 21 := by native_decide
 /-- Ω³ decomposes as Ω³₁ ⊕ Ω³₇ ⊕ Ω³₂₇ -/
 theorem omega3_G2_decomposition : 1 + 7 + 27 = 35 := by native_decide
 
-end GIFT.Foundations.V5.ExteriorAlgebra
+end GIFT.Foundations.Analysis.ExteriorAlgebra

@@ -14,7 +14,7 @@ import GIFT.Relations
 import GIFT.Sequences.Lucas
 import Mathlib.Data.Nat.Prime.Basic
 
-namespace GIFT.Monster.Dimension
+namespace GIFT.Moonshine.MonsterDimension
 
 open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
 open GIFT.Sequences.Lucas
@@ -124,4 +124,4 @@ theorem all_monster_dimension_relations_certified :
    by native_decide, prime_47, prime_59, prime_71,
    by native_decide, by native_decide⟩
 
-end GIFT.Monster.Dimension
+end GIFT.Moonshine.MonsterDimension

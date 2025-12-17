@@ -11,10 +11,10 @@ Version: 3.2.0
 import Mathlib.Analysis.InnerProductSpace.PiL2
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.Data.Real.Basic
-import GIFT.Foundations.V5.InnerProductSpace
-import GIFT.Foundations.V5.ExteriorAlgebra
+import GIFT.Foundations.Analysis.InnerProductSpace
+import GIFT.Foundations.Analysis.ExteriorAlgebra
 
-namespace GIFT.Foundations.V5.G2TensorForm
+namespace GIFT.Foundations.Analysis.G2TensorForm
 
 open InnerProductSpace ExteriorAlgebra
 
@@ -149,4 +149,4 @@ theorem G2_representations :
     1 + 7 + 27 = 35 := by
   repeat (first | constructor | rfl)
 
-end GIFT.Foundations.V5.G2TensorForm
+end GIFT.Foundations.Analysis.G2TensorForm
