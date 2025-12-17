@@ -18,7 +18,7 @@
 -/
 
 import Mathlib.Data.Real.Basic
-import Mathlib.Data.Rat.Basic
+import Mathlib.Data.Rat.Defs
 import Mathlib.Data.Nat.Basic
 import Mathlib.Data.Fin.VecNotation
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
