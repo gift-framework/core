@@ -10,12 +10,12 @@ import GIFT.Algebra
 import GIFT.Topology
 import GIFT.Geometry
 import GIFT.Relations
-import GIFT.Monster.Dimension
+import GIFT.Moonshine.MonsterDimension
 
 namespace GIFT.Moonshine.JInvariant
 
 open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
-open GIFT.Monster.Dimension
+open GIFT.Moonshine.MonsterDimension
 
 -- =============================================================================
 -- j-INVARIANT CONSTANT TERM (Relations 181-185)
@@ -113,4 +113,4 @@ theorem all_j_invariant_relations_certified :
     (j_constant - dim_E8 = dim_E8xE8) := by
   repeat (first | constructor | native_decide)
 
-end GIFT.Monster.JInvariant
+end GIFT.Moonshine.JInvariant

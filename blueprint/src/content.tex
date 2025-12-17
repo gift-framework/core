@@ -783,35 +783,35 @@ The 9 Heegner numbers are the only $d$ such that $\Q(\sqrt{-d})$ has class numbe
 \end{theorem}
 
 % =============================================================================
-\chapter{Monster Group}\label{chap:monster}
+\chapter{Monstrous Moonshine}\label{chap:moonshine}
 % =============================================================================
 
-The Monster group connects to GIFT via its dimension and the $j$-invariant.
+Monstrous moonshine connects the Monster group to modular functions via its dimension and the $j$-invariant.
 
 \section{Monster Dimension}
 
 \begin{definition}[Monster Dimension]\label{def:monster_dim}
-    \lean{GIFT.Monster.Dimension.monster_dim}
+    \lean{GIFT.Moonshine.MonsterDimension.monster_dim}
     \leanok
     The smallest faithful representation: $196883$
 \end{definition}
 
 \begin{theorem}[Monster Factorization]\label{thm:monster_factor}
-    \lean{GIFT.Monster.Dimension.monster_factorization}
+    \lean{GIFT.Moonshine.MonsterDimension.monster_factorization}
     \leanok
     \uses{def:monster_dim}
     $196883 = 47 \times 59 \times 71$
 \end{theorem}
 
 \begin{theorem}[Monster GIFT Expression]\label{thm:monster_gift}
-    \lean{GIFT.Monster.Dimension.monster_dim_gift}
+    \lean{GIFT.Moonshine.MonsterDimension.monster_dim_gift}
     \leanok
     \uses{def:monster_dim, def:b3, def:lucas}
     $196883 = L_8 \times (\bthree - L_6) \times (\bthree - 6)$
 \end{theorem}
 
 \begin{theorem}[Arithmetic Progression]\label{thm:monster_ap}
-    \lean{GIFT.Monster.Dimension.monster_arithmetic_progression}
+    \lean{GIFT.Moonshine.MonsterDimension.monster_arithmetic_progression}
     \leanok
     $47, 59, 71$ form an AP with common difference $12 = \opdim(\Gtwo) - p_2$
 \end{theorem}
@@ -819,19 +819,19 @@ The Monster group connects to GIFT via its dimension and the $j$-invariant.
 \section{j-Invariant}
 
 \begin{definition}[j Constant Term]\label{def:j_constant}
-    \lean{GIFT.Monster.JInvariant.j_constant}
+    \lean{GIFT.Moonshine.JInvariant.j_constant}
     \leanok
     $j(\tau) = q^{-1} + 744 + 196884q + \ldots$
 \end{definition}
 
 \begin{theorem}[j = 3 x E8]\label{thm:j_E8}
-    \lean{GIFT.Monster.JInvariant.j_constant_gift}
+    \lean{GIFT.Moonshine.JInvariant.j_constant_gift}
     \leanok
     $744 = N_{\mathrm{gen}} \times \opdim(\Eeight) = 3 \times 248$
 \end{theorem}
 
 \begin{theorem}[j = E8 + E8xE8]\label{thm:j_triality}
-    \lean{GIFT.Monster.JInvariant.j_constant_E8}
+    \lean{GIFT.Moonshine.JInvariant.j_constant_E8}
     \leanok
     $744 = \opdim(\Eeight) + \opdim(\Eeight \times \Eeight) = 248 + 496$
 \end{theorem}

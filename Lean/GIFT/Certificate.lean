@@ -40,7 +40,7 @@ import GIFT.Relations.LandauerDarkEnergy
 -- V2.0 New modules
 import GIFT.Sequences
 import GIFT.Primes
-import GIFT.Monster
+import GIFT.Moonshine
 import GIFT.McKay
 
 -- V3.0: Joyce Perturbation Theorem
@@ -589,7 +589,7 @@ theorem all_75_relations_certified :
 -- V2.0: MASTER CERTIFICATE (165+ relations)
 -- =============================================================================
 
-open GIFT.Sequences GIFT.Primes GIFT.Monster GIFT.McKay
+open GIFT.Sequences GIFT.Primes GIFT.Moonshine GIFT.McKay
 
 /-- V2.0 Sequences module access -/
 abbrev v2_sequences_certified := GIFT.Sequences.all_sequence_relations_certified
@@ -597,8 +597,8 @@ abbrev v2_sequences_certified := GIFT.Sequences.all_sequence_relations_certified
 /-- V2.0 Primes module access -/
 abbrev v2_primes_certified := GIFT.Primes.all_prime_atlas_relations_certified
 
-/-- V2.0 Monster module access -/
-abbrev v2_monster_certified := GIFT.Monster.all_monster_relations_certified
+/-- V2.0 Moonshine module access -/
+abbrev v2_moonshine_certified := GIFT.Moonshine.all_moonshine_relations_certified
 
 /-- V2.0 McKay module access -/
 abbrev v2_mckay_certified := GIFT.McKay.all_mckay_relations_certified
