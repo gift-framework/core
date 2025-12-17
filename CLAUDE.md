@@ -15,7 +15,7 @@ gift-framework/core/
 │   │   ├── Relations.lean  # Original 13 relations
 │   │   ├── Relations/      # Extension modules (11 files)
 │   │   ├── Sequences/      # [v2.0] Fibonacci, Lucas, Recurrence
-│   │   ├── Primes/         # [v2.0] Prime Atlas (Tier 1-4, Heegner)
+│   │   ├── Primes/         # [v2.0] Prime Atlas (direct, derived, Heegner)
 │   │   ├── Monster/        # [v2.0] Monster dimension, j-invariant
 │   │   ├── McKay/          # [v2.0] McKay correspondence
 │   │   ├── Joyce.lean      # [v3.0] Joyce existence theorem
@@ -56,6 +56,43 @@ gift-framework/core/
     ├── test.yml            # Python tests
     └── publish.yml         # PyPI publish on release
 ```
+
+---
+
+## Terminology Standards
+
+Use **standard academic mathematical vocabulary**. Avoid internal jargon or classification labels.
+
+### ❌ Internal Jargon (avoid)
+```
+"B4 is now proven via epsilon contraction decomposition"
+"Tier 2 axioms resolved"
+"B5 timeout issue"
+```
+
+### ✅ Standard Academic Terminology
+```
+"The Lagrange identity ‖u × v‖² = ‖u‖²‖v‖² - ⟨u,v⟩² for the
+G₂-invariant cross product in ℝ⁷ is now formally verified"
+
+"G₂ cross product properties complete"
+
+"Octonion structure constants verification pending (343-case check)"
+```
+
+### Reference Table
+
+| Old (jargon) | Standard Academic |
+|--------------|-------------------|
+| B1 | `reflect_preserves_lattice` — Weyl reflection preserves E₈ lattice |
+| B2 | `G2_cross_bilinear` — Cross product bilinearity |
+| B3 | `G2_cross_antisymm` — Cross product antisymmetry |
+| B4 | Lagrange identity for 7D cross product |
+| B5 | `cross_is_octonion_structure` — Octonion multiplication structure |
+| B6 | `G2_equiv_characterizations` — G₂ equivalent characterizations |
+| Tier 1 | E₈ root system properties |
+| Tier 2 | G₂ cross product properties |
+| Tier 3 | Advanced analytical properties |
 
 ---
 
@@ -361,4 +398,4 @@ Golden ratio derived from its definition, Fibonacci embedding proven.
 
 ---
 
-*Last updated: 2025-12-17 - 180+ relations + Joyce + B4 Lagrange (v3.1.4)*
+*Last updated: 2025-12-17 - 180+ relations + Joyce existence + Lagrange identity (v3.1.4)*

@@ -31,44 +31,44 @@ GIFT (Geometric Information Field Theory) derives Standard Model parameters from
 | Prime Atlas | 20+ | Complete |
 | **Total** | **180+** | |
 
-### 1.2 Axiom Status by Tier
+### 1.2 Formal Verification Status
 
-#### Tier 1: E8 Root System (12/12 COMPLETE)
+#### E₈ Root System (12/12 COMPLETE)
 
-All theorems, no axioms remaining:
-- D8_roots_card = 112
-- HalfInt_roots_card = 128
-- E8_roots_decomposition
-- E8_roots_card = 240
-- E8_inner_integral
-- E8_norm_sq_even
-- E8_sub_closed
+All theorems proven, no axioms remaining:
+- `D8_roots_card` = 112
+- `HalfInt_roots_card` = 128
+- `E8_roots_decomposition`
+- `E8_roots_card` = 240
+- `E8_inner_integral`
+- `E8_norm_sq_even`
+- `E8_sub_closed`
 - All helper lemmas (9/9)
 
-#### Tier 2: G2 Cross Product (9/11)
+#### G₂ Cross Product Properties (9/11)
 
-| Item | Status | Notes |
-|------|--------|-------|
-| epsilon_antisymm | THEOREM | 343 cases via native_decide |
-| epsilon_diag | THEOREM | 49 cases |
-| cross_apply | THEOREM | rfl |
-| B1: reflect_preserves_lattice | THEOREM | |
-| B2: G2_cross_bilinear | THEOREM | |
-| B3: G2_cross_antisymm | THEOREM | |
-| B3': cross_self | THEOREM | |
-| **B4: G2_cross_norm** | **THEOREM** | Lagrange identity proven! |
-| B5: cross_is_octonion_structure | AXIOM | Timeout on 343 cases |
-| B6: G2_equiv_characterizations | AXIOM | Depends on B5 |
+| Theorem | Status | Notes |
+|---------|--------|-------|
+| `epsilon_antisymm` | PROVEN | 343 cases via native_decide |
+| `epsilon_diag` | PROVEN | 49 cases |
+| `cross_apply` | PROVEN | rfl |
+| `reflect_preserves_lattice` | PROVEN | Weyl reflection preserves E₈ lattice |
+| `G2_cross_bilinear` | PROVEN | Cross product bilinearity |
+| `G2_cross_antisymm` | PROVEN | Cross product antisymmetry |
+| `cross_self` | PROVEN | u × u = 0 |
+| **`G2_cross_norm`** | **PROVEN** | Lagrange identity ‖u × v‖² = ‖u‖²‖v‖² - ⟨u,v⟩² |
+| `cross_is_octonion_structure` | AXIOM | Octonion multiplication (343-case timeout) |
+| `G2_equiv_characterizations` | AXIOM | Depends on octonion structure |
 
-#### Tier 3+: V5 Experimental (~40 axioms)
+#### Advanced Analytical Properties (Research)
 
 Located in `Lean/GIFT/Foundations/V5/`:
-- HodgeTheory.lean - Hodge decomposition axioms
-- HarmonicForms.lean - Harmonic forms axioms
+- HodgeTheory.lean - Hodge decomposition
+- HarmonicForms.lean - Harmonic forms
 - JoyceAnalytic.lean - Full Joyce analytic machinery
-- G2TensorForm.lean - G2 tensor formalization
+- G2TensorForm.lean - G₂ tensor formalization
 - WedgeProduct.lean - Exterior algebra
-- E8Lattice.lean - Alternative E8 axiomatization
+- E8Lattice.lean - Alternative E₈ formalization
 
 These are **research-level** and reserved for future work.
 
@@ -113,7 +113,7 @@ Build: `uvx leanblueprint pdf` / `uvx leanblueprint web`
 
 ### 3.1 Short-term (P1)
 
-1. **B5 Resolution**: The 343-case exhaustive check times out with `native_decide`. Options:
+1. **Octonion Structure Verification**: The 343-case exhaustive check for `cross_is_octonion_structure` times out with `native_decide`. Options:
    - Certificate-based approach (external computation + Lean verification)
    - Case-splitting into 49 blocks
    - Pure Lean optimization with lookup tables
@@ -123,12 +123,12 @@ Build: `uvx leanblueprint pdf` / `uvx leanblueprint web`
 ### 3.2 Medium-term (P2)
 
 1. **Coq Synchronization**: Ensure COQ/ mirrors latest Lean relations
-2. **Mathlib PR**: Submit E8 root enumeration to leanprover-community/mathlib4
+2. **Mathlib PR**: Submit E₈ root enumeration to leanprover-community/mathlib4
 
 ### 3.3 Long-term (Research)
 
-1. **V5 Axioms**: Formalize Hodge theory, exterior algebra, Joyce analytic machinery
-2. **B6 Resolution**: Depends on B5
+1. **Advanced Analytical Formalization**: Hodge theory, exterior algebra, Joyce analytic machinery
+2. **G₂ Equivalent Characterizations**: Depends on octonion structure verification
 
 ---
 
@@ -139,15 +139,15 @@ Lean/GIFT/
   Core.lean                    # Source of truth for constants
   Certificate.lean             # Master certificate (175+ relations)
   Foundations/
-    RootSystems.lean           # Tier 1 (E8 roots) - COMPLETE
-    E8Lattice.lean             # Tier 1 + B1 - ALL THEOREMS
-    G2CrossProduct.lean        # Tier 2 (B4 proven, B5/B6 axioms)
+    RootSystems.lean           # E₈ roots (COMPLETE)
+    E8Lattice.lean             # E₈ lattice + Weyl reflection (ALL THEOREMS)
+    G2CrossProduct.lean        # G₂ cross product (Lagrange proven, 2 axioms)
     AnalyticalMetric.lean      # PINN extraction formalization
-    V5/                        # Experimental (axiomatique)
-  Algebraic/                   # Cayley-Dickson, Betti, SO16
+    V5/                        # Experimental (research-level)
+  Algebraic/                   # Cayley-Dickson, Betti, SO(16)
   Relations/                   # 15+ files, 175+ relations
   Sequences/                   # Fibonacci, Lucas
-  Primes/                      # Prime Atlas Tier 1-4
+  Primes/                      # Prime Atlas (direct, derived, Heegner)
   Monster/                     # Monster dimension, j-invariant
   McKay/                       # McKay correspondence
   Joyce.lean                   # Joyce existence theorem
@@ -174,10 +174,10 @@ gift_core/
 | 1.0.0 | - | 13 original relations |
 | 2.0.0 | - | 165 relations + sequences/primes/monster |
 | 3.0.0 | - | Joyce existence theorem |
-| 3.1.0 | 2025-12-15 | Tier 1 complete, Tier 2 at 6/10 |
-| 3.1.1 | 2025-12-16 | 9 helper theorems, B1 theorem |
+| 3.1.0 | 2025-12-15 | E₈ root system complete, G₂ properties at 6/10 |
+| 3.1.1 | 2025-12-16 | 9 helper theorems, Weyl reflection theorem |
 | 3.1.2 | 2025-12-16 | Blueprint implementation |
-| 3.1.3 | 2025-12-16 | B4 Lagrange theorem proven |
+| 3.1.3 | 2025-12-16 | Lagrange identity for 7D cross product proven |
 | **3.1.4** | 2025-12-17 | Current - consolidation |
 
 ---
