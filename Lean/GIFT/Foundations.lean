@@ -16,7 +16,7 @@ import GIFT.Foundations.GraphTheory
 import GIFT.Foundations.GoldenRatio
 import GIFT.Foundations.G2Holonomy
 import GIFT.Foundations.TCSConstruction
--- Axiom Resolution Plan: Tier 1 & 2
+-- E₈ lattice and G₂ cross product formalization
 import GIFT.Foundations.E8Lattice
 import GIFT.Foundations.G2CrossProduct
 -- v3.4: Mathlib E8 integration
@@ -129,18 +129,18 @@ export TCSConstruction (CHNP_block TCS_b2 K7_b2 K7_b2_eq_21
   K7_b3 K7_b3_eq_77 H_star H_star_eq_99
   TCS_combinatorial K7_euler K7_euler_eq)
 
--- E8 Lattice (Tier 1 Axioms: A6-A12)
+-- E₈ Lattice (lattice closure, Weyl reflection)
 export E8Lattice (R8 stdBasis stdBasis_orthonormal stdBasis_norm
   normSq_eq_sum inner_eq_sum E8_lattice AllInteger AllHalfInteger SumEven
   weyl_reflection E8_reflection
   E8_weyl_order E8_weyl_order_factored E8_weyl_order_check)
 
--- G2 Cross Product (Tier 2 Axioms: B2-B5)
--- epsilon_antisymm, epsilon_diag PROVEN! Others axiom (Mathlib WithLp API)
+-- G₂ Cross Product (Lagrange identity proven, octonion structure pending)
+-- epsilon_antisymm, epsilon_diag, G2_cross_norm PROVEN!
 export G2CrossProduct (R7 cross epsilon fano_lines fano_lines_count
   -- epsilon structure constants (PROVEN!)
   epsilon_antisymm epsilon_diag
-  -- B2-B5: cross product properties (axiom - Mathlib API)
+  -- Cross product properties
   G2_cross_bilinear G2_cross_antisymm cross_self
   phi0 preserves_cross preserves_phi0
   dim_GL7 orbit_phi0_dim G2_dim_from_stabilizer G2_dim_from_roots)

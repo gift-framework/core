@@ -9,25 +9,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Summary
 
-**B4 Lagrange Identity FULLY PROVEN!** The 7-dimensional cross product norm identity `|u × v|² = |u|²|v|² - ⟨u,v⟩²` is now a theorem, not an axiom.
+**Lagrange Identity for 7D Cross Product PROVEN!** The identity `‖u × v‖² = ‖u‖²‖v‖² - ⟨u,v⟩²` is now a theorem, not an axiom.
 
 ### Added
 
-- **G2CrossProduct.lean**: Complete B4 proof
+- **G2CrossProduct.lean**: Complete Lagrange identity proof
   - `R7_norm_sq_eq_sum`: ‖v‖² = ∑ᵢ vᵢ² - THEOREM (via Mathlib PiLp)
   - `R7_inner_eq_sum`: ⟨u,v⟩ = ∑ᵢ uᵢvᵢ - THEOREM (via Mathlib PiLp)
   - `G2_cross_norm`: **THEOREM** (was axiom) - Full Lagrange identity proof
 
 ### Changed
 
-- **B4 Status**: AXIOM → THEOREM
+- **Lagrange Identity Status**: AXIOM → THEOREM
   - 130+ lines of sum manipulation proof
   - Uses `Finset.sum_eq_single` for Kronecker delta evaluation
   - Uses `psi_contract_vanishes` for coassociative 4-form cancellation
 
 ### Technical Notes
 
-**B4 Complete Proof Structure:**
+**Lagrange Identity Proof Structure:**
 
 ```
 ‖u × v‖² = ∑ₖ (∑ᵢⱼ εᵢⱼₖ uᵢ vⱼ)²
@@ -41,11 +41,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `psi_contract_vanishes`: Antisymmetric ψ × symmetric uᵢuₗ = 0
 - `epsilon_contraction_decomp`: ∑ₖ εᵢⱼₖεₗₘₖ = Kronecker + ψ
 
-### Axiom Resolution Status
+### Verification Status
 
-**Tier 2 (G2 Cross Product): 9/10**
-- B4: G2_cross_norm - **THEOREM** (was axiom)
-- B5: cross_is_octonion_structure - Exhaustive check times out (343 cases)
+**G₂ Cross Product Properties: 9/10**
+- `G2_cross_norm` (Lagrange identity) - **THEOREM** (was axiom)
+- `cross_is_octonion_structure` - Exhaustive check times out (343 cases)
 
 ---
 
@@ -53,11 +53,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Summary
 
-B4 Lagrange identity infrastructure: **All key algebraic lemmas proven** for the 7D cross product norm identity. The coassociative 4-form approach provides a rigorous mathematical foundation.
+Lagrange identity infrastructure: **All key algebraic lemmas proven** for the 7D cross product norm identity. The coassociative 4-form approach provides a rigorous mathematical foundation.
 
 ### Added
 
-- **G2CrossProduct.lean**: B4 proof infrastructure
+- **G2CrossProduct.lean**: Lagrange identity proof infrastructure
   - `psi`: Coassociative 4-form ψ (deviation from 3D Kronecker formula)
   - `psi_antisym_il`: ψ(i,j,l,m) = -ψ(l,j,i,m) - THEOREM (7⁴ = 2401 cases via native_decide)
   - `epsilon_contraction_decomp`: ∑ₖ ε(i,j,k)ε(l,m,k) = Kronecker + ψ - THEOREM
@@ -71,7 +71,7 @@ B4 Lagrange identity infrastructure: **All key algebraic lemmas proven** for the
 
 ### Technical Notes
 
-**B4 Proof Strategy (Harvey & Lawson, "Calibrated Geometries"):**
+**Lagrange Identity Proof Strategy (Harvey & Lawson, "Calibrated Geometries"):**
 
 The 7D epsilon contraction differs from 3D:
 ```
@@ -83,15 +83,15 @@ Key insight: ψ is antisymmetric under i↔l, but uᵢuₗ is symmetric. Therefo
 ∑ᵢₗ ψᵢⱼₗₘ · uᵢuₗ = 0  (antisym × sym vanishes)
 ```
 
-The Kronecker terms give exactly |u|²|v|² - ⟨u,v⟩², proving the Lagrange identity.
+The Kronecker terms give exactly ‖u‖²‖v‖² - ⟨u,v⟩², proving the Lagrange identity.
 
 **Status:** All algebraic lemmas proven. Final theorem kept as axiom pending EuclideanSpace norm expansion (Mathlib plumbing).
 
-### Axiom Resolution Status
+### Verification Status
 
-**Tier 2 (G2 Cross Product): 8/10 + infrastructure**
-- B4: Key lemmas PROVEN (5 theorems), final assembly pending Mathlib integration
-- B5: cross_is_octonion_structure (exhaustive check times out)
+**G₂ Cross Product Properties: 8/10 + infrastructure**
+- Lagrange identity: Key lemmas PROVEN (5 theorems), final assembly pending Mathlib integration
+- `cross_is_octonion_structure`: Exhaustive check times out
 
 ---
 
@@ -99,30 +99,30 @@ The Kronecker terms give exactly |u|²|v|² - ⟨u,v⟩², proving the Lagrange 
 
 ### Summary
 
-Axiom resolution patch: **All 9 helper axioms converted to theorems**, plus B1 and lattice closure properties proven.
+Axiom resolution patch: **All 9 helper axioms converted to theorems**, plus Weyl reflection and lattice closure properties proven.
 
 ### Changed
 
 - **E8Lattice.lean**: Complete axiom elimination
-  - `sq_mod_two_eq_self_mod_two`: n^2 = n (mod 2) - THEOREM via case analysis
-  - `sum_sq_mod_two`: sum(n_i^2) = sum(n_i) (mod 2) - THEOREM via divisibility
+  - `sq_mod_two_eq_self_mod_two`: n² = n (mod 2) - THEOREM via case analysis
+  - `sum_sq_mod_two`: ∑(nᵢ²) = ∑(nᵢ) (mod 2) - THEOREM via divisibility
   - `inner_int_of_both_int`: inner product of integer vectors - THEOREM
   - `inner_int_of_both_half_int`: inner product of half-integer vectors - THEOREM
   - `inner_int_of_int_half`: mixed inner product - THEOREM
   - `norm_sq_even_of_int_even_sum`: norm squared of integer vectors - THEOREM
   - `norm_sq_even_of_half_int_even_sum`: norm squared of half-integer vectors - THEOREM
-  - `E8_smul_int_closed`: E8 lattice closed under Z-scaling - THEOREM
-  - `E8_sub_closed`: E8 lattice closed under subtraction - THEOREM
+  - `E8_smul_int_closed`: E₈ lattice closed under ℤ-scaling - THEOREM
+  - `E8_sub_closed`: E₈ lattice closed under subtraction - THEOREM
 
-- **B1 (reflect_preserves_lattice)**: Now a THEOREM via A6 + lattice closure
+- **`reflect_preserves_lattice`**: Now a THEOREM (Weyl reflection preserves E₈ lattice)
 
-### Axiom Resolution Status
+### Verification Status
 
-**Tier 1 (E8 Root System): 12/12 COMPLETE** - No changes
+**E₈ Root System: 12/12 COMPLETE** - No changes
 
-**Tier 2 (G2 Cross Product): 8/10** (was 6/10)
-- Proven: epsilon_antisymm, epsilon_diag, B1, B2, B3, B3', epsilon_contraction lemmas
-- Axioms: B4 (Lagrange 7D identity), B5 (Fano structure - timeout)
+**G₂ Cross Product Properties: 8/10** (was 6/10)
+- Proven: `epsilon_antisymm`, `epsilon_diag`, `reflect_preserves_lattice`, `G2_cross_bilinear`, `G2_cross_antisymm`, `cross_self`, epsilon_contraction lemmas
+- Axioms: Lagrange 7D identity, octonion structure (timeout)
 
 **Helper Lemmas: 9/9 COMPLETE** (was 7 axioms)
 - All number theory and lattice closure facts now proven
@@ -130,7 +130,7 @@ Axiom resolution patch: **All 9 helper axioms converted to theorems**, plus B1 a
 ### Technical Notes
 
 Key proof techniques for cast handling:
-- `push_cast; ring` for coordinate calculations with Z to R casts
+- `push_cast; ring` for coordinate calculations with ℤ to ℝ casts
 - `linarith` for linear arithmetic avoiding pattern matching issues
 - `convert hgoal using 1; push_cast; ring` for cast difference resolution
 
@@ -140,39 +140,39 @@ Key proof techniques for cast handling:
 
 ### Summary
 
-Consolidation release focusing on mathematical foundations and axiom resolution.
+Consolidation release focusing on mathematical foundations and formal verification.
 
 ### Added
 
 - **Mathematical Foundations** (`GIFT.Foundations`):
-  - `RootSystems.lean`: Rigorous E8 root enumeration (240 = 112 + 128)
+  - `RootSystems.lean`: Rigorous E₈ root enumeration (240 = 112 + 128)
   - `E8Lattice.lean`: EuclideanSpace formalization with Mathlib
   - `E8Mathlib.lean`: Connection to Mathlib's CoxeterMatrix.E8
   - `G2CrossProduct.lean`: 7D cross product from Fano plane
   - `RationalConstants.lean`: GIFT ratios as proper ℚ arithmetic
-  - `GraphTheory.lean`: K4, K7 via Mathlib SimpleGraph
-  - `GoldenRatio.lean`: phi from Fibonacci, Binet formula
+  - `GraphTheory.lean`: K₄, K₇ via Mathlib SimpleGraph
+  - `GoldenRatio.lean`: φ from Fibonacci, Binet formula
 
 - **Algebraic Derivation Chain** (`GIFT.Algebraic`):
   - `Octonions.lean`: 7 imaginary units, Fano plane
-  - `G2.lean`: G2 = Aut(O), dim = 14
-  - `BettiNumbers.lean`: b2 = C(7,2) = 21, b3 = 77, H* = 99
+  - `G2.lean`: G₂ = Aut(𝕆), dim = 14
+  - `BettiNumbers.lean`: b₂ = C(7,2) = 21, b₃ = 77, H* = 99
   - `GIFTConstants.lean`: Physical predictions from algebra
 
 - **Core Module** (`GIFT.Core`): Single source of truth for all constants
 
-### Axiom Resolution Status
+### Verification Status
 
-**Tier 1 (E8 Root System): 12/12 COMPLETE**
-- A1-A5: Root enumeration (RootSystems.lean)
-- A6-A7: Lattice properties via case analysis + helper axioms
-- A9-A12: Basis and inner product (Mathlib API)
+**E₈ Root System: 12/12 COMPLETE**
+- Root enumeration (RootSystems.lean)
+- Lattice properties via case analysis + helper lemmas
+- Basis and inner product (Mathlib API)
 
-**Tier 2 (G2 Cross Product): 6/10**
-- Proven: epsilon_antisymm, epsilon_diag, B2 (bilinear), B3 (antisymm), B3' (self)
-- Axioms: B1, B4 (Lagrange 7D), B5 (Fano structure), E8_smul_int_closed
+**G₂ Cross Product Properties: 6/10**
+- Proven: `epsilon_antisymm`, `epsilon_diag`, `G2_cross_bilinear`, `G2_cross_antisymm`, `cross_self`
+- Axioms: `reflect_preserves_lattice`, Lagrange 7D, octonion structure, `E8_smul_int_closed`
 
-**Helper Axioms**: 7 standard number theory facts
+**Helper Lemmas**: 7 standard number theory facts
 
 ### Changed
 

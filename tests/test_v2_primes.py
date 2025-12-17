@@ -27,7 +27,7 @@ def is_prime(n: int) -> bool:
 
 
 class TestTier1Primes:
-    """Test Tier 1 primes (direct GIFT constants)."""
+    """Test direct GIFT constant primes (p₂, N_gen, Weyl, etc.)."""
 
     def test_tier1_count(self):
         assert len(TIER1_PRIMES) == 10
@@ -70,7 +70,7 @@ class TestTier1Primes:
 
 
 class TestTier2Primes:
-    """Test Tier 2 primes (primes < 100 via GIFT expressions)."""
+    """Test derived primes < 100 via GIFT expressions (23 = b₂ + p₂, etc.)."""
 
     def test_tier2_count(self):
         assert len(TIER2_PRIMES) == 15

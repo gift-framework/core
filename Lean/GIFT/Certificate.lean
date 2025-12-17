@@ -2,10 +2,10 @@
 -- Final certification theorems
 -- Version: 3.1.0 (175+ certified relations + Joyce + Foundations)
 --
--- Consolidation v3.1.0:
--- - Tier 1: 12/12 complete (via helper axioms)
--- - Tier 2: 6/10 theorems (B2, B3, B3' proven; B1, B4, B5 axiomatic)
--- - 175+ relations arithmétiques certifiées
+-- Verification Status v3.1.0:
+-- - E₈ Root System: 12/12 complete
+-- - G₂ Cross Product: bilinearity, antisymmetry, Lagrange identity proven
+-- - 175+ relations certified
 -- - Joyce existence theorem
 
 import GIFT.Core

@@ -114,7 +114,7 @@ GIFT.Sequences.Lucas.lucas_8_is_47
 GIFT.Sequences.Lucas.b3_lucas_product
 GIFT.Sequences.Lucas.gift_lucas_embedding
 
-# Prime Atlas Tier 1
+# Prime Atlas - Direct GIFT Primes
 GIFT.Primes.Tier1.p2_is_prime
 GIFT.Primes.Tier1.N_gen_is_prime
 GIFT.Primes.Tier1.Weyl_is_prime

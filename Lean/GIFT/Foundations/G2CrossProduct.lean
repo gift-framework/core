@@ -1,17 +1,23 @@
 /-
-  GIFT Foundations: G2 Cross Product (Axioms Tier 2: B2-B5)
-  =========================================================
+  GIFT Foundations: G₂ Cross Product
+  ===================================
 
   The 7-dimensional cross product is intimately connected to:
   1. The octonion multiplication
-  2. The G2 holonomy group
+  2. The G₂ holonomy group
   3. The associative 3-form φ₀
 
   For u, v ∈ ℝ⁷ (imaginary octonions), the cross product satisfies:
   - u × v = Im(u · v) where · is octonion multiplication
-  - |u × v|² = |u|²|v|² - ⟨u,v⟩²  (Lagrange identity)
+  - ‖u × v‖² = ‖u‖²‖v‖² - ⟨u,v⟩²  (Lagrange identity)
   - u × v = -v × u  (antisymmetry)
-  - The stabilizer of × in GL(7) is exactly G2
+  - The stabilizer of × in GL(7) is exactly G₂
+
+  Key Theorems:
+  - `G2_cross_bilinear`: Cross product bilinearity
+  - `G2_cross_antisymm`: Cross product antisymmetry
+  - `G2_cross_norm`: Lagrange identity (PROVEN via coassociative 4-form)
+  - `cross_is_octonion_structure`: Octonion multiplication (343-case check)
 
   References:
     - Harvey & Lawson, "Calibrated Geometries"

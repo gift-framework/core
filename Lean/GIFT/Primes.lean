@@ -2,11 +2,11 @@
 -- v2.0.0: Complete prime coverage to 200
 --
 -- This module provides:
--- - Tier 1: Direct GIFT constant primes (10 primes)
--- - Tier 2: Primes < 100 via GIFT expressions (15 primes)
--- - Three-generator theorem (b3, H*, dim_E8)
+-- - Direct GIFT constant primes (10 primes: 2, 3, 5, 7, 11, 13, 17, 19, 31, 61)
+-- - Derived primes < 100 via GIFT expressions (15 primes)
+-- - Three-generator theorem (b₃, H*, dim E₈)
 -- - All 9 Heegner numbers GIFT-expressible
--- - Special primes (127 Mersenne, 163 Heegner, 197 delta_CP)
+-- - Special primes (127 Mersenne, 163 Heegner, 197 δ_CP)
 --
 -- Total: 50+ new relations (Relations 101-173)
 
@@ -24,7 +24,7 @@ open Tier1 Tier2 Generators Heegner Special
 -- PRIME COVERAGE SUMMARY
 -- =============================================================================
 
-/-- Access: All primes < 100 are covered by Tier 1 or Tier 2 -/
+/-- All primes < 100 are covered by direct or derived GIFT expressions -/
 abbrev primes_below_100_complete := Tier2.complete_coverage_below_100
 
 /-- Access: All 9 Heegner numbers are GIFT-expressible -/
