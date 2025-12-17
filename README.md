@@ -10,11 +10,27 @@ Formally verified mathematical relations from the GIFT (Geometric Information Fi
 
 ## Overview
 
-This repository contains **180+ exact mathematical identities** derived from topological invariants of E8 gauge theory on G2 holonomy manifolds. Each relation is:
+This repository contains **180+ exact mathematical identities** derived from topological invariants of E₈ gauge theory on G₂ holonomy manifolds.
 
-- An exact rational or integer value (no fitting)
-- Independently verified in two proof assistants
-- Available as Python constants via `giftpy`
+### Core Results
+
+- **Explicit G₂ Metric**: Closed-form solution g = (65/32)^{1/7} × I₇ with det(g) = 65/32 and zero torsion
+- **E₈ Root System**: Complete enumeration (240 = 112 + 128) with Weyl reflection theorems
+- **G₂ Cross Product**: 7D Lagrange identity ‖u × v‖² = ‖u‖²‖v‖² - ⟨u,v⟩² proven via coassociative 4-form
+- **Joyce Existence**: K₇ admits torsion-free G₂ structure (Banach fixed-point formalization)
+
+### Extensions
+
+- **Sequence Embeddings**: Fibonacci F₃–F₁₂ and Lucas L₀–L₉ map to GIFT constants
+- **Prime Atlas**: 100% coverage of primes < 200 via three generators (b₃, H*, dim_E₈)
+- **Monstrous Moonshine**: 196883 = 47 × 59 × 71, j-invariant 744 = 3 × dim_E₈
+- **McKay Correspondence**: E₈ ↔ Binary Icosahedral ↔ Golden Ratio
+
+### Infrastructure
+
+- **Dual Verification**: All theorems proven in Lean 4 + Coq
+- **Blueprint**: Dependency graph with 185 linked declarations ([leanblueprint](blueprint/))
+- **Python Package**: `giftpy` with certified constants
 
 ## Installation
 
