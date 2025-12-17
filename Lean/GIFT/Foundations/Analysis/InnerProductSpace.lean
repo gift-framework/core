@@ -13,7 +13,7 @@ import Mathlib.Analysis.InnerProductSpace.Basic
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.Int.Basic
 
-namespace GIFT.Foundations.V5.InnerProductSpace
+namespace GIFT.Foundations.Analysis.InnerProductSpace
 
 /-!
 ## Standard Euclidean Spaces
@@ -142,4 +142,4 @@ theorem inner_eq_sum {n : ℕ} (v w : EuclideanSpace ℝ (Fin n)) :
   funext i
   ring
 
-end GIFT.Foundations.V5.InnerProductSpace
+end GIFT.Foundations.Analysis.InnerProductSpace

@@ -14,9 +14,9 @@ import Mathlib.Data.Real.Basic
 import Mathlib.Data.Int.Basic
 import Mathlib.Data.Fin.VecNotation
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import GIFT.Foundations.V5.InnerProductSpace
+import GIFT.Foundations.Analysis.InnerProductSpace
 
-namespace GIFT.Foundations.V5.E8Lattice
+namespace GIFT.Foundations.Analysis.E8Lattice
 
 open Finset BigOperators
 open InnerProductSpace
@@ -442,4 +442,4 @@ theorem E8_lattice_certified :
     12 + 2 = 14 := by
   repeat (first | constructor | rfl | native_decide)
 
-end GIFT.Foundations.V5.E8Lattice
+end GIFT.Foundations.Analysis.E8Lattice

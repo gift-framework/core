@@ -14,7 +14,7 @@ import GIFT.Relations
 import GIFT.Sequences.Lucas
 import Mathlib.Data.Nat.Prime.Basic
 
-namespace GIFT.Monster.Dimension
+namespace GIFT.Moonshine.MonsterDimension
 
 open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
 open GIFT.Sequences.Lucas

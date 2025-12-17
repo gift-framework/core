@@ -26,7 +26,7 @@ import GIFT.Relations.MassFactorization
 -- V2.0 New modules
 import GIFT.Sequences      -- Fibonacci, Lucas, Recurrence
 import GIFT.Primes         -- Prime Atlas (direct, derived, Heegner)
-import GIFT.Monster        -- Monster group dimension, j-invariant
+import GIFT.Moonshine      -- Monstrous moonshine (Monster group, j-invariant)
 import GIFT.McKay          -- McKay correspondence, Golden emergence
 
 -- V3.0: Joyce Perturbation Theorem

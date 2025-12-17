@@ -10,10 +10,10 @@ Version: 3.2.0
 
 import Mathlib.Topology.MetricSpace.Basic
 import Mathlib.Data.Real.Basic
-import GIFT.Foundations.V5.HodgeTheory
-import GIFT.Foundations.V5.G2TensorForm
+import GIFT.Foundations.Analysis.HodgeTheory
+import GIFT.Foundations.Analysis.G2TensorForm
 
-namespace GIFT.Foundations.V5.JoyceAnalytic
+namespace GIFT.Foundations.Analysis.JoyceAnalytic
 
 open HodgeTheory G2TensorForm
 
@@ -165,4 +165,4 @@ theorem joyce_analytic_certified :
     b 3 = 77 := by
   repeat (first | constructor | rfl)
 
-end GIFT.Foundations.V5.JoyceAnalytic
+end GIFT.Foundations.Analysis.JoyceAnalytic

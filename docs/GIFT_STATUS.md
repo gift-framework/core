@@ -62,7 +62,7 @@ All theorems proven, no axioms remaining:
 
 #### Advanced Analytical Properties (Research)
 
-Located in `Lean/GIFT/Foundations/V5/`:
+Located in `Lean/GIFT/Foundations/Analysis/`:
 - HodgeTheory.lean - Hodge decomposition
 - HarmonicForms.lean - Harmonic forms
 - JoyceAnalytic.lean - Full Joyce analytic machinery
@@ -91,7 +91,7 @@ Location: `blueprint/`
 | Physical Relations chapter | Complete |
 | Fibonacci/Lucas chapter | Complete |
 | Prime Atlas chapter | Complete |
-| Monster chapter | Complete |
+| Moonshine chapter | Complete |
 | McKay chapter | Complete |
 | Joyce chapter | Complete |
 | Analytical Metric chapter | Complete |
@@ -143,12 +143,12 @@ Lean/GIFT/
     E8Lattice.lean             # E₈ lattice + Weyl reflection (ALL THEOREMS)
     G2CrossProduct.lean        # G₂ cross product (Lagrange proven, 2 axioms)
     AnalyticalMetric.lean      # PINN extraction formalization
-    V5/                        # Experimental (research-level)
+    Analysis/                  # Experimental (research-level)
   Algebraic/                   # Cayley-Dickson, Betti, SO(16)
   Relations/                   # 15+ files, 175+ relations
   Sequences/                   # Fibonacci, Lucas
-  Primes/                      # Prime Atlas (direct, derived, Heegner)
-  Monster/                     # Monster dimension, j-invariant
+  Primes/                      # Prime Atlas (DirectPrimes, DerivedPrimes, Heegner)
+  Moonshine/                   # Monstrous moonshine (Monster dimension, j-invariant)
   McKay/                       # McKay correspondence
   Joyce.lean                   # Joyce existence theorem
 

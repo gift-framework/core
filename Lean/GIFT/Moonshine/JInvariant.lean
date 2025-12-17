@@ -12,7 +12,7 @@ import GIFT.Geometry
 import GIFT.Relations
 import GIFT.Monster.Dimension
 
-namespace GIFT.Monster.JInvariant
+namespace GIFT.Moonshine.JInvariant
 
 open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
 open GIFT.Monster.Dimension

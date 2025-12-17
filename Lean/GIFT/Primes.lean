@@ -10,8 +10,8 @@
 --
 -- Total: 50+ new relations (Relations 101-173)
 
-import GIFT.Primes.Tier1
-import GIFT.Primes.Tier2
+import GIFT.Primes.DirectPrimes
+import GIFT.Primes.DerivedPrimes
 import GIFT.Primes.Generators
 import GIFT.Primes.Heegner
 import GIFT.Primes.Special

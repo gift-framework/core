@@ -7,28 +7,33 @@ This file contains development conventions and lessons learned to avoid repeatin
 ```
 gift-framework/core/
 ├── Lean/                    # Lean 4 formal proofs
-│   ├── GIFT.lean           # Main entry point (v3.1.0)
+│   ├── GIFT.lean           # Main entry point
 │   ├── GIFT/
-│   │   ├── Algebra.lean    # E8, G2, E7, F4, E6 constants
-│   │   ├── Topology.lean   # Betti numbers, H*, p2
-│   │   ├── Geometry.lean   # K7, J3(O)
-│   │   ├── Relations.lean  # Original 13 relations
-│   │   ├── Relations/      # Extension modules (11 files)
-│   │   ├── Sequences/      # [v2.0] Fibonacci, Lucas, Recurrence
-│   │   ├── Primes/         # [v2.0] Prime Atlas (direct, derived, Heegner)
-│   │   ├── Monster/        # [v2.0] Monster dimension, j-invariant
-│   │   ├── McKay/          # [v2.0] McKay correspondence
-│   │   ├── Joyce.lean      # [v3.0] Joyce existence theorem
-│   │   ├── Sobolev.lean    # [v3.0] Sobolev spaces H^k
-│   │   ├── DifferentialForms.lean  # [v3.0] Exterior calculus
-│   │   ├── ImplicitFunction.lean   # [v3.0] IFT framework
-│   │   ├── IntervalArithmetic.lean # [v3.0] PINN bounds
-│   │   ├── Certificate.lean # Master theorems (165+ relations)
-│   │   └── Foundations/    # [v4.0] Real mathematical content
-│   │       ├── RootSystems.lean      # E8 as 240 vectors in ℝ⁸
-│   │       ├── RationalConstants.lean # ℚ arithmetic (not Nat hacks)
-│   │       ├── GraphTheory.lean      # K₄, K₇, Dynkin diagrams
-│   │       └── GoldenRatio.lean      # φ from Fibonacci, Binet
+│   │   ├── Core.lean       # Source of truth for constants
+│   │   ├── Certificate.lean # Master theorems (180+ relations)
+│   │   │
+│   │   ├── Algebra.lean    # E₈, G₂, E₇, F₄, E₆ constants
+│   │   ├── Topology.lean   # Betti numbers, H*, p₂
+│   │   ├── Geometry.lean   # K₇, J₃(𝕆)
+│   │   │
+│   │   ├── Foundations/    # Mathematical foundations
+│   │   │   ├── RootSystems.lean      # E₈ roots in ℝ⁸
+│   │   │   ├── E8Lattice.lean        # E₈ lattice formalization
+│   │   │   ├── G2CrossProduct.lean   # 7D cross product
+│   │   │   ├── Analysis/             # Hodge theory, Sobolev (research)
+│   │   │   └── ...
+│   │   │
+│   │   ├── Algebraic/      # Octonion-based derivation
+│   │   │   ├── Octonions.lean
+│   │   │   ├── G2.lean
+│   │   │   └── BettiNumbers.lean
+│   │   │
+│   │   ├── Relations/      # Physical predictions (15+ files)
+│   │   ├── Sequences/      # Fibonacci, Lucas embeddings
+│   │   ├── Primes/         # Prime Atlas (DirectPrimes, DerivedPrimes)
+│   │   ├── Moonshine/      # Monstrous moonshine (Monster, j-invariant)
+│   │   ├── McKay/          # McKay correspondence
+│   │   └── Joyce.lean      # Joyce existence theorem
 │   └── lakefile.lean
 │
 ├── COQ/                     # Coq formal proofs

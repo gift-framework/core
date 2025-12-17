@@ -12,11 +12,11 @@ import Mathlib.LinearAlgebra.ExteriorAlgebra.Basic
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.Data.Fin.VecNotation
 import Mathlib.Data.Real.Basic
-import GIFT.Foundations.V5.ExteriorAlgebra
+import GIFT.Foundations.Analysis.ExteriorAlgebra
 
-namespace GIFT.Foundations.V5.WedgeProduct
+namespace GIFT.Foundations.Analysis.WedgeProduct
 
-open GIFT.Foundations.V5.ExteriorAlgebra
+open GIFT.Foundations.Analysis.ExteriorAlgebra
 
 /-!
 ## Graded Anticommutativity
@@ -130,4 +130,4 @@ axiom integral_linear (M : Type*) (ω η : Exterior 7) (a : ℝ) :
 /-- Stokes theorem: ∫_M dω = 0 for closed M -/
 axiom stokes (M : Type*) (ω : Exterior 7) : True
 
-end GIFT.Foundations.V5.WedgeProduct
+end GIFT.Foundations.Analysis.WedgeProduct
