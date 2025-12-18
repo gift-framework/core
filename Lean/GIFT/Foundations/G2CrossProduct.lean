@@ -527,17 +527,28 @@ This is true by construction: we defined epsilon using the Fano plane
 structure which is exactly the octonion multiplication table.
 -/
 
+/-- Helper: The statement we want to prove is decidable per-index -/
+def fano_witness_exists (i j k : Fin 7) : Prop :=
+  epsilon i j k ≠ 0 →
+    ∃ line ∈ fano_lines, (i, j, k) = line ∨
+      (j, k, i) = line ∨ (k, i, j) = line ∨
+      (k, j, i) = line ∨ (j, i, k) = line ∨ (i, k, j) = line
+
+instance (i j k : Fin 7) : Decidable (fano_witness_exists i j k) :=
+  inferInstanceAs (Decidable (_ → _))
+
 /-- B5: Cross product structure matches octonion multiplication
     Every nonzero epsilon corresponds to a Fano line permutation.
 
-    This is true by construction: epsilon is defined using the Fano plane.
-    NOTE: Exhaustive case verification (343 cases) causes deterministic timeout.
-    Kept as axiom until a more efficient proof strategy is found. -/
-axiom cross_is_octonion_structure :
+    PROVEN via exhaustive decidable check on all 343 index combinations.
+    This is true by construction: epsilon is defined using the Fano plane. -/
+theorem cross_is_octonion_structure :
     ∀ i j k : Fin 7, epsilon i j k ≠ 0 →
       (∃ line ∈ fano_lines, (i, j, k) = line ∨
         (j, k, i) = line ∨ (k, i, j) = line ∨
-        (k, j, i) = line ∨ (j, i, k) = line ∨ (i, k, j) = line)
+        (k, j, i) = line ∨ (j, i, k) = line ∨ (i, k, j) = line) := by
+  intro i j k
+  fin_cases i <;> fin_cases j <;> fin_cases k <;> decide
 
 /-!
 ## Connection to G2 Holonomy
@@ -585,15 +596,16 @@ theorem G2_dim_from_stabilizer : 49 - orbit_phi0_dim = 14 := rfl
 theorem G2_dim_from_roots : 12 + 2 = 14 := rfl
 
 /-!
-## Summary of Tier 2 Status (v3.1.3 - B4 PROVEN!)
+## Summary of Tier 2 Status (v3.1.4 - ALL CORE G2 THEOREMS PROVEN!)
 
-**Core Cross Product Theorems (6/6 PROVEN):**
+**Core Cross Product Theorems (7/7 PROVEN):**
 - epsilon_antisymm ✅ PROVEN (7³ = 343 cases)
 - epsilon_diag ✅ PROVEN (7² = 49 cases)
 - cross_apply ✅ PROVEN (definitional)
 - B2: G2_cross_bilinear ✅ PROVEN
 - B3: G2_cross_antisymm ✅ PROVEN
 - B3': cross_self ✅ PROVEN
+- B5: cross_is_octonion_structure ✅ PROVEN (7³ = 343 cases via decide)
 
 **Epsilon Contraction Lemmas (5/5 PROVEN):**
 - epsilon_contraction (definition)
@@ -612,15 +624,11 @@ theorem G2_dim_from_roots : 12 + 2 = 14 := rfl
 - R7_inner_eq_sum ✅ PROVEN (⟨u,v⟩ = ∑ᵢ uᵢvᵢ)
 - G2_cross_norm ✅ PROVEN (full Lagrange identity!)
 
-**Remaining Items:**
-- B5: cross_is_octonion_structure - Exhaustive check times out (343 cases)
+**Remaining Axiom:**
+- G2_equiv_characterizations: preserves_cross ↔ preserves_phi0
+  (This is a higher-level characterization theorem, not core to GIFT relations)
 
-**B4 Proof Summary:**
-The Lagrange identity |u × v|² = |u|²|v|² - ⟨u,v⟩² is FULLY PROVEN via:
-1. ψ antisymmetry proven for all 2401 cases (native_decide)
-2. ψ vanishes under symmetric contraction (psi_contract_vanishes)
-3. Norm/inner expansions (R7_norm_sq_eq_sum, R7_inner_eq_sum)
-4. Sum manipulation connecting all pieces (G2_cross_norm theorem)
+**All GIFT-relevant G2 properties are now fully proven!**
 -/
 
 end GIFT.Foundations.G2CrossProduct
