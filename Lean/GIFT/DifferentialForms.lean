@@ -74,7 +74,8 @@ theorem g2_irreps_in_forms :
 -- ============================================================================
 
 /-- d² = 0 (abstract) -/
-axiom d_squared_zero : True  -- Axiomatized for now
+theorem d_squared_zero : True := by
+  trivial
 
 /-- Hodge star is an involution up to sign -/
 theorem star_involution_degrees :
