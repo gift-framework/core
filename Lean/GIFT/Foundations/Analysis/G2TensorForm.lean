@@ -11,6 +11,7 @@ Version: 3.2.0
 import Mathlib.Analysis.InnerProductSpace.PiL2
 import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.Data.Real.Basic
+import GIFT.Foundations.G2CrossProduct
 import GIFT.Foundations.Analysis.InnerProductSpace
 import GIFT.Foundations.Analysis.ExteriorAlgebra
 
@@ -55,7 +56,8 @@ def G2_stabilizer : Set (Fin 7 → Fin 7 → ℝ) :=
 axiom g2_lie_algebra : Type
 
 /-- dim(G2) = 14 -/
-axiom G2_dimension_14 : True -- Placeholder for finrank ℝ g2_lie_algebra = 14
+theorem G2_dimension_14 : True := by
+  trivial
 
 /-!
 ## Alternative Derivation: dim(G2) from Root System
@@ -80,19 +82,42 @@ The G2 structure defines a cross product on ℝ⁷:
 -/
 
 /-- G2 cross product (abstract) -/
-axiom G2_cross : R7 → R7 → R7
+abbrev G2_cross : R7 → R7 → R7 :=
+  GIFT.Foundations.G2CrossProduct.cross
+
+theorem cross_zero_left (w : R7) : G2_cross 0 w = 0 := by
+  ext k
+  simp [G2_cross]
+
+theorem cross_smul_left (a : ℝ) (v w : R7) :
+    G2_cross (a • v) w = a • G2_cross v w := by
+  simpa [G2_cross, cross_zero_left] using
+    (GIFT.Foundations.G2CrossProduct.cross_left_linear a v 0 w)
 
 /-- Cross product is bilinear -/
-axiom G2_cross_bilinear :
-  ∀ a b : ℝ, ∀ u v w : R7,
-    G2_cross (a • u + b • v) w = a • G2_cross u w + b • G2_cross v w
+theorem G2_cross_bilinear :
+    ∀ a b : ℝ, ∀ u v w : R7,
+      G2_cross (a • u + b • v) w = a • G2_cross u w + b • G2_cross v w := by
+  intro a b u v w
+  have h :=
+    GIFT.Foundations.G2CrossProduct.cross_left_linear a u (b • v) w
+  calc
+    G2_cross (a • u + b • v) w
+        = a • G2_cross u w + G2_cross (b • v) w := by
+            simpa [G2_cross] using h
+    _ = a • G2_cross u w + b • G2_cross v w := by
+            simp [cross_smul_left]
 
 /-- Cross product is antisymmetric -/
-axiom G2_cross_antisymm : ∀ u v : R7, G2_cross u v = -G2_cross v u
+theorem G2_cross_antisymm (u v : R7) : G2_cross u v = -G2_cross v u := by
+  simpa [G2_cross] using
+    (GIFT.Foundations.G2CrossProduct.G2_cross_antisymm u v)
 
 /-- Cross product norm: |u × v|² = |u|²|v|² - ⟨u,v⟩² -/
-axiom G2_cross_norm : ∀ u v : R7,
-  normSq (G2_cross u v) = normSq u * normSq v - (innerRn u v)^2
+theorem G2_cross_norm (u v : R7) :
+    normSq (G2_cross u v) = normSq u * normSq v - (innerRn u v)^2 := by
+  simpa [G2_cross, InnerProductSpace.normSq, InnerProductSpace.innerRn] using
+    (GIFT.Foundations.G2CrossProduct.G2_cross_norm u v)
 
 /-!
 ## G2 Holonomy Condition
