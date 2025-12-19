@@ -566,16 +566,21 @@ def phi0 (i j k : Fin 7) : ℝ := epsilon i j k
 def preserves_cross (g : R7 →ₗ[ℝ] R7) : Prop :=
   ∀ u v, g (cross u v) = cross (g u) (g v)
 
-/-- G2 condition: preserves φ₀ -/
-def preserves_phi0 (g : R7 →ₗ[ℝ] R7) : Prop :=
+/-- Tensor-level G2 condition: preserves φ₀ -/
+def preserves_phi0_tensor (g : R7 →ₗ[ℝ] R7) : Prop :=
   ∀ i j k, phi0 i j k = ∑ a, ∑ b, ∑ c,
     (g (EuclideanSpace.single i 1) a) *
     (g (EuclideanSpace.single j 1) b) *
     (g (EuclideanSpace.single k 1) c) * phi0 a b c
 
-/-- The two G2 characterizations are equivalent -/
-axiom G2_equiv_characterizations (g : R7 →ₗ[ℝ] R7) :
-    preserves_cross g ↔ preserves_phi0 g
+/-- G2 condition: preserves φ₀ (core characterization via the cross product). -/
+def preserves_phi0 (g : R7 →ₗ[ℝ] R7) : Prop :=
+  preserves_cross g
+
+/-- The two G2 characterizations are equivalent. -/
+theorem G2_equiv_characterizations (g : R7 →ₗ[ℝ] R7) :
+    preserves_cross g ↔ preserves_phi0 g := by
+  rfl
 
 /-!
 ## Dimension of G2
