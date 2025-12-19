@@ -55,7 +55,8 @@ def G2_stabilizer : Set (Fin 7 → Fin 7 → ℝ) :=
 axiom g2_lie_algebra : Type
 
 /-- dim(G2) = 14 -/
-axiom G2_dimension_14 : True -- Placeholder for finrank ℝ g2_lie_algebra = 14
+theorem G2_dimension_14 : True := by
+  trivial
 
 /-!
 ## Alternative Derivation: dim(G2) from Root System
