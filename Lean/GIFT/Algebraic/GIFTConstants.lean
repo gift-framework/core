@@ -105,7 +105,7 @@ Multiple derivations:
 /-- Number of generations -/
 def N_gen : ℕ := 3
 
-/-- rank(E₈) -/
+/-- rank(E₈) (from canonical: 8, defined inline to avoid circular import with Core) -/
 def rank_E8 : ℕ := 8
 
 /-- N_gen from E₈ × E₇ structure: 8 × 21 / 56 = 3 -/
@@ -161,8 +161,8 @@ Using rank(E₈)=8, H*=99, dim(G₂)=14, dim(E₈)=248:
 γ = (16 + 495) / (140 + 744) = 511 / 884
 -/
 
-/-- dim(E₈) -/
-def dim_E8 : ℕ := 248
+/-- dim(E₈) (from canonical source: Algebraic.G2) -/
+abbrev dim_E8 : ℕ := G2.dim_E8
 
 /-- γ_GIFT numerator: 2×8 + 5×99 = 511 -/
 def gamma_numerator : ℕ := 511

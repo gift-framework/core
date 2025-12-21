@@ -21,28 +21,28 @@ import Mathlib.Data.Real.Basic
 import Mathlib.Data.Rat.Defs
 import Mathlib.Data.Nat.Basic
 import Mathlib.Data.Fin.VecNotation
+-- Import canonical constants from Algebraic modules
+import GIFT.Algebraic.BettiNumbers
+import GIFT.Algebraic.G2
 
 namespace GIFT.Foundations.AnalyticalMetric
 
-/-!
-## Part I: GIFT Topological Constants
--/
+-- Re-export from canonical sources (no duplication!)
+open GIFT.Algebraic.BettiNumbers in
+abbrev b2 : ℕ := GIFT.Algebraic.BettiNumbers.b2
 
-/-- Second Betti number of K7: b2 = C(7,2) = 21 -/
-def b2 : Nat := 21
+open GIFT.Algebraic.BettiNumbers in
+abbrev b3 : ℕ := GIFT.Algebraic.BettiNumbers.b3
 
-/-- Third Betti number of K7: b3 = 77 -/
-def b3 : Nat := 77
-
-/-- Total cohomology dimension H* = b2 + b3 + 1 -/
-def H_star : Nat := b2 + b3 + 1
+open GIFT.Algebraic.BettiNumbers in
+abbrev H_star : ℕ := GIFT.Algebraic.BettiNumbers.H_star
 
 theorem H_star_eq : H_star = 99 := rfl
 
-/-- Dimension of G2 holonomy group -/
-def dim_G2 : Nat := 14
+open GIFT.Algebraic.G2 in
+abbrev dim_G2 : ℕ := GIFT.Algebraic.G2.dim_G2
 
-/-- Dimension of K7 -/
+-- dim_K7 from Core (= 7, the K7 manifold dimension)
 def dim_K7 : Nat := 7
 
 /-- Beautiful relation: b2 = dim_K7 + dim_G2 -/
