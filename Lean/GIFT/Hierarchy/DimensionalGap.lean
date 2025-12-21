@@ -113,7 +113,7 @@ theorem jordan_suppression_pos : 0 < jordan_suppression := by
 /-- Jordan suppression is small -/
 theorem jordan_suppression_small : jordan_suppression < (1 : ℝ) / 10^10 := by
   rw [jordan_suppression_eq]
-  exact phi_inv_54_small
+  exact phi_inv_54_very_small
 
 /-!
 ## The Master Formula
