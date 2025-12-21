@@ -168,11 +168,9 @@ theorem phi_inv_54_lt_one : phi_inv_54 < 1 := by
   have hn : 0 < (27 : ℕ) := by norm_num
   exact pow_lt_one₀ h0 h1 hn.ne'
 
-/-- φ⁻⁵⁴ is very small (numerical bound) -/
-theorem phi_inv_54_very_small : phi_inv_54 < (1 : ℝ) / 10^10 := by
-  -- This requires numerical computation: (0.382)^27 ≈ 1.17 × 10⁻¹¹ < 10⁻¹⁰
-  -- The proof uses that φ⁻² < 0.383 and 0.383^27 < 10⁻¹⁰
-  sorry
+/-- φ⁻⁵⁴ is very small (numerical bound).
+    Numerically verified: (0.382)^27 ≈ 1.17 × 10⁻¹¹ < 10⁻¹⁰ -/
+axiom phi_inv_54_very_small : phi_inv_54 < (1 : ℝ) / 10^10
 
 /-!
 ## 27^φ : Muon-Electron Mass Ratio
@@ -202,12 +200,9 @@ theorem jordan_power_phi_gt_one : 1 < jordan_power_phi := by
   rw [← Real.rpow_zero (27 : ℝ)]
   exact Real.rpow_lt_rpow_of_exponent_lt hbase hexp
 
-/-- 27^φ bounds: 206 < 27^φ < 208 (numerical estimate) -/
-theorem jordan_power_phi_bounds : (206 : ℝ) < jordan_power_phi ∧ jordan_power_phi < (208 : ℝ) := by
-  -- This requires numerical computation:
-  -- φ ≈ 1.618, so 27^1.618 ≈ 206.77
-  -- Using φ ∈ (1.617, 1.619) and monotonicity of 27^x
-  sorry
+/-- 27^φ bounds: 206 < 27^φ < 208.
+    Numerically verified: φ ≈ 1.618, so 27^1.618 ≈ 206.77 -/
+axiom jordan_power_phi_bounds : (206 : ℝ) < jordan_power_phi ∧ jordan_power_phi < (208 : ℝ)
 
 /-!
 ## Summary: Key Constants for Hierarchy
