@@ -50,6 +50,9 @@ import GIFT.ImplicitFunction
 import GIFT.IntervalArithmetic
 import GIFT.Joyce
 
+-- V3.3: Dimensional Hierarchy (previously disconnected!)
+import GIFT.Hierarchy
+
 namespace GIFT.Certificate
 
 open GIFT.Core GIFT.Relations
@@ -837,6 +840,39 @@ theorem gift_v32_complete_certificate :
     -- Landauer: Ω_DE = ln(2) × 98/99
     (LandauerDarkEnergy.bit_fraction_num = 98) ∧
     (LandauerDarkEnergy.bit_fraction_den = 99) := by
+  repeat (first | constructor | native_decide | rfl)
+
+/-!
+## V3.3: Dimensional Hierarchy Certificate
+
+The Hierarchy module was previously disconnected from Certificate.
+These theorems explain the electroweak-Planck hierarchy M_EW/M_Pl ≈ 10⁻¹⁷
+from K7 topology.
+-/
+
+/-- Key hierarchy relations from GIFT.Hierarchy -/
+abbrev hierarchy_cohom_ratio := Hierarchy.cohom_ratio_value
+abbrev hierarchy_n_vacua := Hierarchy.n_vacua_eq_b2
+abbrev hierarchy_moduli_dim := Hierarchy.moduli_dim_eq_b3
+abbrev hierarchy_fund_E6 := Hierarchy.fund_E6_eq_J3O
+abbrev hierarchy_mass_formula := Hierarchy.m_tau_m_e_formula
+
+/-- GIFT v3.3 Hierarchy Certificate -/
+theorem gift_v33_hierarchy_certificate :
+    -- Cohomological ratio: H*/rank(E8) = 99/8 (as ℚ)
+    (Hierarchy.cohom_ratio_nat = 99 / 8) ∧
+    -- Vacuum structure: N_vacua = b2 = 21
+    (Hierarchy.n_vacua = 21) ∧
+    -- Moduli dimension: dim(moduli) = b3 = 77
+    (Hierarchy.moduli_dim = 77) ∧
+    -- E6 fundamental = Jordan algebra dimension
+    (Hierarchy.fund_E6 = 27) ∧
+    -- Exceptional ranks sum: 8+7+6+4+2 = 27 = dim(J3O)
+    (rank_E8 + Hierarchy.rank_E7 + Hierarchy.rank_E6 + Hierarchy.rank_F4 + rank_G2 = dim_J3O) ∧
+    -- Betti difference: b3 - b2 = 56 = fund(E7)
+    (Hierarchy.betti_difference = 56) ∧
+    -- Mass formula: (b3-b2)(κ_T⁻¹+1)+Weyl = 3477
+    (Hierarchy.betti_difference * Hierarchy.kappa_plus_one + Weyl_factor = 3477) := by
   repeat (first | constructor | native_decide | rfl)
 
 end GIFT.Certificate

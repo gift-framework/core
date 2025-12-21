@@ -20,6 +20,7 @@ import Mathlib.Data.Nat.Choose.Basic
 import Mathlib.Algebra.Order.Ring.Nat
 import GIFT.Algebraic.Quaternions
 import GIFT.Algebraic.Octonions
+import GIFT.Algebraic.G2
 
 namespace GIFT.Algebraic.CayleyDickson
 
@@ -173,8 +174,8 @@ Dimension of Aut:
 /-- Dimension of SO(3) = Aut(ℍ) -/
 def dim_SO3 : ℕ := 3
 
-/-- Dimension of G₂ = Aut(𝕆) -/
-def dim_G2 : ℕ := 14
+/-- Dimension of G₂ = Aut(𝕆) (from canonical source: Algebraic.G2) -/
+abbrev dim_G2 : ℕ := G2.dim_G2
 
 /-- Key relation: dim(G₂) = 2 × |Im(𝕆)| -/
 theorem G2_from_imaginary : dim_G2 = 2 * Octonions.imaginary_count := rfl

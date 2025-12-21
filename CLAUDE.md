@@ -403,4 +403,66 @@ Golden ratio derived from its definition, Fibonacci embedding proven.
 
 ---
 
-*Last updated: 2025-12-17 - 180+ relations + Joyce existence + Lagrange identity (v3.1.4)*
+## V3.1.6: Dependency Graph Patterns
+
+### Canonical Sources for Constants
+
+| Constant | Canonical Source | Type |
+|----------|-----------------|------|
+| `b2`, `b3`, `H_star` | `Algebraic.BettiNumbers` | ℕ |
+| `dim_G2`, `rank_G2` | `Algebraic.G2` | ℕ |
+| `dim_E8`, `rank_E8` | `Core` | ℕ |
+| `imaginary_count` | `Algebraic.Octonions` | ℕ |
+
+### Pattern: `def` vs `abbrev` vs `theorem`
+
+```lean
+-- VALUE: def creates a new definition
+def foo : ℕ := 27
+-- Can compare: `foo = 27` ✓
+
+-- ALIAS: abbrev points to canonical source (for dependency graph)
+abbrev foo : ℕ := Bar.foo
+-- Creates edge in dependency graph: this file → Bar
+
+-- THEOREM: proves an equation (it's a Prop, not a value!)
+theorem foo : x + y = 27 := by native_decide
+-- WRONG: `foo = 27` (comparing Prop to ℕ)
+-- RIGHT: `x + y = 27` (use the equation directly)
+```
+
+### Pattern: ℚ Constants and `norm_num`
+
+```lean
+-- BAD: norm_num can't simplify through coercions
+abbrev b2 : ℚ := GIFT.Algebraic.BettiNumbers.b2  -- ℕ → ℚ coercion
+theorem H_star_value : H_star = 99 := by norm_num  -- FAILS!
+
+-- GOOD: literal definition for ℚ proofs
+def b2 : ℚ := 21  -- matches Algebraic.BettiNumbers.b2
+theorem H_star_value : H_star = 99 := by unfold H_star b2 b3; norm_num  -- WORKS
+```
+
+### Pattern: Connecting Modules to Certificate
+
+To connect an isolated module to the dependency graph:
+
+```lean
+-- In Certificate.lean:
+import GIFT.NewModule  -- Add import
+
+-- Create abbrevs for key theorems (creates edges)
+abbrev new_theorem := NewModule.key_theorem
+
+-- Add to certification theorem
+theorem gift_certificate :
+    ...existing relations... ∧
+    -- Use VALUES directly, not theorem names
+    (NewModule.some_value = 42) ∧
+    (NewModule.x + NewModule.y = NewModule.z) := by
+  repeat (first | constructor | native_decide | rfl)
+```
+
+---
+
+*Last updated: 2025-12-21 - 180+ relations + Hierarchy module connected (v3.1.6)*

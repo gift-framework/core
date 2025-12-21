@@ -5,6 +5,50 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.6] - 2025-12-21
+
+### Summary
+
+**Dependency Graph Simplification!** Deduplicated constant definitions across the codebase and connected the Hierarchy module to Certificate.lean, significantly improving the blueprint dependency graph.
+
+### Changed
+
+- **Constant Deduplication**: Replaced independent `def` declarations with `abbrev` pointing to canonical sources:
+  - `b2`, `b3`, `H_star` → `Algebraic.BettiNumbers` (canonical)
+  - `dim_G2` → `Algebraic.G2` (canonical)
+  - `dim_E8` → `Algebraic.G2` or `Core` (layer-appropriate)
+
+- **Files Updated**:
+  - `AnalyticalMetric.lean`: Uses BettiNumbers/G2 abbrevs
+  - `G2Holonomy.lean`: Uses BettiNumbers/G2 abbrevs
+  - `CayleyDickson.lean`: Uses G2.dim_G2
+  - `GIFTConstants.lean`: Uses G2.dim_E8
+
+### Added
+
+- **Hierarchy → Certificate Connection**:
+  - Import `GIFT.Hierarchy` in `Certificate.lean`
+  - New theorem `gift_v33_hierarchy_certificate` with 7 relations
+  - Abbrevs linking key hierarchy theorems to Certificate
+
+### Technical Notes
+
+**Pattern: `def` vs `abbrev` vs `theorem`**
+- `def foo : ℕ := 27` → Value, can compare: `foo = 27`
+- `abbrev foo : ℕ := Bar.foo` → Alias to canonical source
+- `theorem foo : x = y := ...` → Prop, use equation directly (NOT `foo = 27`)
+
+**Pattern: ℚ constants and `norm_num`**
+- `norm_num` cannot simplify through coercions from ℕ to ℚ
+- For ℚ proofs, use literal definitions with comments noting canonical source
+
+**Dependency Graph Impact**:
+- Before: ~15 isolated nodes defining same values independently
+- After: Explicit import chains to canonical sources
+- Hierarchy module (~20 nodes) now connected to main certification chain
+
+---
+
 ## [3.1.5] - 2025-12-21
 
 ### Summary

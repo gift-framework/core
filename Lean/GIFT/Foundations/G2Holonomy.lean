@@ -16,6 +16,9 @@ import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.Data.Fin.VecNotation
 import Mathlib.Data.Real.Basic
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+-- Import canonical constants
+import GIFT.Algebraic.G2
+import GIFT.Algebraic.BettiNumbers
 
 namespace GIFT.Foundations.G2Holonomy
 
@@ -78,8 +81,8 @@ def dim_SU3 : ℕ := 8
 
 theorem dim_G2_sphere_action : dim_S6 + dim_SU3 = 14 := rfl
 
-/-- The dimension of G₂ -/
-def dim_G2 : ℕ := 14
+/-- The dimension of G₂ (from canonical source: Algebraic.G2) -/
+abbrev dim_G2 : ℕ := GIFT.Algebraic.G2.dim_G2
 
 /-- G₂ dimension equals 14 -/
 theorem dim_G2_is_14 : dim_G2 = 14 := rfl
@@ -135,11 +138,11 @@ For K7 specifically:
   H* = b₂ + b₃ + 1 = 99
 -/
 
-/-- Betti numbers for K7 -/
+/-- Betti numbers for K7 (from canonical source: Algebraic.BettiNumbers) -/
 def b0_K7 : ℕ := 1
 def b1_K7 : ℕ := 0
-def b2_K7 : ℕ := 21
-def b3_K7 : ℕ := 77
+abbrev b2_K7 : ℕ := GIFT.Algebraic.BettiNumbers.b2
+abbrev b3_K7 : ℕ := GIFT.Algebraic.BettiNumbers.b3
 
 /-- b₁ = 0 for compact G₂ manifolds with full holonomy -/
 theorem G2_manifold_b1_zero : b1_K7 = 0 := rfl
@@ -222,8 +225,8 @@ Key facts:
 The ratio: 248/14 = 124/7 ≈ 17.7
 -/
 
-/-- E8 dimension from RootSystems -/
-def dim_E8 : ℕ := 248
+/-- E8 dimension (from canonical source: Algebraic.G2) -/
+abbrev dim_E8 : ℕ := GIFT.Algebraic.G2.dim_E8
 
 /-- G₂ embeds in E₈ -/
 theorem G2_in_E8_chain : dim_G2 < dim_E8 := by decide
