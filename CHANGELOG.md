@@ -5,6 +5,61 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.5] - 2025-12-21
+
+### Summary
+
+**Dimensional Hierarchy Module!** Complete formalization of the electroweak hierarchy problem via GIFT constants. The master formula M_EW/M_Pl = exp(-H*/rank(E8)) × φ⁻⁵⁴ ≈ 10⁻¹⁷ emerges from topology.
+
+### Added
+
+- **GoldenRatioPowers.lean**: Golden ratio power formalization
+  - `phi_inv_sq`: φ⁻² = 3 - φ (VEV scaling factor)
+  - `phi_inv_54`: φ⁻⁵⁴ ~ 10⁻¹¹ (Jordan suppression exponent)
+  - `jordan_power_phi`: 27^φ ≈ 206.77 (Jordan algebra-golden ratio connection)
+  - Bounds: 206 < 27^φ < 208
+
+- **Hierarchy Module** (`GIFT.Hierarchy`):
+  - **DimensionalGap.lean**: Master hierarchy formula
+    - `cohom_suppression`: exp(-H*/rank(E8)) = exp(-99/8) ~ 4.2 × 10⁻⁶
+    - `jordan_suppression`: φ⁻⁵⁴ = (φ⁻²)^27 ~ 10⁻¹¹
+    - `hierarchy_ratio`: Combined ~ 10⁻¹⁷ (electroweak scale!)
+    - `ln_hierarchy`: -H*/8 - 54 ln(φ) ≈ -38.4
+  - **VacuumStructure.lean**: 21 vacuum structure
+    - `n_vacua = b2 = 21` (second Betti number)
+    - `vev_scaling = phi_inv_sq` (VEV at each vacuum)
+    - `chi_K7 = 0` (K7 Euler characteristic)
+  - **E6Cascade.lean**: E8 → E6 → SM symmetry breaking
+    - `dim_E6 = 78`, `rank_E6 = 6`
+    - Cascade dimensions: (248, 78, 45, 24, 12)
+    - Difference sequence: (170, 33, 21, 12)
+  - **AbsoluteMasses.lean**: Mass ratio formulas
+    - `tau_electron_ratio = 3477` (m_τ/m_e)
+    - Numerology: 3477 = 3 × 19 × 61
+
+### Technical Notes
+
+**Why φ⁻⁵⁴?**
+- Jordan algebra: dim(J₃(𝕆)) = 27
+- VEV scaling: φ⁻² per vacuum level
+- Total: (φ⁻²)^27 = φ⁻⁵⁴
+
+**Why H*/8?**
+- H* = b₂ + b₃ + 1 = 99 (cohomological dimension)
+- rank(E8) = 8
+- Ratio appears in exponential suppression
+
+**Hierarchy decomposition:**
+```
+ln(M_EW/M_Pl) = -H*/rank - 54 ln(φ)
+              = -99/8 - 54 × 0.481
+              = -12.375 - 26.0
+              ≈ -38.4
+```
+This gives M_EW/M_Pl ≈ exp(-38.4) ≈ 2 × 10⁻¹⁷ ✓
+
+---
+
 ## [3.1.4] - 2025-12-17
 
 ### Summary
