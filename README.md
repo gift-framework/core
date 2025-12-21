@@ -75,4 +75,4 @@ MIT
 
 ---
 
-*GIFT Core v3.1.5*
+*GIFT Core v3.1.6*
