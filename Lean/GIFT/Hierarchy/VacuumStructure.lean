@@ -8,11 +8,12 @@
 -- - TCS structure: 40 + 37 = 77
 
 import GIFT.Core
+import GIFT.Foundations.GoldenRatio
 import GIFT.Foundations.GoldenRatioPowers
 
 namespace GIFT.Hierarchy.VacuumStructure
 
-open GIFT.Core GIFT.Foundations.GoldenRatioPowers
+open GIFT.Core GIFT.Foundations.GoldenRatio GIFT.Foundations.GoldenRatioPowers
 
 /-!
 ## Number of Vacua
@@ -143,11 +144,9 @@ theorem H_star_structure : H_star = n_vacua + moduli_dim + 1 := by
   unfold n_vacua moduli_dim
   rfl
 
-/-- Euler characteristic relation: χ = b₀ - b₁ + b₂ - b₃ + ... = 0 for K7 -/
-theorem euler_vanishes : b2 - b3 + 56 = 0 := by
-  -- Actually for G2 manifolds: χ = 2(b₂ - b₃ + fund_E7) where fund_E7 = 56
-  -- For K7 specifically: χ = 0 because it's a Calabi-Yau-like manifold
-  -- 21 - 77 + 56 = 0
+/-- Euler characteristic relation: b₃ - b₂ = 56 = fund_E7 -/
+theorem euler_relation : b3 - b2 = 56 := by
+  -- b3 = 77, b2 = 21, so b3 - b2 = 56
   native_decide
 
 /-!
