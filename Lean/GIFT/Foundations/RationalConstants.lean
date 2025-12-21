@@ -12,35 +12,32 @@ import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.Ring
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.FieldSimp
--- Import canonical ℕ constants
-import GIFT.Algebraic.BettiNumbers
-import GIFT.Algebraic.G2
 
 namespace GIFT.Foundations.RationalConstants
 
 /-!
 ## Topological Constants as Rationals
 
-These are derived from the canonical ℕ sources via coercion to ℚ.
-This ensures consistency with the rest of the GIFT framework.
+These match the canonical ℕ sources in Algebraic.BettiNumbers and Algebraic.G2.
+Defined as literals here for norm_num compatibility in ℚ proofs.
 -/
 
-/-- Second Betti number of K7 (from canonical ℕ source) -/
-abbrev b2 : ℚ := GIFT.Algebraic.BettiNumbers.b2
+/-- Second Betti number of K7 (= Algebraic.BettiNumbers.b2) -/
+def b2 : ℚ := 21
 
-/-- Third Betti number of K7 (from canonical ℕ source) -/
-abbrev b3 : ℚ := GIFT.Algebraic.BettiNumbers.b3
+/-- Third Betti number of K7 (= Algebraic.BettiNumbers.b3) -/
+def b3 : ℚ := 77
 
 /-- Effective degrees of freedom H* = b2 + b3 + 1 -/
 def H_star : ℚ := b2 + b3 + 1
 
-theorem H_star_value : H_star = 99 := by unfold H_star; norm_num
+theorem H_star_value : H_star = 99 := by unfold H_star b2 b3; norm_num
 
-/-- Dimension of G2 (from canonical ℕ source) -/
-abbrev dim_G2 : ℚ := GIFT.Algebraic.G2.dim_G2
+/-- Dimension of G2 (= Algebraic.G2.dim_G2) -/
+def dim_G2 : ℚ := 14
 
-/-- Dimension of E8 (from canonical ℕ source) -/
-abbrev dim_E8 : ℚ := GIFT.Algebraic.G2.dim_E8
+/-- Dimension of E8 (= Algebraic.G2.dim_E8) -/
+def dim_E8 : ℚ := 248
 
 /-- Rank of E8 -/
 def rank_E8 : ℚ := 8

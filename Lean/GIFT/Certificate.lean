@@ -859,8 +859,8 @@ abbrev hierarchy_mass_formula := Hierarchy.m_tau_m_e_formula
 
 /-- GIFT v3.3 Hierarchy Certificate -/
 theorem gift_v33_hierarchy_certificate :
-    -- Cohomological ratio: H*/rank(E8) = 99/8
-    (Hierarchy.cohom_ratio_nat = (99, 8)) ∧
+    -- Cohomological ratio: H*/rank(E8) = 99/8 (as ℚ)
+    (Hierarchy.cohom_ratio_nat = 99 / 8) ∧
     -- Vacuum structure: N_vacua = b2 = 21
     (Hierarchy.n_vacua = 21) ∧
     -- Moduli dimension: dim(moduli) = b3 = 77
@@ -871,8 +871,8 @@ theorem gift_v33_hierarchy_certificate :
     (Hierarchy.sum_exceptional_ranks = 27) ∧
     -- Betti difference: b3 - b2 = 56 = fund(E7)
     (Hierarchy.betti_difference = 56) ∧
-    -- Mass formula integer: (b3-b2)(κ_T⁻¹+1)+Weyl = 3477
-    (Hierarchy.m_tau_m_e_formula = 3477) := by
+    -- Mass formula: (b3-b2)(κ_T⁻¹+1)+Weyl = 3477
+    (Hierarchy.betti_difference * Hierarchy.kappa_plus_one + Weyl_factor = 3477) := by
   repeat (first | constructor | native_decide | rfl)
 
 end GIFT.Certificate
