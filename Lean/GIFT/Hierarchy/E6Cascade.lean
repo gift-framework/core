@@ -112,8 +112,8 @@ theorem F4_contains_G2_dim : dim_G2 < dim_F4 := by native_decide
 
 /-- The cascade is strictly decreasing -/
 theorem cascade_decreasing :
-    dim_G2 < dim_F4 ∧ dim_F4 < dim_E6 ∧ dim_E6 < dim_E7 ∧ dim_E7 < dim_E8 := by
-  repeat (first | constructor | native_decide)
+    dim_G2 < dim_F4 ∧ dim_F4 < dim_E6 ∧ dim_E6 < dim_E7 ∧ dim_E7 < dim_E8 :=
+  ⟨by native_decide, by native_decide, by native_decide, by native_decide⟩
 
 /-!
 ## E8 → E6 Branching
