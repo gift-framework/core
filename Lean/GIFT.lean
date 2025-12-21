@@ -1,6 +1,6 @@
 -- GIFT: Geometric Integration of Fundamental Topologies
 -- Main entry point for Lean 4 formalization
--- Version: 4.0.0 (165+ certified relations + Joyce existence + Real Mathematics)
+-- Version: 5.0.0 (180+ certified relations + Hierarchy formula + Real Mathematics)
 
 import GIFT.Algebra
 import GIFT.Geometry
@@ -35,3 +35,7 @@ import GIFT.DifferentialForms  -- Exterior calculus
 import GIFT.ImplicitFunction   -- Implicit function theorem
 import GIFT.IntervalArithmetic -- Verified numerical bounds
 import GIFT.Joyce              -- Torsion-free G2 existence
+
+-- V4.0: Dimensional Hierarchy
+import GIFT.Foundations.GoldenRatioPowers  -- phi^-2, phi^-54, 27^phi
+import GIFT.Hierarchy                       -- Master hierarchy formula
