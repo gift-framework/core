@@ -145,8 +145,6 @@ noncomputable def phi_inv_54 : ℝ := phi⁻¹ ^ 54
 theorem phi_inv_54_eq_jordan : phi_inv_54 = phi_inv_sq ^ dim_J3O := by
   unfold phi_inv_54 phi_inv_sq dim_J3O
   rw [← pow_mul]
-  -- (phi⁻¹ ^ 2) ^ 27 = phi⁻¹ ^ (2 * 27) = phi⁻¹ ^ 54
-  ring_nf
 
 /-- Exponent structure: 54 = 2 × 27 -/
 theorem exponent_54_structure : 54 = 2 * dim_J3O := by
