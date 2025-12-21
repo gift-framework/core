@@ -147,7 +147,6 @@ theorem phi_inv_54_eq_jordan : phi_inv_54 = phi_inv_sq ^ dim_J3O := by
   rw [← pow_mul]
   -- (phi⁻¹ ^ 2) ^ 27 = phi⁻¹ ^ (2 * 27) = phi⁻¹ ^ 54
   ring_nf
-  rfl
 
 /-- Exponent structure: 54 = 2 × 27 -/
 theorem exponent_54_structure : 54 = 2 * dim_J3O := by
@@ -168,7 +167,8 @@ theorem phi_inv_54_lt_one : phi_inv_54 < 1 := by
   -- 0 < phi_inv_sq < 1, so phi_inv_sq^27 < 1
   have h1 : phi_inv_sq < 1 := phi_inv_sq_lt_one
   have h0 : 0 ≤ phi_inv_sq := le_of_lt phi_inv_sq_pos
-  exact pow_lt_one h0 h1 (by norm_num : 27 ≠ 0)
+  have hn : 0 < (27 : ℕ) := by norm_num
+  exact pow_lt_one₀ h0 h1 hn.ne'
 
 /-- φ⁻⁵⁴ is very small (numerical bound) -/
 theorem phi_inv_54_very_small : phi_inv_54 < (1 : ℝ) / 10^10 := by
