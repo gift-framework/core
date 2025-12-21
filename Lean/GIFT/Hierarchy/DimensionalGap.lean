@@ -53,9 +53,12 @@ theorem cohom_suppression_pos : 0 < cohom_suppression := by
 theorem cohom_suppression_lt_one : cohom_suppression < 1 := by
   unfold cohom_suppression
   rw [Real.exp_lt_one_iff]
-  -- Need: -99/8 < 0, which is true since 99/8 > 0
+  -- Need: -99/8 < 0
   simp only [neg_div, Left.neg_neg_iff]
-  positivity
+  -- H_star = 99, rank_E8 = 8, both positive naturals
+  have h1 : (0 : ℝ) < H_star := by simp [H_star]; norm_num
+  have h2 : (0 : ℝ) < rank_E8 := by simp [rank_E8]; norm_num
+  exact div_pos h1 h2
 
 /-- Cohomological suppression magnitude: 10⁻⁶ < exp(-99/8) < 10⁻⁵ (numerical) -/
 theorem cohom_suppression_magnitude :
