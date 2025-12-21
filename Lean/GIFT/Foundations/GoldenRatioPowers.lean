@@ -145,7 +145,7 @@ noncomputable def phi_inv_54 : ℝ := phi⁻¹ ^ 54
 theorem phi_inv_54_eq_jordan : phi_inv_54 = phi_inv_sq ^ dim_J3O := by
   unfold phi_inv_54 phi_inv_sq dim_J3O
   rw [← pow_mul]
-  ring_nf
+  norm_num
 
 /-- Exponent structure: 54 = 2 × 27 -/
 theorem exponent_54_structure : 54 = 2 * dim_J3O := by
@@ -162,9 +162,14 @@ theorem phi_inv_54_pos : 0 < phi_inv_54 := by
 /-- φ⁻⁵⁴ < 1 (it's a suppression factor) -/
 theorem phi_inv_54_lt_one : phi_inv_54 < 1 := by
   rw [phi_inv_54_eq_jordan]
-  apply pow_lt_one (le_of_lt phi_inv_sq_pos) phi_inv_sq_lt_one
   unfold dim_J3O
-  norm_num
+  -- 0 < phi_inv_sq < 1, so phi_inv_sq^27 < 1
+  have h1 : phi_inv_sq < 1 := phi_inv_sq_lt_one
+  have h0 : 0 < phi_inv_sq := phi_inv_sq_pos
+  calc phi_inv_sq ^ 27 < 1 ^ 27 := by
+      apply pow_lt_pow_left h1 (le_of_lt h0)
+      norm_num
+    _ = 1 := one_pow 27
 
 /-- φ⁻⁵⁴ is very small (numerical bound) -/
 theorem phi_inv_54_very_small : phi_inv_54 < (1 : ℝ) / 10^10 := by
@@ -195,9 +200,10 @@ theorem jordan_power_phi_pos : 0 < jordan_power_phi := by
 /-- 27^φ > 1 (since 27 > 1 and φ > 0) -/
 theorem jordan_power_phi_gt_one : 1 < jordan_power_phi := by
   unfold jordan_power_phi
+  have hbase : (1 : ℝ) < 27 := by norm_num
+  have hexp : 0 < phi := phi_pos
   rw [← Real.rpow_zero (27 : ℝ)]
-  apply Real.rpow_lt_rpow_left (by norm_num : 1 < (27 : ℝ))
-  exact phi_pos
+  exact Real.rpow_lt_rpow_of_exponent_lt hbase hexp
 
 /-- 27^φ bounds: 206 < 27^φ < 208 (numerical estimate) -/
 theorem jordan_power_phi_bounds : (206 : ℝ) < jordan_power_phi ∧ jordan_power_phi < (208 : ℝ) := by
