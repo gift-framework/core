@@ -867,8 +867,8 @@ theorem gift_v33_hierarchy_certificate :
     (Hierarchy.moduli_dim = 77) ∧
     -- E6 fundamental = Jordan algebra dimension
     (Hierarchy.fund_E6 = 27) ∧
-    -- Exceptional ranks sum: 8+7+6+4+2 = 27
-    (Hierarchy.sum_exceptional_ranks = 27) ∧
+    -- Exceptional ranks sum: 8+7+6+4+2 = 27 = dim(J3O)
+    (rank_E8 + Hierarchy.rank_E7 + Hierarchy.rank_E6 + Hierarchy.rank_F4 + rank_G2 = dim_J3O) ∧
     -- Betti difference: b3 - b2 = 56 = fund(E7)
     (Hierarchy.betti_difference = 56) ∧
     -- Mass formula: (b3-b2)(κ_T⁻¹+1)+Weyl = 3477
