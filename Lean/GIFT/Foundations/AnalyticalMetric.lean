@@ -239,7 +239,7 @@ theorem torsion_satisfies_joyce :
 
 /-- The margin is infinite (0 < any positive number) -/
 theorem infinite_joyce_margin :
-    ∀ n : Nat, 0 < joyce_threshold_num := by
+    ∀ _ : Nat, 0 < joyce_threshold_num := by
   intro _
   native_decide
 
