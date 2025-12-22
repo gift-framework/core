@@ -1,8 +1,8 @@
-# GIFT Core Axiom Audit v3.1.7
+# GIFT Core Axiom Audit v3.1.8
 
-**Date**: 2025-12-22  
-**Total axioms**: 52  
-**Sorry count**: 0  
+**Date**: 2025-12-22
+**Total axioms**: 44 (was 52, reduced by 8)
+**Sorry count**: 0
 **Coq Admitted**: 0
 
 ---
@@ -11,24 +11,27 @@
 
 | Tier | Count | Description | Effort |
 |------|-------|-------------|--------|
-| **Tier 1** | 9 | Trivial/Computational | Hours |
-| **Tier 2** | 15 | Standard Mathlib | Days |
+| **Tier 1** | 5 (was 9) | Trivial/Computational | Hours |
+| **Tier 2** | 11 (was 15) | Standard Mathlib | Days |
 | **Tier 3** | 18 | Requires infrastructure | Weeks |
 | **Tier 4** | 10 | Deep analysis/research | Months+ |
 
+### Recent Progress (v3.1.8)
+- ✅ E8Lattice root counting: 4 axioms → proven via RootSystems.lean enumeration
+- ✅ G2TensorForm: 4 axioms → proven via G2CrossProduct.lean
+
 ---
 
-## Tier 1: Trivial (9 axioms) ⚡
+## Tier 1: Trivial (5 remaining) ⚡
 
 **Can be proven with existing Mathlib + computation**
 
-### E8Lattice.lean (4)
-| Line | Axiom | Strategy |
-|------|-------|----------|
-| 65 | `D8_roots_card : D8_roots.ncard = 112` | `native_decide` on explicit enumeration |
-| 69 | `HalfInt_roots_card : HalfInt_roots.ncard = 128` | `native_decide` (2^7 = 128) |
-| 72 | `E8_roots_decomposition` | Definition, trivial union |
-| 92 | `E8_roots_card : E8_roots.ncard = 240` | Follows from 65+69+72 |
+### E8Lattice.lean (4) ✅ COMPLETED
+All 4 axioms replaced with proven theorems from RootSystems.lean:
+- `D8_roots_card_enum` → `D8_card`
+- `HalfInt_roots_card_enum` → `HalfInt_card`
+- `E8_roots_decomposition_enum` → `E8_roots_decomposition`
+- `E8_roots_card_240` → `E8_enumeration_card`
 
 ### GoldenRatioPowers.lean (2)
 | Line | Axiom | Strategy |
@@ -47,26 +50,25 @@
 
 ---
 
-## Tier 2: Standard Mathlib (15 axioms) 📚
+## Tier 2: Standard Mathlib (11 remaining) 📚
 
 **Requires connecting to existing Mathlib APIs**
 
 ### E8Lattice.lean (5)
 | Line | Axiom | Strategy |
 |------|-------|----------|
-| 350 | `E8_lattice_neg` | Lattice closure, use `SubaddCommGroup` |
-| 353 | `E8_lattice_smul` | Z-module structure on lattice |
-| 357 | `E8_lattice_add` | Subgroup closure under addition |
-| 372 | `E8_basis` | Explicit 8 vectors (Cartan matrix) |
-| 375 | `E8_basis_generates` | Linear combo over Z |
+| 359 | `E8_lattice_neg` | Lattice closure, use `SubaddCommGroup` |
+| 362 | `E8_lattice_smul` | Z-module structure on lattice |
+| 366 | `E8_lattice_add` | Subgroup closure under addition |
+| 381 | `E8_basis` | Explicit 8 vectors (Cartan matrix) |
+| 384 | `E8_basis_generates` | Linear combo over Z |
 
-### G2TensorForm.lean (4)
-| Line | Axiom | Strategy |
-|------|-------|----------|
-| 84 | `G2_cross` | Definition via Fano plane (exists in G2CrossProduct.lean) |
-| 87 | `G2_cross_bilinear` | PROVEN in G2CrossProduct — needs import |
-| 92 | `G2_cross_antisymm` | PROVEN in G2CrossProduct — needs import |
-| 95 | `G2_cross_norm` | PROVEN in G2CrossProduct (Lagrange identity) |
+### G2TensorForm.lean (4) ✅ COMPLETED
+All 4 axioms replaced with proven theorems from G2CrossProduct.lean:
+- `G2_cross_bilinear_left` → `cross_left_linear`
+- `G2_cross_antisymm'` → `G2_cross_antisymm`
+- `G2_cross_lagrange` → `G2_cross_norm`
+- `cross_matches_octonion_structure` → `cross_is_octonion_structure`
 
 ### WedgeProduct.lean (4)
 | Line | Axiom | Strategy |
@@ -86,17 +88,18 @@
 
 ---
 
-## Tier 3: Infrastructure Required (18 axioms) 🔧
+## Tier 3: Infrastructure Required (16 remaining) 🔧
 
 **Needs new definitions/structures before proof**
 
-### G2TensorForm.lean (4)
+### G2TensorForm.lean (2)
 | Line | Axiom | Strategy |
 |------|-------|----------|
-| 48 | `gl7_action` | Define GL(7) action on Λ³(ℝ⁷) |
-| 55 | `g2_lie_algebra` | Mathlib `LieAlgebra` instantiation for G₂ |
-| 122 | `octonion_mult` | Mathlib `Octonion` or define via Cayley table |
-| 125 | `cross_is_octonion` | Prove equivalence (7D cross = Im(𝕆) mult) |
+| 50 | `gl7_action` | Define GL(7) action on Λ³(ℝ⁷) |
+| 57 | `g2_lie_algebra` | Mathlib `LieAlgebra` instantiation for G₂ |
+
+Note: `octonion_mult` and `cross_is_octonion` eliminated - replaced with
+`cross_matches_octonion_structure` using proven `cross_is_octonion_structure`
 
 ### HarmonicForms.lean (10)
 | Line | Axiom | Strategy |
@@ -215,19 +218,23 @@ PROVEN > ADMITTED > AXIOM
 
 ## Progress Tracking
 
-| Category | Axioms | Target | Status |
-|----------|--------|--------|--------|
-| E8 Lattice | 9 | 4 (structure) | 🔴 |
-| G2 Cross | 8 | 0 (all proven elsewhere) | 🟡 |
-| Harmonic | 10 | 2 (interface) | 🔴 |
-| Joyce | 13 | 9 (foundational) | 🟡 |
-| Wedge | 4 | 1 (Stokes placeholder) | 🔴 |
-| Hierarchy | 3 | 0 (interval arithmetic) | 🟡 |
-| Golden | 2 | 0 (interval arithmetic) | 🟡 |
-| **Total** | **52** | **16** | — |
+| Category | Original | Current | Target | Status |
+|----------|----------|---------|--------|--------|
+| E8 Lattice (roots) | 4 | 0 | 0 | ✅ DONE |
+| E8 Lattice (closure) | 5 | 5 | 4 (structure) | 🔴 |
+| G2 Cross/Tensor | 8 | 2 | 2 (gl7_action, g2_lie) | ✅ 6 eliminated |
+| Harmonic | 10 | 10 | 2 (interface) | 🔴 |
+| Joyce | 13 | 13 | 9 (foundational) | 🟡 |
+| Wedge | 4 | 4 | 1 (Stokes placeholder) | 🔴 |
+| Hierarchy | 3 | 3 | 0 (interval arithmetic) | 🟡 needs infra |
+| Golden | 2 | 2 | 0 (interval arithmetic) | 🟡 needs infra |
+| Hodge | 3 | 3 | 2 (interface) | 🔴 |
+| Sobolev | 4 | 4 | 2 (Mathlib WIP) | 🔴 |
+| **Total** | **52** | **44** | **~20** | — |
 
-**Goal**: Reduce from 52 axioms to ~16 core foundational axioms.
+**Progress**: 52 → 44 axioms (8 eliminated, 15% reduction)
+**Goal**: Reduce to ~20 core foundational axioms
 
 ---
 
-*Last updated: 2025-12-22*
+*Last updated: 2025-12-22 (v3.1.8)*
