@@ -10,13 +10,13 @@
   Reference: GIFT v3.2 Implementation Plan
 -/
 
+import GIFT.Core
 import GIFT.Algebraic.Octonions
 import GIFT.Algebraic.BettiNumbers
-import GIFT.Algebra
 
 namespace GIFT.Algebraic.SO16Decomposition
 
-open Octonions BettiNumbers
+open GIFT.Core Octonions BettiNumbers
 
 /-!
 ## SO(n) Dimension Formula

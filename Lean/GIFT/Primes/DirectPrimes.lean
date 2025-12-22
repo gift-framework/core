@@ -13,15 +13,13 @@
 --   31 = prime(11)
 --   61 = kappa_T_inv
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Relations
 import Mathlib.Data.Nat.Prime.Basic
 
 namespace GIFT.Primes.Tier1
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Core GIFT.Relations
 
 -- =============================================================================
 -- DIRECT PRIMES: GIFT CONSTANTS (Relations 101-110)

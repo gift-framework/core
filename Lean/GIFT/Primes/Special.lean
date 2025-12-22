@@ -7,15 +7,13 @@
 -- - 197: delta_CP (CP violation phase)
 -- - Hubble primes: 67 (CMB) and 73 (local)
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Relations
 import Mathlib.Data.Nat.Prime.Basic
 
 namespace GIFT.Primes.Special
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Core GIFT.Relations
 
 -- =============================================================================
 -- MERSENNE PRIME 127 (Relations 160-162)

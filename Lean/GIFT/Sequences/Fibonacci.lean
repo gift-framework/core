@@ -13,15 +13,13 @@
 --   F_11 = 89 = b3 + dim_G2 - p2
 --   F_12 = 144 = (dim_G2 - p2)^2 = alpha_s^2 denominator
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Relations
 import GIFT.Relations.YukawaDuality
 
 namespace GIFT.Sequences.Fibonacci
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Core GIFT.Relations
 open GIFT.Relations.YukawaDuality
 
 -- =============================================================================

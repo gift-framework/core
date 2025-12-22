@@ -2,13 +2,11 @@
 -- Exterior calculus for G2 geometry
 -- Version: 3.0.0
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 
 namespace GIFT.DifferentialForms
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry
+open GIFT.Core
 
 /-!
 # Differential Forms on G2 Manifolds

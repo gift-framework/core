@@ -21,6 +21,8 @@ import GIFT.Foundations.E8Lattice
 import GIFT.Foundations.G2CrossProduct
 -- v3.4: Mathlib E8 integration
 import GIFT.Foundations.E8Mathlib
+-- v3.5: Analysis bundle (Hodge, exterior algebra, Joyce)
+import GIFT.Foundations.Analysis
 
 namespace GIFT.Foundations
 

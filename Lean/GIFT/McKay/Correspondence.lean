@@ -6,14 +6,12 @@
 --
 -- The icosahedron has golden ratio structure, connecting E8 to phi.
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Relations
 
 namespace GIFT.McKay.Correspondence
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Core GIFT.Relations
 
 -- =============================================================================
 -- MCKAY CORRESPONDENCE BASICS (Relations 186-193)

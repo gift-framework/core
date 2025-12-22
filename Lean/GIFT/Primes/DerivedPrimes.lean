@@ -6,9 +6,7 @@
 --
 -- Derived: 23, 29, 37, 41, 43, 47, 53, 59, 67, 71, 73, 79, 83, 89, 97
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Relations
 import GIFT.Relations.YukawaDuality
 import GIFT.Primes.DirectPrimes
@@ -16,7 +14,7 @@ import Mathlib.Data.Nat.Prime.Basic
 
 namespace GIFT.Primes.Tier2
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Core GIFT.Relations
 open GIFT.Relations.YukawaDuality
 open GIFT.Primes.Tier1
 

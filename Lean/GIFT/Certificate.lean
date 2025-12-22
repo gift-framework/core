@@ -11,15 +11,8 @@
 import GIFT.Core
 import GIFT.Relations
 
--- Analysis: Hodge theory, exterior algebra, advanced E8 lattice
-import GIFT.Foundations.Analysis.InnerProductSpace
-import GIFT.Foundations.Analysis.ExteriorAlgebra
-import GIFT.Foundations.Analysis.E8Lattice
-import GIFT.Foundations.Analysis.WedgeProduct
-import GIFT.Foundations.Analysis.HodgeTheory
-import GIFT.Foundations.Analysis.HarmonicForms
-import GIFT.Foundations.Analysis.G2TensorForm
-import GIFT.Foundations.Analysis.JoyceAnalytic
+-- Analysis: Hodge theory, exterior algebra, advanced E8 lattice (bundled)
+import GIFT.Foundations.Analysis
 import GIFT.Relations.GaugeSector
 import GIFT.Relations.NeutrinoSector
 import GIFT.Relations.LeptonSector

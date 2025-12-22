@@ -6,15 +6,13 @@
 --
 -- This connects Monster group to E8 via Monstrous Moonshine.
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Relations
 import GIFT.Moonshine.MonsterDimension
 
 namespace GIFT.Moonshine.JInvariant
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Core GIFT.Relations
 open GIFT.Moonshine.MonsterDimension
 
 -- =============================================================================

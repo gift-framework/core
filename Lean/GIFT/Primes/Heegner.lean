@@ -6,16 +6,14 @@
 --
 -- DISCOVERY: All 9 Heegner numbers have GIFT expressions!
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Relations
 import GIFT.Relations.YukawaDuality
 import Mathlib.Data.Nat.Prime.Basic
 
 namespace GIFT.Primes.Heegner
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Core GIFT.Relations
 open GIFT.Relations.YukawaDuality
 
 -- =============================================================================

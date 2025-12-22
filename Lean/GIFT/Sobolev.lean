@@ -2,13 +2,11 @@
 -- Formalization of Sobolev spaces for Joyce theorem
 -- Version: 3.0.0
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 
 namespace GIFT.Sobolev
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry
+open GIFT.Core
 
 /-!
 # Sobolev Spaces for G2 Analysis

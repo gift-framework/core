@@ -7,16 +7,14 @@
 --   59 = b3 - L_6 = 77 - 18
 --   71 = b3 - 6
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Relations
 import GIFT.Sequences.Lucas
 import Mathlib.Data.Nat.Prime.Basic
 
 namespace GIFT.Moonshine.MonsterDimension
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Core GIFT.Relations
 open GIFT.Sequences.Lucas
 
 -- =============================================================================
