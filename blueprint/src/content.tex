@@ -66,12 +66,14 @@ We formalize its lattice structure in $\R^8$.
 \begin{definition}[Integer Coordinates]\label{def:AllInteger}
     \lean{GIFT.Foundations.E8Lattice.AllInteger}
     \leanok
+    \uses{def:R8}
     A vector $v \in \R^8$ has \emph{all integer coordinates} if $v_i \in \Z$ for all $i$.
 \end{definition}
 
 \begin{definition}[Half-Integer Coordinates]\label{def:AllHalfInteger}
     \lean{GIFT.Foundations.E8Lattice.AllHalfInteger}
     \leanok
+    \uses{def:R8}
     A vector $v \in \R^8$ has \emph{all half-integer coordinates} if
     $v_i \in \Z + \frac{1}{2}$ for all $i$.
 \end{definition}
@@ -79,6 +81,7 @@ We formalize its lattice structure in $\R^8$.
 \begin{definition}[Even Sum]\label{def:SumEven}
     \lean{GIFT.Foundations.E8Lattice.SumEven}
     \leanok
+    \uses{def:R8}
     A vector $v$ has \emph{even sum} if $\sum_{i=0}^{7} v_i \in 2\Z$.
 \end{definition}
 
@@ -132,7 +135,7 @@ We formalize its lattice structure in $\R^8$.
 \begin{theorem}[E8 Closed Under Subtraction]\label{thm:E8_sub_closed}
     \lean{GIFT.Foundations.E8Lattice.E8_sub_closed}
     \leanok
-    \uses{def:E8_lattice}
+    \uses{def:E8_lattice, thm:E8_inner_integral}
     For $v, w \in \Eeight$: $v - w \in \Eeight$
 \end{theorem}
 
@@ -384,20 +387,21 @@ encode gauge bosons and fermions separately.
 \begin{definition}[SO(n) Dimension]\label{def:dim_SO}
     \lean{GIFT.Algebraic.SO16Decomposition.dim_SO}
     \leanok
+    \uses{def:H_star}
     $\opdim(\SO(n)) = \frac{n(n-1)}{2}$
 \end{definition}
 
 \begin{theorem}[SO(16) = 120]\label{thm:dim_SO16}
     \lean{GIFT.Algebraic.SO16Decomposition.dim_SO16}
     \leanok
-    \uses{def:dim_SO}
+    \uses{def:dim_SO, def:H_star}
     $\opdim(\SO(16)) = \frac{16 \times 15}{2} = 120$
 \end{theorem}
 
 \begin{theorem}[SO(7) = b2]\label{thm:dim_SO7}
     \lean{GIFT.Algebraic.SO16Decomposition.dim_SO7}
     \leanok
-    \uses{def:dim_SO, def:b2}
+    \uses{def:dim_SO, def:b2, def:H_star}
     $\opdim(\SO(7)) = \frac{7 \times 6}{2} = 21 = \btwo$
 \end{theorem}
 
@@ -406,13 +410,14 @@ encode gauge bosons and fermions separately.
 \begin{definition}[SO(16) Spinor]\label{def:spinor_SO16}
     \lean{GIFT.Algebraic.SO16Decomposition.spinor_SO16}
     \leanok
+    \uses{def:imaginary_count, def:H_star}
     The chiral spinor of $\SO(16)$ has dimension $2^8/2 = 128$.
 \end{definition}
 
 \begin{theorem}[Spinor from Octonions]\label{thm:spinor_from_octonions}
     \lean{GIFT.Algebraic.SO16Decomposition.spinor_from_octonions}
     \leanok
-    \uses{def:imaginary_count, def:spinor_SO16}
+    \uses{def:imaginary_count, def:spinor_SO16, def:H_star}
     $2^{|\mathrm{Im}(\OO)|} = 2^7 = 128$
 \end{theorem}
 
@@ -604,19 +609,21 @@ for 43 years until GIFT derived it from topology.
 \begin{definition}[Muon Base]\label{def:m_mu_base}
     \lean{GIFT.Relations.LeptonSector.m_mu_m_e_base}
     \leanok
+    \uses{def:H_star}
     $m_\mu/m_e$ base: $\opdim(J_3(\OO)) = 27$ (exceptional Jordan algebra)
 \end{definition}
 
 \begin{theorem}[Muon/Electron from Jordan]\label{thm:m_mu_from_jordan}
     \lean{GIFT.Relations.LeptonSector.m_mu_m_e_from_Jordan}
     \leanok
-    \uses{def:m_mu_base}
+    \uses{def:m_mu_base, def:H_star}
     $m_\mu/m_e \approx 27^\phi$ where $\phi = (1 + \sqrt{5})/2$ is the golden ratio.
 \end{theorem}
 
 \begin{theorem}[Tau/Electron Ratio]\label{thm:m_tau_m_e}
     \lean{GIFT.Relations.LeptonSector.m_tau_m_e_from_topology}
     \leanok
+    \uses{def:H_star}
     \[
         \frac{m_\tau}{m_e} = \opdim(\Kseven) + 10 \times \opdim(\Eeight) + 10 \times \Hstar
         = 7 + 2480 + 990 = 3477
@@ -626,7 +633,7 @@ for 43 years until GIFT derived it from topology.
 \begin{theorem}[Tau/Electron Factorization]\label{thm:m_tau_m_e_factorization}
     \lean{GIFT.Relations.LeptonSector.m_tau_m_e_components}
     \leanok
-    \uses{thm:m_tau_m_e}
+    \uses{thm:m_tau_m_e, def:H_star}
     $3477 = 3 \times 19 \times 61 = N_{\mathrm{gen}} \times p_8 \times \kappa_T^{-1}$
 \end{theorem}
 
@@ -653,6 +660,7 @@ for 43 years until GIFT derived it from topology.
 \begin{theorem}[Spectral Index Indices]\label{thm:n_s_indices}
     \lean{GIFT.Relations.Cosmology.n_s_indices_certified}
     \leanok
+    \uses{def:H_star}
     The spectral index $n_s = \zeta(11)/\zeta(5)$ uses:
     \begin{itemize}
         \item $11 = \Dbulk$ (M-theory dimension)
@@ -663,7 +671,7 @@ for 43 years until GIFT derived it from topology.
 \begin{theorem}[Dark Energy Fraction]\label{thm:Omega_DE_fraction}
     \lean{GIFT.Relations.Cosmology.Omega_DE_fraction_certified}
     \leanok
-    \uses{def:H_star}
+    \uses{def:H_star, thm:n_s_indices}
     $\Omega_{DE} = \ln(2) \times \frac{98}{99} = \ln(2) \times \frac{\Hstar - 1}{\Hstar}$
 \end{theorem}
 
@@ -684,31 +692,35 @@ A remarkable discovery: Fibonacci and Lucas numbers map exactly to GIFT constant
 \begin{theorem}[F3 = p2]\label{thm:fib_3_p2}
     \lean{GIFT.Sequences.Fibonacci.fib_3_is_p2}
     \leanok
+    \uses{def:fib, def:H_star}
     $F_3 = 2 = p_2$ (Pontryagin class)
 \end{theorem}
 
 \begin{theorem}[F6 = rank(E8)]\label{thm:fib_6_rank}
     \lean{GIFT.Sequences.Fibonacci.fib_6_is_rank_E8}
     \leanok
+    \uses{def:fib, def:H_star}
     $F_6 = 8 = \rank(\Eeight)$
 \end{theorem}
 
 \begin{theorem}[F8 = b2]\label{thm:fib_8_b2}
     \lean{GIFT.Sequences.Fibonacci.fib_8_is_b2}
     \leanok
-    \uses{def:b2}
+    \uses{def:fib, def:b2}
     $F_8 = 21 = \btwo$
 \end{theorem}
 
 \begin{theorem}[F12 = alpha\_s squared denominator]\label{thm:fib_12_alpha}
     \lean{GIFT.Sequences.Fibonacci.fib_12_is_alpha_s_sq}
     \leanok
+    \uses{def:fib, def:dim_G2, def:H_star}
     $F_{12} = 144 = (\opdim(\Gtwo) - p_2)^2 = 12^2$
 \end{theorem}
 
 \begin{theorem}[Master Fibonacci Embedding]\label{thm:fib_master}
     \lean{GIFT.Sequences.Fibonacci.gift_fibonacci_embedding}
     \leanok
+    \uses{thm:fib_3_p2, thm:fib_6_rank, thm:fib_8_b2, thm:fib_12_alpha}
     Complete embedding $F_3$ through $F_{12}$ in GIFT constants.
 \end{theorem}
 
@@ -723,19 +735,21 @@ A remarkable discovery: Fibonacci and Lucas numbers map exactly to GIFT constant
 \begin{theorem}[L4 = dim(K7)]\label{thm:lucas_4_K7}
     \lean{GIFT.Sequences.Lucas.lucas_4_is_dim_K7}
     \leanok
+    \uses{def:lucas, def:H_star}
     $L_4 = 7 = \opdim(\Kseven)$
 \end{theorem}
 
 \begin{theorem}[L5 = D\_bulk]\label{thm:lucas_5_bulk}
     \lean{GIFT.Sequences.Lucas.lucas_5_is_D_bulk}
     \leanok
+    \uses{def:lucas, def:H_star}
     $L_5 = 11 = \Dbulk$ (M-theory dimension)
 \end{theorem}
 
 \begin{theorem}[b3 = L4 * L5]\label{thm:b3_lucas}
     \lean{GIFT.Sequences.Lucas.b3_lucas_product}
     \leanok
-    \uses{def:b3, thm:lucas_4_K7, thm:lucas_5_bulk}
+    \uses{def:b3, def:lucas, thm:lucas_4_K7, thm:lucas_5_bulk}
     $\bthree = 77 = L_4 \times L_5 = 7 \times 11$
 \end{theorem}
 
@@ -750,13 +764,14 @@ GIFT achieves 100\% coverage of primes $< 200$ through explicit expressions.
 \begin{definition}[Tier 1 Primes]\label{def:tier1_primes}
     \lean{GIFT.Primes.Tier1.tier1_primes}
     \leanok
+    \uses{def:H_star}
     Direct GIFT constants that are prime: $\{2, 3, 5, 7, 11, 13, 17, 19, 31, 61\}$
 \end{definition}
 
 \begin{theorem}[All Tier 1 Prime]\label{thm:tier1_all_prime}
     \lean{GIFT.Primes.Tier1.tier1_all_prime}
     \leanok
-    \uses{def:tier1_primes}
+    \uses{def:tier1_primes, def:H_star}
     Every element of tier1\_primes is prime.
 \end{theorem}
 
@@ -767,18 +782,21 @@ The 9 Heegner numbers are the only $d$ such that $\Q(\sqrt{-d})$ has class numbe
 \begin{definition}[Heegner Numbers]\label{def:heegner}
     \lean{GIFT.Primes.Heegner.heegner_numbers}
     \leanok
+    \uses{def:H_star}
     $\{1, 2, 3, 7, 11, 19, 43, 67, 163\}$
 \end{definition}
 
 \begin{theorem}[Heegner 163]\label{thm:heegner_163}
     \lean{GIFT.Primes.Heegner.heegner_163_expr}
     \leanok
+    \uses{def:heegner, def:b3, def:H_star}
     $163 = \opdim(\Eeight) - \rank(\Eeight) - \bthree = 248 - 8 - 77$
 \end{theorem}
 
 \begin{theorem}[All Heegner GIFT-Expressible]\label{thm:heegner_all}
     \lean{GIFT.Primes.Heegner.all_heegner_gift_expressible}
     \leanok
+    \uses{def:heegner, thm:heegner_163, def:H_star}
     All 9 Heegner numbers have GIFT expressions.
 \end{theorem}
 
@@ -793,26 +811,28 @@ Monstrous moonshine connects the Monster group to modular functions via its dime
 \begin{definition}[Monster Dimension]\label{def:monster_dim}
     \lean{GIFT.Moonshine.MonsterDimension.monster_dim}
     \leanok
+    \uses{def:H_star}
     The smallest faithful representation: $196883$
 \end{definition}
 
 \begin{theorem}[Monster Factorization]\label{thm:monster_factor}
     \lean{GIFT.Moonshine.MonsterDimension.monster_factorization}
     \leanok
-    \uses{def:monster_dim}
+    \uses{def:monster_dim, def:H_star}
     $196883 = 47 \times 59 \times 71$
 \end{theorem}
 
 \begin{theorem}[Monster GIFT Expression]\label{thm:monster_gift}
     \lean{GIFT.Moonshine.MonsterDimension.monster_dim_gift}
     \leanok
-    \uses{def:monster_dim, def:b3, def:lucas}
+    \uses{def:monster_dim, def:b3, def:lucas, def:H_star}
     $196883 = L_8 \times (\bthree - L_6) \times (\bthree - 6)$
 \end{theorem}
 
 \begin{theorem}[Arithmetic Progression]\label{thm:monster_ap}
     \lean{GIFT.Moonshine.MonsterDimension.monster_arithmetic_progression}
     \leanok
+    \uses{def:monster_dim, def:dim_G2, def:H_star}
     $47, 59, 71$ form an AP with common difference $12 = \opdim(\Gtwo) - p_2$
 \end{theorem}
 
@@ -827,12 +847,14 @@ Monstrous moonshine connects the Monster group to modular functions via its dime
 \begin{theorem}[j = 3 x E8]\label{thm:j_E8}
     \lean{GIFT.Moonshine.JInvariant.j_constant_gift}
     \leanok
+    \uses{def:j_constant, def:H_star}
     $744 = N_{\mathrm{gen}} \times \opdim(\Eeight) = 3 \times 248$
 \end{theorem}
 
 \begin{theorem}[j = E8 + E8xE8]\label{thm:j_triality}
     \lean{GIFT.Moonshine.JInvariant.j_constant_E8}
     \leanok
+    \uses{def:j_constant, def:H_star}
     $744 = \opdim(\Eeight) + \opdim(\Eeight \times \Eeight) = 248 + 496$
 \end{theorem}
 
@@ -847,31 +869,35 @@ The McKay correspondence links $\Eeight$ to the binary icosahedral group and gol
 \begin{definition}[Coxeter Number]\label{def:coxeter}
     \lean{GIFT.McKay.Correspondence.coxeter_E8}
     \leanok
+    \uses{def:H_star}
     $h(\Eeight) = 30 = $ icosahedron edges
 \end{definition}
 
 \begin{definition}[Binary Icosahedral Order]\label{def:binary_icosahedral}
     \lean{GIFT.McKay.Correspondence.binary_icosahedral_order}
     \leanok
+    \uses{def:coxeter}
     $|2I| = 120$
 \end{definition}
 
 \begin{theorem}[E8 Kissing Number]\label{thm:E8_kissing}
     \lean{GIFT.McKay.Correspondence.E8_kissing_number}
     \leanok
-    \uses{def:coxeter}
+    \uses{def:coxeter, def:binary_icosahedral, def:H_star}
     $240 = 2 \times |2I| = \rank(\Eeight) \times h(\Eeight)$
 \end{theorem}
 
 \begin{theorem}[Coxeter GIFT]\label{thm:coxeter_gift}
     \lean{GIFT.McKay.Correspondence.coxeter_30_gift}
     \leanok
+    \uses{def:coxeter, def:H_star}
     $30 = p_2 \times N_{\mathrm{gen}} \times W = 2 \times 3 \times 5$
 \end{theorem}
 
 \begin{theorem}[Euler = p2]\label{thm:euler_p2}
     \lean{GIFT.McKay.Correspondence.euler_is_p2}
     \leanok
+    \uses{def:coxeter, def:H_star}
     Icosahedron Euler characteristic: $V + F - E = 12 + 20 - 30 = 2 = p_2$
 \end{theorem}
 
@@ -886,19 +912,21 @@ Joyce's perturbation theorem proves $\Kseven$ admits torsion-free $\Gtwo$ struct
 \begin{definition}[Joyce Threshold]\label{def:joyce_epsilon}
     \lean{GIFT.Joyce.joyce_epsilon}
     \leanok
+    \uses{def:H_star}
     $\varepsilon_0 = 0.0288$ (scaled: 288)
 \end{definition}
 
 \begin{definition}[PINN Torsion]\label{def:pinn_torsion}
     \lean{GIFT.Joyce.pinn_torsion}
     \leanok
+    \uses{def:joyce_epsilon}
     $\|T(\varphi_0)\| = 0.00141$ (scaled: 141)
 \end{definition}
 
 \begin{theorem}[Below Threshold]\label{thm:pinn_below}
     \lean{GIFT.Joyce.pinn_below_joyce_threshold}
     \leanok
-    \uses{def:joyce_epsilon, def:pinn_torsion}
+    \uses{def:joyce_epsilon, def:pinn_torsion, def:H_star}
     $\|T(\varphi_0)\| < \varepsilon_0$ (20$\times$ safety margin)
 \end{theorem}
 
@@ -956,26 +984,28 @@ on $\Kseven$ by encoding the algebraic structure directly in the neural architec
 \begin{definition}[Torsion Bound]\label{def:torsion_bound}
     \lean{GIFT.Foundations.AnalyticalMetric.torsion_bound}
     \leanok
+    \uses{def:phi0_standard, def:H_star}
     PINN torsion bound: $\|T\| < 0.001$
 \end{definition}
 
 \begin{definition}[Det Error Bound]\label{def:det_error}
     \lean{GIFT.Foundations.AnalyticalMetric.det_error_bound}
     \leanok
+    \uses{def:torsion_bound, def:H_star}
     Determinant error: $|\det(g) - 65/32| < 10^{-6}$
 \end{definition}
 
 \begin{theorem}[Joyce Condition]\label{thm:joyce_satisfied}
     \lean{GIFT.Foundations.AnalyticalMetric.joyce_condition_satisfied}
     \leanok
-    \uses{def:torsion_bound}
+    \uses{def:torsion_bound, def:joyce_epsilon}
     The PINN torsion is well below Joyce threshold: $0.001 < 0.0288$
 \end{theorem}
 
 \begin{theorem}[20x Margin]\label{thm:margin_20x}
     \lean{GIFT.Foundations.AnalyticalMetric.margin_verification}
     \leanok
-    \uses{def:torsion_bound}
+    \uses{def:torsion_bound, def:joyce_epsilon, thm:joyce_satisfied}
     $20 \times \|T\|_{\text{PINN}} < \varepsilon_{\text{Joyce}}$
 \end{theorem}
 
@@ -989,7 +1019,7 @@ on $\Kseven$ by encoding the algebraic structure directly in the neural architec
 \begin{theorem}[Target in Interval]\label{thm:target_interval}
     \lean{GIFT.Foundations.AnalyticalMetric.target_in_interval}
     \leanok
-    \uses{def:det_error}
+    \uses{def:det_error, def:H_star, thm:margin_20x}
     The target value $65/32$ lies in the certified interval for $\det(g)$.
 \end{theorem}
 
@@ -1026,6 +1056,7 @@ is the \emph{exact} analytical solution.
 \begin{definition}[Signs Pattern]\label{def:phi0_signs}
     \lean{GIFT.Foundations.AnalyticalMetric.phi0_signs}
     \leanok
+    \uses{def:phi0_standard}
     The signs are: $[+1, +1, +1, +1, -1, -1, -1]$
 \end{definition}
 
@@ -1072,6 +1103,7 @@ is the \emph{exact} analytical solution.
 \begin{definition}[Scale Factor]\label{def:scale_c}
     \lean{GIFT.Foundations.AnalyticalMetric.scale_factor_power_14}
     \leanok
+    \uses{def:phi0_explicit, def:H_star}
     To achieve $\det(g) = 65/32$, we scale $\varphi_0$ by:
     \[
         c = \left(\frac{65}{32}\right)^{1/14} \approx 1.0543
@@ -1096,7 +1128,7 @@ is the \emph{exact} analytical solution.
 \begin{theorem}[Scaled Identity Metric]\label{thm:metric_form}
     \lean{GIFT.Foundations.AnalyticalMetric.metric_is_scaled_identity}
     \leanok
-    \uses{def:scale_c}
+    \uses{def:scale_c, thm:scale_derivation}
     The induced metric is:
     \[
         g = c^2 \cdot I_7 = \left(\frac{65}{32}\right)^{1/7} \cdot I_7 \approx 1.1115 \cdot I_7
@@ -1113,7 +1145,7 @@ is the \emph{exact} analytical solution.
 \begin{theorem}[Determinant Verification]\label{thm:det_exact}
     \lean{GIFT.Foundations.AnalyticalMetric.det_g_target_value}
     \leanok
-    \uses{thm:metric_form}
+    \uses{thm:metric_form, def:H_star}
     $\det(g) = \left[(65/32)^{1/7}\right]^7 = 65/32 = 2.03125$ \textbf{exactly}.
 \end{theorem}
 
@@ -1122,6 +1154,7 @@ is the \emph{exact} analytical solution.
 \begin{theorem}[Zero Torsion]\label{thm:torsion_zero}
     \lean{GIFT.Foundations.AnalyticalMetric.torsion_norm_constant_form}
     \leanok
+    \uses{def:phi0_explicit, thm:det_exact}
     For a constant 3-form $\varphi(x) = \varphi_0$:
     \begin{itemize}
         \item $d\varphi = 0$ (exterior derivative of constant)
@@ -1133,7 +1166,7 @@ is the \emph{exact} analytical solution.
 \begin{theorem}[Joyce Satisfied]\label{thm:joyce_exact}
     \lean{GIFT.Foundations.AnalyticalMetric.torsion_satisfies_joyce}
     \leanok
-    \uses{thm:torsion_zero}
+    \uses{thm:torsion_zero, def:joyce_epsilon}
     $\|T\| = 0 < 0.0288 = \varepsilon_{\text{Joyce}}$ with \emph{infinite} margin.
 \end{theorem}
 
