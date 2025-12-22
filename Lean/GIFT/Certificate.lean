@@ -67,7 +67,7 @@ theorem all_13_relations_certified :
   -- 2. Koide parameter
   dim_G2 * 3 = b2 * 2 ∧
   -- 3. N_gen
-  Relations.N_gen = 3 ∧
+  N_gen = 3 ∧
   -- 4. delta_CP
   delta_CP = 197 ∧
   -- 5. H_star
@@ -149,7 +149,7 @@ theorem all_25_relations_certified :
   -- Original 13
   (b2 * 13 = 3 * (b3 + dim_G2)) ∧
   (dim_G2 * 3 = b2 * 2) ∧
-  (Relations.N_gen = 3) ∧
+  (N_gen = 3) ∧
   (delta_CP = 197) ∧
   (H_star = 99) ∧
   (p2 = 2) ∧
@@ -205,7 +205,7 @@ theorem all_35_relations_certified :
   -- Original 13
   (b2 * 13 = 3 * (b3 + dim_G2)) ∧
   (dim_G2 * 3 = b2 * 2) ∧
-  (Relations.N_gen = 3) ∧
+  (N_gen = 3) ∧
   (delta_CP = 197) ∧
   (H_star = 99) ∧
   (p2 = 2) ∧
@@ -270,7 +270,7 @@ theorem all_39_relations_certified :
     -- Original 13 + Extension 12 + Yukawa 10 = 35 (from v1.3.0)
     (b2 * 13 = 3 * (b3 + dim_G2)) ∧
     (dim_G2 * 3 = b2 * 2) ∧
-    (Relations.N_gen = 3) ∧
+    (N_gen = 3) ∧
     (H_star = 99) ∧
     (b3 - dim_G2 - p2 = 61) ∧
     (dim_G2 - p2 = 12) ∧
@@ -297,7 +297,7 @@ theorem exceptional_groups_relations_certified :
     -- Relation 43: Jordan traceless
     (dim_E6 - dim_F4 = 26) ∧
     -- Relation 44: Weyl E8 factorization
-    (weyl_E8_order = p2^dim_G2 * Relations.N_gen^Weyl_factor * Weyl_factor^p2 * dim_K7) := by
+    (weyl_E8_order = p2^dim_G2 * N_gen^Weyl_factor * Weyl_factor^p2 * dim_K7) := by
   repeat (first | constructor | native_decide | rfl)
 
 /-- Master theorem: All 44 GIFT relations (39 + 5 exceptional groups) v1.5.0 -/
@@ -305,7 +305,7 @@ theorem all_44_relations_certified :
     -- Key relations from v1.4.0
     b2 * 13 = 3 * (b3 + dim_G2) ∧
     dim_G2 * 3 = b2 * 2 ∧
-    Relations.N_gen = 3 ∧
+    N_gen = 3 ∧
     H_star = 99 ∧
     b3 - dim_G2 - p2 = 61 ∧
     dim_G2 - p2 = 12 ∧
@@ -331,7 +331,7 @@ theorem all_44_relations_certified :
 /-- Base decomposition relations (v1.5.0) -/
 theorem base_decomposition_relations_certified :
     -- Relation 45: kappa_T^-1 from F4
-    (dim_F4 + Relations.N_gen * Relations.N_gen = 61) ∧
+    (dim_F4 + N_gen * N_gen = 61) ∧
     -- Relation 46: b2 decomposition
     (b2 = YukawaDuality.alpha_sq_B_sum + rank_E8) ∧
     -- Relation 47: b3 decomposition
@@ -349,7 +349,7 @@ theorem all_50_relations_certified :
     -- Key relations from v1.5.0
     b2 * 13 = 3 * (b3 + dim_G2) ∧
     dim_G2 * 3 = b2 * 2 ∧
-    Relations.N_gen = 3 ∧
+    N_gen = 3 ∧
     H_star = 99 ∧
     b3 - dim_G2 - p2 = 61 ∧
     dim_G2 - p2 = 12 ∧
@@ -369,7 +369,7 @@ theorem all_50_relations_certified :
     dim_E6 - dim_F4 = 26 ∧
     weyl_E8_order = 696729600 ∧
     -- v1.5.0: Base decomposition (6 new)
-    dim_F4 + Relations.N_gen * Relations.N_gen = 61 ∧
+    dim_F4 + N_gen * N_gen = 61 ∧
     b2 = YukawaDuality.alpha_sq_B_sum + rank_E8 ∧
     b3 = YukawaDuality.alpha_sq_B_sum * Weyl_factor + 12 ∧
     H_star = YukawaDuality.alpha_sq_B_sum * dim_K7 + rank_E8 ∧
@@ -382,7 +382,7 @@ theorem extended_decomposition_relations_certified :
     -- Relation 51: tau base-13 structure
     (1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num_reduced) ∧
     -- Relation 52: n_observables
-    (n_observables = Relations.N_gen * YukawaDuality.alpha_sq_B_sum) ∧
+    (n_observables = N_gen * YukawaDuality.alpha_sq_B_sum) ∧
     -- Relation 53: E6 dual structure
     (dim_E6 = 2 * n_observables) ∧
     -- Relation 54: Hubble constant
@@ -408,7 +408,7 @@ theorem mass_factorization_relations_certified :
     (lucas 6 = 18) ∧
     (fib 8 = b2) ∧
     -- Relation 65: Gap color
-    (p2 * Relations.N_gen * Relations.N_gen = 18) := by
+    (p2 * N_gen * N_gen = 18) := by
   repeat (first | constructor | native_decide | rfl)
 
 /-- Master theorem: All 54 GIFT relations (50 + 4 extended) v1.5.0 -/
@@ -416,7 +416,7 @@ theorem all_54_relations_certified :
     -- Key relations from v1.5.0
     b2 * 13 = 3 * (b3 + dim_G2) ∧
     dim_G2 * 3 = b2 * 2 ∧
-    Relations.N_gen = 3 ∧
+    N_gen = 3 ∧
     H_star = 99 ∧
     b3 - dim_G2 - p2 = 61 ∧
     dim_G2 - p2 = 12 ∧
@@ -435,7 +435,7 @@ theorem all_54_relations_certified :
     dim_F4 - dim_J3O = 25 ∧
     dim_E6 - dim_F4 = 26 ∧
     weyl_E8_order = 696729600 ∧
-    dim_F4 + Relations.N_gen * Relations.N_gen = 61 ∧
+    dim_F4 + N_gen * N_gen = 61 ∧
     b2 = YukawaDuality.alpha_sq_B_sum + rank_E8 ∧
     b3 = YukawaDuality.alpha_sq_B_sum * Weyl_factor + 12 ∧
     H_star = YukawaDuality.alpha_sq_B_sum * dim_K7 + rank_E8 ∧
@@ -443,7 +443,7 @@ theorem all_54_relations_certified :
     dim_K7 * dim_G2 = 98 ∧
     -- v1.5.0: Extended decomposition (4 new)
     1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num_reduced ∧
-    n_observables = Relations.N_gen * YukawaDuality.alpha_sq_B_sum ∧
+    n_observables = N_gen * YukawaDuality.alpha_sq_B_sum ∧
     dim_E6 = 2 * n_observables ∧
     H0_topological = dim_K7 * 10 := by
   repeat (first | constructor | native_decide | rfl)
@@ -453,7 +453,7 @@ theorem all_65_relations_certified :
     -- Key relations from v1.5.0
     b2 * 13 = 3 * (b3 + dim_G2) ∧
     dim_G2 * 3 = b2 * 2 ∧
-    Relations.N_gen = 3 ∧
+    N_gen = 3 ∧
     H_star = 99 ∧
     b3 - dim_G2 - p2 = 61 ∧
     dim_G2 - p2 = 12 ∧
@@ -472,14 +472,14 @@ theorem all_65_relations_certified :
     dim_F4 - dim_J3O = 25 ∧
     dim_E6 - dim_F4 = 26 ∧
     weyl_E8_order = 696729600 ∧
-    dim_F4 + Relations.N_gen * Relations.N_gen = 61 ∧
+    dim_F4 + N_gen * N_gen = 61 ∧
     b2 = YukawaDuality.alpha_sq_B_sum + rank_E8 ∧
     b3 = YukawaDuality.alpha_sq_B_sum * Weyl_factor + 12 ∧
     H_star = YukawaDuality.alpha_sq_B_sum * dim_K7 + rank_E8 ∧
     dim_U1 + Weyl_factor + dim_K7 = YukawaDuality.alpha_sq_B_sum ∧
     dim_K7 * dim_G2 = 98 ∧
     1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num_reduced ∧
-    n_observables = Relations.N_gen * YukawaDuality.alpha_sq_B_sum ∧
+    n_observables = N_gen * YukawaDuality.alpha_sq_B_sum ∧
     dim_E6 = 2 * n_observables ∧
     H0_topological = dim_K7 * 10 ∧
     -- v1.6.0: Mass factorization (11 new)
@@ -493,7 +493,7 @@ theorem all_65_relations_certified :
     fib 9 = 34 ∧
     lucas 6 = 18 ∧
     fib 8 = b2 ∧
-    p2 * Relations.N_gen * Relations.N_gen = 18 := by
+    p2 * N_gen * N_gen = 18 := by
   repeat (first | constructor | native_decide | rfl)
 
 /-- Exceptional chain relations (v1.7.0) -/
@@ -525,7 +525,7 @@ theorem all_75_relations_certified :
     -- Key relations from v1.6.0
     b2 * 13 = 3 * (b3 + dim_G2) ∧
     dim_G2 * 3 = b2 * 2 ∧
-    Relations.N_gen = 3 ∧
+    N_gen = 3 ∧
     H_star = 99 ∧
     b3 - dim_G2 - p2 = 61 ∧
     dim_G2 - p2 = 12 ∧
@@ -544,14 +544,14 @@ theorem all_75_relations_certified :
     dim_F4 - dim_J3O = 25 ∧
     dim_E6 - dim_F4 = 26 ∧
     weyl_E8_order = 696729600 ∧
-    dim_F4 + Relations.N_gen * Relations.N_gen = 61 ∧
+    dim_F4 + N_gen * N_gen = 61 ∧
     b2 = YukawaDuality.alpha_sq_B_sum + rank_E8 ∧
     b3 = YukawaDuality.alpha_sq_B_sum * Weyl_factor + 12 ∧
     H_star = YukawaDuality.alpha_sq_B_sum * dim_K7 + rank_E8 ∧
     dim_U1 + Weyl_factor + dim_K7 = YukawaDuality.alpha_sq_B_sum ∧
     dim_K7 * dim_G2 = 98 ∧
     1 * 13^3 + 7 * 13^2 + 7 * 13 + 1 = tau_num_reduced ∧
-    n_observables = Relations.N_gen * YukawaDuality.alpha_sq_B_sum ∧
+    n_observables = N_gen * YukawaDuality.alpha_sq_B_sum ∧
     dim_E6 = 2 * n_observables ∧
     H0_topological = dim_K7 * 10 ∧
     -- v1.6.0: Mass factorization (11)
@@ -565,7 +565,7 @@ theorem all_75_relations_certified :
     fib 9 = 34 ∧
     lucas 6 = 18 ∧
     fib 8 = b2 ∧
-    p2 * Relations.N_gen * Relations.N_gen = 18 ∧
+    p2 * N_gen * N_gen = 18 ∧
     -- v1.7.0: Exceptional chain (10 new)
     dim_K7 * dim_E8xE8 = 3472 ∧
     dim_E7 = dim_K7 * prime_8 ∧
