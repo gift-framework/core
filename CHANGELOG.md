@@ -5,6 +5,39 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.8] - 2025-12-22
+
+### Summary
+
+**Axiom Reduction!** Eliminated 8 axioms by connecting to already-proven theorems in RootSystems.lean and G2CrossProduct.lean. Total axioms reduced from 52 to 44 (15% reduction).
+
+### Changed
+
+- **E8Lattice.lean**: Replaced 4 root counting axioms with proven theorems from RootSystems.lean
+  - `D8_roots_card_enum` → `RootSystems.D8_card` (112 roots)
+  - `HalfInt_roots_card_enum` → `RootSystems.HalfInt_card` (128 roots)
+  - `E8_roots_decomposition_enum` → `RootSystems.E8_roots_decomposition`
+  - `E8_roots_card_240` → `RootSystems.E8_enumeration_card` (240 total)
+
+- **G2TensorForm.lean**: Replaced 4 cross product axioms with proven theorems from G2CrossProduct.lean
+  - `G2_cross_bilinear_left` → `G2CrossProduct.cross_left_linear`
+  - `G2_cross_antisymm'` → `G2CrossProduct.G2_cross_antisymm`
+  - `G2_cross_lagrange` → `G2CrossProduct.G2_cross_norm`
+  - `cross_matches_octonion_structure` → `G2CrossProduct.cross_is_octonion_structure`
+
+### Fixed
+
+- **Namespace conflicts**: Use qualified names to avoid ambiguous term errors
+  - `RootSystems.AllInteger` vs `InnerProductSpace.AllInteger`
+  - `G2CrossProduct.R7` vs `InnerProductSpace.R7`
+
+### Documentation
+
+- Updated `docs/AXIOM_AUDIT.md` with progress tracking (v3.1.8)
+- Added namespace conflict guidelines to `CLAUDE.md`
+
+---
+
 ## [3.1.7] - 2025-12-22
 
 ### Summary

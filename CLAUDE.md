@@ -272,6 +272,40 @@ python -c "from gift_core import *; print(GAMMA_GIFT)"
 | `No rule to make target 'X.vo'` | Missing from _CoqProject | Add file to list |
 | `ImportError` | Missing export | Add to `__init__.py` |
 | `native_decide failed` | Computation too complex | Split into smaller lemmas |
+| `Ambiguous term` (e.g., `R7`, `AllInteger`) | Multiple `open` with same names | Use qualified names (see below) |
+
+### 6. Namespace Conflicts in Lean 4
+
+**Problem**: Opening multiple namespaces that define the same names causes ambiguous term errors.
+
+```lean
+-- BAD - Both define R7, AllInteger, AllHalfInteger
+open InnerProductSpace
+open GIFT.Foundations.RootSystems  -- CONFLICT!
+
+-- GOOD - Only open one, use qualified names for the other
+open InnerProductSpace
+-- Use RootSystems.D8_card, RootSystems.E8_enumeration, etc.
+```
+
+**Known conflicts:**
+
+| Name | Defined in | Also in |
+|------|-----------|---------|
+| `R7` | `InnerProductSpace` | `G2CrossProduct` |
+| `R8` | `InnerProductSpace` | `RootSystems` |
+| `AllInteger` | `InnerProductSpace` | `RootSystems` |
+| `AllHalfInteger` | `InnerProductSpace` | `RootSystems` |
+
+**Rule**: When importing from `RootSystems` or `G2CrossProduct`, do NOT use `open`. Instead, reference theorems with qualified names:
+
+```lean
+import GIFT.Foundations.RootSystems
+-- DON'T: open GIFT.Foundations.RootSystems
+
+-- DO: Use qualified names
+theorem foo : RootSystems.E8_enumeration.card = 240 := RootSystems.E8_enumeration_card
+```
 
 ---
 
@@ -465,4 +499,4 @@ theorem gift_certificate :
 
 ---
 
-*Last updated: 2025-12-21 - 180+ relations + Hierarchy module connected (v3.1.6)*
+*Last updated: 2025-12-22 - Axiom reduction (52→44) + namespace conflict guidelines (v3.1.8)*
