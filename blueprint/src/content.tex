@@ -387,21 +387,20 @@ encode gauge bosons and fermions separately.
 \begin{definition}[SO(n) Dimension]\label{def:dim_SO}
     \lean{GIFT.Algebraic.SO16Decomposition.dim_SO}
     \leanok
-    \uses{def:H_star}
     $\opdim(\SO(n)) = \frac{n(n-1)}{2}$
 \end{definition}
 
 \begin{theorem}[SO(16) = 120]\label{thm:dim_SO16}
     \lean{GIFT.Algebraic.SO16Decomposition.dim_SO16}
     \leanok
-    \uses{def:dim_SO, def:H_star}
+    \uses{def:dim_SO}
     $\opdim(\SO(16)) = \frac{16 \times 15}{2} = 120$
 \end{theorem}
 
 \begin{theorem}[SO(7) = b2]\label{thm:dim_SO7}
     \lean{GIFT.Algebraic.SO16Decomposition.dim_SO7}
     \leanok
-    \uses{def:dim_SO, def:b2, def:H_star}
+    \uses{def:dim_SO, def:b2}
     $\opdim(\SO(7)) = \frac{7 \times 6}{2} = 21 = \btwo$
 \end{theorem}
 
@@ -410,14 +409,14 @@ encode gauge bosons and fermions separately.
 \begin{definition}[SO(16) Spinor]\label{def:spinor_SO16}
     \lean{GIFT.Algebraic.SO16Decomposition.spinor_SO16}
     \leanok
-    \uses{def:imaginary_count, def:H_star}
+    \uses{def:imaginary_count}
     The chiral spinor of $\SO(16)$ has dimension $2^8/2 = 128$.
 \end{definition}
 
 \begin{theorem}[Spinor from Octonions]\label{thm:spinor_from_octonions}
     \lean{GIFT.Algebraic.SO16Decomposition.spinor_from_octonions}
     \leanok
-    \uses{def:imaginary_count, def:spinor_SO16, def:H_star}
+    \uses{def:imaginary_count, def:spinor_SO16}
     $2^{|\mathrm{Im}(\OO)|} = 2^7 = 128$
 \end{theorem}
 
@@ -609,14 +608,13 @@ for 43 years until GIFT derived it from topology.
 \begin{definition}[Muon Base]\label{def:m_mu_base}
     \lean{GIFT.Relations.LeptonSector.m_mu_m_e_base}
     \leanok
-    \uses{def:H_star}
     $m_\mu/m_e$ base: $\opdim(J_3(\OO)) = 27$ (exceptional Jordan algebra)
 \end{definition}
 
 \begin{theorem}[Muon/Electron from Jordan]\label{thm:m_mu_from_jordan}
     \lean{GIFT.Relations.LeptonSector.m_mu_m_e_from_Jordan}
     \leanok
-    \uses{def:m_mu_base, def:H_star}
+    \uses{def:m_mu_base}
     $m_\mu/m_e \approx 27^\phi$ where $\phi = (1 + \sqrt{5})/2$ is the golden ratio.
 \end{theorem}
 
@@ -633,7 +631,7 @@ for 43 years until GIFT derived it from topology.
 \begin{theorem}[Tau/Electron Factorization]\label{thm:m_tau_m_e_factorization}
     \lean{GIFT.Relations.LeptonSector.m_tau_m_e_components}
     \leanok
-    \uses{thm:m_tau_m_e, def:H_star}
+    \uses{thm:m_tau_m_e}
     $3477 = 3 \times 19 \times 61 = N_{\mathrm{gen}} \times p_8 \times \kappa_T^{-1}$
 \end{theorem}
 
@@ -660,7 +658,6 @@ for 43 years until GIFT derived it from topology.
 \begin{theorem}[Spectral Index Indices]\label{thm:n_s_indices}
     \lean{GIFT.Relations.Cosmology.n_s_indices_certified}
     \leanok
-    \uses{def:H_star}
     The spectral index $n_s = \zeta(11)/\zeta(5)$ uses:
     \begin{itemize}
         \item $11 = \Dbulk$ (M-theory dimension)
@@ -692,14 +689,14 @@ A remarkable discovery: Fibonacci and Lucas numbers map exactly to GIFT constant
 \begin{theorem}[F3 = p2]\label{thm:fib_3_p2}
     \lean{GIFT.Sequences.Fibonacci.fib_3_is_p2}
     \leanok
-    \uses{def:fib, def:H_star}
+    \uses{def:fib}
     $F_3 = 2 = p_2$ (Pontryagin class)
 \end{theorem}
 
 \begin{theorem}[F6 = rank(E8)]\label{thm:fib_6_rank}
     \lean{GIFT.Sequences.Fibonacci.fib_6_is_rank_E8}
     \leanok
-    \uses{def:fib, def:H_star}
+    \uses{def:fib}
     $F_6 = 8 = \rank(\Eeight)$
 \end{theorem}
 
@@ -735,14 +732,14 @@ A remarkable discovery: Fibonacci and Lucas numbers map exactly to GIFT constant
 \begin{theorem}[L4 = dim(K7)]\label{thm:lucas_4_K7}
     \lean{GIFT.Sequences.Lucas.lucas_4_is_dim_K7}
     \leanok
-    \uses{def:lucas, def:H_star}
+    \uses{def:lucas}
     $L_4 = 7 = \opdim(\Kseven)$
 \end{theorem}
 
 \begin{theorem}[L5 = D\_bulk]\label{thm:lucas_5_bulk}
     \lean{GIFT.Sequences.Lucas.lucas_5_is_D_bulk}
     \leanok
-    \uses{def:lucas, def:H_star}
+    \uses{def:lucas}
     $L_5 = 11 = \Dbulk$ (M-theory dimension)
 \end{theorem}
 
@@ -764,14 +761,13 @@ GIFT achieves 100\% coverage of primes $< 200$ through explicit expressions.
 \begin{definition}[Tier 1 Primes]\label{def:tier1_primes}
     \lean{GIFT.Primes.Tier1.tier1_primes}
     \leanok
-    \uses{def:H_star}
     Direct GIFT constants that are prime: $\{2, 3, 5, 7, 11, 13, 17, 19, 31, 61\}$
 \end{definition}
 
 \begin{theorem}[All Tier 1 Prime]\label{thm:tier1_all_prime}
     \lean{GIFT.Primes.Tier1.tier1_all_prime}
     \leanok
-    \uses{def:tier1_primes, def:H_star}
+    \uses{def:tier1_primes}
     Every element of tier1\_primes is prime.
 \end{theorem}
 
@@ -782,21 +778,20 @@ The 9 Heegner numbers are the only $d$ such that $\Q(\sqrt{-d})$ has class numbe
 \begin{definition}[Heegner Numbers]\label{def:heegner}
     \lean{GIFT.Primes.Heegner.heegner_numbers}
     \leanok
-    \uses{def:H_star}
     $\{1, 2, 3, 7, 11, 19, 43, 67, 163\}$
 \end{definition}
 
 \begin{theorem}[Heegner 163]\label{thm:heegner_163}
     \lean{GIFT.Primes.Heegner.heegner_163_expr}
     \leanok
-    \uses{def:heegner, def:b3, def:H_star}
+    \uses{def:heegner, def:b3}
     $163 = \opdim(\Eeight) - \rank(\Eeight) - \bthree = 248 - 8 - 77$
 \end{theorem}
 
 \begin{theorem}[All Heegner GIFT-Expressible]\label{thm:heegner_all}
     \lean{GIFT.Primes.Heegner.all_heegner_gift_expressible}
     \leanok
-    \uses{def:heegner, thm:heegner_163, def:H_star}
+    \uses{def:heegner, thm:heegner_163}
     All 9 Heegner numbers have GIFT expressions.
 \end{theorem}
 
@@ -811,28 +806,27 @@ Monstrous moonshine connects the Monster group to modular functions via its dime
 \begin{definition}[Monster Dimension]\label{def:monster_dim}
     \lean{GIFT.Moonshine.MonsterDimension.monster_dim}
     \leanok
-    \uses{def:H_star}
     The smallest faithful representation: $196883$
 \end{definition}
 
 \begin{theorem}[Monster Factorization]\label{thm:monster_factor}
     \lean{GIFT.Moonshine.MonsterDimension.monster_factorization}
     \leanok
-    \uses{def:monster_dim, def:H_star}
+    \uses{def:monster_dim}
     $196883 = 47 \times 59 \times 71$
 \end{theorem}
 
 \begin{theorem}[Monster GIFT Expression]\label{thm:monster_gift}
     \lean{GIFT.Moonshine.MonsterDimension.monster_dim_gift}
     \leanok
-    \uses{def:monster_dim, def:b3, def:lucas, def:H_star}
+    \uses{def:monster_dim, def:b3, def:lucas}
     $196883 = L_8 \times (\bthree - L_6) \times (\bthree - 6)$
 \end{theorem}
 
 \begin{theorem}[Arithmetic Progression]\label{thm:monster_ap}
     \lean{GIFT.Moonshine.MonsterDimension.monster_arithmetic_progression}
     \leanok
-    \uses{def:monster_dim, def:dim_G2, def:H_star}
+    \uses{def:monster_dim, def:dim_G2}
     $47, 59, 71$ form an AP with common difference $12 = \opdim(\Gtwo) - p_2$
 \end{theorem}
 
@@ -847,14 +841,14 @@ Monstrous moonshine connects the Monster group to modular functions via its dime
 \begin{theorem}[j = 3 x E8]\label{thm:j_E8}
     \lean{GIFT.Moonshine.JInvariant.j_constant_gift}
     \leanok
-    \uses{def:j_constant, def:H_star}
+    \uses{def:j_constant}
     $744 = N_{\mathrm{gen}} \times \opdim(\Eeight) = 3 \times 248$
 \end{theorem}
 
 \begin{theorem}[j = E8 + E8xE8]\label{thm:j_triality}
     \lean{GIFT.Moonshine.JInvariant.j_constant_E8}
     \leanok
-    \uses{def:j_constant, def:H_star}
+    \uses{def:j_constant}
     $744 = \opdim(\Eeight) + \opdim(\Eeight \times \Eeight) = 248 + 496$
 \end{theorem}
 
@@ -869,7 +863,6 @@ The McKay correspondence links $\Eeight$ to the binary icosahedral group and gol
 \begin{definition}[Coxeter Number]\label{def:coxeter}
     \lean{GIFT.McKay.Correspondence.coxeter_E8}
     \leanok
-    \uses{def:H_star}
     $h(\Eeight) = 30 = $ icosahedron edges
 \end{definition}
 
@@ -883,21 +876,21 @@ The McKay correspondence links $\Eeight$ to the binary icosahedral group and gol
 \begin{theorem}[E8 Kissing Number]\label{thm:E8_kissing}
     \lean{GIFT.McKay.Correspondence.E8_kissing_number}
     \leanok
-    \uses{def:coxeter, def:binary_icosahedral, def:H_star}
+    \uses{def:coxeter, def:binary_icosahedral}
     $240 = 2 \times |2I| = \rank(\Eeight) \times h(\Eeight)$
 \end{theorem}
 
 \begin{theorem}[Coxeter GIFT]\label{thm:coxeter_gift}
     \lean{GIFT.McKay.Correspondence.coxeter_30_gift}
     \leanok
-    \uses{def:coxeter, def:H_star}
+    \uses{def:coxeter}
     $30 = p_2 \times N_{\mathrm{gen}} \times W = 2 \times 3 \times 5$
 \end{theorem}
 
 \begin{theorem}[Euler = p2]\label{thm:euler_p2}
     \lean{GIFT.McKay.Correspondence.euler_is_p2}
     \leanok
-    \uses{def:coxeter, def:H_star}
+    \uses{def:coxeter}
     Icosahedron Euler characteristic: $V + F - E = 12 + 20 - 30 = 2 = p_2$
 \end{theorem}
 
@@ -1024,12 +1017,11 @@ on $\Kseven$ by encoding the algebraic structure directly in the neural architec
 \end{theorem}
 
 % =============================================================================
-\chapter{Analytical G2 Metric}\label{chap:analytical}
+\chapter{Explicit G2 Metric}\label{chap:explicit_metric}
 % =============================================================================
 
-The explicit closed-form metric satisfying GIFT constraints. This is the key
-discovery: the standard G2 form $\varphi_0$ scaled by $c = (65/32)^{1/14}$
-is the \emph{exact} analytical solution.
+The key discovery: the standard G2 form $\varphi_0$ scaled by $c = (65/32)^{1/14}$
+is the \emph{exact} analytical solution satisfying GIFT constraints.
 
 \section{The Standard G2 3-form}
 
