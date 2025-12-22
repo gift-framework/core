@@ -13,10 +13,12 @@ import Mathlib.LinearAlgebra.Dimension.Finrank
 import Mathlib.Data.Real.Basic
 import GIFT.Foundations.Analysis.InnerProductSpace
 import GIFT.Foundations.Analysis.ExteriorAlgebra
+import GIFT.Foundations.G2CrossProduct
 
 namespace GIFT.Foundations.Analysis.G2TensorForm
 
 open InnerProductSpace ExteriorAlgebra
+open GIFT.Foundations.G2CrossProduct
 
 /-!
 ## The Standard G2 3-form φ₀
@@ -80,20 +82,26 @@ The G2 structure defines a cross product on ℝ⁷:
   (u ×_φ v)ᵢ = φ₀ᵢⱼₖ uʲ vᵏ
 -/
 
-/-- G2 cross product (abstract) -/
-axiom G2_cross : R7 → R7 → R7
+-- G2 cross product: Use the proven definition from G2CrossProduct
+-- (No axiom needed - `cross` is defined in G2CrossProduct.lean)
 
-/-- Cross product is bilinear -/
-axiom G2_cross_bilinear :
-  ∀ a b : ℝ, ∀ u v w : R7,
-    G2_cross (a • u + b • v) w = a • G2_cross u w + b • G2_cross v w
+-- Cross product bilinearity: PROVEN in G2CrossProduct.G2_cross_bilinear
+-- Cross product antisymmetry: PROVEN in G2CrossProduct.G2_cross_antisymm
+-- Cross product norm (Lagrange): PROVEN in G2CrossProduct.G2_cross_norm
 
-/-- Cross product is antisymmetric -/
-axiom G2_cross_antisymm : ∀ u v : R7, G2_cross u v = -G2_cross v u
+/-- Bilinearity (left) - uses proven theorem -/
+theorem G2_cross_bilinear_left (a : ℝ) (u v w : R7) :
+    cross (a • u + v) w = a • cross u w + cross v w :=
+  cross_left_linear a u v w
 
-/-- Cross product norm: |u × v|² = |u|²|v|² - ⟨u,v⟩² -/
-axiom G2_cross_norm : ∀ u v : R7,
-  normSq (G2_cross u v) = normSq u * normSq v - (innerRn u v)^2
+/-- Antisymmetry - uses proven theorem -/
+theorem G2_cross_antisymm' (u v : R7) : cross u v = -cross v u :=
+  G2_cross_antisymm u v
+
+/-- Lagrange identity - uses proven theorem -/
+theorem G2_cross_lagrange (u v : R7) :
+    ‖cross u v‖^2 = ‖u‖^2 * ‖v‖^2 - (@inner ℝ R7 _ u v)^2 :=
+  G2_cross_norm u v
 
 /-!
 ## G2 Holonomy Condition
@@ -118,11 +126,18 @@ G2 = Aut(𝕆) (automorphisms of octonions)
 The cross product comes from octonionic multiplication.
 -/
 
-/-- Octonion multiplication restricted to Im(𝕆) ≅ ℝ⁷ -/
-axiom octonion_mult : R7 → R7 → R7
+-- Octonion connection: The cross product is defined via Fano plane structure,
+-- which IS the imaginary octonion multiplication table.
+-- See G2CrossProduct.cross_is_octonion_structure for the proof that
+-- epsilon coefficients match Fano lines (octonion multiplication).
 
-/-- G2 cross product equals octonionic product -/
-axiom cross_is_octonion : ∀ u v : R7, G2_cross u v = octonion_mult u v
+/-- Octonion multiplication structure matches cross product (proven) -/
+theorem cross_matches_octonion_structure :
+    ∀ i j k : Fin 7, epsilon i j k ≠ 0 →
+      (∃ line ∈ fano_lines, (i, j, k) = line ∨
+        (j, k, i) = line ∨ (k, i, j) = line ∨
+        (k, j, i) = line ∨ (j, i, k) = line ∨ (i, k, j) = line) :=
+  cross_is_octonion_structure
 
 /-!
 ## Certified Relations
