@@ -57,10 +57,7 @@ This module collects advanced analytical foundations for GIFT:
 - Perturbation estimates
 -/
 
--- Re-export key definitions for convenient access
-export InnerProductSpace (R7 R8 inner7 inner8 norm7 norm8)
-export E8Lattice (E8_lattice weyl_reflection)
-export HodgeTheory (HodgeStar harmonic_forms)
-export G2TensorForm (phi0_tensor G2_associative_form)
+-- Note: This module bundles imports only. Access definitions via their
+-- original namespaces, e.g., GIFT.Foundations.Analysis.HodgeTheory.*
 
 end GIFT.Foundations.Analysis
