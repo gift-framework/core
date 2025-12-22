@@ -2,9 +2,7 @@
 -- Existence of torsion-free G2 structures on K7
 -- Version: 3.0.0
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Sobolev
 import GIFT.DifferentialForms
 import GIFT.ImplicitFunction
@@ -12,7 +10,7 @@ import GIFT.IntervalArithmetic
 
 namespace GIFT.Joyce
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry
+open GIFT.Core
 open GIFT.Sobolev GIFT.DifferentialForms GIFT.ImplicitFunction
 open GIFT.IntervalArithmetic
 

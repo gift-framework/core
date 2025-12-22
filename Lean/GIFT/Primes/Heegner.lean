@@ -6,16 +6,14 @@
 --
 -- DISCOVERY: All 9 Heegner numbers have GIFT expressions!
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Relations
 import GIFT.Relations.YukawaDuality
 import Mathlib.Data.Nat.Prime.Basic
 
 namespace GIFT.Primes.Heegner
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Core GIFT.Relations
 open GIFT.Relations.YukawaDuality
 
 -- =============================================================================
@@ -32,7 +30,7 @@ theorem heegner_count : heegner_numbers.length = 9 := rfl
 -- =============================================================================
 
 /-- RELATION 151: Heegner 1 = dim_U1 -/
-theorem heegner_1_expr : (1 : Nat) = Algebra.dim_U1 := rfl
+theorem heegner_1_expr : (1 : Nat) = dim_U1 := rfl
 
 /-- RELATION 152: Heegner 2 = p2 (Pontryagin class) -/
 theorem heegner_2_expr : (2 : Nat) = p2 := rfl
@@ -47,7 +45,7 @@ theorem heegner_7_expr : (7 : Nat) = dim_K7 := rfl
 theorem heegner_11_expr : (11 : Nat) = D_bulk := rfl
 
 /-- RELATION 156: Heegner 19 = prime_8 = lucas_6 + 1 -/
-theorem heegner_19_expr : (19 : Nat) = Algebra.prime_8 := rfl
+theorem heegner_19_expr : (19 : Nat) = prime_8 := rfl
 
 /-- Alternative: 19 = 18 + 1 = lucas_6 + 1 -/
 theorem heegner_19_lucas : (19 : Nat) = 18 + 1 := by native_decide
@@ -91,7 +89,7 @@ theorem heegner_163_prime : Nat.Prime 163 := by native_decide
 
 /-- First 5 Heegner numbers are direct GIFT Tier 1 constants -/
 theorem heegner_tier1 :
-    (1 = Algebra.dim_U1) ∧
+    (1 = dim_U1) ∧
     (2 = p2) ∧
     (3 = N_gen) ∧
     (7 = dim_K7) ∧
@@ -100,7 +98,7 @@ theorem heegner_tier1 :
 
 /-- Last 4 Heegner numbers have deeper GIFT expressions -/
 theorem heegner_tier2 :
-    (19 = Algebra.prime_8) ∧
+    (19 = prime_8) ∧
     (43 = visible_dim) ∧
     (67 = b3 - 2 * Weyl_factor) ∧
     (163 = dim_E8 - rank_E8 - b3) := by
@@ -133,12 +131,12 @@ theorem heegner_67_163_b3 :
 
 /-- All 9 Heegner numbers are GIFT-expressible -/
 theorem all_heegner_gift_expressible :
-    (1 = Algebra.dim_U1) ∧
+    (1 = dim_U1) ∧
     (2 = p2) ∧
     (3 = N_gen) ∧
     (7 = dim_K7) ∧
     (11 = D_bulk) ∧
-    (19 = Algebra.prime_8) ∧
+    (19 = prime_8) ∧
     (43 = visible_dim) ∧
     (67 = b3 - 2 * Weyl_factor) ∧
     (163 = dim_E8 - rank_E8 - b3) := by
@@ -147,8 +145,8 @@ theorem all_heegner_gift_expressible :
 /-- Complete Heegner relations certified -/
 theorem all_heegner_relations_certified :
     -- All 9 Heegner numbers expressible
-    ((1 = Algebra.dim_U1) ∧ (2 = p2) ∧ (3 = N_gen) ∧ (7 = dim_K7) ∧ (11 = D_bulk) ∧
-     (19 = Algebra.prime_8) ∧ (43 = visible_dim) ∧ (67 = b3 - 2 * Weyl_factor) ∧
+    ((1 = dim_U1) ∧ (2 = p2) ∧ (3 = N_gen) ∧ (7 = dim_K7) ∧ (11 = D_bulk) ∧
+     (19 = prime_8) ∧ (43 = visible_dim) ∧ (67 = b3 - 2 * Weyl_factor) ∧
      (163 = dim_E8 - rank_E8 - b3)) ∧
     -- All except 1 are prime
     Nat.Prime 2 ∧ Nat.Prime 3 ∧ Nat.Prime 7 ∧

@@ -10,13 +10,13 @@
   Reference: GIFT v3.2 Implementation Plan
 -/
 
+import GIFT.Core
 import GIFT.Algebraic.Octonions
 import GIFT.Algebraic.BettiNumbers
-import GIFT.Algebra
 
 namespace GIFT.Algebraic.SO16Decomposition
 
-open Octonions BettiNumbers
+open GIFT.Core Octonions BettiNumbers
 
 /-!
 ## SO(n) Dimension Formula
@@ -64,11 +64,11 @@ Total: 21 + 77 + 14 + 8 = 120 = dim(SO(16))
 -/
 
 /-- The geometric part: topology of K₇ + algebra -/
-def geometric_part : ℕ := b2 + b3 + G2.dim_G2 + Algebra.rank_E8
+def geometric_part : ℕ := b2 + b3 + G2.dim_G2 + rank_E8
 
 /-- Geometric part equals dim(SO(16)) = 120 -/
 theorem geometric_is_SO16 : geometric_part = 120 := by
-  unfold geometric_part b2 b3 G2.dim_G2 Algebra.rank_E8
+  unfold geometric_part b2 b3 G2.dim_G2 rank_E8
   native_decide
 
 /-- Geometric part equals dim(SO(16)) directly -/
@@ -102,19 +102,19 @@ dim(E₈) = 248 = 120 + 128 = geometric + spinorial
 
 /-- MASTER THEOREM: E₈ decomposes as SO(16) adjoint ⊕ SO(16) spinor -/
 theorem E8_SO16_decomposition :
-    Algebra.dim_E8 = geometric_part + spinorial_part := by
-  unfold Algebra.dim_E8 geometric_part spinorial_part
+    dim_E8 = geometric_part + spinorial_part := by
+  unfold dim_E8 geometric_part spinorial_part
   native_decide
 
 /-- Alternative: dim(E₈) = dim(SO(16)) + spinor(SO(16)) -/
 theorem E8_equals_SO16_plus_spinor :
-    Algebra.dim_E8 = dim_SO 16 + spinor_SO16 := by
-  unfold Algebra.dim_E8 dim_SO spinor_SO16
+    dim_E8 = dim_SO 16 + spinor_SO16 := by
+  unfold dim_E8 dim_SO spinor_SO16
   native_decide
 
 /-- Physical interpretation: geometry → gauge bosons, octonions → fermions -/
 theorem gauge_fermion_split :
-    Algebra.dim_E8 = (b2 + b3 + G2.dim_G2 + Algebra.rank_E8) + 2^imaginary_count := by
+    dim_E8 = (b2 + b3 + G2.dim_G2 + rank_E8) + 2^imaginary_count := by
   native_decide
 
 /-!

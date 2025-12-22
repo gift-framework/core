@@ -8,9 +8,7 @@
 --
 -- This is not coincidence - it reflects deep mathematical structure.
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Relations
 import GIFT.Relations.YukawaDuality
 import GIFT.Sequences.Fibonacci
@@ -18,7 +16,7 @@ import GIFT.Sequences.Lucas
 
 namespace GIFT.Sequences.Recurrence
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Core GIFT.Relations
 open GIFT.Relations.YukawaDuality
 open GIFT.Sequences.Fibonacci
 open GIFT.Sequences.Lucas

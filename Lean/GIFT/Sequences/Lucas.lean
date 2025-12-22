@@ -10,16 +10,14 @@
 --
 -- Lucas sequence: L_0=2, L_1=1, L_{n+2}=L_n+L_{n+1}
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Relations
 import GIFT.Relations.YukawaDuality
 import GIFT.Sequences.Fibonacci
 
 namespace GIFT.Sequences.Lucas
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Core GIFT.Relations
 open GIFT.Relations.YukawaDuality
 open GIFT.Sequences.Fibonacci
 

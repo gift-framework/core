@@ -138,6 +138,9 @@ def weyl_E8_order : ℕ := 696729600
 -- STANDARD MODEL
 -- =============================================================================
 
+/-- Number of fermion generations (from K₄ perfect matchings = 3) -/
+def N_gen : ℕ := 3
+
 /-- SU(3) color dimension -/
 def dim_SU3 : ℕ := 8
 
@@ -189,6 +192,7 @@ theorem p2_certified : p2 = 2 := rfl
 theorem Weyl_sq_certified : Weyl_sq = 25 := rfl
 theorem D_bulk_certified : D_bulk = 11 := rfl
 theorem SM_gauge_certified : dim_SM_gauge = 12 := rfl
+theorem N_gen_certified : N_gen = 3 := rfl
 
 -- From Algebraic.BettiNumbers (re-proven here for convenience)
 theorem b2_value : b2 = 21 := rfl

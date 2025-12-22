@@ -93,7 +93,9 @@ theorem b3_eq : b3 = 77 := rfl
 /-- b₃ from E₇ representation -/
 theorem b3_from_E7 : b3 = b2 + fund_E7 := rfl
 
-/-- The "3" in 3×b₂ comes from N_gen (number of generations) -/
+/-- The "3" in 3×b₂ comes from N_gen (number of generations).
+    Note: Canonical source is GIFT.Core.N_gen. Duplicated here because
+    Core imports this module (avoiding circular dependency). -/
 def N_gen : ℕ := 3
 
 theorem b3_with_Ngen : b3 = N_gen * b2 + dim_G2 := rfl

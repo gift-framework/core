@@ -13,8 +13,8 @@ theorem weinberg_angle_certified : b2 * 13 = 3 * (b3 + dim_G2) := by native_deci
 /-- Koide parameter: Q = dim_G2/b2 = 14/21 = 2/3 -/
 theorem koide_certified : dim_G2 * 3 = b2 * 2 := by native_decide
 
-/-- Number of generations -/
-def N_gen : Nat := 3
+-- Note: N_gen is defined in Core.lean as the canonical source
+-- Use Core.N_gen or just N_gen (with open GIFT.Core)
 
 theorem N_gen_certified : N_gen = 3 := rfl
 

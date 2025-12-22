@@ -8,15 +8,13 @@
 --
 -- This is the "three-generator theorem" for GIFT primes.
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Relations
 import Mathlib.Data.Nat.Prime.Basic
 
 namespace GIFT.Primes.Generators
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Core GIFT.Relations
 
 -- =============================================================================
 -- THREE GENERATORS

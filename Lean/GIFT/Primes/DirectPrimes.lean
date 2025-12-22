@@ -13,15 +13,13 @@
 --   31 = prime(11)
 --   61 = kappa_T_inv
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Relations
 import Mathlib.Data.Nat.Prime.Basic
 
 namespace GIFT.Primes.Tier1
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Core GIFT.Relations
 
 -- =============================================================================
 -- DIRECT PRIMES: GIFT CONSTANTS (Relations 101-110)
@@ -50,7 +48,7 @@ theorem alpha_B_sum_is_prime : Nat.Prime alpha_sq_B_sum := by native_decide
 theorem lambda_H_is_prime : Nat.Prime lambda_H_num := by native_decide
 
 /-- RELATION 108: prime_8 = 19 is prime -/
-theorem prime_8_is_prime : Nat.Prime Algebra.prime_8 := by native_decide
+theorem prime_8_is_prime : Nat.Prime prime_8 := by native_decide
 
 /-- RELATION 109: prime_11 = 31 is prime -/
 theorem prime_11_is_prime : Nat.Prime prime_11 := by native_decide
@@ -126,7 +124,7 @@ theorem all_tier1_relations_certified :
     Nat.Prime D_bulk ∧
     Nat.Prime (13 : Nat) ∧  -- alpha_sq_B_sum
     Nat.Prime lambda_H_num ∧
-    Nat.Prime Algebra.prime_8 ∧
+    Nat.Prime prime_8 ∧
     Nat.Prime prime_11 ∧
     Nat.Prime (61 : Nat) :=  -- kappa_T_inv
   ⟨p2_is_prime, N_gen_is_prime, Weyl_is_prime, dim_K7_is_prime, D_bulk_is_prime,

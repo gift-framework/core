@@ -167,8 +167,8 @@ The three generations arise from:
 - More fundamentally: 3 = number of associative structures on K7
 -/
 
-/-- Number of generations -/
-def N_gen : ℕ := 3
+/-- Number of generations (from Core) -/
+abbrev N_gen : ℕ := Core.N_gen
 
 theorem N_gen_value : N_gen = 3 := rfl
 

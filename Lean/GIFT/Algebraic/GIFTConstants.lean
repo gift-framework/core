@@ -102,7 +102,9 @@ Multiple derivations:
 3. (b₃ - dim(G₂)) / b₂ = 63/21 = 3
 -/
 
-/-- Number of generations -/
+/-- Number of generations.
+    Note: Canonical source is GIFT.Core.N_gen. Duplicated here because
+    this module is at the same level as Core (avoiding circular dependency). -/
 def N_gen : ℕ := 3
 
 /-- rank(E₈) (from canonical: 8, defined inline to avoid circular import with Core) -/

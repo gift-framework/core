@@ -8,15 +8,13 @@
 --
 -- This module proves structural relations connecting E8 to phi.
 
-import GIFT.Algebra
-import GIFT.Topology
-import GIFT.Geometry
+import GIFT.Core
 import GIFT.Relations
 import GIFT.McKay.Correspondence
 
 namespace GIFT.McKay.GoldenEmergence
 
-open GIFT.Algebra GIFT.Topology GIFT.Geometry GIFT.Relations
+open GIFT.Core GIFT.Relations
 open GIFT.McKay.Correspondence
 
 -- =============================================================================

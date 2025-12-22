@@ -2,12 +2,11 @@
 -- Verified numerical bounds for Joyce perturbation theorem
 -- Version: 3.0.0
 
-import GIFT.Algebra
-import GIFT.Topology
+import GIFT.Core
 
 namespace GIFT.IntervalArithmetic
 
-open GIFT.Algebra GIFT.Topology
+open GIFT.Core
 
 /-!
 # Interval Arithmetic for Joyce Certificate
