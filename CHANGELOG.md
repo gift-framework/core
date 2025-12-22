@@ -5,6 +5,51 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.7] - 2025-12-22
+
+### Summary
+
+**Blueprint Dependency Graph Consolidation!** Added ~40 `\uses{}` connections to eliminate isolated nodes, then cleaned up ~30 noisy connections for a high signal-to-noise dependency graph.
+
+### Added
+
+- **Missing `\uses{}` connections** to isolated blueprint nodes:
+  - E8 Lattice: `AllInteger`, `SumEven`, `AllHalfInteger` → `R8`
+  - Fibonacci: `fib_3_p2`, `fib_6_rank`, `fib_8_b2`, `fib_12_alpha` → `fib` + core defs
+  - Lucas: `lucas_4_K7`, `lucas_5_bulk`, `b3_lucas` → `lucas`
+  - j-Invariant: `j_E8`, `j_triality` → `j_constant`
+  - McKay: `coxeter_gift`, `euler_p2`, `binary_icosahedral` → `coxeter`
+  - Monster: `monster_ap`, `monster_factor`, `monster_gift` → `monster_dim` + core
+  - Heegner: `heegner_163`, `heegner_all` → `heegner` + `b3`
+  - Analytical Metric: `torsion_bound`, `margin_20x`, `target_interval` → interconnected
+
+### Changed
+
+- **Fixed duplicate label**: `\label{chap:analytical}` → renamed second to `\label{chap:explicit_metric}`
+
+### Removed
+
+- **~30 noisy `\uses{def:H_star}` connections** that didn't represent meaningful dependencies:
+  - `def:dim_SO` (generic formula, doesn't use H*)
+  - `def:spinor_SO16` (derives from imaginary_count, not H*)
+  - Fibonacci/Lucas theorems (use `def:fib`/`def:lucas`, not H*)
+  - Heegner, Monster, j-Invariant (use their own definitions)
+  - McKay correspondence (uses coxeter, not H*)
+
+### Technical Notes
+
+**H* connections kept** (legitimate dependencies):
+- `thm:m_tau_m_e`: Uses `10 × H*` in the mass ratio formula
+- `thm:Omega_DE_fraction`: Uses `(H*-1)/H* = 98/99`
+- `def:alpha_inv_bulk`: Uses `H*/D_bulk = 99/11 = 9`
+
+**Dependency graph metrics:**
+- Before consolidation: ~60 `\uses{}` tags, many isolated nodes
+- After consolidation: 107 `\uses{}` tags
+- After cleanup: 100 `\uses{}` tags (higher signal-to-noise)
+
+---
+
 ## [3.1.6] - 2025-12-21
 
 ### Summary

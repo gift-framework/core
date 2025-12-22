@@ -359,6 +359,52 @@ GIFT.Core
 | **Standard Model** | `dim_SU3`, `dim_SU2`, `dim_U1`, `dim_SM_gauge` |
 | **Primes** | `prime_6`, `prime_8`, `prime_11` |
 
+## Blueprint Documentation
+
+GIFT includes a LaTeX blueprint that generates an interactive dependency graph showing proof structure.
+
+### Viewing the Blueprint
+
+The blueprint is hosted at the project's GitHub Pages (if enabled), or can be built locally:
+
+```bash
+cd blueprint
+pip install leanblueprint
+leanblueprint build
+# Open _build/html/index.html
+```
+
+### Blueprint Structure
+
+The dependency graph shows how theorems and definitions connect:
+
+| Chapter | Contents |
+|---------|----------|
+| **E8 Lattice** | AllInteger, SumEven, E8_lattice, reflect_preserves_lattice |
+| **G2 Cross Product** | Fano plane, epsilon tensor, Lagrange identity |
+| **Algebraic Foundations** | Octonions, G2, Betti numbers, H* |
+| **SO(16) Decomposition** | dim_SO, spinor, geometric/spinorial parts |
+| **Physical Relations** | Weinberg angle, Koide, fine structure, lepton masses |
+| **Sequences** | Fibonacci F₃-F₁₂, Lucas L₀-L₉ embeddings |
+| **Prime Atlas** | Tier 1 primes, Heegner numbers |
+| **Moonshine** | Monster dimension, j-invariant |
+| **McKay** | Coxeter number, binary icosahedral, E8 kissing |
+| **Joyce Theorem** | PINN verification, torsion bounds, existence |
+| **Explicit G2 Metric** | phi0, scale factor, torsion-free proof |
+
+### Key Dependencies
+
+The central hub is `def:H_star` (H* = b₂ + b₃ + 1 = 99), which connects to:
+- Physical relations (mass ratios, coupling constants)
+- Topological invariants (Betti numbers)
+- Cosmological parameters (Ω_DE)
+
+Other important hubs:
+- `def:b2`, `def:b3` → Algebraic chain from octonions
+- `def:fib`, `def:lucas` → Sequence embeddings
+- `def:coxeter` → McKay correspondence
+- `def:monster_dim` → Moonshine connections
+
 ## Version History
 
 See [CHANGELOG.md](../CHANGELOG.md) for detailed version history.
