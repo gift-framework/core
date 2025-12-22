@@ -18,7 +18,8 @@ import GIFT.Foundations.G2CrossProduct
 namespace GIFT.Foundations.Analysis.G2TensorForm
 
 open InnerProductSpace ExteriorAlgebra
-open GIFT.Foundations.G2CrossProduct
+-- Note: Do NOT open G2CrossProduct as it has conflicting R7 definition.
+-- Use qualified names: G2CrossProduct.cross, G2CrossProduct.epsilon, etc.
 
 /-!
 ## The Standard G2 3-form φ₀
@@ -90,18 +91,19 @@ The G2 structure defines a cross product on ℝ⁷:
 -- Cross product norm (Lagrange): PROVEN in G2CrossProduct.G2_cross_norm
 
 /-- Bilinearity (left) - uses proven theorem -/
-theorem G2_cross_bilinear_left (a : ℝ) (u v w : R7) :
-    cross (a • u + v) w = a • cross u w + cross v w :=
-  cross_left_linear a u v w
+theorem G2_cross_bilinear_left (a : ℝ) (u v w : G2CrossProduct.R7) :
+    G2CrossProduct.cross (a • u + v) w = a • G2CrossProduct.cross u w + G2CrossProduct.cross v w :=
+  G2CrossProduct.cross_left_linear a u v w
 
 /-- Antisymmetry - uses proven theorem -/
-theorem G2_cross_antisymm' (u v : R7) : cross u v = -cross v u :=
-  G2_cross_antisymm u v
+theorem G2_cross_antisymm' (u v : G2CrossProduct.R7) :
+    G2CrossProduct.cross u v = -G2CrossProduct.cross v u :=
+  G2CrossProduct.G2_cross_antisymm u v
 
 /-- Lagrange identity - uses proven theorem -/
-theorem G2_cross_lagrange (u v : R7) :
-    ‖cross u v‖^2 = ‖u‖^2 * ‖v‖^2 - (@inner ℝ R7 _ u v)^2 :=
-  G2_cross_norm u v
+theorem G2_cross_lagrange (u v : G2CrossProduct.R7) :
+    ‖G2CrossProduct.cross u v‖^2 = ‖u‖^2 * ‖v‖^2 - (@inner ℝ G2CrossProduct.R7 _ u v)^2 :=
+  G2CrossProduct.G2_cross_norm u v
 
 /-!
 ## G2 Holonomy Condition
@@ -133,11 +135,11 @@ The cross product comes from octonionic multiplication.
 
 /-- Octonion multiplication structure matches cross product (proven) -/
 theorem cross_matches_octonion_structure :
-    ∀ i j k : Fin 7, epsilon i j k ≠ 0 →
-      (∃ line ∈ fano_lines, (i, j, k) = line ∨
+    ∀ i j k : Fin 7, G2CrossProduct.epsilon i j k ≠ 0 →
+      (∃ line ∈ G2CrossProduct.fano_lines, (i, j, k) = line ∨
         (j, k, i) = line ∨ (k, i, j) = line ∨
         (k, j, i) = line ∨ (j, i, k) = line ∨ (i, k, j) = line) :=
-  cross_is_octonion_structure
+  G2CrossProduct.cross_is_octonion_structure
 
 /-!
 ## Certified Relations

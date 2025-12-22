@@ -19,7 +19,8 @@ import GIFT.Foundations.RootSystems
 
 namespace GIFT.Foundations.Analysis.E8Lattice
 
-open GIFT.Foundations.RootSystems
+-- Note: Do NOT open RootSystems as it has conflicting definitions
+-- (AllInteger, AllHalfInteger, R8). Use qualified names for its theorems.
 
 open Finset BigOperators
 open InnerProductSpace
@@ -67,16 +68,18 @@ The root counts are proven via explicit enumeration in RootSystems.lean:
 -/
 
 /-- D8 root count: C(8,2) × 4 = 28 × 4 = 112 (proven in RootSystems) -/
-theorem D8_roots_card_enum : D8_enumeration.card = 112 := D8_card
+theorem D8_roots_card_enum : RootSystems.D8_enumeration.card = 112 :=
+  RootSystems.D8_card
 
 /-- Half-integer root count: 2⁸ / 2 = 128 (proven in RootSystems) -/
-theorem HalfInt_roots_card_enum : HalfInt_enumeration.card = 128 := HalfInt_card
+theorem HalfInt_roots_card_enum : RootSystems.HalfInt_enumeration.card = 128 :=
+  RootSystems.HalfInt_card
 
 /-- E8 roots decompose as D8 ∪ HalfInt (proven in RootSystems) -/
 theorem E8_roots_decomposition_enum :
-    E8_enumeration = D8_enumeration.map ⟨Sum.inl, Sum.inl_injective⟩ ∪
-                     HalfInt_enumeration.map ⟨Sum.inr, Sum.inr_injective⟩ :=
-  E8_roots_decomposition
+    RootSystems.E8_enumeration = RootSystems.D8_enumeration.map ⟨Sum.inl, Sum.inl_injective⟩ ∪
+                     RootSystems.HalfInt_enumeration.map ⟨Sum.inr, Sum.inr_injective⟩ :=
+  RootSystems.E8_roots_decomposition
 
 /-- D8 and HalfInt roots are disjoint (integer vs half-integer coords)
     Proof: D8 has integer coords, HalfInt has half-integer coords.
@@ -98,7 +101,8 @@ theorem D8_HalfInt_disjoint : D8_roots ∩ HalfInt_roots = ∅ := by
 /-- MAIN THEOREM: |E8 roots| = 240 (proven via enumeration in RootSystems.lean)
     The Finset enumeration E8_enumeration explicitly lists all 240 roots.
     This theorem provides the cardinality via the proven enumeration. -/
-theorem E8_roots_card_240 : E8_enumeration.card = 240 := E8_enumeration_card
+theorem E8_roots_card_240 : RootSystems.E8_enumeration.card = 240 :=
+  RootSystems.E8_enumeration_card
 
 /-!
 ## Lattice Properties
