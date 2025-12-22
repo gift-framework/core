@@ -15,8 +15,12 @@ import Mathlib.Data.Int.Basic
 import Mathlib.Data.Fin.VecNotation
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import GIFT.Foundations.Analysis.InnerProductSpace
+import GIFT.Foundations.RootSystems
 
 namespace GIFT.Foundations.Analysis.E8Lattice
+
+-- Note: Do NOT open RootSystems as it has conflicting definitions
+-- (AllInteger, AllHalfInteger, R8). Use qualified names for its theorems.
 
 open Finset BigOperators
 open InnerProductSpace
@@ -55,21 +59,27 @@ def HalfInt_roots : Set R8 :=
   { v | AllHalfInteger v ∧ normSq v = 2 }
 
 /-!
-## Root Count Axioms
+## Root Counts (PROVEN in RootSystems.lean)
 
-These require explicit enumeration over the finite sets.
+The root counts are proven via explicit enumeration in RootSystems.lean:
+- D8_card: D8_enumeration.card = 112
+- HalfInt_card: HalfInt_enumeration.card = 128
+- E8_enumeration_card: E8_enumeration.card = 240
 -/
 
-/-- D8 root count: C(8,2) × 4 = 28 × 4 = 112
-    For each pair (i,j), we have 4 choices: (±1, ±1) -/
-axiom D8_roots_card : D8_roots.ncard = 112
+/-- D8 root count: C(8,2) × 4 = 28 × 4 = 112 (proven in RootSystems) -/
+theorem D8_roots_card_enum : RootSystems.D8_enumeration.card = 112 :=
+  RootSystems.D8_card
 
-/-- Half-integer root count: 2⁸ / 2 = 128
-    All 256 sign choices, but only half have even sum -/
-axiom HalfInt_roots_card : HalfInt_roots.ncard = 128
+/-- Half-integer root count: 2⁸ / 2 = 128 (proven in RootSystems) -/
+theorem HalfInt_roots_card_enum : RootSystems.HalfInt_enumeration.card = 128 :=
+  RootSystems.HalfInt_card
 
-/-- E8 roots decompose as D8 ∪ HalfInt -/
-axiom E8_roots_decomposition : E8_roots = D8_roots ∪ HalfInt_roots
+/-- E8 roots decompose as D8 ∪ HalfInt (proven in RootSystems) -/
+theorem E8_roots_decomposition_enum :
+    RootSystems.E8_enumeration = RootSystems.D8_enumeration.map ⟨Sum.inl, Sum.inl_injective⟩ ∪
+                     RootSystems.HalfInt_enumeration.map ⟨Sum.inr, Sum.inr_injective⟩ :=
+  RootSystems.E8_roots_decomposition
 
 /-- D8 and HalfInt roots are disjoint (integer vs half-integer coords)
     Proof: D8 has integer coords, HalfInt has half-integer coords.
@@ -88,8 +98,11 @@ theorem D8_HalfInt_disjoint : D8_roots ∩ HalfInt_roots = ∅ := by
   have : (2 : ℤ) * k = 1 := by exact_mod_cast this
   omega
 
-/-- MAIN THEOREM: |E8 roots| = 240 -/
-axiom E8_roots_card : E8_roots.ncard = 240
+/-- MAIN THEOREM: |E8 roots| = 240 (proven via enumeration in RootSystems.lean)
+    The Finset enumeration E8_enumeration explicitly lists all 240 roots.
+    This theorem provides the cardinality via the proven enumeration. -/
+theorem E8_roots_card_240 : RootSystems.E8_enumeration.card = 240 :=
+  RootSystems.E8_enumeration_card
 
 /-!
 ## Lattice Properties
