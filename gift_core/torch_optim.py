@@ -13,6 +13,14 @@ from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple, Callable
 import math
 
+__all__ = [
+    'TORCH_AVAILABLE', 'require_torch',
+    'DifferentiableObservables', 'ChiSquaredLoss', 'TopologicalConstraintLoss',
+    'OptimizationResult', 'K7MetricOptimizer',
+    'multi_start_optimization', 'optimize_k7_metric',
+    'scan_parameter_space', 'find_optimal_kappa_t',
+]
+
 try:
     import torch
     import torch.nn as nn

@@ -6,6 +6,8 @@ from gift_core.constants import (
     DIM_K7, B2, B3, DIM_G2, DIM_E8, RANK_E8
 )
 
+__all__ = ['ManifoldK7', 'GroupG2', 'GroupE8', 'K7', 'G2', 'E8']
+
 @dataclass(frozen=True)
 class ManifoldK7:
     """The compact 7-manifold with G2 holonomy."""

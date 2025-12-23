@@ -17,6 +17,7 @@ WEYL_SQ = 25          # Weyl² = 5² (pentagonal structure)
 # G2 EXCEPTIONAL HOLONOMY
 # =============================================================================
 DIM_G2 = 14           # dim(G2) - Proven in Lean: G2Group.lean
+RANK_G2 = 2           # rank(G2) - Cartan subalgebra dimension
 DIM_K7 = 7            # Real dimension of K7 manifold
 
 # =============================================================================

@@ -13,7 +13,7 @@ dimensional observables across Planck/string scale variations.
 
 from gift_core.constants import (
     # Fundamental constants
-    DIM_E8, RANK_E8, DIM_E8xE8, DIM_G2, DIM_K7,
+    DIM_E8, RANK_E8, DIM_E8xE8, DIM_G2, RANK_G2, DIM_K7,
     B2, B3, WEYL_FACTOR, WEYL_SQ, DIM_J3O,
     D_BULK, DIM_SU3, DIM_SU2, DIM_U1, DIM_SM_GAUGE,
     # Original 13 proven relations
@@ -312,7 +312,7 @@ except ImportError:
 
 __all__ = [
     # Fundamental topological constants
-    'DIM_E8', 'RANK_E8', 'DIM_E8xE8', 'DIM_G2', 'DIM_K7',
+    'DIM_E8', 'RANK_E8', 'DIM_E8xE8', 'DIM_G2', 'RANK_G2', 'DIM_K7',
     'B2', 'B3', 'WEYL_FACTOR', 'WEYL_SQ', 'DIM_J3O',
     'D_BULK', 'DIM_SU3', 'DIM_SU2', 'DIM_U1', 'DIM_SM_GAUGE',
     # Original 13 proven relations
