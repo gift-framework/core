@@ -5,6 +5,8 @@ from dataclasses import dataclass
 from fractions import Fraction
 from typing import Union
 
+__all__ = ['ProvenRelation', 'PROVEN_RELATIONS', 'get_relation']
+
 @dataclass(frozen=True)
 class ProvenRelation:
     """A relation proven in both Lean 4 and Coq."""
