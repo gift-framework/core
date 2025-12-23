@@ -23,6 +23,8 @@ import GIFT.Foundations.G2CrossProduct
 import GIFT.Foundations.E8Mathlib
 -- v3.5: Analysis bundle (Hodge, exterior algebra, Joyce)
 import GIFT.Foundations.Analysis
+-- Analytical G2 metric definitions for K7
+import GIFT.Foundations.AnalyticalMetric
 
 namespace GIFT.Foundations
 

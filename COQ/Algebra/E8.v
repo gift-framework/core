@@ -18,7 +18,7 @@ Proof. reflexivity. Qed.
 (** ADDITIONAL CONSTANTS FOR TOPOLOGICAL EXTENSION *)
 (** =========================================================================== *)
 
-(** Weyl factor from |W(E8)| = 2^14 × 3^5 × 5^2 × 7 *)
+(** Weyl factor from |W(E8)| = 2^14 * 3^5 * 5^2 * 7 *)
 Definition Weyl_factor : nat := 5.
 
 (** Weyl squared (pentagonal structure) *)

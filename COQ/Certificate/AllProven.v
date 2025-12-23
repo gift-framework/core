@@ -60,29 +60,29 @@ Qed.
 
 (** All 12 topological extension relations are fully proven *)
 Theorem all_12_extension_relations_certified :
-  (* 14. α_s denominator *)
+  (* 14. alpha_s denominator *)
   dim_G2 - p2 = 12 /\
-  (* 15. γ_GIFT numerator and denominator *)
+  (* 15. gamma_GIFT numerator and denominator *)
   gamma_GIFT_num = 511 /\ gamma_GIFT_den = 884 /\
-  (* 16. δ pentagonal (Weyl²) *)
+  (* 16. delta pentagonal (Weyl^2) *)
   Weyl_sq = 25 /\
-  (* 17. θ₂₃ fraction *)
+  (* 17. theta_23 fraction *)
   theta_23_num = 85 /\ theta_23_den = 99 /\
-  (* 18. θ₁₃ denominator *)
+  (* 18. theta_13 denominator *)
   b2 = 21 /\
-  (* 19. α_s² structure *)
+  (* 19. alpha_s^2 structure *)
   (dim_G2 - p2) * (dim_G2 - p2) = 144 /\
-  (* 20. λ_H² structure *)
+  (* 20. lambda_H^2 structure *)
   lambda_H_sq_num = 17 /\ lambda_H_sq_den = 1024 /\
-  (* 21. θ₁₂ structure (δ/γ components) *)
+  (* 21. theta_12 structure (delta/gamma components) *)
   Weyl_sq * gamma_GIFT_num = 12775 /\
-  (* 22. m_μ/m_e base *)
+  (* 22. m_mu/m_e base *)
   m_mu_m_e_base = 27 /\
   (* 23. n_s indices *)
   D_bulk = 11 /\ Weyl_factor = 5 /\
-  (* 24. Ω_DE fraction *)
+  (* 24. Omega_DE fraction *)
   Omega_DE_num = 98 /\ Omega_DE_den = 99 /\
-  (* 25. α⁻¹ components *)
+  (* 25. alpha^-1 components *)
   alpha_inv_algebraic = 128 /\ alpha_inv_bulk = 9.
 Proof.
   repeat split; reflexivity.
@@ -120,29 +120,29 @@ Theorem all_25_relations_certified :
   (* 12-13. tau numerator and denominator *)
   tau_num = 10416 /\ tau_den = 2673 /\
   (* ===== Extension 12 ===== *)
-  (* 14. α_s denominator *)
+  (* 14. alpha_s denominator *)
   dim_G2 - p2 = 12 /\
-  (* 15. γ_GIFT *)
+  (* 15. gamma_GIFT *)
   gamma_GIFT_num = 511 /\ gamma_GIFT_den = 884 /\
-  (* 16. δ pentagonal *)
+  (* 16. delta pentagonal *)
   Weyl_sq = 25 /\
-  (* 17. θ₂₃ *)
+  (* 17. theta_23 *)
   theta_23_num = 85 /\ theta_23_den = 99 /\
-  (* 18. θ₁₃ *)
+  (* 18. theta_13 *)
   b2 = 21 /\
-  (* 19. α_s² *)
+  (* 19. alpha_s^2 *)
   (dim_G2 - p2) * (dim_G2 - p2) = 144 /\
-  (* 20. λ_H² *)
+  (* 20. lambda_H^2 *)
   lambda_H_sq_num = 17 /\ lambda_H_sq_den = 1024 /\
-  (* 21. θ₁₂ structure *)
+  (* 21. theta_12 structure *)
   Weyl_sq * gamma_GIFT_num = 12775 /\
-  (* 22. m_μ/m_e base *)
+  (* 22. m_mu/m_e base *)
   m_mu_m_e_base = 27 /\
   (* 23. n_s indices *)
   D_bulk = 11 /\ Weyl_factor = 5 /\
-  (* 24. Ω_DE *)
+  (* 24. Omega_DE *)
   Omega_DE_num = 98 /\ Omega_DE_den = 99 /\
-  (* 25. α⁻¹ *)
+  (* 25. alpha^-1 *)
   alpha_inv_algebraic = 128 /\ alpha_inv_bulk = 9.
 Proof.
   repeat split; reflexivity.
