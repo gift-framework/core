@@ -156,7 +156,8 @@ theorem ln_hierarchy_eq : Real.log hierarchy_ratio = ln_hierarchy := by
   rw [Real.log_pow, Real.log_pow]
   -- log(phi⁻¹) = -log(phi)
   have hphi_pos : 0 < phi := phi_pos
-  rw [Real.log_inv hphi_pos]
+  have hlog_inv : Real.log phi⁻¹ = -Real.log phi := Real.log_inv hphi_pos
+  rw [hlog_inv]
   ring
 
 /-- log(φ) bounds: 0.48 < log(φ) < 0.49.
@@ -171,34 +172,22 @@ axiom log_phi_bounds : (48 : ℝ) / 100 < Real.log phi ∧ Real.log phi < (49 : 
 theorem ln_hierarchy_bounds : (-39 : ℝ) < ln_hierarchy ∧ ln_hierarchy < (-38 : ℝ) := by
   unfold ln_hierarchy
   have ⟨hlog_lo, hlog_hi⟩ := log_phi_bounds
-  -- H_star = 99, rank_E8 = 8
-  have hH : (H_star : ℝ) = 99 := by native_decide
-  have hR : (rank_E8 : ℝ) = 8 := by native_decide
-  have h99_8 : (H_star : ℝ) / rank_E8 = (99 : ℝ) / 8 := by rw [hH, hR]
+  -- Simplify H_star and rank_E8 to their values
+  simp only [H_star, rank_E8, b2, b3]
+  -- Now we have: -(99 : ℝ) / 8 - 54 * Real.log phi
   constructor
-  · -- -39 < ln_hierarchy
-    -- We need: -39 < -99/8 - 54 * log(phi)
-    -- Rearranging: 54 * log(phi) < 99/8 - (-39) = 99/8 + 39 = 411/8
-    -- But actually we need the opposite direction. Let me redo:
-    -- -39 < -99/8 - 54 * log(phi)
+  · -- -39 < -99/8 - 54 * log(phi)
     -- Since log(phi) < 49/100, we have -54 * log(phi) > -54 * 49/100 = -26.46
     -- So -99/8 - 54 * log(phi) > -99/8 - 26.46 = -12.375 - 26.46 = -38.835 > -39 ✓
     have h1 : -(99 : ℝ) / 8 - 54 * (49 / 100) > -39 := by norm_num
     have h2 : 54 * Real.log phi < 54 * (49 / 100) := by nlinarith
-    calc (-39 : ℝ)
-        < -(99 : ℝ) / 8 - 54 * (49 / 100) := by linarith
-      _ < -(99 : ℝ) / 8 - 54 * Real.log phi := by linarith
-      _ = -(H_star : ℝ) / rank_E8 - 54 * Real.log phi := by rw [h99_8]
-  · -- ln_hierarchy < -38
-    -- We need: -99/8 - 54 * log(phi) < -38
+    linarith
+  · -- -99/8 - 54 * log(phi) < -38
     -- Since log(phi) > 48/100, we have -54 * log(phi) < -54 * 48/100 = -25.92
     -- So -99/8 - 54 * log(phi) < -12.375 - 25.92 = -38.295 < -38 ✓
     have h1 : -(99 : ℝ) / 8 - 54 * (48 / 100) < -38 := by norm_num
     have h2 : 54 * (48 / 100) < 54 * Real.log phi := by nlinarith
-    calc -(H_star : ℝ) / rank_E8 - 54 * Real.log phi
-        = -(99 : ℝ) / 8 - 54 * Real.log phi := by rw [h99_8]
-      _ < -(99 : ℝ) / 8 - 54 * (48 / 100) := by linarith
-      _ < -38 := by linarith
+    linarith
 
 /-!
 ## Physical Interpretation
