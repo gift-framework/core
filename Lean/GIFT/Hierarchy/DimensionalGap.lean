@@ -154,9 +154,8 @@ theorem ln_hierarchy_eq : Real.log hierarchy_ratio = ln_hierarchy := by
   rw [Real.log_exp]
   unfold dim_J3O phi_inv_sq
   rw [Real.log_pow, Real.log_pow]
-  -- log(phi⁻¹) = -log(phi) for phi > 0
-  have hphi_pos : 0 < phi := phi_pos
-  rw [Real.log_inv hphi_pos.ne']
+  -- log(phi⁻¹) = -log(phi)
+  rw [Real.log_inv phi]
   ring
 
 /-- log(φ) bounds: 0.48 < log(φ) < 0.49.
