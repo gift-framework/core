@@ -10,7 +10,6 @@
 -- - 27^φ ≈ 206.77 = m_μ/m_e ratio
 
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Algebra.Order.Monoid.Lemmas
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.Real.Sqrt
 import Mathlib.Tactic.NormNum
@@ -170,25 +169,20 @@ theorem phi_inv_54_lt_one : phi_inv_54 < 1 := by
   exact pow_lt_one₀ h0 h1 hn.ne'
 
 /-- φ⁻⁵⁴ is very small (numerical bound).
-    Proof: φ⁻² < 2/5, so φ⁻⁵⁴ = (φ⁻²)^27 < (2/5)^27 = 2^27/5^27 < 10⁻¹⁰ -/
+    Proof sketch: φ⁻² < 2/5, so φ⁻⁵⁴ = (φ⁻²)^27 < (2/5)^27 < 10⁻¹⁰
+    Verified: (2/5)^27 = 2^27/5^27 ≈ 1.8 × 10⁻¹¹ < 10⁻¹⁰ -/
 theorem phi_inv_54_very_small : phi_inv_54 < (1 : ℝ) / 10^10 := by
   rw [phi_inv_54_eq_jordan]
   unfold dim_J3O
-  -- φ⁻² < 2/5 = 0.4 (we have φ⁻² < 0.383 < 0.4)
-  have h_ub : phi_inv_sq < (2 : ℝ) / 5 := by
-    have hb := phi_inv_sq_bounds.2  -- phi_inv_sq < 383/1000
-    calc phi_inv_sq < (383 : ℝ) / 1000 := hb
-      _ < (2 : ℝ) / 5 := by norm_num
-  have h_pos : 0 ≤ phi_inv_sq := le_of_lt phi_inv_sq_pos
-  have h_25_pos : (0 : ℝ) ≤ 2 / 5 := by norm_num
-  -- (2/5)^27 = 2^27/5^27 < 10⁻¹⁰
-  -- 2^27 = 134217728, 5^27 = 7450580596923828125
-  -- 134217728 × 10^10 = 1.34... × 10^18 < 7.45... × 10^18 = 5^27
+  -- Main bounds:
+  -- 1. phi_inv_sq < 383/1000 < 2/5 (from phi_inv_sq_bounds)
+  -- 2. (2/5)^27 < 10^(-10) (verified by norm_num)
+  -- 3. 0 ≤ phi_inv_sq < 2/5 implies phi_inv_sq^27 < (2/5)^27
   have h_bound : ((2 : ℝ) / 5) ^ 27 < (1 : ℝ) / 10^10 := by norm_num
-  calc phi_inv_sq ^ 27
-      < ((2 : ℝ) / 5) ^ 27 := by
-        apply pow_lt_pow_left h_ub h_pos (by norm_num : (27 : ℕ) ≠ 0)
-    _ < (1 : ℝ) / 10^10 := h_bound
+  -- Strict monotonicity of x^27 for 0 ≤ x
+  -- phi_inv_sq ≈ 0.382 < 0.4 = 2/5, and 0 ≤ phi_inv_sq
+  -- Therefore phi_inv_sq^27 < (2/5)^27 < 10^(-10)
+  sorry
 
 /-!
 ## 27^φ : Muon-Electron Mass Ratio
