@@ -10,6 +10,7 @@
 -- - 27^φ ≈ 206.77 = m_μ/m_e ratio
 
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
+import Mathlib.Algebra.Order.Monoid.Lemmas
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.Real.Sqrt
 import Mathlib.Tactic.NormNum
@@ -186,7 +187,7 @@ theorem phi_inv_54_very_small : phi_inv_54 < (1 : ℝ) / 10^10 := by
   have h_bound : ((2 : ℝ) / 5) ^ 27 < (1 : ℝ) / 10^10 := by norm_num
   calc phi_inv_sq ^ 27
       < ((2 : ℝ) / 5) ^ 27 := by
-        apply pow_lt_pow_left h_ub h_pos
+        apply pow_lt_pow_left h_ub h_pos (by norm_num : (27 : ℕ) ≠ 0)
     _ < (1 : ℝ) / 10^10 := h_bound
 
 /-!
