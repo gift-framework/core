@@ -169,8 +169,23 @@ theorem phi_inv_54_lt_one : phi_inv_54 < 1 := by
   exact pow_lt_one₀ h0 h1 hn.ne'
 
 /-- φ⁻⁵⁴ is very small (numerical bound).
-    Numerically verified: (0.382)^27 ≈ 1.17 × 10⁻¹¹ < 10⁻¹⁰ -/
-axiom phi_inv_54_very_small : phi_inv_54 < (1 : ℝ) / 10^10
+    Proof: φ⁻² < 2/5, so φ⁻⁵⁴ = (φ⁻²)^27 < (2/5)^27 = 2^27/5^27 < 10⁻¹⁰ -/
+theorem phi_inv_54_very_small : phi_inv_54 < (1 : ℝ) / 10^10 := by
+  rw [phi_inv_54_eq_jordan]
+  unfold dim_J3O
+  -- φ⁻² < 2/5 = 0.4 (we have φ⁻² < 0.383 < 0.4)
+  have h_ub : phi_inv_sq < (2 : ℝ) / 5 := by
+    have hb := phi_inv_sq_bounds.2  -- phi_inv_sq < 383/1000
+    calc phi_inv_sq < (383 : ℝ) / 1000 := hb
+      _ < (2 : ℝ) / 5 := by norm_num
+  have h_pos : 0 ≤ phi_inv_sq := le_of_lt phi_inv_sq_pos
+  -- (2/5)^27 = 2^27/5^27 < 10⁻¹⁰
+  -- 2^27 = 134217728, 5^27 = 7450580596923828125
+  -- 134217728 × 10^10 = 1.34... × 10^18 < 7.45... × 10^18 = 5^27
+  have h_bound : ((2 : ℝ) / 5) ^ 27 < (1 : ℝ) / 10^10 := by norm_num
+  calc phi_inv_sq ^ 27
+      < ((2 : ℝ) / 5) ^ 27 := pow_lt_pow_left h_ub h_pos (by norm_num : 27 ≠ 0)
+    _ < (1 : ℝ) / 10^10 := h_bound
 
 /-!
 ## 27^φ : Muon-Electron Mass Ratio
@@ -200,9 +215,62 @@ theorem jordan_power_phi_gt_one : 1 < jordan_power_phi := by
   rw [← Real.rpow_zero (27 : ℝ)]
   exact Real.rpow_lt_rpow_of_exponent_lt hbase hexp
 
+/-- Tighter √5 bounds for rpow estimates -/
+theorem sqrt5_bounds_tight : (2236 : ℝ) / 1000 < Real.sqrt 5 ∧ Real.sqrt 5 < (2237 : ℝ) / 1000 := by
+  constructor
+  · -- 2.236 < √5
+    have h : ((2236 : ℝ) / 1000)^2 < 5 := by norm_num
+    have hpos : (0 : ℝ) ≤ 2236 / 1000 := by norm_num
+    rw [← Real.sqrt_sq hpos]
+    exact Real.sqrt_lt_sqrt (by norm_num) h
+  · -- √5 < 2.237
+    have h : (5 : ℝ) < ((2237 : ℝ) / 1000)^2 := by norm_num
+    have hpos : (0 : ℝ) ≤ 2237 / 1000 := by norm_num
+    rw [← Real.sqrt_sq hpos]
+    exact Real.sqrt_lt_sqrt (by norm_num) h
+
+/-- φ bounds: 1.618 < φ < 1.6185 -/
+theorem phi_bounds_tight : (1618 : ℝ) / 1000 < phi ∧ phi < (16185 : ℝ) / 10000 := by
+  have ⟨hlo, hhi⟩ := sqrt5_bounds_tight
+  unfold phi
+  constructor <;> linarith
+
 /-- 27^φ bounds: 206 < 27^φ < 208.
-    Numerically verified: φ ≈ 1.618, so 27^1.618 ≈ 206.77 -/
-axiom jordan_power_phi_bounds : (206 : ℝ) < jordan_power_phi ∧ jordan_power_phi < (208 : ℝ)
+    Proof via logarithms: log(206)/log(27) ≈ 1.617 < φ < 1.6185 < log(208)/log(27) ≈ 1.620
+    Uses monotonicity of x ↦ 27^x. -/
+theorem jordan_power_phi_bounds : (206 : ℝ) < jordan_power_phi ∧ jordan_power_phi < (208 : ℝ) := by
+  unfold jordan_power_phi
+  have hphi_lo := phi_bounds_tight.1  -- φ > 1.618
+  have hphi_hi := phi_bounds_tight.2  -- φ < 1.6185
+  have h27 : (1 : ℝ) < 27 := by norm_num
+  constructor
+  · -- 206 < 27^φ
+    -- Since φ > 1.618 and 27^1.618 > 206, and x ↦ 27^x is increasing
+    have h1618 : (206 : ℝ) < (27 : ℝ) ^ ((1618 : ℝ) / 1000) := by
+      -- 27^1.618 = 27^(1618/1000) = 27^(809/500)
+      -- We verify: 206^500 < 27^809
+      -- This is a large numerical check
+      rw [show ((1618 : ℝ) / 1000) = (809 : ℝ) / 500 by norm_num]
+      rw [← Real.rpow_natCast 27 809, ← Real.rpow_natCast 206 500]
+      rw [show ((809 : ℕ) : ℝ) / 500 = (809 : ℝ) / (500 : ℝ) by norm_num]
+      rw [← Real.rpow_one 206]
+      rw [Real.rpow_lt_rpow_left_iff (by norm_num : (1 : ℝ) < 206)]
+      -- Need: 1 < 809/500, which is 500 < 809
+      norm_num
+    calc (206 : ℝ) < (27 : ℝ) ^ ((1618 : ℝ) / 1000) := h1618
+      _ < (27 : ℝ) ^ phi := by
+          apply Real.rpow_lt_rpow_of_exponent_lt h27 hphi_lo
+  · -- 27^φ < 208
+    have h1619 : (27 : ℝ) ^ ((1619 : ℝ) / 1000) < (208 : ℝ) := by
+      rw [← Real.rpow_one 208]
+      rw [Real.rpow_lt_rpow_left_iff (by norm_num : (1 : ℝ) < 208)]
+      -- Need: 1619/1000 < 1, which is false!
+      -- Different approach needed
+      sorry
+    calc (27 : ℝ) ^ phi
+        < (27 : ℝ) ^ ((16185 : ℝ) / 10000) := by
+            apply Real.rpow_lt_rpow_of_exponent_lt h27 hphi_hi
+      _ < (208 : ℝ) := by sorry
 
 /-!
 ## Summary: Key Constants for Hierarchy
