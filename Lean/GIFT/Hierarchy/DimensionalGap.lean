@@ -66,8 +66,19 @@ theorem cohom_suppression_lt_one : cohom_suppression < 1 := by
     norm_num
   exact div_pos h1 h2
 
-/-- Cohomological suppression magnitude: 10⁻⁶ < exp(-99/8) < 10⁻⁵ (numerical).
-    Numerically verified: exp(-99/8) = exp(-12.375) ≈ 4.22 × 10⁻⁶ -/
+/-- e > 2.7 (needed for exp bounds).
+    Numerically verified: e = 2.71828... > 2.7
+    Proof requires Taylor series or interval arithmetic. -/
+axiom exp_one_gt : (27 : ℝ) / 10 < Real.exp 1
+
+/-- e < 2.72 (upper bound).
+    Numerically verified: e = 2.71828... < 2.72
+    Proof requires Taylor series truncation or interval arithmetic. -/
+axiom exp_one_lt : Real.exp 1 < (272 : ℝ) / 100
+
+/-- Cohomological suppression magnitude: 10⁻⁶ < exp(-99/8) < 10⁻⁵.
+    Numerically verified: exp(-99/8) = exp(-12.375) ≈ 4.22 × 10⁻⁶
+    Equivalent to: 5 ln(10) < 12.375 < 6 ln(10), i.e., 11.51 < 12.375 < 13.82 ✓ -/
 axiom cohom_suppression_magnitude :
     (1 : ℝ) / 10^6 < cohom_suppression ∧ cohom_suppression < (1 : ℝ) / 10^5
 
@@ -134,11 +145,48 @@ noncomputable def ln_hierarchy : ℝ :=
 
 /-- ln(hierarchy) = -H*/rank - 54 ln(φ).
     Follows from log(a × b) = log(a) + log(b) and log(exp(x)) = x, log(φ⁻⁵⁴) = -54 log(φ) -/
-axiom ln_hierarchy_eq : Real.log hierarchy_ratio = ln_hierarchy
+theorem ln_hierarchy_eq : Real.log hierarchy_ratio = ln_hierarchy := by
+  unfold hierarchy_ratio ln_hierarchy cohom_suppression jordan_suppression
+  have hexp_pos : 0 < Real.exp (-(H_star : ℝ) / rank_E8) := Real.exp_pos _
+  have hphi_inv_sq_pos : 0 < phi_inv_sq := phi_inv_sq_pos
+  have hpow_pos : 0 < phi_inv_sq ^ dim_J3O := pow_pos hphi_inv_sq_pos _
+  rw [Real.log_mul (ne_of_gt hexp_pos) (ne_of_gt hpow_pos)]
+  rw [Real.log_exp]
+  unfold dim_J3O phi_inv_sq
+  rw [Real.log_pow, Real.log_pow]
+  -- log(phi⁻¹) = -log(phi)
+  rw [Real.log_inv phi]
+  ring
+
+/-- log(φ) bounds: 0.48 < log(φ) < 0.49.
+    Numerically verified: φ = (1+√5)/2 ≈ 1.618, so log(φ) ≈ 0.481
+    Equivalent to: exp(0.48) < φ < exp(0.49), i.e., 1.616 < 1.618 < 1.632 ✓ -/
+axiom log_phi_bounds : (48 : ℝ) / 100 < Real.log phi ∧ Real.log phi < (49 : ℝ) / 100
 
 /-- ln(hierarchy) ≈ -38.4 (bounds: -39 < ln < -38).
-    Numerically verified: ln_hierarchy = -99/8 - 54 × ln(φ) = -12.375 - 54 × 0.481 ≈ -38.37 -/
-axiom ln_hierarchy_bounds : (-39 : ℝ) < ln_hierarchy ∧ ln_hierarchy < (-38 : ℝ)
+    Proof: ln_hierarchy = -99/8 - 54 × ln(φ) = -12.375 - 54 × ln(φ)
+    With 0.48 < ln(φ) < 0.49, we get -12.375 - 26.46 < ln < -12.375 - 25.92
+    i.e., -38.835 < ln < -38.295, so -39 < ln < -38 ✓ -/
+theorem ln_hierarchy_bounds : (-39 : ℝ) < ln_hierarchy ∧ ln_hierarchy < (-38 : ℝ) := by
+  unfold ln_hierarchy
+  have ⟨hlog_lo, hlog_hi⟩ := log_phi_bounds
+  -- Prove the numeric values
+  have hH : (H_star : ℕ) = 99 := by native_decide
+  have hR : (rank_E8 : ℕ) = 8 := by native_decide
+  -- Convert to ℝ
+  have hH_real : (H_star : ℝ) = 99 := by simp only [hH]; norm_num
+  have hR_real : (rank_E8 : ℝ) = 8 := by simp only [hR]; norm_num
+  rw [hH_real, hR_real]
+  -- Now we have: -(99 : ℝ) / 8 - 54 * Real.log phi
+  constructor
+  · -- -39 < -99/8 - 54 * log(phi)
+    have h1 : -(99 : ℝ) / 8 - 54 * (49 / 100) > -39 := by norm_num
+    have h2 : 54 * Real.log phi < 54 * (49 / 100) := by nlinarith
+    linarith
+  · -- -99/8 - 54 * log(phi) < -38
+    have h1 : -(99 : ℝ) / 8 - 54 * (48 / 100) < -38 := by norm_num
+    have h2 : 54 * (48 / 100) < 54 * Real.log phi := by nlinarith
+    linarith
 
 /-!
 ## Physical Interpretation

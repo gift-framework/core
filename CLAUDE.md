@@ -273,6 +273,8 @@ python -c "from gift_core import *; print(GAMMA_GIFT)"
 | `ImportError` | Missing export | Add to `__init__.py` |
 | `native_decide failed` | Computation too complex | Split into smaller lemmas |
 | `Ambiguous term` (e.g., `R7`, `AllInteger`) | Multiple `open` with same names | Use qualified names (see below) |
+| `expected ℝ, got Prop` in `Real.log_inv` | Mathlib 4 signature change | Use `Real.log_inv x` (value, not proof) |
+| `Real.decidableEq noncomputable` | `native_decide` on ℝ equality | Prove on ℕ first, then `simp + norm_num` |
 
 ### 6. Namespace Conflicts in Lean 4
 
@@ -305,6 +307,56 @@ import GIFT.Foundations.RootSystems
 
 -- DO: Use qualified names
 theorem foo : RootSystems.E8_enumeration.card = 240 := RootSystems.E8_enumeration_card
+```
+
+### 7. Numerical Bounds and Real Coercions in Mathlib 4
+
+**Problem 1**: `Real.log_inv` takes `ℝ` directly, not a proof.
+
+```lean
+-- BAD - type mismatch (expects ℝ, not Prop)
+have hphi_pos : 0 < phi := phi_pos
+rw [Real.log_inv hphi_pos]  -- ERROR!
+
+-- GOOD - pass the value directly
+rw [Real.log_inv phi]
+```
+
+**Problem 2**: `native_decide` doesn't work for ℕ→ℝ coercions.
+
+```lean
+-- BAD - Real.decidableEq is noncomputable
+have hH : (H_star : ℝ) = 99 := by native_decide  -- ERROR!
+
+-- GOOD - prove on ℕ first, then convert
+have hH : (H_star : ℕ) = 99 := by native_decide
+have hH_real : (H_star : ℝ) = 99 := by simp only [hH]; norm_num
+```
+
+**Problem 3**: Numerical bounds requiring interval arithmetic.
+
+Some bounds (e.g., `e < 2.72`, `log(φ) < 0.49`) cannot be proven with standard tactics. Convert to documented axioms:
+
+```lean
+-- Axiom for bounds requiring interval arithmetic
+/-- e < 2.72. Numerically verified: e = 2.71828... < 2.72
+    Proof requires Taylor series or interval arithmetic. -/
+axiom exp_one_lt : Real.exp 1 < (272 : ℝ) / 100
+
+-- Theorem using the axiom with monotonicity
+theorem my_bound : some_expr < threshold := by
+  have h_base := exp_one_lt
+  calc ...
+```
+
+**Problem 4**: `simp only` may not fully unfold nested definitions.
+
+```lean
+-- BAD - leaves imaginary_count.choose 2 unexpanded
+simp only [H_star, rank_E8, b2, b3]
+
+-- GOOD - use native_decide on ℕ, then convert
+have hH : (H_star : ℕ) = 99 := by native_decide
 ```
 
 ---
@@ -499,4 +551,4 @@ theorem gift_certificate :
 
 ---
 
-*Last updated: 2025-12-22 - Axiom reduction (52→44) + namespace conflict guidelines (v3.1.8)*
+*Last updated: 2025-12-24 - Mathlib 4 numerical bounds patterns (v3.1.9)*

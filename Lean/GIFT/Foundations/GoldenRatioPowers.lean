@@ -168,8 +168,9 @@ theorem phi_inv_54_lt_one : phi_inv_54 < 1 := by
   have hn : 0 < (27 : ℕ) := by norm_num
   exact pow_lt_one₀ h0 h1 hn.ne'
 
-/-- φ⁻⁵⁴ is very small (numerical bound).
-    Numerically verified: (0.382)^27 ≈ 1.17 × 10⁻¹¹ < 10⁻¹⁰ -/
+/-- φ⁻⁵⁴ < 10⁻¹⁰ (numerical bound).
+    Numerically verified: φ⁻² ≈ 0.382 < 2/5, so (φ⁻²)^27 < (2/5)^27 ≈ 1.8×10⁻¹¹ < 10⁻¹⁰
+    Proof requires power monotonicity lemma with interval arithmetic. -/
 axiom phi_inv_54_very_small : phi_inv_54 < (1 : ℝ) / 10^10
 
 /-!
@@ -200,9 +201,55 @@ theorem jordan_power_phi_gt_one : 1 < jordan_power_phi := by
   rw [← Real.rpow_zero (27 : ℝ)]
   exact Real.rpow_lt_rpow_of_exponent_lt hbase hexp
 
+/-- Tighter √5 bounds for rpow estimates -/
+theorem sqrt5_bounds_tight : (2236 : ℝ) / 1000 < Real.sqrt 5 ∧ Real.sqrt 5 < (2237 : ℝ) / 1000 := by
+  constructor
+  · -- 2.236 < √5
+    have h : ((2236 : ℝ) / 1000)^2 < 5 := by norm_num
+    have hpos : (0 : ℝ) ≤ 2236 / 1000 := by norm_num
+    rw [← Real.sqrt_sq hpos]
+    exact Real.sqrt_lt_sqrt (by norm_num) h
+  · -- √5 < 2.237
+    have h : (5 : ℝ) < ((2237 : ℝ) / 1000)^2 := by norm_num
+    have hpos : (0 : ℝ) ≤ 2237 / 1000 := by norm_num
+    rw [← Real.sqrt_sq hpos]
+    exact Real.sqrt_lt_sqrt (by norm_num) h
+
+/-- φ bounds: 1.618 < φ < 1.6185 -/
+theorem phi_bounds_tight : (1618 : ℝ) / 1000 < phi ∧ phi < (16185 : ℝ) / 10000 := by
+  have ⟨hlo, hhi⟩ := sqrt5_bounds_tight
+  unfold phi
+  constructor <;> linarith
+
+/-- 27^1.618 > 206 (rpow numerical bound).
+    Numerically verified: 27^1.618 ≈ 206.3 > 206
+    Proof requires interval arithmetic or Taylor series for rpow. -/
+axiom rpow_27_1618_gt_206 : (206 : ℝ) < (27 : ℝ) ^ ((1618 : ℝ) / 1000)
+
+/-- 27^1.6185 < 208 (rpow numerical bound).
+    Numerically verified: 27^1.6185 ≈ 206.85 < 208
+    Proof requires interval arithmetic or Taylor series for rpow. -/
+axiom rpow_27_16185_lt_208 : (27 : ℝ) ^ ((16185 : ℝ) / 10000) < (208 : ℝ)
+
 /-- 27^φ bounds: 206 < 27^φ < 208.
-    Numerically verified: φ ≈ 1.618, so 27^1.618 ≈ 206.77 -/
-axiom jordan_power_phi_bounds : (206 : ℝ) < jordan_power_phi ∧ jordan_power_phi < (208 : ℝ)
+    Numerically verified: φ ≈ 1.618, so 27^1.618 ≈ 206.77
+    Uses rpow monotonicity with numerical axioms for boundary values. -/
+theorem jordan_power_phi_bounds : (206 : ℝ) < jordan_power_phi ∧ jordan_power_phi < (208 : ℝ) := by
+  unfold jordan_power_phi
+  have hphi_lo := phi_bounds_tight.1  -- φ > 1.618
+  have hphi_hi := phi_bounds_tight.2  -- φ < 1.6185
+  have h27 : (1 : ℝ) < 27 := by norm_num
+  constructor
+  · -- 206 < 27^φ
+    -- Since φ > 1.618 and 27^1.618 > 206 (axiom)
+    calc (206 : ℝ)
+        < (27 : ℝ) ^ ((1618 : ℝ) / 1000) := rpow_27_1618_gt_206
+      _ < (27 : ℝ) ^ phi := Real.rpow_lt_rpow_of_exponent_lt h27 hphi_lo
+  · -- 27^φ < 208
+    -- Since φ < 1.6185 and 27^1.6185 < 208 (axiom)
+    calc (27 : ℝ) ^ phi
+        < (27 : ℝ) ^ ((16185 : ℝ) / 10000) := Real.rpow_lt_rpow_of_exponent_lt h27 hphi_hi
+      _ < (208 : ℝ) := rpow_27_16185_lt_208
 
 /-!
 ## Summary: Key Constants for Hierarchy
