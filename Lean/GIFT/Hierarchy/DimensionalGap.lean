@@ -66,14 +66,12 @@ theorem cohom_suppression_lt_one : cohom_suppression < 1 := by
     norm_num
   exact div_pos h1 h2
 
-/-- e > 2.7 (needed for exp bounds).
-    Numerically verified: e = 2.71828... > 2.7
-    Proof requires Taylor series or interval arithmetic. -/
+/-- e > 2.7. Numerically verified: e = 2.71828... > 2.7.
+    Proof requires Taylor series bounds or interval arithmetic. -/
 axiom exp_one_gt : (27 : ℝ) / 10 < Real.exp 1
 
-/-- e < 2.72 (upper bound).
-    Numerically verified: e = 2.71828... < 2.72
-    Proof requires Taylor series truncation or interval arithmetic. -/
+/-- e < 2.72. Numerically verified: e = 2.71828... < 2.72.
+    Proof requires Taylor series bounds or interval arithmetic. -/
 axiom exp_one_lt : Real.exp 1 < (272 : ℝ) / 100
 
 /-- Cohomological suppression magnitude: 10⁻⁶ < exp(-99/8) < 10⁻⁵.
@@ -159,8 +157,9 @@ theorem ln_hierarchy_eq : Real.log hierarchy_ratio = ln_hierarchy := by
   ring
 
 /-- log(φ) bounds: 0.48 < log(φ) < 0.49.
-    Numerically verified: φ = (1+√5)/2 ≈ 1.618, so log(φ) ≈ 0.481
-    Equivalent to: exp(0.48) < φ < exp(0.49), i.e., 1.616 < 1.618 < 1.632 ✓ -/
+    Numerically verified: φ = (1+√5)/2 ≈ 1.618, so log(φ) ≈ 0.481.
+    Equivalent to: exp(0.48) < φ < exp(0.49), i.e., 1.616 < 1.618 < 1.632 ✓
+    Proof requires Taylor bounds for exp(0.48) and exp(0.49). -/
 axiom log_phi_bounds : (48 : ℝ) / 100 < Real.log phi ∧ Real.log phi < (49 : ℝ) / 100
 
 /-- ln(hierarchy) ≈ -38.4 (bounds: -39 < ln < -38).
