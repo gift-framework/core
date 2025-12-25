@@ -388,7 +388,7 @@ theorem SumEven.zsmul {v : R8} (n : ℤ) (hv : SumEven v) : SumEven (n • v) :=
   unfold SumEven at *
   -- Show ∑ i, (n • v) i = n * (∑ i, v i)
   have hsmul_coord : ∀ i, (n • v) i = (n : ℝ) * v i := fun i => by
-    simp only [PiLp.smul_apply, smul_eq_mul]
+    simp only [PiLp.smul_apply, zsmul_eq_mul]
   have h_smul : ∑ i, (n • v) i = (n : ℝ) * (∑ i, v i) := by
     simp_rw [hsmul_coord]; rw [Finset.mul_sum]
   rw [h_smul]
@@ -433,7 +433,7 @@ theorem E8_lattice_smul (n : ℤ) (v : R8) (hv : v ∈ E8_lattice) :
       -- AllInteger v, so n • v is AllInteger
       left
       intro i
-      have : (n • v) i = n * (v i) := by simp only [PiLp.smul_apply, smul_eq_mul]
+      have : (n • v) i = n * (v i) := by simp only [PiLp.smul_apply, zsmul_eq_mul]
       rw [this]
       exact (hi i).zsmul n
     | inr hh =>
@@ -442,13 +442,13 @@ theorem E8_lattice_smul (n : ℤ) (v : R8) (hv : v ∈ E8_lattice) :
       · -- n = 2k (even): result is integer
         left
         intro i
-        have : (n • v) i = n * (v i) := by simp only [PiLp.smul_apply, smul_eq_mul]
+        have : (n • v) i = n * (v i) := by simp only [PiLp.smul_apply, zsmul_eq_mul]
         rw [this]
         exact (hh i).zsmul_even ⟨k, hk⟩
       · -- n = 2k + 1 (odd): result is half-integer
         right
         intro i
-        have : (n • v) i = n * (v i) := by simp only [PiLp.smul_apply, smul_eq_mul]
+        have : (n • v) i = n * (v i) := by simp only [PiLp.smul_apply, zsmul_eq_mul]
         rw [this]
         exact (hh i).zsmul_odd ⟨k, hk⟩
   · exact hsum.zsmul n
