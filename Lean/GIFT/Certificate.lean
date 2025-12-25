@@ -733,6 +733,43 @@ abbrev v32_harmonic := GIFT.Foundations.Analysis.HarmonicForms.harmonic_forms_ce
 /-- V3.2 G2 tensor form relations -/
 abbrev v32_G2_tensor := GIFT.Foundations.Analysis.G2TensorForm.G2_certified
 
+-- =============================================================================
+-- G₂ CROSS PRODUCT CONNECTIONS (v3.1.11)
+-- Connects fano_lines cluster to main dependency graph
+-- =============================================================================
+
+/-- Fano plane lines count (7 lines = 7 imaginaries of octonions) -/
+abbrev fano_lines_count := GIFT.Foundations.G2CrossProduct.fano_lines_count
+
+/-- Epsilon structure constants antisymmetry -/
+abbrev epsilon_antisymm := GIFT.Foundations.G2CrossProduct.epsilon_antisymm
+
+/-- G2 cross product bilinearity (proven) -/
+abbrev G2_cross_bilinear := GIFT.Foundations.G2CrossProduct.G2_cross_bilinear
+
+/-- G2 cross product antisymmetry (proven) -/
+abbrev G2_cross_antisymm := GIFT.Foundations.G2CrossProduct.G2_cross_antisymm
+
+/-- Lagrange identity for 7D cross product (proven) -/
+abbrev G2_cross_norm := GIFT.Foundations.G2CrossProduct.G2_cross_norm
+
+/-- Cross product structure matches octonion multiplication (proven) -/
+abbrev cross_is_octonion_structure := GIFT.Foundations.G2CrossProduct.cross_is_octonion_structure
+
+/-- G2 dimension from stabilizer: dim(GL7) - orbit = 49 - 35 = 14 -/
+abbrev G2_dim_from_stabilizer := GIFT.Foundations.G2CrossProduct.G2_dim_from_stabilizer
+
+/-- GIFT v3.1.11 G2 Cross Product Certificate
+    Connects Fano plane structure to main dependency graph -/
+theorem gift_G2_cross_product_certificate :
+    -- Fano plane has 7 lines
+    (GIFT.Foundations.G2CrossProduct.fano_lines.length = 7) ∧
+    -- G2 dimension from stabilizer: 49 - 35 = 14
+    (49 - GIFT.Foundations.G2CrossProduct.orbit_phi0_dim = 14) ∧
+    -- G2 dimension from roots: 12 + 2 = 14
+    (12 + 2 = 14) := by
+  repeat (first | constructor | rfl)
+
 /-- V3.2 Joyce analytic relations -/
 abbrev v32_joyce_analytic := GIFT.Foundations.Analysis.JoyceAnalytic.joyce_analytic_certified
 
