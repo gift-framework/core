@@ -613,6 +613,70 @@ theorem gift_certificate :
   repeat (first | constructor | native_decide | rfl)
 ```
 
+### 9. Blueprint Dependency Graph Orphans
+
+**Problem**: Modules imported in Certificate.lean but without `abbrev` references appear as isolated clusters in the blueprint dependency graph.
+
+**Diagnosis**: Check the blueprint visualization. Disconnected clusters indicate missing `abbrev` edges.
+
+**Fix**: For each orphaned module, add abbrevs in Certificate.lean:
+
+```lean
+-- Module is imported but orphaned
+import GIFT.SomeModule
+
+-- Fix: Add abbrevs to create dependency graph edges
+abbrev some_theorem := GIFT.SomeModule.some_theorem
+abbrev another_theorem := GIFT.SomeModule.another_theorem
+```
+
+**Modules commonly orphaned** (check these have abbrevs):
+- `DifferentialForms` (Hodge duality, form decompositions)
+- `ImplicitFunction` (IFT conditions)
+- `G2CrossProduct` (fano_lines, epsilon, cross product)
+- Relations submodules (ExceptionalGroups, BaseDecomposition, etc.)
+
+### 10. Explicit Vector Definitions in EuclideanSpace
+
+**Problem**: Defining explicit vectors in `EuclideanSpace ℝ (Fin n)` requires `noncomputable` if using division.
+
+```lean
+-- BAD - compiler error (depends on Real.instDivInvMonoid)
+def E8_α8 : R8 := mkR8 ![-1/2, -1/2, -1/2, -1/2, -1/2, 1/2, 1/2, -1/2]
+
+-- GOOD - mark as noncomputable
+noncomputable def E8_α8 : R8 := mkR8 ![-1/2, -1/2, -1/2, -1/2, -1/2, 1/2, 1/2, -1/2]
+```
+
+**Helper pattern for R8 vectors:**
+
+```lean
+/-- Helper to construct R8 vectors from a function -/
+noncomputable def mkR8 (f : Fin 8 → ℝ) : R8 := (WithLp.equiv 2 _).symm f
+
+/-- Example: E8 simple root -/
+noncomputable def E8_α1 : R8 := mkR8 ![1, -1, 0, 0, 0, 0, 0, 0]
+```
+
+### 11. Numerical Bounds on Transcendentals (exp, log, etc.)
+
+**Problem**: Tight bounds like `2.7 < e < 2.72` or `0.48 < log(φ) < 0.49` cannot be proven with standard Mathlib tactics.
+
+**Why it fails:**
+- `Real.add_one_lt_exp` only gives `x + 1 < exp(x)`, so `2 < e` (not tight enough)
+- `norm_num` doesn't handle transcendental functions
+- No interval arithmetic in Mathlib 4
+
+**Solution**: Use documented axioms for numerically verified bounds:
+
+```lean
+/-- e > 2.7. Numerically verified: e = 2.71828... > 2.7.
+    Proof requires interval arithmetic (Taylor series to 4+ terms). -/
+axiom exp_one_gt : (27 : ℝ) / 10 < Real.exp 1
+```
+
+**Future work**: Implement interval arithmetic library for Lean 4.
+
 ---
 
-*Last updated: 2025-12-25 - PiLp/EuclideanSpace ℤ-smul patterns (v3.1.10)*
+*Last updated: 2025-12-25 - Blueprint orphans, E8 basis vectors, transcendental bounds (v3.1.11)*

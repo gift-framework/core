@@ -582,6 +582,26 @@ theorem all_75_relations_certified :
   repeat (first | constructor | native_decide | rfl)
 
 -- =============================================================================
+-- V1.5-V1.7 RELATIONS MODULE CONNECTIONS (v3.1.11)
+-- Connects master theorems from Relations submodules
+-- =============================================================================
+
+/-- V1.5 Exceptional groups: alpha_s^2, F4, delta_penta, Jordan, Weyl(E8) -/
+abbrev v15_exceptional_groups := ExceptionalGroups.all_5_exceptional_groups_certified
+
+/-- V1.5 Base decomposition: kappa_T, b2/b3/H* decompositions -/
+abbrev v15_base_decomposition := BaseDecomposition.all_6_base_decomposition_certified
+
+/-- V1.5 Extended decomposition (10 relations) -/
+abbrev v15_extended_decomposition := BaseDecomposition.all_10_decomposition_certified
+
+/-- V1.6 Mass factorization: 3477, Von Staudt, T_61, Triade 9-18-34 -/
+abbrev v16_mass_factorization := MassFactorization.all_mass_factorization_relations_certified
+
+/-- V1.7 Exceptional chain: tau_num, E7, E6, E8 chain relations -/
+abbrev v17_exceptional_chain := ExceptionalChain.all_exceptional_chain_relations_certified
+
+-- =============================================================================
 -- V2.0: MASTER CERTIFICATE (165+ relations)
 -- =============================================================================
 
@@ -652,6 +672,29 @@ abbrev v3_sobolev_H4_C0 := GIFT.Sobolev.H4_embeds_C0
 
 /-- V3.0 Joyce complete certificate -/
 abbrev v3_joyce_complete := GIFT.Joyce.joyce_complete_certificate
+
+-- =============================================================================
+-- V3.0 DIFFERENTIAL FORMS & IMPLICIT FUNCTION (v3.1.11)
+-- Connects previously orphaned analytical modules
+-- =============================================================================
+
+/-- V3.0 Differential forms: Hodge duality on K7 -/
+abbrev v3_hodge_duality := GIFT.DifferentialForms.hodge_duality
+
+/-- V3.0 Differential forms: 2-forms decompose as 7 + 14 = 21 = b2 -/
+abbrev v3_omega2_decomposition := GIFT.DifferentialForms.omega2_decomposition
+
+/-- V3.0 Differential forms: 3-forms decompose as 1 + 7 + 27 = 35 -/
+abbrev v3_omega3_decomposition := GIFT.DifferentialForms.omega3_decomposition
+
+/-- V3.0 Differential forms: K7 Betti numbers b0=1, b1=0, b2=21, b3=77 -/
+abbrev v3_k7_betti_numbers := GIFT.DifferentialForms.k7_betti_numbers
+
+/-- V3.0 Differential forms: Poincare duality for K7 -/
+abbrev v3_poincare_duality := GIFT.DifferentialForms.poincare_duality
+
+/-- V3.0 Implicit function theorem conditions satisfied -/
+abbrev v3_ift_conditions := GIFT.ImplicitFunction.ift_conditions_satisfied
 
 /-- GIFT v3.0 Master Certificate: 165+ relations + Joyce existence -/
 theorem gift_v3_master_certificate :

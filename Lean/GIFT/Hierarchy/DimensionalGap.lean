@@ -67,11 +67,14 @@ theorem cohom_suppression_lt_one : cohom_suppression < 1 := by
   exact div_pos h1 h2
 
 /-- e > 2.7. Numerically verified: e = 2.71828... > 2.7.
-    Proof requires Taylor series bounds or interval arithmetic. -/
+    Proof requires interval arithmetic (Taylor series to 4+ terms).
+    Mathlib's `Real.add_one_lt_exp` only gives 2 < e, not tight enough.
+    Standard reference: e = Σ(1/n!) = 2.718281828... -/
 axiom exp_one_gt : (27 : ℝ) / 10 < Real.exp 1
 
 /-- e < 2.72. Numerically verified: e = 2.71828... < 2.72.
-    Proof requires Taylor series bounds or interval arithmetic. -/
+    Proof requires interval arithmetic or Taylor remainder bounds.
+    Standard reference: e = 2.718281828... < 2.72 -/
 axiom exp_one_lt : Real.exp 1 < (272 : ℝ) / 100
 
 /-- Cohomological suppression magnitude: 10⁻⁶ < exp(-99/8) < 10⁻⁵.

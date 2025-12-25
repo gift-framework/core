@@ -462,12 +462,58 @@ theorem E8_lattice_sub (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice
 
 /-!
 ## E8 Basis and Unimodularity
+
+The E8 lattice has a standard basis given by the simple roots of E8.
+These are 8 vectors that generate the entire lattice via integer combinations.
+
+Standard E8 simple roots (Bourbaki convention):
+- α₁ through α₆: differences of consecutive standard basis vectors
+- α₇: e₆ + e₇ (connecting to the D-branch)
+- α₈: half-integer vector with even coordinate sum
 -/
 
-/-- Standard E8 basis (simple roots + highest root construction) -/
-axiom E8_basis : Fin 8 → R8
+/-- Helper to construct R8 vectors from a function -/
+noncomputable def mkR8 (f : Fin 8 → ℝ) : R8 := (WithLp.equiv 2 _).symm f
 
-/-- Every lattice vector is an integer combination of basis -/
+/-- E8 simple root α₁ = e₁ - e₂ -/
+noncomputable def E8_α1 : R8 := mkR8 ![1, -1, 0, 0, 0, 0, 0, 0]
+
+/-- E8 simple root α₂ = e₂ - e₃ -/
+noncomputable def E8_α2 : R8 := mkR8 ![0, 1, -1, 0, 0, 0, 0, 0]
+
+/-- E8 simple root α₃ = e₃ - e₄ -/
+noncomputable def E8_α3 : R8 := mkR8 ![0, 0, 1, -1, 0, 0, 0, 0]
+
+/-- E8 simple root α₄ = e₄ - e₅ -/
+noncomputable def E8_α4 : R8 := mkR8 ![0, 0, 0, 1, -1, 0, 0, 0]
+
+/-- E8 simple root α₅ = e₅ - e₆ -/
+noncomputable def E8_α5 : R8 := mkR8 ![0, 0, 0, 0, 1, -1, 0, 0]
+
+/-- E8 simple root α₆ = e₆ - e₇ -/
+noncomputable def E8_α6 : R8 := mkR8 ![0, 0, 0, 0, 0, 1, -1, 0]
+
+/-- E8 simple root α₇ = e₆ + e₇ -/
+noncomputable def E8_α7 : R8 := mkR8 ![0, 0, 0, 0, 0, 1, 1, 0]
+
+/-- E8 simple root α₈ = (-1/2, -1/2, -1/2, -1/2, -1/2, 1/2, 1/2, -1/2)
+    This has sum = -2 (even) and all half-integer coordinates. -/
+noncomputable def E8_α8 : R8 := mkR8 ![-1/2, -1/2, -1/2, -1/2, -1/2, 1/2, 1/2, -1/2]
+
+/-- Standard E8 basis (simple roots) - EXPLICIT DEFINITION -/
+noncomputable def E8_basis : Fin 8 → R8
+  | 0 => E8_α1
+  | 1 => E8_α2
+  | 2 => E8_α3
+  | 3 => E8_α4
+  | 4 => E8_α5
+  | 5 => E8_α6
+  | 6 => E8_α7
+  | 7 => E8_α8
+
+/-- Every lattice vector is an integer combination of the E8 basis.
+    This follows from the fact that the simple roots generate the root lattice,
+    which equals the weight lattice for E8 (since E8 is simply-laced and self-dual). -/
 axiom E8_basis_generates : ∀ v ∈ E8_lattice, ∃ c : Fin 8 → ℤ,
     v = ∑ i, c i • E8_basis i
 

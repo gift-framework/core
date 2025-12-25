@@ -5,6 +5,69 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.11] - 2025-12-25
+
+### Summary
+
+**Blueprint Dependency Graph Completion & E8 Basis Definition!** Connected 7 orphaned module clusters to the main Certificate dependency graph. Converted E8_basis from axiom to explicit definition with the 8 simple roots.
+
+### Added
+
+- **Certificate.lean**: 20+ new abbrevs connecting orphaned modules
+  - G2 Cross Product: `fano_lines_count`, `epsilon_antisymm`, `G2_cross_bilinear`, `G2_cross_antisymm`, `G2_cross_norm`, `cross_is_octonion_structure`, `G2_dim_from_stabilizer`
+  - Differential Forms: `v3_hodge_duality`, `v3_omega2_decomposition`, `v3_omega3_decomposition`, `v3_k7_betti_numbers`, `v3_poincare_duality`
+  - Implicit Function: `v3_ift_conditions`
+  - Relations v1.5-1.7: `v15_exceptional_groups`, `v15_base_decomposition`, `v15_extended_decomposition`, `v16_mass_factorization`, `v17_exceptional_chain`
+
+- **Certificate.lean**: New certification theorem
+  - `gift_G2_cross_product_certificate`: Links Fano plane to main graph
+
+- **E8Lattice.lean**: Explicit E8 basis vectors (Bourbaki convention)
+  - `E8_α1` through `E8_α8`: Individual simple root definitions
+  - `mkR8`: Helper for R8 vector construction
+  - `E8_basis`: Now a `noncomputable def` (was axiom!)
+
+### Changed
+
+- **E8_basis**: Converted from `axiom` to `noncomputable def`
+  - α₁–α₆: Integer vectors (eᵢ - eᵢ₊₁)
+  - α₇: e₆ + e₇ (D-branch connection)
+  - α₈: Half-integer vector (-½,-½,-½,-½,-½,½,½,-½)
+
+### Fixed
+
+- **Blueprint Dependency Graph**: 7 previously orphaned clusters now connected:
+  1. `fano_lines` cluster (G2CrossProduct)
+  2. `DifferentialForms` module
+  3. `ImplicitFunction` module
+  4. `ExceptionalGroups` relations
+  5. `BaseDecomposition` relations
+  6. `MassFactorization` relations
+  7. `ExceptionalChain` relations
+
+### Technical Notes
+
+**Why were modules orphaned?**
+Modules imported in Certificate.lean but without `abbrev` edges are isolated in the blueprint dependency graph. Adding abbrevs creates the edges needed for visualization.
+
+**E8 Simple Roots (Bourbaki):**
+```
+α₁ = (1, -1, 0, 0, 0, 0, 0, 0)
+α₂ = (0, 1, -1, 0, 0, 0, 0, 0)
+α₃ = (0, 0, 1, -1, 0, 0, 0, 0)
+α₄ = (0, 0, 0, 1, -1, 0, 0, 0)
+α₅ = (0, 0, 0, 0, 1, -1, 0, 0)
+α₆ = (0, 0, 0, 0, 0, 1, -1, 0)
+α₇ = (0, 0, 0, 0, 0, 1, 1, 0)
+α₈ = (-½, -½, -½, -½, -½, ½, ½, -½)
+```
+
+**Axiom count: 41** (was 42)
+- Removed: `E8_basis` (now explicit def)
+- Remaining: `E8_basis_generates`, numerical bounds, Hodge/Sobolev structure
+
+---
+
 ## [3.1.10] - 2025-12-25
 
 ### Summary
