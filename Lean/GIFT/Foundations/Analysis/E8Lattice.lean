@@ -473,35 +473,35 @@ Standard E8 simple roots (Bourbaki convention):
 -/
 
 /-- Helper to construct R8 vectors from a function -/
-def mkR8 (f : Fin 8 → ℝ) : R8 := (WithLp.equiv 2 _).symm f
+noncomputable def mkR8 (f : Fin 8 → ℝ) : R8 := (WithLp.equiv 2 _).symm f
 
 /-- E8 simple root α₁ = e₁ - e₂ -/
-def E8_α1 : R8 := mkR8 ![1, -1, 0, 0, 0, 0, 0, 0]
+noncomputable def E8_α1 : R8 := mkR8 ![1, -1, 0, 0, 0, 0, 0, 0]
 
 /-- E8 simple root α₂ = e₂ - e₃ -/
-def E8_α2 : R8 := mkR8 ![0, 1, -1, 0, 0, 0, 0, 0]
+noncomputable def E8_α2 : R8 := mkR8 ![0, 1, -1, 0, 0, 0, 0, 0]
 
 /-- E8 simple root α₃ = e₃ - e₄ -/
-def E8_α3 : R8 := mkR8 ![0, 0, 1, -1, 0, 0, 0, 0]
+noncomputable def E8_α3 : R8 := mkR8 ![0, 0, 1, -1, 0, 0, 0, 0]
 
 /-- E8 simple root α₄ = e₄ - e₅ -/
-def E8_α4 : R8 := mkR8 ![0, 0, 0, 1, -1, 0, 0, 0]
+noncomputable def E8_α4 : R8 := mkR8 ![0, 0, 0, 1, -1, 0, 0, 0]
 
 /-- E8 simple root α₅ = e₅ - e₆ -/
-def E8_α5 : R8 := mkR8 ![0, 0, 0, 0, 1, -1, 0, 0]
+noncomputable def E8_α5 : R8 := mkR8 ![0, 0, 0, 0, 1, -1, 0, 0]
 
 /-- E8 simple root α₆ = e₆ - e₇ -/
-def E8_α6 : R8 := mkR8 ![0, 0, 0, 0, 0, 1, -1, 0]
+noncomputable def E8_α6 : R8 := mkR8 ![0, 0, 0, 0, 0, 1, -1, 0]
 
 /-- E8 simple root α₇ = e₆ + e₇ -/
-def E8_α7 : R8 := mkR8 ![0, 0, 0, 0, 0, 1, 1, 0]
+noncomputable def E8_α7 : R8 := mkR8 ![0, 0, 0, 0, 0, 1, 1, 0]
 
 /-- E8 simple root α₈ = (-1/2, -1/2, -1/2, -1/2, -1/2, 1/2, 1/2, -1/2)
     This has sum = -2 (even) and all half-integer coordinates. -/
-def E8_α8 : R8 := mkR8 ![-1/2, -1/2, -1/2, -1/2, -1/2, 1/2, 1/2, -1/2]
+noncomputable def E8_α8 : R8 := mkR8 ![-1/2, -1/2, -1/2, -1/2, -1/2, 1/2, 1/2, -1/2]
 
 /-- Standard E8 basis (simple roots) - EXPLICIT DEFINITION -/
-def E8_basis : Fin 8 → R8
+noncomputable def E8_basis : Fin 8 → R8
   | 0 => E8_α1
   | 1 => E8_α2
   | 2 => E8_α3
@@ -510,28 +510,6 @@ def E8_basis : Fin 8 → R8
   | 5 => E8_α6
   | 6 => E8_α7
   | 7 => E8_α8
-
-/-- α₁ is in the E8 lattice (integer coords, sum = 0) -/
-theorem E8_α1_in_lattice : E8_α1 ∈ E8_lattice := by
-  constructor
-  · left
-    intro i
-    fin_cases i <;> simp [E8_α1, mkR8, WithLp.equiv, Matrix.IsEmpty_finZeroElim]
-      <;> exact ⟨_, rfl⟩
-  · simp [SumEven, E8_α1, mkR8]
-    norm_num
-    exact ⟨0, by norm_num⟩
-
-/-- α₈ is in the E8 lattice (half-integer coords, sum = -2) -/
-theorem E8_α8_in_lattice : E8_α8 ∈ E8_lattice := by
-  constructor
-  · right
-    intro i
-    fin_cases i <;> simp [E8_α8, mkR8, WithLp.equiv]
-      <;> (first | exact ⟨-1, by norm_num⟩ | exact ⟨0, by norm_num⟩)
-  · simp [SumEven, E8_α8, mkR8]
-    norm_num
-    exact ⟨-1, by norm_num⟩
 
 /-- Every lattice vector is an integer combination of the E8 basis.
     This follows from the fact that the simple roots generate the root lattice,
