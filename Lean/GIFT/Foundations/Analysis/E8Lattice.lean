@@ -387,13 +387,12 @@ theorem SumEven.add {v w : R8} (hv : SumEven v) (hw : SumEven w) : SumEven (v + 
 theorem SumEven.zsmul {v : R8} (n : ℤ) (hv : SumEven v) : SumEven (n • v) := by
   unfold SumEven at *
   -- Show ∑ i, (n • v) i = n * (∑ i, v i)
-  have h_smul : ∑ i, (n • v) i = n * (∑ i, v i) := by
-    rw [← Finset.mul_sum]
-    apply Finset.sum_congr rfl
-    intro i _
-    simp only [Pi.smul_apply, smul_eq_mul]
+  have hsmul_coord : ∀ i, (n • v) i = (n : ℝ) * v i := fun i => by
+    simp only [PiLp.smul_apply, smul_eq_mul]
+  have h_smul : ∑ i, (n • v) i = (n : ℝ) * (∑ i, v i) := by
+    simp_rw [hsmul_coord]; rw [Finset.mul_sum]
   rw [h_smul]
-  have h_div : (↑n * ∑ i, v i) / 2 = ↑n * ((∑ i, v i) / 2) := by ring
+  have h_div : ((n : ℝ) * ∑ i, v i) / 2 = (n : ℝ) * ((∑ i, v i) / 2) := by ring
   rw [h_div]
   exact hv.zsmul n
 
@@ -434,23 +433,24 @@ theorem E8_lattice_smul (n : ℤ) (v : R8) (hv : v ∈ E8_lattice) :
       -- AllInteger v, so n • v is AllInteger
       left
       intro i
-      have : (n • v) i = n * (v i) := by simp only [Pi.smul_apply, smul_eq_mul]
+      have : (n • v) i = n * (v i) := by simp only [PiLp.smul_apply, smul_eq_mul]
       rw [this]
       exact (hi i).zsmul n
     | inr hh =>
       -- AllHalfInteger v: n • v is AllInteger if n even, AllHalfInteger if n odd
-      by_cases hn : Even n
-      · left
+      rcases Int.even_or_odd n with ⟨k, hk⟩ | ⟨k, hk⟩
+      · -- n = 2k (even): result is integer
+        left
         intro i
-        have : (n • v) i = n * (v i) := by simp only [Pi.smul_apply, smul_eq_mul]
+        have : (n • v) i = n * (v i) := by simp only [PiLp.smul_apply, smul_eq_mul]
         rw [this]
-        exact (hh i).zsmul_even hn
-      · right
+        exact (hh i).zsmul_even ⟨k, hk⟩
+      · -- n = 2k + 1 (odd): result is half-integer
+        right
         intro i
-        have : (n • v) i = n * (v i) := by simp only [Pi.smul_apply, smul_eq_mul]
+        have : (n • v) i = n * (v i) := by simp only [PiLp.smul_apply, smul_eq_mul]
         rw [this]
-        rw [Int.odd_iff_not_even] at hn
-        exact (hh i).zsmul_odd hn
+        exact (hh i).zsmul_odd ⟨k, hk⟩
   · exact hsum.zsmul n
 
 /-- E8 lattice is closed under subtraction -/
