@@ -356,19 +356,102 @@ theorem E8_even (v : R8) (hv : v ∈ E8_lattice) :
     push_cast; ring
 
 /-!
-## Lattice Closure Properties (axiomatized for now)
+## Lattice Closure Properties
 -/
 
-/-- E8 lattice is closed under negation -/
-axiom E8_lattice_neg (v : R8) (hv : v ∈ E8_lattice) : -v ∈ E8_lattice
+/-- SumEven is preserved under negation -/
+theorem SumEven.neg {v : R8} (hv : SumEven v) : SumEven (-v) := by
+  unfold SumEven at *
+  -- Show ∑ i, (-v) i = -(∑ i, v i)
+  have h_neg : ∑ i, (-v) i = -(∑ i, v i) := by
+    rw [← Finset.sum_neg_distrib]
+    apply Finset.sum_congr rfl
+    intro i _
+    rfl
+  rw [h_neg, neg_div]
+  exact hv.neg
 
-/-- E8 lattice is closed under integer scalar multiplication -/
-axiom E8_lattice_smul (n : ℤ) (v : R8) (hv : v ∈ E8_lattice) :
-    n • v ∈ E8_lattice
+/-- SumEven is preserved under addition -/
+theorem SumEven.add {v w : R8} (hv : SumEven v) (hw : SumEven w) : SumEven (v + w) := by
+  unfold SumEven at *
+  -- Show ∑ i, (v + w) i = (∑ i, v i) + (∑ i, w i)
+  have h_add : ∑ i, (v + w) i = (∑ i, v i) + (∑ i, w i) := by
+    rw [← Finset.sum_add_distrib]
+    apply Finset.sum_congr rfl
+    intro i _
+    rfl
+  rw [h_add, add_div]
+  exact hv.add hw
+
+/-- SumEven is preserved under integer scalar multiplication -/
+theorem SumEven.zsmul {v : R8} (n : ℤ) (hv : SumEven v) : SumEven (n • v) := by
+  unfold SumEven at *
+  -- Show ∑ i, (n • v) i = n * (∑ i, v i)
+  have h_smul : ∑ i, (n • v) i = n * (∑ i, v i) := by
+    rw [← Finset.mul_sum]
+    apply Finset.sum_congr rfl
+    intro i _
+    simp only [Pi.smul_apply, smul_eq_mul]
+  rw [h_smul]
+  have h_div : (↑n * ∑ i, v i) / 2 = ↑n * ((∑ i, v i) / 2) := by ring
+  rw [h_div]
+  exact hv.zsmul n
+
+/-- E8 lattice is closed under negation -/
+theorem E8_lattice_neg (v : R8) (hv : v ∈ E8_lattice) : -v ∈ E8_lattice := by
+  obtain ⟨htype, hsum⟩ := hv
+  constructor
+  · cases htype with
+    | inl hi => exact Or.inl hi.neg
+    | inr hh => exact Or.inr hh.neg
+  · exact hsum.neg
 
 /-- E8 lattice is closed under addition -/
-axiom E8_lattice_add (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice) :
-    v + w ∈ E8_lattice
+theorem E8_lattice_add (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice) :
+    v + w ∈ E8_lattice := by
+  obtain ⟨hv_type, hv_sum⟩ := hv
+  obtain ⟨hw_type, hw_sum⟩ := hw
+  constructor
+  · -- Show AllInteger (v+w) or AllHalfInteger (v+w)
+    cases hv_type with
+    | inl hv_int =>
+      cases hw_type with
+      | inl hw_int => exact Or.inl (hv_int.add hw_int)
+      | inr hw_half => exact Or.inr (hv_int.add_half hw_half)
+    | inr hv_half =>
+      cases hw_type with
+      | inl hw_int => exact Or.inr (hv_half.add_int hw_int)
+      | inr hw_half => exact Or.inl (hv_half.add_self hw_half)
+  · exact hv_sum.add hw_sum
+
+/-- E8 lattice is closed under integer scalar multiplication -/
+theorem E8_lattice_smul (n : ℤ) (v : R8) (hv : v ∈ E8_lattice) :
+    n • v ∈ E8_lattice := by
+  obtain ⟨htype, hsum⟩ := hv
+  constructor
+  · cases htype with
+    | inl hi =>
+      -- AllInteger v, so n • v is AllInteger
+      left
+      intro i
+      have : (n • v) i = n * (v i) := by simp only [Pi.smul_apply, smul_eq_mul]
+      rw [this]
+      exact (hi i).zsmul n
+    | inr hh =>
+      -- AllHalfInteger v: n • v is AllInteger if n even, AllHalfInteger if n odd
+      by_cases hn : Even n
+      · left
+        intro i
+        have : (n • v) i = n * (v i) := by simp only [Pi.smul_apply, smul_eq_mul]
+        rw [this]
+        exact (hh i).zsmul_even hn
+      · right
+        intro i
+        have : (n • v) i = n * (v i) := by simp only [Pi.smul_apply, smul_eq_mul]
+        rw [this]
+        rw [Int.odd_iff_not_even] at hn
+        exact (hh i).zsmul_odd hn
+  · exact hsum.zsmul n
 
 /-- E8 lattice is closed under subtraction -/
 theorem E8_lattice_sub (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice) :
