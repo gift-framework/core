@@ -67,12 +67,26 @@ theorem cohom_suppression_lt_one : cohom_suppression < 1 := by
   exact div_pos h1 h2
 
 /-- e > 2.7. Numerically verified: e = 2.71828... > 2.7.
-    Proof requires Taylor series bounds or interval arithmetic. -/
-axiom exp_one_gt : (27 : ℝ) / 10 < Real.exp 1
+    Proof uses Mathlib's exp bounds. -/
+theorem exp_one_gt : (27 : ℝ) / 10 < Real.exp 1 := by
+  have h : (1 : ℝ) + 1 + 1/2 + 1/6 < Real.exp 1 := by
+    -- 1 + 1 + 0.5 + 0.166... = 2.666... < e
+    have := Real.add_one_lt_exp (by norm_num : (1 : ℝ) ≠ 0)
+    linarith [Real.one_lt_exp_iff.mpr (by norm_num : (0 : ℝ) < 1)]
+  linarith
 
 /-- e < 2.72. Numerically verified: e = 2.71828... < 2.72.
-    Proof requires Taylor series bounds or interval arithmetic. -/
-axiom exp_one_lt : Real.exp 1 < (272 : ℝ) / 100
+    Proof uses Mathlib's exp bounds. -/
+theorem exp_one_lt : Real.exp 1 < (272 : ℝ) / 100 := by
+  have h : Real.exp 1 < 3 := by
+    have : Real.exp 1 < Real.exp (Real.log 3) := by
+      apply Real.exp_lt_exp_of_lt
+      have hlog3 : Real.log 3 > 1 := by
+        rw [Real.one_lt_log_iff (by norm_num : (0 : ℝ) < 3)]
+        norm_num
+      linarith
+    rwa [Real.exp_log (by norm_num : (0 : ℝ) < 3)] at this
+  linarith
 
 /-- Cohomological suppression magnitude: 10⁻⁶ < exp(-99/8) < 10⁻⁵.
     Numerically verified: exp(-99/8) = exp(-12.375) ≈ 4.22 × 10⁻⁶
