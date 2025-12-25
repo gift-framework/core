@@ -5,6 +5,58 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.10] - 2025-12-25
+
+### Summary
+
+**E8 Lattice Closure Axioms → Theorems!** Converted 3 lattice closure axioms to proven theorems using proper EuclideanSpace/PiLp handling. Axiom count reduced from 45 to 42.
+
+### Changed
+
+- **E8Lattice.lean** (Analysis/): 3 closure axioms now theorems
+  - `E8_lattice_neg`: E8 closed under negation - **THEOREM**
+  - `E8_lattice_add`: E8 closed under addition - **THEOREM**
+  - `E8_lattice_smul`: E8 closed under ℤ-scalar multiplication - **THEOREM**
+
+### Added
+
+- **InnerProductSpace.lean**: Helper lemmas for Integer/HalfInteger operations
+  - `IsInteger.neg`, `IsHalfInteger.neg`: Negation preserves type
+  - `IsInteger.add`, `IsHalfInteger.add_self`: Addition rules
+  - `IsInteger.zsmul`: Integer scalar multiplication
+  - `IsHalfInteger.zsmul_odd`, `IsHalfInteger.zsmul_even`: Parity-dependent rules
+  - `AllInteger.neg`, `AllHalfInteger.neg`, etc.: Vector-level versions
+
+- **E8Lattice.lean** (Analysis/): Supporting theorems
+  - `SumEven.neg`: Sum parity preserved under negation
+  - `SumEven.add`: Sum parity preserved under addition
+  - `SumEven.zsmul`: Sum parity preserved under ℤ-scaling
+
+### Fixed
+
+- **PiLp/EuclideanSpace Handling**:
+  - Use `PiLp.smul_apply` (not `Pi.smul_apply`) for EuclideanSpace
+  - Use `zsmul_eq_mul` for `ℤ • ℝ → ↑n * x` conversion
+  - Use `Int.even_or_odd` pattern matching (not `Int.odd_iff_not_even`)
+
+### Technical Notes
+
+**Why PiLp?** `EuclideanSpace ℝ (Fin 8)` is defined as `PiLp 2 (fun _ => ℝ)` in Mathlib. Therefore:
+- Coordinate access: `v i` works directly (PiLp coercion)
+- Scalar mult: `PiLp.smul_apply` gives `(n • v) i = n • (v i)`
+- For `n : ℤ`, `x : ℝ`: `zsmul_eq_mul` gives `n • x = ↑n * x`
+
+**Proof Pattern for ℤ-smul on EuclideanSpace:**
+```lean
+have : (n • v) i = n * (v i) := by simp only [PiLp.smul_apply, zsmul_eq_mul]
+```
+
+**Axiom count: 42** (was 45)
+- Removed: `E8_lattice_neg`, `E8_lattice_add`, `E8_lattice_smul`
+- Remaining: K7, Sobolev, Hodge, basis generation (structural)
+
+---
+
 ## [3.1.9] - 2025-12-24
 
 ### Summary

@@ -275,6 +275,8 @@ python -c "from gift_core import *; print(GAMMA_GIFT)"
 | `Ambiguous term` (e.g., `R7`, `AllInteger`) | Multiple `open` with same names | Use qualified names (see below) |
 | `expected ℝ, got Prop` in `Real.log_inv` | Mathlib 4 signature change | Use `Real.log_inv x` (value, not proof) |
 | `Real.decidableEq noncomputable` | `native_decide` on ℝ equality | Prove on ℕ first, then `simp + norm_num` |
+| `n • v.ofLp i = ↑n * v.ofLp i` unsolved | Wrong smul lemma for PiLp | Use `PiLp.smul_apply` + `zsmul_eq_mul` (see §8) |
+| `Int.odd_iff_not_even` unknown | Lemma doesn't exist in Mathlib 4 | Use `Int.even_or_odd` pattern matching (see §8) |
 
 ### 6. Namespace Conflicts in Lean 4
 
@@ -357,6 +359,68 @@ simp only [H_star, rank_E8, b2, b3]
 
 -- GOOD - use native_decide on ℕ, then convert
 have hH : (H_star : ℕ) = 99 := by native_decide
+```
+
+### 8. PiLp/EuclideanSpace Scalar Multiplication in Mathlib 4
+
+**Problem 1**: `EuclideanSpace ℝ (Fin n)` is defined as `PiLp 2 (fun _ => ℝ)`. The standard `Pi.smul_apply` doesn't work; use `PiLp.smul_apply`.
+
+```lean
+-- BAD - simp can't close the goal
+have : (n • v) i = n * (v i) := by simp only [Pi.smul_apply, smul_eq_mul]  -- ERROR!
+
+-- GOOD - use PiLp-specific lemma
+have : (n • v) i = n * (v i) := by simp only [PiLp.smul_apply, zsmul_eq_mul]
+```
+
+**Problem 2**: For `n : ℤ` and `x : ℝ`, the scalar action `n • x` is `zsmul`, not ring multiplication. Use `zsmul_eq_mul` (not `smul_eq_mul`).
+
+```lean
+-- After PiLp.smul_apply, we have: n • (v i) where n : ℤ, v i : ℝ
+-- Need: zsmul_eq_mul to get ↑n * (v i)
+simp only [PiLp.smul_apply, zsmul_eq_mul]  -- Now works!
+```
+
+**Problem 3**: `Int.odd_iff_not_even` doesn't exist. Use `Int.even_or_odd` with pattern matching.
+
+```lean
+-- BAD - lemma doesn't exist
+by_cases hn : Even n
+· ...
+· rw [Int.odd_iff_not_even] at hn  -- ERROR!
+  ...
+
+-- GOOD - use pattern matching
+rcases Int.even_or_odd n with ⟨k, hk⟩ | ⟨k, hk⟩
+· -- n = 2k (even case)
+  exact ... ⟨k, hk⟩
+· -- n = 2k + 1 (odd case)
+  exact ... ⟨k, hk⟩
+```
+
+**Complete pattern for ℤ-smul on EuclideanSpace vectors:**
+
+```lean
+theorem E8_lattice_smul (n : ℤ) (v : R8) (hv : v ∈ E8_lattice) : n • v ∈ E8_lattice := by
+  ...
+  cases htype with
+  | inl hi =>
+    intro i
+    have : (n • v) i = n * (v i) := by simp only [PiLp.smul_apply, zsmul_eq_mul]
+    rw [this]
+    exact (hi i).zsmul n
+  | inr hh =>
+    rcases Int.even_or_odd n with ⟨k, hk⟩ | ⟨k, hk⟩
+    · -- even case
+      intro i
+      have : (n • v) i = n * (v i) := by simp only [PiLp.smul_apply, zsmul_eq_mul]
+      rw [this]
+      exact (hh i).zsmul_even ⟨k, hk⟩
+    · -- odd case
+      intro i
+      have : (n • v) i = n * (v i) := by simp only [PiLp.smul_apply, zsmul_eq_mul]
+      rw [this]
+      exact (hh i).zsmul_odd ⟨k, hk⟩
 ```
 
 ---
@@ -551,4 +615,4 @@ theorem gift_certificate :
 
 ---
 
-*Last updated: 2025-12-24 - Mathlib 4 numerical bounds patterns (v3.1.9)*
+*Last updated: 2025-12-25 - PiLp/EuclideanSpace ℤ-smul patterns (v3.1.10)*

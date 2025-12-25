@@ -118,6 +118,83 @@ theorem IsHalfInteger.add_self {x y : ℝ}
   obtain ⟨n, rfl⟩ := hy
   exact ⟨m + n + 1, by push_cast; ring⟩
 
+/-- Negation of integer is integer -/
+theorem IsInteger.neg {x : ℝ} (hx : IsInteger x) : IsInteger (-x) := by
+  obtain ⟨n, rfl⟩ := hx
+  exact ⟨-n, by push_cast; ring⟩
+
+/-- Negation of half-integer is half-integer -/
+theorem IsHalfInteger.neg {x : ℝ} (hx : IsHalfInteger x) : IsHalfInteger (-x) := by
+  obtain ⟨n, rfl⟩ := hx
+  exact ⟨-n - 1, by push_cast; ring⟩
+
+/-- Integer + half-integer = half-integer -/
+theorem IsInteger.add_half {x y : ℝ} (hx : IsInteger x) (hy : IsHalfInteger y) :
+    IsHalfInteger (x + y) := by
+  obtain ⟨m, rfl⟩ := hx
+  obtain ⟨n, rfl⟩ := hy
+  exact ⟨m + n, by push_cast; ring⟩
+
+/-- Half-integer + integer = half-integer -/
+theorem IsHalfInteger.add_int {x y : ℝ} (hx : IsHalfInteger x) (hy : IsInteger y) :
+    IsHalfInteger (x + y) := by
+  obtain ⟨m, rfl⟩ := hx
+  obtain ⟨n, rfl⟩ := hy
+  exact ⟨m + n, by push_cast; ring⟩
+
+/-- Integer scalar multiple of integer is integer -/
+theorem IsInteger.zsmul {x : ℝ} (n : ℤ) (hx : IsInteger x) : IsInteger (n * x) := by
+  obtain ⟨m, rfl⟩ := hx
+  exact ⟨n * m, by push_cast; ring⟩
+
+/-- Integer scalar multiple of half-integer is half-integer when n is odd -/
+theorem IsHalfInteger.zsmul_odd {x : ℝ} {n : ℤ} (hn : Odd n) (hx : IsHalfInteger x) :
+    IsHalfInteger (n * x) := by
+  obtain ⟨m, rfl⟩ := hx
+  obtain ⟨k, hk⟩ := hn
+  rw [hk]
+  exact ⟨(2*k + 1) * m + k, by push_cast; ring⟩
+
+/-- Integer scalar multiple of half-integer is integer when n is even -/
+theorem IsHalfInteger.zsmul_even {x : ℝ} {n : ℤ} (hn : Even n) (hx : IsHalfInteger x) :
+    IsInteger (n * x) := by
+  obtain ⟨m, rfl⟩ := hx
+  obtain ⟨k, hk⟩ := hn
+  rw [hk]
+  exact ⟨2 * k * m + k, by push_cast; ring⟩
+
+/-!
+## AllInteger and AllHalfInteger closure lemmas
+-/
+
+/-- Negation preserves AllInteger -/
+theorem AllInteger.neg {d : ℕ} {v : EuclideanSpace ℝ (Fin d)} (hv : AllInteger v) :
+    AllInteger (-v) := fun i => (hv i).neg
+
+/-- Negation preserves AllHalfInteger -/
+theorem AllHalfInteger.neg {d : ℕ} {v : EuclideanSpace ℝ (Fin d)} (hv : AllHalfInteger v) :
+    AllHalfInteger (-v) := fun i => (hv i).neg
+
+/-- AllInteger + AllInteger = AllInteger -/
+theorem AllInteger.add {d : ℕ} {v w : EuclideanSpace ℝ (Fin d)}
+    (hv : AllInteger v) (hw : AllInteger w) : AllInteger (v + w) :=
+  fun i => (hv i).add (hw i)
+
+/-- AllHalfInteger + AllHalfInteger = AllInteger -/
+theorem AllHalfInteger.add_self {d : ℕ} {v w : EuclideanSpace ℝ (Fin d)}
+    (hv : AllHalfInteger v) (hw : AllHalfInteger w) : AllInteger (v + w) :=
+  fun i => (hv i).add_self (hw i)
+
+/-- AllInteger + AllHalfInteger = AllHalfInteger -/
+theorem AllInteger.add_half {d : ℕ} {v w : EuclideanSpace ℝ (Fin d)}
+    (hv : AllInteger v) (hw : AllHalfInteger w) : AllHalfInteger (v + w) :=
+  fun i => (hv i).add_half (hw i)
+
+/-- AllHalfInteger + AllInteger = AllHalfInteger -/
+theorem AllHalfInteger.add_int {d : ℕ} {v w : EuclideanSpace ℝ (Fin d)}
+    (hv : AllHalfInteger v) (hw : AllInteger w) : AllHalfInteger (v + w) :=
+  fun i => (hv i).add_int (hw i)
+
 /-!
 ## Norm Squared Formulas
 -/
