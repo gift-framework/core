@@ -530,8 +530,7 @@ noncomputable def E8_coeffs (v : R8) : Fin 8 → ℝ := fun i =>
   | 7 => -2 * v 7
 
 /-- Helper: accessing mkR8 vector at index via ofLp -/
-@[simp] theorem mkR8_apply (f : Fin 8 → ℝ) (i : Fin 8) : (mkR8 f).ofLp i = f i := by
-  simp only [mkR8, WithLp.equiv_symm_pi_apply]
+@[simp] theorem mkR8_apply (f : Fin 8 → ℝ) (i : Fin 8) : (mkR8 f).ofLp i = f i := rfl
 
 /-- Integer - integer = integer -/
 theorem IsInteger.sub {x y : ℝ} (hx : IsInteger x) (hy : IsInteger y) :
@@ -685,8 +684,9 @@ theorem E8_basis_generates : ∀ v ∈ E8_lattice, ∃ c : Fin 8 → ℤ,
   -- Now: v.ofLp k = ∑ i, (E8_coeffs v i) * (E8_basis i).ofLp k
   -- Verified by expanding definitions and using ring
   unfold E8_coeffs E8_basis E8_α1 E8_α2 E8_α3 E8_α4 E8_α5 E8_α6 E8_α7 E8_α8
-  rw [Fin.sum_univ_eight]
-  -- Evaluate mkR8 vector components, expand sums, clear S/2 divisions, then ring
+  -- Expand ALL Fin 8 sums (both outer sum over basis and inner S = ∑ j, v j)
+  simp only [Fin.sum_univ_eight]
+  -- Evaluate mkR8 vector components, clear S/2 divisions, then ring
   fin_cases k <;> simp <;> field_simp <;> ring
 
 /-- E8 is unimodular: det(Gram matrix) = ±1 -/
