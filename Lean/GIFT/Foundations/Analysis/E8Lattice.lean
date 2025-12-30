@@ -659,7 +659,7 @@ theorem E8_coeffs_integer (v : R8) (hv : v ∈ E8_lattice) (i : Fin 8) :
       obtain ⟨n7, hn7⟩ := hhalf 7
       exact ⟨-2 * n7 - 1, by rw [hn7]; push_cast; ring⟩
 
-set_option maxHeartbeats 800000 in
+set_option maxHeartbeats 2000000 in
 /-- Every lattice vector is an integer combination of the E8 basis.
     PROVEN: This follows from the explicit coefficient formula and
     the fact that the simple roots generate the root lattice,
@@ -689,7 +689,7 @@ theorem E8_basis_generates : ∀ v ∈ E8_lattice, ∃ c : Fin 8 → ℤ,
   rw [Fin.sum_univ_eight]
   set S := ∑ j : Fin 8, v.ofLp j
   -- Use field_simp to clear S/2 divisions, then ring
-  fin_cases k <;> (try field_simp) <;> ring
+  fin_cases k <;> field_simp <;> ring
 
 /-- E8 is unimodular: det(Gram matrix) = ±1 -/
 theorem E8_unimodular : True := by trivial
