@@ -277,6 +277,9 @@ python -c "from gift_core import *; print(GAMMA_GIFT)"
 | `Real.decidableEq noncomputable` | `native_decide` on ℝ equality | Prove on ℕ first, then `simp + norm_num` |
 | `n • v.ofLp i = ↑n * v.ofLp i` unsolved | Wrong smul lemma for PiLp | Use `PiLp.smul_apply` + `zsmul_eq_mul` (see §8) |
 | `Int.odd_iff_not_even` unknown | Lemma doesn't exist in Mathlib 4 | Use `Int.even_or_odd` pattern matching (see §8) |
+| `(mkR8 f).ofLp i` not simplifying | `mkR8_apply` uses wrong pattern | Use `.ofLp` accessor: `(mkR8 f).ofLp i = f i` (see §12) |
+| Sum `∑ x, v.ofLp x` not expanded | `rw [Fin.sum_univ_eight]` only rewrites first | Use `simp only [Fin.sum_univ_eight]` (see §13) |
+| `ring` fails with nested sums | Inner sums not expanded | Expand all sums before `ring` with `simp only` |
 
 ### 6. Namespace Conflicts in Lean 4
 
@@ -677,6 +680,79 @@ axiom exp_one_gt : (27 : ℝ) / 10 < Real.exp 1
 
 **Future work**: Implement interval arithmetic library for Lean 4.
 
+### 12. EuclideanSpace/PiLp Vector Access Pattern
+
+**Problem**: When working with `EuclideanSpace ℝ (Fin n)` (= `PiLp 2 (fun _ => ℝ)`), accessor patterns must match goal patterns.
+
+```lean
+-- mkR8 is defined as:
+noncomputable def mkR8 (f : Fin 8 → ℝ) : R8 := (WithLp.equiv 2 _).symm f
+
+-- Goals often have .ofLp accessor:
+-- ⊢ (mkR8 ![1, -1, 0, 0, 0, 0, 0, 0]).ofLp 0 = 1
+
+-- BAD - doesn't match .ofLp pattern
+theorem mkR8_apply (f : Fin 8 → ℝ) (i : Fin 8) : (mkR8 f) i = f i
+
+-- GOOD - matches .ofLp pattern, with @[simp] for automatic rewriting
+@[simp] theorem mkR8_apply (f : Fin 8 → ℝ) (i : Fin 8) : (mkR8 f).ofLp i = f i := rfl
+```
+
+### 13. Expanding Multiple Fin.sum_univ_eight Occurrences
+
+**Problem**: `rw [Fin.sum_univ_eight]` only rewrites the first occurrence.
+
+```lean
+-- When unfolding E8_coeffs, we get S := ∑ j, v j (inner sum)
+-- AND the outer sum ∑ i, c i • E8_basis i
+-- Both need to be expanded for ring to work
+
+-- BAD - only expands outer sum, leaves inner S unexpanded
+unfold E8_coeffs E8_basis ...
+rw [Fin.sum_univ_eight]
+-- Goal still has: ∑ x, v.ofLp x (unexpanded inner sum)
+
+-- GOOD - simp only expands ALL occurrences
+unfold E8_coeffs E8_basis ...
+simp only [Fin.sum_univ_eight]
+-- Both sums are now: v.ofLp 0 + v.ofLp 1 + ... + v.ofLp 7
+```
+
+### 14. Coordinate-wise Proof Pattern for EuclideanSpace
+
+**Complete pattern for proving vector equations coordinate by coordinate:**
+
+```lean
+theorem E8_basis_generates : ∀ v ∈ E8_lattice, ∃ c : Fin 8 → ℤ,
+    v = ∑ i, c i • E8_basis i := by
+  intro v hv
+  -- Get integer witnesses
+  have hcoeffs_int : ∀ i, IsInteger (E8_coeffs v i) := fun i => E8_coeffs_integer v hv i
+  choose c hc using hcoeffs_int
+  use c
+  -- Prove coordinate by coordinate
+  ext k
+  -- Convert to pointwise form
+  change v.ofLp k = ∑ i : Fin 8, (c i • E8_basis i).ofLp k
+  -- Handle PiLp scalar multiplication
+  simp only [PiLp.smul_apply, zsmul_eq_mul]
+  -- Substitute coefficient formula
+  simp_rw [← hc]
+  -- Unfold all definitions
+  unfold E8_coeffs E8_basis E8_α1 E8_α2 E8_α3 E8_α4 E8_α5 E8_α6 E8_α7 E8_α8
+  -- Expand ALL Fin 8 sums (outer and inner)
+  simp only [Fin.sum_univ_eight]
+  -- Evaluate each coordinate with simp + field_simp + ring
+  fin_cases k <;> simp <;> field_simp <;> ring
+```
+
+**Key steps:**
+1. `change` to convert goal to pointwise form with `.ofLp`
+2. `simp only [PiLp.smul_apply, zsmul_eq_mul]` for scalar multiplication
+3. `simp only [Fin.sum_univ_eight]` to expand ALL sums
+4. `fin_cases k` to split into 8 cases
+5. `simp <;> field_simp <;> ring` closes each case
+
 ---
 
-*Last updated: 2025-12-25 - Blueprint orphans, E8 basis vectors, transcendental bounds (v3.1.11)*
+*Last updated: 2025-12-30 - E8_basis_generates proven, mkR8 accessor pattern, Fin.sum expansion (v3.1.12)*

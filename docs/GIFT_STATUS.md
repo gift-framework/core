@@ -1,7 +1,7 @@
 # GIFT Framework Status
 
-**Version**: 3.1.4
-**Date**: 2025-12-17
+**Version**: 3.1.12
+**Date**: 2025-12-30
 **Proof Systems**: Lean 4 + Coq
 
 ---
@@ -161,7 +161,7 @@ COQ/
   Certificate/AllProven.v      # Coq certificate
 
 gift_core/
-  _version.py                  # Version 3.1.4
+  _version.py                  # Version 3.1.12
   constants.py                 # Python constants
 ```
 
@@ -178,7 +178,9 @@ gift_core/
 | 3.1.1 | 2025-12-16 | 9 helper theorems, Weyl reflection theorem |
 | 3.1.2 | 2025-12-16 | Blueprint implementation |
 | 3.1.3 | 2025-12-16 | Lagrange identity for 7D cross product proven |
-| **3.1.4** | 2025-12-17 | Current - consolidation |
+| 3.1.4 | 2025-12-17 | Consolidation |
+| 3.1.11 | 2025-12-25 | Blueprint completion, E8 basis definition |
+| **3.1.12** | 2025-12-30 | E8_basis_generates PROVEN (axiom → theorem) |
 
 ---
 

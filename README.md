@@ -137,4 +137,4 @@ MIT
 
 ---
 
-*GIFT Core v3.1.11*
+*GIFT Core v3.1.12*
