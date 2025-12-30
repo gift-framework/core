@@ -581,7 +581,11 @@ theorem E8_coeffs_integer (v : R8) (hv : v ∈ E8_lattice) (i : Fin 8) :
     · exact IsInteger.sub (IsInteger.add (IsInteger.add (IsInteger.add (IsInteger.add (hint 0) (hint 1)) (hint 2)) (hint 3)) (hint 4)) (IsInteger.mul_five (hint 7))
     · exact IsInteger.sub (IsInteger.sub hS_half (hint 6)) (IsInteger.mul_three (hint 7))
     · exact IsInteger.sub hS_half (IsInteger.mul_two (hint 7))
-    · exact IsInteger.mul_two (IsInteger.neg (hint 7))
+    · -- -2 * v₇ : negate first, then show IsInteger
+      have h : IsInteger (-2 * v 7) := by
+        obtain ⟨n, hn⟩ := hint 7
+        exact ⟨-2 * n, by rw [hn]; push_cast; ring⟩
+      exact h
   | inr hhalf =>
     -- AllHalfInteger case: vᵢ = nᵢ + 1/2
     fin_cases i <;> simp only
@@ -655,17 +659,6 @@ theorem E8_coeffs_integer (v : R8) (hv : v ∈ E8_lattice) (i : Fin 8) :
       obtain ⟨n7, hn7⟩ := hhalf 7
       exact ⟨-2 * n7 - 1, by rw [hn7]; push_cast; ring⟩
 
-/-- The sum of coefficient × basis vector at coordinate k -/
-theorem E8_coeffs_sum_eq (v : R8) (k : Fin 8) :
-    (∑ i : Fin 8, (E8_coeffs v i) * (E8_basis i) k) = v k := by
-  unfold E8_coeffs E8_basis E8_α1 E8_α2 E8_α3 E8_α4 E8_α5 E8_α6 E8_α7 E8_α8
-  simp only [mkR8_apply]
-  rw [Fin.sum_univ_eight]
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-             Matrix.cons_val_succ, Matrix.cons_val_fin_one, Fin.isValue]
-  set S := ∑ j : Fin 8, v j with hS
-  fin_cases k <;> ring
-
 /-- Every lattice vector is an integer combination of the E8 basis.
     PROVEN: This follows from the explicit coefficient formula and
     the fact that the simple roots generate the root lattice,
@@ -678,16 +671,23 @@ theorem E8_basis_generates : ∀ v ∈ E8_lattice, ∃ c : Fin 8 → ℤ,
   -- Extract integer coefficients
   choose c hc using hcoeffs_int
   use c
-  -- Show the sum equals v coordinate by coordinate
+  -- The reconstruction v = ∑ cᵢ • αᵢ follows from the coefficient formulas
+  -- which were derived by inverting the matrix [α₁|...|α₈].
+  -- Each coordinate equation is a direct algebraic identity.
   ext k
-  -- Convert zsmul to real multiplication
-  rw [Finset.sum_apply]
+  simp only [Finset.sum_apply, Pi.smul_apply, zsmul_eq_mul]
+  -- Rewrite c i to E8_coeffs v i using hc
   conv_lhs =>
     congr
     ext i
-    rw [Pi.smul_apply, zsmul_eq_mul, hc i]
-  -- Now it's ∑ᵢ (E8_coeffs v i) * (E8_basis i k) = v k
-  exact E8_coeffs_sum_eq v k
+    rw [hc i]
+  -- Now we need to show: v k = ∑ i, (E8_coeffs v i) * (E8_basis i k)
+  -- This is verified by expanding the definitions and using ring
+  unfold E8_coeffs E8_basis E8_α1 E8_α2 E8_α3 E8_α4 E8_α5 E8_α6 E8_α7 E8_α8
+  simp only [mkR8_apply]
+  rw [Fin.sum_univ_eight]
+  set S := ∑ j : Fin 8, v j
+  fin_cases k <;> ring
 
 /-- E8 is unimodular: det(Gram matrix) = ±1 -/
 theorem E8_unimodular : True := by trivial
