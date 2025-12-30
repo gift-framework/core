@@ -531,38 +531,44 @@ noncomputable def E8_coeffs (v : R8) : Fin 8 → ℝ := fun i =>
 
 /-- Helper: accessing mkR8 vector at index -/
 theorem mkR8_apply (f : Fin 8 → ℝ) (i : Fin 8) : (mkR8 f) i = f i := by
-  simp only [mkR8, WithLp.equiv_symm_pi_apply]
+  simp only [mkR8]
+  rfl
+
+/-- Integer - integer = integer -/
+theorem IsInteger.sub {x y : ℝ} (hx : IsInteger x) (hy : IsInteger y) :
+    IsInteger (x - y) := by
+  obtain ⟨m, rfl⟩ := hx
+  obtain ⟨n, rfl⟩ := hy
+  exact ⟨m - n, by push_cast; ring⟩
 
 /-- Helper lemmas for IsInteger multiplication -/
-theorem IsInteger.mul_two {x : ℝ} (h : IsInteger x) : IsInteger (2 * x) := by
-  obtain ⟨n, hn⟩ := h; use 2 * n; rw [hn]; push_cast; ring
+theorem IsInteger.mul_two {x : ℝ} (h : IsInteger x) : IsInteger (2 * x) :=
+  h.zsmul 2
 
-theorem IsInteger.mul_three {x : ℝ} (h : IsInteger x) : IsInteger (3 * x) := by
-  obtain ⟨n, hn⟩ := h; use 3 * n; rw [hn]; push_cast; ring
+theorem IsInteger.mul_three {x : ℝ} (h : IsInteger x) : IsInteger (3 * x) :=
+  h.zsmul 3
 
-theorem IsInteger.mul_four {x : ℝ} (h : IsInteger x) : IsInteger (4 * x) := by
-  obtain ⟨n, hn⟩ := h; use 4 * n; rw [hn]; push_cast; ring
+theorem IsInteger.mul_four {x : ℝ} (h : IsInteger x) : IsInteger (4 * x) :=
+  h.zsmul 4
 
-theorem IsInteger.mul_five {x : ℝ} (h : IsInteger x) : IsInteger (5 * x) := by
-  obtain ⟨n, hn⟩ := h; use 5 * n; rw [hn]; push_cast; ring
+theorem IsInteger.mul_five {x : ℝ} (h : IsInteger x) : IsInteger (5 * x) :=
+  h.zsmul 5
 
 /-- Helper for half-integer subtraction -/
 theorem IsHalfInteger.sub_half {x y : ℝ} (hx : IsHalfInteger x) (hy : IsHalfInteger y) :
     IsInteger (x - y) := by
   obtain ⟨nx, hnx⟩ := hx
   obtain ⟨ny, hny⟩ := hy
-  use nx - ny
-  rw [hnx, hny]; push_cast; ring
+  exact ⟨nx - ny, by rw [hnx, hny]; push_cast; ring⟩
 
 /-- E8 coefficients are integers for lattice vectors -/
 theorem E8_coeffs_integer (v : R8) (hv : v ∈ E8_lattice) (i : Fin 8) :
     IsInteger (E8_coeffs v i) := by
   obtain ⟨htype, hsum⟩ := hv
   unfold E8_coeffs
-  -- Get the sum S and its half
-  have S := ∑ j : Fin 8, v j
-  -- SumEven means S/2 is integer
-  have hS_half : IsInteger (S / 2) := hsum
+  -- SumEven means (∑ v j)/2 is integer
+  unfold SumEven at hsum
+  have hS_half : IsInteger ((∑ j : Fin 8, v j) / 2) := hsum
   -- Split by coordinate type
   cases htype with
   | inl hint =>
@@ -578,96 +584,77 @@ theorem E8_coeffs_integer (v : R8) (hv : v ∈ E8_lattice) (i : Fin 8) :
     · exact (hint 7).neg.mul_two
   | inr hhalf =>
     -- AllHalfInteger case: vᵢ = nᵢ + 1/2
-    -- Differences of half-integers are integers
     fin_cases i <;> simp only
     · exact (hhalf 0).sub_half (hhalf 7)
     · -- v₀ + v₁ - 2v₇ = (n₀+1/2) + (n₁+1/2) - 2(n₇+1/2) = n₀ + n₁ - 2n₇
       obtain ⟨n0, hn0⟩ := hhalf 0
       obtain ⟨n1, hn1⟩ := hhalf 1
       obtain ⟨n7, hn7⟩ := hhalf 7
-      use n0 + n1 - 2 * n7
-      simp only [hn0, hn1, hn7]; ring
+      exact ⟨n0 + n1 - 2 * n7, by rw [hn0, hn1, hn7]; push_cast; ring⟩
     · obtain ⟨n0, hn0⟩ := hhalf 0
       obtain ⟨n1, hn1⟩ := hhalf 1
       obtain ⟨n2, hn2⟩ := hhalf 2
       obtain ⟨n7, hn7⟩ := hhalf 7
-      use n0 + n1 + n2 - 3 * n7 - 1
-      simp only [hn0, hn1, hn2, hn7]; ring
+      exact ⟨n0 + n1 + n2 - 3 * n7 - 1, by rw [hn0, hn1, hn2, hn7]; push_cast; ring⟩
     · obtain ⟨n0, hn0⟩ := hhalf 0
       obtain ⟨n1, hn1⟩ := hhalf 1
       obtain ⟨n2, hn2⟩ := hhalf 2
       obtain ⟨n3, hn3⟩ := hhalf 3
       obtain ⟨n7, hn7⟩ := hhalf 7
-      use n0 + n1 + n2 + n3 - 4 * n7 - 1
-      simp only [hn0, hn1, hn2, hn3, hn7]; ring
+      exact ⟨n0 + n1 + n2 + n3 - 4 * n7 - 1, by rw [hn0, hn1, hn2, hn3, hn7]; push_cast; ring⟩
     · obtain ⟨n0, hn0⟩ := hhalf 0
       obtain ⟨n1, hn1⟩ := hhalf 1
       obtain ⟨n2, hn2⟩ := hhalf 2
       obtain ⟨n3, hn3⟩ := hhalf 3
       obtain ⟨n4, hn4⟩ := hhalf 4
       obtain ⟨n7, hn7⟩ := hhalf 7
-      use n0 + n1 + n2 + n3 + n4 - 5 * n7 - 2
-      simp only [hn0, hn1, hn2, hn3, hn4, hn7]; ring
-    · -- S/2 - v₆ - 3v₇: For half-integers, S = (∑nᵢ) + 4, so S/2 = (∑nᵢ)/2 + 2
-      -- SumEven gives (∑nᵢ)/2 integer, so S/2 - (n₆+1/2) - 3(n₇+1/2) = S/2 - n₆ - 3n₇ - 2 is integer
-      obtain ⟨n6, hn6⟩ := hhalf 6
-      obtain ⟨n7, hn7⟩ := hhalf 7
+      exact ⟨n0 + n1 + n2 + n3 + n4 - 5 * n7 - 2, by rw [hn0, hn1, hn2, hn3, hn4, hn7]; push_cast; ring⟩
+    · -- S/2 - v₆ - 3v₇
       choose nv hnv using hhalf
-      have hsum_expr : S = ∑ j, (nv j : ℝ) + 4 := by
-        unfold_let S
+      -- S = (∑nᵢ) + 4, so S/2 = (∑nᵢ)/2 + 2
+      have hsum_expr : ∑ j : Fin 8, v j = ∑ j, (nv j : ℝ) + 4 := by
         conv_lhs => rw [show ∑ j : Fin 8, v j = ∑ j, ((nv j : ℝ) + 1/2) from
           Finset.sum_congr rfl (fun j _ => hnv j)]
         rw [Finset.sum_add_distrib]
+        simp only [Finset.sum_const, Finset.card_fin, nsmul_eq_mul]
         norm_num
-      have hS_half_expr : S / 2 = (∑ j, (nv j : ℝ)) / 2 + 2 := by rw [hsum_expr]; ring
+      have hS_half_expr : (∑ j : Fin 8, v j) / 2 = (∑ j, (nv j : ℝ)) / 2 + 2 := by
+        rw [hsum_expr]; ring
       obtain ⟨m, hm⟩ := hS_half
-      rw [hS_half_expr] at hm
-      use m - n6 - 3 * n7 - 2
-      rw [hS_half_expr, hn6, hn7]
+      use m - nv 6 - 3 * nv 7 - 2
+      rw [hS_half_expr, hnv 6, hnv 7]
+      have hm' : (∑ j, (nv j : ℝ)) / 2 + 2 = m := hm
       push_cast
       linarith
     · -- S/2 - 2v₇
-      obtain ⟨n7, hn7⟩ := hhalf 7
       choose nv hnv using hhalf
-      have hsum_expr : S = ∑ j, (nv j : ℝ) + 4 := by
-        unfold_let S
+      have hsum_expr : ∑ j : Fin 8, v j = ∑ j, (nv j : ℝ) + 4 := by
         conv_lhs => rw [show ∑ j : Fin 8, v j = ∑ j, ((nv j : ℝ) + 1/2) from
           Finset.sum_congr rfl (fun j _ => hnv j)]
         rw [Finset.sum_add_distrib]
+        simp only [Finset.sum_const, Finset.card_fin, nsmul_eq_mul]
         norm_num
-      have hS_half_expr : S / 2 = (∑ j, (nv j : ℝ)) / 2 + 2 := by rw [hsum_expr]; ring
+      have hS_half_expr : (∑ j : Fin 8, v j) / 2 = (∑ j, (nv j : ℝ)) / 2 + 2 := by
+        rw [hsum_expr]; ring
       obtain ⟨m, hm⟩ := hS_half
-      rw [hS_half_expr] at hm
-      use m - 2 * n7 - 1
-      rw [hS_half_expr, hn7]
+      use m - 2 * nv 7 - 1
+      rw [hS_half_expr, hnv 7]
+      have hm' : (∑ j, (nv j : ℝ)) / 2 + 2 = m := hm
       push_cast
       linarith
     · -- -2v₇ = -2(n₇ + 1/2) = -2n₇ - 1
       obtain ⟨n7, hn7⟩ := hhalf 7
-      use -2 * n7 - 1
-      rw [hn7]; ring
+      exact ⟨-2 * n7 - 1, by rw [hn7]; push_cast; ring⟩
 
-/-- Reconstruction: the coefficients reconstruct the original vector -/
-theorem E8_basis_reconstruction (v : R8) (hv : v ∈ E8_lattice) :
-    v = ∑ i, (E8_coeffs v i) • E8_basis i := by
-  -- Direct calculation: expand both sides and verify equality coordinate by coordinate
-  ext k
-  simp only [Finset.sum_apply, PiLp.smul_apply, smul_eq_mul]
-  -- Expand E8_coeffs and E8_basis definitions
+/-- The sum of coefficient × basis vector at coordinate k -/
+theorem E8_coeffs_sum_eq (v : R8) (k : Fin 8) :
+    (∑ i : Fin 8, (E8_coeffs v i) * (E8_basis i) k) = v k := by
   unfold E8_coeffs E8_basis E8_α1 E8_α2 E8_α3 E8_α4 E8_α5 E8_α6 E8_α7 E8_α8
-  simp only [mkR8_apply, Matrix.cons_val_fin_one, Matrix.cons_val_zero, Matrix.cons_val_one,
-             Matrix.head_cons, Matrix.cons_val_succ]
-  -- Let S = sum of coordinates
-  set S := ∑ j : Fin 8, v j with hS_def
-  -- Case split on coordinate k
-  fin_cases k <;> simp only [Fin.isValue] <;> ring_nf
-  -- Each case reduces to showing v k = <linear combination>
-  -- The algebra works out by construction of the coefficients
-  all_goals
-    conv_lhs => rw [show v _ = v _ from rfl]
-    ring_nf
-    rw [hS_def]
-    ring
+  simp only [mkR8_apply, Fin.sum_univ_eight, Fin.isValue]
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
+             Matrix.cons_val_succ, Matrix.cons_val_fin_one]
+  set S := ∑ j : Fin 8, v j with hS
+  fin_cases k <;> ring
 
 /-- Every lattice vector is an integer combination of the E8 basis.
     PROVEN: This follows from the explicit coefficient formula and
@@ -681,15 +668,16 @@ theorem E8_basis_generates : ∀ v ∈ E8_lattice, ∃ c : Fin 8 → ℤ,
   -- Extract integer coefficients
   choose c hc using hcoeffs_int
   use c
-  -- Show the sum equals v
-  have hrec := E8_basis_reconstruction v hv
-  rw [hrec]
-  -- Show that (E8_coeffs v i) • basis i = (c i) • basis i
-  congr 1
-  ext i
-  simp only [PiLp.smul_apply, smul_eq_mul, zsmul_eq_mul]
-  congr 1
-  exact (hc i).symm
+  -- Show the sum equals v coordinate by coordinate
+  ext k
+  -- Convert zsmul to real multiplication
+  simp only [Finset.sum_apply]
+  conv_lhs =>
+    congr
+    ext i
+    rw [Pi.smul_apply, zsmul_eq_mul, hc i]
+  -- Now it's ∑ᵢ (E8_coeffs v i) * (E8_basis i k) = v k
+  exact E8_coeffs_sum_eq v k
 
 /-- E8 is unimodular: det(Gram matrix) = ±1 -/
 theorem E8_unimodular : True := by trivial
