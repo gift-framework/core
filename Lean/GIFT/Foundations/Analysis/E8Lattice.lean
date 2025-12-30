@@ -675,14 +675,18 @@ theorem E8_basis_generates : ∀ v ∈ E8_lattice, ∃ c : Fin 8 → ℤ,
   -- which were derived by inverting the matrix [α₁|...|α₈].
   -- Each coordinate equation is a direct algebraic identity.
   ext k
-  simp_rw [Finset.sum_apply, Pi.smul_apply, zsmul_eq_mul]
-  -- Rewrite c i to E8_coeffs v i using hc
-  conv_lhs =>
+  -- Goal: v k = (∑ i, c i • E8_basis i) k
+  -- Transform RHS: pull application inside sum, expand smul
+  rw [Finset.sum_apply]
+  simp only [Pi.smul_apply, zsmul_eq_mul]
+  -- Now: v k = ∑ i, ↑(c i) * (E8_basis i k)
+  -- Rewrite ↑(c i) to E8_coeffs v i using hc
+  conv_rhs =>
     congr
     ext i
-    rw [hc i]
-  -- Now we need to show: v k = ∑ i, (E8_coeffs v i) * (E8_basis i k)
-  -- This is verified by expanding the definitions and using ring
+    rw [← hc i]
+  -- Now: v k = ∑ i, (E8_coeffs v i) * (E8_basis i k)
+  -- Verified by expanding definitions and using ring
   unfold E8_coeffs E8_basis E8_α1 E8_α2 E8_α3 E8_α4 E8_α5 E8_α6 E8_α7 E8_α8
   simp only [mkR8_apply]
   rw [Fin.sum_univ_eight]
