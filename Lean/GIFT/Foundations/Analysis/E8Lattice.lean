@@ -675,7 +675,7 @@ theorem E8_basis_generates : ∀ v ∈ E8_lattice, ∃ c : Fin 8 → ℤ,
   -- which were derived by inverting the matrix [α₁|...|α₈].
   -- Each coordinate equation is a direct algebraic identity.
   ext k
-  simp only [Finset.sum_apply, Pi.smul_apply, zsmul_eq_mul]
+  simp_rw [Finset.sum_apply, Pi.smul_apply, zsmul_eq_mul]
   -- Rewrite c i to E8_coeffs v i using hc
   conv_lhs =>
     congr
