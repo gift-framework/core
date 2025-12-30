@@ -5,6 +5,57 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.12] - 2025-12-30
+
+### Summary
+
+**E8_basis_generates PROVEN!** The theorem that every E8 lattice vector can be expressed as an integer combination of the 8 simple E8 roots is now a theorem, not an axiom.
+
+### Changed
+
+- **E8Lattice.lean**: `E8_basis_generates` is now a **THEOREM** (was axiom)
+  - Proves: `∀ v ∈ E8_lattice, ∃ c : Fin 8 → ℤ, v = ∑ i, c i • E8_basis i`
+  - Uses explicit `E8_coeffs` formula derived from matrix inversion
+  - Each coordinate proven via `fin_cases k <;> simp <;> field_simp <;> ring`
+
+### Fixed
+
+- **mkR8_apply**: Fixed to use `.ofLp` accessor for EuclideanSpace/PiLp types
+  - Old: `(mkR8 f) i = f i` (didn't match goal pattern)
+  - New: `(mkR8 f).ofLp i = f i` with `@[simp]` attribute
+  - Proof: `rfl` (definitional equality)
+
+- **Fin.sum_univ_eight expansion**: Use `simp only` instead of `rw` to expand ALL sums
+  - `rw [Fin.sum_univ_eight]` only rewrites the first occurrence
+  - `simp only [Fin.sum_univ_eight]` expands both outer sum and inner `S = ∑ j, v j`
+
+### Technical Notes
+
+**E8_basis_generates Proof Structure:**
+```lean
+theorem E8_basis_generates : ∀ v ∈ E8_lattice, ∃ c : Fin 8 → ℤ,
+    v = ∑ i, c i • E8_basis i := by
+  intro v hv
+  -- Get integer witnesses from E8_coeffs_integer
+  have hcoeffs_int : ∀ i, IsInteger (E8_coeffs v i) := fun i => E8_coeffs_integer v hv i
+  choose c hc using hcoeffs_int
+  use c
+  -- Prove coordinate by coordinate
+  ext k
+  change v.ofLp k = ∑ i : Fin 8, (c i • E8_basis i).ofLp k
+  simp only [PiLp.smul_apply, zsmul_eq_mul]
+  simp_rw [← hc]
+  unfold E8_coeffs E8_basis E8_α1 E8_α2 E8_α3 E8_α4 E8_α5 E8_α6 E8_α7 E8_α8
+  simp only [Fin.sum_univ_eight]
+  fin_cases k <;> simp <;> field_simp <;> ring
+```
+
+**Axiom count: 40** (was 41)
+- Removed: `E8_basis_generates`
+- Remaining: numerical bounds, Hodge/Sobolev structure, K7 topology
+
+---
+
 ## [3.1.11] - 2025-12-25
 
 ### Summary
