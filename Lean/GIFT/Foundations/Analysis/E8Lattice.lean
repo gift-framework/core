@@ -687,9 +687,8 @@ theorem E8_basis_generates : ∀ v ∈ E8_lattice, ∃ c : Fin 8 → ℤ,
   -- Verified by expanding definitions and using ring
   unfold E8_coeffs E8_basis E8_α1 E8_α2 E8_α3 E8_α4 E8_α5 E8_α6 E8_α7 E8_α8
   rw [Fin.sum_univ_eight]
-  set S := ∑ j : Fin 8, v.ofLp j
-  -- Evaluate mkR8 vector components, clear S/2 divisions, then ring
-  fin_cases k <;> simp [mkR8_apply] <;> field_simp <;> ring
+  -- Evaluate mkR8 vector components, expand sums, clear S/2 divisions, then ring
+  fin_cases k <;> simp only [mkR8_apply, Fin.sum_univ_eight] <;> field_simp <;> ring
 
 /-- E8 is unimodular: det(Gram matrix) = ±1 -/
 theorem E8_unimodular : True := by trivial
