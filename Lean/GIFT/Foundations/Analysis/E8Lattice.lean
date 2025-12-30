@@ -684,11 +684,12 @@ theorem E8_basis_generates : ∀ v ∈ E8_lattice, ∃ c : Fin 8 → ℤ,
   -- Rewrite ↑(c i) to E8_coeffs v i using hc
   simp_rw [← hc]
   -- Now: v.ofLp k = ∑ i, (E8_coeffs v i) * (E8_basis i).ofLp k
-  -- Verified by expanding definitions and using ring_nf
+  -- Verified by expanding definitions and using ring
   unfold E8_coeffs E8_basis E8_α1 E8_α2 E8_α3 E8_α4 E8_α5 E8_α6 E8_α7 E8_α8
   rw [Fin.sum_univ_eight]
   set S := ∑ j : Fin 8, v.ofLp j
-  fin_cases k <;> ring_nf
+  -- Use field_simp to clear S/2 divisions, then ring
+  fin_cases k <;> (try field_simp) <;> ring
 
 /-- E8 is unimodular: det(Gram matrix) = ±1 -/
 theorem E8_unimodular : True := by trivial
