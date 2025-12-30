@@ -529,10 +529,9 @@ noncomputable def E8_coeffs (v : R8) : Fin 8 → ℝ := fun i =>
   | 6 => S / 2 - 2 * v 7
   | 7 => -2 * v 7
 
-/-- Helper: accessing mkR8 vector at index -/
-theorem mkR8_apply (f : Fin 8 → ℝ) (i : Fin 8) : (mkR8 f) i = f i := by
-  simp only [mkR8]
-  rfl
+/-- Helper: accessing mkR8 vector at index via ofLp -/
+@[simp] theorem mkR8_apply (f : Fin 8 → ℝ) (i : Fin 8) : (mkR8 f).ofLp i = f i := by
+  simp only [mkR8, WithLp.equiv_symm_pi_apply]
 
 /-- Integer - integer = integer -/
 theorem IsInteger.sub {x y : ℝ} (hx : IsInteger x) (hy : IsInteger y) :
