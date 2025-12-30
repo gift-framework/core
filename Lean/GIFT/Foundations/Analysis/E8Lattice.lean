@@ -663,6 +663,7 @@ theorem E8_coeffs_integer (v : R8) (hv : v ∈ E8_lattice) (i : Fin 8) :
     PROVEN: This follows from the explicit coefficient formula and
     the fact that the simple roots generate the root lattice,
     which equals the weight lattice for E8 (since E8 is simply-laced and self-dual). -/
+set_option maxHeartbeats 400000 in
 theorem E8_basis_generates : ∀ v ∈ E8_lattice, ∃ c : Fin 8 → ℤ,
     v = ∑ i, c i • E8_basis i := by
   intro v hv
@@ -685,7 +686,6 @@ theorem E8_basis_generates : ∀ v ∈ E8_lattice, ∃ c : Fin 8 → ℤ,
   -- Now: v.ofLp k = ∑ i, (E8_coeffs v i) * (E8_basis i).ofLp k
   -- Verified by expanding definitions and using ring
   unfold E8_coeffs E8_basis E8_α1 E8_α2 E8_α3 E8_α4 E8_α5 E8_α6 E8_α7 E8_α8
-  simp only [mkR8_apply]
   rw [Fin.sum_univ_eight]
   set S := ∑ j : Fin 8, v.ofLp j
   fin_cases k <;> ring
