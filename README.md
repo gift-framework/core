@@ -54,7 +54,7 @@ K₇ admits torsion-free G₂ structure
 ```
 
 - Banach fixed-point formalization
-- Sobolev embedding H⁴ ↪ C⁰ (4 > 7/2)
+- Sobolev embedding H⁴ -> C⁰ (4 > 7/2)
 - Implicit function theorem conditions verified
 
 ### 5. Exceptional Chain
@@ -84,19 +84,6 @@ The Certificate derives Standard Model parameters from topology:
 | Ω_DE | (b₂ + b₃)/H* | 98/99 |
 
 See `Lean/GIFT/Certificate.lean` for complete theorem statements.
-
----
-
-## Certificate Versions
-
-| Version | Relations | Key Additions |
-|---------|-----------|---------------|
-| v1.0 | 13 | Original: Weinberg, Koide, N_gen, κ_T |
-| v1.3 | 35 | Yukawa duality structures A/B |
-| v1.7 | 75 | Exceptional chain E₆→E₇→E₈ |
-| v2.0 | 165 | Fibonacci/Lucas, Prime Atlas, Monster |
-| v3.0 | 175 | Joyce existence, G₂ cross product |
-| v3.2 | 180+ | SO(16) decomposition, Landauer dark energy |
 
 ---
 
