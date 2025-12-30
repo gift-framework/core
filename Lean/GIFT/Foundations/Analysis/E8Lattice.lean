@@ -675,22 +675,22 @@ theorem E8_basis_generates : ∀ v ∈ E8_lattice, ∃ c : Fin 8 → ℤ,
   -- which were derived by inverting the matrix [α₁|...|α₈].
   -- Each coordinate equation is a direct algebraic identity.
   ext k
-  -- Goal: v k = (∑ i, c i • E8_basis i) k
-  -- Transform RHS: pull application inside sum, expand smul
-  rw [Finset.sum_apply]
-  simp only [Pi.smul_apply, zsmul_eq_mul]
-  -- Now: v k = ∑ i, ↑(c i) * (E8_basis i k)
+  -- Goal: v.ofLp k = (∑ i, c i • E8_basis i).ofLp k
+  -- For PiLp, the sum is definitionally pointwise
+  change v.ofLp k = ∑ i : Fin 8, (c i • E8_basis i).ofLp k
+  simp only [PiLp.smul_apply, zsmul_eq_mul]
+  -- Now: v.ofLp k = ∑ i, ↑(c i) * (E8_basis i).ofLp k
   -- Rewrite ↑(c i) to E8_coeffs v i using hc
   conv_rhs =>
     congr
     ext i
     rw [← hc i]
-  -- Now: v k = ∑ i, (E8_coeffs v i) * (E8_basis i k)
+  -- Now: v.ofLp k = ∑ i, (E8_coeffs v i) * (E8_basis i).ofLp k
   -- Verified by expanding definitions and using ring
   unfold E8_coeffs E8_basis E8_α1 E8_α2 E8_α3 E8_α4 E8_α5 E8_α6 E8_α7 E8_α8
   simp only [mkR8_apply]
   rw [Fin.sum_univ_eight]
-  set S := ∑ j : Fin 8, v j
+  set S := ∑ j : Fin 8, v.ofLp j
   fin_cases k <;> ring
 
 /-- E8 is unimodular: det(Gram matrix) = ±1 -/
