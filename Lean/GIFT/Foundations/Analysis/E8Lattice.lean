@@ -681,10 +681,7 @@ theorem E8_basis_generates : ∀ v ∈ E8_lattice, ∃ c : Fin 8 → ℤ,
   simp only [PiLp.smul_apply, zsmul_eq_mul]
   -- Now: v.ofLp k = ∑ i, ↑(c i) * (E8_basis i).ofLp k
   -- Rewrite ↑(c i) to E8_coeffs v i using hc
-  conv_rhs =>
-    congr
-    ext i
-    rw [← hc i]
+  simp_rw [← hc]
   -- Now: v.ofLp k = ∑ i, (E8_coeffs v i) * (E8_basis i).ofLp k
   -- Verified by expanding definitions and using ring
   unfold E8_coeffs E8_basis E8_α1 E8_α2 E8_α3 E8_α4 E8_α5 E8_α6 E8_α7 E8_α8
