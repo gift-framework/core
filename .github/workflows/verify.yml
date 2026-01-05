@@ -28,7 +28,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: Lean/.lake
-          key: lean-${{ hashFiles('Lean/lakefile.lean') }}
+          key: lean-${{ hashFiles('Lean/lakefile.toml') }}
 
       - name: Build
         run: |
