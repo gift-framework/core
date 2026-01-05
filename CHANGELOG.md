@@ -241,7 +241,6 @@ These are computationally verified facts (e.g., e ≈ 2.71828) that would requir
 
 ### Documentation
 
-- Updated `docs/AXIOM_AUDIT.md` with progress tracking (v3.1.8)
 - Added namespace conflict guidelines to `CLAUDE.md`
 
 ---
