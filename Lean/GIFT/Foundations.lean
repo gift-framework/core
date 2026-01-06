@@ -83,10 +83,12 @@ Derives: b₂ = 21 = 7 + 14 from G₂ representation theory!
    - Ω² = Ω²₇ ⊕ Ω²₁₄ decomposition
    - b₂(K7) = 21 = dim(K7) + dim(G₂)
 
-6. **TCSConstruction.lean**
+6. **TCSConstruction.lean** (v3.4 update)
    - K7 as Twisted Connected Sum of CY3 building blocks
-   - b₂ = 10 + 10 + 1 = 21 (DERIVED from TCS Mayer-Vietoris)
-   - b₃ = 77 (INPUT from CHNP computation)
+   - M₁ = Quintic in CP⁴ (b₂=11, b₃=40)
+   - M₂ = CI(2,2,2) in CP⁶ (b₂=10, b₃=37)
+   - b₂ = 11 + 10 = 21 (DERIVED from TCS)
+   - b₃ = 40 + 37 = 77 (DERIVED from TCS)
    - H* = 1 + 21 + 77 = 99
 
 ## Export Key Theorems
@@ -128,10 +130,25 @@ export G2Holonomy (dim_G2 dim_G2_is_14 dim_G2_orbit_stabilizer
   b2_K7 b3_K7 K7_b2 K7_b3 K7_H_star b2_structure
   rep_trivial rep_standard rep_adjoint rep_symmetric)
 
--- TCS construction (b₂ derived, b₃ input)
-export TCSConstruction (CHNP_block TCS_b2 K7_b2 K7_b2_eq_21
-  K7_b3 K7_b3_eq_77 H_star H_star_eq_99
-  TCS_combinatorial K7_euler K7_euler_eq)
+-- TCS construction (v3.4: BOTH b₂ and b₃ DERIVED from building blocks)
+export TCSConstruction (
+  -- Building blocks: M₁ (Quintic), M₂ (CI)
+  M1_quintic M2_CI M1_b2 M1_b3 M2_b2 M2_b3
+  -- Legacy compatibility
+  CHNP_block CHNP_b2
+  -- TCS formulas
+  TCS_b2 TCS_b3
+  -- Betti numbers (DERIVED)
+  K7_b2 K7_b2_eq_21 K7_b2_derivation
+  K7_b3 K7_b3_eq_77 K7_b3_derived K7_b3_derived_eq_77 K7_b3_derivation
+  TCS_derives_both_betti
+  -- H* and Euler
+  K7_b0 K7_b1 H_star H_star_eq_99 H_star_derivation
+  K7_euler K7_euler_eq
+  -- Combinatorial identities
+  C72 C73 b2_combinatorial b3_decomposition
+  -- Master theorem
+  TCS_master_derivation)
 
 -- E₈ Lattice (lattice closure, Weyl reflection)
 export E8Lattice (R8 stdBasis stdBasis_orthonormal stdBasis_norm
