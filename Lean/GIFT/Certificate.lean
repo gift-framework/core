@@ -11,6 +11,8 @@
 import GIFT.Core
 import GIFT.Relations
 
+-- Foundations: Mathematical infrastructure (root systems, TCS, etc.)
+import GIFT.Foundations
 -- Analysis: Hodge theory, exterior algebra, advanced E8 lattice (bundled)
 import GIFT.Foundations.Analysis
 import GIFT.Relations.GaugeSector
@@ -959,7 +961,7 @@ abbrev v34_weyl_triple := Structural.weyl_triple_identity
 abbrev v34_PSL27_triple := Structural.PSL27_triple_derivation
 
 /-- TCS building blocks now derive BOTH b2 and b3 -/
-abbrev v34_TCS_derivation := GIFT.Foundations.TCSConstruction.TCS_master_derivation
+abbrev v34_TCS_derivation := GIFT.Foundations.TCS_master_derivation
 
 /-- GIFT v3.4 Publications Certificate
     New relations from GIFT v3.2 publications -/
