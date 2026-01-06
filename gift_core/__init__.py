@@ -75,6 +75,13 @@ from gift_core.constants import (
     ALPHA_INV_BASE, ALPHA_INV_COMPLETE,
     ALPHA_S_DENOM, ALPHA_S_SQUARED,
     TAU,
+    # Yukawa duality
+    VISIBLE_DIM, HIDDEN_DIM,
+    ALPHA_SQ_LEPTON_A, ALPHA_SQ_UP_A, ALPHA_SQ_DOWN_A,
+    ALPHA_SUM_A, ALPHA_PROD_A,
+    ALPHA_SQ_LEPTON_B, ALPHA_SQ_UP_B, ALPHA_SQ_DOWN_B,
+    ALPHA_SUM_B, ALPHA_PROD_B,
+    DUALITY_GAP_FROM_COLOR,
 
     # === COSMOLOGY ===
     OMEGA_DE_NUM, OMEGA_DE_DEN, OMEGA_DE_FRACTION,
@@ -114,6 +121,11 @@ from gift_core.verify import (
     verify, verify_all, verify_summary,
     print_verification_report,
     VerificationResult,
+)
+
+# Proven Relations
+from gift_core.relations import (
+    PROVEN_RELATIONS, get_relation, ProvenRelation,
 )
 
 # =============================================================================
@@ -215,6 +227,13 @@ __all__ = [
     'SIN2_THETA_W', 'Q_KOIDE', 'KAPPA_T', 'DET_G',
     'M_TAU_M_E', 'M_S_M_D', 'DELTA_CP', 'TAU',
     'GAMMA_GIFT', 'ALPHA_INV_BASE', 'ALPHA_INV_COMPLETE',
+    # Yukawa duality
+    'VISIBLE_DIM', 'HIDDEN_DIM',
+    'ALPHA_SQ_LEPTON_A', 'ALPHA_SQ_UP_A', 'ALPHA_SQ_DOWN_A',
+    'ALPHA_SUM_A', 'ALPHA_PROD_A',
+    'ALPHA_SQ_LEPTON_B', 'ALPHA_SQ_UP_B', 'ALPHA_SQ_DOWN_B',
+    'ALPHA_SUM_B', 'ALPHA_PROD_B',
+    'DUALITY_GAP_FROM_COLOR',
 
     # === COSMOLOGY ===
     'OMEGA_DE_FRACTION', 'HUBBLE_CMB', 'HUBBLE_LOCAL',
@@ -231,6 +250,9 @@ __all__ = [
 
     # === VERIFICATION (v3.2) ===
     'verify', 'verify_all', 'verify_summary',
+
+    # === RELATIONS ===
+    'PROVEN_RELATIONS', 'get_relation', 'ProvenRelation',
 
     # === VISUALIZATION (optional) ===
     'MATPLOTLIB_AVAILABLE',

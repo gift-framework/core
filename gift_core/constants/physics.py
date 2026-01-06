@@ -110,3 +110,28 @@ ALPHA_S_SQUARED = Fraction(1, 72)
 
 # tau = (dim_E8xE8 * b2) / (dim_J3O * H*) = 3472/891
 TAU = Fraction(3472, 891)
+
+# =============================================================================
+# YUKAWA DUALITY (v1.3.0)
+# =============================================================================
+
+# Sector dimensions
+VISIBLE_DIM = 43   # Visible sector dimension
+HIDDEN_DIM = 34    # Hidden sector dimension = F_9
+
+# Structure A (Topological): alpha^2 = {2, 3, 7}
+ALPHA_SQ_LEPTON_A = 2
+ALPHA_SQ_UP_A = 3
+ALPHA_SQ_DOWN_A = DIM_K7  # = 7
+ALPHA_SUM_A = ALPHA_SQ_LEPTON_A + ALPHA_SQ_UP_A + ALPHA_SQ_DOWN_A  # = 12
+ALPHA_PROD_A = ALPHA_SQ_LEPTON_A * ALPHA_SQ_UP_A * ALPHA_SQ_DOWN_A  # = 42
+
+# Structure B (Algebraic): alpha^2 = {2, 5, 6}
+ALPHA_SQ_LEPTON_B = 2
+ALPHA_SQ_UP_B = WEYL_FACTOR  # = 5
+ALPHA_SQ_DOWN_B = 2 * N_GEN  # = 6
+ALPHA_SUM_B = ALPHA_SQ_LEPTON_B + ALPHA_SQ_UP_B + ALPHA_SQ_DOWN_B  # = 13
+ALPHA_PROD_B = ALPHA_SQ_LEPTON_B * ALPHA_SQ_UP_B * ALPHA_SQ_DOWN_B  # = 60
+
+# Duality gap from color
+DUALITY_GAP_FROM_COLOR = P2 * N_GEN * N_GEN  # = 18
