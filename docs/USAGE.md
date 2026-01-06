@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package.
+Complete documentation for the `giftpy` Python package (v3.2).
 
 ## Installation
 
@@ -8,9 +8,156 @@ Complete documentation for the `giftpy` Python package.
 pip install giftpy
 ```
 
-For K7 metric modules (optional):
+For visualization (optional):
 ```bash
-pip install giftpy numpy
+pip install giftpy matplotlib numpy
+```
+
+## Quick Start (v3.2)
+
+```python
+from gift_core import *
+
+# Certified constants
+print(SIN2_THETA_W)      # Fraction(3, 13)
+print(B2, B3, H_STAR)    # 21, 77, 99 (all DERIVED from TCS!)
+
+# E8 root system (240 actual vectors in R^8)
+from gift_core.roots import E8_ROOTS, E8_SIMPLE_ROOTS
+print(len(E8_ROOTS))     # 240
+
+# Fano plane / G2 cross product
+from gift_core.fano import cross_product, FANO_LINES
+u = (1, 0, 0, 0, 0, 0, 0)
+v = (0, 1, 0, 0, 0, 0, 0)
+print(cross_product(u, v))  # 7D cross product
+
+# Verify all relations
+from gift_core import verify
+print(verify())          # True
+```
+
+## New in v3.2
+
+### E8 Root System
+
+The 240 roots of E8 as actual vectors in ℝ⁸:
+
+```python
+from gift_core.roots import (
+    E8_ROOTS,           # All 240 roots
+    D8_ROOTS,           # 112 integer roots (±eᵢ ± eⱼ)
+    HALF_INTEGER_ROOTS, # 128 half-integer roots
+    E8_SIMPLE_ROOTS,    # 8 simple roots (Bourbaki)
+    E8_CARTAN_MATRIX,   # 8×8 Cartan matrix
+)
+
+# Root operations
+from gift_core.roots import (
+    inner_product,      # ⟨u, v⟩
+    norm, norm_sq,      # ‖v‖, ‖v‖²
+    weyl_reflection,    # Weyl reflection s_α(v)
+    is_root,            # Check if vector is a root
+    is_in_E8_lattice,   # Check lattice membership
+    positive_roots,     # 120 positive roots
+    highest_root,       # θ = 2α₁ + 3α₂ + ...
+)
+
+# Example: Simple roots (Bourbaki convention)
+print(E8_SIMPLE_ROOTS[0])  # (1, -1, 0, 0, 0, 0, 0, 0) = α₁
+print(E8_SIMPLE_ROOTS[7])  # (-0.5, -0.5, ...) = α₈
+
+# Statistics
+from gift_core.roots import root_statistics
+stats = root_statistics()
+print(stats)
+# {'total_roots': 240, 'd8_roots': 112, 'half_integer_roots': 128,
+#  'coxeter_number': 30, 'weyl_group_order': 696729600, ...}
+```
+
+### Fano Plane & G2 Cross Product
+
+The Fano plane encodes octonion multiplication and G₂ structure:
+
+```python
+from gift_core.fano import (
+    FANO_LINES,         # 7 lines, each with 3 points
+    epsilon,            # Structure constants ε(i,j,k)
+    cross_product,      # G2-invariant cross product in R^7
+    phi0,               # Associative 3-form
+)
+
+# The 7 lines of the Fano plane
+print(FANO_LINES)
+# [(0,1,3), (1,2,4), (2,3,5), (3,4,6), (4,5,0), (5,6,1), (6,0,2)]
+
+# Epsilon tensor: ε(i,j,k) = ±1 or 0
+print(epsilon(0, 1, 3))  # +1 (cyclic order on line)
+print(epsilon(1, 0, 3))  # -1 (antisymmetric)
+
+# G2 cross product in R^7
+u = (1, 0, 0, 0, 0, 0, 0)
+v = (0, 1, 0, 0, 0, 0, 0)
+w = cross_product(u, v)
+print(w)  # Result in R^7
+
+# Verify Lagrange identity: ‖u × v‖² = ‖u‖²‖v‖² - ⟨u,v⟩²
+from gift_core.fano import verify_lagrange_identity
+print(verify_lagrange_identity(u, v))  # True
+
+# Octonion multiplication (imaginary units)
+from gift_core.fano import octonion_multiply_imaginaries
+sign, result = octonion_multiply_imaginaries(0, 1)  # e₁ * e₂
+print(f"e₁ × e₂ = {'+' if sign > 0 else '-'}e{result+1}")  # +e₄
+```
+
+### Verification Module
+
+Check all GIFT relations programmatically:
+
+```python
+from gift_core import verify, verify_all, verify_summary
+
+# Quick check
+assert verify()  # True if all pass
+
+# Detailed results
+results = verify_all()
+for r in results:
+    print(f"{r.name}: {'✓' if r.passed else '✗'}")
+
+# Summary
+summary = verify_summary()
+print(f"Passed: {summary['passed']}/{summary['total']}")
+print(f"By category: {summary['by_category']}")
+
+# Pretty report
+from gift_core import print_verification_report
+print_verification_report()
+```
+
+### Visualization (requires matplotlib)
+
+```python
+from gift_core.visualize import (
+    plot_fano,          # Fano plane diagram
+    plot_e8_projection, # E8 roots 2D projection
+    plot_dynkin_e8,     # E8 Dynkin diagram
+    plot_gift_constants,# Bar chart of constants
+)
+
+# Fano plane
+plot_fano(save_path='fano.png')
+
+# E8 roots (requires numpy)
+plot_e8_projection(projection='random', save_path='e8.png')
+
+# Dynkin diagram
+plot_dynkin_e8(save_path='dynkin.png')
+
+# All visualizations
+from gift_core.visualize import plot_all
+plot_all(save_dir='./figures/')
 ```
 
 ## Basic Usage
@@ -24,10 +171,6 @@ print(TAU)               # Fraction(3472, 891)
 print(KAPPA_T)           # Fraction(1, 61)
 print(GAMMA_GIFT)        # Fraction(511, 884)
 print(ALPHA_INV_BASE)    # 137
-
-# Iterate over all proven relations
-for r in PROVEN_RELATIONS:
-    print(f"{r.symbol} = {r.value}")
 ```
 
 ## Certified Constants
