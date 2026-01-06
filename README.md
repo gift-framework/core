@@ -35,16 +35,20 @@ dim(G₂) = 14 = 12 roots + 2 rank
 - Fano plane structure (7 lines ↔ 7 octonion imaginaries)
 - Bilinearity, antisymmetry, octonion structure proven
 
-### 3. K₇ Manifold (Betti numbers)
+### 3. K₇ Manifold via TCS (v3.2)
 
 ```
-b₀ = 1,  b₁ = 0,  b₂ = 21,  b₃ = 77
+M₁ = Quintic in CP⁴:    b₂ = 11,  b₃ = 40
+M₂ = CI(2,2,2) in CP⁶:  b₂ = 10,  b₃ = 37
+─────────────────────────────────────────
+K₇ = M₁ #_TCS M₂:       b₂ = 21,  b₃ = 77  (BOTH DERIVED!)
+
 H* = b₂ + b₃ + 1 = 99
 ```
 
-- Hodge duality and Poincaré duality
-- 2-forms decomposition: Ω² = Ω²₇ ⊕ Ω²₁₄ (7 + 14 = 21)
-- 3-forms decomposition: Ω³ = Ω³₁ ⊕ Ω³₇ ⊕ Ω³₂₇ (1 + 7 + 27 = 35)
+- TCS (Twisted Connected Sum) construction from Corti-Haskins-Nordström-Pacini
+- Both Betti numbers now **derived** from building blocks (was: b₃ input)
+- Hodge duality and Poincaré duality verified
 
 ### 4. Joyce Existence Theorem
 
@@ -57,16 +61,19 @@ K₇ admits torsion-free G₂ structure
 - Sobolev embedding H⁴ -> C⁰ (4 > 7/2)
 - Implicit function theorem conditions verified
 
-### 5. Exceptional Chain
+### 5. Structural Identities (v3.2)
 
 ```
-dim(E₆) = 78  = 6 × 13 = b₃ + 1
-dim(E₇) = 133 = 7 × 19 = b₃ + 8 × 7
-dim(E₈) = 248 = 8 × 31
-```
+Weyl Triple Identity: 3 independent paths to Weyl = 5
+  (dim_G₂ + 1) / N_gen = 5
+  b₂ / N_gen - p₂ = 5
+  dim_G₂ - rank_E₈ - 1 = 5
 
-- F₄ (52) → E₆ (78) → E₇ (133) → E₈ (248)
-- Jordan algebra: dim(J₃(𝕆)) = 27 = dim(E₆) - dim(F₄) - 1
+PSL(2,7) = 168: Fano plane symmetry
+  (b₃ + dim_G₂) + b₃ = 168
+  rank_E₈ × b₂ = 168
+  N_gen × (b₃ - b₂) = 168
+```
 
 ---
 
@@ -82,6 +89,7 @@ The Certificate derives Standard Model parameters from topology:
 | κ_T denominator | b₃ - dim_G₂ - p₂ | 61 |
 | γ_GIFT | (2×rank_E₈ + 5×H*)/(10×dim_G₂ + 3×dim_E₈) | 511/884 |
 | Ω_DE | (b₂ + b₃)/H* | 98/99 |
+| m_τ/m_e | (b₃ - b₂) × 62 + 5 | 3477 |
 
 See `Lean/GIFT/Certificate.lean` for complete theorem statements.
 
@@ -137,4 +145,4 @@ MIT
 
 ---
 
-*GIFT Core v3.1.12*
+*GIFT Core v3.2.0*
