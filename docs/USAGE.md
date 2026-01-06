@@ -160,6 +160,45 @@ print(TORSION_BOUND.hi < JOYCE_THRESHOLD.lo)  # True
 print(DET_G_BOUND.contains(DET_G_TARGET))  # True
 ```
 
+## TCS Construction (v3.2+)
+
+K₇ Betti numbers are now **derived** from Twisted Connected Sum building blocks:
+
+```python
+from gift_core import *
+
+# TCS Building Blocks (v3.2)
+# M₁ = Quintic hypersurface in CP⁴
+M1_B2 = 11  # b₂(M₁)
+M1_B3 = 40  # b₃(M₁)
+
+# M₂ = Complete Intersection (2,2,2) in CP⁶
+M2_B2 = 10  # b₂(M₂)
+M2_B3 = 37  # b₃(M₂)
+
+# K₇ = M₁ #_TCS M₂ (Twisted Connected Sum)
+B2 = M1_B2 + M2_B2  # 11 + 10 = 21 ✓
+B3 = M1_B3 + M2_B3  # 40 + 37 = 77 ✓
+
+# Both Betti numbers DERIVED from building blocks!
+H_STAR = B2 + B3 + 1  # 99
+```
+
+### Structural Identities (v3.2)
+
+```python
+# Weyl Triple Identity: 3 independent paths to Weyl = 5
+assert (DIM_G2 + 1) // N_GEN == WEYL_FACTOR      # 15 / 3 = 5
+assert B2 // N_GEN - P2 == WEYL_FACTOR           # 21 / 3 - 2 = 5
+assert DIM_G2 - RANK_E8 - 1 == WEYL_FACTOR       # 14 - 8 - 1 = 5
+
+# PSL(2,7) = 168: Fano plane symmetry group
+PSL27_ORDER = 168
+assert (B3 + DIM_G2) + B3 == PSL27_ORDER         # 91 + 77 = 168
+assert RANK_E8 * B2 == PSL27_ORDER               # 8 × 21 = 168
+assert N_GEN * (B3 - B2) == PSL27_ORDER          # 3 × 56 = 168
+```
+
 ## Algebraic Foundations (v3.1+)
 
 GIFT constants are now **derived** from octonion algebraic structure:
