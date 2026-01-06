@@ -18,6 +18,9 @@ OMEGA_DE_NUM = B2 + B3         # = 98
 OMEGA_DE_DEN = H_STAR          # = 99
 OMEGA_DE_FRACTION = Fraction(OMEGA_DE_NUM, OMEGA_DE_DEN)
 
+# Product form: dim_K7 * dim_G2 = 7 * 14 = 98 = H* - 1
+OMEGA_DE_PRODUCT = DIM_K7 * DIM_G2  # = 98
+
 # =============================================================================
 # PHI-SQUARED RATIO (Dark energy / Dark matter)
 # =============================================================================

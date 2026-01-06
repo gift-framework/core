@@ -135,3 +135,52 @@ ALPHA_PROD_B = ALPHA_SQ_LEPTON_B * ALPHA_SQ_UP_B * ALPHA_SQ_DOWN_B  # = 60
 
 # Duality gap from color
 DUALITY_GAP_FROM_COLOR = P2 * N_GEN * N_GEN  # = 18
+
+# =============================================================================
+# TOPOLOGICAL EXTENSION CONSTANTS (v1.2.0)
+# =============================================================================
+
+# Alpha_s squared components
+ALPHA_S_SQ_NUM = 2
+ALPHA_S_SQ_DENOM = 144  # = 12²
+ALPHA_S_SQUARED_NUM = DIM_G2 // DIM_K7  # = 2
+ALPHA_S_SQUARED_DEN = (DIM_G2 - P2) ** 2  # = 144
+
+# Alpha^-1 components
+ALPHA_INV_ALGEBRAIC = (DIM_E8 + RANK_E8) // 2  # = 128
+ALPHA_INV_BULK = H_STAR // D_BULK              # = 9
+
+# Pentagonal phase
+DELTA_PENTAGONAL_DENOM = WEYL_SQ  # = 25
+
+# Theta_23 components
+THETA_23_NUM = RANK_E8 + B3  # = 85
+THETA_23_DEN = H_STAR        # = 99
+
+# Theta_12 structure
+THETA_12_RATIO_FACTOR = WEYL_SQ * GAMMA_GIFT_NUM  # = 12775
+
+# Lambda_H^2 components
+LAMBDA_H_SQ_NUM = DIM_G2 + N_GEN  # = 17
+LAMBDA_H_SQ_DEN = 32 * 32         # = 1024
+
+# =============================================================================
+# TAU BASE-13 REPRESENTATION
+# =============================================================================
+
+TAU_NUM_VALUE = 3472
+TAU_DEN_VALUE = 891
+
+
+def to_base_13(n: int) -> list:
+    """Convert integer to base 13 digits (most significant first)."""
+    if n == 0:
+        return [0]
+    digits = []
+    while n > 0:
+        digits.append(n % 13)
+        n //= 13
+    return list(reversed(digits))
+
+
+TAU_NUM_BASE13 = to_base_13(TAU_NUM_VALUE)  # = [1, 7, 7, 1]
