@@ -135,6 +135,18 @@ cd COQ && make
 - [Usage Guide](docs/USAGE.md)
 - [Full Framework](https://github.com/gift-framework/GIFT)
 
+---
+
+## Interactive Visualizations
+
+| Blueprint | Description |
+|-----------|-------------|
+| [GIFT Lean Blueprint](https://gift-framework.github.io/GIFT/home_page/gift_blueprint.html) | Dependency graph |
+
+*Created with [Lean Blueprint Copilot](https://github.com/augustepoiroux/LeanBlueprintCopilot)*
+
+---
+
 ## Acknowledgments
 
 Blueprint structure inspired by [KakeyaFiniteFields](https://github.com/math-inc/KakeyaFiniteFields).
