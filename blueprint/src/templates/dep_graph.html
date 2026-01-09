@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/@hpcc-js/wasm@2.15.0/dist/graphviz.umd.js"></script>
+    <script src="https://unpkg.com/d3-graphviz@5.3.0/build/d3-graphviz.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #fafafa;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        #graph-container {
+            width: 100%;
+            min-height: 80vh;
+            overflow: auto;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        #dep_graph {
+            width: 100%;
+            min-height: 80vh;
+        }
+        #legend {
+            margin: 20px auto;
+            padding: 15px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            max-width: 600px;
+        }
+        #legend h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        #legend ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        #legend li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .legend-box, .legend-ellipse {
+            width: 20px;
+            height: 16px;
+            border: 2px solid #333;
+        }
+        .legend-ellipse {
+            border-radius: 50%;
+        }
+        .node {
+            cursor: pointer;
+        }
+        .node:hover ellipse,
+        .node:hover polygon {
+            stroke-width: 3px !important;
+        }
+        /* Controls */
+        #controls {
+            text-align: center;
+            margin: 10px 0;
+        }
+        #controls button {
+            padding: 8px 16px;
+            margin: 0 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+        }
+        #controls button:hover {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+
+    <div id="controls">
+        <button onclick="zoomIn()">Zoom +</button>
+        <button onclick="zoomOut()">Zoom -</button>
+        <button onclick="resetZoom()">Reset</button>
+    </div>
+
+    <div id="graph-container">
+        <div id="dep_graph"></div>
+    </div>
+
+    {% if legend %}
+    <div id="legend">
+        <h3>Legend</h3>
+        <ul>
+            {% for item in legend %}
+            <li>
+                <span class="legend-{{ item.shape }}" style="background-color: {{ item.fillcolor }}; border-color: {{ item.color }};"></span>
+                {{ item.label }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <script>
+        // Original DOT string
+        var originalDot = `{{ dot }}`;
+
+        // Modify DOT to use vertical layout (TB = Top to Bottom)
+        // Add rankdir=TB and adjust spacing for better readability
+        var modifiedDot = originalDot.replace(
+            /^(digraph\s*(?:\w+\s*)?\{)/m,
+            '$1\n  rankdir=TB;\n  ranksep=1.0;\n  nodesep=0.6;\n  splines=ortho;\n'
+        );
+
+        var graphviz;
+        var currentZoom = 1;
+
+        function renderGraph() {
+            var container = d3.select("#dep_graph");
+            var width = container.node().getBoundingClientRect().width || 1200;
+            var height = Math.max(800, window.innerHeight * 0.8);
+
+            graphviz = container.graphviz({useWorker: true})
+                .width(width)
+                .height(height)
+                .fit(true)
+                .zoom(true)
+                .renderDot(modifiedDot)
+                .on("end", function() {
+                    // Make nodes clickable
+                    d3.selectAll('.node').on('click', function(event) {
+                        var title = d3.select(this).select('title').text();
+                        if (title) {
+                            // Try to navigate to the corresponding section
+                            var baseUrl = window.location.href.replace(/dep_graph.*$/, '');
+                            var targetUrl = baseUrl + title.replace(/:/g, '-').replace(/_/g, '-') + '.html';
+                            window.open(targetUrl, '_blank');
+                        }
+                    });
+
+                    // Add tooltips
+                    d3.selectAll('.node').append('title')
+                        .text(function() {
+                            return 'Click to view details';
+                        });
+                });
+        }
+
+        function zoomIn() {
+            currentZoom *= 1.2;
+            graphviz.resetZoom(d3.transition().duration(500));
+            setTimeout(function() {
+                graphviz.zoom(true);
+            }, 600);
+        }
+
+        function zoomOut() {
+            currentZoom /= 1.2;
+            graphviz.resetZoom(d3.transition().duration(500));
+        }
+
+        function resetZoom() {
+            currentZoom = 1;
+            graphviz.resetZoom(d3.transition().duration(500));
+        }
+
+        // Render on load
+        document.addEventListener('DOMContentLoaded', renderGraph);
+
+        // Re-render on resize
+        window.addEventListener('resize', function() {
+            clearTimeout(window.resizeTimeout);
+            window.resizeTimeout = setTimeout(renderGraph, 250);
+        });
+    </script>
+</body>
+</html>
