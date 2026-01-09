@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIFT Framework - Blueprint Dependency Graph v3.2</title>
+    <script src="https://unpkg.com/d3@7.9.0/dist/d3.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --border-color: #30363d;
+            --accent-green: #3fb950;
+            --accent-green-dim: #238636;
+            --accent-blue: #58a6ff;
+            --accent-blue-dim: #1f6feb;
+            --accent-yellow: #d29922;
+            --accent-yellow-dim: #9e6a03;
+            --accent-purple: #a371f7;
+            --accent-purple-dim: #8957e5;
+            --accent-cyan: #39d353;
+            --accent-orange: #f0883e;
+            --accent-orange-dim: #bd561d;
+            --accent-pink: #db61a2;
+            --accent-pink-dim: #bf4b8a;
+            --accent-red: #f85149;
+            --accent-red-dim: #da3633;
+            --edge-color: #484f58;
+            --edge-highlight: #58a6ff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, monospace;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container { display: flex; height: 100vh; }
+
+        .sidebar {
+            width: 360px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .version { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .stat-item {
+            background: var(--bg-tertiary);
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .stat-value { font-size: 1.25rem; font-weight: 700; color: var(--accent-blue); }
+        .stat-value.highlight { color: var(--accent-green); }
+        .stat-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+        .filters {
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .filter-title { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .filter-buttons { display: flex; flex-wrap: wrap; gap: 5px; }
+
+        .filter-btn {
+            padding: 5px 8px;
+            font-size: 0.65rem;
+            border: 1px solid var(--border-color);
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .filter-btn:hover { border-color: var(--accent-blue); color: var(--text-primary); }
+        .filter-btn.active { background: var(--accent-blue-dim); border-color: var(--accent-blue); color: var(--text-primary); }
+        .filter-btn[data-status="proven"] { border-left: 3px solid var(--accent-green); }
+        .filter-btn[data-status="topological"] { border-left: 3px solid var(--accent-cyan); }
+        .filter-btn[data-status="certified"] { border-left: 3px solid var(--accent-blue); }
+        .filter-btn[data-status="derived"] { border-left: 3px solid var(--accent-yellow); }
+        .filter-btn[data-status="theoretical"] { border-left: 3px solid var(--accent-purple); }
+        .filter-btn[data-status="sequence"] { border-left: 3px solid var(--accent-orange); }
+        .filter-btn[data-status="monster"] { border-left: 3px solid var(--accent-pink); }
+        .filter-btn[data-status="foundation"] { border-left: 3px solid var(--accent-red); }
+
+        .search-container { padding: 12px 20px; border-bottom: 1px solid var(--border-color); }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 0.8rem;
+            border: 1px solid var(--border-color);
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border-radius: 6px;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .search-input:focus { border-color: var(--accent-blue); }
+        .search-input::placeholder { color: var(--text-muted); }
+
+        .detail-panel { flex: 1; overflow-y: auto; padding: 16px; }
+        .detail-header { margin-bottom: 12px; }
+        .detail-title { font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+
+        .detail-status {
+            display: inline-block;
+            padding: 3px 8px;
+            font-size: 0.6rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-status.proven { background: var(--accent-green-dim); color: var(--accent-green); }
+        .detail-status.topological { background: rgba(57, 211, 83, 0.2); color: var(--accent-cyan); }
+        .detail-status.certified { background: var(--accent-blue-dim); color: var(--accent-blue); }
+        .detail-status.derived { background: var(--accent-yellow-dim); color: var(--accent-yellow); }
+        .detail-status.theoretical { background: var(--accent-purple-dim); color: var(--accent-purple); }
+        .detail-status.sequence { background: var(--accent-orange-dim); color: var(--accent-orange); }
+        .detail-status.monster { background: var(--accent-pink-dim); color: var(--accent-pink); }
+        .detail-status.foundation { background: var(--accent-red-dim); color: var(--accent-red); }
+        .detail-status.axiom { background: var(--bg-tertiary); color: var(--text-muted); }
+
+        .detail-section { margin-bottom: 12px; }
+        .detail-section-title { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+
+        .formula-box {
+            background: var(--bg-tertiary);
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            border-left: 3px solid var(--accent-blue);
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .values-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+        .value-item { background: var(--bg-tertiary); padding: 8px; border-radius: 6px; }
+        .value-label { font-size: 0.55rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 2px; }
+        .value-number { font-size: 0.85rem; font-weight: 600; }
+        .value-number.predicted { color: var(--accent-blue); }
+        .value-number.experimental { color: var(--accent-green); }
+        .value-number.deviation { color: var(--accent-yellow); }
+
+        .dependencies-list { display: flex; flex-wrap: wrap; gap: 4px; }
+
+        .dep-tag {
+            padding: 3px 6px;
+            font-size: 0.6rem;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .dep-tag:hover { background: var(--accent-blue-dim); color: var(--text-primary); }
+
+        .graph-container { flex: 1; position: relative; overflow: hidden; }
+        #graph { width: 100%; height: 100%; }
+
+        .legend {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 0.65rem;
+            max-width: 600px;
+        }
+
+        .legend-item { display: flex; align-items: center; gap: 5px; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .legend-dot.proven { background: var(--accent-green); }
+        .legend-dot.topological { background: var(--accent-cyan); }
+        .legend-dot.certified { background: var(--accent-blue); }
+        .legend-dot.derived { background: var(--accent-yellow); }
+        .legend-dot.theoretical { background: var(--accent-purple); }
+        .legend-dot.sequence { background: var(--accent-orange); }
+        .legend-dot.monster { background: var(--accent-pink); }
+        .legend-dot.foundation { background: var(--accent-red); }
+
+        .controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .control-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .control-btn:hover { border-color: var(--accent-blue); color: var(--text-primary); }
+
+        .node { cursor: pointer; transition: opacity 0.3s; }
+        .node.dimmed { opacity: 0.15; }
+        .node-rect { rx: 6; ry: 6; stroke-width: 2; transition: all 0.2s; }
+
+        .node.proven .node-rect { fill: var(--accent-green-dim); stroke: var(--accent-green); }
+        .node.topological .node-rect { fill: rgba(57, 211, 83, 0.15); stroke: var(--accent-cyan); }
+        .node.certified .node-rect { fill: var(--accent-blue-dim); stroke: var(--accent-blue); }
+        .node.derived .node-rect { fill: var(--accent-yellow-dim); stroke: var(--accent-yellow); }
+        .node.theoretical .node-rect { fill: var(--accent-purple-dim); stroke: var(--accent-purple); }
+        .node.sequence .node-rect { fill: var(--accent-orange-dim); stroke: var(--accent-orange); }
+        .node.monster .node-rect { fill: var(--accent-pink-dim); stroke: var(--accent-pink); }
+        .node.foundation .node-rect { fill: var(--accent-red-dim); stroke: var(--accent-red); }
+        .node.axiom .node-rect { fill: var(--bg-tertiary); stroke: var(--text-muted); stroke-dasharray: 4 2; }
+
+        .node:hover .node-rect, .node.selected .node-rect {
+            stroke-width: 3;
+            filter: drop-shadow(0 0 8px currentColor);
+        }
+
+        .node-label { fill: var(--text-primary); font-size: 10px; font-family: 'JetBrains Mono', monospace; pointer-events: none; }
+        .node-sublabel { fill: var(--text-muted); font-size: 8px; font-family: 'JetBrains Mono', monospace; pointer-events: none; }
+
+        .edge { fill: none; stroke: var(--edge-color); stroke-width: 1.5; transition: all 0.3s; }
+        .edge.dimmed { opacity: 0.1; }
+        .edge.highlighted { stroke: var(--edge-highlight); stroke-width: 2.5; }
+        .edge.dashed { stroke-dasharray: 5 3; }
+
+        .empty-state { text-align: center; padding: 30px 20px; color: var(--text-muted); }
+        .empty-state-icon { font-size: 2rem; margin-bottom: 10px; }
+
+        .module-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            font-size: 0.55rem;
+            border-radius: 3px;
+            margin-left: 6px;
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
+        }
+
+        @media print {
+            .sidebar { display: none; }
+            .controls { display: none; }
+            body { background: white; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <header class="sidebar-header">
+                <div class="logo">GIFT BLUEPRINT</div>
+                <div class="version">v3.2.0 - 180+ Certified Relations | 88 Lean Files</div>
+            </header>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value highlight">180+</div>
+                    <div class="stat-label">Relations</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">0.087%</div>
+                    <div class="stat-label">Mean Deviation</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Free Parameters</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value highlight">2000</div>
+                    <div class="stat-label">Lean 4 Decls</div>
+                </div>
+            </div>
+
+            <div class="filters">
+                <div class="filter-title">Filter by Status</div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-status="proven" data-filter="proven">Proven</button>
+                    <button class="filter-btn" data-status="topological" data-filter="topological">Topological</button>
+                    <button class="filter-btn" data-status="certified" data-filter="certified">Certified</button>
+                    <button class="filter-btn" data-status="foundation" data-filter="foundation">Foundation</button>
+                    <button class="filter-btn" data-status="sequence" data-filter="sequence">Sequences</button>
+                    <button class="filter-btn" data-status="monster" data-filter="monster">Monster</button>
+                    <button class="filter-btn" data-status="derived" data-filter="derived">Derived</button>
+                </div>
+            </div>
+
+            <div class="filters">
+                <div class="filter-title">Filter by Module</div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all-sector">All</button>
+                    <button class="filter-btn" data-filter="structural">Foundation</button>
+                    <button class="filter-btn" data-filter="gauge">Gauge</button>
+                    <button class="filter-btn" data-filter="neutrino">Neutrino</button>
+                    <button class="filter-btn" data-filter="lepton">Lepton</button>
+                    <button class="filter-btn" data-filter="quark">Quark</button>
+                    <button class="filter-btn" data-filter="fibonacci">Fibonacci</button>
+                    <button class="filter-btn" data-filter="lucas">Lucas</button>
+                    <button class="filter-btn" data-filter="primes">Primes</button>
+                    <button class="filter-btn" data-filter="monster">Monster</button>
+                    <button class="filter-btn" data-filter="mckay">McKay</button>
+                    <button class="filter-btn" data-filter="exceptional">Exceptional</button>
+                    <button class="filter-btn" data-filter="cosmology">Cosmology</button>
+                    <button class="filter-btn" data-filter="so16">SO(16)</button>
+                    <button class="filter-btn" data-filter="e8lattice">E8 Lattice</button>
+                    <button class="filter-btn" data-filter="g2cross">G2 Cross</button>
+                    <button class="filter-btn" data-filter="joyce">Joyce</button>
+                    <button class="filter-btn" data-filter="hierarchy">Hierarchy</button>
+                </div>
+            </div>
+
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search relations..." id="searchInput">
+            </div>
+
+            <div class="detail-panel" id="detailPanel">
+                <div class="empty-state">
+                    <div class="empty-state-icon">&#9679;</div>
+                    <div>Click a node to view details</div>
+                    <div style="margin-top: 10px; font-size: 0.7rem;">180+ relations from gift-framework/core v3.2.0</div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="graph-container">
+            <svg id="graph"></svg>
+
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot proven"></div><span>Proven</span></div>
+                <div class="legend-item"><div class="legend-dot topological"></div><span>Topological</span></div>
+                <div class="legend-item"><div class="legend-dot certified"></div><span>Certified</span></div>
+                <div class="legend-item"><div class="legend-dot foundation"></div><span>Foundation</span></div>
+                <div class="legend-item"><div class="legend-dot sequence"></div><span>Sequences</span></div>
+                <div class="legend-item"><div class="legend-dot monster"></div><span>Monster</span></div>
+                <div class="legend-item"><div class="legend-dot derived"></div><span>Derived</span></div>
+            </div>
+
+            <div class="controls">
+                <button class="control-btn" id="zoomIn" title="Zoom In">+</button>
+                <button class="control-btn" id="zoomOut" title="Zoom Out">-</button>
+                <button class="control-btn" id="resetZoom" title="Reset View">&#8634;</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function initGraph() {
+            if (typeof d3 === 'undefined') {
+                setTimeout(initGraph, 100);
+                return;
+            }
+
+            const nodes = [
+                // ==================== LAYER 0: FOUNDATIONAL AXIOMS ====================
+                { id: "e8_structure", label: "E8 x E8", sublabel: "dim=496", layer: 0, status: "axiom", sector: "structural",
+                  formula: "dim(E8) = 248, rank(E8) = 8", description: "Exceptional Lie algebra gauge structure" },
+                { id: "g2_holonomy", label: "G2 Holonomy", sublabel: "dim=14", layer: 0, status: "axiom", sector: "structural",
+                  formula: "dim(G2) = 14, rank(G2) = 2", description: "Holonomy group of K7 manifold" },
+                { id: "k7_topology", label: "K7 Topology", sublabel: "b2=21, b3=77", layer: 0, status: "axiom", sector: "structural",
+                  formula: "b2(K7) = 21, b3(K7) = 77", description: "Twisted connected sum G2 manifold" },
+
+                // ==================== LAYER 1: STRUCTURAL INVARIANTS ====================
+                { id: "h_star", label: "H*", sublabel: "= 99", layer: 1, status: "proven", sector: "structural",
+                  formula: "H* = b2 + b3 + 1 = 21 + 77 + 1 = 99", predicted: 99, description: "Total effective dimension" },
+                { id: "kappa_t", label: "kappa_T", sublabel: "= 1/61", layer: 1, status: "proven", sector: "structural",
+                  formula: "kappa_T^-1 = b3 - dim(G2) - p2 = 77-14-2 = 61", predicted: 0.01639, experimental: 0.0164, deviation: 0.04 },
+                { id: "det_g", label: "det(g)", sublabel: "= 65/32", layer: 1, status: "proven", sector: "structural",
+                  formula: "det(g) = Weyl x (rank + Weyl) / 2^5 = 5 x 13 / 32", predicted: 2.03125, deviation: 0.00005 },
+                { id: "p2", label: "p2", sublabel: "= 2", layer: 1, status: "proven", sector: "structural",
+                  formula: "p2 = 2 (Pontryagin class)", predicted: 2, description: "Second Pontryagin class" },
+                { id: "n_gen", label: "N_gen", sublabel: "= 3", layer: 1, status: "proven", sector: "structural",
+                  formula: "N_gen = 3 (Atiyah-Singer index)", predicted: 3, description: "Number of generations" },
+
+                // ==================== LAYER 2: GAUGE SECTOR ====================
+                { id: "sin2_theta_w", label: "sin2(theta_W)", sublabel: "= 3/13", layer: 2, status: "proven", sector: "gauge",
+                  formula: "sin2(theta_W) = b2/(b3 + dim(G2)) = 21/91 = 3/13", predicted: 0.23077, experimental: 0.23122, deviation: 0.195 },
+                { id: "alpha_inv", label: "alpha^-1", sublabel: "= 137.033", layer: 2, status: "proven", sector: "gauge",
+                  formula: "alpha^-1 = 267489/1952 (exact rational)", predicted: 137.033, experimental: 137.036, deviation: 0.002 },
+                { id: "alpha_s", label: "alpha_s(M_Z)", sublabel: "= sqrt(2)/12", layer: 2, status: "topological", sector: "gauge",
+                  formula: "alpha_s = sqrt(2)/(dim(G2) - p2) = sqrt(2)/12", predicted: 0.11785, experimental: 0.1179, deviation: 0.042 },
+
+                // ==================== LAYER 3: NEUTRINO MIXING ====================
+                { id: "theta_12", label: "theta_12", sublabel: "= 33.40 deg", layer: 3, status: "topological", sector: "neutrino",
+                  formula: "theta_12 = arctan(sqrt(delta/gamma_GIFT))", predicted: 33.40, experimental: 33.41, deviation: 0.03, unit: "deg" },
+                { id: "theta_13", label: "theta_13", sublabel: "= pi/21 rad", layer: 3, status: "proven", sector: "neutrino",
+                  formula: "theta_13 = pi/b2(K7) = pi/21 = 60/7 deg", predicted: 8.571, experimental: 8.54, deviation: 0.36, unit: "deg" },
+                { id: "theta_23", label: "theta_23", sublabel: "= 85/99 rad", layer: 3, status: "topological", sector: "neutrino",
+                  formula: "theta_23 = (rank(E8) + b3)/H* = 85/99", predicted: 49.19, experimental: 49.3, deviation: 0.22, unit: "deg" },
+                { id: "delta_cp", label: "delta_CP", sublabel: "= 197 deg", layer: 3, status: "proven", sector: "neutrino",
+                  formula: "delta_CP = 7 * dim(G2) + H* = 98 + 99 = 197", predicted: 197, experimental: 197, deviation: 0.00, unit: "deg" },
+
+                // ==================== LAYER 4: LEPTON MASSES ====================
+                { id: "q_koide", label: "Q_Koide", sublabel: "= 2/3", layer: 4, status: "proven", sector: "lepton",
+                  formula: "Q = dim(G2)/b2(K7) = 14/21 = 2/3", predicted: 0.666667, experimental: 0.666661, deviation: 0.001 },
+                { id: "m_mu_m_e", label: "m_mu/m_e", sublabel: "= 27^phi", layer: 4, status: "topological", sector: "lepton",
+                  formula: "m_mu/m_e = 27^phi (27 = J3(O) dimension)", predicted: 207.012, experimental: 206.768, deviation: 0.118 },
+                { id: "m_tau_m_e", label: "m_tau/m_e", sublabel: "= 3477", layer: 4, status: "proven", sector: "lepton",
+                  formula: "m_tau/m_e = 3 x 19 x 61 = N_gen x prime(8) x kappa_T^-1", predicted: 3477, experimental: 3477.15, deviation: 0.004 },
+                { id: "lambda_h", label: "lambda_H", sublabel: "= sqrt(17)/32", layer: 4, status: "proven", sector: "lepton",
+                  formula: "lambda_H = sqrt(dim(G2) + N_gen) / 2^Weyl", predicted: 0.1289, experimental: 0.126, deviation: 2.3 },
+
+                // ==================== LAYER 5: QUARK MASSES ====================
+                { id: "m_s_m_d", label: "m_s/m_d", sublabel: "= 20", layer: 5, status: "proven", sector: "quark",
+                  formula: "m_s/m_d = 4 * Weyl = 4 * 5 = 20", predicted: 20, experimental: 20.0, deviation: 0.00 },
+                { id: "m_c_m_s", label: "m_c/m_s", sublabel: "= 13.60", layer: 5, status: "derived", sector: "quark",
+                  formula: "m_c/m_s = tau * 3.49", predicted: 13.600, experimental: 13.60, deviation: 0.003 },
+                { id: "m_t_m_b", label: "m_t/m_b", sublabel: "= 41.41", layer: 5, status: "derived", sector: "quark",
+                  formula: "m_t/m_b = tau * D_bulk", predicted: 41.408, experimental: 41.3, deviation: 0.26 },
+
+                // ==================== LAYER 6: FIBONACCI EMBEDDING ====================
+                { id: "fib_3", label: "F_3 = p2", sublabel: "= 2", layer: 6, status: "sequence", sector: "fibonacci",
+                  formula: "F_3 = 2 = p2 (Pontryagin class)", predicted: 2, description: "Fibonacci maps to GIFT" },
+                { id: "fib_5", label: "F_5 = Weyl", sublabel: "= 5", layer: 6, status: "sequence", sector: "fibonacci",
+                  formula: "F_5 = 5 = Weyl_factor", predicted: 5, description: "Weyl factor from Fibonacci" },
+                { id: "fib_6", label: "F_6 = rank_E8", sublabel: "= 8", layer: 6, status: "sequence", sector: "fibonacci",
+                  formula: "F_6 = 8 = rank(E8)", predicted: 8, description: "E8 rank in Fibonacci" },
+                { id: "fib_8", label: "F_8 = b2", sublabel: "= 21", layer: 6, status: "sequence", sector: "fibonacci",
+                  formula: "F_8 = 21 = b2 (second Betti number)", predicted: 21, description: "Betti from Fibonacci" },
+                { id: "fib_12", label: "F_12 = 144", sublabel: "= (12)^2", layer: 6, status: "sequence", sector: "fibonacci",
+                  formula: "F_12 = 144 = (dim_G2 - p2)^2 = alpha_s^2 denom", predicted: 144, description: "Alpha_s structure" },
+
+                // ==================== LAYER 7: LUCAS EMBEDDING ====================
+                { id: "lucas_4", label: "L_4 = dim_K7", sublabel: "= 7", layer: 7, status: "sequence", sector: "lucas",
+                  formula: "L_4 = 7 = dim(K7)", predicted: 7, description: "K7 dimension from Lucas" },
+                { id: "lucas_5", label: "L_5 = D_bulk", sublabel: "= 11", layer: 7, status: "sequence", sector: "lucas",
+                  formula: "L_5 = 11 = D_bulk (M-theory)", predicted: 11, description: "M-theory dimension" },
+                { id: "lucas_8", label: "L_8 = 47", sublabel: "Monster factor", layer: 7, status: "sequence", sector: "lucas",
+                  formula: "L_8 = 47 (Monster prime factor)", predicted: 47, description: "Monster group link" },
+                { id: "b3_lucas", label: "b3 = L4 x L5", sublabel: "= 7 x 11 = 77", layer: 7, status: "proven", sector: "lucas",
+                  formula: "b3 = L_4 * L_5 = dim_K7 * D_bulk = 77", predicted: 77, description: "Deep structural relation" },
+
+                // ==================== LAYER 8: MONSTER GROUP ====================
+                { id: "monster_dim", label: "Monster Dim", sublabel: "= 196883", layer: 8, status: "monster", sector: "monster",
+                  formula: "196883 = 47 x 59 x 71 (all GIFT-expressible)", predicted: 196883, description: "Smallest Monster rep" },
+                { id: "monster_47", label: "47 = L_8", sublabel: "Lucas factor", layer: 8, status: "monster", sector: "monster",
+                  formula: "47 = L_8 (Lucas number)", predicted: 47, description: "First Monster factor" },
+                { id: "monster_59", label: "59 = b3 - 18", sublabel: "Betti factor", layer: 8, status: "monster", sector: "monster",
+                  formula: "59 = b3 - L_6 = 77 - 18", predicted: 59, description: "Second Monster factor" },
+                { id: "monster_71", label: "71 = b3 - 6", sublabel: "Betti factor", layer: 8, status: "monster", sector: "monster",
+                  formula: "71 = b3 - 6 = 77 - 6", predicted: 71, description: "Third Monster factor" },
+                { id: "j_invariant", label: "j = 744", sublabel: "= 3 x 248", layer: 8, status: "monster", sector: "monster",
+                  formula: "j_constant = N_gen x dim_E8 = 3 x 248", predicted: 744, description: "j-invariant constant" },
+
+                // ==================== LAYER 9: McKAY CORRESPONDENCE ====================
+                { id: "coxeter_e8", label: "Cox(E8)", sublabel: "= 30", layer: 9, status: "certified", sector: "mckay",
+                  formula: "Coxeter(E8) = 30 = icosahedron edges", predicted: 30, description: "E8 Coxeter number" },
+                { id: "binary_icosa", label: "|2I|", sublabel: "= 120", layer: 9, status: "certified", sector: "mckay",
+                  formula: "|2I| = 2 x N_gen x 4 x Weyl = 120", predicted: 120, description: "Binary Icosahedral" },
+                { id: "e8_kissing", label: "E8 Kiss", sublabel: "= 240", layer: 9, status: "certified", sector: "mckay",
+                  formula: "E8 kissing = rank_E8 x Coxeter = 8 x 30", predicted: 240, description: "E8 kissing number" },
+                { id: "phi_ratio", label: "phi approx", sublabel: "= 21/13", layer: 9, status: "certified", sector: "mckay",
+                  formula: "phi = b2/alpha_sum = 21/13 = 1.615...", predicted: 1.6154, experimental: 1.6180, deviation: 0.16, description: "Golden ratio from GIFT" },
+
+                // ==================== LAYER 10: EXCEPTIONAL CHAIN ====================
+                { id: "dim_f4", label: "dim(F4)", sublabel: "= 52", layer: 10, status: "proven", sector: "exceptional",
+                  formula: "dim(F4) = p2^2 x alpha_sq_B_sum = 4 x 13", predicted: 52, description: "F4 exceptional group" },
+                { id: "dim_e6", label: "dim(E6)", sublabel: "= 78", layer: 10, status: "proven", sector: "exceptional",
+                  formula: "dim(E6) = b3 + 1 = 78 = 6 x 13", predicted: 78, description: "E6 = 2 x n_observables" },
+                { id: "dim_e7", label: "dim(E7)", sublabel: "= 133", layer: 10, status: "proven", sector: "exceptional",
+                  formula: "dim(E7) = b3 + rank_E8 x dim_K7 = 77 + 56", predicted: 133, description: "E7 exceptional" },
+                { id: "dim_e8", label: "dim(E8)", sublabel: "= 248", layer: 10, status: "proven", sector: "exceptional",
+                  formula: "dim(E8) = rank_E8 x prime_11 = 8 x 31", predicted: 248, description: "E8 dimension" },
+
+                // ==================== LAYER 11: PRIMES ATLAS ====================
+                { id: "tier1_primes", label: "Tier 1 Primes", sublabel: "10 direct", layer: 11, status: "certified", sector: "primes",
+                  formula: "{2,3,5,7,11,13,17,19,31,61} = direct GIFT", predicted: 10, description: "Direct GIFT constant primes" },
+                { id: "heegner", label: "Heegner", sublabel: "All 9 GIFT", layer: 11, status: "certified", sector: "primes",
+                  formula: "{1,2,3,7,11,19,43,67,163} all GIFT-expressible", predicted: 9, description: "Heegner discriminants" },
+                { id: "three_gen", label: "3-Generator", sublabel: "b3,H*,dim_E8", layer: 11, status: "certified", sector: "primes",
+                  formula: "All primes < 200 from {77, 99, 248}", predicted: 100, description: "Three-generator theorem" },
+
+                // ==================== LAYER 12: COSMOLOGY ====================
+                { id: "omega_de", label: "Omega_DE", sublabel: "= 0.6861", layer: 12, status: "proven", sector: "cosmology",
+                  formula: "Omega_DE = ln(2) * (H* - 1)/H* = ln(2) * 98/99", predicted: 0.6861, experimental: 0.6889, deviation: 0.40 },
+                { id: "n_s", label: "n_s", sublabel: "= 0.9649", layer: 12, status: "proven", sector: "cosmology",
+                  formula: "n_s = zeta(11)/zeta(5)", predicted: 0.9649, experimental: 0.9649, deviation: 0.00 },
+                { id: "h0_topo", label: "H0_topo", sublabel: "= 70", layer: 12, status: "derived", sector: "cosmology",
+                  formula: "H0_topological = dim_K7 x 10 = 70", predicted: 70, experimental: 70, deviation: 0.00, unit: "km/s/Mpc" },
+
+                // ==================== LAYER 13: SO(16) DECOMPOSITION (v3.2) ====================
+                { id: "so16_dim", label: "dim(SO16)", sublabel: "= 120", layer: 13, status: "foundation", sector: "so16",
+                  formula: "dim(SO(16)) = 16*15/2 = 120", predicted: 120, description: "SO(16) Lie algebra dimension" },
+                { id: "spinor_128", label: "Spinor 128", sublabel: "= 2^7", layer: 13, status: "foundation", sector: "so16",
+                  formula: "Chiral spinor SO(16) = 2^8/2 = 128 = 2^|Im(O)|", predicted: 128, description: "Spinorial from octonions" },
+                { id: "e8_decomp", label: "E8 = 120+128", sublabel: "SO16 + Spin", layer: 13, status: "foundation", sector: "so16",
+                  formula: "248 = 120 (gauge) + 128 (fermions)", predicted: 248, description: "E8 SO(16) decomposition" },
+                { id: "geometric_120", label: "Geometric 120", sublabel: "b2+b3+G2+r8", layer: 13, status: "foundation", sector: "so16",
+                  formula: "21 + 77 + 14 + 8 = 120 = dim(SO(16))", predicted: 120, description: "Topology encodes gauge bosons" },
+
+                // ==================== LAYER 14: E8 LATTICE (v4.0) ====================
+                { id: "e8_roots", label: "E8 Roots", sublabel: "= 240", layer: 14, status: "foundation", sector: "e8lattice",
+                  formula: "|E8 roots| = 112 (D8) + 128 (half-int) = 240", predicted: 240, description: "E8 root system cardinality" },
+                { id: "e8_dim_derived", label: "dim(E8) derived", sublabel: "240 + 8", layer: 14, status: "foundation", sector: "e8lattice",
+                  formula: "dim(E8) = |roots| + rank = 240 + 8 = 248", predicted: 248, description: "Dimension from root system" },
+                { id: "weyl_reflect", label: "Weyl Reflect", sublabel: "preserves E8", layer: 14, status: "foundation", sector: "e8lattice",
+                  formula: "s_alpha(v) in E8 for alpha,v in E8", description: "Weyl reflection preserves lattice" },
+                { id: "inner_integral", label: "Inner Integral", sublabel: "<v,w> in Z", layer: 14, status: "foundation", sector: "e8lattice",
+                  formula: "For v,w in E8: <v,w> is an integer", description: "E8 inner product integrality" },
+
+                // ==================== LAYER 15: G2 CROSS PRODUCT (v3.4) ====================
+                { id: "fano_lines", label: "Fano Lines", sublabel: "= 7", layer: 15, status: "foundation", sector: "g2cross",
+                  formula: "7 cyclic triples: {0,1,3},{1,2,4},...", predicted: 7, description: "Fano plane structure" },
+                { id: "epsilon_tensor", label: "Epsilon", sublabel: "structure const", layer: 15, status: "foundation", sector: "g2cross",
+                  formula: "eps_ijk = +/-1 for Fano, 0 otherwise", description: "7D cross product structure constants" },
+                { id: "cross_antisymm", label: "Antisymmetry", sublabel: "u x v = -v x u", layer: 15, status: "foundation", sector: "g2cross",
+                  formula: "G2_cross_antisymm proven", description: "Cross product is antisymmetric" },
+                { id: "lagrange_id", label: "Lagrange", sublabel: "||u x v||^2", layer: 15, status: "foundation", sector: "g2cross",
+                  formula: "||u x v||^2 = ||u||^2||v||^2 - <u,v>^2", description: "7D Lagrange identity (B4)" },
+
+                // ==================== LAYER 16: JOYCE THEOREM (v3.0) ====================
+                { id: "joyce_eps", label: "Joyce eps", sublabel: "= 0.0288", layer: 16, status: "certified", sector: "joyce",
+                  formula: "eps_Joyce = 0.0288 (perturbation threshold)", predicted: 0.0288, description: "Joyce existence threshold" },
+                { id: "pinn_torsion", label: "PINN Torsion", sublabel: "= 0.00141", layer: 16, status: "certified", sector: "joyce",
+                  formula: "||T(phi_0)|| = 0.00141 < eps_Joyce", predicted: 0.00141, description: "PINN torsion bound" },
+                { id: "k7_torsion_free", label: "K7 Torsion-Free", sublabel: "exists G2", layer: 16, status: "certified", sector: "joyce",
+                  formula: "K7 admits torsion-free G2 structure", description: "Joyce existence theorem on K7" },
+                { id: "safety_margin", label: "20x Margin", sublabel: "141 << 288", layer: 16, status: "certified", sector: "joyce",
+                  formula: "20 x ||T|| < eps_Joyce", predicted: 20, description: "Safety margin for Joyce" },
+
+                // ==================== LAYER 17: HIERARCHY (v3.3) ====================
+                { id: "hierarchy_gap", label: "M_EW/M_Pl", sublabel: "~ 10^-17", layer: 17, status: "derived", sector: "hierarchy",
+                  formula: "log(M_EW/M_Pl) = -H*/rank(E8) - 54*log(phi)", description: "Electroweak-Planck hierarchy" },
+                { id: "n_vacua", label: "N_vacua", sublabel: "= b2 = 21", layer: 17, status: "derived", sector: "hierarchy",
+                  formula: "Number of vacua = b2(K7) = 21", predicted: 21, description: "Vacuum multiplicity" },
+                { id: "e6_cascade", label: "E6 Cascade", sublabel: "E8->E6->SU3", layer: 17, status: "derived", sector: "hierarchy",
+                  formula: "E8 -> E6 -> SU(3) breaking cascade", description: "Symmetry breaking chain" },
+
+                // ==================== LAYER 18: TCS CONSTRUCTION (v3.4) ====================
+                { id: "tcs_b2", label: "TCS b2", sublabel: "= 11 + 10", layer: 18, status: "foundation", sector: "tcs",
+                  formula: "b2(K7) = b2(Z+) + b2(Z-) = 11 + 10 = 21", predicted: 21, description: "TCS b2 decomposition" },
+                { id: "tcs_b3", label: "TCS b3", sublabel: "= 40 + 37", layer: 18, status: "foundation", sector: "tcs",
+                  formula: "b3(K7) = b3(Z+) + b3(Z-) = 40 + 37 = 77", predicted: 77, description: "TCS b3 decomposition" },
+                { id: "weyl_triple", label: "Weyl Triple", sublabel: "168 = 3 ways", layer: 18, status: "foundation", sector: "tcs",
+                  formula: "PSL(2,7) = 168 (3 independent derivations)", predicted: 168, description: "Weyl triple identity" },
+
+                // ==================== LAYER 19: ANALYTICAL METRIC (v3.2) ====================
+                { id: "phi0_form", label: "phi_0 3-form", sublabel: "7 terms", layer: 19, status: "foundation", sector: "metric",
+                  formula: "phi_0 = e^012 + e^034 + e^056 + e^135 - e^146 - e^236 - e^245", description: "Standard G2 3-form" },
+                { id: "metric_diag", label: "g = c^2 * I_7", sublabel: "diagonal", layer: 19, status: "foundation", sector: "metric",
+                  formula: "g_ij = (65/32)^(1/7) * delta_ij", description: "Induced metric is scaled identity" },
+                { id: "det_exact", label: "det(g) exact", sublabel: "= 65/32", layer: 19, status: "foundation", sector: "metric",
+                  formula: "det(g) = 65/32 = 2.03125 exactly", predicted: 2.03125, description: "Determinant from scale factor" },
+                { id: "torsion_zero", label: "T = 0", sublabel: "exact", layer: 19, status: "foundation", sector: "metric",
+                  formula: "d(phi) = 0, d(*phi) = 0 => T = 0", description: "Constant form has zero torsion" },
+            ];
+
+            const edges = [
+                // Foundation -> Structural
+                { source: "e8_structure", target: "h_star" },
+                { source: "g2_holonomy", target: "h_star" },
+                { source: "k7_topology", target: "h_star" },
+                { source: "k7_topology", target: "kappa_t" },
+                { source: "g2_holonomy", target: "kappa_t" },
+                { source: "e8_structure", target: "det_g" },
+                { source: "k7_topology", target: "p2" },
+                { source: "e8_structure", target: "n_gen" },
+
+                // Structural -> Gauge
+                { source: "k7_topology", target: "sin2_theta_w" },
+                { source: "g2_holonomy", target: "sin2_theta_w" },
+                { source: "e8_structure", target: "alpha_inv" },
+                { source: "h_star", target: "alpha_inv" },
+                { source: "g2_holonomy", target: "alpha_s" },
+
+                // Gauge -> Neutrino
+                { source: "k7_topology", target: "theta_13" },
+                { source: "h_star", target: "theta_23" },
+                { source: "g2_holonomy", target: "delta_cp" },
+                { source: "h_star", target: "delta_cp" },
+
+                // Lepton connections
+                { source: "g2_holonomy", target: "q_koide" },
+                { source: "k7_topology", target: "q_koide" },
+                { source: "n_gen", target: "m_tau_m_e" },
+                { source: "kappa_t", target: "m_tau_m_e" },
+                { source: "g2_holonomy", target: "lambda_h" },
+
+                // Fibonacci embedding
+                { source: "p2", target: "fib_3" },
+                { source: "fib_3", target: "fib_5" },
+                { source: "fib_5", target: "fib_6" },
+                { source: "fib_6", target: "fib_8" },
+                { source: "alpha_s", target: "fib_12" },
+
+                // Lucas embedding
+                { source: "k7_topology", target: "lucas_4" },
+                { source: "lucas_4", target: "lucas_5" },
+                { source: "lucas_5", target: "lucas_8" },
+                { source: "lucas_4", target: "b3_lucas" },
+                { source: "lucas_5", target: "b3_lucas" },
+
+                // Monster connections
+                { source: "lucas_8", target: "monster_47" },
+                { source: "b3_lucas", target: "monster_59" },
+                { source: "b3_lucas", target: "monster_71" },
+                { source: "monster_47", target: "monster_dim" },
+                { source: "monster_59", target: "monster_dim" },
+                { source: "monster_71", target: "monster_dim" },
+                { source: "n_gen", target: "j_invariant" },
+                { source: "dim_e8", target: "j_invariant" },
+
+                // McKay connections
+                { source: "e8_structure", target: "coxeter_e8" },
+                { source: "n_gen", target: "binary_icosa" },
+                { source: "fib_5", target: "binary_icosa" },
+                { source: "fib_6", target: "e8_kissing" },
+                { source: "coxeter_e8", target: "e8_kissing" },
+                { source: "fib_8", target: "phi_ratio" },
+
+                // Exceptional chain
+                { source: "p2", target: "dim_f4" },
+                { source: "b3_lucas", target: "dim_e6" },
+                { source: "b3_lucas", target: "dim_e7" },
+                { source: "fib_6", target: "dim_e8" },
+
+                // Primes
+                { source: "b3_lucas", target: "three_gen" },
+                { source: "h_star", target: "three_gen" },
+                { source: "dim_e8", target: "three_gen" },
+
+                // Cosmology
+                { source: "h_star", target: "omega_de" },
+                { source: "lucas_5", target: "n_s" },
+                { source: "lucas_4", target: "h0_topo" },
+
+                // SO(16) connections (v3.2)
+                { source: "e8_structure", target: "so16_dim" },
+                { source: "g2_holonomy", target: "spinor_128" },
+                { source: "so16_dim", target: "e8_decomp" },
+                { source: "spinor_128", target: "e8_decomp" },
+                { source: "h_star", target: "geometric_120" },
+                { source: "k7_topology", target: "geometric_120" },
+
+                // E8 Lattice connections (v4.0)
+                { source: "e8_structure", target: "e8_roots" },
+                { source: "e8_roots", target: "e8_dim_derived" },
+                { source: "e8_roots", target: "weyl_reflect" },
+                { source: "e8_roots", target: "inner_integral" },
+
+                // G2 Cross Product (v3.4)
+                { source: "g2_holonomy", target: "fano_lines" },
+                { source: "fano_lines", target: "epsilon_tensor" },
+                { source: "epsilon_tensor", target: "cross_antisymm" },
+                { source: "epsilon_tensor", target: "lagrange_id" },
+
+                // Joyce (v3.0)
+                { source: "h_star", target: "joyce_eps" },
+                { source: "joyce_eps", target: "pinn_torsion" },
+                { source: "pinn_torsion", target: "k7_torsion_free" },
+                { source: "pinn_torsion", target: "safety_margin" },
+
+                // Hierarchy (v3.3)
+                { source: "h_star", target: "hierarchy_gap" },
+                { source: "phi_ratio", target: "hierarchy_gap" },
+                { source: "k7_topology", target: "n_vacua" },
+                { source: "dim_e6", target: "e6_cascade" },
+
+                // TCS (v3.4)
+                { source: "k7_topology", target: "tcs_b2" },
+                { source: "k7_topology", target: "tcs_b3" },
+                { source: "tcs_b2", target: "weyl_triple" },
+
+                // Analytical Metric (v3.2)
+                { source: "fano_lines", target: "phi0_form" },
+                { source: "phi0_form", target: "metric_diag" },
+                { source: "metric_diag", target: "det_exact" },
+                { source: "phi0_form", target: "torsion_zero" },
+                { source: "det_exact", target: "det_g" },
+            ];
+
+            const svg = d3.select("#graph");
+            const container = document.querySelector(".graph-container");
+            let width = container.clientWidth;
+            let height = container.clientHeight;
+
+            svg.attr("width", width).attr("height", height);
+
+            const zoom = d3.zoom()
+                .scaleExtent([0.15, 3])
+                .on("zoom", (event) => g.attr("transform", event.transform));
+
+            svg.call(zoom);
+            const g = svg.append("g");
+
+            svg.append("defs").append("marker")
+                .attr("id", "arrowhead")
+                .attr("viewBox", "-0 -5 10 10")
+                .attr("refX", 18)
+                .attr("refY", 0)
+                .attr("orient", "auto")
+                .attr("markerWidth", 5)
+                .attr("markerHeight", 5)
+                .append("path")
+                .attr("d", "M 0,-5 L 10,0 L 0,5")
+                .attr("fill", "#484f58");
+
+            const layerHeight = 65;
+            const nodeWidth = 105;
+            const nodeHeight = 42;
+            const startY = 50;
+
+            const layers = {};
+            nodes.forEach(node => {
+                if (!layers[node.layer]) layers[node.layer] = [];
+                layers[node.layer].push(node);
+            });
+
+            Object.keys(layers).forEach(layer => {
+                const layerNodes = layers[layer];
+                const layerWidth = layerNodes.length * (nodeWidth + 12);
+                const startX = (width - layerWidth) / 2 + nodeWidth / 2;
+                layerNodes.forEach((node, i) => {
+                    node.x = startX + i * (nodeWidth + 12);
+                    node.y = startY + parseInt(layer) * layerHeight;
+                });
+            });
+
+            const nodeMap = {};
+            nodes.forEach(n => nodeMap[n.id] = n);
+
+            const edgeElements = g.selectAll(".edge")
+                .data(edges)
+                .enter()
+                .append("path")
+                .attr("class", d => "edge" + (d.dashed ? " dashed" : ""))
+                .attr("d", d => {
+                    const source = nodeMap[d.source];
+                    const target = nodeMap[d.target];
+                    if (!source || !target) return "";
+                    const midX = (source.x + target.x) / 2;
+                    const midY = (source.y + target.y) / 2;
+                    const dx = target.x - source.x;
+                    const offset = dx === 0 ? 0 : Math.sign(dx) * 15;
+                    return `M${source.x},${source.y + nodeHeight/2} Q${midX + offset},${midY} ${target.x},${target.y - nodeHeight/2}`;
+                })
+                .attr("marker-end", "url(#arrowhead)");
+
+            const nodeElements = g.selectAll(".node")
+                .data(nodes)
+                .enter()
+                .append("g")
+                .attr("class", d => `node ${d.status}`)
+                .attr("transform", d => `translate(${d.x - nodeWidth/2}, ${d.y - nodeHeight/2})`)
+                .on("click", (event, d) => showDetail(d))
+                .on("mouseenter", (event, d) => highlightConnections(d))
+                .on("mouseleave", () => resetHighlight());
+
+            nodeElements.append("rect")
+                .attr("class", "node-rect")
+                .attr("width", nodeWidth)
+                .attr("height", nodeHeight);
+
+            nodeElements.append("text")
+                .attr("class", "node-label")
+                .attr("x", nodeWidth / 2)
+                .attr("y", nodeHeight / 2 - 4)
+                .attr("text-anchor", "middle")
+                .text(d => d.label);
+
+            nodeElements.append("text")
+                .attr("class", "node-sublabel")
+                .attr("x", nodeWidth / 2)
+                .attr("y", nodeHeight / 2 + 9)
+                .attr("text-anchor", "middle")
+                .text(d => d.sublabel);
+
+            function showDetail(d) {
+                const panel = document.getElementById("detailPanel");
+                const dependsOn = edges.filter(e => e.target === d.id).map(e => nodeMap[e.source]).filter(Boolean);
+                const feeds = edges.filter(e => e.source === d.id).map(e => nodeMap[e.target]).filter(Boolean);
+
+                panel.innerHTML = `
+                    <div class="detail-header">
+                        <div class="detail-title">${d.label}<span class="module-badge">${d.sector}</span></div>
+                        <span class="detail-status ${d.status}">${d.status}</span>
+                    </div>
+                    ${d.description ? `<div class="detail-section"><div class="detail-section-title">Description</div><div style="color: var(--text-secondary); font-size: 0.75rem;">${d.description}</div></div>` : ''}
+                    <div class="detail-section">
+                        <div class="detail-section-title">Formula</div>
+                        <div class="formula-box">${d.formula || 'N/A'}</div>
+                    </div>
+                    ${d.predicted !== undefined ? `
+                    <div class="detail-section">
+                        <div class="detail-section-title">Values</div>
+                        <div class="values-grid">
+                            <div class="value-item"><div class="value-label">Predicted</div><div class="value-number predicted">${d.predicted}${d.unit ? ' ' + d.unit : ''}</div></div>
+                            ${d.experimental !== undefined ? `<div class="value-item"><div class="value-label">Experimental</div><div class="value-number experimental">${d.experimental}${d.unit ? ' ' + d.unit : ''}</div></div>` : ''}
+                            ${d.deviation !== undefined ? `<div class="value-item"><div class="value-label">Deviation</div><div class="value-number deviation">${d.deviation}%</div></div>` : ''}
+                        </div>
+                    </div>` : ''}
+                    ${dependsOn.length > 0 ? `<div class="detail-section"><div class="detail-section-title">Depends On (${dependsOn.length})</div><div class="dependencies-list">${dependsOn.map(dep => `<span class="dep-tag">${dep.label}</span>`).join('')}</div></div>` : ''}
+                    ${feeds.length > 0 ? `<div class="detail-section"><div class="detail-section-title">Feeds Into (${feeds.length})</div><div class="dependencies-list">${feeds.map(f => `<span class="dep-tag">${f.label}</span>`).join('')}</div></div>` : ''}
+                `;
+                nodeElements.classed("selected", n => n.id === d.id);
+            }
+
+            function highlightConnections(d) {
+                const connectedIds = new Set([d.id]);
+                edges.forEach(e => {
+                    if (e.source === d.id) connectedIds.add(e.target);
+                    if (e.target === d.id) connectedIds.add(e.source);
+                });
+                nodeElements.classed("dimmed", n => !connectedIds.has(n.id));
+                edgeElements.classed("dimmed", e => e.source !== d.id && e.target !== d.id)
+                           .classed("highlighted", e => e.source === d.id || e.target === d.id);
+            }
+
+            function resetHighlight() {
+                nodeElements.classed("dimmed", false);
+                edgeElements.classed("dimmed", false).classed("highlighted", false);
+            }
+
+            // Filters
+            document.querySelectorAll(".filter-btn").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const filter = btn.dataset.filter;
+                    if (filter === "all" || filter === "all-sector") {
+                        nodeElements.style("display", "block");
+                        edgeElements.style("display", "block");
+                    } else if (["proven", "topological", "certified", "derived", "theoretical", "sequence", "monster", "foundation"].includes(filter)) {
+                        nodeElements.style("display", d => d.status === filter || d.status === "axiom" ? "block" : "none");
+                    } else {
+                        nodeElements.style("display", d => d.sector === filter || d.sector === "structural" ? "block" : "none");
+                    }
+                    btn.parentElement.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+                });
+            });
+
+            // Search
+            document.getElementById("searchInput").addEventListener("input", (e) => {
+                const query = e.target.value.toLowerCase();
+                if (query === "") {
+                    nodeElements.style("opacity", 1);
+                    return;
+                }
+                nodeElements.style("opacity", d =>
+                    d.label.toLowerCase().includes(query) ||
+                    d.id.toLowerCase().includes(query) ||
+                    (d.formula && d.formula.toLowerCase().includes(query)) ||
+                    (d.sector && d.sector.toLowerCase().includes(query)) ? 1 : 0.15
+                );
+            });
+
+            // Zoom controls
+            document.getElementById("zoomIn").addEventListener("click", () => svg.transition().call(zoom.scaleBy, 1.3));
+            document.getElementById("zoomOut").addEventListener("click", () => svg.transition().call(zoom.scaleBy, 0.7));
+            document.getElementById("resetZoom").addEventListener("click", () => svg.transition().call(zoom.transform, d3.zoomIdentity.translate(0, 10).scale(0.45)));
+
+            // Resize
+            window.addEventListener("resize", () => {
+                width = container.clientWidth;
+                height = container.clientHeight;
+                svg.attr("width", width).attr("height", height);
+            });
+
+            // Initial transform - zoom out to see all 20 layers
+            svg.call(zoom.transform, d3.zoomIdentity.translate(0, 10).scale(0.45));
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initGraph);
+        } else {
+            initGraph();
+        }
+    </script>
+</body>
+</html>
