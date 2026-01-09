@@ -141,7 +141,7 @@ cd COQ && make
 
 | Blueprint | Description |
 |-----------|-------------|
-| [GIFT Lean Blueprint](https://gift-framework.github.io/GIFT/home_page/gift_blueprint.html) | Dependency graph |
+| [GIFT Lean Blueprint](https://gift-framework.github.io/core/home_page/gift_blueprint.html) | Dependency graph |
 
 *Created with [Lean Blueprint Copilot](https://github.com/augustepoiroux/LeanBlueprintCopilot)*
 
