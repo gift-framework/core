@@ -8,7 +8,8 @@ GIFT derives Standard Model parameters from E₈ × E₈ gauge theory compactifi
 
 ## Quick Links
 
-* [Blueprint (web)]({{ site.baseurl }}/blueprint/) - Interactive dependency graph
+* [**GIFT Blueprint v3.2**]({{ site.baseurl }}/gift_blueprint.html) - Custom D3.js visualization (70+ nodes, 20 layers)
+* [Blueprint (web)]({{ site.baseurl }}/blueprint/) - Lean blueprint with proofs
 * [Blueprint (pdf)]({{ site.baseurl }}/blueprint.pdf) - Downloadable PDF
 * [Dependency Graph]({{ site.baseurl }}/blueprint/dep_graph_document.html) - Proof dependencies
 * [API Documentation]({{ site.baseurl }}/docs/) - Lean code documentation
