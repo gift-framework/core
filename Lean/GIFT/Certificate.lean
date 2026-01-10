@@ -33,6 +33,7 @@ import GIFT.Relations.SO16Relations
 import GIFT.Relations.LandauerDarkEnergy
 -- V3.3: Tau structural derivation, E-series Jordan algebra
 import GIFT.Relations.V33Additions
+import GIFT.Relations.TauBounds
 
 -- V2.0 New modules
 import GIFT.Sequences
@@ -1035,5 +1036,38 @@ theorem gift_v33_complete_certificate :
 
 /-- Summary: GIFT v3.3 new relations count = 11 -/
 theorem gift_v33_new_relations_count : True := by trivial
+
+-- =============================================================================
+-- V3.3: TAU POWER BOUNDS (approximate relations with formal bounds)
+-- =============================================================================
+
+open GIFT.Relations.TauBounds
+
+/-- V3.3 Tau power bounds: τ⁴ ∈ (230, 231), τ⁵ ∈ (898, 899) -/
+abbrev v33_tau_power_bounds := TauBounds.tau_power_bounds_certificate
+
+/-- V3.3 τ⁴ near 231 = N_gen × b₃ -/
+abbrev v33_tau4_bounds := TauBounds.tau4_bounds
+
+/-- V3.3 τ⁵ near 900 = h(E₈)² -/
+abbrev v33_tau5_bounds := TauBounds.tau5_bounds
+
+/-- V3.3 Coxeter number squared -/
+abbrev v33_coxeter_E8_sq := TauBounds.coxeter_E8_squared
+
+/-- GIFT v3.3 Tau Bounds Certificate -/
+theorem gift_v33_tau_bounds_certificate :
+    -- τ⁴ ∈ (230, 231)
+    (230 * TauBounds.tau4_den < TauBounds.tau4_num) ∧
+    (TauBounds.tau4_num < 231 * TauBounds.tau4_den) ∧
+    -- τ⁵ ∈ (898, 899)
+    (898 * TauBounds.tau5_den < TauBounds.tau5_num) ∧
+    (TauBounds.tau5_num < 899 * TauBounds.tau5_den) ∧
+    -- τ⁵ < 900 = h(E₈)²
+    (TauBounds.tau5_num < 900 * TauBounds.tau5_den) ∧
+    -- GIFT interpretations
+    (N_gen * b3 = 231) ∧
+    (TauBounds.coxeter_E8 ^ 2 = 900) := by
+  native_decide
 
 end GIFT.Certificate
