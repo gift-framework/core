@@ -29,6 +29,10 @@ from .algebra import (
     E6_CHAIN, E7_CHAIN, E8_CHAIN,
     E7_E6_GAP, E8_E7_GAP,
     EXCEPTIONAL_CHAIN, JORDAN_TRACELESS, DELTA_PENTA,
+    # V3.3: E-series Jordan, magic 42, exceptional ranks
+    E_SERIES_DIFF, J3O_FROM_E_SERIES,
+    MAGIC_42, N_GEN, P2,
+    RANK_E7, RANK_E6, RANK_F4, EXCEPTIONAL_RANKS_SUM,
 )
 
 # K7 topology
@@ -133,6 +137,10 @@ __all__ = [
     'E6_CHAIN', 'E7_CHAIN', 'E8_CHAIN',
     'E7_E6_GAP', 'E8_E7_GAP',
     'EXCEPTIONAL_CHAIN', 'JORDAN_TRACELESS', 'DELTA_PENTA',
+    # V3.3: E-series Jordan, magic 42, exceptional ranks
+    'E_SERIES_DIFF', 'J3O_FROM_E_SERIES',
+    'MAGIC_42',
+    'RANK_E7', 'RANK_E6', 'RANK_F4', 'EXCEPTIONAL_RANKS_SUM',
     # Topology
     'M1_B2', 'M1_B3', 'M1_EULER',
     'M2_B2', 'M2_B3', 'M2_EULER',
