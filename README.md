@@ -75,6 +75,20 @@ PSL(2,7) = 168: Fano plane symmetry
   N_gen × (b₃ - b₂) = 168
 ```
 
+### 6. Tau Structural Derivation (v3.2.10)
+
+```
+τ = dim(E₈×E₈) × b₂ / (dim(J₃(𝕆)) × H*)
+  = 496 × 21 / (27 × 99)
+  = 3472 / 891
+
+E-series Jordan: dim(J₃(𝕆)) = (248 - 78 - 8) / 6 = 27
+```
+
+- τ established as **geometric invariant** (not free parameter)
+- Formal bounds: 230 < τ⁴ < 231, 898 < τ⁵ < 899
+- Target proximity: τ⁴ → 231 = N_gen × b₃, τ⁵ → 900 = h(E₈)²
+
 ---
 
 ## Physical Relations
