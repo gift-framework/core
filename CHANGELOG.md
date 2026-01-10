@@ -34,6 +34,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `verify_numerical_observations()`: Compute all observations
   - `get_numerical_summary()`: Dictionary of all deviations
 
+- **GIFT_Axiom_Verification.ipynb**: Portable Colab notebook
+  - **7/7 numerical transcendental axioms VERIFIED** via mpmath (100 digits)
+  - **Joyce existence VALIDATED** via PINN with **220130x safety margin**
+  - Certificates exported: JSON + Lean documentation
+  - GPU: A100, Training: 5000 epochs in 216s
+
+- **Verification/VerificationCertificates.lean**: Numerical verification docs
+  - Taylor series certificates for exp bounds (remainder < 3.65e-34)
+  - PINN certificate: ||T||² = 1.3e-7 vs threshold 0.0288
+
 - **Python constants** (algebra.py):
   - `E_SERIES_DIFF`: dim(E₈) - dim(E₆) - dim(SU₃) = 162
   - `J3O_FROM_E_SERIES`: 162 / 6 = 27
