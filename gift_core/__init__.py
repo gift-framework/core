@@ -141,6 +141,14 @@ from gift_core.relations import (
     PROVEN_RELATIONS, get_relation, ProvenRelation,
 )
 
+# V3.3 Numerical Observations (approximate relations)
+from gift_core.numerical_observations import (
+    verify_all_observations as verify_numerical_observations,
+    get_summary as get_numerical_summary,
+    NumericalObservation,
+    tau_powers, transcendental_relations, mass_relations,
+)
+
 # =============================================================================
 # LEGACY COMPATIBILITY (from old constants.py)
 # =============================================================================
@@ -282,6 +290,10 @@ __all__ = [
     # === VISUALIZATION (optional) ===
     'MATPLOTLIB_AVAILABLE',
     'plot_fano', 'plot_e8_projection', 'plot_dynkin_e8',
+
+    # === V3.3 NUMERICAL OBSERVATIONS ===
+    'verify_numerical_observations', 'get_numerical_summary',
+    'NumericalObservation',
 
     # === OPTIONAL MODULES ===
     'NUMPY_AVAILABLE',
