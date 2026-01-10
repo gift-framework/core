@@ -5,6 +5,69 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.10] - 2026-01-10
+
+### Summary
+
+**Tau Structural Derivation + Formal Power Bounds!** The hierarchy parameter τ is now structurally derived from framework invariants, and approximate relations (τ⁴ ≈ 231, τ⁵ ≈ 900) are proven as rigorous integer bounds.
+
+### Added
+
+- **V33Additions.lean**: Tau structural derivation and E-series formula
+  - `tau_structural_derivation`: τ = dim(E₈×E₈) × b₂ / (dim(J₃(𝕆)) × H*) = 496 × 21 / (27 × 99)
+  - `tau_num_from_K7_E8xE8`: τ_num_reduced = dim(K₇) × dim(E₈×E₈) = 7 × 496 = 3472
+  - `j3o_from_e_series`: dim(J₃(𝕆)) = (dim(E₈) - dim(E₆) - dim(SU₃)) / 6 = 27
+  - `poincare_duality_K7`: b_k = b_{7-k} for compact G₂ manifold
+  - `euler_char_K7_is_zero`: χ(K₇) = 0 (Poincaré duality consequence)
+  - `magic_42_gift_form`: 42 = p₂ × N_gen × dim(K₇) = 2 × 3 × 7
+
+- **TauBounds.lean**: Formal bounds on tau powers via integer arithmetic
+  - `tau4_bounds`: 230 < τ⁴ < 231 (target: 231 = N_gen × b₃)
+  - `tau5_bounds`: 898 < τ⁵ < 899 (target: 900 = h(E₈)²)
+  - `tau5_below_900`: τ⁵ < 900 = Coxeter² proven
+  - Method: L × qⁿ < pⁿ < U × qⁿ decidable by `native_decide`
+
+- **numerical_observations.py**: Python module for approximate relations
+  - `tau_powers()`: τ², τ³, τ⁴, τ⁵ with deviation percentages
+  - `transcendental_relations()`: τ ≈ 8γ^(5π/12) (0.0045% deviation)
+  - `mass_relations()`: m_H ≈ 32τ, α⁻¹ ≈ 35τ observations
+  - `verify_numerical_observations()`: Compute all observations
+  - `get_numerical_summary()`: Dictionary of all deviations
+
+- **Python constants** (algebra.py):
+  - `E_SERIES_DIFF`: dim(E₈) - dim(E₆) - dim(SU₃) = 162
+  - `J3O_FROM_E_SERIES`: 162 / 6 = 27
+  - `MAGIC_42`: 42 = p₂ × N_gen × dim(K₇)
+  - `EXCEPTIONAL_RANKS_SUM`: 8 + 7 + 6 + 4 + 2 = 27 = dim(J₃(𝕆))
+  - `RANK_E7`, `RANK_E6`, `RANK_F4`: Individual exceptional ranks
+
+### Changed
+
+- **Certificate.lean**: Added v3.3 sections
+  - `gift_v33_complete_certificate`: Master certificate for all new relations
+  - `gift_v33_tau_bounds_certificate`: Tau power bounds certificate
+  - Abbrevs connecting V33Additions and TauBounds modules
+
+### Technical Notes
+
+**Why formal bounds instead of equalities?**
+
+τⁿ is irrational for n ≥ 1, so we cannot prove τ⁵ = 900. Instead, we prove:
+```
+898 × 891⁵ < 3472⁵ < 899 × 891⁵
+```
+This is decidable integer arithmetic, verified by `native_decide`. The proximity to GIFT-significant integers (231 = 3×7×11, 900 = 30²) is now **formally verified**.
+
+**E-series Jordan Formula**
+
+The exceptional Jordan algebra dimension emerges from the E-series:
+```
+dim(J₃(𝕆)) = (248 - 78 - 8) / 6 = 162 / 6 = 27
+```
+This shows 27 is not arbitrary but derived from exceptional Lie algebra dimensions.
+
+---
+
 ## [3.2.0] - 2026-01-06
 
 ### Summary

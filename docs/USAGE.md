@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.2).
+Complete documentation for the `giftpy` Python package (v3.2.10).
 
 ## Installation
 
@@ -36,6 +36,78 @@ print(cross_product(u, v))  # 7D cross product
 from gift_core import verify
 print(verify())          # True
 ```
+
+## New in v3.2.10
+
+### Tau Structural Derivation
+
+The hierarchy parameter τ is now **derived** from framework invariants:
+
+```python
+from gift_core import TAU, DIM_E8xE8, B2, DIM_J3O, H_STAR
+
+# τ = dim(E₈×E₈) × b₂ / (dim(J₃(𝕆)) × H*)
+#   = 496 × 21 / (27 × 99) = 3472/891
+tau_num = DIM_E8xE8 * B2      # 496 × 21 = 10416
+tau_den = DIM_J3O * H_STAR    # 27 × 99 = 2673
+# Reduced: 10416/2673 = 3472/891
+
+print(float(TAU))  # 3.8967...
+```
+
+### E-Series Jordan Algebra
+
+The Jordan algebra dimension **emerges** from the E-series:
+
+```python
+from gift_core import (
+    DIM_E8, DIM_E6, DIM_SU3, DIM_J3O,
+    E_SERIES_DIFF, J3O_FROM_E_SERIES
+)
+
+# dim(J₃(𝕆)) = (dim(E₈) - dim(E₆) - dim(SU₃)) / 6
+#            = (248 - 78 - 8) / 6 = 162 / 6 = 27
+print(E_SERIES_DIFF)       # 162
+print(J3O_FROM_E_SERIES)   # 27
+assert J3O_FROM_E_SERIES == DIM_J3O
+```
+
+### Numerical Observations
+
+Approximate relations with computed deviations:
+
+```python
+from gift_core import verify_numerical_observations, get_numerical_summary
+
+# Get all observations
+obs = verify_numerical_observations()
+print(obs['tau_powers'])  # τ², τ³, τ⁴, τ⁵ bounds
+
+# Summary with deviations
+summary = get_numerical_summary()
+print(summary['tau^5'])
+# {'computed': 898.48, 'target': 900, 'deviation_percent': 0.17, ...}
+
+# Key observations:
+# - τ⁴ ≈ 231 = N_gen × b₃ (0.19% deviation)
+# - τ⁵ ≈ 900 = h(E₈)² (0.17% deviation)
+# - τ ≈ 8γ^(5π/12) (0.0045% deviation)
+```
+
+### Exceptional Ranks Sum
+
+```python
+from gift_core import (
+    RANK_E8, RANK_E7, RANK_E6, RANK_F4, RANK_G2,
+    EXCEPTIONAL_RANKS_SUM, DIM_J3O
+)
+
+# Sum of exceptional Lie algebra ranks = 27 = dim(J₃(𝕆))
+print(RANK_E8 + RANK_E7 + RANK_E6 + RANK_F4 + RANK_G2)  # 8+7+6+4+2 = 27
+assert EXCEPTIONAL_RANKS_SUM == DIM_J3O
+```
+
+---
 
 ## New in v3.2
 
