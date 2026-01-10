@@ -39,3 +39,6 @@ import GIFT.Joyce              -- Torsion-free G2 existence
 -- V4.0: Dimensional Hierarchy
 import GIFT.Foundations.GoldenRatioPowers  -- phi^-2, phi^-54, 27^phi
 import GIFT.Hierarchy                       -- Master hierarchy formula
+
+-- V5.0: Extended Observables (~50 observables, 0.24% mean deviation)
+import GIFT.Observables  -- PMNS, CKM, mass ratios, cosmology

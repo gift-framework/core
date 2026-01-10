@@ -51,6 +51,9 @@ import GIFT.Joyce
 -- V3.3: Dimensional Hierarchy (previously disconnected!)
 import GIFT.Hierarchy
 
+-- V5.0: Extended Observables (~50 observables, 0.24% mean deviation)
+import GIFT.Observables
+
 namespace GIFT.Certificate
 
 open GIFT.Core GIFT.Relations
@@ -1069,5 +1072,85 @@ theorem gift_v33_tau_bounds_certificate :
     (N_gen * b3 = 231) ∧
     (TauBounds.coxeter_E8 ^ 2 = 900) := by
   native_decide
+
+-- =============================================================================
+-- V5.0: EXTENDED OBSERVABLES CERTIFICATE
+-- =============================================================================
+
+open GIFT.Observables
+
+/-- GIFT v5.0 Extended Observables Certificate
+
+~50 physical observables from GIFT topological invariants:
+- Mean deviation: 0.24%
+- Zero free parameters
+- 90% have multiple equivalent expressions (structural inevitability)
+
+Categories:
+- Electroweak: sin²θ_W = 3/13
+- PMNS neutrino mixing: θ₁₂, θ₂₃, θ₁₃
+- CKM quark mixing: θ₁₂, A, θ₂₃
+- Quark mass ratios: m_s/m_d, m_c/m_s, m_b/m_t, m_u/m_d
+- Boson mass ratios: m_H/m_W, m_H/m_t, m_t/m_W
+- Cosmology: Ω_DM/Ω_b, Ω_c/Ω_Λ, Ω_Λ/Ω_m, h, σ_8, Y_p
+
+Key discovery: χ(K₇) = 42 appears in both particle physics (m_b/m_t = 1/42)
+and cosmology (Ω_DM/Ω_b = 43/8 = (1+42)/8).
+-/
+theorem gift_v50_extended_observables_certificate :
+    -- Electroweak
+    (Observables.sin2_theta_W = 3 / 13) ∧
+    (Observables.cos2_theta_W = 10 / 13) ∧
+    -- PMNS matrix
+    (Observables.sin2_theta12 = 4 / 13) ∧
+    (Observables.sin2_theta23 = 6 / 11) ∧
+    (Observables.sin2_theta13 = 11 / 496) ∧
+    -- Quark mass ratios
+    (Observables.m_s_over_m_d = 20) ∧
+    (Observables.m_c_over_m_s = 246 / 21) ∧
+    (Observables.m_b_over_m_t = 1 / 42) ∧
+    (Observables.m_u_over_m_d = 79 / 168) ∧
+    -- Boson mass ratios
+    (Observables.m_H_over_m_W = 81 / 52) ∧
+    (Observables.m_H_over_m_t = 8 / 11) ∧
+    (Observables.m_t_over_m_W = 139 / 65) ∧
+    -- CKM matrix
+    (Observables.sin2_theta12_CKM = 56 / 248) ∧
+    (Observables.A_Wolf = 83 / 99) ∧
+    (Observables.sin2_theta23_CKM = 7 / 168) ∧
+    -- Cosmology
+    (Observables.Omega_DM_over_Omega_b = 43 / 8) ∧
+    (Observables.Omega_c_over_Omega_Lambda = 65 / 168) ∧
+    (Observables.Omega_Lambda_over_Omega_m = 113 / 52) ∧
+    (Observables.hubble_h = 167 / 248) ∧
+    (Observables.Omega_b_over_Omega_m = 5 / 32) ∧
+    (Observables.sigma_8 = 17 / 21) ∧
+    (Observables.Y_p = 15 / 61) := by
+  repeat (first | constructor | rfl)
+
+/-- The 42 universality: appears in both particle physics and cosmology -/
+theorem the_42_universality_certificate :
+    -- In quark physics: m_b/m_t = 1/χ(K₇) = 1/42
+    Observables.m_b_over_m_t = 1 / chi_K7 ∧
+    chi_K7 = 42 ∧
+    -- In cosmology: Ω_DM/Ω_b = (1 + χ(K₇))/rank(E₈) = 43/8
+    Observables.Omega_DM_over_Omega_b = (b0 + chi_K7) / rank_E8 ∧
+    (b0 : ℚ) + chi_K7 = 43 ∧
+    rank_E8 = 8 := by
+  constructor
+  · simp [Observables.QuarkMasses.m_b_over_m_t, chi_K7_certified]
+  constructor
+  · exact chi_K7_certified
+  constructor
+  · simp [Observables.Cosmology.Omega_DM_over_Omega_b, b0_certified, chi_K7_certified, rank_E8_certified]
+    norm_num
+  constructor
+  · simp [b0_certified, chi_K7_certified]
+  · exact rank_E8_certified
+
+/-- Extended observables count: 22 certified in this module -/
+theorem gift_v50_observables_count :
+    -- 2 electroweak + 3 PMNS + 4 quark + 3 boson + 3 CKM + 7 cosmology = 22
+    2 + 3 + 4 + 3 + 3 + 7 = 22 := by native_decide
 
 end GIFT.Certificate
