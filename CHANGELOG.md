@@ -5,6 +5,32 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.11] - 2026-01-10
+
+### Summary
+
+**PINN Validation + Numerical Certificates!** Joyce existence theorem validated via Physics-Informed Neural Network with **220000× safety margin**. All 7 numerical transcendental axioms verified with 100-digit precision.
+
+### Highlights
+
+- **Joyce PINN**: ||T||² = 1.3e-7 vs threshold 0.0288
+- **Colab Notebook**: Portable verification on A100 GPU
+- **7/7 Axioms**: exp, log(φ), φ⁻⁵⁴, 27^φ bounds all VERIFIED
+
+### Added
+
+- **GIFT_Axiom_Verification.ipynb**: Portable Colab notebook
+  - **7/7 numerical transcendental axioms VERIFIED** via mpmath (100 digits)
+  - **Joyce existence VALIDATED** via PINN with **220130x safety margin**
+  - Certificates exported: JSON + Lean documentation
+  - GPU: A100, Training: 5000 epochs in 216s
+
+- **Verification/VerificationCertificates.lean**: Numerical verification docs
+  - Taylor series certificates for exp bounds (remainder < 3.65e-34)
+  - PINN certificate: ||T||² = 1.3e-7 vs threshold 0.0288
+
+---
+
 ## [3.2.10] - 2026-01-10
 
 ### Summary
