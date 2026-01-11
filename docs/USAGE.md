@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.2.10).
+Complete documentation for the `giftpy` Python package (v3.2.12).
 
 ## Installation
 
@@ -36,6 +36,58 @@ print(cross_product(u, v))  # 7D cross product
 from gift_core import verify
 print(verify())          # True
 ```
+
+## New in v3.2.12
+
+### Extended Observables (Lean 4)
+
+Complete formalization of 22+ physical observables in `GIFT.Observables`:
+
+```lean
+import GIFT.Observables
+
+-- Electroweak
+#check Observables.sin2_theta_W           -- 3/13
+#check Observables.sin2_theta_W_primary   -- b₂/(b₃+dim_G₂) = 3/13
+
+-- PMNS Neutrino Mixing
+#check Observables.sin2_theta12           -- 4/13
+#check Observables.sin2_theta23           -- 6/11
+#check Observables.sin2_theta13           -- 11/496
+
+-- Quark Masses
+#check Observables.m_s_over_m_d           -- 20
+#check Observables.m_b_over_m_t           -- 1/42 (THE 42!)
+
+-- Boson Masses
+#check Observables.m_H_over_m_W           -- 81/52
+#check Observables.m_Z_over_m_W           -- 11/10
+
+-- CKM Matrix
+#check Observables.sin2_theta12_CKM       -- 56/248 = 7/31
+#check Observables.A_Wolf                 -- 83/99
+
+-- Cosmology
+#check Observables.Omega_DM_over_Omega_b  -- 43/8 (contains the 42!)
+#check Observables.reduced_hubble         -- 167/248
+#check Observables.sigma_8                -- 17/21
+```
+
+### The 42 Universality
+
+The Euler characteristic χ(K₇) = 42 appears in two independent domains:
+
+```lean
+-- In particle physics: m_b/m_t = 1/42
+theorem m_b_over_m_t_primary :
+    (Core.b0 : ℚ) / Core.chi_K7 = 1 / 42 := ...
+
+-- In cosmology: Ω_DM/Ω_b = (1 + 42)/8 = 43/8
+theorem Omega_DM_primary :
+    (Core.b0 + Core.chi_K7 : ℚ) / Core.rank_E8 = 43 / 8 := ...
+```
+
+---
 
 ## New in v3.2.10
 

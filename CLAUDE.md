@@ -280,6 +280,9 @@ python -c "from gift_core import *; print(GAMMA_GIFT)"
 | `(mkR8 f).ofLp i` not simplifying | `mkR8_apply` uses wrong pattern | Use `.ofLp` accessor: `(mkR8 f).ofLp i = f i` (see §12) |
 | Sum `∑ x, v.ofLp x` not expanded | `rw [Fin.sum_univ_eight]` only rewrites first | Use `simp only [Fin.sum_univ_eight]` (see §13) |
 | `ring` fails with nested sums | Inner sums not expanded | Expand all sums before `ring` with `simp only` |
+| `unterminated comment` at EOF | `+/-` in docstrings triggers nested `/-` comment | Replace `+/-` with `(error X)` format (see §15) |
+| `Ambiguous term b0` | Multiple namespaces with same names (V33.b0, Core.b0) | Use qualified names like `Core.b0` (see §15) |
+| `norm_num` fails on `Weyl_factor` | Missing certified theorem for constant value | Add `Weyl_factor_certified : Weyl_factor = 5 := rfl` (see §15) |
 
 ### 6. Namespace Conflicts in Lean 4
 
@@ -753,6 +756,51 @@ theorem E8_basis_generates : ∀ v ∈ E8_lattice, ∃ c : Fin 8 → ℤ,
 4. `fin_cases k` to split into 8 cases
 5. `simp <;> field_simp <;> ring` closes each case
 
+### 15. Docstring Comment Nesting and Namespace Ambiguity
+
+**Problem 1**: The sequence `+/-` in docstrings triggers nested block comments.
+
+```lean
+-- BAD - causes "unterminated comment" error at EOF
+/-- Experimental: 0.2312 +/- 0.0001 -/  -- The +/- contains /- which starts nested comment!
+
+-- GOOD - use alternative notation
+/-- Experimental: 0.2312 (error 0.0001) -/
+```
+
+**Why**: Lean's `/-` starts a block comment. Inside a docstring `/-- ... -/`, the sequence `+/-` is parsed as `+` followed by `/-` (nested comment start). The outer `-/` then closes the nested comment, leaving the docstring unclosed.
+
+**Problem 2**: Multiple modules define the same constant name.
+
+```lean
+-- BAD - ambiguous term error
+open GIFT.V33
+open GIFT.Core
+theorem foo : b0 = 1 := ...  -- Which b0? V33.b0 or Core.b0?
+
+-- GOOD - use qualified names
+theorem foo : Core.b0 = 1 := ...
+```
+
+**Problem 3**: `norm_num` cannot evaluate constants without certified theorems.
+
+```lean
+-- BAD - norm_num doesn't know Weyl_factor = 5
+theorem foo : (Weyl_factor : ℚ) / 10 = 1/2 := by norm_num  -- FAILS!
+
+-- GOOD - add certified theorem and use it
+theorem Weyl_factor_certified : Weyl_factor = 5 := rfl
+
+theorem foo : (Weyl_factor : ℚ) / 10 = 1/2 := by
+  norm_num [Weyl_factor_certified]  -- WORKS!
+```
+
+**Rule**: For every constant used in `norm_num` proofs, ensure a `*_certified` theorem exists:
+```lean
+def Weyl_factor : ℕ := 5
+theorem Weyl_factor_certified : Weyl_factor = 5 := rfl  -- Add this!
+```
+
 ---
 
-*Last updated: 2025-12-30 - E8_basis_generates proven, mkR8 accessor pattern, Fin.sum expansion (v3.1.12)*
+*Last updated: 2026-01-11 - Extended Observables, docstring nesting, namespace ambiguity (v3.2.12)*
