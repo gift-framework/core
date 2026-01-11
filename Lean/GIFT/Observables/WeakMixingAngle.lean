@@ -37,7 +37,7 @@ theorem sin2_theta_W_expr2 :
 theorem sin2_theta_W_expr3 :
     (N_gen : ℚ) / (rank_E8 + Weyl_factor) = sin2_theta_W := by
   unfold sin2_theta_W
-  norm_num [N_gen_certified, rank_E8_certified]
+  norm_num [N_gen_certified, rank_E8_certified, Weyl_factor_certified]
 
 /-- Expression 4: b2 / (dim_K7 * alpha_sum) = 21/91 = 3/13 -/
 theorem sin2_theta_W_expr4 :

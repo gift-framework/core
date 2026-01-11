@@ -35,7 +35,7 @@ theorem sin2_theta23_value : sin2_theta23 = 6 / 11 := rfl
 theorem sin2_theta23_primary :
     ((D_bulk : ℚ) - Weyl_factor) / D_bulk = sin2_theta23 := by
   unfold sin2_theta23
-  norm_num [D_bulk_certified]
+  norm_num [D_bulk_certified, Weyl_factor_certified]
 
 /-- Expression 2: chi_K7 / b3 = 42/77 = 6/11 -/
 theorem sin2_theta23_expr2 :

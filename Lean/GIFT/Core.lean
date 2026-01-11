@@ -205,6 +205,7 @@ theorem dim_E8xE8_certified : dim_E8xE8 = 496 := rfl
 theorem dim_K7_certified : dim_K7 = 7 := rfl
 theorem dim_J3O_certified : dim_J3O = 27 := rfl
 theorem p2_certified : p2 = 2 := rfl
+theorem Weyl_factor_certified : Weyl_factor = 5 := rfl
 theorem Weyl_sq_certified : Weyl_sq = 25 := rfl
 theorem D_bulk_certified : D_bulk = 11 := rfl
 theorem SM_gauge_certified : dim_SM_gauge = 12 := rfl

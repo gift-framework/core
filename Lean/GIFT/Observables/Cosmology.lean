@@ -72,7 +72,7 @@ theorem Omega_b_over_Omega_m_value : Omega_b_over_Omega_m = 5 / 32 := rfl
 theorem Omega_b_m_primary :
     (Weyl_factor : ℚ) / det_g_den = Omega_b_over_Omega_m := by
   unfold Omega_b_over_Omega_m
-  norm_num [det_g_den_certified]
+  norm_num [Weyl_factor_certified, det_g_den_certified]
 
 /-- sigma_8 = 17/21. Planck: 0.811. GIFT: 0.8095. Deviation: 0.18% -/
 def sigma_8 : ℚ := 17 / 21

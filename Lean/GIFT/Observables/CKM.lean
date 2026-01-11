@@ -88,7 +88,7 @@ theorem A_Wolf_value : A_Wolf = 83 / 99 := rfl
 theorem A_Wolf_primary :
     ((Weyl_factor : ℚ) + dim_E6) / H_star = A_Wolf := by
   unfold A_Wolf
-  norm_num [dim_E6_certified, H_star_value]
+  norm_num [Weyl_factor_certified, dim_E6_certified, H_star_value]
 
 /-- Expression 2: (dim_E6 + rank_E8 - N_gen) / H_star = 83/99 -/
 theorem A_Wolf_expr2 :
