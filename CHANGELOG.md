@@ -5,6 +5,41 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.13] - 2026-01-11
+
+### Summary
+
+**GitHub Pages Consolidation!** Updated statistics and streamlined the dependency graph by removing redundant and isolated nodes. The blueprint visualization is now cleaner with 14 fewer nodes.
+
+### Changed
+
+- **Statistics Updated**:
+  - Mean deviation: 0.087% → **0.24%** (reflects Extended Observables v2)
+  - Added "50+ Observables" metric
+  - Version bumped to v3.2.1 in blueprint
+
+- **Dependency Graph Streamlined** (-14 nodes, -57 lines):
+  - Monster cluster → single `j_invariant` node (j = 744 = N_gen × dim_E8)
+  - E8 Lattice cluster → single `e8_roots` node (240 roots, Weyl-invariant)
+  - TCS cluster → single `tcs_decomp` node (b2=11+10, b3=40+37)
+  - Metric cluster → single `phi0_form` node (G2 3-form with induced metric)
+  - Primes cluster → single `three_gen` node (3-generator theorem)
+
+### Removed
+
+- **Monster cluster** (4 nodes): `monster_dim`, `monster_47`, `monster_59`, `monster_71`
+- **Primes cluster** (2 nodes): `heegner`, `tier1_primes`
+- **E8 Lattice cluster** (3 nodes): `e8_dim_derived`, `weyl_reflect`, `inner_integral`
+- **TCS cluster** (2 nodes): `tcs_b2`, `tcs_b3`, `weyl_triple` → merged into `tcs_decomp`
+- **Metric cluster** (3 nodes): `det_exact`, `metric_diag`, `torsion_zero` → merged into `phi0_form`
+
+### Fixed
+
+- Connected orphan nodes: `theta_12`, `m_mu_m_e`, `m_c_m_s`, `m_t_m_b`
+- TCS cluster now feeds back to main graph via `fib_8` and `b3_lucas`
+
+---
+
 ## [3.2.12] - 2026-01-11
 
 ### Summary

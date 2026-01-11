@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.2.12).
+Complete documentation for the `giftpy` Python package (v3.2.13).
 
 ## Installation
 
@@ -36,6 +36,15 @@ print(cross_product(u, v))  # 7D cross product
 from gift_core import verify
 print(verify())          # True
 ```
+
+## New in v3.2.13
+
+### GitHub Pages Blueprint Update
+
+The blueprint visualization has been streamlined:
+- **50+ observables** with **0.24% mean deviation** (updated from 0.087%)
+- Dependency graph reduced by 14 nodes (cleaner visualization)
+- Orphan nodes connected, redundant clusters merged
 
 ## New in v3.2.12
 

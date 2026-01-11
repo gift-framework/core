@@ -302,16 +302,16 @@
         <aside class="sidebar">
             <header class="sidebar-header">
                 <div class="logo">GIFT BLUEPRINT</div>
-                <div class="version">v3.2.0 - 180+ Certified Relations | 88 Lean Files</div>
+                <div class="version">v3.2.1 - 50+ Observables | 180+ Certified Relations | 0.24% Mean Deviation</div>
             </header>
 
             <div class="stats-grid">
                 <div class="stat-item">
-                    <div class="stat-value highlight">180+</div>
-                    <div class="stat-label">Relations</div>
+                    <div class="stat-value highlight">50+</div>
+                    <div class="stat-label">Observables</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value">0.087%</div>
+                    <div class="stat-value">0.24%</div>
                     <div class="stat-label">Mean Deviation</div>
                 </div>
                 <div class="stat-item">
@@ -319,8 +319,8 @@
                     <div class="stat-label">Free Parameters</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value highlight">2000</div>
-                    <div class="stat-label">Lean 4 Decls</div>
+                    <div class="stat-value highlight">180+</div>
+                    <div class="stat-label">Certified Relations</div>
                 </div>
             </div>
 
@@ -333,7 +333,6 @@
                     <button class="filter-btn" data-status="certified" data-filter="certified">Certified</button>
                     <button class="filter-btn" data-status="foundation" data-filter="foundation">Foundation</button>
                     <button class="filter-btn" data-status="sequence" data-filter="sequence">Sequences</button>
-                    <button class="filter-btn" data-status="monster" data-filter="monster">Monster</button>
                     <button class="filter-btn" data-status="derived" data-filter="derived">Derived</button>
                 </div>
             </div>
@@ -349,16 +348,12 @@
                     <button class="filter-btn" data-filter="quark">Quark</button>
                     <button class="filter-btn" data-filter="fibonacci">Fibonacci</button>
                     <button class="filter-btn" data-filter="lucas">Lucas</button>
-                    <button class="filter-btn" data-filter="primes">Primes</button>
-                    <button class="filter-btn" data-filter="monster">Monster</button>
                     <button class="filter-btn" data-filter="mckay">McKay</button>
                     <button class="filter-btn" data-filter="exceptional">Exceptional</button>
                     <button class="filter-btn" data-filter="cosmology">Cosmology</button>
                     <button class="filter-btn" data-filter="so16">SO(16)</button>
-                    <button class="filter-btn" data-filter="e8lattice">E8 Lattice</button>
                     <button class="filter-btn" data-filter="g2cross">G2 Cross</button>
                     <button class="filter-btn" data-filter="joyce">Joyce</button>
-                    <button class="filter-btn" data-filter="hierarchy">Hierarchy</button>
                 </div>
             </div>
 
@@ -370,7 +365,7 @@
                 <div class="empty-state">
                     <div class="empty-state-icon">&#9679;</div>
                     <div>Click a node to view details</div>
-                    <div style="margin-top: 10px; font-size: 0.7rem;">180+ relations from gift-framework/core v3.2.0</div>
+                    <div style="margin-top: 10px; font-size: 0.7rem;">50+ observables | 0.24% mean deviation | v3.2.1</div>
                 </div>
             </div>
         </aside>
@@ -384,7 +379,6 @@
                 <div class="legend-item"><div class="legend-dot certified"></div><span>Certified</span></div>
                 <div class="legend-item"><div class="legend-dot foundation"></div><span>Foundation</span></div>
                 <div class="legend-item"><div class="legend-dot sequence"></div><span>Sequences</span></div>
-                <div class="legend-item"><div class="legend-dot monster"></div><span>Monster</span></div>
                 <div class="legend-item"><div class="legend-dot derived"></div><span>Derived</span></div>
             </div>
 
@@ -482,17 +476,9 @@
                 { id: "b3_lucas", label: "b3 = L4 x L5", sublabel: "= 7 x 11 = 77", layer: 7, status: "proven", sector: "lucas",
                   formula: "b3 = L_4 * L_5 = dim_K7 * D_bulk = 77", predicted: 77, description: "Deep structural relation" },
 
-                // ==================== LAYER 8: MONSTER GROUP ====================
-                { id: "monster_dim", label: "Monster Dim", sublabel: "= 196883", layer: 8, status: "monster", sector: "monster",
-                  formula: "196883 = 47 x 59 x 71 (all GIFT-expressible)", predicted: 196883, description: "Smallest Monster rep" },
-                { id: "monster_47", label: "47 = L_8", sublabel: "Lucas factor", layer: 8, status: "monster", sector: "monster",
-                  formula: "47 = L_8 (Lucas number)", predicted: 47, description: "First Monster factor" },
-                { id: "monster_59", label: "59 = b3 - 18", sublabel: "Betti factor", layer: 8, status: "monster", sector: "monster",
-                  formula: "59 = b3 - L_6 = 77 - 18", predicted: 59, description: "Second Monster factor" },
-                { id: "monster_71", label: "71 = b3 - 6", sublabel: "Betti factor", layer: 8, status: "monster", sector: "monster",
-                  formula: "71 = b3 - 6 = 77 - 6", predicted: 71, description: "Third Monster factor" },
-                { id: "j_invariant", label: "j = 744", sublabel: "= 3 x 248", layer: 8, status: "monster", sector: "monster",
-                  formula: "j_constant = N_gen x dim_E8 = 3 x 248", predicted: 744, description: "j-invariant constant" },
+                // ==================== LAYER 8: MOONSHINE (simplified) ====================
+                { id: "j_invariant", label: "j = 744", sublabel: "= 3 x 248", layer: 8, status: "certified", sector: "moonshine",
+                  formula: "j_constant = N_gen x dim_E8 = 3 x 248", predicted: 744, description: "j-invariant constant term" },
 
                 // ==================== LAYER 9: McKAY CORRESPONDENCE ====================
                 { id: "coxeter_e8", label: "Cox(E8)", sublabel: "= 30", layer: 9, status: "certified", sector: "mckay",
@@ -514,11 +500,7 @@
                 { id: "dim_e8", label: "dim(E8)", sublabel: "= 248", layer: 10, status: "proven", sector: "exceptional",
                   formula: "dim(E8) = rank_E8 x prime_11 = 8 x 31", predicted: 248, description: "E8 dimension" },
 
-                // ==================== LAYER 11: PRIMES ATLAS ====================
-                { id: "tier1_primes", label: "Tier 1 Primes", sublabel: "10 direct", layer: 11, status: "certified", sector: "primes",
-                  formula: "{2,3,5,7,11,13,17,19,31,61} = direct GIFT", predicted: 10, description: "Direct GIFT constant primes" },
-                { id: "heegner", label: "Heegner", sublabel: "All 9 GIFT", layer: 11, status: "certified", sector: "primes",
-                  formula: "{1,2,3,7,11,19,43,67,163} all GIFT-expressible", predicted: 9, description: "Heegner discriminants" },
+                // ==================== LAYER 11: PRIMES ATLAS (simplified) ====================
                 { id: "three_gen", label: "3-Generator", sublabel: "b3,H*,dim_E8", layer: 11, status: "certified", sector: "primes",
                   formula: "All primes < 200 from {77, 99, 248}", predicted: 100, description: "Three-generator theorem" },
 
@@ -540,15 +522,9 @@
                 { id: "geometric_120", label: "Geometric 120", sublabel: "b2+b3+G2+r8", layer: 13, status: "foundation", sector: "so16",
                   formula: "21 + 77 + 14 + 8 = 120 = dim(SO(16))", predicted: 120, description: "Topology encodes gauge bosons" },
 
-                // ==================== LAYER 14: E8 LATTICE (v4.0) ====================
+                // ==================== LAYER 14: E8 LATTICE (v4.0, simplified) ====================
                 { id: "e8_roots", label: "E8 Roots", sublabel: "= 240", layer: 14, status: "foundation", sector: "e8lattice",
-                  formula: "|E8 roots| = 112 (D8) + 128 (half-int) = 240", predicted: 240, description: "E8 root system cardinality" },
-                { id: "e8_dim_derived", label: "dim(E8) derived", sublabel: "240 + 8", layer: 14, status: "foundation", sector: "e8lattice",
-                  formula: "dim(E8) = |roots| + rank = 240 + 8 = 248", predicted: 248, description: "Dimension from root system" },
-                { id: "weyl_reflect", label: "Weyl Reflect", sublabel: "preserves E8", layer: 14, status: "foundation", sector: "e8lattice",
-                  formula: "s_alpha(v) in E8 for alpha,v in E8", description: "Weyl reflection preserves lattice" },
-                { id: "inner_integral", label: "Inner Integral", sublabel: "<v,w> in Z", layer: 14, status: "foundation", sector: "e8lattice",
-                  formula: "For v,w in E8: <v,w> is an integer", description: "E8 inner product integrality" },
+                  formula: "|E8 roots| = 112 (D8) + 128 (half-int) = 240, dim = 240 + 8 = 248", predicted: 240, description: "E8 root system, Weyl-invariant lattice" },
 
                 // ==================== LAYER 15: G2 CROSS PRODUCT (v3.4) ====================
                 { id: "fano_lines", label: "Fano Lines", sublabel: "= 7", layer: 15, status: "foundation", sector: "g2cross",
@@ -578,23 +554,13 @@
                 { id: "e6_cascade", label: "E6 Cascade", sublabel: "E8->E6->SU3", layer: 17, status: "derived", sector: "hierarchy",
                   formula: "E8 -> E6 -> SU(3) breaking cascade", description: "Symmetry breaking chain" },
 
-                // ==================== LAYER 18: TCS CONSTRUCTION (v3.4) ====================
-                { id: "tcs_b2", label: "TCS b2", sublabel: "= 11 + 10", layer: 18, status: "foundation", sector: "tcs",
-                  formula: "b2(K7) = b2(Z+) + b2(Z-) = 11 + 10 = 21", predicted: 21, description: "TCS b2 decomposition" },
-                { id: "tcs_b3", label: "TCS b3", sublabel: "= 40 + 37", layer: 18, status: "foundation", sector: "tcs",
-                  formula: "b3(K7) = b3(Z+) + b3(Z-) = 40 + 37 = 77", predicted: 77, description: "TCS b3 decomposition" },
-                { id: "weyl_triple", label: "Weyl Triple", sublabel: "168 = 3 ways", layer: 18, status: "foundation", sector: "tcs",
-                  formula: "PSL(2,7) = 168 (3 independent derivations)", predicted: 168, description: "Weyl triple identity" },
+                // ==================== LAYER 18: TCS CONSTRUCTION (v3.4, simplified) ====================
+                { id: "tcs_decomp", label: "TCS Decomp", sublabel: "Z+ + Z-", layer: 18, status: "foundation", sector: "tcs",
+                  formula: "b2 = 11+10 = 21, b3 = 40+37 = 77 (TCS gluing)", predicted: 21, description: "Twisted connected sum decomposition" },
 
-                // ==================== LAYER 19: ANALYTICAL METRIC (v3.2) ====================
-                { id: "phi0_form", label: "phi_0 3-form", sublabel: "7 terms", layer: 19, status: "foundation", sector: "metric",
-                  formula: "phi_0 = e^012 + e^034 + e^056 + e^135 - e^146 - e^236 - e^245", description: "Standard G2 3-form" },
-                { id: "metric_diag", label: "g = c^2 * I_7", sublabel: "diagonal", layer: 19, status: "foundation", sector: "metric",
-                  formula: "g_ij = (65/32)^(1/7) * delta_ij", description: "Induced metric is scaled identity" },
-                { id: "det_exact", label: "det(g) exact", sublabel: "= 65/32", layer: 19, status: "foundation", sector: "metric",
-                  formula: "det(g) = 65/32 = 2.03125 exactly", predicted: 2.03125, description: "Determinant from scale factor" },
-                { id: "torsion_zero", label: "T = 0", sublabel: "exact", layer: 19, status: "foundation", sector: "metric",
-                  formula: "d(phi) = 0, d(*phi) = 0 => T = 0", description: "Constant form has zero torsion" },
+                // ==================== LAYER 19: G2 3-FORM (v3.2, simplified) ====================
+                { id: "phi0_form", label: "phi_0 3-form", sublabel: "G2 structure", layer: 19, status: "foundation", sector: "metric",
+                  formula: "phi_0 induces g with det = 65/32, T = 0 (torsion-free)", description: "Standard G2 3-form with induced metric" },
             ];
 
             const edges = [
@@ -642,13 +608,7 @@
                 { source: "lucas_4", target: "b3_lucas" },
                 { source: "lucas_5", target: "b3_lucas" },
 
-                // Monster connections
-                { source: "lucas_8", target: "monster_47" },
-                { source: "b3_lucas", target: "monster_59" },
-                { source: "b3_lucas", target: "monster_71" },
-                { source: "monster_47", target: "monster_dim" },
-                { source: "monster_59", target: "monster_dim" },
-                { source: "monster_71", target: "monster_dim" },
+                // Moonshine connection (simplified)
                 { source: "n_gen", target: "j_invariant" },
                 { source: "dim_e8", target: "j_invariant" },
 
@@ -684,11 +644,9 @@
                 { source: "h_star", target: "geometric_120" },
                 { source: "k7_topology", target: "geometric_120" },
 
-                // E8 Lattice connections (v4.0)
+                // E8 Lattice connection (v4.0, simplified)
                 { source: "e8_structure", target: "e8_roots" },
-                { source: "e8_roots", target: "e8_dim_derived" },
-                { source: "e8_roots", target: "weyl_reflect" },
-                { source: "e8_roots", target: "inner_integral" },
+                { source: "e8_roots", target: "dim_e8" },
 
                 // G2 Cross Product (v3.4)
                 { source: "g2_holonomy", target: "fano_lines" },
@@ -708,17 +666,28 @@
                 { source: "k7_topology", target: "n_vacua" },
                 { source: "dim_e6", target: "e6_cascade" },
 
-                // TCS (v3.4)
-                { source: "k7_topology", target: "tcs_b2" },
-                { source: "k7_topology", target: "tcs_b3" },
-                { source: "tcs_b2", target: "weyl_triple" },
+                // TCS (v3.4, simplified)
+                { source: "k7_topology", target: "tcs_decomp" },
 
-                // Analytical Metric (v3.2)
+                // G2 3-form (v3.2, simplified)
                 { source: "fano_lines", target: "phi0_form" },
-                { source: "phi0_form", target: "metric_diag" },
-                { source: "metric_diag", target: "det_exact" },
-                { source: "phi0_form", target: "torsion_zero" },
-                { source: "det_exact", target: "det_g" },
+                { source: "phi0_form", target: "det_g" },
+
+                // Additional connections (consolidation)
+                // theta_12 depends on topological structure
+                { source: "h_star", target: "theta_12" },
+                { source: "det_g", target: "theta_12" },
+
+                // m_mu/m_e = 27^phi depends on golden ratio
+                { source: "phi_ratio", target: "m_mu_m_e" },
+
+                // Quark mass ratios depend on structural constants
+                { source: "fib_5", target: "m_c_m_s" },
+                { source: "lucas_5", target: "m_t_m_b" },
+
+                // TCS connects back to main graph
+                { source: "tcs_decomp", target: "fib_8" },
+                { source: "tcs_decomp", target: "b3_lucas" },
             ];
 
             const svg = d3.select("#graph");
