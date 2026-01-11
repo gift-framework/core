@@ -2,9 +2,7 @@
 -- Main entry point for Lean 4 formalization
 -- Version: 5.0.0 (180+ certified relations + Hierarchy formula + Real Mathematics)
 
-import GIFT.Algebra
-import GIFT.Geometry
-import GIFT.Topology
+import GIFT.Core
 import GIFT.Relations
 import GIFT.Certificate
 
