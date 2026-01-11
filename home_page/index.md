@@ -4,7 +4,7 @@ usemathjax: true
 
 # GIFT: Geometric Information Field Theory
 
-GIFT derives Standard Model parameters from E₈ × E₈ gauge theory compactified on G₂-holonomy manifolds, achieving **0.087% mean deviation** across 18 dimensionless predictions with **180+ machine-verified relations**.
+GIFT derives Standard Model parameters from E₈ × E₈ gauge theory compactified on G₂-holonomy manifolds, achieving **0.24% mean deviation** across 50+ physical observables with **180+ machine-verified relations** and **zero free parameters**.
 
 ## Quick Links
 
