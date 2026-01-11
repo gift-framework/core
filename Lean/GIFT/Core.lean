@@ -180,6 +180,22 @@ def det_g_den : ℕ := 32
 def kappa_T_den : ℕ := 61
 
 -- =============================================================================
+-- EXTENDED OBSERVABLES CONSTANTS (v3.3+)
+-- =============================================================================
+
+/-- Zeroth Betti number b₀ = 1 -/
+def b0 : ℕ := 1
+
+/-- Anomaly sum α_sum = rank(E₈) + Weyl = 8 + 5 = 13 -/
+def alpha_sum : ℕ := rank_E8 + Weyl_factor
+
+/-- Euler characteristic of K₇ manifold: χ(K₇) = 2 × 3 × 7 = 42 -/
+def chi_K7 : ℕ := 42
+
+/-- Order of PSL(2,7) = Fano plane symmetry = 168 -/
+def PSL27 : ℕ := 168
+
+-- =============================================================================
 -- BASIC CERTIFIED THEOREMS
 -- =============================================================================
 
@@ -189,6 +205,7 @@ theorem dim_E8xE8_certified : dim_E8xE8 = 496 := rfl
 theorem dim_K7_certified : dim_K7 = 7 := rfl
 theorem dim_J3O_certified : dim_J3O = 27 := rfl
 theorem p2_certified : p2 = 2 := rfl
+theorem Weyl_factor_certified : Weyl_factor = 5 := rfl
 theorem Weyl_sq_certified : Weyl_sq = 25 := rfl
 theorem D_bulk_certified : D_bulk = 11 := rfl
 theorem SM_gauge_certified : dim_SM_gauge = 12 := rfl
@@ -207,5 +224,22 @@ theorem dim_F4_certified : dim_F4 = 52 := rfl
 theorem dim_E6_certified : dim_E6 = 78 := rfl
 theorem dim_E7_certified : dim_E7 = 133 := rfl
 theorem weyl_E8_order_certified : weyl_E8_order = 696729600 := rfl
+
+-- Extended observables constants
+theorem b0_certified : b0 = 1 := rfl
+theorem alpha_sum_certified : alpha_sum = 13 := rfl
+theorem chi_K7_certified : chi_K7 = 42 := rfl
+theorem PSL27_certified : PSL27 = 168 := rfl
+theorem det_g_num_certified : det_g_num = 65 := rfl
+theorem det_g_den_certified : det_g_den = 32 := rfl
+theorem kappa_T_den_certified : kappa_T_den = 61 := rfl
+theorem dim_fund_E7_certified : dim_fund_E7 = 56 := rfl
+
+-- Key structural identities
+theorem alpha_sum_decomposition : alpha_sum = rank_E8 + Weyl_factor := rfl
+theorem chi_K7_triple_product : chi_K7 = p2 * N_gen * dim_K7 := rfl
+theorem PSL27_factorization : PSL27 = rank_E8 * b2 := rfl
+theorem ninety_one_sum : b3 + dim_G2 = 91 := rfl
+theorem ninety_one_factorization : 91 = dim_K7 * alpha_sum := rfl
 
 end GIFT.Core

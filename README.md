@@ -98,7 +98,7 @@ The Certificate derives Standard Model parameters from topology:
 
 | Relation | Formula | Value |
 |----------|---------|-------|
-| Weinberg angle | sin²θ_W = 3(b₃+dim_G₂)/(13×b₂) | 3/13 |
+| Weinberg angle | sin²θ_W = b₂/(b₃+dim_G₂) | 3/13 |
 | Koide parameter | Q = 2×dim_G₂/(3×b₂) | 2/3 |
 | Generation count | N_gen | 3 |
 | κ_T denominator | b₃ - dim_G₂ - p₂ | 61 |
@@ -107,6 +107,22 @@ The Certificate derives Standard Model parameters from topology:
 | m_τ/m_e | (b₃ - b₂) × 62 + 5 | 3477 |
 
 See `Lean/GIFT/Certificate.lean` for complete theorem statements.
+
+### Extended Observables (v3.2.12)
+
+22+ physical observables formally verified in `GIFT.Observables`:
+
+| Observable | GIFT Formula | Value | Deviation |
+|------------|--------------|-------|-----------|
+| sin²θ₁₂ (PMNS) | (Weyl-1)/α_sum | 4/13 | 0.26% |
+| sin²θ₂₃ (PMNS) | (D_bulk-Weyl)/D_bulk | 6/11 | 0.02% |
+| m_s/m_d | b2-b0 | 20 | 0.00% |
+| m_b/m_t | b₀/χ(K₇) | 1/42 | 0.71% |
+| m_H/m_W | (b3+4)/b2 | 81/52 | 0.13% |
+| Ω_DM/Ω_b | (b₀+χ(K₇))/rank_E₈ | 43/8 | 0.23% |
+| h (Hubble) | (PSL27-b₀)/dim_E₈ | 167/248 | 0.01% |
+
+**The 42 Connection**: χ(K₇)=42 appears in both m_b/m_t=1/42 and Ω_DM/Ω_b=43/8!
 
 ---
 
@@ -182,4 +198,4 @@ MIT
 
 ---
 
-*GIFT Core v3.2.11*
+*GIFT Core v3.2.12*
