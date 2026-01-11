@@ -1134,18 +1134,17 @@ theorem the_42_universality_certificate :
     Observables.m_b_over_m_t = 1 / chi_K7 ∧
     chi_K7 = 42 ∧
     -- In cosmology: Ω_DM/Ω_b = (1 + χ(K₇))/rank(E₈) = 43/8
-    Observables.Omega_DM_over_Omega_b = (b0 + chi_K7) / rank_E8 ∧
-    (b0 : ℚ) + chi_K7 = 43 ∧
+    Observables.Omega_DM_over_Omega_b = (Core.b0 + chi_K7) / rank_E8 ∧
+    (Core.b0 : ℚ) + chi_K7 = 43 ∧
     rank_E8 = 8 := by
   constructor
   · simp [Observables.QuarkMasses.m_b_over_m_t, chi_K7_certified]
   constructor
   · exact chi_K7_certified
   constructor
-  · simp [Observables.Cosmology.Omega_DM_over_Omega_b, b0_certified, chi_K7_certified, rank_E8_certified]
-    norm_num
+  · simp [Observables.Cosmology.Omega_DM_over_Omega_b, Core.b0, chi_K7_certified, rank_E8_certified]
   constructor
-  · simp [b0_certified, chi_K7_certified]
+  · simp only [Core.b0, chi_K7_certified]; norm_num
   · exact rank_E8_certified
 
 /-- Extended observables count: 22 certified in this module -/
