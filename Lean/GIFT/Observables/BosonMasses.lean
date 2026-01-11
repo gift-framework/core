@@ -1,3 +1,7 @@
+import Mathlib.Data.Rat.Basic
+import Mathlib.Tactic.NormNum
+import GIFT.Core
+
 /-!
 # Boson Mass Ratios - Extended Observables
 
@@ -8,10 +12,6 @@ Boson mass ratios with GIFT derivations:
 
 Note: m_W/m_Z is NOT included due to tension with sin^2(theta_W).
 -/
-
-import Mathlib.Data.Rat.Basic
-import Mathlib.Tactic.NormNum
-import GIFT.Core
 
 namespace GIFT.Observables.BosonMasses
 
@@ -71,16 +71,13 @@ theorem m_H_m_t_expr2 :
   unfold m_H_over_m_t
   norm_num [rank_E8_certified, D_bulk_certified]
 
-/-- Expression 3: (b3 - b2 - p2) / b3... (56-21-2=33)/77 != 8/11.
-    Let me find valid ones:
-    (D_bulk - N_gen) / D_bulk = 8/11 ✓ -/
+/-- Expression 3: (D_bulk - N_gen) / D_bulk = 8/11 -/
 theorem m_H_m_t_expr3 :
     ((D_bulk : ℚ) - N_gen) / D_bulk = m_H_over_m_t := by
   unfold m_H_over_m_t
   norm_num [D_bulk_certified, N_gen_certified]
 
-/-- Expression 4: chi_K7 * 2 / (b3 + b2 - p2 + p2) = 84/77... no.
-    (dim_K7 + b0) / D_bulk = 8/11 ✓ -/
+/-- Expression 4: (dim_K7 + b0) / D_bulk = 8/11 -/
 theorem m_H_m_t_expr4 :
     ((dim_K7 : ℚ) + b0) / D_bulk = m_H_over_m_t := by
   unfold m_H_over_m_t

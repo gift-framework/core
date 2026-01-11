@@ -1,3 +1,7 @@
+import Mathlib.Data.Rat.Basic
+import Mathlib.Tactic.NormNum
+import GIFT.Core
+
 /-!
 # Cosmological Parameters - Extended Observables
 
@@ -12,10 +16,6 @@ Cosmological parameters with GIFT derivations:
 
 Key discovery: chi(K7) = 42 appears in Omega_DM/Omega_b!
 -/
-
-import Mathlib.Data.Rat.Basic
-import Mathlib.Tactic.NormNum
-import GIFT.Core
 
 namespace GIFT.Observables.Cosmology
 
@@ -96,8 +96,7 @@ theorem Omega_Lambda_m_primary :
   unfold Omega_Lambda_over_Omega_m
   norm_num [Algebraic.G2.dim_G2_eq, H_star_value, dim_F4_certified]
 
-/-- Expression 2: (b2 + b3 + dim_G2) / dim_F4 = 112/52... no.
-    (14 + 99)/52 = 113/52 ✓ -/
+/-- Expression 2: (dim_G2 + b2 + b3 + b0) / dim_F4 = 113/52 -/
 theorem Omega_Lambda_m_expr2 :
     ((dim_G2 : ℚ) + b2 + b3 + b0) / dim_F4 = Omega_Lambda_over_Omega_m := by
   unfold Omega_Lambda_over_Omega_m
@@ -199,8 +198,7 @@ theorem Y_p_primary :
   unfold Y_p
   norm_num [b0_certified, Algebraic.G2.dim_G2_eq, kappa_T_den_certified]
 
-/-- Expression 2: (dim_G2 + b0) / (H_star - b3 - b0) = 15/21... no.
-    (p2 * dim_K7 + b0) / kappa_T_den = 15/61 ✓ -/
+/-- Expression 2: (p2 * dim_K7 + b0) / kappa_T_den = 15/61 -/
 theorem Y_p_expr2 :
     ((p2 : ℚ) * dim_K7 + b0) / kappa_T_den = Y_p := by
   unfold Y_p
@@ -228,10 +226,10 @@ theorem cosmological_interpretation :
   · exact Omega_b_m_primary
   · exact Omega_DM_b_primary
 
-/-- Consistency: Omega_b + Omega_c ~ Omega_m -/
+/-- Consistency: Omega_b + Omega_c approx Omega_m -/
 theorem matter_components_check :
     -- If Omega_b/Omega_m = 5/32 and Omega_c/Omega_m = 27/32
-    -- Then Omega_b + Omega_c = Omega_m ✓
+    -- Then Omega_b + Omega_c = Omega_m
     (5 : ℚ) / 32 + 27 / 32 = 1 := by norm_num
 
 end GIFT.Observables.Cosmology

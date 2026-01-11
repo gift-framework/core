@@ -1,3 +1,7 @@
+import Mathlib.Data.Rat.Basic
+import Mathlib.Tactic.NormNum
+import GIFT.Core
+
 /-!
 # Quark Mass Ratios - Extended Observables
 
@@ -6,12 +10,7 @@ Quark mass ratios with GIFT derivations:
 - m_c/m_s = 246/21 (5 expressions)
 - m_b/m_t = 1/42 (21 expressions) - "The Magic 42"
 - m_u/m_d = 79/168 (4 expressions)
-- m_d/m_s = 25/496 (3 expressions)
 -/
-
-import Mathlib.Data.Rat.Basic
-import Mathlib.Tactic.NormNum
-import GIFT.Core
 
 namespace GIFT.Observables.QuarkMasses
 
@@ -41,14 +40,13 @@ theorem m_s_m_d_expr2 :
   unfold m_s_over_m_d
   norm_num [rank_E8_certified, dim_J3O_certified, p2_certified]
 
-/-- Expression 3: (dim_F4 + D_bulk + N_gen) / (b0 + p2) = 66/3... no.
-    Let's find valid ones: chi_K7 - b2 - b0 = 42-21-1 = 20 ✓ -/
+/-- Expression 3: chi_K7 - b2 - b0 = 42-21-1 = 20 -/
 theorem m_s_m_d_expr3 :
     (chi_K7 : ℚ) - b2 - b0 = m_s_over_m_d := by
   unfold m_s_over_m_d
   norm_num [chi_K7_certified, b2_value, b0_certified]
 
-/-- Expression 4: (H_star - b3 - p2) = 99 - 77 - 2 = 20 -/
+/-- Expression 4: H_star - b3 - p2 = 99 - 77 - 2 = 20 -/
 theorem m_s_m_d_expr4 :
     (H_star : ℚ) - b3 - p2 = m_s_over_m_d := by
   unfold m_s_over_m_d

@@ -1,3 +1,7 @@
+import Mathlib.Data.Rat.Basic
+import Mathlib.Tactic.NormNum
+import GIFT.Core
+
 /-!
 # PMNS Neutrino Mixing Matrix - Extended Observables
 
@@ -7,10 +11,6 @@ PMNS matrix mixing angles with GIFT derivations:
 - sin^2(theta_13) = 11/496 (5 expressions)
 - delta_CP = 197 degrees (existing)
 -/
-
-import Mathlib.Data.Rat.Basic
-import Mathlib.Tactic.NormNum
-import GIFT.Core
 
 namespace GIFT.Observables.PMNS
 
@@ -70,9 +70,7 @@ theorem sin2_theta12_expr7 :
   unfold sin2_theta12
   norm_num [D_bulk_certified, dim_K7_certified, alpha_sum_certified]
 
-/-- Expression 8: chi_K7 / (chi_K7 + H_star + b2) = 42/162...
-    Actually: need to find more valid 4/13 expressions.
-    (p2 + p2) / alpha_sum = 4/13 ✓ -/
+/-- Expression 8: (p2 + p2) / alpha_sum = 4/13 -/
 theorem sin2_theta12_expr8 :
     ((p2 : ℚ) + p2) / alpha_sum = sin2_theta12 := by
   unfold sin2_theta12
@@ -102,10 +100,7 @@ theorem sin2_theta23_expr2 :
   unfold sin2_theta23
   norm_num [chi_K7_certified, b3_value]
 
-/-- Expression 3: (p2 * N_gen * p2) / D_bulk = 12/11... no.
-    Let's compute: (2*3*2)/11 = 12/11 != 6/11.
-
-    Correct: (N_gen + N_gen) / D_bulk = 6/11 -/
+/-- Expression 3: (N_gen + N_gen) / D_bulk = 6/11 -/
 theorem sin2_theta23_expr3 :
     ((N_gen : ℚ) + N_gen) / D_bulk = sin2_theta23 := by
   unfold sin2_theta23
@@ -135,11 +130,7 @@ theorem sin2_theta23_expr7 :
   unfold sin2_theta23
   norm_num [p2_certified, N_gen_certified, D_bulk_certified]
 
-/-- Expression 8: (dim_fund_E7 - dim_F4 + p2 * p2) / D_bulk = 6/11
-    Check: (56 - 52 + 4)/11 = 8/11 != 6/11. No.
-
-    Actually: chi_K7 / (b3) = 42/77 = 6/11 (already expr2)
-    Let me find another: (b2 - dim_G2 - b0) / D_bulk = (21-14-1)/11 = 6/11 ✓ -/
+/-- Expression 8: (b2 - dim_G2 - b0) / D_bulk = 6/11 -/
 theorem sin2_theta23_expr8 :
     ((b2 : ℚ) - dim_G2 - b0) / D_bulk = sin2_theta23 := by
   unfold sin2_theta23
@@ -209,7 +200,7 @@ theorem pmns_all_rational :
   · rfl
   decide
 
-/-- Sum of PMNS sin^2 angles (approximate check) -/
+/-- Sum of PMNS sin^2 angles is less than 1 -/
 theorem pmns_sum_check :
     sin2_theta12 + sin2_theta23 + sin2_theta13 < 1 := by
   unfold sin2_theta12 sin2_theta23 sin2_theta13

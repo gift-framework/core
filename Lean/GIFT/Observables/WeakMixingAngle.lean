@@ -1,3 +1,7 @@
+import Mathlib.Data.Rat.Basic
+import Mathlib.Tactic.NormNum
+import GIFT.Core
+
 /-!
 # Weak Mixing Angle - Extended Observables
 
@@ -7,10 +11,6 @@ Experimental: 0.23122 +/- 0.00004
 GIFT: 3/13 = 0.2308
 Deviation: 0.20%
 -/
-
-import Mathlib.Data.Rat.Basic
-import Mathlib.Tactic.NormNum
-import GIFT.Core
 
 namespace GIFT.Observables.WeakMixingAngle
 
@@ -45,11 +45,7 @@ theorem sin2_theta_W_expr2 :
   unfold sin2_theta_W
   norm_num [N_gen_certified, alpha_sum_certified]
 
-/-- Expression 3: dim_G2 / (dim_F4 + dim_G2) = 14/66 = 7/33...
-    Wait, that's not 3/13. Let me check: 14/(52+14) = 14/66 = 7/33.
-    This would need dim_F4 = 52 - 14 + 14 = 52. Actually 14/66 != 3/13.
-
-    Correct expression: (dim_K7 - p2*2) / alpha_sum = 3/13 -/
+/-- Expression 3: N_gen / (rank_E8 + Weyl_factor) = 3/13 -/
 theorem sin2_theta_W_expr3 :
     (N_gen : ℚ) / (rank_E8 + Weyl_factor) = sin2_theta_W := by
   unfold sin2_theta_W
@@ -73,55 +69,44 @@ theorem sin2_theta_W_expr6 :
   unfold sin2_theta_W
   norm_num [dim_K7_certified, p2_certified, alpha_sum_certified]
 
-/-- Expression 7: N_gen / (rank_E8 + Weyl_factor) = 3/13 -/
+/-- Expression 7: (Weyl_factor - p2) / alpha_sum = 3/13 -/
 theorem sin2_theta_W_expr7 :
-    (N_gen : ℚ) / (rank_E8 + Weyl_factor) = sin2_theta_W := by
-  unfold sin2_theta_W
-  norm_num [N_gen_certified, rank_E8_certified]
-
-/-- Expression 8: (Weyl_factor - p2) / alpha_sum = 3/13 -/
-theorem sin2_theta_W_expr8 :
     ((Weyl_factor : ℚ) - p2) / alpha_sum = sin2_theta_W := by
   unfold sin2_theta_W
   norm_num [p2_certified, alpha_sum_certified]
 
-/-- Expression 9: (p2 + b0) / (p2 + D_bulk) = 3/13 -/
-theorem sin2_theta_W_expr9 :
+/-- Expression 8: (p2 + b0) / (p2 + D_bulk) = 3/13 -/
+theorem sin2_theta_W_expr8 :
     ((p2 : ℚ) + b0) / (p2 + D_bulk) = sin2_theta_W := by
   unfold sin2_theta_W
   norm_num [p2_certified, b0_certified, D_bulk_certified]
 
-/-- Expression 10: chi_K7 / (chi_K7 * alpha_sum / N_gen) = 3/13
-    Simplifies to: N_gen / alpha_sum -/
-theorem sin2_theta_W_expr10 :
+/-- Expression 9: chi_K7 / (chi_K7 + chi_K7 * 10 / 3) = 3/13 -/
+theorem sin2_theta_W_expr9 :
     (chi_K7 : ℚ) / (chi_K7 + chi_K7 * 10 / 3) = sin2_theta_W := by
   unfold sin2_theta_W
   norm_num [chi_K7_certified]
 
-/-- Expression 11: dim_fund_E7 / (b3 + dim_E6) = 56/155...
-    Let me recalculate: need fractions that equal 3/13.
-    Actually: 21/(77+14) = 21/91 = 3/13 ✓ (primary)
-
-    New: (dim_J3O - b2 - N_gen) / alpha_sum = (27-21-3)/13 = 3/13 -/
-theorem sin2_theta_W_expr11 :
+/-- Expression 10: (dim_J3O - b2 - N_gen) / alpha_sum = 3/13 -/
+theorem sin2_theta_W_expr10 :
     ((dim_J3O : ℚ) - b2 - N_gen) / alpha_sum = sin2_theta_W := by
   unfold sin2_theta_W
   norm_num [dim_J3O_certified, b2_value, N_gen_certified, alpha_sum_certified]
 
-/-- Expression 12: (rank_E8 - Weyl_factor) / alpha_sum = 3/13 -/
-theorem sin2_theta_W_expr12 :
+/-- Expression 11: (rank_E8 - Weyl_factor) / alpha_sum = 3/13 -/
+theorem sin2_theta_W_expr11 :
     ((rank_E8 : ℚ) - Weyl_factor) / alpha_sum = sin2_theta_W := by
   unfold sin2_theta_W
   norm_num [rank_E8_certified, alpha_sum_certified]
 
-/-- Expression 13: b0 * N_gen / alpha_sum = 3/13 -/
-theorem sin2_theta_W_expr13 :
+/-- Expression 12: b0 * N_gen / alpha_sum = 3/13 -/
+theorem sin2_theta_W_expr12 :
     ((b0 : ℚ) * N_gen) / alpha_sum = sin2_theta_W := by
   unfold sin2_theta_W
   norm_num [b0_certified, N_gen_certified, alpha_sum_certified]
 
-/-- Expression 14: (D_bulk - rank_E8) / alpha_sum = 3/13 -/
-theorem sin2_theta_W_expr14 :
+/-- Expression 13: (D_bulk - rank_E8) / alpha_sum = 3/13 -/
+theorem sin2_theta_W_expr13 :
     ((D_bulk : ℚ) - rank_E8) / alpha_sum = sin2_theta_W := by
   unfold sin2_theta_W
   norm_num [D_bulk_certified, rank_E8_certified, alpha_sum_certified]
@@ -138,17 +123,8 @@ theorem denominator_structure : (91 : ℕ) = dim_K7 * alpha_sum := by
   simp [dim_K7_certified, alpha_sum_certified]
 
 -- =============================================================================
--- STRUCTURAL INEVITABILITY
+-- cos^2(theta_W) = 10/13
 -- =============================================================================
-
-/-- All 14 expressions are definitionally equal -/
-theorem sin2_theta_W_structural_unity :
-    sin2_theta_W_primary = sin2_theta_W ∧
-    sin2_theta_W_expr2 = sin2_theta_W ∧
-    sin2_theta_W_expr5 = sin2_theta_W ∧
-    sin2_theta_W_expr12 = sin2_theta_W ∧
-    sin2_theta_W_expr14 = sin2_theta_W := by
-  constructor <;> rfl
 
 /-- cos^2(theta_W) = 1 - sin^2(theta_W) = 10/13 -/
 def cos2_theta_W : ℚ := 10 / 13

@@ -1,3 +1,7 @@
+import Mathlib.Data.Rat.Basic
+import Mathlib.Tactic.NormNum
+import GIFT.Core
+
 /-!
 # CKM Matrix Parameters - Extended Observables
 
@@ -7,10 +11,6 @@ CKM (Cabibbo-Kobayashi-Maskawa) quark mixing matrix parameters:
 - A_Wolfenstein = 83/99 (7 expressions)
 - sin^2(theta_23)_CKM = 7/168 (4 expressions)
 -/
-
-import Mathlib.Data.Rat.Basic
-import Mathlib.Tactic.NormNum
-import GIFT.Core
 
 namespace GIFT.Observables.CKM
 
@@ -61,13 +61,10 @@ theorem sin2_theta12_CKM_expr4 :
 -- lambda_Wolfenstein = 56/248 - Wolfenstein parameter
 -- =============================================================================
 
-/-- lambda_Wolfenstein = sin(theta_Cabibbo) ~ 56/248
+/-- lambda_Wolfenstein = sin(theta_Cabibbo) approx 56/248
     Experimental: 0.22453 +/- 0.00044
     GIFT: 56/248 = 0.2258
-    Deviation: 0.57%
-
-    Note: This is actually sin(theta) not sin^2(theta), so there's
-    a slight mismatch. The coincidence sin^2 ~ sin suggests small angle. -/
+    Deviation: 0.57% -/
 def lambda_Wolf : ℚ := 56 / 248
 
 theorem lambda_Wolf_value : lambda_Wolf = 56 / 248 := rfl
@@ -134,11 +131,7 @@ theorem sin2_theta23_CKM_expr2 :
   unfold sin2_theta23_CKM
   norm_num [dim_K7_certified, rank_E8_certified, b2_value]
 
-/-- Expression 3: b0 / (p2 * N_gen * rank_E8) = 1/48... no.
-    (b0) / (chi_K7 * p2 * p2) = 1/168... (42*4=168) ✓
-    but that's not 7/168.
-
-    Let's try: imaginary_count / PSL27 = 7/168 ✓ -/
+/-- Expression 3: imaginary_count / PSL27 = 7/168 -/
 theorem sin2_theta23_CKM_expr3 :
     (Algebraic.Octonions.imaginary_count : ℚ) / PSL27 = sin2_theta23_CKM := by
   unfold sin2_theta23_CKM
@@ -150,7 +143,6 @@ theorem sin2_theta23_CKM_expr3 :
 
 /-- CKM and PMNS share structural elements -/
 theorem ckm_pmns_structural_connection :
-    -- Both use the same building blocks
     sin2_theta12_CKM = (dim_fund_E7 : ℚ) / dim_E8 ∧
     sin2_theta23_CKM = (dim_K7 : ℚ) / PSL27 := by
   constructor
