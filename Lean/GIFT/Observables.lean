@@ -1,3 +1,10 @@
+import GIFT.Observables.WeakMixingAngle
+import GIFT.Observables.PMNS
+import GIFT.Observables.QuarkMasses
+import GIFT.Observables.BosonMasses
+import GIFT.Observables.CKM
+import GIFT.Observables.Cosmology
+
 /-!
 # GIFT Extended Observables Module
 
@@ -6,63 +13,34 @@ GIFT topological invariants with zero free parameters and mean deviation 0.24%.
 
 ## Module Structure
 
-- `WeakMixingAngle` — sin²θ_W = 3/13 (14 expressions)
-- `PMNS` — Neutrino mixing: θ₁₂, θ₂₃, θ₁₃
-- `QuarkMasses` — m_s/m_d, m_c/m_s, m_b/m_t (the magic 42!)
-- `BosonMasses` — m_H/m_W, m_H/m_t, m_t/m_W
-- `CKM` — Quark mixing: Cabibbo angle, Wolfenstein parameters
-- `Cosmology` — Ω_b, Ω_c, Ω_Λ, h, σ_8, Y_p
+- `WeakMixingAngle` - sin^2 theta_W = 3/13 (14 expressions)
+- `PMNS` - Neutrino mixing: theta_12, theta_23, theta_13
+- `QuarkMasses` - m_s/m_d, m_c/m_s, m_b/m_t (the magic 42!)
+- `BosonMasses` - m_H/m_W, m_H/m_t, m_t/m_W
+- `CKM` - Quark mixing: Cabibbo angle, Wolfenstein parameters
+- `Cosmology` - Omega_b, Omega_c, Omega_Lambda, h, sigma_8, Y_p
 
 ## Key Results
 
 | Observable | GIFT Value | Deviation |
 |------------|------------|-----------|
-| sin²θ_W | 3/13 | 0.20% |
-| sin²θ₁₂_PMNS | 4/13 | 0.23% |
-| sin²θ₂₃_PMNS | 6/11 | 0.10% |
+| sin^2 theta_W | 3/13 | 0.20% |
+| sin^2 theta_12_PMNS | 4/13 | 0.23% |
+| sin^2 theta_23_PMNS | 6/11 | 0.10% |
 | m_b/m_t | 1/42 | 0.79% |
 | m_H/m_t | 8/11 | 0.31% |
-| Ω_DM/Ω_b | 43/8 | 0.00% |
+| Omega_DM/Omega_b | 43/8 | 0.00% |
 | h | 167/248 | 0.09% |
 
 ## The 42 Connection
 
-χ(K₇) = 42 appears in both:
+chi(K7) = 42 appears in both:
 - Particle physics: m_b/m_t = 1/42
-- Cosmology: Ω_DM/Ω_b = (1 + 42)/8 = 43/8
+- Cosmology: Omega_DM/Omega_b = (1 + 42)/8 = 43/8
 
 "The answer to life, the universe, and everything" is encoded in
 both the quark mass hierarchy and the composition of the universe.
-
-## Usage
-
-```lean
-import GIFT.Observables
-
-open GIFT.Observables.WeakMixingAngle
-open GIFT.Observables.PMNS
-open GIFT.Observables.QuarkMasses
-open GIFT.Observables.Cosmology
-
-#check sin2_theta_W           -- 3/13
-#check sin2_theta12           -- 4/13
-#check m_b_over_m_t           -- 1/42
-#check Omega_DM_over_Omega_b  -- 43/8
-```
-
-## References
-
-- GIFT Extended Observable Catalog v2 (January 2026)
-- Particle Data Group (2024)
-- Planck Collaboration (2020)
 -/
-
-import GIFT.Observables.WeakMixingAngle
-import GIFT.Observables.PMNS
-import GIFT.Observables.QuarkMasses
-import GIFT.Observables.BosonMasses
-import GIFT.Observables.CKM
-import GIFT.Observables.Cosmology
 
 namespace GIFT.Observables
 
@@ -161,7 +139,7 @@ theorem the_42_universality :
 /-- The ratio 8/11 = rank(E8)/D_bulk appears in multiple contexts -/
 theorem eight_eleven_universality :
     m_H_over_m_t = 8 / 11 ∧
-    -- Also related to sin²θ₂₃_PMNS = 6/11 = 1 - 5/11
+    -- Also related to sin^2 theta_23_PMNS = 6/11 = 1 - 5/11
     sin2_theta23 = 6 / 11 := by
   constructor <;> rfl
 

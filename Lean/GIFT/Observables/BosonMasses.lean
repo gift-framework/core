@@ -1,4 +1,4 @@
-import Mathlib.Data.Rat.Basic
+import Mathlib.Data.Rat.Defs
 import Mathlib.Tactic.NormNum
 import GIFT.Core
 
