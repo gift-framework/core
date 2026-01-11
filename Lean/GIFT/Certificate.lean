@@ -1143,6 +1143,7 @@ theorem the_42_universality_certificate :
   · exact chi_K7_certified
   constructor
   · simp [Observables.Cosmology.Omega_DM_over_Omega_b, Core.b0, chi_K7_certified, rank_E8_certified]
+    norm_num
   constructor
   · simp only [Core.b0, chi_K7_certified]; norm_num
   · exact rank_E8_certified
