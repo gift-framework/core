@@ -54,6 +54,6 @@ For extended observables, publications, and detailed analysis:
 
 ---
 
-[![Blueprint](https://img.shields.io/badge/Lean-Blueprint-blue)](https://gift-framework.github.io/core/home_page/gift_blueprint.html) | [Changelog](CHANGELOG.md) | [MIT License](LICENSE)
+[Changelog](CHANGELOG.md) | [MIT License](LICENSE)
 
 *GIFT Core v3.2.12*
