@@ -7,7 +7,7 @@ import GIFT.Core
 
 sin^2(theta_W) = 3/13 with 14 equivalent GIFT expressions.
 
-Experimental: 0.23122 +/- 0.00004
+Experimental: 0.23122 (error 0.00004)
 GIFT: 3/13 = 0.2308
 Deviation: 0.20%
 -/

@@ -21,7 +21,7 @@ open GIFT.Core
 -- =============================================================================
 
 /-- sin^2(theta_12)_CKM = 56/248 = 7/31 = fund_E7 / dim_E8
-    Experimental: 0.2250 +/- 0.0006
+    Experimental: 0.2250 (error 0.0006)
     GIFT: 56/248 = 0.2258
     Deviation: 0.36% -/
 def sin2_theta12_CKM : ℚ := 56 / 248
@@ -62,7 +62,7 @@ theorem sin2_theta12_CKM_expr4 :
 -- =============================================================================
 
 /-- lambda_Wolfenstein = sin(theta_Cabibbo) approx 56/248
-    Experimental: 0.22453 +/- 0.00044
+    Experimental: 0.22453 (error 0.00044)
     GIFT: 56/248 = 0.2258
     Deviation: 0.57% -/
 def lambda_Wolf : ℚ := 56 / 248
@@ -77,7 +77,7 @@ theorem lambda_Wolf_equals_sin2_theta12 :
 -- =============================================================================
 
 /-- A_Wolfenstein = 83/99 = (Weyl + dim_E6) / H_star
-    Experimental: 0.836 +/- 0.015
+    Experimental: 0.836 (error 0.015)
     GIFT: 83/99 = 0.838
     Deviation: 0.29% -/
 def A_Wolf : ℚ := 83 / 99
@@ -107,7 +107,7 @@ theorem A_Wolf_expr3 :
 -- =============================================================================
 
 /-- sin^2(theta_23)_CKM = 7/168 = dim_K7 / PSL27
-    Experimental: 0.0412 +/- 0.0008
+    Experimental: 0.0412 (error 0.0008)
     GIFT: 7/168 = 0.0417
     Deviation: 1.13% (worst in catalog) -/
 def sin2_theta23_CKM : ℚ := 7 / 168
