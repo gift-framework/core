@@ -25,6 +25,8 @@ import GIFT.Foundations.E8Mathlib
 import GIFT.Foundations.Analysis
 -- Analytical G2 metric definitions for K7
 import GIFT.Foundations.AnalyticalMetric
+-- Octonion bridge: connects R8 (E8Lattice) with R7 (G2CrossProduct)
+import GIFT.Foundations.OctonionBridge
 
 namespace GIFT.Foundations
 
@@ -171,6 +173,23 @@ export E8Mathlib (E8_coxeter E8_coxeter_number E8_rank_val
   E8_roots_from_coxeter gift_E8_roots enumeration_matches_coxeter
   E8_lie_dim E8_dimension_certified E8_dimension_from_coxeter
   E8_weyl_order E8_weyl_factored exceptional_dimensions)
+
+-- Octonion Bridge: R8-R7 connection (v3.2.15)
+-- This unifies E8Lattice (R8) with G2CrossProduct (R7) via octonion structure
+export OctonionBridge (
+  -- Dimensional structure
+  dim_octonions dim_imaginary_octonions dim_real_octonions
+  octonion_dimension_decomposition
+  R8_dim_eq_octonions R7_dim_eq_imaginary ambient_imaginary_bridge
+  -- E8-G2 connection
+  E8_rank_G2_domain_bridge G2_dim_from_b2 G2_acts_on_R7
+  SO7_dim_eq_b2 G2_codim_in_SO7
+  -- Cross product bridge
+  fano_lines_eq_imaginary_units fano_structure_constant
+  -- Topological bridge
+  b2_from_R7 b2_R7_G2_relation H_star_G2_K7
+  -- Master theorem
+  octonion_bridge_master)
 
 /-!
 ## Comparison: Old vs New

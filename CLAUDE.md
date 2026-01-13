@@ -10,7 +10,7 @@ gift-framework/core/
 │   ├── GIFT.lean           # Main entry point
 │   ├── GIFT/
 │   │   ├── Core.lean       # Source of truth for constants
-│   │   ├── Certificate.lean # Master theorems (180+ relations)
+│   │   ├── Certificate.lean # Master theorems (185+ relations)
 │   │   │
 │   │   ├── Algebra.lean    # E₈, G₂, E₇, F₄, E₆ constants
 │   │   ├── Topology.lean   # Betti numbers, H*, p₂
@@ -18,8 +18,9 @@ gift-framework/core/
 │   │   │
 │   │   ├── Foundations/    # Mathematical foundations
 │   │   │   ├── RootSystems.lean      # E₈ roots in ℝ⁸
-│   │   │   ├── E8Lattice.lean        # E₈ lattice formalization
-│   │   │   ├── G2CrossProduct.lean   # 7D cross product
+│   │   │   ├── E8Lattice.lean        # E₈ lattice formalization (R8)
+│   │   │   ├── G2CrossProduct.lean   # 7D cross product (R7)
+│   │   │   ├── OctonionBridge.lean   # R8-R7 connection via octonions
 │   │   │   ├── Analysis/             # Hodge theory, Sobolev (research)
 │   │   │   └── ...
 │   │   │
@@ -803,4 +804,4 @@ theorem Weyl_factor_certified : Weyl_factor = 5 := rfl  -- Add this!
 
 ---
 
-*Last updated: 2026-01-13 - Fano Selection Principle, Sector Classification, m_W/m_Z observable (v3.2.14)*
+*Last updated: 2026-01-13 - Octonion Bridge: R8-R7 formally connected via octonion structure (v3.2.15)*
