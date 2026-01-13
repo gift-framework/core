@@ -197,8 +197,9 @@ theorem b2_R7_G2_relation : b2 = dim_K7 + dim_G2 := rfl
 /-- H* involves both E8 rank and other constants -/
 theorem H_star_decomposition : H_star = 12 * rank_E8 + 3 := rfl
 
-/-- Alternative: H* in terms of G2 and K7 dimensions -/
-theorem H_star_G2_K7 : H_star = dim_G2 * dim_K7 + dim_K7 + 1 := by native_decide
+/-- Alternative: H* in terms of G2 and K7 dimensions
+    H* = dim(G2) × dim(K7) + 1 = 14 × 7 + 1 = 98 + 1 = 99 -/
+theorem H_star_G2_K7 : H_star = dim_G2 * dim_K7 + 1 := by native_decide
 
 /-!
 ## Master Bridge Theorem

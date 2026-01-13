@@ -852,7 +852,7 @@ abbrev G2_from_b2 := GIFT.Foundations.OctonionBridge.G2_dim_from_b2
 /-- b2 = dim(K7) + dim(G2) = 7 + 14 = 21 (key topological relation) -/
 abbrev b2_R7_G2 := GIFT.Foundations.OctonionBridge.b2_R7_G2_relation
 
-/-- H* in terms of G2 and K7: H* = dim(G2) × dim(K7) + dim(K7) + 1 -/
+/-- H* in terms of G2 and K7: H* = dim(G2) × dim(K7) + 1 = 14×7 + 1 = 99 -/
 abbrev H_star_G2_K7 := GIFT.Foundations.OctonionBridge.H_star_G2_K7
 
 /-- Master bridge theorem: all key dimensional relationships unified -/
