@@ -189,7 +189,14 @@ export OctonionBridge (
   -- Topological bridge
   b2_from_R7 b2_R7_G2_relation H_star_G2_K7
   -- Master theorem
-  octonion_bridge_master)
+  octonion_bridge_master
+  -- Graph connectivity: E8Lattice integration (creates dependency edges)
+  R8_basis_orthonormal R8_basis_unit_norm R8_norm_squared R8_inner_product
+  -- Graph connectivity: G2CrossProduct integration (creates dependency edges)
+  octonion_epsilon_antisymm octonion_cross_bilinear octonion_cross_antisymm
+  octonion_lagrange_identity octonion_multiplication_structure
+  -- Master unification (hub connecting E8Lattice, G2CrossProduct, Core)
+  octonion_unification)
 
 /-!
 ## Comparison: Old vs New
