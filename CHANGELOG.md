@@ -5,6 +5,42 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.15] - 2026-01-13
+
+### Summary
+
+**Octonion Bridge!** Formally connects the previously disconnected R8 (E8Lattice) and R7 (G2CrossProduct) clusters in the blueprint dependency graph via octonion structure. This resolves the "two islands" problem in the dependency visualization.
+
+### Added
+
+- **OctonionBridge.lean** (250 lines):
+  - Octonion dimension decomposition: O = R + Im(O), so 8 = 1 + 7
+  - R8/R7 correspondence: `Fin 8 = Fin 7 + 1`
+  - E8-G2 bridge: `rank_E8 = dim_K7 + 1` (key connection!)
+  - Fano-octonion correspondence: 7 Fano lines = 7 imaginary units
+  - Topological bridge: `b2 = dim_K7 + dim_G2 = 7 + 14 = 21`
+  - H* decomposition: `H* = dim_G2 × dim_K7 + 1 = 14×7 + 1 = 99`
+  - `octonion_bridge_master`: unified theorem with all key relations
+
+- **Certificate.lean**: 12 new abbrevs for dependency graph edges
+  - `octonion_decomposition`, `R8_dim`, `R7_dim`, `ambient_imaginary`
+  - `E8_rank_R8`, `K7_dim_R7`, `E8_G2_bridge`, `fano_imaginary`
+  - `G2_from_b2`, `b2_R7_G2`, `H_star_G2_K7`, `octonion_bridge_master`
+  - `gift_octonion_bridge_certificate`: formal verification theorem
+
+- **Foundations.lean**: OctonionBridge imports and exports
+
+### Changed
+
+- Blueprint dependency graph now shows single connected component
+- Version bumped to 3.2.15
+
+### Fixed
+
+- Disconnected clusters in dependency graph (R8/E8 and R7/G2/K7 now unified)
+
+---
+
 ## [3.2.14] - 2026-01-13
 
 ### Summary
