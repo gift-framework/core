@@ -52,7 +52,7 @@ theorem Q_koide_p2_N_gen : (p2 : ℚ) / N_gen = 2 / 3 := by
 
 /-- Expression 2: dim_G₂/b₂ = 14/21 = 2/3 -/
 theorem Q_koide_G2_b2 : (dim_G2 : ℚ) / b2 = 2 / 3 := by
-  norm_num [dim_G2_certified, b2_certified]
+  norm_num [Algebraic.G2.dim_G2_eq, b2_value]
 
 /-- Expression 3: dim_F₄/dim_E₆ = 52/78 = 2/3 -/
 theorem Q_koide_F4_E6 : (dim_F4 : ℚ) / dim_E6 = 2 / 3 := by
@@ -60,7 +60,7 @@ theorem Q_koide_F4_E6 : (dim_F4 : ℚ) / dim_E6 = 2 / 3 := by
 
 /-- Expression 4: (b₂ - dim_K)/b₂ = (21-7)/21 = 14/21 = 2/3 -/
 theorem Q_koide_betti_K7 : ((b2 : ℚ) - dim_K7) / b2 = 2 / 3 := by
-  norm_num [b2_certified, dim_K7_certified]
+  norm_num [b2_value, dim_K7_certified]
 
 /-- Expression 5: rank_E8/(rank_E8 + 4) = 8/12 = 2/3 -/
 theorem Q_koide_rank_ratio : (rank_E8 : ℚ) / (rank_E8 + 4) = 2 / 3 := by
@@ -69,7 +69,7 @@ theorem Q_koide_rank_ratio : (rank_E8 : ℚ) / (rank_E8 + 4) = 2 / 3 := by
 /-- Expression 6: (dim_G2 + dim_K7)/b2 = (14+7)/21 = 1 ≠ 2/3... skip
     Let's try: 2*dim_K7/b2 = 14/21 = 2/3 -/
 theorem Q_koide_2K7_b2 : (2 * dim_K7 : ℚ) / b2 = 2 / 3 := by
-  norm_num [dim_K7_certified, b2_certified]
+  norm_num [dim_K7_certified, b2_value]
 
 /-- Expression 7: (H* - b3) / (H* - b2) = (99-77)/(99-21) = 22/78 = 11/39... nope
     Try: 4/(2*N_gen) = 4/6 = 2/3 -/
@@ -90,8 +90,8 @@ theorem Q_koide_8_expressions :
     (2 * dim_K7 : ℚ) / b2 = 2 / 3 ∧
     (4 : ℚ) / (2 * N_gen) = 2 / 3 ∧
     ((rank_E8 : ℚ) - p2) / (rank_E8 + 1) = 2 / 3 := by
-  repeat (first | constructor | norm_num [p2_certified, N_gen_certified, dim_G2_certified,
-    b2_certified, dim_F4_certified, dim_E6_certified, dim_K7_certified, rank_E8_certified])
+  repeat (first | constructor | norm_num [p2_certified, N_gen_certified, Algebraic.G2.dim_G2_eq,
+    b2_value, dim_F4_certified, dim_E6_certified, dim_K7_certified, rank_E8_certified])
 
 -- =============================================================================
 -- SECTION 2: sin²θ_W = 3/13 (19 expressions documented)
@@ -105,7 +105,7 @@ The weak mixing angle is predicted from multiple GIFT combinations.
 
 /-- Expression 1: b₂/(b₃ + dim_G₂) = 21/91 = 3/13 -/
 theorem sin2_W_b2_sum : (b2 : ℚ) / (b3 + dim_G2) = 3 / 13 := by
-  norm_num [b2_certified, b3_value, dim_G2_certified]
+  norm_num [b2_value, b3_value, Algebraic.G2.dim_G2_eq]
 
 /-- Expression 2: N_gen/α_sum = 3/13 -/
 theorem sin2_W_N_alpha : (N_gen : ℚ) / alpha_sum = 3 / 13 := by
@@ -117,7 +117,7 @@ theorem sin2_W_N_rank_weyl : (N_gen : ℚ) / (rank_E8 + Weyl_factor) = 3 / 13 :=
 
 /-- Expression 4: (dim_G2 - D_bulk)/α_sum = (14-11)/13 = 3/13 -/
 theorem sin2_W_G2_D : ((dim_G2 : ℚ) - D_bulk) / alpha_sum = 3 / 13 := by
-  norm_num [dim_G2_certified, D_bulk_certified, alpha_sum_certified]
+  norm_num [Algebraic.G2.dim_G2_eq, D_bulk_certified, alpha_sum_certified]
 
 /-- Expression 5: (p2 + 1)/α_sum = 3/13 -/
 theorem sin2_W_p2_1 : ((p2 : ℚ) + 1) / alpha_sum = 3 / 13 := by
@@ -130,7 +130,7 @@ theorem sin2_W_5_expressions :
     (N_gen : ℚ) / (rank_E8 + Weyl_factor) = 3 / 13 ∧
     ((dim_G2 : ℚ) - D_bulk) / alpha_sum = 3 / 13 ∧
     ((p2 : ℚ) + 1) / alpha_sum = 3 / 13 := by
-  repeat (first | constructor | norm_num [b2_certified, b3_value, dim_G2_certified,
+  repeat (first | constructor | norm_num [b2_value, b3_value, Algebraic.G2.dim_G2_eq,
     N_gen_certified, alpha_sum_certified, rank_E8_certified, Weyl_factor_certified,
     D_bulk_certified, p2_certified])
 
@@ -180,11 +180,11 @@ theorem mH_mt_fund_b3 : (dim_fund_E7 : ℚ) / b3 = 8 / 11 := by
 
 /-- Expression 3: (b3 - b2)/b3 = 56/77 = 8/11 -/
 theorem mH_mt_betti_diff : ((b3 : ℚ) - b2) / b3 = 8 / 11 := by
-  norm_num [b3_value, b2_certified]
+  norm_num [b3_value, b2_value]
 
 /-- Expression 4: 2*rank/(b2 + 1) = 16/22 = 8/11 -/
 theorem mH_mt_2rank : (2 * rank_E8 : ℚ) / (b2 + 1) = 8 / 11 := by
-  norm_num [rank_E8_certified, b2_certified]
+  norm_num [rank_E8_certified, b2_value]
 
 /-- Master: 4 proven expressions for 8/11 -/
 theorem mH_mt_4_expressions :
@@ -193,7 +193,7 @@ theorem mH_mt_4_expressions :
     ((b3 : ℚ) - b2) / b3 = 8 / 11 ∧
     (2 * rank_E8 : ℚ) / (b2 + 1) = 8 / 11 := by
   repeat (first | constructor | norm_num [rank_E8_certified, D_bulk_certified,
-    dim_fund_E7_certified, b3_value, b2_certified])
+    dim_fund_E7_certified, b3_value, b2_value])
 
 -- =============================================================================
 -- SECTION 5: sin²θ₂₃_PMNS = 4/7 (corrected formula)
@@ -209,7 +209,7 @@ Deviation: 0.63%
 
 /-- Expression 1: rank_E8/dim_G2 = 8/14 = 4/7 -/
 theorem sin2_23_rank_G2 : (rank_E8 : ℚ) / dim_G2 = 4 / 7 := by
-  norm_num [rank_E8_certified, dim_G2_certified]
+  norm_num [rank_E8_certified, Algebraic.G2.dim_G2_eq]
 
 /-- Expression 2: 2*p2/dim_K7 = 4/7 -/
 theorem sin2_23_2p2_K7 : (2 * p2 : ℚ) / dim_K7 = 4 / 7 := by
@@ -225,7 +225,7 @@ theorem sin2_23_3_expressions :
     (rank_E8 : ℚ) / dim_G2 = 4 / 7 ∧
     (2 * p2 : ℚ) / dim_K7 = 4 / 7 ∧
     (4 : ℚ) / dim_K7 = 4 / 7 := by
-  repeat (first | constructor | norm_num [rank_E8_certified, dim_G2_certified,
+  repeat (first | constructor | norm_num [rank_E8_certified, Algebraic.G2.dim_G2_eq,
     p2_certified, dim_K7_certified])
 
 -- =============================================================================
@@ -242,7 +242,7 @@ theorem mb_mt_chi : (1 : ℚ) / chi_K7 = 1 / 42 := by
 
 /-- Expression 2: 1/(2*b2) = 1/42 -/
 theorem mb_mt_2b2 : (1 : ℚ) / (2 * b2) = 1 / 42 := by
-  norm_num [b2_certified]
+  norm_num [b2_value]
 
 /-- Expression 3: 1/(6*dim_K7) = 1/42 -/
 theorem mb_mt_6K7 : (1 : ℚ) / (6 * dim_K7) = 1 / 42 := by
@@ -263,7 +263,7 @@ theorem mb_mt_5_expressions :
     (1 : ℚ) / (6 * dim_K7) = 1 / 42 ∧
     ((N_gen : ℚ) + 1) / PSL27 = 1 / 42 ∧
     (2 : ℚ) / (chi_K7 + chi_K7) = 1 / 42 := by
-  repeat (first | constructor | norm_num [chi_K7_certified, b2_certified,
+  repeat (first | constructor | norm_num [chi_K7_certified, b2_value,
     dim_K7_certified, N_gen_certified, PSL27_certified])
 
 -- =============================================================================
@@ -289,8 +289,8 @@ theorem over_determination_certificate :
     -- m_b/m_t = 1/42 (5 expressions)
     ((1 : ℚ) / chi_K7 = 1 / 42) ∧
     (((N_gen : ℚ) + 1) / PSL27 = 1 / 42) := by
-  repeat (first | constructor | norm_num [p2_certified, N_gen_certified, dim_G2_certified,
-    b2_certified, dim_F4_certified, dim_E6_certified, b3_value, alpha_sum_certified,
+  repeat (first | constructor | norm_num [p2_certified, N_gen_certified, Algebraic.G2.dim_G2_eq,
+    b2_value, dim_F4_certified, dim_E6_certified, b3_value, alpha_sum_certified,
     rank_E8_certified, D_bulk_certified, dim_fund_E7_certified, chi_K7_certified,
     PSL27_certified])
 

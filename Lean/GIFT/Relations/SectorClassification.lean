@@ -164,13 +164,13 @@ Physical observables come from ratios of DIFFERENT sectors.
 theorem weinberg_cross_sector :
     (gauge_b2 : ℚ) / (matter_b3 + hol_dim_G2) = 3 / 13 := by
   unfold gauge_b2 matter_b3 hol_dim_G2
-  norm_num [b2_certified, b3_value, dim_G2_certified]
+  norm_num [b2_value, b3_value, Algebraic.G2.dim_G2_eq]
 
 /-- Q_Koide = Holonomy / Gauge = 14/21 = 2/3 -/
 theorem koide_cross_sector :
     (hol_dim_G2 : ℚ) / gauge_b2 = 2 / 3 := by
   unfold hol_dim_G2 gauge_b2
-  norm_num [dim_G2_certified, b2_certified]
+  norm_num [Algebraic.G2.dim_G2_eq, b2_value]
 
 /-- m_H/m_t = Gauge / Mixed = 8/11 -/
 theorem mH_mt_cross_sector :
@@ -182,7 +182,7 @@ theorem mH_mt_cross_sector :
 theorem sin2_23_cross_sector :
     (gauge_rank : ℚ) / hol_dim_G2 = 4 / 7 := by
   unfold gauge_rank hol_dim_G2
-  norm_num [rank_E8_certified, dim_G2_certified]
+  norm_num [rank_E8_certified, Algebraic.G2.dim_G2_eq]
 
 /-- N_gen = Matter / Matter = 3 (within-sector gives integer) -/
 theorem N_gen_within_sector :
@@ -191,7 +191,7 @@ theorem N_gen_within_sector :
   unfold matter_fund_E7 gauge_b2
   constructor
   · native_decide
-  · norm_num [dim_fund_E7_certified, b2_certified]
+  · norm_num [dim_fund_E7_certified, b2_value]
 
 -- =============================================================================
 -- SECTION 5: SAME-SECTOR RATIOS (NOT PHYSICS)
@@ -208,7 +208,7 @@ This provides a "negative" selection rule.
 theorem gauge_gauge_ratio :
     (gauge_rank : ℚ) / gauge_b2 = 8 / 21 := by
   unfold gauge_rank gauge_b2
-  norm_num [rank_E8_certified, b2_certified]
+  norm_num [rank_E8_certified, b2_value]
 
 /-- Matter/Matter: N_gen/b₃ = 3/77 (not a known observable) -/
 theorem matter_matter_ratio :
@@ -282,6 +282,6 @@ theorem sector_classification_certified :
   unfold gauge_b2 gauge_rank gauge_dim matter_b3 matter_N_gen matter_fund_E7
     hol_dim_G2 hol_dim_K7 hol_Weyl
   repeat (first | constructor | native_decide | rfl |
-    norm_num [b2_certified, b3_value, dim_G2_certified, rank_E8_certified])
+    norm_num [b2_value, b3_value, Algebraic.G2.dim_G2_eq, rank_E8_certified])
 
 end GIFT.Relations.SectorClassification

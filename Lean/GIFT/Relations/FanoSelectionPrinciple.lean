@@ -114,7 +114,7 @@ These are the ratios that correspond to physical observables.
     Both 21 and 91 are divisible by 7, giving Fano-independent 3/13 -/
 theorem weinberg_fano_independent :
     (b2 : ℚ) / (b3 + dim_G2) = 3 / 13 := by
-  norm_num [b2_certified, b3_value, dim_G2_certified]
+  norm_num [b2_value, b3_value, Algebraic.G2.dim_G2_eq]
 
 /-- The 7 cancels: 21/91 = (3×7)/(13×7) = 3/13 -/
 theorem weinberg_seven_cancels :
@@ -152,7 +152,7 @@ These ratios are NOT used for physics because 7 doesn't cancel properly.
     Both divisible by 7, but result 3/11 doesn't match physics -/
 theorem b2_over_b3_not_used :
     (b2 : ℚ) / b3 = 3 / 11 := by
-  norm_num [b2_certified, b3_value]
+  norm_num [b2_value, b3_value]
 
 /-- rank(E₈) is NOT divisible by 7 -/
 theorem rank_E8_not_mod7 : rank_E8 % 7 ≠ 0 := by native_decide
@@ -259,7 +259,7 @@ theorem fano_selection_principle :
     PSL27 / dim_fund_E7 = N_gen ∧
     -- m_b/m_t: 1/42 (7 in denominator)
     chi_K7 = 42 := by
-  repeat (first | constructor | native_decide | norm_num [b2_certified, b3_value, dim_G2_certified])
+  repeat (first | constructor | native_decide | norm_num [b2_value, b3_value, Algebraic.G2.dim_G2_eq])
 
 /-- All Fano selection relations certified -/
 theorem all_fano_selection_certified :

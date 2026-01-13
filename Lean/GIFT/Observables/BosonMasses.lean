@@ -81,7 +81,7 @@ theorem m_W_over_m_Z_value : m_W_over_m_Z = 37 / 42 := rfl
 theorem m_W_over_m_Z_primary :
     ((2 * b2 : ℚ) - Weyl_factor) / (2 * b2) = m_W_over_m_Z := by
   unfold m_W_over_m_Z
-  norm_num [b2_certified, Weyl_factor_certified]
+  norm_num [b2_value, Weyl_factor_certified]
 
 /-- Expression 2: (chi_K7 - Weyl) / chi_K7 = 37/42 -/
 theorem m_W_over_m_Z_expr2 :
