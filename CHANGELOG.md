@@ -5,6 +5,52 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.14] - 2026-01-13
+
+### Summary
+
+**Fano Selection Principle and Sector Classification!** Formalized the mathematical structure explaining WHY certain GIFT formulas work: mod-7 cancellation in the Fano plane structure. Added m_W/m_Z = 37/42 observable (0.06% deviation, previously 8.7%).
+
+### Added
+
+- **FanoSelectionPrinciple.lean** (279 lines):
+  - Fano basis: 7 constants divisible by 7 (dim_K7, dim_G2, b2, chi_K7, fund_E7, b3, PSL27)
+  - Mod-7 cancellation theorems for working formulas
+  - `N_gen_from_PSL27_fund_E7`: N_gen = |PSL(2,7)|/fund(E7) = 168/56 = 3
+  - Four-level selection principle formalization
+
+- **OverDetermination.lean** (302 lines):
+  - 28 proven equivalent expressions for 6 key fractions
+  - Q_Koide = 2/3: 8 expressions
+  - sin²θ_W = 3/13: 5 expressions
+  - sin²θ₁₂ = 4/13: 3 expressions
+  - m_H/m_t = 8/11: 4 expressions
+  - sin²θ₂₃ = 4/7: 3 expressions (corrected formula)
+  - m_b/m_t = 1/42: 5 expressions
+
+- **SectorClassification.lean** (287 lines):
+  - Gauge sector: {b₂, rank_E8, dim_E8}
+  - Matter sector: {b₃, N_gen, fund_E7}
+  - Holonomy sector: {dim_G2, dim_K7, Weyl}
+  - Cross-sector ratios → physical observables
+  - Same-sector ratios → not physics (selection rule)
+
+- **BosonMasses.lean**: m_W/m_Z = 37/42 observable
+  - Formula: (2b₂ - Weyl)/(2b₂) = (42-5)/42 = 37/42
+  - Deviation: 0.06% (was 8.7% with old formula)
+  - 3 equivalent expressions proven
+
+- **Certificate.lean**: v3.3a Selection Principle Certificate
+  - `gift_v33a_selection_principle_certificate`
+  - Abbrevs for dependency graph connections
+
+### Changed
+
+- **Observables.lean**: Added m_W_over_m_Z to exports and certification
+- Total observables: 22 → 23
+
+---
+
 ## [3.2.13] - 2026-01-11
 
 ### Summary

@@ -803,4 +803,4 @@ theorem Weyl_factor_certified : Weyl_factor = 5 := rfl  -- Add this!
 
 ---
 
-*Last updated: 2026-01-11 - Extended Observables, docstring nesting, namespace ambiguity (v3.2.12)*
+*Last updated: 2026-01-13 - Fano Selection Principle, Sector Classification, m_W/m_Z observable (v3.2.14)*
