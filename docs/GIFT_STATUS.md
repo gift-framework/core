@@ -1,7 +1,7 @@
 # GIFT Framework Status
 
-**Version**: 3.2.13
-**Date**: 2026-01-11
+**Version**: 3.2.14
+**Date**: 2026-01-13
 **Proof Systems**: Lean 4 + Coq
 
 ---

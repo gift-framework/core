@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.2.13).
+Complete documentation for the `giftpy` Python package (v3.2.14).
 
 ## Installation
 
@@ -35,6 +35,41 @@ print(cross_product(u, v))  # 7D cross product
 # Verify all relations
 from gift_core import verify
 print(verify())          # True
+```
+
+## New in v3.2.14
+
+### Fano Selection Principle (Lean 4)
+
+Formalized the mathematical structure explaining WHY certain GIFT formulas work:
+
+```lean
+import GIFT.Relations.FanoSelectionPrinciple
+import GIFT.Relations.OverDetermination
+import GIFT.Relations.SectorClassification
+
+-- Fano basis: constants divisible by 7
+#check FanoSelectionPrinciple.fano_basis_complete
+-- dim_K7 = 1×7, dim_G2 = 2×7, b2 = 3×7, chi_K7 = 6×7, fund_E7 = 8×7, b3 = 11×7, PSL27 = 24×7
+
+-- N_gen derivation from Fano symmetry
+#check FanoSelectionPrinciple.N_gen_from_PSL27_fund_E7  -- N_gen = |PSL(2,7)|/fund(E7) = 168/56 = 3
+
+-- Over-determination: 28 proven expressions for 6 key fractions
+#check OverDetermination.over_determination_certificate
+
+-- Sector classification: Gauge / Matter / Holonomy
+#check SectorClassification.sector_classification_certified
+```
+
+### New Observable: m_W/m_Z = 37/42
+
+```lean
+import GIFT.Observables.BosonMasses
+
+#check BosonMasses.m_W_over_m_Z          -- 37/42
+#check BosonMasses.m_W_over_m_Z_primary  -- (2b₂ - Weyl)/(2b₂) = 37/42
+-- Experimental: 0.8815, GIFT: 0.8810, Deviation: 0.06% (was 8.7%!)
 ```
 
 ## New in v3.2.13
