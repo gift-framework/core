@@ -858,6 +858,31 @@ abbrev H_star_G2_K7 := GIFT.Foundations.OctonionBridge.H_star_G2_K7
 /-- Master bridge theorem: all key dimensional relationships unified -/
 abbrev octonion_bridge_master := GIFT.Foundations.OctonionBridge.octonion_bridge_master
 
+-- Graph connectivity: E8Lattice integration (creates real dependency edges)
+/-- R8 basis orthonormality (uses E8Lattice.stdBasis_orthonormal) -/
+abbrev R8_basis_orthonormal := GIFT.Foundations.OctonionBridge.R8_basis_orthonormal
+/-- R8 basis unit norm (uses E8Lattice.stdBasis_norm) -/
+abbrev R8_basis_unit_norm := GIFT.Foundations.OctonionBridge.R8_basis_unit_norm
+/-- R8 norm squared formula (uses E8Lattice.normSq_eq_sum) -/
+abbrev R8_norm_squared := GIFT.Foundations.OctonionBridge.R8_norm_squared
+/-- R8 inner product formula (uses E8Lattice.inner_eq_sum) -/
+abbrev R8_inner_product := GIFT.Foundations.OctonionBridge.R8_inner_product
+
+-- Graph connectivity: G2CrossProduct integration (creates real dependency edges)
+/-- Epsilon antisymmetry (uses G2CrossProduct.epsilon_antisymm) -/
+abbrev octonion_epsilon_antisymm := GIFT.Foundations.OctonionBridge.octonion_epsilon_antisymm
+/-- Cross bilinearity (uses G2CrossProduct.G2_cross_bilinear) -/
+abbrev octonion_cross_bilinear := GIFT.Foundations.OctonionBridge.octonion_cross_bilinear
+/-- Cross antisymmetry (uses G2CrossProduct.G2_cross_antisymm) -/
+abbrev octonion_cross_antisymm := GIFT.Foundations.OctonionBridge.octonion_cross_antisymm
+/-- Lagrange identity (uses G2CrossProduct.G2_cross_norm) - THE key theorem -/
+abbrev octonion_lagrange_identity := GIFT.Foundations.OctonionBridge.octonion_lagrange_identity
+/-- Octonion multiplication structure (uses G2CrossProduct.cross_is_octonion_structure) -/
+abbrev octonion_multiplication_structure := GIFT.Foundations.OctonionBridge.octonion_multiplication_structure
+
+/-- Master unification: hub connecting E8Lattice, G2CrossProduct, and Core -/
+abbrev octonion_unification := GIFT.Foundations.OctonionBridge.octonion_unification
+
 /-- GIFT v3.2.15 Octonion Bridge Certificate
     Formally connects R8 (E8Lattice) and R7 (G2CrossProduct) via octonion structure -/
 theorem gift_octonion_bridge_certificate :

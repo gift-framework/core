@@ -248,4 +248,95 @@ All theorems use only `rfl` or `native_decide`, ensuring they are
 computationally verified with no axioms beyond Lean's type theory.
 -/
 
+/-!
+## Graph Connectivity: E8Lattice Integration
+
+These theorems create explicit dependencies on E8Lattice theorems,
+ensuring connectivity in the blueprint dependency graph.
+-/
+
+/-- R8 basis vectors are orthonormal (uses E8Lattice.stdBasis_orthonormal)
+    This creates a dependency edge: OctonionBridge → E8Lattice -/
+theorem R8_basis_orthonormal : ∀ i j : Fin 8,
+    @inner ℝ R8 _ (stdBasis i) (stdBasis j) = if i = j then (1 : ℝ) else 0 :=
+  stdBasis_orthonormal
+
+/-- R8 basis vectors have unit norm (uses E8Lattice.stdBasis_norm)
+    This creates a dependency edge: OctonionBridge → E8Lattice -/
+theorem R8_basis_unit_norm : ∀ i : Fin 8, ‖stdBasis i‖ = 1 :=
+  stdBasis_norm
+
+/-- R8 norm squared formula (uses E8Lattice.normSq_eq_sum)
+    This creates a dependency edge: OctonionBridge → E8Lattice -/
+theorem R8_norm_squared : ∀ v : R8, ‖v‖^2 = ∑ i, (v i)^2 :=
+  normSq_eq_sum
+
+/-- R8 inner product formula (uses E8Lattice.inner_eq_sum)
+    This creates a dependency edge: OctonionBridge → E8Lattice -/
+theorem R8_inner_product : ∀ v w : R8, @inner ℝ R8 _ v w = ∑ i, v i * w i :=
+  inner_eq_sum
+
+/-!
+## Graph Connectivity: G2CrossProduct Integration
+
+These theorems create explicit dependencies on G2CrossProduct theorems,
+ensuring connectivity in the blueprint dependency graph.
+-/
+
+/-- Epsilon structure constants are antisymmetric (uses G2CrossProduct.epsilon_antisymm)
+    This creates a dependency edge: OctonionBridge → G2CrossProduct -/
+theorem octonion_epsilon_antisymm : ∀ i j k : Fin 7,
+    epsilon i j k = -epsilon j i k :=
+  epsilon_antisymm
+
+/-- Cross product is bilinear (uses G2CrossProduct.G2_cross_bilinear)
+    This creates a dependency edge: OctonionBridge → G2CrossProduct -/
+theorem octonion_cross_bilinear :
+    (∀ a : ℝ, ∀ u v w : R7, cross (a • u + v) w = a • cross u w + cross v w) ∧
+    (∀ a : ℝ, ∀ u v w : R7, cross u (a • v + w) = a • cross u v + cross u w) :=
+  G2_cross_bilinear
+
+/-- Cross product is antisymmetric (uses G2CrossProduct.G2_cross_antisymm)
+    This creates a dependency edge: OctonionBridge → G2CrossProduct -/
+theorem octonion_cross_antisymm : ∀ u v : R7, cross u v = -cross v u :=
+  G2_cross_antisymm
+
+/-- Lagrange identity for 7D cross product (uses G2CrossProduct.G2_cross_norm)
+    This is THE key theorem connecting octonion structure to geometry.
+    This creates a dependency edge: OctonionBridge → G2CrossProduct -/
+theorem octonion_lagrange_identity : ∀ u v : R7,
+    ‖cross u v‖^2 = ‖u‖^2 * ‖v‖^2 - (@inner ℝ R7 _ u v)^2 :=
+  G2_cross_norm
+
+/-- Cross product matches octonion multiplication (uses G2CrossProduct.cross_is_octonion_structure)
+    This creates a dependency edge: OctonionBridge → G2CrossProduct -/
+theorem octonion_multiplication_structure : ∀ i j k : Fin 7,
+    epsilon i j k ≠ 0 →
+      (∃ line ∈ fano_lines, (i, j, k) = line ∨
+        (j, k, i) = line ∨ (k, i, j) = line ∨
+        (k, j, i) = line ∨ (j, i, k) = line ∨ (i, k, j) = line) :=
+  cross_is_octonion_structure
+
+/-!
+## Master Unification Theorem
+
+This theorem ties together E8Lattice, G2CrossProduct, and Core constants,
+creating a central hub in the dependency graph.
+-/
+
+/-- Master unification: R8 (E8) and R7 (G2) are connected via octonion structure
+    This theorem creates edges to both E8Lattice and G2CrossProduct -/
+theorem octonion_unification :
+    -- E8Lattice properties (R8)
+    (∀ i : Fin 8, ‖stdBasis i‖ = 1) ∧
+    -- G2CrossProduct properties (R7)
+    (∀ u v : R7, cross u v = -cross v u) ∧
+    -- Dimensional connection
+    (Fintype.card (Fin 8) = Fintype.card (Fin 7) + 1) ∧
+    -- Fano structure
+    (fano_lines.length = 7) ∧
+    -- Core constants
+    (b2 = dim_K7 + dim_G2) := by
+  exact ⟨stdBasis_norm, G2_cross_antisymm, rfl, fano_lines_count, rfl⟩
+
 end GIFT.Foundations.OctonionBridge
