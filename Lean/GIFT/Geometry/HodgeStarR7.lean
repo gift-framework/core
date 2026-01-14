@@ -125,7 +125,12 @@ def trivialHodgeStar : HodgeStar where
     -- For constant forms, ⋆ is a linear map on coefficients
     -- The actual implementation uses complement indices
     constDiffForm (7 - k) (fun _ => 0)  -- Placeholder (returns 0)
-  star_linear := fun _ _ _ _ _ => rfl  -- Both sides are 0
+  star_linear := fun _ _ a _ _ => by
+    simp only [HAdd.hAdd, Add.add, HSMul.hSMul, SMul.smul, OfNat.ofNat, Zero.zero]
+    unfold constDiffForm addDiffForm smulDiffForm zeroDiffForm
+    congr 1
+    funext p i
+    ring
   star_star := fun _ _ _ => by
     simp only [constDiffForm]
     sorry -- Requires detailed index manipulation for non-trivial star
