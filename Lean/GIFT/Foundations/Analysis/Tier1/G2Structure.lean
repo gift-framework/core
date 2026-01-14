@@ -17,7 +17,7 @@ This module provides the final API that makes these expressions type-check.
 
 This module contains:
 - Zero `axiom` declarations
-- Zero `sorry` proofs
+- Zero incomplete proofs
 - Zero `admit` tactics
 
 All structures are either:
@@ -145,7 +145,7 @@ We have successfully formalized:
 3. **⋆** — Hodge star structure via `HodgeData` (abstract)
 4. **TorsionFree** — The condition `dφ = 0 ∧ d(⋆φ) = 0`
 
-All without axioms, sorry, or admit.
+All without axioms or incomplete proofs.
 
 The next tier (Tier 2) would add:
 - Concrete Hodge star implementation on ℝ⁷

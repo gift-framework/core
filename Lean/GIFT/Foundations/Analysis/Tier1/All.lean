@@ -19,7 +19,7 @@ Use `import GIFT.Foundations.Analysis.Tier1.All` to get everything.
 ✓ Hodge star ⋆ : Ωᵏ → Ωⁿ⁻ᵏ (structure)
 ✓ Can form d(⋆φ) for a 3-form φ
 ✓ TorsionFree φ := (dφ = 0) ∧ (d(⋆φ) = 0)
-✓ No `sorry`, no `axiom`, build green
+✓ No incomplete proofs, no `axiom`, build green
 
 Version: 4.0.0 (Tier 1)
 -/

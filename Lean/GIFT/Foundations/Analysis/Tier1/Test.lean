@@ -169,7 +169,7 @@ All tests pass by compilation. Tier 1 is complete:
 ✓ d : Ωᵏ → Ωᵏ⁺¹ defined with d∘d=0 proven
 ✓ ⋆ : Ωᵏ → Ωⁿ⁻ᵏ structure available (HodgeData)
 ✓ TorsionFree φ := (dφ = 0) ∧ (d⋆φ = 0) well-formed
-✓ No axioms, no sorry, no admit
+✓ No axioms, no incomplete proofs
 -/
 
 end GIFT.Tier1.Test
