@@ -23,75 +23,26 @@ The embedding H^k ↪ C^0 when k > n/2 has two parts:
 Version: 3.3.2
 -/
 
-import Mathlib.Analysis.NormedSpace.Basic
-import Mathlib.Analysis.NormedSpace.BanachSteinhaus
-import Mathlib.Topology.MetricSpace.Basic
-import Mathlib.Analysis.NormedSpace.OperatorNorm.Basic
+import GIFT.Core
 
 namespace GIFT.Foundations.Analysis.Sobolev
 
-/-!
-## Sobolev Space Typeclass
-
-Abstract interface for Sobolev spaces H^k(M).
--/
-
-/-- Abstract Sobolev space on a manifold M with regularity k.
-
-This captures the essential structure without requiring a concrete definition:
-- Underlying Banach space structure
-- Smooth functions embed (densely)
-- Sobolev norm controls L² norm
-
-When Mathlib adds Sobolev spaces, this can be instantiated. -/
-class SobolevSpace (M : Type*) (k : ℕ) where
-  /-- The carrier type (H^k functions) -/
-  Carrier : Type*
-  /-- H^k is a normed additive group -/
-  [normedAddCommGroup : NormedAddCommGroup Carrier]
-  /-- H^k is a normed ℝ-vector space -/
-  [normedSpace : NormedSpace ℝ Carrier]
-  /-- H^k is complete (Banach) -/
-  [completeSpace : CompleteSpace Carrier]
-
-/-- Access the carrier type -/
-def Hk (M : Type*) (k : ℕ) [s : SobolevSpace M k] : Type* := s.Carrier
-
-instance (M : Type*) (k : ℕ) [s : SobolevSpace M k] :
-    NormedAddCommGroup (Hk M k) := s.normedAddCommGroup
-
-instance (M : Type*) (k : ℕ) [s : SobolevSpace M k] :
-    NormedSpace ℝ (Hk M k) := s.normedSpace
-
-instance (M : Type*) (k : ℕ) [s : SobolevSpace M k] :
-    CompleteSpace (Hk M k) := s.completeSpace
-
-/-!
-## Sobolev Embedding Conditions
-
-The embedding theorem H^k(M^n) ↪ C^j(M) requires:
-  k - n/2 > j
-
-For continuous functions (j = 0):
-  k > n/2  ⟺  2k > n
--/
-
-/-- Dimensional condition for Sobolev embedding H^k ↪ C^0.
+/-- Dimensional condition for Sobolev embedding H^k into C^0.
 
 For a manifold of dimension n, H^k embeds into C^0 when 2k > n.
 This is a computational condition we can verify with native_decide. -/
 structure EmbeddingCondition (n k : ℕ) : Prop where
   condition : 2 * k > n
 
-/-- H^4 ↪ C^0 for 7-manifolds (2 × 4 = 8 > 7) -/
+/-- H^4 embeds into C^0 for 7-manifolds (2 * 4 = 8 > 7) -/
 theorem embedding_H4_C0_dim7 : EmbeddingCondition 7 4 :=
   ⟨by native_decide⟩
 
-/-- H^5 ↪ C^1 for 7-manifolds -/
+/-- H^5 embeds into C^1 for 7-manifolds -/
 theorem embedding_H5_C1_dim7 : EmbeddingCondition 9 5 :=
   ⟨by native_decide⟩  -- 2 * 5 = 10 > 9 (n + 2j = 7 + 2 = 9)
 
-/-- H^6 ↪ C^2 for 7-manifolds -/
+/-- H^6 embeds into C^2 for 7-manifolds -/
 theorem embedding_H6_C2_dim7 : EmbeddingCondition 11 6 :=
   ⟨by native_decide⟩  -- 2 * 6 = 12 > 11
 
@@ -101,51 +52,6 @@ theorem embedding_chain_dim7 :
     EmbeddingCondition 9 5 ∧
     EmbeddingCondition 11 6 :=
   ⟨embedding_H4_C0_dim7, embedding_H5_C1_dim7, embedding_H6_C2_dim7⟩
-
-/-!
-## Sobolev Embedding Structure
-
-The actual embedding is captured as a structure field.
-This separates the computable condition from the abstract map.
--/
-
-/-- Sobolev embedding data: both the condition and the (abstract) map. -/
-structure SobolevEmbedding (M : Type*) (n k : ℕ)
-    [SobolevSpace M k] where
-  /-- Dimensional condition is satisfied -/
-  dimCondition : EmbeddingCondition n k
-  /-- Target type (continuous functions) -/
-  Target : Type*
-  /-- The embedding map (abstract) -/
-  embed : Hk M k → Target
-  /-- Embedding is injective -/
-  injective : Function.Injective embed
-
-/-!
-## Sobolev Norm Properties
-
-Key inequalities for analysis.
--/
-
-/-- Norm comparison: H^{k+1} norm dominates H^k norm -/
-class SobolevInclusion (M : Type*) (k : ℕ)
-    [SobolevSpace M k] [SobolevSpace M (k + 1)] where
-  /-- Inclusion map H^{k+1} → H^k -/
-  incl : Hk M (k + 1) →L[ℝ] Hk M k
-  /-- Inclusion is bounded: ‖incl u‖ ≤ ‖u‖ -/
-  norm_incl_le : ∀ u, ‖incl u‖ ≤ ‖u‖
-
-/-!
-## Compact Embedding (Rellich-Kondrachov)
-
-For compact manifolds, Sobolev inclusions are compact operators.
--/
-
-/-- Compact Sobolev embedding (abstract) -/
-class CompactSobolevEmbedding (M : Type*) (n k : ℕ)
-    [SobolevSpace M k] extends SobolevEmbedding M n k where
-  /-- The embedding is a compact operator -/
-  compact : True  -- Abstract; would need Mathlib's CompactOperator
 
 /-!
 ## K7-Specific Constants
