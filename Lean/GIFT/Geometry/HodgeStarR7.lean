@@ -130,7 +130,7 @@ def trivialHodgeStar : HodgeStar where
     unfold constDiffForm addDiffForm smulDiffForm
     congr 1
     funext p i
-    ring
+    simp only [mul_zero, add_zero]
   star_star := fun _ _ _ => by
     simp only [constDiffForm]
     sorry -- Requires detailed index manipulation for non-trivial star
