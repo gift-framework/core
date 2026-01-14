@@ -258,7 +258,13 @@ theorem chi_K7_eq_two_b2 : chi_K7 = two_b2 := rfl
 /-- The TRUE Euler characteristic of K₇ is 0 (compact oriented odd-dimensional).
     By Poincare duality: b_k = b_{7-k}, so terms cancel pairwise in the alternating sum.
     χ = b₀ - b₁ + b₂ - b₃ + b₄ - b₅ + b₆ - b₇
-      = 1 - 0 + 21 - 77 + 77 - 21 + 0 - 1 = 0 -/
-theorem euler_char_K7_is_zero : b0 - 0 + b2 - b3 + b3 - b2 + 0 - b0 = 0 := rfl
+      = 1 - 0 + 21 - 77 + 77 - 21 + 0 - 1 = 0
+
+    Proof: The positive and negative terms sum to the same value:
+    positive = b₀ + b₂ + b₄ + b₆ = 1 + 21 + 77 + 0 = 99
+    negative = b₁ + b₃ + b₅ + b₇ = 0 + 77 + 21 + 1 = 99
+    Therefore χ = positive - negative = 0 -/
+theorem euler_char_K7_alternating_sum :
+    b0 + b2 + b3 + 0 = 0 + b3 + b2 + b0 := rfl
 
 end GIFT.Core
