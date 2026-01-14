@@ -77,30 +77,32 @@ notation "ε" => basisForm
 ## Wedge Product
 
 The wedge product is just multiplication in the exterior algebra.
+We use ∧' notation to avoid conflict with Lean's built-in ∧.
 -/
 
 /-- Wedge product as algebra multiplication -/
 noncomputable def wedge (ω η : Ext) : Ext := ω * η
 
-infixl:70 " ∧ₑ " => wedge
+-- Use ∧' to avoid conflict with Lean's logical ∧
+infixl:70 " ∧' " => wedge
 
 /-- Wedge is associative -/
-theorem wedge_assoc (ω η ζ : Ext) : (ω ∧ₑ η) ∧ₑ ζ = ω ∧ₑ (η ∧ₑ ζ) :=
+theorem wedge_assoc (ω η ζ : Ext) : (ω ∧' η) ∧' ζ = ω ∧' (η ∧' ζ) :=
   mul_assoc ω η ζ
 
 /-- Wedge is left distributive over addition -/
 theorem wedge_add_left (ω₁ ω₂ η : Ext) :
-    (ω₁ + ω₂) ∧ₑ η = (ω₁ ∧ₑ η) + (ω₂ ∧ₑ η) :=
+    (ω₁ + ω₂) ∧' η = (ω₁ ∧' η) + (ω₂ ∧' η) :=
   add_mul ω₁ ω₂ η
 
 /-- Wedge is right distributive over addition -/
 theorem wedge_add_right (ω η₁ η₂ : Ext) :
-    ω ∧ₑ (η₁ + η₂) = (ω ∧ₑ η₁) + (ω ∧ₑ η₂) :=
+    ω ∧' (η₁ + η₂) = (ω ∧' η₁) + (ω ∧' η₂) :=
   mul_add ω η₁ η₂
 
 /-- Scalar multiplication commutes with wedge -/
 theorem smul_wedge (c : ℝ) (ω η : Ext) :
-    (c • ω) ∧ₑ η = c • (ω ∧ₑ η) := by
+    (c • ω) ∧' η = c • (ω ∧' η) := by
   unfold wedge
   exact Algebra.smul_mul_assoc c ω η
 
@@ -111,17 +113,17 @@ Key property: v ∧ v = 0 for any 1-form v.
 -/
 
 /-- v ∧ v = 0 for any v (defining relation of exterior algebra) -/
-theorem ι_wedge_self (v : V7) : ι v ∧ₑ ι v = 0 := by
+theorem ι_wedge_self (v : V7) : ι v ∧' ι v = 0 := by
   unfold wedge ι
   exact ExteriorAlgebra.ι_sq_zero v
 
 /-- Basis form squares to zero -/
-theorem basisForm_sq_zero (i : Fin 7) : ε i ∧ₑ ε i = 0 :=
+theorem basisForm_sq_zero (i : Fin 7) : ε i ∧' ε i = 0 :=
   ι_wedge_self (basisVec i)
 
 /-- 1-forms anticommute: v ∧ w = -w ∧ v -/
 theorem wedge_anticomm_1forms (v w : V7) :
-    ι v ∧ₑ ι w = -(ι w ∧ₑ ι v) := by
+    ι v ∧' ι w = -(ι w ∧' ι v) := by
   unfold wedge ι
   have h : ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w +
            ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v = 0 := by
@@ -148,7 +150,7 @@ theorem wedge_anticomm_1forms (v w : V7) :
 
 /-- Basis forms anticommute -/
 theorem basisForm_anticomm (i j : Fin 7) :
-    ε i ∧ₑ ε j = -(ε j ∧ₑ ε i) :=
+    ε i ∧' ε j = -(ε j ∧' ε i) :=
   wedge_anticomm_1forms (basisVec i) (basisVec j)
 
 /-!
@@ -158,13 +160,13 @@ Constructors for basis 2-forms and 3-forms.
 -/
 
 /-- Basis 2-form εⁱ ∧ εʲ -/
-noncomputable def wedge2 (i j : Fin 7) : Ext := ε i ∧ₑ ε j
+noncomputable def wedge2 (i j : Fin 7) : Ext := ε i ∧' ε j
 
 /-- Basis 3-form εⁱ ∧ εʲ ∧ εᵏ -/
-noncomputable def wedge3 (i j k : Fin 7) : Ext := ε i ∧ₑ ε j ∧ₑ ε k
+noncomputable def wedge3 (i j k : Fin 7) : Ext := ε i ∧' ε j ∧' ε k
 
 /-- Basis 4-form εⁱ ∧ εʲ ∧ εᵏ ∧ εˡ -/
-noncomputable def wedge4 (i j k l : Fin 7) : Ext := ε i ∧ₑ ε j ∧ₑ ε k ∧ₑ ε l
+noncomputable def wedge4 (i j k l : Fin 7) : Ext := ε i ∧' ε j ∧' ε k ∧' ε l
 
 /-- wedge2 is antisymmetric -/
 theorem wedge2_antisymm (i j : Fin 7) : wedge2 i j = -wedge2 j i :=
@@ -215,7 +217,7 @@ theorem dim_6forms : Nat.choose 7 6 = 7 := by native_decide
 theorem dim_7forms : Nat.choose 7 7 = 1 := by native_decide
 
 /-- Total dimension: Σₖ C(7,k) = 2⁷ = 128 -/
-theorem dim_total : (List.range 8).map (Nat.choose 7) |>.sum = 128 := by native_decide
+theorem dim_total : ((List.range 8).map (Nat.choose 7)).sum = 128 := by native_decide
 
 /-!
 ## G₂ Decomposition of Forms
@@ -240,7 +242,7 @@ The volume form vol ∈ Λ⁷(V) is unique up to scaling.
 
 /-- The standard volume form ε⁰ ∧ ε¹ ∧ ... ∧ ε⁶ -/
 noncomputable def volumeForm : Ext :=
-  ε 0 ∧ₑ ε 1 ∧ₑ ε 2 ∧ₑ ε 3 ∧ₑ ε 4 ∧ₑ ε 5 ∧ₑ ε 6
+  ε 0 ∧' ε 1 ∧' ε 2 ∧' ε 3 ∧' ε 4 ∧' ε 5 ∧' ε 6
 
 /-!
 ## Exports for Other Modules
