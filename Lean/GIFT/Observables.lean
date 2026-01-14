@@ -34,9 +34,12 @@ GIFT topological invariants with zero free parameters and mean deviation 0.24%.
 
 ## The 42 Connection
 
-chi(K7) = 42 appears in both:
+The structural invariant 2b₂ = 42 appears in both:
 - Particle physics: m_b/m_t = 1/42
 - Cosmology: Omega_DM/Omega_b = (1 + 42)/8 = 43/8
+
+NOTE: 42 = 2b₂ = p₂ × N_gen × dim(K₇) is a structural constant, NOT χ(K₇).
+The true Euler characteristic χ(K₇) = 0 for this odd-dimensional manifold.
 
 "The answer to life, the universe, and everything" is encoded in
 both the quark mass hierarchy and the composition of the universe.

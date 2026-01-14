@@ -446,6 +446,22 @@ theorem E8_lattice_smul (n : ℤ) (v : R8) (hv : v ∈ E8_lattice) : n • v ∈
 | `dim_J3O` | 27 | Jordan algebra dim |
 | `Weyl_factor` | 5 | From Weyl group |
 | `D_bulk` | 11 | M-theory dimension |
+| `two_b2` | 42 | Structural invariant 2*b2 (v3.3+) |
+| `chi_K7` | 42 | **DEPRECATED** name for two_b2 (NOT Euler char!) |
+
+### V3.3 Clarification: chi(K7) vs 2b2
+
+**IMPORTANT**: The true Euler characteristic of K7 is **zero** (chi(K7) = 0), not 42!
+
+For any compact oriented odd-dimensional manifold, Poincare duality implies b_k = b_{n-k},
+so the alternating sum vanishes:
+```
+chi = b0 - b1 + b2 - b3 + b4 - b5 + b6 - b7
+    = 1 - 0 + 21 - 77 + 77 - 21 + 0 - 1 = 0
+```
+
+The value 42 = 2*b2 = p2 * N_gen * dim_K7 is a **structural invariant**, not chi(K7).
+The name `chi_K7` is kept for backwards compatibility but `two_b2` is preferred.
 
 ---
 
@@ -804,4 +820,4 @@ theorem Weyl_factor_certified : Weyl_factor = 5 := rfl  -- Add this!
 
 ---
 
-*Last updated: 2026-01-13 - Octonion Bridge: R8-R7 formally connected via octonion structure (v3.2.15)*
+*Last updated: 2026-01-14 - V3.3 sync: chi(K7)=0 clarification, two_b2=42 structural invariant (v3.3.0)*

@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.2.14).
+Complete documentation for the `giftpy` Python package (v3.3.0).
 
 ## Installation
 
@@ -13,7 +13,7 @@ For visualization (optional):
 pip install giftpy matplotlib numpy
 ```
 
-## Quick Start (v3.2)
+## Quick Start (v3.3)
 
 ```python
 from gift_core import *
@@ -32,9 +32,38 @@ u = (1, 0, 0, 0, 0, 0, 0)
 v = (0, 1, 0, 0, 0, 0, 0)
 print(cross_product(u, v))  # 7D cross product
 
+# K7 topology (v3.3 corrected!)
+from gift_core.topology import K7
+print(K7.euler_characteristic)  # 0 (NOT 42!)
+print(K7.two_b2)                # 42 (structural invariant)
+
 # Verify all relations
 from gift_core import verify
 print(verify())          # True
+```
+
+## New in v3.3.0
+
+### chi(K7) Terminology Fix
+
+**Important correction**: The true Euler characteristic χ(K7) = 0, not 42!
+
+For compact oriented odd-dimensional manifolds, Poincaré duality implies χ = 0.
+The value 42 = 2×b₂ is a **structural invariant**, now properly named `two_b2`.
+
+```python
+from gift_core.topology import K7
+
+K7.euler_characteristic  # 0 (correct!)
+K7.two_b2                # 42 (structural invariant)
+```
+
+```lean
+import GIFT.Core
+
+#check Core.two_b2                      -- abbrev for 2 * b2 = 42
+#check Core.chi_K7_eq_two_b2            -- chi_K7 = two_b2 (same value)
+#check Core.euler_char_K7_alternating_sum  -- proves χ = 0
 ```
 
 ## New in v3.2.14
