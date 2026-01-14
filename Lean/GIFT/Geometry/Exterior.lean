@@ -182,7 +182,7 @@ theorem wedge2_diag (i : Fin 7) : wedge2 i i = 0 :=
 /-- wedge3 is totally antisymmetric (swap first two) -/
 theorem wedge3_antisymm_12 (i j k : Fin 7) :
     wedge3 i j k = -wedge3 j i k := by
-  unfold wedge3 wedge
+  unfold wedge3
   rw [basisForm_anticomm i j]
   unfold wedge
   simp only [neg_mul]
