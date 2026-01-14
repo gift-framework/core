@@ -135,7 +135,7 @@ def G2GeomData.TorsionFree (g : G2GeomData) : Prop :=
 axiom psi_eq_star_phi : standardG2.psi = standardHodgeStar.star 3 (by omega) standardG2.phi
 
 /-- Standard G₂ geometric structure on flat ℝ⁷ -/
-def standardG2Geom : G2GeomData where
+noncomputable def standardG2Geom : G2GeomData where
   extDeriv := trivialExteriorDeriv
   hodge := standardHodgeStar
   phi := standardG2.phi
