@@ -171,7 +171,7 @@ def K7_bootstrap : Elliptic.BootstrapData 0 4 :=
   Elliptic.bootstrap_H0_H4
 
 /-- Bootstrap reaches C^0 embedding threshold -/
-theorem K7_reaches_continuous : Elliptic.K7_bootstrap_to_continuous :=
+theorem K7_reaches_continuous : 0 + 2 * 2 = 4 ∧ 2 * 4 > 7 :=
   Elliptic.K7_bootstrap_to_continuous
 
 /-!
