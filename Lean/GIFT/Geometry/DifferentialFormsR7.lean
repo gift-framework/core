@@ -133,7 +133,7 @@ This is the case for flat ℝ⁷ with constant G₂ structure.
 /-- Trivial exterior derivative: d = 0 on all forms -/
 def trivialExteriorDeriv : ExteriorDerivative where
   d := fun _ _ => 0
-  d_linear := fun _ _ _ _ => rfl
+  d_linear := fun _ _ _ _ => by simp only [smul_zero, add_zero]
   d_squared := fun _ _ => rfl
 
 /-- All constant forms are closed under trivial d -/
