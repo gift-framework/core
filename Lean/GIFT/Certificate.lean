@@ -916,7 +916,7 @@ abbrev tier1_G2_characterized := GIFT.Tier1.Bridge.G2_characterized_by_cross_or_
 theorem gift_tier1_bridge_certificate :
     -- φ₀ has 7 nonzero coefficients (Fano lines)
     (List.filter (· ≠ 0)
-       (List.map GIFT.Tier1.Bridge.phi0_coefficients (List.finRange 35))).length = 7 ∧
+       (List.map GIFT.Tier1.Bridge.phi0_coefficients_int (List.finRange 35))).length = 7 ∧
     -- C(7,3) = 35 coefficients total
     (Nat.choose 7 3 = 35) ∧
     -- C(7,4) = 35 for dual

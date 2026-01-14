@@ -64,16 +64,6 @@ def orderedTriples : List (Fin 7 × Fin 7 × Fin 7) :=
 /-- There are exactly 35 ordered triples -/
 theorem orderedTriples_length : orderedTriples.length = 35 := rfl
 
-/-- Get the coefficient index for an ordered triple -/
-def tripleIndex (i j k : Fin 7) (hij : i < j) (hjk : j < k) : Fin 35 :=
-  -- Direct computation based on combinatorial formula
-  -- For (i,j,k) with i < j < k, the index is:
-  -- C(7,3) - C(7-i,3) + C(7-i-1,2) - C(7-j,2) + (k - j - 1)
-  -- But we use a simpler explicit lookup
-  ⟨orderedTriples.indexOf (i, j, k),
-   by simp only [orderedTriples]
-      omega⟩
-
 /-!
 ## Part 2: The Canonical φ₀ Coefficients
 
@@ -126,9 +116,21 @@ def phi0_coefficients : Fin 35 → ℝ := fun n =>
   | 33 => 0  -- (4,5,6): not a Fano line
   | _ => 0   -- (4,5,6) = index 34
 
+/-- Integer version of φ₀ coefficients for decidable checking -/
+def phi0_coefficients_int : Fin 35 → ℕ := fun n =>
+  match n.val with
+  | 1 => 1   -- (0,1,3): Fano line
+  | 8 => 1   -- (0,2,6): Fano line
+  | 12 => 1  -- (0,4,5): Fano line
+  | 16 => 1  -- (1,2,4): Fano line
+  | 24 => 1  -- (1,5,6): Fano line
+  | 25 => 1  -- (2,3,5): Fano line
+  | 30 => 1  -- (3,4,6): Fano line
+  | _ => 0
+
 /-- φ₀ has exactly 7 nonzero coefficients (one per Fano line) -/
 theorem phi0_nonzero_count : (List.filter (· ≠ 0)
-    (List.map phi0_coefficients (List.finRange 35))).length = 7 := by
+    (List.map phi0_coefficients_int (List.finRange 35))).length = 7 := by
   native_decide
 
 /-!

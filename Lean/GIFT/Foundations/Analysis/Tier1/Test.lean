@@ -185,7 +185,7 @@ example : orderedTriples.length = 35 := orderedTriples_length
 
 -- φ₀ has 7 nonzero entries (one per Fano line)
 example : (List.filter (· ≠ 0)
-    (List.map phi0_coefficients (List.finRange 35))).length = 7 :=
+    (List.map phi0_coefficients_int (List.finRange 35))).length = 7 :=
   phi0_nonzero_count
 
 -- Bridge master theorem compiles
