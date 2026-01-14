@@ -19,8 +19,19 @@ class ManifoldK7:
 
     @property
     def euler_characteristic(self) -> int:
-        """chi(K7) = 2(b2 - b3) = 2(21 - 77) = -112"""
-        return 2 * (self.b2 - self.b3)
+        """chi(K7) = 0 for compact oriented odd-dimensional manifolds.
+        By Poincare duality: b_k = b_{7-k}, so the alternating sum vanishes:
+        chi = b0 - b1 + b2 - b3 + b4 - b5 + b6 - b7
+            = 1 - 0 + 21 - 77 + 77 - 21 + 0 - 1 = 0
+        """
+        return 0
+
+    @property
+    def two_b2(self) -> int:
+        """Structural invariant 2*b2 = 42. Often appears in physical observables.
+        NOTE: This is NOT chi(K7) despite being labeled that way in some older code.
+        """
+        return 2 * self.b2
 
     @property
     def h_star(self) -> int:
