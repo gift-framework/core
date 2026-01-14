@@ -97,14 +97,13 @@ def K7_joyce_hypothesis : JoyceHypothesis where
 /-- IFT framework certification -/
 theorem ift_certified :
     -- PINN bounds verified
-    K7_pinn_verified ∧
+    (K7_torsion_bound_num * K7_threshold_den < K7_threshold_num * K7_torsion_bound_den) ∧
     -- Safety margin
     (K7_threshold_num * K7_torsion_bound_den >
      20 * K7_threshold_den * K7_torsion_bound_num) ∧
     -- Numerical values
     K7_torsion_bound_num = 141 ∧
     K7_threshold_num = 288 := by
-  refine ⟨K7_pinn_verified, ?_, rfl, rfl⟩
-  native_decide
+  repeat (first | constructor | native_decide | rfl)
 
 end GIFT.Foundations.Analysis.IFT
