@@ -103,7 +103,7 @@ theorem ift_certified :
      20 * K7_threshold_den * K7_torsion_bound_num) ∧
     -- Numerical values
     K7_torsion_bound_num = 141 ∧
-    K7_threshold_num = 288 := by
-  repeat (first | constructor | native_decide | rfl)
+    K7_threshold_num = 288 :=
+  ⟨K7_pinn_verified, K7_safety_margin, rfl, rfl⟩
 
 end GIFT.Foundations.Analysis.IFT
