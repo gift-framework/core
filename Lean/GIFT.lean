@@ -40,3 +40,6 @@ import GIFT.Hierarchy                       -- Master hierarchy formula
 
 -- V5.0: Extended Observables (~50 observables, 0.24% mean deviation)
 import GIFT.Observables  -- PMNS, CKM, mass ratios, cosmology
+
+-- V3.3.3: DG-Ready Geometry Infrastructure
+import GIFT.Geometry  -- Exterior algebra, differential forms, Hodge star on ℝ⁷

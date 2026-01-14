@@ -5,6 +5,46 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.3] - 2026-01-14
+
+### Summary
+
+**DG-Ready Geometry Module!** New `GIFT/Geometry/` module with proper Mathlib-based differential forms infrastructure: exterior algebra on ℝ⁷, differential k-forms with exterior derivative, and Hodge star operator.
+
+### Added
+
+- **Lean/GIFT/Geometry/** (3 new files):
+  - `Exterior.lean`: Exterior algebra Λ*(ℝ⁷) via Mathlib's `ExteriorAlgebra`
+    - Wedge product `∧'` notation (avoiding conflict with Lean's `∧`)
+    - `basisForm`, `wedge2`, `wedge3` helpers
+    - Anticommutativity lemmas
+  - `DifferentialFormsR7.lean`: Differential k-forms on ℝ⁷
+    - `DiffForm k` structure with position-dependent coefficients
+    - `ExteriorDerivative` structure with d, linearity, d²=0
+    - `trivialExteriorDeriv` for constant forms (d=0)
+    - `@[ext]` lemma and `@[simp]` coefficient access lemmas
+    - `standardG2` with 35 coefficients of φ₀
+  - `HodgeStarR7.lean`: Hodge star on ℝ⁷
+    - `HodgeStar` structure with ⋆, linearity, ⋆⋆=(-1)^{k(7-k)}
+    - Sign analysis: k(7-k) always even for n=7, so ⋆⋆=+1
+    - `G2GeomData`: complete G₂ structure (d, ⋆, φ, ψ)
+    - `standardG2Geom_torsionFree`: proven via `constant_forms_closed`
+
+- **Lean/GIFT/Geometry.lean**: Master import file
+
+### Technical Notes
+
+Key patterns discovered during implementation:
+
+1. **DiffForm extensionality**: Custom structures need `@[ext]` lemmas for `ext` tactic
+2. **Simp lemmas for instances**: `@[simp] theorem smul_coeffs` / `add_coeffs` needed to unfold typeclass operations
+3. **Noncomputable axioms**: Definitions using axioms must be marked `noncomputable`
+4. **Wedge notation**: Use `∧'` not `∧ₑ` to avoid conflict with Lean's do-notation
+
+All theorems proven, zero sorry. Hodge star existence axiomatized (full implementation deferred).
+
+---
+
 ## [3.3.2] - 2026-01-14
 
 ### Summary
