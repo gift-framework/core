@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.3.2).
+Complete documentation for the `giftpy` Python package (v3.3.3).
 
 ## Installation
 
@@ -13,7 +13,7 @@ For visualization (optional):
 pip install giftpy matplotlib numpy
 ```
 
-## Quick Start (v3.3.2)
+## Quick Start (v3.3.3)
 
 ```python
 from gift_core import *
@@ -41,6 +41,42 @@ print(K7.two_b2)                # 42 (structural invariant)
 from gift_core import verify
 print(verify())          # True
 ```
+
+## New in v3.3.3
+
+### DG-Ready Geometry Module (Lean 4)
+
+New `GIFT/Geometry/` module with proper Mathlib-based differential forms infrastructure:
+
+```lean
+import GIFT.Geometry
+
+-- Exterior algebra on ℝ⁷
+#check Ext                    -- ExteriorAlgebra ℝ V7
+#check wedge                  -- ω ∧' η (wedge product)
+
+-- Differential k-forms
+#check DiffForm               -- DiffForm k (position-dependent coefficients)
+#check ExteriorDerivative     -- d with d²=0
+#check trivialExteriorDeriv   -- d=0 for constant forms
+
+-- Hodge star
+#check HodgeStar              -- ⋆ : Ωᵏ → Ω⁷⁻ᵏ
+#check starStar_sign_positive -- ⋆⋆ = +1 in 7 dimensions
+
+-- Complete G₂ geometric structure
+#check G2GeomData             -- (d, ⋆, φ, ψ)
+#check standardG2Geom         -- Standard flat ℝ⁷ structure
+#check standardG2Geom_torsionFree  -- Proven torsion-free!
+```
+
+Key features:
+- `DiffForm k` structure with position-dependent coefficients
+- `@[ext]` lemma for structure extensionality
+- `@[simp]` lemmas for coefficient access (`smul_coeffs`, `add_coeffs`)
+- `TorsionFree` condition: dφ = 0 ∧ d(⋆φ) = 0
+
+---
 
 ## New in v3.3.2
 

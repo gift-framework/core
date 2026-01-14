@@ -315,6 +315,10 @@ python -c "from gift_core import *; print(GAMMA_GIFT)"
 | `unterminated comment` at EOF | `+/-` in docstrings triggers nested `/-` comment | Replace `+/-` with `(error X)` format (see §15) |
 | `Ambiguous term b0` | Multiple namespaces with same names (V33.b0, Core.b0) | Use qualified names like `Core.b0` (see §15) |
 | `norm_num` fails on `Weyl_factor` | Missing certified theorem for constant value | Add `Weyl_factor_certified : Weyl_factor = 5 := rfl` (see §15) |
+| `No applicable extensionality theorem` | Custom structure missing `@[ext]` | Add `@[ext] theorem MyStruct.ext` (see §16) |
+| `simp` can't close `(a • x).field` | Typeclass instance not transparent to simp | Add `@[simp]` lemmas for field access (see §17) |
+| `not supported by code generator` | Definition uses axiom | Mark definition as `noncomputable` (see §18) |
+| `∧ₑ` causes parse errors | Subscript conflicts with do-notation | Use `∧'` notation instead (see §19) |
 
 ### 6. Namespace Conflicts in Lean 4
 
@@ -890,4 +894,99 @@ def myG2 : G2Structure := ConstantG2 (fun _ => 0) (fun _ => 0)
 
 ---
 
-*Last updated: 2026-01-14 - V3.3.2: G₂ forms infrastructure + bridge (d, ⋆, TorsionFree, φ₀)*
+## V3.3.3: DG-Ready Geometry Module
+
+### Module: `Geometry/`
+
+Proper Mathlib-based differential geometry infrastructure:
+
+| File | Content |
+|------|---------|
+| `Exterior.lean` | Λ*(ℝ⁷) via `ExteriorAlgebra`, wedge `∧'` |
+| `DifferentialFormsR7.lean` | `DiffForm k`, `ExteriorDerivative`, d²=0 |
+| `HodgeStarR7.lean` | `HodgeStar`, ⋆⋆=+1, `G2GeomData`, `TorsionFree` |
+| `Geometry.lean` | Master import |
+
+### 16. Custom Structure Extensionality
+
+**Problem**: `ext` tactic fails on custom structures without registered ext lemma.
+
+```lean
+-- BAD - "No applicable extensionality theorem found for type DiffForm"
+def trivialHodgeStar : HodgeStar where
+  star_linear := fun _ _ a _ _ => by
+    ext p i  -- ERROR!
+    ...
+
+-- GOOD - register @[ext] lemma for DiffForm
+@[ext]
+theorem DiffForm.ext {k : ℕ} {ω η : DiffForm k}
+    (h : ∀ p i, ω.coeffs p i = η.coeffs p i) : ω = η := by
+  cases ω; cases η; congr; funext p i; exact h p i
+
+-- Now ext works!
+```
+
+### 17. Simp Lemmas for Typeclass Instance Operations
+
+**Problem**: `simp` can't unfold `(a • ω).coeffs` when SMul is a typeclass instance.
+
+```lean
+-- BAD - simp doesn't know how to unfold SMul/Add instances
+⊢ 0 = (a • { coeffs := fun x x_1 ↦ 0 } + { coeffs := fun x x_1 ↦ 0 }).coeffs p i
+
+-- GOOD - add @[simp] lemmas to expose instance behavior
+@[simp]
+theorem smul_coeffs {k : ℕ} (a : ℝ) (ω : DiffForm k) (p : V7) (i : Fin (Nat.choose 7 k)) :
+    (a • ω).coeffs p i = a * ω.coeffs p i := rfl
+
+@[simp]
+theorem add_coeffs {k : ℕ} (ω η : DiffForm k) (p : V7) (i : Fin (Nat.choose 7 k)) :
+    (ω + η).coeffs p i = ω.coeffs p i + η.coeffs p i := rfl
+
+-- Now simp [mul_zero, add_zero] closes the goal!
+```
+
+### 18. Noncomputable Definitions Using Axioms
+
+**Problem**: Axioms can't be compiled, so definitions using them need `noncomputable`.
+
+```lean
+-- BAD - "not supported by code generator"
+axiom standardHodgeStar : HodgeStar
+
+def standardG2Geom : G2GeomData where  -- ERROR!
+  hodge := standardHodgeStar
+  ...
+
+-- GOOD - mark as noncomputable
+noncomputable def standardG2Geom : G2GeomData where
+  hodge := standardHodgeStar
+  ...
+```
+
+### 19. Notation Conflicts with Lean Keywords
+
+**Problem**: Subscript notation can conflict with Lean's parser.
+
+```lean
+-- BAD - ∧ₑ conflicts with do-notation's ← (parsed as ∧ followed by subscript)
+infixl:70 " ∧ₑ " => wedge  -- Causes parse errors elsewhere!
+
+-- GOOD - use simple prime notation
+infixl:70 " ∧' " => wedge  -- No conflicts
+```
+
+### Complete DiffForm Proof Pattern
+
+```lean
+-- For proving equality of DiffForm through structure
+star_linear := fun _ _ a _ _ => by
+  simp only [constDiffForm]   -- unfold definitions
+  ext p i                      -- use @[ext] lemma
+  simp [mul_zero, add_zero]   -- @[simp] lemmas + arithmetic
+```
+
+---
+
+*Last updated: 2026-01-14 - V3.3.3: DG-ready Geometry module (Exterior, DiffForm, HodgeStar)*
