@@ -161,14 +161,46 @@ The fact they compile proves we're axiom-free.
 #check G2Structure.TorsionFree  -- def, not axiom
 
 /-!
+## Test 8: G2 Forms Bridge (Tier 1 ↔ Tier 2)
+
+Verify the bridge connecting differential forms to cross product.
+-/
+
+open GIFT.Tier1.Bridge
+
+-- CrossProductG2 exists and is a valid G2Structure
+example : G2Structure := CrossProductG2
+
+-- CrossProductG2 is torsion-free
+example : CrossProductG2.TorsionFree := crossProductG2_torsionFree
+
+-- φ₀ coefficients are defined (35 components)
+example : Fin 35 → ℝ := phi0_coefficients
+
+-- ψ₀ coefficients are defined (35 components)
+example : Fin 35 → ℝ := psi0_coefficients
+
+-- Ordered triples count = 35 = C(7,3)
+example : orderedTriples.length = 35 := orderedTriples_length
+
+-- φ₀ has 7 nonzero entries (one per Fano line)
+example : (List.filter (· ≠ 0)
+    (List.map phi0_coefficients (List.finRange 35))).length = 7 :=
+  phi0_nonzero_count
+
+-- Bridge master theorem compiles
+#check g2_forms_bridge_complete
+
+/-!
 ## Summary
 
-All tests pass by compilation. Tier 1 is complete:
+All tests pass by compilation. Tier 1 + Bridge is complete:
 
 ✓ Ωᵏ(M) represented canonically via GradedDiffForms
 ✓ d : Ωᵏ → Ωᵏ⁺¹ defined with d∘d=0 proven
 ✓ ⋆ : Ωᵏ → Ωⁿ⁻ᵏ structure available (HodgeData)
 ✓ TorsionFree φ := (dφ = 0) ∧ (d⋆φ = 0) well-formed
+✓ Bridge: φ₀ from epsilon, CrossProductG2, unified structure
 ✓ No axioms, no incomplete proofs
 -/
 
