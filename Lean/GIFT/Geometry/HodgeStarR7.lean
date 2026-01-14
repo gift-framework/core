@@ -128,7 +128,7 @@ def trivialHodgeStar : HodgeStar where
   star_linear := fun _ _ a _ _ => by
     simp only [constDiffForm]
     ext p i
-    simp [smulDiffForm, addDiffForm, mul_zero, add_zero]
+    simp [mul_zero, add_zero]
   star_star := fun _ _ _ => by
     simp only [constDiffForm]
     sorry -- Requires detailed index manipulation for non-trivial star

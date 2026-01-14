@@ -91,6 +91,16 @@ instance (k : ℕ) : Zero (DiffForm k) := ⟨zeroDiffForm k⟩
 instance (k : ℕ) : Add (DiffForm k) := ⟨addDiffForm⟩
 instance (k : ℕ) : SMul ℝ (DiffForm k) := ⟨smulDiffForm⟩
 
+/-- Coefficient access for scalar multiplication -/
+@[simp]
+theorem smul_coeffs {k : ℕ} (a : ℝ) (ω : DiffForm k) (p : V7) (i : Fin (Nat.choose 7 k)) :
+    (a • ω).coeffs p i = a * ω.coeffs p i := rfl
+
+/-- Coefficient access for addition -/
+@[simp]
+theorem add_coeffs {k : ℕ} (ω η : DiffForm k) (p : V7) (i : Fin (Nat.choose 7 k)) :
+    (ω + η).coeffs p i = ω.coeffs p i + η.coeffs p i := rfl
+
 /-!
 ## Part 3: Exterior Derivative (Abstract Structure)
 
