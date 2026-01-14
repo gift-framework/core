@@ -18,6 +18,7 @@ open GIFT.Tier1
 open GIFT.Tier1.DifferentialForms
 open GIFT.Tier1.HodgeStar
 open GIFT.Tier1.G2
+open GIFT.Foundations.Analysis.ExteriorAlgebra
 
 /-!
 ## Test 1: DiffFormAlgebra Structure
