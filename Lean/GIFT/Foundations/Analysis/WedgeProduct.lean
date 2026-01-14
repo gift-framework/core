@@ -22,14 +22,11 @@ open GIFT.Foundations.Analysis.ExteriorAlgebra
 ## Graded Anticommutativity
 
 For k-form ω and l-form η: ω ∧ η = (-1)^{kl} η ∧ ω
--/
 
-/-- Anticommutativity for homogeneous elements (abstract statement) -/
-axiom wedge_anticomm_graded (n k l : ℕ)
-    (ω η : Exterior n) :
-    -- For homogeneous elements of degree k and l
-    -- wedge ω η = (-1)^(k*l) • wedge η ω
-    True  -- Full statement requires graded algebra structure
+Note: Full graded anticommutativity requires tracking homogeneous degrees
+via GradedAlgebra structure. For Tier 1, we prove the key case (1-forms)
+which suffices to derive higher-degree anticommutativity by induction.
+-/
 
 /-- 1-forms anticommute: v ∧ w = -w ∧ v
     Proof: From ι(v)² = 0 for all v, expand (ι(v+w))² = 0
@@ -117,17 +114,11 @@ theorem omega2_G2_decomposition : 7 + 14 = 21 := by native_decide
 theorem omega3_G2_decomposition : 1 + 7 + 27 = 35 := by native_decide
 
 /-!
-## Integration Axioms (abstract)
+## Integration (Tier 2+)
+
+Integration ∫_M : Ω⁷(M) → ℝ and Stokes theorem require measure theory.
+These will be added in a future tier when we formalize compact oriented manifolds.
+For Tier 1, we focus on the algebraic structure (∧, d, ⋆).
 -/
-
-/-- Abstract integration pairing on 7-manifold -/
-axiom integral_7 (M : Type*) : (Exterior 7) → ℝ
-
-/-- Integration is linear -/
-axiom integral_linear (M : Type*) (ω η : Exterior 7) (a : ℝ) :
-    integral_7 M (a • ω + η) = a * integral_7 M ω + integral_7 M η
-
-/-- Stokes theorem: ∫_M dω = 0 for closed M -/
-axiom stokes (M : Type*) (ω : Exterior 7) : True
 
 end GIFT.Foundations.Analysis.WedgeProduct
