@@ -27,6 +27,7 @@ Version: 4.0.0 (Tier 1)
 import GIFT.Foundations.Analysis.Tier1.DifferentialForms
 import GIFT.Foundations.Analysis.Tier1.HodgeStar
 import GIFT.Foundations.Analysis.Tier1.G2Structure
+import GIFT.Foundations.Analysis.Tier1.G2FormsBridge
 
 namespace GIFT.Tier1
 
@@ -44,6 +45,9 @@ export HodgeStar (HodgeData DiffGeomData G2FormData R7Forms)
 
 -- G2 structure (main API)
 export G2 (G2Structure ConstantG2)
+
+-- Bridge (Tier 1 ↔ Tier 2)
+export Bridge (CrossProductG2 crossProductG2_torsionFree g2_forms_bridge_complete)
 
 /-!
 ## Quick Examples
