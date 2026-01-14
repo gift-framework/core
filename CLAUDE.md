@@ -820,4 +820,38 @@ theorem Weyl_factor_certified : Weyl_factor = 5 := rfl  -- Add this!
 
 ---
 
-*Last updated: 2026-01-14 - V3.3 sync: chi(K7)=0 clarification, two_b2=42 structural invariant (v3.3.0)*
+## V3.3.1: Tier 1 G2 Infrastructure
+
+### New Module: `Foundations/Analysis/Tier1/`
+
+Axiom-free formalization of torsion-free G₂ structures:
+
+| File | Content |
+|------|---------|
+| `DifferentialForms.lean` | `GradedDiffForms` with d : Ωᵏ → Ωᵏ⁺¹, d∘d=0 proven |
+| `HodgeStar.lean` | `HodgeData` structure for ⋆ : Ωᵏ → Ωⁿ⁻ᵏ |
+| `G2Structure.lean` | `TorsionFree φ := (dφ = 0) ∧ (d⋆φ = 0)` |
+| `All.lean` | Master import + re-exports |
+| `Test.lean` | Compilation tests |
+
+### Usage
+
+```lean
+import GIFT.Foundations.Analysis.Tier1.All
+
+-- Create a G2 structure and check torsion-free condition
+def myG2 : G2Structure := ConstantG2 (fun _ => 0) (fun _ => 0)
+#check myG2.TorsionFree  -- Prop: (dφ = 0) ∧ (dψ = 0)
+```
+
+### Tier 1 Checklist
+
+- ✓ Canonical Ωᵏ(M) representation (not `Fin 35 → ℝ`)
+- ✓ d : Ωᵏ → Ωᵏ⁺¹ with d∘d=0 proven
+- ✓ ⋆ : Ωᵏ → Ωⁿ⁻ᵏ structure
+- ✓ `TorsionFree` predicate well-typed
+- ✓ Zero axioms, zero incomplete proofs
+
+---
+
+*Last updated: 2026-01-14 - V3.3.1: Tier 1 G2 infrastructure (d, ⋆, TorsionFree)*
