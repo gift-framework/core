@@ -1,23 +1,23 @@
 /-
-GIFT Tier 1: Test Suite
+GIFT G₂ Forms: Test Suite
 ========================
 
-Compilation tests and sanity checks for Tier 1 infrastructure.
+Compilation tests and sanity checks for G₂ forms infrastructure.
 
 All tests here are pure type-checking (no computation at runtime).
-If this file compiles, Tier 1 is complete.
+If this file compiles, G₂ forms infrastructure is complete.
 
-Version: 4.0.0 (Tier 1)
+Version: 4.0.0
 -/
 
-import GIFT.Foundations.Analysis.Tier1.All
+import GIFT.Foundations.Analysis.G2Forms.All
 
-namespace GIFT.Tier1.Test
+namespace GIFT.G2Forms.Test
 
-open GIFT.Tier1
-open GIFT.Tier1.DifferentialForms
-open GIFT.Tier1.HodgeStar
-open GIFT.Tier1.G2
+open GIFT.G2Forms
+open GIFT.G2Forms.DifferentialForms
+open GIFT.G2Forms.HodgeStar
+open GIFT.G2Forms.G2
 open GIFT.Foundations.Analysis.ExteriorAlgebra
 
 /-!
@@ -161,12 +161,12 @@ The fact they compile proves we're axiom-free.
 #check G2Structure.TorsionFree  -- def, not axiom
 
 /-!
-## Test 8: G2 Forms Bridge (Tier 1 ↔ Tier 2)
+## Test 8: G2 Forms Bridge (forms ↔ cross product)
 
 Verify the bridge connecting differential forms to cross product.
 -/
 
-open GIFT.Tier1.Bridge
+open GIFT.G2Forms.Bridge
 
 -- CrossProductG2 exists and is a valid G2Structure
 example : G2Structure := CrossProductG2
@@ -204,4 +204,4 @@ All tests pass by compilation. Tier 1 + Bridge is complete:
 ✓ No axioms, no incomplete proofs
 -/
 
-end GIFT.Tier1.Test
+end GIFT.G2Forms.Test

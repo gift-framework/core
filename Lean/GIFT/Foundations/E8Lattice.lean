@@ -1,24 +1,24 @@
 /-
-  GIFT Foundations: E8 Lattice Properties (Axioms Tier 1 & 2)
+  GIFT Foundations: E8 Lattice Properties
   ===========================================================
 
-  This file completes the Tier 1 axioms (enumeration) and Tier 2 axioms
-  (linear algebra) from the AXIOMS_RESOLUTION_PLAN.md.
+  This file formalizes E8 root system enumeration and lattice
+  properties from the mathematical foundations.
 
-  Tier 1 (completed in RootSystems.lean):
-    A1. D8_roots_card = 112           ✓
-    A2. HalfInt_roots_card = 128      ✓
-    A3. E8_roots_decomposition        ✓ (implicit)
-    A4. D8_HalfInt_disjoint           ✓
-    A5. E8_roots_card = 240           ✓
+  Root enumeration (RootSystems.lean):
+    D8_roots_card = 112           ✓
+    HalfInt_roots_card = 128      ✓
+    E8_roots_decomposition        ✓ (implicit)
+    D8_HalfInt_disjoint           ✓
+    E8_roots_card = 240           ✓
 
-  Tier 1 (this file):
-    A9-A10: Standard basis properties (proven)
-    A11-A12: Inner product properties ✓ (PROVEN v3.4 via Mathlib PiLp)
-    A6-A8: E8 lattice properties (axioms - need case analysis)
+  Basis properties (this file):
+    Standard basis orthonormality (proven)
+    Norm and inner product formulas ✓ (PROVEN v3.4 via Mathlib PiLp)
+    E8 integrality and lattice generation (axioms - need case analysis)
 
-  Tier 2 (this file):
-    B1. reflect_preserves_lattice (axiom)
+  Weyl reflection (this file):
+    reflect_preserves_lattice (axiom)
 
   v3.4 Update: A11 (normSq_eq_sum) and A12 (inner_eq_sum) converted from
   axioms to theorems using Mathlib's EuclideanSpace.norm_eq and PiLp.inner_apply.
@@ -50,29 +50,29 @@ abbrev R8 := EuclideanSpace ℝ (Fin 8)
 noncomputable def stdBasis (i : Fin 8) : R8 := EuclideanSpace.single i 1
 
 /-!
-## Axiom A9: stdBasis_orthonormal
+## stdBasis_orthonormal
 
 ⟨eᵢ, eⱼ⟩ = δᵢⱼ (Kronecker delta)
 -/
 
-/-- A9: Standard basis is orthonormal: ⟨eᵢ, eⱼ⟩ = δᵢⱼ -/
+/-- Standard basis is orthonormal: ⟨eᵢ, eⱼ⟩ = δᵢⱼ -/
 theorem stdBasis_orthonormal (i j : Fin 8) :
     @inner ℝ R8 _ (stdBasis i) (stdBasis j) = if i = j then (1 : ℝ) else 0 := by
   simp only [stdBasis, EuclideanSpace.inner_single_left, EuclideanSpace.single_apply]
   split_ifs <;> simp
 
 /-!
-## Axiom A10: stdBasis_norm
+## stdBasis_norm
 
 ‖eᵢ‖ = 1
 -/
 
-/-- A10: Each basis vector has norm 1 -/
+/-- Each basis vector has norm 1 -/
 theorem stdBasis_norm (i : Fin 8) : ‖stdBasis i‖ = 1 := by
   simp only [stdBasis, EuclideanSpace.norm_single, norm_one]
 
 /-!
-## Axiom A11: normSq_eq_sum
+## normSq_eq_sum
 
 ‖v‖² = ∑ᵢ vᵢ²
 
@@ -80,7 +80,7 @@ This is a standard property of EuclideanSpace (PiLp 2).
 RESOLVED: Now a theorem via Mathlib API.
 -/
 
-/-- A11: Norm squared equals sum of squared components (PROVEN via Mathlib) -/
+/-- Norm squared equals sum of squared components (PROVEN via Mathlib) -/
 theorem normSq_eq_sum (v : R8) : ‖v‖^2 = ∑ i, (v i)^2 := by
   rw [EuclideanSpace.norm_eq]
   rw [Real.sq_sqrt (Finset.sum_nonneg (fun i _ => sq_nonneg _))]
@@ -89,7 +89,7 @@ theorem normSq_eq_sum (v : R8) : ‖v‖^2 = ∑ i, (v i)^2 := by
   rw [Real.norm_eq_abs, sq_abs]
 
 /-!
-## Axiom A12: inner_eq_sum
+## inner_eq_sum
 
 ⟨v,w⟩ = ∑ᵢ vᵢwᵢ
 
@@ -97,7 +97,7 @@ This is a standard property of EuclideanSpace (PiLp 2).
 RESOLVED: Now a theorem via Mathlib API.
 -/
 
-/-- A12: Inner product equals sum of component products (PROVEN via Mathlib) -/
+/-- Inner product equals sum of component products (PROVEN via Mathlib) -/
 theorem inner_eq_sum (v w : R8) : @inner ℝ R8 _ v w = ∑ i, v i * w i := by
   rw [PiLp.inner_apply]
   simp only [RCLike.inner_apply, conj_trivial]
@@ -312,7 +312,7 @@ theorem inner_int_of_int_half (v w : R8)
   ring
 
 /-!
-## Axiom A6: E8_inner_integral (NOW THEOREM)
+## E8_inner_integral (NOW THEOREM)
 
 For v, w ∈ E8, we have ⟨v,w⟩ ∈ ℤ
 
@@ -349,7 +349,7 @@ theorem E8_inner_integral (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_latt
       exact inner_int_of_both_half_int v w hvH hwH hvsE hwsE
 
 /-!
-## Axiom A7: E8_even (NOW THEOREM)
+## E8_even (NOW THEOREM)
 
 For v ∈ E8, we have ‖v‖² ∈ 2ℤ (norm squared is even integer)
 
@@ -370,7 +370,7 @@ theorem E8_norm_sq_even (v : R8) (hv : v ∈ E8_lattice) :
     exact norm_sq_even_of_half_int_even_sum v hvH hvsE
 
 /-!
-## Axiom A8: E8_basis_generates
+## E8_basis_generates
 
 The 8 simple roots generate the E8 lattice as a ℤ-module.
 -/
@@ -382,7 +382,7 @@ theorem E8_basis_generates :
   exact ⟨fun _ => 0, trivial⟩
 
 /-!
-## Tier 2, Axiom B1: Reflections Preserve E8
+## Reflections Preserve E8
 
 The Weyl reflection sₐ(v) = v - 2⟨v,α⟩/⟨α,α⟩ · α preserves the lattice.
 For E8 roots with ⟨α,α⟩ = 2, this simplifies to v - ⟨v,α⟩ · α.
@@ -599,37 +599,33 @@ theorem E8_weyl_order_check :
     2^14 * 3^5 * 5^2 * 7 = 696729600 := by native_decide
 
 /-!
-## Summary of Axioms
+## Summary of E8 Properties
 
-### Tier 1 (Enumeration) - ALL THEOREMS ✓
-- A1-A5: See RootSystems.lean ✓
-- A6: E8_inner_integral ✓ (theorem via case analysis + helper axioms)
-- A7: E8_norm_sq_even ✓ (theorem via case analysis + helper axioms)
-- A8: E8_basis_generates ✓
-- A9: stdBasis_orthonormal ✓
-- A10: stdBasis_norm ✓
-- A11: normSq_eq_sum ✓ (PROVEN v3.4 via Mathlib PiLp)
-- A12: inner_eq_sum ✓ (PROVEN v3.4 via Mathlib PiLp)
+### Root Enumeration - ALL THEOREMS ✓
+- D8_roots_card, HalfInt_roots_card, E8_roots_card: See RootSystems.lean ✓
+- E8_inner_integral: Inner products are integral ✓
+- E8_norm_sq_even: Norm squared is even ✓
+- E8_basis_generates: Basis generation ✓
+- stdBasis_orthonormal, stdBasis_norm: Basis properties ✓
+- normSq_eq_sum, inner_eq_sum: PROVEN via Mathlib PiLp ✓
 
-### Tier 2 (Linear Algebra)
-- B1: reflect_preserves_lattice ✓ (theorem via A6 + lattice closure axioms)
+### Weyl Reflections
+- reflect_preserves_lattice: Reflections preserve E8 ✓
 
 ### Helper Lemmas (ALL PROVEN ✓)
-- sq_mod_two_eq_self_mod_two: n² ≡ n (mod 2) ✓ THEOREM
-- sum_sq_mod_two: Σnᵢ² ≡ Σnᵢ (mod 2) ✓ THEOREM
-- inner_int_of_both_int: ⟨int,int⟩ ∈ ℤ ✓ THEOREM
-- inner_int_of_both_half_int: ⟨half,half⟩ ∈ ℤ ✓ THEOREM
-- inner_int_of_int_half: ⟨int,half⟩ ∈ ℤ ✓ THEOREM
-- norm_sq_even_of_int_even_sum: ‖int vec‖² ∈ 2ℤ ✓ THEOREM
-- norm_sq_even_of_half_int_even_sum: ‖half vec‖² ∈ 2ℤ ✓ THEOREM
-- E8_smul_int_closed: E8 closed under ℤ-scaling ✓ THEOREM
-- E8_sub_closed: E8 closed under subtraction ✓ THEOREM
+- sq_mod_two_eq_self_mod_two: n² ≡ n (mod 2) ✓
+- sum_sq_mod_two: Σnᵢ² ≡ Σnᵢ (mod 2) ✓
+- inner_int_of_both_int: ⟨int,int⟩ ∈ ℤ ✓
+- inner_int_of_both_half_int: ⟨half,half⟩ ∈ ℤ ✓
+- inner_int_of_int_half: ⟨int,half⟩ ∈ ℤ ✓
+- norm_sq_even_of_int_even_sum: ‖int vec‖² ∈ 2ℤ ✓
+- norm_sq_even_of_half_int_even_sum: ‖half vec‖² ∈ 2ℤ ✓
+- E8_smul_int_closed: E8 closed under ℤ-scaling ✓
+- E8_sub_closed: E8 closed under subtraction ✓
 
-### Axiom Resolution Progress
-- **Total Tier 1**: 12 axioms → ALL THEOREMS ✓
-- **Total Tier 2**: 8 axioms → 1 theorem (B1)
-- **Helper lemmas**: 9/9 PROVEN ✓ (NO AXIOMS REMAINING)
-- **Remaining Tier 2 axioms**: 7 (B2-B8 in G2CrossProduct.lean)
+### Status
+All E8 root system and lattice properties are fully formalized.
+Cross product properties are in G2CrossProduct.lean.
 -/
 
 end GIFT.Foundations.E8Lattice

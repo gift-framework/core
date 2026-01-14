@@ -87,7 +87,7 @@ theorem heegner_163_prime : Nat.Prime 163 := by native_decide
 -- HEEGNER GIFT STRUCTURE
 -- =============================================================================
 
-/-- First 5 Heegner numbers are direct GIFT Tier 1 constants -/
+/-- First 5 Heegner numbers are direct GIFT constants -/
 theorem heegner_tier1 :
     (1 = dim_U1) ∧
     (2 = p2) ∧

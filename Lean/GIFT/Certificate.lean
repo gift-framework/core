@@ -1,11 +1,11 @@
 -- GIFT Certificate module
 -- Final certification theorems
--- Version: 3.3.2 (185+ certified relations + Joyce + Foundations + Tier 1 Bridge)
+-- Version: 3.3.2 (185+ certified relations + Joyce + Foundations + G₂ Forms Bridge)
 --
 -- Verification Status v3.3.2:
 -- - E₈ Root System: 12/12 complete
 -- - G₂ Cross Product: bilinearity, antisymmetry, Lagrange identity proven
--- - G₂ Forms Bridge: Tier 1 (differential forms) ↔ Tier 2 (cross product) unified
+-- - G₂ Forms Bridge: Differential forms ↔ Cross product unified
 -- - 185+ relations certified
 -- - Joyce existence theorem
 -- - Octonion Bridge: R8-R7 formally connected via octonion structure
@@ -58,8 +58,8 @@ import GIFT.Joyce
 -- V3.3: Dimensional Hierarchy (previously disconnected!)
 import GIFT.Hierarchy
 
--- V3.3.2: Tier 1 G2 Forms Bridge (connects differential forms to cross product)
-import GIFT.Foundations.Analysis.Tier1.All
+-- V3.3.2: G₂ Forms Bridge (connects differential forms to cross product)
+import GIFT.Foundations.Analysis.G2Forms.All
 
 -- V5.0: Extended Observables (~50 observables, 0.24% mean deviation)
 import GIFT.Observables
@@ -888,35 +888,35 @@ abbrev octonion_multiplication_structure := GIFT.Foundations.OctonionBridge.octo
 abbrev octonion_unification := GIFT.Foundations.OctonionBridge.octonion_unification
 
 -- =============================================================================
--- V3.3.2: TIER 1 G2 FORMS BRIDGE (Connects Tier 1 Forms ↔ Tier 2 Cross Product)
+-- V3.3.2: G₂ FORMS BRIDGE (Connects differential forms ↔ cross product)
 -- =============================================================================
 
 /-- Canonical G2 structure from cross product epsilon -/
-abbrev tier1_CrossProductG2 := GIFT.Tier1.Bridge.CrossProductG2
+abbrev g2forms_CrossProductG2 := GIFT.G2Forms.Bridge.CrossProductG2
 
 /-- CrossProductG2 is torsion-free (dφ = 0 ∧ dψ = 0) -/
-abbrev tier1_torsionFree := GIFT.Tier1.Bridge.crossProductG2_torsionFree
+abbrev g2forms_torsionFree := GIFT.G2Forms.Bridge.crossProductG2_torsionFree
 
 /-- Bridge master theorem: forms and cross product unified -/
-abbrev tier1_bridge_complete := GIFT.Tier1.Bridge.g2_forms_bridge_complete
+abbrev g2forms_bridge_complete := GIFT.G2Forms.Bridge.g2_forms_bridge_complete
 
 /-- φ₀ coefficients (35 independent, 7 nonzero) -/
-abbrev tier1_phi0_coefficients := GIFT.Tier1.Bridge.phi0_coefficients
+abbrev g2forms_phi0_coefficients := GIFT.G2Forms.Bridge.phi0_coefficients
 
 /-- ψ₀ = ⋆φ₀ coefficients (the coassociative 4-form) -/
-abbrev tier1_psi0_coefficients := GIFT.Tier1.Bridge.psi0_coefficients
+abbrev g2forms_psi0_coefficients := GIFT.G2Forms.Bridge.psi0_coefficients
 
 /-- Epsilon = φ₀ (structure constants are exactly the 3-form) -/
-abbrev tier1_epsilon_is_phi0 := GIFT.Tier1.Bridge.epsilon_is_phi0
+abbrev g2forms_epsilon_is_phi0 := GIFT.G2Forms.Bridge.epsilon_is_phi0
 
 /-- G2 characterized by cross product or φ₀ preservation -/
-abbrev tier1_G2_characterized := GIFT.Tier1.Bridge.G2_characterized_by_cross_or_phi0
+abbrev g2forms_G2_characterized := GIFT.G2Forms.Bridge.G2_characterized_by_cross_or_phi0
 
-/-- GIFT v3.3.2 Tier 1 Bridge Certificate -/
-theorem gift_tier1_bridge_certificate :
+/-- GIFT v3.3.2 G₂ Forms Bridge Certificate -/
+theorem gift_g2forms_bridge_certificate :
     -- φ₀ has 7 nonzero coefficients (Fano lines)
     (List.filter (· ≠ 0)
-       (List.map GIFT.Tier1.Bridge.phi0_coefficients_int (List.finRange 35))).length = 7 ∧
+       (List.map GIFT.G2Forms.Bridge.phi0_coefficients_int (List.finRange 35))).length = 7 ∧
     -- C(7,3) = 35 coefficients total
     (Nat.choose 7 3 = 35) ∧
     -- C(7,4) = 35 for dual

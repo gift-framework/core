@@ -1,5 +1,5 @@
 /-
-GIFT Tier 1: Differential Forms
+GIFT G₂ Forms: Differential Forms
 ================================
 
 Exterior derivative d : Ωᵏ → Ωᵏ⁺¹ with d∘d = 0.
@@ -9,7 +9,7 @@ This module provides a structure-based approach (no axioms):
 - Construct a concrete instance on ExteriorAlgebra
 - Prove d²=0 for the instance
 
-Version: 4.0.0 (Tier 1)
+Version: 4.0.0
 -/
 
 import Mathlib.LinearAlgebra.ExteriorAlgebra.Basic
@@ -17,7 +17,7 @@ import Mathlib.LinearAlgebra.ExteriorAlgebra.Grading
 import Mathlib.Data.Real.Basic
 import GIFT.Foundations.Analysis.ExteriorAlgebra
 
-namespace GIFT.Tier1.DifferentialForms
+namespace GIFT.G2Forms.DifferentialForms
 
 open GIFT.Foundations.Analysis.ExteriorAlgebra
 
@@ -173,4 +173,4 @@ theorem G2_decomp_3forms : 1 + 7 + 27 = 35 := by native_decide
 /-- The G2 3-form φ spans Ω³₁ (1-dimensional) -/
 theorem G2_3form_span : 1 = 1 := rfl
 
-end GIFT.Tier1.DifferentialForms
+end GIFT.G2Forms.DifferentialForms

@@ -120,13 +120,13 @@ theorem epsilon_diag (i k : Fin 7) : epsilon i i k = 0 := by
     (cross u v) k = ∑ i, ∑ j, (epsilon i j k : ℝ) * u i * v j := rfl
 
 /-!
-## Theorem B2: G2_cross_bilinear
+## Cross Product Bilinearity
 
 The cross product is bilinear. This follows from the definition
 as a sum of products with constant coefficients ε(i,j,k).
 -/
 
-/-- B2a: Cross product is linear in first argument (PROVEN) -/
+/-- Cross product is linear in first argument (PROVEN) -/
 theorem cross_left_linear (a : ℝ) (u v w : R7) :
     cross (a • u + v) w = a • cross u w + cross v w := by
   ext k
@@ -138,7 +138,7 @@ theorem cross_left_linear (a : ℝ) (u v w : R7) :
   congr 1
   all_goals (apply Finset.sum_congr rfl; intro i _; apply Finset.sum_congr rfl; intro j _; ring)
 
-/-- B2b: Cross product is linear in second argument (PROVEN) -/
+/-- Cross product is linear in second argument (PROVEN) -/
 theorem cross_right_linear (a : ℝ) (u v w : R7) :
     cross u (a • v + w) = a • cross u v + cross u w := by
   ext k
@@ -147,21 +147,21 @@ theorem cross_right_linear (a : ℝ) (u v w : R7) :
   congr 1
   all_goals (apply Finset.sum_congr rfl; intro i _; apply Finset.sum_congr rfl; intro j _; ring)
 
-/-- B2: Cross product is bilinear (PROVEN) -/
+/-- Cross product is bilinear (PROVEN) -/
 theorem G2_cross_bilinear :
     (∀ a : ℝ, ∀ u v w : R7, cross (a • u + v) w = a • cross u w + cross v w) ∧
     (∀ a : ℝ, ∀ u v w : R7, cross u (a • v + w) = a • cross u v + cross u w) :=
   ⟨cross_left_linear, cross_right_linear⟩
 
 /-!
-## Theorem B3: G2_cross_antisymm (PROVEN)
+## Cross Product Antisymmetry
 
 u × v = -v × u
 
 Proof: ε(i,j,k) = -ε(j,i,k) (epsilon_antisymm) + extensionality
 -/
 
-/-- B3: Cross product is antisymmetric (PROVEN)
+/-- Cross product is antisymmetric (PROVEN)
     Proof: Use epsilon_antisymm and sum reindexing -/
 theorem G2_cross_antisymm (u v : R7) : cross u v = -cross v u := by
   ext k
@@ -179,7 +179,7 @@ theorem G2_cross_antisymm (u v : R7) : cross u v = -cross v u := by
   simp only [Int.cast_neg, h]
   ring
 
-/-- B3': u × u = 0 (PROVEN) - follows from antisymmetry -/
+/-- u × u = 0 (PROVEN) - follows from antisymmetry -/
 theorem cross_self (u : R7) : cross u u = 0 := by
   have h := G2_cross_antisymm u u
   -- h: cross u u = -(cross u u), i.e., x = -x
@@ -194,7 +194,7 @@ theorem cross_self (u : R7) : cross u u = 0 := by
   exact (smul_eq_zero.mp h2).resolve_left h3
 
 /-!
-## Theorem B4: G2_cross_norm (Lagrange Identity) - PROVEN
+## Lagrange Identity for 7D Cross Product
 
 |u × v|² = |u|²|v|² - ⟨u,v⟩²
 
@@ -235,7 +235,7 @@ theorem epsilon_contraction_swap (i j : Fin 7) (h : i ≠ j) :
   fin_cases i <;> fin_cases j <;> first | contradiction | native_decide
 
 /-!
-### B4 Proof via Coassociative 4-form Antisymmetry
+### Proof via Coassociative 4-form Antisymmetry
 
 The epsilon contraction in 7D differs from 3D:
   ∑ₖ ε(i,j,k)ε(l,m,k) = δᵢₗδⱼₘ - δᵢₘδⱼₗ + ψᵢⱼₗₘ
@@ -342,7 +342,7 @@ theorem psi_contract_vanishes (u v : Fin 7 → ℝ) :
     _ = 0 := by simp only [mul_zero, Finset.sum_const_zero]
 
 /-!
-## B4: Lagrange Identity - Full Proof
+## Lagrange Identity - Full Proof
 
 The proof proceeds by:
 1. Express ‖cross u v‖² as ∑_k (cross u v k)²
@@ -368,7 +368,7 @@ theorem R7_inner_eq_sum (u v : R7) : @inner ℝ R7 _ u v = ∑ i : Fin 7, u i * 
   funext i
   ring
 
-/-- B4: Lagrange identity for 7D cross product (FULLY PROVEN)
+/-- Lagrange identity for 7D cross product (FULLY PROVEN)
     |u × v|² = |u|²|v|² - ⟨u,v⟩²
 
     This is the 7-dimensional generalization of the classical 3D identity.
@@ -518,7 +518,7 @@ theorem G2_cross_norm (u v : R7) :
   rw [h_first, h_second]
 
 /-!
-## Axiom B5: cross_is_octonion
+## Cross Product as Octonion Multiplication
 
 The cross product equals the imaginary part of octonion multiplication.
 For pure imaginary octonions u, v: u × v = Im(u · v)
@@ -537,7 +537,7 @@ def fano_witness_exists (i j k : Fin 7) : Prop :=
 instance (i j k : Fin 7) : Decidable (fano_witness_exists i j k) :=
   inferInstanceAs (Decidable (_ → _))
 
-/-- B5: Cross product structure matches octonion multiplication
+/-- Cross product structure matches octonion multiplication
     Every nonzero epsilon corresponds to a Fano line permutation.
 
     PROVEN via exhaustive decidable check on all 343 index combinations.
@@ -601,16 +601,16 @@ theorem G2_dim_from_stabilizer : 49 - orbit_phi0_dim = 14 := rfl
 theorem G2_dim_from_roots : 12 + 2 = 14 := rfl
 
 /-!
-## Summary of Tier 2 Status (v3.1.4 - ALL CORE G2 THEOREMS PROVEN!)
+## Summary of G₂ Cross Product Theorems (v3.1.4 - ALL CORE G2 THEOREMS PROVEN!)
 
 **Core Cross Product Theorems (7/7 PROVEN):**
 - epsilon_antisymm ✅ PROVEN (7³ = 343 cases)
 - epsilon_diag ✅ PROVEN (7² = 49 cases)
 - cross_apply ✅ PROVEN (definitional)
-- B2: G2_cross_bilinear ✅ PROVEN
-- B3: G2_cross_antisymm ✅ PROVEN
-- B3': cross_self ✅ PROVEN
-- B5: cross_is_octonion_structure ✅ PROVEN (7³ = 343 cases via decide)
+- G2_cross_bilinear (bilinearity) ✅ PROVEN
+- G2_cross_antisymm (antisymmetry) ✅ PROVEN
+- cross_self (u × u = 0) ✅ PROVEN
+- cross_is_octonion_structure ✅ PROVEN (7³ = 343 cases via decide)
 
 **Epsilon Contraction Lemmas (5/5 PROVEN):**
 - epsilon_contraction (definition)
@@ -619,7 +619,7 @@ theorem G2_dim_from_roots : 12 + 2 = 14 := rfl
 - epsilon_contraction_same ✅ PROVEN (i≠j, 42 cases)
 - epsilon_contraction_swap ✅ PROVEN (i≠j, 42 cases)
 
-**B4 Lagrange Identity (FULLY PROVEN):**
+**Lagrange Identity (FULLY PROVEN):**
 - psi (coassociative 4-form) ✅ DEFINED
 - psi_antisym_il ✅ PROVEN (7⁴ = 2401 cases via native_decide)
 - epsilon_contraction_decomp ✅ PROVEN (Kronecker + ψ decomposition)
