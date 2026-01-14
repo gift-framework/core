@@ -65,6 +65,12 @@ abbrev FormCoeffs (k : ℕ) := Fin (Nat.choose 7 k) → ℝ
 structure DiffForm (k : ℕ) where
   coeffs : V7 → FormCoeffs k
 
+/-- Extensionality for differential forms -/
+@[ext]
+theorem DiffForm.ext {k : ℕ} {ω η : DiffForm k}
+    (h : ∀ p i, ω.coeffs p i = η.coeffs p i) : ω = η := by
+  cases ω; cases η; congr; funext p i; exact h p i
+
 /-- Zero k-form -/
 def zeroDiffForm (k : ℕ) : DiffForm k where
   coeffs := fun _ _ => 0
