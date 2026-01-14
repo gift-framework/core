@@ -134,8 +134,9 @@ This is the case for flat ℝ⁷ with constant G₂ structure.
 def trivialExteriorDeriv : ExteriorDerivative where
   d := fun _ _ => 0
   d_linear := fun _ a _ _ => by
-    simp only [HAdd.hAdd, Add.add, HSMul.hSMul, SMul.smul]
-    unfold addDiffForm smulDiffForm zeroDiffForm
+    show (0 : DiffForm _) = _
+    simp only [HAdd.hAdd, Add.add, HSMul.hSMul, SMul.smul, OfNat.ofNat, Zero.zero]
+    unfold zeroDiffForm addDiffForm smulDiffForm
     congr 1
     funext p i
     ring
