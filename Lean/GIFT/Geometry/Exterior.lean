@@ -137,13 +137,16 @@ theorem wedge_anticomm_1forms (v w : V7) :
     calc ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w +
          ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v
         = 0 + (ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w +
-               ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v) + 0 := by ring
+               ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v) + 0 := by
+          simp only [zero_add, add_zero]
       _ = ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ v +
           (ExteriorAlgebra.ι ℝ v * ExteriorAlgebra.ι ℝ w +
            ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ v) +
           ExteriorAlgebra.ι ℝ w * ExteriorAlgebra.ι ℝ w := by rw [hv, hw]
       _ = (ExteriorAlgebra.ι ℝ v + ExteriorAlgebra.ι ℝ w) *
-          (ExteriorAlgebra.ι ℝ v + ExteriorAlgebra.ι ℝ w) := by ring
+          (ExteriorAlgebra.ι ℝ v + ExteriorAlgebra.ι ℝ w) := by
+          rw [add_mul, mul_add, mul_add]
+          abel
       _ = 0 := hvw
   rw [← add_eq_zero_iff_eq_neg]
   exact h
@@ -179,15 +182,32 @@ theorem wedge2_diag (i : Fin 7) : wedge2 i i = 0 :=
 /-- wedge3 is totally antisymmetric (swap first two) -/
 theorem wedge3_antisymm_12 (i j k : Fin 7) :
     wedge3 i j k = -wedge3 j i k := by
-  unfold wedge3
+  unfold wedge3 wedge
   rw [basisForm_anticomm i j]
-  ring
+  unfold wedge
+  simp only [neg_mul]
 
 /-- wedge3 is totally antisymmetric (swap last two) -/
 theorem wedge3_antisymm_23 (i j k : Fin 7) :
     wedge3 i j k = -wedge3 i k j := by
-  unfold wedge3
-  rw [basisForm_anticomm j k, neg_mul, neg_neg]
+  unfold wedge3 wedge basisForm ι
+  -- (ε i ∧' ε j) ∧' ε k = -((ε i ∧' ε k) ∧' ε j)
+  -- Use associativity and anticommutativity
+  have h : ExteriorAlgebra.ι ℝ (basisVec j) * ExteriorAlgebra.ι ℝ (basisVec k) =
+           -(ExteriorAlgebra.ι ℝ (basisVec k) * ExteriorAlgebra.ι ℝ (basisVec j)) := by
+    have := wedge_anticomm_1forms (basisVec j) (basisVec k)
+    unfold wedge ι at this
+    exact this
+  calc ExteriorAlgebra.ι ℝ (basisVec i) * ExteriorAlgebra.ι ℝ (basisVec j) *
+         ExteriorAlgebra.ι ℝ (basisVec k)
+      = ExteriorAlgebra.ι ℝ (basisVec i) * (ExteriorAlgebra.ι ℝ (basisVec j) *
+         ExteriorAlgebra.ι ℝ (basisVec k)) := by rw [mul_assoc]
+    _ = ExteriorAlgebra.ι ℝ (basisVec i) * (-(ExteriorAlgebra.ι ℝ (basisVec k) *
+         ExteriorAlgebra.ι ℝ (basisVec j))) := by rw [h]
+    _ = -(ExteriorAlgebra.ι ℝ (basisVec i) * (ExteriorAlgebra.ι ℝ (basisVec k) *
+         ExteriorAlgebra.ι ℝ (basisVec j))) := by rw [mul_neg]
+    _ = -(ExteriorAlgebra.ι ℝ (basisVec i) * ExteriorAlgebra.ι ℝ (basisVec k) *
+         ExteriorAlgebra.ι ℝ (basisVec j)) := by rw [mul_assoc]
 
 /-!
 ## Dimension Formulas
