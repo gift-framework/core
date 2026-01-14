@@ -74,7 +74,7 @@ structure HodgeStar where
   star_star : ∀ k (hk : k ≤ 7) (ω : DiffForm k),
     let hk' : 7 - k ≤ 7 := Nat.sub_le 7 k
     let h7kk : 7 - (7 - k) = k := by omega
-    h7kk ▸ star (7 - k) hk' (star k hk ω) = ((-1 : ℤ) ^ (k * (7 - k))) • ω
+    h7kk ▸ star (7 - k) hk' (star k hk ω) = ((-1 : ℝ) ^ (k * (7 - k))) • ω
 
 /-!
 ## Part 4: Sign Analysis for n = 7
@@ -88,15 +88,13 @@ def starStarExponent (k : Fin 8) : ℕ := k.val * (7 - k.val)
 /-- k(7-k) is always even for k ≤ 7 -/
 theorem starStar_exp_even (k : Fin 8) : Even (starStarExponent k) := by
   unfold starStarExponent
-  interval_cases k.val <;> decide
+  fin_cases k <;> decide
 
 /-- Therefore ⋆⋆ = +1 on all forms in 7 dimensions -/
 theorem starStar_sign_positive (k : Fin 8) :
     (-1 : ℤ) ^ starStarExponent k = 1 := by
-  have h := starStar_exp_even k
-  obtain ⟨m, hm⟩ := h
-  rw [hm]
-  exact Int.neg_one_pow_eq_one_of_even ⟨m, rfl⟩
+  unfold starStarExponent
+  fin_cases k <;> native_decide
 
 /-!
 ## Part 5: Hodge Duality Dimensions
@@ -123,17 +121,14 @@ complement operation on index sets.
 
 /-- Trivial Hodge star on constant forms -/
 def trivialHodgeStar : HodgeStar where
-  star := fun k _ ω =>
+  star := fun k _ _ =>
     -- For constant forms, ⋆ is a linear map on coefficients
     -- The actual implementation uses complement indices
-    constDiffForm (7 - k) (fun _ => 0)  -- Placeholder
-  star_linear := by
-    intros k hk a ω η
-    simp only [smul_zero, add_zero]
-    rfl
-  star_star := by
-    intros k hk ω
-    sorry -- Requires detailed index manipulation
+    constDiffForm (7 - k) (fun _ => 0)  -- Placeholder (returns 0)
+  star_linear := fun _ _ _ _ _ => rfl  -- Both sides are 0
+  star_star := fun _ _ _ => by
+    simp only [constDiffForm]
+    sorry -- Requires detailed index manipulation for non-trivial star
 
 /-!
 ## Part 7: G₂ Structure with Hodge Star
