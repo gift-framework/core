@@ -86,13 +86,13 @@ theorem prime_97_is_prime : Nat.Prime 97 := by native_decide
 -- TIER 2 PRIME SET
 -- =============================================================================
 
-/-- The set of Tier 2 primes (expressed via GIFT constants) -/
+/-- The set of derived primes (expressed via GIFT constants) -/
 def tier2_primes : List Nat := [23, 29, 37, 41, 43, 47, 53, 59, 67, 71, 73, 79, 83, 89, 97]
 
-/-- All Tier 2 values are prime -/
+/-- All derived values are prime -/
 theorem tier2_all_prime : ∀ p ∈ tier2_primes, Nat.Prime p := by decide
 
-/-- Count of Tier 2 primes -/
+/-- Count of derived primes -/
 theorem tier2_count : tier2_primes.length = 15 := rfl
 
 -- =============================================================================
@@ -106,7 +106,7 @@ def primes_below_100 : List Nat :=
 /-- There are 25 primes below 100 -/
 theorem primes_below_100_count : primes_below_100.length = 25 := rfl
 
-/-- All primes below 100 are covered by Tier 1 or Tier 2 -/
+/-- All primes below 100 are covered by direct or derived -/
 theorem complete_coverage_below_100 :
     ∀ p ∈ primes_below_100, p ∈ tier1_primes ∨ p ∈ tier2_primes := by decide
 
@@ -130,9 +130,9 @@ theorem b3_generates :
 -- MASTER THEOREM
 -- =============================================================================
 
-/-- All 15 Tier 2 prime relations certified -/
+/-- All 15 derived prime relations certified -/
 theorem all_tier2_relations_certified :
-    -- All Tier 2 primes expressible via GIFT constants
+    -- All derived primes expressible via GIFT constants
     ((23 : Nat) = b2 + p2) ∧
     ((29 : Nat) = 7 * 4 + 1) ∧
     ((37 : Nat) = b2 + p2 * rank_E8) ∧

@@ -5,6 +5,49 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.2] - 2026-01-14
+
+### Summary
+
+**G2 Forms Bridge + Analytical Foundations!** Connects the abstract G2 differential forms infrastructure to the concrete cross product, plus axiom-free Sobolev/Elliptic/IFT framework for Joyce's theorem.
+
+### Added
+
+- **Lean/GIFT/Foundations/Analysis/G2Forms/G2FormsBridge.lean**:
+  - `phi0_coefficients`: 35 coefficients of canonical G2 3-form from Fano plane
+  - `CrossProductG2`: G2Structure derived from epsilon structure constants
+  - `crossProductG2_torsionFree`: proven torsion-free
+  - `g2_forms_bridge_complete`: master unification theorem
+
+- **Lean/GIFT/Foundations/Analysis/Sobolev/Basic.lean**:
+  - `EmbeddingCondition`: H^k embeds in C^0 when 2k > n
+  - `K7_embedding_condition`: H^4 embeds in C^0 for dim 7 (verified)
+
+- **Lean/GIFT/Foundations/Analysis/Elliptic/Basic.lean**:
+  - `FredholmIndex`: kernel/cokernel dimensions
+  - `BootstrapData`: regularity iteration tracking
+  - `joyce_fredholm`: index 0 for Joyce linearization
+
+- **Lean/GIFT/Foundations/Analysis/IFT/Basic.lean**:
+  - `JoyceHypothesis`: computational bounds structure
+  - `K7_pinn_verified`: PINN bound 0.00141 < threshold 0.0288
+  - `K7_safety_margin`: >20x safety factor
+
+### Changed
+
+- **Directory rename**: `Tier1/` → `G2Forms/` (standard academic terminology)
+- **Terminology cleanup**: Replaced internal jargon (B1-B5, A1-A12, Tier 1/2) with standard mathematical terms across 12 files
+- **CLAUDE.md**: Added priority section for academic terminology standards
+
+### Technical Notes
+
+All new analytical infrastructure is **axiom-free**:
+- Sobolev embedding conditions: `native_decide` on 2*4 > 7
+- PINN bounds: `native_decide` on 141*10000 < 288*100000
+- Bootstrap iterations: computed directly
+
+---
+
 ## [3.3.1] - 2026-01-14
 
 ### Summary

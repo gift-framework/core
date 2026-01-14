@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.3.1).
+Complete documentation for the `giftpy` Python package (v3.3.2).
 
 ## Installation
 
@@ -13,7 +13,7 @@ For visualization (optional):
 pip install giftpy matplotlib numpy
 ```
 
-## Quick Start (v3.3.1)
+## Quick Start (v3.3.2)
 
 ```python
 from gift_core import *
@@ -42,14 +42,58 @@ from gift_core import verify
 print(verify())          # True
 ```
 
+## New in v3.3.2
+
+### G2 Forms Bridge + Analytical Foundations (Lean 4)
+
+Connects abstract G2 differential forms to concrete cross product, plus axiom-free analytical infrastructure:
+
+```lean
+import GIFT.Foundations.Analysis.G2Forms.All
+
+-- G2 structure from Fano plane cross product
+#check CrossProductG2           -- G2Structure
+#check crossProductG2_torsionFree  -- Proof it's torsion-free!
+
+-- phi0 coefficients from epsilon structure constants
+#check phi0_coefficients        -- 35 coefficients of canonical 3-form
+
+-- Bridge theorem: unifies abstract forms with concrete cross product
+#check g2_forms_bridge_complete
+```
+
+**Analytical Foundations (axiom-free):**
+```lean
+import GIFT.Foundations.Analysis.Sobolev.Basic
+import GIFT.Foundations.Analysis.Elliptic.Basic
+import GIFT.Foundations.Analysis.IFT.Basic
+
+-- Sobolev embedding: H^4 embeds in C^0 for dim 7
+#check K7_embedding_condition   -- 2 * 4 > 7 (native_decide)
+
+-- Elliptic bootstrap: H^0 -> H^2 -> H^4
+#check bootstrap_H0_H4          -- 2 iterations
+
+-- Joyce PINN verification
+#check K7_pinn_verified         -- 0.00141 < 0.0288
+#check K7_safety_margin         -- >20x margin
+```
+
+**Also in v3.3.2:**
+- Directory rename: `Tier1/` → `G2Forms/` (standard terminology)
+- Terminology cleanup across 12 files (B1-B5, A1-A12 → descriptive names)
+- CLAUDE.md priority section for academic terminology
+
+---
+
 ## New in v3.3.1
 
-### Tier 1 G2 Infrastructure (Lean 4)
+### G2 Forms Infrastructure (Lean 4)
 
 Axiom-free formalization of torsion-free G2 structures:
 
 ```lean
-import GIFT.Foundations.Analysis.Tier1.All
+import GIFT.Foundations.Analysis.G2Forms.All
 
 -- Create a G2 structure
 def myG2 : G2Structure := ConstantG2 (fun _ => 0) (fun _ => 0)
@@ -61,7 +105,7 @@ def myG2 : G2Structure := ConstantG2 (fun _ => 0) (fun _ => 0)
 -- where closed = (dφ = 0) and coclosed = (d⋆φ = 0)
 ```
 
-**Tier 1 checklist:**
+**Checklist:**
 - ✓ Canonical Ωᵏ(M) via `GradedDiffForms`
 - ✓ Exterior derivative d with d∘d=0 proven
 - ✓ Hodge star ⋆ : Ωᵏ → Ωⁿ⁻ᵏ structure

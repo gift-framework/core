@@ -1,25 +1,25 @@
 /-
-GIFT Tier 1: Hodge Star Operator
+GIFT G₂ Forms: Hodge Star Operator
 =================================
 
 Hodge star ⋆ : Ωᵏ → Ωⁿ⁻ᵏ on oriented Riemannian manifolds.
 
-For Tier 1, we work on EuclideanSpace ℝ (Fin n) with standard metric.
+We work on EuclideanSpace ℝ (Fin n) with standard metric.
 The construction is axiom-free, using abstract structures.
 
-Version: 4.0.0 (Tier 1)
+Version: 4.0.0
 -/
 
 import Mathlib.LinearAlgebra.ExteriorAlgebra.Basic
 import Mathlib.Analysis.InnerProductSpace.PiL2
 import Mathlib.Data.Real.Basic
 import GIFT.Foundations.Analysis.ExteriorAlgebra
-import GIFT.Foundations.Analysis.Tier1.DifferentialForms
+import GIFT.Foundations.Analysis.G2Forms.DifferentialForms
 
-namespace GIFT.Tier1.HodgeStar
+namespace GIFT.G2Forms.HodgeStar
 
 open GIFT.Foundations.Analysis.ExteriorAlgebra
-open GIFT.Tier1.DifferentialForms
+open GIFT.G2Forms.DifferentialForms
 
 /-!
 ## Hodge Duality Dimensions
@@ -76,7 +76,7 @@ theorem star_star_sign_7_all_positive (k : ℕ) (hk : k ≤ 7) :
 /-!
 ## Abstract Hodge Star Structure
 
-For Tier 1, we use an abstract structure that avoids dependent type issues.
+We use an abstract structure that avoids dependent type issues.
 The key insight: we just need to express that ⋆ maps k-forms to (n-k)-forms.
 -/
 
@@ -140,4 +140,4 @@ theorem G2FormData.torsionFree_iff_closed_and_coclosed (g : G2FormData) :
   unfold TorsionFree IsClosed IsCoclosed
   rfl
 
-end GIFT.Tier1.HodgeStar
+end GIFT.G2Forms.HodgeStar

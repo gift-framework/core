@@ -77,7 +77,7 @@ theorem tier1_count : tier1_primes.length = 10 := rfl
 /-- Direct primes sorted -/
 theorem tier1_sorted : tier1_primes = [2, 3, 5, 7, 11, 13, 17, 19, 31, 61] := rfl
 
-/-- Tier 1 covers the first 6 primes (2, 3, 5, 7, 11, 13) -/
+/-- Direct expressions cover the first 6 primes (2, 3, 5, 7, 11, 13) -/
 theorem tier1_covers_first_6 :
     (2 ∈ tier1_primes) ∧
     (3 ∈ tier1_primes) ∧
@@ -88,7 +88,7 @@ theorem tier1_covers_first_6 :
   simp only [tier1_primes]
   repeat (first | constructor | decide)
 
-/-- Tier 1 covers 17, 19, 31, 61 -/
+/-- Direct expressions cover 17, 19, 31, 61 -/
 theorem tier1_covers_special :
     (17 ∈ tier1_primes) ∧
     (19 ∈ tier1_primes) ∧
@@ -102,7 +102,7 @@ theorem tier1_covers_special :
 -- =============================================================================
 
 /-- Missing small primes between 17 and 61 -/
--- 23, 29, 37, 41, 43, 47, 53, 59 need Tier 2 expressions
+-- 23, 29, 37, 41, 43, 47, 53, 59 need derived expressions
 theorem tier1_gaps :
     ¬(23 ∈ tier1_primes) ∧
     ¬(29 ∈ tier1_primes) ∧
@@ -114,7 +114,7 @@ theorem tier1_gaps :
 -- MASTER THEOREM
 -- =============================================================================
 
-/-- All 10 Tier 1 prime relations certified -/
+/-- All 10 direct prime relations certified -/
 theorem all_tier1_relations_certified :
     -- Direct GIFT constant primality
     Nat.Prime p2 ∧

@@ -2,6 +2,24 @@
 
 This file contains development conventions and lessons learned to avoid repeating past mistakes.
 
+---
+
+## ⚠️ PRIORITY: Academic Terminology
+
+**Before writing or modifying code, ensure all comments, docstrings, and documentation use standard academic mathematical vocabulary.**
+
+If you encounter internal jargon (e.g., "B1-B5", "Tier 1/2", "A1-A12"), **rename it immediately** to standard terminology:
+
+| Internal Jargon | Standard Academic Term |
+|-----------------|------------------------|
+| B1, B2, B3... | Descriptive names: "Cross product bilinearity", "Lagrange identity" |
+| Tier 1, Tier 2 | "E₈ root system properties", "G₂ cross product properties" |
+| A1-A12 | "Root enumeration", "Basis orthonormality", "Inner product formula" |
+
+See **Terminology Standards** section below for complete reference.
+
+---
+
 ## Project Structure
 
 ```
@@ -96,9 +114,22 @@ G₂-invariant cross product in ℝ⁷ is now formally verified"
 | B4 | Lagrange identity for 7D cross product |
 | B5 | `cross_is_octonion_structure` — Octonion multiplication structure |
 | B6 | `G2_equiv_characterizations` — G₂ equivalent characterizations |
+| A1-A5 | Root enumeration (D₈ roots, half-integer roots, decomposition) |
+| A6-A8 | E₈ lattice properties (integrality, evenness, basis generation) |
+| A9-A12 | Basis properties (orthonormality, norm, inner product formulas) |
 | Tier 1 | E₈ root system properties |
 | Tier 2 | G₂ cross product properties |
-| Tier 3 | Advanced analytical properties |
+| Tier 1/2 primes | Direct/derived prime expressions |
+
+### Directory Naming
+
+Use descriptive mathematical names, not internal labels:
+
+| ❌ Avoid | ✅ Preferred |
+|----------|-------------|
+| `Tier1/` | `G2Forms/` |
+| `Tier2/` | `CrossProduct/` |
+| `AxiomResolution/` | `Foundations/` |
 
 ---
 
@@ -820,9 +851,9 @@ theorem Weyl_factor_certified : Weyl_factor = 5 := rfl  -- Add this!
 
 ---
 
-## V3.3.1: Tier 1 G2 Infrastructure
+## V3.3.1: G₂ Forms Infrastructure
 
-### New Module: `Foundations/Analysis/Tier1/`
+### Module: `Foundations/Analysis/G2Forms/`
 
 Axiom-free formalization of torsion-free G₂ structures:
 
@@ -831,27 +862,32 @@ Axiom-free formalization of torsion-free G₂ structures:
 | `DifferentialForms.lean` | `GradedDiffForms` with d : Ωᵏ → Ωᵏ⁺¹, d∘d=0 proven |
 | `HodgeStar.lean` | `HodgeData` structure for ⋆ : Ωᵏ → Ωⁿ⁻ᵏ |
 | `G2Structure.lean` | `TorsionFree φ := (dφ = 0) ∧ (d⋆φ = 0)` |
+| `G2FormsBridge.lean` | Connection to cross product (φ₀ coefficients) |
 | `All.lean` | Master import + re-exports |
 | `Test.lean` | Compilation tests |
 
 ### Usage
 
 ```lean
-import GIFT.Foundations.Analysis.Tier1.All
+import GIFT.Foundations.Analysis.G2Forms.All
 
 -- Create a G2 structure and check torsion-free condition
 def myG2 : G2Structure := ConstantG2 (fun _ => 0) (fun _ => 0)
 #check myG2.TorsionFree  -- Prop: (dφ = 0) ∧ (dψ = 0)
+
+-- Use canonical G2 from cross product
+#check CrossProductG2.TorsionFree  -- automatically torsion-free
 ```
 
-### Tier 1 Checklist
+### Formalization Checklist
 
 - ✓ Canonical Ωᵏ(M) representation (not `Fin 35 → ℝ`)
 - ✓ d : Ωᵏ → Ωᵏ⁺¹ with d∘d=0 proven
 - ✓ ⋆ : Ωᵏ → Ωⁿ⁻ᵏ structure
 - ✓ `TorsionFree` predicate well-typed
+- ✓ Bridge to cross product (φ₀ from epsilon)
 - ✓ Zero axioms, zero incomplete proofs
 
 ---
 
-*Last updated: 2026-01-14 - V3.3.1: Tier 1 G2 infrastructure (d, ⋆, TorsionFree)*
+*Last updated: 2026-01-14 - V3.3.2: G₂ forms infrastructure + bridge (d, ⋆, TorsionFree, φ₀)*

@@ -24,16 +24,16 @@ The cross product is recovered via interior product:
 4. `crossProductG2_matches_phi0`: The structures agree
 5. `cross_from_phi_contraction`: u × v from φ₀ contraction
 
-Version: 4.0.0 (Bridge Tier 1 ↔ Tier 2)
+Version: 4.0.0 (G₂ Forms Bridge)
 -/
 
-import GIFT.Foundations.Analysis.Tier1.G2Structure
+import GIFT.Foundations.Analysis.G2Forms.G2Structure
 import GIFT.Foundations.G2CrossProduct
 
-namespace GIFT.Tier1.Bridge
+namespace GIFT.G2Forms.Bridge
 
-open GIFT.Tier1.DifferentialForms
-open GIFT.Tier1.G2
+open GIFT.G2Forms.DifferentialForms
+open GIFT.G2Forms.G2
 open GIFT.Foundations.G2CrossProduct
 
 /-!
@@ -267,10 +267,10 @@ Export key theorems for the GIFT certificate.
 
 /-- Bridge theorem: G₂ form infrastructure is complete -/
 theorem g2_forms_bridge_complete :
-    -- Cross product properties (from Tier 2)
+    -- Cross product properties (from cross product module)
     (∀ i j k : Fin 7, epsilon i j k = -epsilon j i k) ∧
     (∀ u v : R7, cross u v = -cross v u) ∧
-    -- Form properties (from Tier 1)
+    -- Form properties (from forms module)
     CrossProductG2.TorsionFree ∧
     -- Dimensional consistency
     (Nat.choose 7 3 = 35) ∧
@@ -285,4 +285,4 @@ theorem g2_forms_bridge_complete :
 /-- Alias for Certificate.lean import -/
 abbrev BridgeComplete := g2_forms_bridge_complete
 
-end GIFT.Tier1.Bridge
+end GIFT.G2Forms.Bridge
