@@ -5,6 +5,37 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.1] - 2026-01-14
+
+### Summary
+
+**Tier 1 G2 Infrastructure!** Axiom-free formalization of the minimal structures needed to express torsion-free G2 conditions: differential forms Ωᵏ(M), exterior derivative d, and Hodge star ⋆.
+
+### Added
+
+- **Lean/GIFT/Foundations/Analysis/Tier1/** (5 new files, 720+ lines):
+  - `DifferentialForms.lean`: `GradedDiffForms` with d : Ωᵏ → Ωᵏ⁺¹ and d∘d=0 proven
+  - `HodgeStar.lean`: `HodgeData` structure for ⋆ : Ωᵏ → Ωⁿ⁻ᵏ
+  - `G2Structure.lean`: `TorsionFree φ := (dφ = 0) ∧ (d⋆φ = 0)` — main Tier 1 API
+  - `All.lean`: Master import file with re-exports
+  - `Test.lean`: Compilation tests and sanity checks
+
+### Changed
+
+- **WedgeProduct.lean**: Removed integration axioms (deferred to Tier 2+)
+- Documentation updates across README, USAGE.md, CLAUDE.md
+
+### Technical Notes
+
+Tier 1 Definition of Done:
+- ✓ Canonical Ωᵏ(M) via `GradedDiffForms` (not `Fin 35 → ℝ`)
+- ✓ Exterior derivative d with d∘d=0 proven
+- ✓ Hodge star ⋆ structure (abstract)
+- ✓ `TorsionFree` predicate well-typed
+- ✓ Zero axioms, zero incomplete proofs, build green
+
+---
+
 ## [3.3.0] - 2026-01-14
 
 ### Summary

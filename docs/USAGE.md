@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.3.0).
+Complete documentation for the `giftpy` Python package (v3.3.1).
 
 ## Installation
 
@@ -13,7 +13,7 @@ For visualization (optional):
 pip install giftpy matplotlib numpy
 ```
 
-## Quick Start (v3.3)
+## Quick Start (v3.3.1)
 
 ```python
 from gift_core import *
@@ -41,6 +41,34 @@ print(K7.two_b2)                # 42 (structural invariant)
 from gift_core import verify
 print(verify())          # True
 ```
+
+## New in v3.3.1
+
+### Tier 1 G2 Infrastructure (Lean 4)
+
+Axiom-free formalization of torsion-free G2 structures:
+
+```lean
+import GIFT.Foundations.Analysis.Tier1.All
+
+-- Create a G2 structure
+def myG2 : G2Structure := ConstantG2 (fun _ => 0) (fun _ => 0)
+
+-- The torsion-free predicate is now well-typed!
+#check myG2.TorsionFree  -- Prop
+
+-- TorsionFree = closed ∧ coclosed
+-- where closed = (dφ = 0) and coclosed = (d⋆φ = 0)
+```
+
+**Tier 1 checklist:**
+- ✓ Canonical Ωᵏ(M) via `GradedDiffForms`
+- ✓ Exterior derivative d with d∘d=0 proven
+- ✓ Hodge star ⋆ : Ωᵏ → Ωⁿ⁻ᵏ structure
+- ✓ `TorsionFree φ := (dφ = 0) ∧ (d⋆φ = 0)`
+- ✓ Zero axioms, build green
+
+---
 
 ## New in v3.3.0
 

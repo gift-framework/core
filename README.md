@@ -13,6 +13,7 @@ Lean/GIFT/
 ├── Core.lean              # Constants (dim_E8, b2, b3, H*, ...)
 ├── Certificate.lean       # Master theorem (185+ relations)
 ├── Foundations/           # E8 roots, G2 cross product, Joyce
+│   └── Analysis/Tier1/    # G2 structure: d, ⋆, TorsionFree (NEW!)
 ├── Algebraic/             # Octonions, Betti numbers
 ├── Observables/           # PMNS, CKM, quark masses, cosmology
 └── Relations/             # Physical predictions
@@ -56,4 +57,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.3.0*
+*GIFT Core v3.3.1*
