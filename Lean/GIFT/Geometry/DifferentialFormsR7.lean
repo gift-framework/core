@@ -47,7 +47,7 @@ For k-forms, we need ordered k-tuples {i₁ < i₂ < ... < iₖ} from {0,...,6}.
 def OrderedKTuple (k : ℕ) := { f : Fin k → Fin 7 // StrictMono f }
 
 /-- Number of ordered k-tuples is C(7,k) -/
-theorem card_ordered_k_tuples (k : ℕ) (hk : k ≤ 7) :
+theorem card_ordered_k_tuples (k : ℕ) (_hk : k ≤ 7) :
     Nat.choose 7 k = Nat.choose 7 k := rfl
 
 /-!
@@ -111,20 +111,17 @@ structure ExteriorDerivative where
 def IsClosed (D : ExteriorDerivative) (k : ℕ) (ω : DiffForm k) : Prop :=
   D.d k ω = 0
 
-/-- An exact form satisfies ω = dη for some η -/
-def IsExact (D : ExteriorDerivative) (k : ℕ) (ω : DiffForm k) : Prop :=
-  ∃ η : DiffForm (k - 1), k > 0 ∧ D.d (k - 1) η = ω
+/-- An exact form satisfies ω = dη for some η (k must be > 0) -/
+def IsExact (D : ExteriorDerivative) {k : ℕ} (ω : DiffForm (k + 1)) : Prop :=
+  ∃ η : DiffForm k, D.d k η = ω
 
 /-- Exact forms are closed (Poincaré lemma, easy direction) -/
-theorem exact_implies_closed (D : ExteriorDerivative) (k : ℕ) (ω : DiffForm k)
-    (hk : k > 0) (h : IsExact D k ω) : IsClosed D k ω := by
-  obtain ⟨η, _, hη⟩ := h
+theorem exact_implies_closed (D : ExteriorDerivative) {k : ℕ} (ω : DiffForm (k + 1))
+    (h : IsExact D ω) : IsClosed D (k + 1) ω := by
+  obtain ⟨η, hη⟩ := h
   unfold IsClosed
   rw [← hη]
-  -- Need: d(dη) = 0
-  have hk' : k - 1 + 1 = k := Nat.sub_add_cancel hk
-  -- This is trickier because of type mismatch; we use the nilpotency
-  sorry -- Requires careful type handling
+  exact D.d_squared k η
 
 /-!
 ## Part 4: Constant Forms (Trivial Exterior Derivative)
@@ -136,13 +133,8 @@ This is the case for flat ℝ⁷ with constant G₂ structure.
 /-- Trivial exterior derivative: d = 0 on all forms -/
 def trivialExteriorDeriv : ExteriorDerivative where
   d := fun _ _ => 0
-  d_linear := by
-    intros k a ω η
-    simp only [smul_zero, add_zero]
-    rfl
-  d_squared := by
-    intros k ω
-    rfl
+  d_linear := fun _ _ _ _ => rfl
+  d_squared := fun _ _ => rfl
 
 /-- All constant forms are closed under trivial d -/
 theorem constant_forms_closed (k : ℕ) (ω : DiffForm k) :
