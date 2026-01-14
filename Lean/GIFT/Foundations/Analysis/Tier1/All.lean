@@ -40,7 +40,7 @@ Main types and definitions for convenient access.
 export DifferentialForms (DiffFormAlgebra GradedDiffForms ConstantForms GradedConstantForms)
 
 -- Hodge star
-export HodgeStar (HodgeStarData CodiffData DiffGeomData G2FormData R7Forms)
+export HodgeStar (HodgeData DiffGeomData G2FormData R7Forms)
 
 -- G2 structure (main API)
 export G2Structure (G2Structure ConstantG2)

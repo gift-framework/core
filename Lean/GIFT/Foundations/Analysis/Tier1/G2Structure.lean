@@ -143,7 +143,7 @@ We have successfully formalized:
 
 1. **Ωᵏ(M)** — Graded differential forms via `GradedDiffForms`
 2. **d** — Exterior derivative via `GradedDiffForms.d` with `d∘d=0`
-3. **⋆** — Hodge star structure via `HodgeStarData` (abstract)
+3. **⋆** — Hodge star structure via `HodgeData` (abstract)
 4. **TorsionFree** — The condition `dφ = 0 ∧ d(⋆φ) = 0`
 
 All without axioms, sorry, or admit.

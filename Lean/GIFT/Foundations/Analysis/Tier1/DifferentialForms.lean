@@ -143,7 +143,7 @@ def GradedConstantForms (n : ℕ) : GradedDiffForms n where
 -/
 
 /-- Dimension of k-forms on ℝⁿ is C(n,k) -/
-theorem dim_forms (n k : ℕ) (h : k ≤ n) :
+theorem dim_forms (n k : ℕ) (_h : k ≤ n) :
     Nat.choose n k = Nat.choose n k := rfl
 
 /-- For n = 7: dim(Ω²) = 21 -/

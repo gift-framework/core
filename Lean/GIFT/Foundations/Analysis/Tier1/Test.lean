@@ -116,17 +116,18 @@ example : testG2.TorsionFree ↔ (testG2.IsClosed ∧ testG2.IsCoclosed) :=
 example : testG2.TorsionFree := constantG2_torsionFree _ _
 
 /-!
-## Test 5: HodgeStarData
+## Test 5: HodgeData
 
 Verify Hodge star structure is well-formed.
 -/
 
--- HodgeStarData structure exists
-example : Type := HodgeStarData 7
+-- HodgeData structure exists (parametrized by form algebra)
+example (Ω : GradedDiffForms 7) : Type := HodgeData 7 Ω
 
--- Sign formulas are correct
+-- Sign formulas are correct (all +1 in 7 dimensions since k(7-k) is always even)
 example : starStarSign 7 3 = 1 := star_star_sign_3_7
-example : starStarSign 7 2 = -1 := star_star_sign_2_7
+example : starStarSign 7 2 = 1 := star_star_sign_2_7
+example : starStarSign 7 1 = 1 := star_star_sign_1_7
 
 -- Hodge dual degrees
 example : (3 : ℕ) + (7 - 3) = 7 := by native_decide
@@ -154,7 +155,7 @@ The fact they compile proves we're axiom-free.
 -- All our main definitions are not axioms
 #check DiffFormAlgebra  -- structure, not axiom
 #check GradedDiffForms  -- structure, not axiom
-#check HodgeStarData    -- structure, not axiom
+#check HodgeData        -- structure, not axiom
 #check G2Structure      -- structure, not axiom
 #check G2Structure.TorsionFree  -- def, not axiom
 
@@ -165,7 +166,7 @@ All tests pass by compilation. Tier 1 is complete:
 
 ✓ Ωᵏ(M) represented canonically via GradedDiffForms
 ✓ d : Ωᵏ → Ωᵏ⁺¹ defined with d∘d=0 proven
-✓ ⋆ : Ωᵏ → Ωⁿ⁻ᵏ structure available (HodgeStarData)
+✓ ⋆ : Ωᵏ → Ωⁿ⁻ᵏ structure available (HodgeData)
 ✓ TorsionFree φ := (dφ = 0) ∧ (d⋆φ = 0) well-formed
 ✓ No axioms, no sorry, no admit
 -/
