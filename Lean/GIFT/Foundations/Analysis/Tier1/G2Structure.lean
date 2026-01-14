@@ -30,7 +30,7 @@ Version: 4.0.0 (Tier 1)
 import GIFT.Foundations.Analysis.Tier1.DifferentialForms
 import GIFT.Foundations.Analysis.Tier1.HodgeStar
 
-namespace GIFT.Tier1.G2Structure
+namespace GIFT.Tier1.G2
 
 open GIFT.Tier1.DifferentialForms
 open GIFT.Tier1.HodgeStar
@@ -115,8 +115,7 @@ theorem constantG2_torsionFree (phi_coeffs psi_coeffs : Fin 35 → ℝ) :
   unfold G2Structure.TorsionFree G2Structure.IsClosed G2Structure.IsCoclosed
   unfold G2Structure.dphi G2Structure.dpsi
   unfold ConstantG2 GradedConstantForms
-  simp only [and_self]
-  rfl
+  exact ⟨rfl, rfl⟩
 
 /-!
 ## Connection to Physical Constants
@@ -154,4 +153,4 @@ The next tier (Tier 2) would add:
 - Connection to metric geometry
 -/
 
-end GIFT.Tier1.G2Structure
+end GIFT.Tier1.G2

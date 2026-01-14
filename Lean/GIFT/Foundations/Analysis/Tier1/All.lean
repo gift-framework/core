@@ -43,7 +43,7 @@ export DifferentialForms (DiffFormAlgebra GradedDiffForms ConstantForms GradedCo
 export HodgeStar (HodgeData DiffGeomData G2FormData R7Forms)
 
 -- G2 structure (main API)
-export G2Structure (G2Structure ConstantG2)
+export G2 (G2Structure ConstantG2)
 
 /-!
 ## Quick Examples
@@ -65,6 +65,6 @@ example (g : G2Structure) : g.Ω.Form 5 := g.dpsi
 
 /-- Example: Constant forms are automatically torsion-free -/
 example : (ConstantG2 (fun _ => 1) (fun _ => 1)).TorsionFree :=
-  G2Structure.constantG2_torsionFree _ _
+  G2.constantG2_torsionFree _ _
 
 end GIFT.Tier1
