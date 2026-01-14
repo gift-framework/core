@@ -5,6 +5,42 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0] - 2026-01-14
+
+### Summary
+
+**chi(K7) Terminology Correction!** Synced with gift-framework/GIFT v3.3.0. The true Euler characteristic χ(K7) = 0 for this compact oriented odd-dimensional manifold. The value 42 = 2×b₂ is a structural invariant, NOT χ(K7).
+
+### Added
+
+- **Core.lean**:
+  - `two_b2 : ℕ := 2 * b2` — Preferred name for the structural invariant 42
+  - `chi_K7_eq_two_b2` — Proves chi_K7 = two_b2 (same value, clearer semantics)
+  - `euler_char_K7_alternating_sum` — Proves χ(K7) = 0 via Poincaré duality
+
+- **topology.py**:
+  - `K7.two_b2` property — Returns structural invariant 2×b₂ = 42
+  - Updated docstrings clarifying χ(K7) = 0
+
+### Changed
+
+- **Core.lean**: `chi_K7` docstring now explicitly states it's a structural invariant, NOT the Euler characteristic
+- **Observables.lean**: Updated "The 42 Connection" comment to clarify 42 = 2b₂ ≠ χ(K7)
+- **CLAUDE.md**: Added V3.3 Clarification section with detailed explanation
+- **topology.py**: `K7.euler_characteristic` now correctly returns 0 (was returning -112)
+
+### Fixed
+
+- **Python bug**: `K7.euler_characteristic` was computing `2*(b2-b3) = -112` which is mathematically wrong
+- **Terminology**: Removed misleading references to "χ(K7) = 42" throughout codebase
+
+### Note
+
+The constant `chi_K7` is kept for backwards compatibility but `two_b2` is the preferred name.
+For any compact oriented odd-dimensional manifold, χ = 0 by Poincaré duality.
+
+---
+
 ## [3.2.15] - 2026-01-13
 
 ### Summary
