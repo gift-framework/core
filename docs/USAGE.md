@@ -44,7 +44,7 @@ print(verify())          # True
 
 ## New in v3.3.6
 
-### Tier 1 Numerical Axioms - Major Reduction!
+### Numerical Bounds Axioms - Major Reduction!
 
 Four more axioms converted to theorems:
 
@@ -64,7 +64,7 @@ import GIFT.Hierarchy.DimensionalGap
 #check cohom_suppression_magnitude  -- 10⁻⁶ < exp(-99/8) < 10⁻⁵ PROVEN
 ```
 
-**Axiom Reduction:** Tier 1 numerical axioms: 4 → 2 (rpow_27 bounds only remain)
+**Axiom Reduction:** Numerical bounds axioms: 4 → 2 (rpow_27 bounds only remain)
 
 ---
 
@@ -94,13 +94,13 @@ import GIFT.Foundations.NumericalBounds
 #check exp_049_gt      -- 1.631 < exp(0.49) (Taylor lower bound)
 ```
 
-**Axiom Reduction:** Tier 1 numerical axioms: 7 → 4 (3 proven)
+**Axiom Reduction:** Numerical bounds axioms: 7 → 4 (3 proven)
 
 ---
 
 ## In v3.3.4
 
-### Tier 1 Complete - AXIOM-FREE Hodge Star (Lean 4)
+### G₂ Differential Geometry Complete - AXIOM-FREE Hodge Star (Lean 4)
 
 The Geometry module now has **zero axioms**! The key theorem `psi_eq_star_phi` (ψ = ⋆φ) is now PROVEN via explicit Hodge star computation.
 
@@ -125,7 +125,7 @@ import GIFT.Geometry
 #check HodgeStarR7.standardG2Geom_torsionFree  -- dφ=0 ∧ dψ=0
 ```
 
-**Tier 1 Checklist (all achieved):**
+**G₂ Differential Geometry Checklist (all achieved):**
 - ✓ φ : Ω³(ℝ⁷) as `DiffForm 3`
 - ✓ ψ := ⋆φ **PROVEN** (not axiomatized)
 - ✓ TorsionFree := (dφ=0) ∧ (dψ=0)
@@ -965,7 +965,7 @@ The dependency graph shows how theorems and definitions connect:
 | **SO(16) Decomposition** | dim_SO, spinor, geometric/spinorial parts |
 | **Physical Relations** | Weinberg angle, Koide, fine structure, lepton masses |
 | **Sequences** | Fibonacci F₃-F₁₂, Lucas L₀-L₉ embeddings |
-| **Prime Atlas** | Tier 1 primes, Heegner numbers |
+| **Prime Atlas** | Direct prime expressions, Heegner numbers |
 | **Moonshine** | Monster dimension, j-invariant |
 | **McKay** | Coxeter number, binary icosahedral, E8 kissing |
 | **Joyce Theorem** | PINN verification, torsion bounds, existence |

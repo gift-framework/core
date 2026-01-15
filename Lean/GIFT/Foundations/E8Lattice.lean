@@ -324,7 +324,7 @@ This follows from case analysis:
 RESOLVED: v3.4 - converted to theorem via case analysis and helper lemmas.
 -/
 
-/-- A6: Inner product of E8 vectors is integral (PROVEN via case analysis) -/
+/-- Inner product integrality: E8 vectors have integral inner products (PROVEN via case analysis) -/
 theorem E8_inner_integral (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice) :
     ∃ n : ℤ, @inner ℝ R8 _ v w = (n : ℝ) := by
   -- Case analysis on E8 lattice membership
@@ -360,7 +360,7 @@ This follows from:
 RESOLVED: v3.4 - converted to theorem via case analysis.
 -/
 
-/-- A7: Norm squared of E8 vector is even integer (PROVEN via case analysis) -/
+/-- Norm squared evenness: E8 vectors have even norm squared (PROVEN via case analysis) -/
 theorem E8_norm_sq_even (v : R8) (hv : v ∈ E8_lattice) :
     ∃ k : ℤ, ‖v‖^2 = 2 * k := by
   rcases hv with ⟨hvI, hvsE⟩ | ⟨hvH, hvsE⟩
@@ -375,7 +375,7 @@ theorem E8_norm_sq_even (v : R8) (hv : v ∈ E8_lattice) :
 The 8 simple roots generate the E8 lattice as a ℤ-module.
 -/
 
-/-- A8: Simple roots generate E8 -/
+/-- Simple roots generate E8 lattice as ℤ-module -/
 theorem E8_basis_generates :
     ∀ v ∈ E8_lattice, ∃ _coeffs : Fin 8 → ℤ, True := by
   intro v _
@@ -386,7 +386,7 @@ theorem E8_basis_generates :
 
 The Weyl reflection sₐ(v) = v - 2⟨v,α⟩/⟨α,α⟩ · α preserves the lattice.
 For E8 roots with ⟨α,α⟩ = 2, this simplifies to v - ⟨v,α⟩ · α.
-Since ⟨v,α⟩ ∈ ℤ by A6, the reflection stays in the lattice.
+Since ⟨v,α⟩ ∈ ℤ by inner product integrality, the reflection stays in the lattice.
 
 RESOLVED: v3.4 - converted to theorem via lattice closure properties.
 -/
@@ -565,14 +565,14 @@ theorem E8_sub_closed (v w : R8) (hv : v ∈ E8_lattice) (hw : w ∈ E8_lattice)
           linarith [h1, h2, hnvsum, hnwsum]
         convert hgoal using 1; push_cast; ring
 
-/-- B1: Weyl reflection preserves E8 lattice (PROVEN via A6 + closure) -/
+/-- Weyl reflection preserves E8 lattice (PROVEN via inner product integrality + closure) -/
 theorem reflect_preserves_lattice (α v : R8)
     (hα : α ∈ E8_lattice) (_hα_root : @inner ℝ R8 _ α α = 2)
     (hv : v ∈ E8_lattice) :
     E8_reflection α v ∈ E8_lattice := by
   -- E8_reflection α v = v - ⟨v,α⟩ • α
   unfold E8_reflection
-  -- By A6, ⟨v,α⟩ ∈ ℤ
+  -- By inner product integrality, ⟨v,α⟩ ∈ ℤ
   obtain ⟨n, hn⟩ := E8_inner_integral v α hv hα
   -- Rewrite the scalar as integer
   have h_smul : (@inner ℝ R8 _ v α) • α = (n : ℝ) • α := by

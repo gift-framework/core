@@ -218,7 +218,7 @@ and defines the $\Gtwo$ holonomy structure.
 
 \section{Cross Product Properties}
 
-\begin{theorem}[B2: Bilinearity]\label{thm:G2_cross_bilinear}
+\begin{theorem}[Cross Product Bilinearity]\label{thm:G2_cross_bilinear}
     \lean{GIFT.Foundations.G2CrossProduct.G2_cross_bilinear}
     \leanok
     \uses{def:cross}
@@ -229,7 +229,7 @@ and defines the $\Gtwo$ holonomy structure.
     \end{align}
 \end{theorem}
 
-\begin{theorem}[B3: Antisymmetry]\label{thm:G2_cross_antisymm}
+\begin{theorem}[Cross Product Antisymmetry]\label{thm:G2_cross_antisymm}
     \lean{GIFT.Foundations.G2CrossProduct.G2_cross_antisymm}
     \leanok
     \uses{def:cross, thm:epsilon_antisymm}
@@ -246,7 +246,7 @@ and defines the $\Gtwo$ holonomy structure.
     $u \cross u = 0$
 \end{corollary}
 
-\section{Lagrange Identity (B4)}
+\section{Lagrange Identity for 7D Cross Product}
 
 \begin{definition}[Epsilon Contraction]\label{def:epsilon_contraction}
     \lean{GIFT.Foundations.G2CrossProduct.epsilon_contraction}
@@ -283,7 +283,7 @@ and defines the $\Gtwo$ holonomy structure.
     Antisymmetric tensor $\psi$ contracted with symmetric $u_i u_l$ vanishes.
 \end{proof}
 
-\begin{theorem}[B4: Lagrange Identity]\label{thm:G2_cross_norm}
+\begin{theorem}[Lagrange Identity]\label{thm:G2_cross_norm}
     \lean{GIFT.Foundations.G2CrossProduct.G2_cross_norm}
     \leanok
     \uses{def:cross, lem:psi_contract_vanishes}
@@ -1221,7 +1221,7 @@ is the \emph{exact} analytical solution satisfying GIFT constraints.
 \textbf{Module} & \textbf{Theorems} & \textbf{Status} \\
 \hline
 E8 Lattice & 15 & \checkmark \\
-G2 Cross Product & 10 & B5, B6 pending \\
+G2 Cross Product & 10 & Octonion structure, G2 characterizations pending \\
 Betti Numbers & 8 & \checkmark \\
 SO(16) Decomposition & 11 & \checkmark \\
 Fibonacci/Lucas & 20 & \checkmark \\
