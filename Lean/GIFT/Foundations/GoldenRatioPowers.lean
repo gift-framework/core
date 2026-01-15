@@ -178,25 +178,32 @@ theorem phi_inv_54_very_small : phi_inv_54 < (1 : ℝ) / 10^10 := by
     have hbound := phi_inv_sq_bounds.2  -- phi_inv_sq < 0.383
     linarith
   have h2 : ((2 : ℝ) / 5) ^ 27 < (1 : ℝ) / 10^10 := by
-    -- (2/5)^27 = 2^27/5^27
-    -- 10^10/5^27 = 10^10/5^27 = 2^10 * 5^10 / 5^27 = 2^10 / 5^17
-    -- So need: 2^27/5^27 < 1/10^10 ⟺ 2^27 * 10^10 < 5^27
-    -- 2^27 = 134217728
-    -- 5^27 = 7450580596923828125
-    -- 10^10 = 10000000000
-    -- 2^27 * 10^10 = 1342177280000000000 < 5^27 ✓
-    have hnum : (2 : ℝ)^27 * 10^10 < 5^27 := by native_decide
-    calc ((2 : ℝ) / 5) ^ 27
-        = 2^27 / 5^27 := by rw [div_pow]
-      _ < 1 / 10^10 := by
-          rw [div_lt_div_iff (by positivity) (by positivity)]
-          ring_nf
-          exact hnum
+    -- First prove on ℕ, then convert to ℝ
+    -- 2^27 * 10^10 < 5^27 on ℕ
+    have hnum_nat : (2 : ℕ)^27 * 10^10 < 5^27 := by native_decide
+    -- Convert to ℝ inequality
+    have hnum : (2 : ℝ)^27 * 10^10 < 5^27 := by
+      have h1 : ((2 : ℕ)^27 : ℝ) = (2 : ℝ)^27 := by norm_cast
+      have h2 : ((10 : ℕ)^10 : ℝ) = (10 : ℝ)^10 := by norm_cast
+      have h3 : ((5 : ℕ)^27 : ℝ) = (5 : ℝ)^27 := by norm_cast
+      calc (2 : ℝ)^27 * 10^10
+          = ((2 : ℕ)^27 : ℝ) * ((10 : ℕ)^10 : ℝ) := by rw [h1, h2]
+        _ = (((2 : ℕ)^27 * 10^10 : ℕ) : ℝ) := by norm_cast
+        _ < ((5 : ℕ)^27 : ℝ) := by exact Nat.cast_lt.mpr hnum_nat
+        _ = (5 : ℝ)^27 := h3
+    -- Now (2/5)^27 = 2^27/5^27 < 1/10^10 ⟺ 2^27 * 10^10 < 5^27
+    rw [div_pow]
+    rw [div_lt_div_iff (by positivity : (0 : ℝ) < 5^27) (by positivity : (0 : ℝ) < 10^10)]
+    ring_nf
+    exact hnum
+  -- Finally: phi_inv_54 = phi_inv_sq^27 < (2/5)^27 < 1/10^10
+  have heq : phi_inv_54 = phi_inv_sq ^ 27 := by
+    unfold phi_inv_54 phi_inv_sq
+    rw [← pow_mul]
   calc phi_inv_54
-      = phi_inv_sq ^ 27 := phi_inv_54_eq_sq_pow
+      = phi_inv_sq ^ 27 := heq
     _ < ((2 : ℝ) / 5) ^ 27 := by
-        apply pow_lt_pow_left h1
-        exact le_of_lt phi_inv_sq_pos
+        apply pow_lt_pow_left h1 (le_of_lt phi_inv_sq_pos)
     _ < 1 / 10^10 := h2
 
 /-!
