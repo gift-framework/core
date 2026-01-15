@@ -52,6 +52,8 @@ theorem hodge_2_to_5 : Nat.choose 7 2 = Nat.choose 7 5 := by native_decide
 ## Part 3: Hodge Star for G₂ Forms
 
 Direct definitions of star3 and star4 for constant forms.
+Note: These operators extract coefficients at position 0, so involutivity
+(⋆⋆ = id) only holds for constant (position-independent) forms.
 -/
 
 /-- Hodge star for constant 3-forms → 4-forms -/
@@ -78,19 +80,21 @@ theorem star4_linear (a : ℝ) (ω η : DiffForm 4) :
   simp only [smul_coeffs, add_coeffs, hodgeStar4to3]
   ring
 
-/-- ⋆⋆ = id on 3-forms -/
-theorem star4_star3 (ω : DiffForm 3) : star4 (star3 ω) = ω := by
+/-- ⋆⋆ = id on constant 3-forms (coefficient level) -/
+theorem star4_star3_const (c : FormCoeffs 3) :
+    star4 (star3 (constDiffForm 3 c)) = constDiffForm 3 c := by
   unfold star4 star3 constDiffForm
-  ext p i
-  simp only
-  exact congrFun (hodgeStar_invol_3 (ω.coeffs 0)) i
+  congr 1
+  funext _
+  exact hodgeStar_invol_3 c
 
-/-- ⋆⋆ = id on 4-forms -/
-theorem star3_star4 (η : DiffForm 4) : star3 (star4 η) = η := by
+/-- ⋆⋆ = id on constant 4-forms (coefficient level) -/
+theorem star3_star4_const (c : FormCoeffs 4) :
+    star3 (star4 (constDiffForm 4 c)) = constDiffForm 4 c := by
   unfold star3 star4 constDiffForm
-  ext p i
-  simp only
-  exact congrFun (hodgeStar_invol_4 (η.coeffs 0)) i
+  congr 1
+  funext _
+  exact hodgeStar_invol_4 c
 
 /-!
 ## Part 4: G₂ Structure
@@ -118,10 +122,12 @@ def G2GeomData.TorsionFree (g : G2GeomData) : Prop :=
 /-- For the standard G₂ structure, ψ = ⋆φ (proven by coefficient computation) -/
 theorem psi_eq_star_phi : standardG2.psi = star3 standardG2.phi := by
   unfold star3 standardG2 constDiffForm
-  ext p i
-  simp only
+  congr 1
+  funext _
+  -- Now prove hodgeStar3to4 (phi coeffs) = psi coeffs
+  funext i
   unfold hodgeStar3to4 complement4to3 sign3
-  fin_cases i <;> native_decide
+  fin_cases i <;> norm_num
 
 /-- Standard G₂ geometric structure on flat ℝ⁷ -/
 def standardG2Geom : G2GeomData where
@@ -150,11 +156,11 @@ theorem hodge_infrastructure_complete :
     (∀ k : Fin 8, (-1 : ℤ) ^ starStarExponent k = 1) ∧
     -- ψ = ⋆φ (proven, not axiomatized)
     (standardG2.psi = star3 standardG2.phi) ∧
-    -- ⋆⋆ = id
-    (∀ ω : DiffForm 3, star4 (star3 ω) = ω) ∧
+    -- ⋆⋆ = id on constant forms
+    (∀ c : FormCoeffs 3, star4 (star3 (constDiffForm 3 c)) = constDiffForm 3 c) ∧
     -- Standard G₂ is torsion-free
     standardG2Geom.TorsionFree := by
   exact ⟨hodge_3_to_4, hodge_2_to_5, starStar_sign_positive,
-         psi_eq_star_phi, star4_star3, standardG2Geom_torsionFree⟩
+         psi_eq_star_phi, star4_star3_const, standardG2Geom_torsionFree⟩
 
 end GIFT.Geometry.HodgeStarR7

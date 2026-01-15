@@ -72,14 +72,16 @@ theorem geometry_infrastructure_complete :
     (∀ k : Fin 8, (-1 : ℤ) ^ HodgeStarR7.starStarExponent k = 1) ∧
     -- ψ = ⋆φ (PROVEN, not axiomatized)
     (DifferentialFormsR7.standardG2.psi = HodgeStarR7.star3 DifferentialFormsR7.standardG2.phi) ∧
-    -- ⋆⋆ = id on 3-forms
-    (∀ ω : DifferentialFormsR7.DiffForm 3, HodgeStarR7.star4 (HodgeStarR7.star3 ω) = ω) ∧
+    -- ⋆⋆ = id on constant 3-forms
+    (∀ c : DifferentialFormsR7.FormCoeffs 3,
+      HodgeStarR7.star4 (HodgeStarR7.star3 (DifferentialFormsR7.constDiffForm 3 c)) =
+      DifferentialFormsR7.constDiffForm 3 c) ∧
     -- G₂ torsion-free on flat ℝ⁷
     HodgeStarR7.standardG2Geom.TorsionFree := by
   refine ⟨by native_decide, by native_decide, by native_decide,
           HodgeStarR7.starStar_sign_positive,
           HodgeStarR7.psi_eq_star_phi,
-          HodgeStarR7.star4_star3,
+          HodgeStarR7.star4_star3_const,
           HodgeStarR7.standardG2Geom_torsionFree⟩
 
 end GIFT.Geometry
