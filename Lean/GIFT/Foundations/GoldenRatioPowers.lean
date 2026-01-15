@@ -184,8 +184,12 @@ theorem phi_inv_54_very_small : phi_inv_54 < (1 : ℝ) / 10^10 := by
     have hnum : (2 : ℝ)^27 * 10^10 < (5 : ℝ)^27 := by exact_mod_cast hnum_nat
     have h5pos : (0 : ℝ) < 5^27 := by positivity
     have h10pos : (0 : ℝ) < 10^10 := by positivity
-    -- Use Mathlib's div_lt_div_iff variant
-    rw [div_pow, one_div, div_lt_inv_iff_lt_mul_of_pos h5pos h10pos]
+    rw [div_pow, one_div]
+    -- Goal: 2^27 / 5^27 < (10^10)⁻¹
+    rw [div_lt_iff h5pos]
+    -- Goal: 2^27 < (10^10)⁻¹ * 5^27
+    rw [inv_mul_lt_iff h10pos]
+    -- Goal: 2^27 * 10^10 < 5^27
     exact hnum
   -- Finally: phi_inv_54 = phi_inv_sq^27 < (2/5)^27 < 1/10^10
   have heq : phi_inv_54 = phi_inv_sq ^ 27 := by
