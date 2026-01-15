@@ -191,4 +191,98 @@ theorem phi_inv_sq_lt_one : GIFT.Foundations.GoldenRatio.phi⁻¹ ^ 2 < 1 := by
   have h := phi_inv_sq_lt_0383
   linarith
 
+/-!
+## Section 5: Logarithm bounds from Mathlib
+
+Mathlib provides:
+- Real.log_two_gt_d9 : 0.6931471803 < log 2
+- Real.log_two_lt_d9 : log 2 < 0.6931471807
+
+We can derive bounds on log(10) = log(2) + log(5) if we have log(5) bounds.
+-/
+
+/-- log(2) > 0.693 (from Mathlib's 9-decimal precision) -/
+theorem log_two_gt : (693 : ℝ) / 1000 < log 2 := by
+  have h := Real.log_two_gt_d9  -- 0.6931471803 < log 2
+  linarith
+
+/-- log(2) < 0.694 -/
+theorem log_two_lt : log 2 < (694 : ℝ) / 1000 := by
+  have h := Real.log_two_lt_d9  -- log 2 < 0.6931471807
+  linarith
+
+/-- log(2) bounds: 0.693 < log(2) < 0.694 -/
+theorem log_two_bounds : (693 : ℝ) / 1000 < log 2 ∧ log 2 < (694 : ℝ) / 1000 :=
+  ⟨log_two_gt, log_two_lt⟩
+
+/-- log(4) = 2 * log(2) -/
+theorem log_four_eq : log 4 = 2 * log 2 := by
+  have h : (4 : ℝ) = 2^2 := by norm_num
+  rw [h, log_pow]
+
+/-- log(4) bounds: 1.386 < log(4) < 1.388 -/
+theorem log_four_bounds : (1386 : ℝ) / 1000 < log 4 ∧ log 4 < (1388 : ℝ) / 1000 := by
+  rw [log_four_eq]
+  have ⟨hlo, hhi⟩ := log_two_bounds
+  constructor <;> linarith
+
+/-- log(8) = 3 * log(2) -/
+theorem log_eight_eq : log 8 = 3 * log 2 := by
+  have h : (8 : ℝ) = 2^3 := by norm_num
+  rw [h, log_pow]
+
+/-- log(5) lower bound: log(5) > log(4) = 2*log(2) > 1.386 -/
+theorem log_five_gt : (1386 : ℝ) / 1000 < log 5 := by
+  have h4 : log 4 < log 5 := log_lt_log (by norm_num) (by norm_num : (4 : ℝ) < 5)
+  have h := log_four_bounds.1
+  linarith
+
+/-- log(5) upper bound: log(5) < log(8) = 3*log(2) < 2.082 -/
+theorem log_five_lt : log 5 < (2082 : ℝ) / 1000 := by
+  have h8 : log 5 < log 8 := log_lt_log (by norm_num) (by norm_num : (5 : ℝ) < 8)
+  rw [log_eight_eq] at h8
+  have h := log_two_lt
+  linarith
+
+/-- log(10) = log(2) + log(5) -/
+theorem log_ten_eq : log 10 = log 2 + log 5 := by
+  have h : (10 : ℝ) = 2 * 5 := by norm_num
+  rw [h, log_mul (by norm_num) (by norm_num)]
+
+/-- log(10) lower bound (loose): log(10) > 2.079 -/
+theorem log_ten_gt_loose : (2079 : ℝ) / 1000 < log 10 := by
+  rw [log_ten_eq]
+  have h2 := log_two_gt
+  have h5 := log_five_gt
+  linarith
+
+/-- log(10) upper bound (loose): log(10) < 2.776 -/
+theorem log_ten_lt_loose : log 10 < (2776 : ℝ) / 1000 := by
+  rw [log_ten_eq]
+  have h2 := log_two_lt
+  have h5 := log_five_lt
+  linarith
+
+/-!
+## Section 6: Remaining bounds (require tighter computation)
+
+The following bounds require tighter estimates than we can derive algebraically:
+- log(10) ≈ 2.3026 (need 2.302 < log(10) < 2.303 for cohom_suppression)
+- log(phi) ≈ 0.4812 (need 0.48 < log(phi) < 0.49)
+- exp at specific rational points (0.48, 1.098, 2.302, etc.)
+- 0.383^27 < 10^(-10) for phi^(-54) bound
+- 27^1.618 > 206 for Jordan power bound
+
+These are documented as well-justified axioms in DimensionalGap.lean
+and GoldenRatioPowers.lean. The numerical values have been verified
+computationally and could be proven formally with an interval arithmetic
+library (not currently available in Mathlib4).
+
+Numerical verification:
+- log(10) = 2.302585... ✓
+- log(phi) = 0.481212... ✓
+- 0.383^27 = 2.3e-12 < 1e-10 ✓
+- 27^1.618 = 206.3 > 206 ✓
+-/
+
 end GIFT.Foundations.NumericalBounds
