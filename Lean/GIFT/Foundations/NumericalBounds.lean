@@ -418,26 +418,36 @@ theorem exp_048_lt : exp ((48 : ℝ) / 100) < (1617 : ℝ) / 1000 := by
   -- sum = 1 + 0.48 + 0.48²/2 + 0.48³/6 + 0.48⁴/24 ≈ 1.6158
   -- error = 0.48^5 * 6/(120*5) ≈ 0.000255
   -- So exp(0.48) < 1.6161 < 1.617
-  have hsum : (Finset.range 5).sum (fun m => ((48 : ℝ)/100)^m / m.factorial)
+
+  -- Expand the sum to its explicit value
+  have hsum : (Finset.range 5).sum (fun m => ((48 : ℝ)/100)^m / ↑(m.factorial))
               = 1 + 48/100 + (48/100)^2/2 + (48/100)^3/6 + (48/100)^4/24 := by
     simp only [Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty,
-               Nat.factorial, Nat.cast_one, Nat.cast_ofNat, pow_zero, pow_one]
+               Nat.factorial, Nat.cast_one, pow_zero, pow_one]
     ring
-  have herr : |((48 : ℝ)/100)|^5 * (Nat.succ 5 / (Nat.factorial 5 * 5))
-              = (48/100)^5 * (6 / (120 * 5)) := by
-    simp only [Nat.factorial, Nat.succ_eq_add_one, Nat.cast_ofNat, abs_of_nonneg]
-    · ring
-    · norm_num
+
+  -- Error term computation
+  have herr_eq : |((48 : ℝ)/100)|^5 * (↑(Nat.succ 5) / (↑(Nat.factorial 5) * 5))
+                 = (48/100)^5 * (6 / 600) := by
+    simp only [Nat.factorial, Nat.succ_eq_add_one, Nat.cast_ofNat]
+    norm_num
+
   -- Combined bound value
-  have hval : 1 + 48/100 + (48/100)^2/2 + (48/100)^3/6 + (48/100)^4/24 + (48/100)^5 * (6/(120*5))
+  have hval : 1 + 48/100 + (48/100)^2/2 + (48/100)^3/6 + (48/100)^4/24 + (48/100)^5 * (6/600)
               < (1617 : ℝ) / 1000 := by norm_num
+
+  -- From |exp x - sum| ≤ err, we get exp x ≤ sum + err
+  have h := abs_sub_le_iff.mp hbound
+  have hupper : exp (48/100) ≤ (Finset.range 5).sum (fun m => ((48 : ℝ)/100)^m / ↑(m.factorial)) +
+                               |((48 : ℝ)/100)|^5 * (↑(Nat.succ 5) / (↑(Nat.factorial 5) * 5)) := by
+    linarith [h.1]
+
+  -- Now combine everything
   calc exp (48/100)
-      ≤ (Finset.range 5).sum (fun m => (48/100)^m / m.factorial) +
-        |(48 : ℝ)/100|^5 * (Nat.succ 5 / (Nat.factorial 5 * 5)) := by
-          have h := abs_sub_le_iff.mp hbound
-          linarith [h.1]
-    _ = 1 + 48/100 + (48/100)^2/2 + (48/100)^3/6 + (48/100)^4/24 + (48/100)^5 * (6/(120*5)) := by
-          rw [hsum, herr]
+      ≤ (Finset.range 5).sum (fun m => ((48 : ℝ)/100)^m / ↑(m.factorial)) +
+        |((48 : ℝ)/100)|^5 * (↑(Nat.succ 5) / (↑(Nat.factorial 5) * 5)) := hupper
+    _ = 1 + 48/100 + (48/100)^2/2 + (48/100)^3/6 + (48/100)^4/24 + (48/100)^5 * (6/600) := by
+        rw [hsum, herr_eq]
     _ < 1617/1000 := hval
 
 /-- exp(0.49) > 1.631 using Taylor lower bound.
@@ -445,17 +455,20 @@ theorem exp_048_lt : exp ((48 : ℝ) / 100) < (1617 : ℝ) / 1000 := by
 theorem exp_049_gt : (1631 : ℝ) / 1000 < exp ((49 : ℝ) / 100) := by
   -- For x ≥ 0, exp(x) ≥ partial sum (Real.sum_le_exp_of_nonneg)
   have hpos : (0 : ℝ) ≤ 49/100 := by norm_num
-  -- sum = 1 + 0.49 + 0.49²/2 + 0.49³/6 + 0.49⁴/24 ≈ 1.632
-  have hsum : (Finset.range 5).sum (fun m => ((49 : ℝ)/100)^m / m.factorial)
+
+  -- Expand the sum to its explicit value
+  have hsum : (Finset.range 5).sum (fun m => ((49 : ℝ)/100)^m / ↑(m.factorial))
               = 1 + 49/100 + (49/100)^2/2 + (49/100)^3/6 + (49/100)^4/24 := by
     simp only [Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty,
-               Nat.factorial, Nat.cast_one, Nat.cast_ofNat, pow_zero, pow_one]
+               Nat.factorial, Nat.cast_one, pow_zero, pow_one]
     ring
+
   have hval : (1631 : ℝ) / 1000 < 1 + 49/100 + (49/100)^2/2 + (49/100)^3/6 + (49/100)^4/24 := by
     norm_num
+
   calc (1631 : ℝ) / 1000
       < 1 + 49/100 + (49/100)^2/2 + (49/100)^3/6 + (49/100)^4/24 := hval
-    _ = (Finset.range 5).sum (fun m => ((49 : ℝ)/100)^m / m.factorial) := hsum.symm
+    _ = (Finset.range 5).sum (fun m => ((49 : ℝ)/100)^m / ↑(m.factorial)) := hsum.symm
     _ ≤ exp (49/100) := Real.sum_le_exp_of_nonneg hpos 5
 
 /-- log(φ) > 0.48. PROVEN via Taylor bounds on exp. -/
