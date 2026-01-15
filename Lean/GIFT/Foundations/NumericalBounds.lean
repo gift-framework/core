@@ -429,7 +429,7 @@ theorem exp_048_lt : exp ((48 : ℝ) / 100) < (1617 : ℝ) / 1000 := by
   -- Error term computation
   have herr_eq : |((48 : ℝ)/100)|^5 * (↑(Nat.succ 5) / (↑(Nat.factorial 5) * 5))
                  = (48/100)^5 * (6 / 600) := by
-    simp only [Nat.factorial, Nat.succ_eq_add_one, Nat.cast_ofNat]
+    simp only [Nat.factorial, Nat.succ_eq_add_one]
     norm_num
 
   -- Combined bound value
