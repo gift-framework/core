@@ -179,16 +179,16 @@ theorem phi_inv_54_very_small : phi_inv_54 < (1 : ℝ) / 10^10 := by
     have hbound := phi_inv_sq_bounds.2  -- phi_inv_sq < 0.383
     linarith
   have h2 : ((2 : ℝ) / 5) ^ 27 < (1 : ℝ) / 10^10 := by
-    -- First prove on ℕ, then convert to ℝ
     -- 2^27 * 10^10 < 5^27 on ℕ
     have hnum_nat : (2 : ℕ)^27 * 10^10 < 5^27 := by native_decide
-    -- Convert to ℝ inequality
     have hnum : (2 : ℝ)^27 * 10^10 < (5 : ℝ)^27 := by exact_mod_cast hnum_nat
-    -- Now (2/5)^27 = 2^27/5^27 < 1/10^10 ⟺ 2^27 * 10^10 < 5^27
     have h5pos : (0 : ℝ) < 5^27 := by positivity
     have h10pos : (0 : ℝ) < 10^10 := by positivity
-    rw [div_pow, one_div, div_lt_iff' h5pos, inv_mul_lt_iff' h10pos]
-    exact hnum
+    -- (2/5)^27 < 1/10^10 ⟺ 2^27 * 10^10 < 5^27 (cross-multiply)
+    rw [div_pow, one_div, lt_div_iff h5pos, mul_comm]
+    rw [lt_div_iff h10pos] at hnum ⊢
+    convert hnum using 1
+    ring
   -- Finally: phi_inv_54 = phi_inv_sq^27 < (2/5)^27 < 1/10^10
   have heq : phi_inv_54 = phi_inv_sq ^ 27 := by
     unfold phi_inv_54 phi_inv_sq
