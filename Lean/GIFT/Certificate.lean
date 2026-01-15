@@ -1,8 +1,8 @@
 -- GIFT Certificate module
 -- Final certification theorems
--- Version: 3.3.2 (185+ certified relations + Joyce + Foundations + G₂ Forms Bridge)
+-- Version: 3.3.5 (185+ certified relations + Joyce + Foundations + Numerical Bounds)
 --
--- Verification Status v3.3.2:
+-- Verification Status v3.3.5:
 -- - E₈ Root System: 12/12 complete
 -- - G₂ Cross Product: bilinearity, antisymmetry, Lagrange identity proven
 -- - G₂ Forms Bridge: Differential forms ↔ Cross product unified

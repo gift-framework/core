@@ -65,7 +65,7 @@ gift-framework/core/
 │
 ├── gift_core/              # Python package
 │   ├── __init__.py         # Exports (update when adding constants!)
-│   ├── _version.py         # Version string (3.1.0)
+│   ├── _version.py         # Version string (3.3.5)
 │   ├── constants.py        # All certified constants
 │   ├── sequences/          # [v2.0] Fibonacci, Lucas embeddings
 │   ├── primes/             # [v2.0] Prime Atlas functions
