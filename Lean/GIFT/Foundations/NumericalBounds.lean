@@ -306,7 +306,7 @@ From Mathlib's exp bounds:
 
 /-- log(3) > 1 since exp(1) < 3 -/
 theorem log_three_gt_one : 1 < log 3 := by
-  rw [← exp_lt_exp]
+  rw [← exp_lt_exp, exp_log (by norm_num : (0 : ℝ) < 3)]
   -- Need: exp(1) < 3
   have he := exp_one_lt  -- exp(1) < 2.72
   linarith
@@ -377,9 +377,8 @@ theorem log_phi_eq : log GIFT.Foundations.GoldenRatio.phi = log (1 + sqrt 5) - l
   rw [log_div (by have h := sqrt5_gt_two; linarith) (by norm_num)]
 
 /-- log(φ) > 0 since φ > 1 -/
-theorem log_phi_pos : 0 < log GIFT.Foundations.GoldenRatio.phi := by
-  rw [log_pos_iff phi_pos]
-  exact phi_gt_one
+theorem log_phi_pos : 0 < log GIFT.Foundations.GoldenRatio.phi :=
+  Real.log_pos phi_gt_one
 
 /-- log(φ) < 1 since φ < e -/
 theorem log_phi_lt_one : log GIFT.Foundations.GoldenRatio.phi < 1 := by
@@ -391,82 +390,65 @@ theorem log_phi_lt_one : log GIFT.Foundations.GoldenRatio.phi < 1 := by
 /-!
 ## Section 10: Tight log(φ) bounds via Taylor series
 
-Using Real.exp_bound from Mathlib:
-|exp(x) - Σₘ xᵐ/m!| ≤ |x|ⁿ × (n+1)/(n! × n)
+Using Real.sum_le_exp_of_nonneg from Mathlib:
+For x ≥ 0: Σₖ₌₀ⁿ⁻¹ xᵏ/k! ≤ exp(x)
 
-For x = 0.48, n = 5:
-- S₅ = 1 + 0.48 + 0.1152 + 0.018432 + 0.002212 ≈ 1.6158
-- Error ≤ 0.48⁵ × (6/600) ≈ 0.000255
-- exp(0.48) < 1.6161 < 1.618 < φ
-- Therefore: log(φ) > 0.48 ✓
+For log(φ) > 0.48, we need exp(0.48) < φ = 1.618...
+For log(φ) < 0.49, we need φ < exp(0.49)
 
-For x = 0.49, n = 5:
-- S₅ = 1 + 0.49 + 0.12005 + 0.019608 + 0.0024 ≈ 1.632
-- exp(0.49) > S₅ - error > 1.631 > 1.6185 > φ
-- Therefore: log(φ) < 0.49 ✓
+We use that exp is monotonic and bounded by Taylor sums.
 -/
 
-/-- Taylor partial sum for exp at x with 5 terms: 1 + x + x²/2 + x³/6 + x⁴/24 -/
-noncomputable def exp_taylor_5 (x : ℝ) : ℝ :=
-  1 + x + x^2/2 + x^3/6 + x^4/24
+/-- exp(0.48) < 1.617.
+    Using exp_one_lt and monotonicity: exp(0.48) < exp(0.5) < exp(1) < 2.72
+    But 2.72 > 1.617, so we need the Taylor lower bound on φ instead.
+    Since φ > 1.618 > 1.617, we just need exp(0.48) < 1.618.
 
-/-- exp(0.48) Taylor sum with 5 terms -/
-theorem exp_taylor_5_048 : exp_taylor_5 (48/100) = (1615844 : ℝ) / 1000000 := by
-  unfold exp_taylor_5
-  norm_num
-
-/-- exp(0.49) Taylor sum with 5 terms -/
-theorem exp_taylor_5_049 : exp_taylor_5 (49/100) = (16320601 : ℝ) / 10000000 := by
-  unfold exp_taylor_5
-  norm_num
-
-/-- exp(0.48) < 1.617 using Taylor bound.
-    5-term Taylor sum ≈ 1.6158, error < 0.0003, so exp(0.48) < 1.6161 < 1.617 -/
+    Alternative: 5-term Taylor sum at 0.48 is approximately 1.6158,
+    and exp(0.48) < sum + error < 1.6162 < 1.617 -/
 theorem exp_048_lt : exp ((48 : ℝ) / 100) < (1617 : ℝ) / 1000 := by
-  -- Use Real.exp_bound: |exp x - Σ| ≤ |x|^n * (n+1)/(n! * n)
-  -- For n=5, x=0.48: error ≤ 0.48^5 * 6/600 = 0.0255 * 0.01 < 0.0003
-  -- Sum = 1.615844, so exp(0.48) < 1.615844 + 0.0003 < 1.617
+  -- We use the Taylor upper bound: exp(x) ≤ sum + error term
+  -- For x = 0.48, the 5-term sum is about 1.6158 and error < 0.0003
+  -- So exp(0.48) < 1.6162 < 1.617
   have hx : |((48 : ℝ) / 100)| ≤ 1 := by norm_num
   have hn : (0 : ℕ) < 5 := by norm_num
   have hbound := Real.exp_bound hx hn
-  -- The bound gives us |exp(0.48) - S₅| ≤ 0.48^5 * 6/600
-  -- S₅ = 1.615844, so exp(0.48) < S₅ + error < 1.617
-  have hsum : (Finset.range 5).sum (fun m => ((48 : ℝ)/100)^m / m.factorial) = 1615844/1000000 := by
-    simp only [Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty]
-    norm_num
+  -- Extract upper bound: exp(x) ≤ sum + |x|^n * (n+1)/(n! * n)
   rw [abs_sub_le_iff] at hbound
-  have hupper := hbound.2
+  -- Compute: sum at 0.48 with 5 terms = 1 + 0.48 + 0.1152 + 0.018432 + 0.00221184
+  -- Let's verify the bound numerically
+  have hsum_lt : (Finset.range 5).sum (fun m => ((48 : ℝ)/100)^m / m.factorial) < 1616 / 1000 := by
+    -- Expand the sum manually: range 5 = {0,1,2,3,4}
+    simp only [Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty,
+               Nat.factorial_zero, Nat.factorial_one, Nat.factorial_two,
+               Nat.factorial_three, Nat.factorial_four, Nat.cast_one, Nat.cast_ofNat]
+    norm_num
+  have herr_lt : |((48 : ℝ)/100)|^5 * (6 / (Nat.factorial 5 * 5)) < 1 / 1000 := by
+    simp only [Nat.factorial_five, Nat.cast_ofNat]
+    norm_num
   calc exp (48/100)
       ≤ (Finset.range 5).sum (fun m => (48/100)^m / m.factorial) +
-        |48/100|^5 * (5.succ / (5.factorial * 5)) := by linarith
-    _ = 1615844/1000000 + (48/100)^5 * (6 / (120 * 5)) := by rw [hsum]; norm_num
-    _ < 1617/1000 := by norm_num
+        |(48 : ℝ)/100|^5 * (6 / (Nat.factorial 5 * 5)) := by linarith [hbound.2]
+    _ < 1616/1000 + 1/1000 := by linarith [hsum_lt, herr_lt]
+    _ = 1617/1000 := by norm_num
 
 /-- exp(0.49) > 1.631 using Taylor lower bound.
     Taylor sum gives lower bound since all terms are positive for x > 0 -/
 theorem exp_049_gt : (1631 : ℝ) / 1000 < exp ((49 : ℝ) / 100) := by
-  -- For x > 0, exp(x) > partial sum (all terms positive)
-  have hpos : (0 : ℝ) < 49/100 := by norm_num
-  -- exp(x) ≥ 1 + x + x²/2 + x³/6 + x⁴/24 for x ≥ 0
-  have hlo : 1 + (49/100) + (49/100)^2/2 + (49/100)^3/6 + (49/100)^4/24 ≤ exp (49/100) := by
-    have h1 : (1 : ℝ) ≤ exp (49/100) := by
-      rw [← exp_zero]
-      exact exp_le_exp.mpr (le_of_lt hpos)
-    have hx := add_one_le_exp (49/100)
-    -- Use that exp(x) ≥ Σ_{k=0}^{n} x^k/k! for all n and x ≥ 0
-    -- This follows from the fact that all Taylor terms are non-negative
-    calc 1 + 49/100 + (49/100)^2/2 + (49/100)^3/6 + (49/100)^4/24
-        = (Finset.range 5).sum (fun m => ((49 : ℝ)/100)^m / m.factorial) := by
-          simp only [Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty]
-          norm_num
-      _ ≤ exp (49/100) := Real.sum_le_exp_of_nonneg (le_of_lt hpos) 5
+  -- For x ≥ 0, exp(x) ≥ partial sum (Real.sum_le_exp_of_nonneg)
+  have hpos : (0 : ℝ) ≤ 49/100 := by norm_num
+  have hsum_gt : (1631 : ℝ) / 1000 < (Finset.range 5).sum (fun m => ((49 : ℝ)/100)^m / m.factorial) := by
+    simp only [Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty,
+               Nat.factorial_zero, Nat.factorial_one, Nat.factorial_two,
+               Nat.factorial_three, Nat.factorial_four, Nat.cast_one, Nat.cast_ofNat]
+    norm_num
   calc (1631 : ℝ) / 1000
-      < 1 + 49/100 + (49/100)^2/2 + (49/100)^3/6 + (49/100)^4/24 := by norm_num
-    _ ≤ exp (49/100) := hlo
+      < (Finset.range 5).sum (fun m => ((49 : ℝ)/100)^m / m.factorial) := hsum_gt
+    _ ≤ exp (49/100) := Real.sum_le_exp_of_nonneg hpos 5
 
 /-- log(φ) > 0.48. PROVEN via Taylor bounds on exp. -/
 theorem log_phi_gt_048 : (48 : ℝ) / 100 < log GIFT.Foundations.GoldenRatio.phi := by
-  rw [← exp_lt_exp]
+  rw [← exp_lt_exp, exp_log phi_pos]
   calc exp (48/100)
       < 1617/1000 := exp_048_lt
     _ < 1618/1000 := by norm_num
@@ -474,7 +456,7 @@ theorem log_phi_gt_048 : (48 : ℝ) / 100 < log GIFT.Foundations.GoldenRatio.phi
 
 /-- log(φ) < 0.49. PROVEN via Taylor bounds on exp. -/
 theorem log_phi_lt_049 : log GIFT.Foundations.GoldenRatio.phi < (49 : ℝ) / 100 := by
-  rw [← exp_lt_exp]
+  rw [← exp_lt_exp, exp_log phi_pos]
   calc GIFT.Foundations.GoldenRatio.phi
       < 16185/10000 := phi_lt_16185
     _ < 1631/1000 := by norm_num
