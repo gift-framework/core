@@ -413,37 +413,49 @@ theorem exp_048_lt : exp ((48 : ℝ) / 100) < (1617 : ℝ) / 1000 := by
   have hx : |((48 : ℝ) / 100)| ≤ 1 := by norm_num
   have hn : (0 : ℕ) < 5 := by norm_num
   have hbound := Real.exp_bound hx hn
-  -- Extract upper bound: exp(x) ≤ sum + |x|^n * (n+1)/(n! * n)
-  rw [abs_sub_le_iff] at hbound
-  -- Compute: sum at 0.48 with 5 terms = 1 + 0.48 + 0.1152 + 0.018432 + 0.00221184
-  -- Let's verify the bound numerically
-  have hsum_lt : (Finset.range 5).sum (fun m => ((48 : ℝ)/100)^m / m.factorial) < 1616 / 1000 := by
-    -- Expand the sum manually: range 5 = {0,1,2,3,4}
+  -- exp_bound gives: |exp x - sum| ≤ |x|^n * (n.succ / (n! * n))
+  -- For upper bound: exp x ≤ sum + error
+  -- sum = 1 + 0.48 + 0.48²/2 + 0.48³/6 + 0.48⁴/24 ≈ 1.6158
+  -- error = 0.48^5 * 6/(120*5) ≈ 0.000255
+  -- So exp(0.48) < 1.6161 < 1.617
+  have hsum : (Finset.range 5).sum (fun m => ((48 : ℝ)/100)^m / m.factorial)
+              = 1 + 48/100 + (48/100)^2/2 + (48/100)^3/6 + (48/100)^4/24 := by
     simp only [Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty,
-               Nat.factorial_zero, Nat.factorial_one, Nat.factorial_two,
-               Nat.factorial_three, Nat.factorial_four, Nat.cast_one, Nat.cast_ofNat]
-    norm_num
-  have herr_lt : |((48 : ℝ)/100)|^5 * (6 / (Nat.factorial 5 * 5)) < 1 / 1000 := by
-    simp only [Nat.factorial_five, Nat.cast_ofNat]
-    norm_num
+               Nat.factorial, Nat.cast_one, Nat.cast_ofNat, pow_zero, pow_one]
+    ring
+  have herr : |((48 : ℝ)/100)|^5 * (Nat.succ 5 / (Nat.factorial 5 * 5))
+              = (48/100)^5 * (6 / (120 * 5)) := by
+    simp only [Nat.factorial, Nat.succ_eq_add_one, Nat.cast_ofNat, abs_of_nonneg]
+    · ring
+    · norm_num
+  -- Combined bound value
+  have hval : 1 + 48/100 + (48/100)^2/2 + (48/100)^3/6 + (48/100)^4/24 + (48/100)^5 * (6/(120*5))
+              < (1617 : ℝ) / 1000 := by norm_num
   calc exp (48/100)
       ≤ (Finset.range 5).sum (fun m => (48/100)^m / m.factorial) +
-        |(48 : ℝ)/100|^5 * (6 / (Nat.factorial 5 * 5)) := by linarith [hbound.2]
-    _ < 1616/1000 + 1/1000 := by linarith [hsum_lt, herr_lt]
-    _ = 1617/1000 := by norm_num
+        |(48 : ℝ)/100|^5 * (Nat.succ 5 / (Nat.factorial 5 * 5)) := by
+          have h := abs_sub_le_iff.mp hbound
+          linarith [h.1]
+    _ = 1 + 48/100 + (48/100)^2/2 + (48/100)^3/6 + (48/100)^4/24 + (48/100)^5 * (6/(120*5)) := by
+          rw [hsum, herr]
+    _ < 1617/1000 := hval
 
 /-- exp(0.49) > 1.631 using Taylor lower bound.
     Taylor sum gives lower bound since all terms are positive for x > 0 -/
 theorem exp_049_gt : (1631 : ℝ) / 1000 < exp ((49 : ℝ) / 100) := by
   -- For x ≥ 0, exp(x) ≥ partial sum (Real.sum_le_exp_of_nonneg)
   have hpos : (0 : ℝ) ≤ 49/100 := by norm_num
-  have hsum_gt : (1631 : ℝ) / 1000 < (Finset.range 5).sum (fun m => ((49 : ℝ)/100)^m / m.factorial) := by
+  -- sum = 1 + 0.49 + 0.49²/2 + 0.49³/6 + 0.49⁴/24 ≈ 1.632
+  have hsum : (Finset.range 5).sum (fun m => ((49 : ℝ)/100)^m / m.factorial)
+              = 1 + 49/100 + (49/100)^2/2 + (49/100)^3/6 + (49/100)^4/24 := by
     simp only [Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty,
-               Nat.factorial_zero, Nat.factorial_one, Nat.factorial_two,
-               Nat.factorial_three, Nat.factorial_four, Nat.cast_one, Nat.cast_ofNat]
+               Nat.factorial, Nat.cast_one, Nat.cast_ofNat, pow_zero, pow_one]
+    ring
+  have hval : (1631 : ℝ) / 1000 < 1 + 49/100 + (49/100)^2/2 + (49/100)^3/6 + (49/100)^4/24 := by
     norm_num
   calc (1631 : ℝ) / 1000
-      < (Finset.range 5).sum (fun m => ((49 : ℝ)/100)^m / m.factorial) := hsum_gt
+      < 1 + 49/100 + (49/100)^2/2 + (49/100)^3/6 + (49/100)^4/24 := hval
+    _ = (Finset.range 5).sum (fun m => ((49 : ℝ)/100)^m / m.factorial) := hsum.symm
     _ ≤ exp (49/100) := Real.sum_le_exp_of_nonneg hpos 5
 
 /-- log(φ) > 0.48. PROVEN via Taylor bounds on exp. -/
