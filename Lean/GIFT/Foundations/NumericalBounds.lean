@@ -268,25 +268,136 @@ theorem log_ten_lt_loose : log 10 < (2776 : ℝ) / 1000 := by
   linarith
 
 /-!
-## Section 6: Remaining bounds (require tighter computation)
+## Section 6: log(3) bounds via monotonicity
 
-The following bounds require tighter estimates than we can derive algebraically:
-- log(10) ≈ 2.3026 (need 2.302 < log(10) < 2.303 for cohom_suppression)
-- log(phi) ≈ 0.4812 (need 0.48 < log(phi) < 0.49)
-- exp at specific rational points (0.48, 1.098, 2.302, etc.)
-- 0.383^27 < 10^(-10) for phi^(-54) bound
-- 27^1.618 > 206 for Jordan power bound
+We have: 2 < 3 < 4
+So: log(2) < log(3) < log(4) = 2*log(2)
+-/
 
-These are documented as well-justified axioms in DimensionalGap.lean
-and GoldenRatioPowers.lean. The numerical values have been verified
-computationally and could be proven formally with an interval arithmetic
-library (not currently available in Mathlib4).
+/-- log(3) > log(2) > 0.693 -/
+theorem log_three_gt : (693 : ℝ) / 1000 < log 3 := by
+  have h23 : log 2 < log 3 := log_lt_log (by norm_num) (by norm_num : (2 : ℝ) < 3)
+  have h2 := log_two_gt
+  linarith
 
-Numerical verification:
-- log(10) = 2.302585... ✓
-- log(phi) = 0.481212... ✓
-- 0.383^27 = 2.3e-12 < 1e-10 ✓
-- 27^1.618 = 206.3 > 206 ✓
+/-- log(3) < log(4) = 2*log(2) < 1.388 -/
+theorem log_three_lt : log 3 < (1388 : ℝ) / 1000 := by
+  have h34 : log 3 < log 4 := log_lt_log (by norm_num) (by norm_num : (3 : ℝ) < 4)
+  have h4 := log_four_bounds.2
+  linarith
+
+/-- log(3) bounds: 0.693 < log(3) < 1.388.
+    Note: The actual value is log(3) ≈ 1.0986, so these are loose bounds.
+    We'll tighten them using intermediate values. -/
+theorem log_three_bounds_loose : (693 : ℝ) / 1000 < log 3 ∧ log 3 < (1388 : ℝ) / 1000 :=
+  ⟨log_three_gt, log_three_lt⟩
+
+/-!
+## Section 7: Tighter log(3) bounds via exp monotonicity
+
+To get tighter bounds on log(3), we use:
+- If exp(a) < 3, then a < log(3)
+- If 3 < exp(b), then log(3) < b
+
+From Mathlib's exp bounds:
+- exp(1) ≈ 2.718 < 3, so 1 < log(3)
+- We need exp(1.1) > 3 or similar for upper bound
+-/
+
+/-- log(3) > 1 since exp(1) < 3 -/
+theorem log_three_gt_one : 1 < log 3 := by
+  rw [← exp_lt_exp]
+  -- Need: exp(1) < 3
+  have he := exp_one_lt  -- exp(1) < 2.72
+  linarith
+
+/-!
+## Section 8: log(1+√5) bounds
+
+√5 ∈ (2.236, 2.237) implies 1+√5 ∈ (3.236, 3.237)
+Since 3 < 3.236 and 3.237 < 4:
+  log(3) < log(3.236) < log(1+√5) < log(3.237) < log(4)
+-/
+
+/-- 1 + √5 > 3.236 -/
+theorem one_plus_sqrt5_gt : (3236 : ℝ) / 1000 < 1 + sqrt 5 := by
+  have h := sqrt5_bounds_tight.1  -- 2.236 < √5
+  linarith
+
+/-- 1 + √5 < 3.237 -/
+theorem one_plus_sqrt5_lt : 1 + sqrt 5 < (3237 : ℝ) / 1000 := by
+  have h := sqrt5_bounds_tight.2  -- √5 < 2.237
+  linarith
+
+/-- log(1+√5) > log(3) > 1 -/
+theorem log_one_plus_sqrt5_gt : 1 < log (1 + sqrt 5) := by
+  have h1 : log 3 < log (1 + sqrt 5) := by
+    apply log_lt_log (by norm_num)
+    have hsqrt := sqrt5_bounds_tight.1
+    linarith
+  have h2 := log_three_gt_one
+  linarith
+
+/-- log(1+√5) < log(4) < 1.388 -/
+theorem log_one_plus_sqrt5_lt : log (1 + sqrt 5) < (1388 : ℝ) / 1000 := by
+  have h1 : log (1 + sqrt 5) < log 4 := by
+    apply log_lt_log
+    · have hsqrt := sqrt5_gt_two; linarith
+    · have hsqrt := sqrt5_bounds_tight.2; linarith
+  have h2 := log_four_bounds.2
+  linarith
+
+/-!
+## Section 9: log(φ) bounds - THE KEY RESULT
+
+φ = (1 + √5)/2
+log(φ) = log((1+√5)/2) = log(1+√5) - log(2)
+
+With:
+- 1 < log(1+√5) < 1.388
+- 0.693 < log(2) < 0.694
+
+We get:
+- log(φ) > 1 - 0.694 = 0.306 (too loose!)
+- log(φ) < 1.388 - 0.693 = 0.695 (too loose!)
+
+Need tighter bounds. Use:
+- log(1+√5) > log(3.236) and we need log(3.236) > 1.17...
+- This requires tighter log(3) or direct computation
+
+Alternative approach: Use exp bounds on φ directly.
+φ ∈ (1.618, 1.6185), so we need:
+- exp(0.48) < 1.618 to prove log(φ) > 0.48
+- exp(0.49) > 1.6185 to prove log(φ) < 0.49
+-/
+
+/-- log(φ) = log(1+√5) - log(2) -/
+theorem log_phi_eq : log GIFT.Foundations.GoldenRatio.phi = log (1 + sqrt 5) - log 2 := by
+  unfold GIFT.Foundations.GoldenRatio.phi
+  rw [log_div (by have h := sqrt5_gt_two; linarith) (by norm_num)]
+
+/-- log(φ) > 0 since φ > 1 -/
+theorem log_phi_pos : 0 < log GIFT.Foundations.GoldenRatio.phi := by
+  rw [log_pos_iff phi_pos]
+  exact phi_gt_one
+
+/-- log(φ) < 1 since φ < e -/
+theorem log_phi_lt_one : log GIFT.Foundations.GoldenRatio.phi < 1 := by
+  rw [← exp_lt_exp, exp_log phi_pos]
+  have hphi := phi_lt_16185
+  have he := exp_one_gt  -- 2.7 < e
+  linarith
+
+/-!
+## Section 10: Remaining bounds requiring interval arithmetic
+
+The following still need tighter computation:
+- log(φ) tight bounds: need 0.48 < log(φ) < 0.49
+  (Current: 0 < log(φ) < 1 - too loose)
+- cohom_suppression: needs tight log(10) ≈ 2.3026
+- rpow bounds: need exp at specific points
+
+These are documented as justified axioms pending interval arithmetic library.
 -/
 
 end GIFT.Foundations.NumericalBounds
