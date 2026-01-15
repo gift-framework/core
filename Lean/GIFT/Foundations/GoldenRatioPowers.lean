@@ -193,10 +193,11 @@ theorem phi_inv_54_very_small : phi_inv_54 < (1 : ℝ) / 10^10 := by
       have h1 : (2 : ℝ)^27 / 5^27 * 10^10 = 2^27 * 10^10 / 5^27 := by ring
       rw [h1, div_lt_one h5pos]
       exact hnum
-    calc (2 : ℝ)^27 / 5^27 < (2 : ℝ)^27 / 5^27 * 10^10 * (10^10)⁻¹ := by
-          rw [mul_inv_cancel_right₀ h10ne]
-      _ = (2^27 / 5^27 * 10^10) * (10^10)⁻¹ := by ring
-      _ < 1 * (10^10)⁻¹ := by nlinarith [inv_pos.mpr h10pos, key]
+    -- a < b ⟺ a * c⁻¹ < b * c⁻¹ (for c > 0)
+    have hinv : (0 : ℝ) < (10^10)⁻¹ := inv_pos.mpr h10pos
+    calc (2 : ℝ)^27 / 5^27
+        = (2^27 / 5^27 * 10^10) * (10^10)⁻¹ := by field_simp
+      _ < 1 * (10^10)⁻¹ := by nlinarith [hinv, key]
       _ = (10^10)⁻¹ := by ring
   -- Finally: phi_inv_54 = phi_inv_sq^27 < (2/5)^27 < 1/10^10
   have heq : phi_inv_54 = phi_inv_sq ^ 27 := by
