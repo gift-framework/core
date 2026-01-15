@@ -177,15 +177,23 @@ def hodgeStar4to3 (η : Fin 35 → ℝ) : Fin 35 → ℝ := fun i =>
 theorem hodgeStar_invol_3 (ω : Fin 35 → ℝ) : hodgeStar4to3 (hodgeStar3to4 ω) = ω := by
   funext i
   unfold hodgeStar4to3 hodgeStar3to4 sign4
-  rw [complement_invol_43, complement_invol_34]
-  rw [mul_assoc, sign3_squared, mul_one]
+  -- Goal: sign3 (complement4to3 (complement3to4 i)) *
+  --       (sign3 (complement4to3 (complement3to4 i)) * ω (complement4to3 (complement3to4 i))) = ω i
+  -- Use complement_invol_34 : complement4to3 (complement3to4 n) = n
+  simp only [complement_invol_34]
+  -- Goal: sign3 i * (sign3 i * ω i) = ω i
+  rw [← mul_assoc, sign3_squared, one_mul]
 
 /-- ⋆⋆ = +1 on 4-forms -/
 theorem hodgeStar_invol_4 (η : Fin 35 → ℝ) : hodgeStar3to4 (hodgeStar4to3 η) = η := by
   funext j
   unfold hodgeStar3to4 hodgeStar4to3 sign4
-  rw [complement_invol_34, complement_invol_43]
-  rw [mul_assoc, sign3_squared, mul_one]
+  -- Goal: sign3 (complement4to3 (complement3to4 (complement4to3 j))) *
+  --       (sign3 (complement4to3 j) * η (complement3to4 (complement4to3 j))) = η j
+  -- Use complement_invol_43 : complement3to4 (complement4to3 n) = n
+  simp only [complement_invol_43]
+  -- Goal: sign3 (complement4to3 j) * (sign3 (complement4to3 j) * η j) = η j
+  rw [← mul_assoc, sign3_squared, one_mul]
 
 /-- Hodge star is linear -/
 theorem hodgeStar3to4_linear (a : ℝ) (ω η : Fin 35 → ℝ) :
@@ -227,27 +235,35 @@ theorem star_psi0_eq_phi0 : hodgeStar4to3 psi0_coeffs = phi0_coeffs := by
 /-- Verify specific values of ψ₀ -/
 -- Fano indices in 3-form: 1, 8, 12, 16, 24, 26, 32
 -- Their complements: 33, 26, 22, 18, 10, 8, 2
+-- Note: We prove these by explicit unfolding since Real.decidableEq is noncomputable
 
 theorem psi0_at_2 : psi0_coeffs ⟨2, by omega⟩ = 1 := by
-  native_decide
+  unfold psi0_coeffs hodgeStar3to4 complement4to3 sign3 phi0_coeffs
+  norm_num
 
 theorem psi0_at_8 : psi0_coeffs ⟨8, by omega⟩ = -1 := by
-  native_decide
+  unfold psi0_coeffs hodgeStar3to4 complement4to3 sign3 phi0_coeffs
+  norm_num
 
 theorem psi0_at_10 : psi0_coeffs ⟨10, by omega⟩ = -1 := by
-  native_decide
+  unfold psi0_coeffs hodgeStar3to4 complement4to3 sign3 phi0_coeffs
+  norm_num
 
 theorem psi0_at_18 : psi0_coeffs ⟨18, by omega⟩ = 1 := by
-  native_decide
+  unfold psi0_coeffs hodgeStar3to4 complement4to3 sign3 phi0_coeffs
+  norm_num
 
 theorem psi0_at_22 : psi0_coeffs ⟨22, by omega⟩ = 1 := by
-  native_decide
+  unfold psi0_coeffs hodgeStar3to4 complement4to3 sign3 phi0_coeffs
+  norm_num
 
 theorem psi0_at_26 : psi0_coeffs ⟨26, by omega⟩ = -1 := by
-  native_decide
+  unfold psi0_coeffs hodgeStar3to4 complement4to3 sign3 phi0_coeffs
+  norm_num
 
 theorem psi0_at_33 : psi0_coeffs ⟨33, by omega⟩ = -1 := by
-  native_decide
+  unfold psi0_coeffs hodgeStar3to4 complement4to3 sign3 phi0_coeffs
+  norm_num
 
 /-!
 ## Part 6: G₂ DiffForm Structures
@@ -271,9 +287,7 @@ def hodgeStar4 (η : DiffForm 4) : DiffForm 3 :=
 
 /-- ψ₀ = ⋆φ₀ as DiffForms -/
 theorem psi0_form_eq_star_phi0_form : psi0_form = hodgeStar3 phi0_form := by
-  unfold psi0_form hodgeStar3 phi0_form constDiffForm
-  congr 1
-  funext _ i
+  unfold psi0_form hodgeStar3 phi0_form constDiffForm psi0_coeffs
   rfl
 
 /-- ⋆(⋆φ₀) = φ₀ as DiffForms -/
