@@ -5,6 +5,60 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.4] - 2026-01-15
+
+### Summary
+
+**Tier 1 COMPLETE - AXIOM-FREE!** The Geometry module now has zero axioms. The key theorem `psi_eq_star_phi` (ψ = ⋆φ) is now PROVEN via explicit Hodge star computation with Levi-Civita signs, not axiomatized.
+
+### Added
+
+- **Lean/GIFT/Geometry/HodgeStarCompute.lean** (337 lines):
+  - Explicit complement bijection: 3-tuples ↔ 4-tuples in {0,...,6}
+  - `sign3`/`sign4`: Levi-Civita sign tables (35 values each)
+  - `hodgeStar3to4`/`hodgeStar4to3`: Coefficient-level Hodge star
+  - `hodgeStar_invol_3`/`hodgeStar_invol_4`: ⋆⋆ = +1 PROVEN
+  - `phi0_coeffs`/`psi0_coeffs`: Canonical G₂ forms
+  - `correctedG2_torsionFree`: Torsion-free on flat ℝ⁷
+
+### Changed
+
+- **HodgeStarR7.lean**: Complete rewrite (axiom-free)
+  - `psi_eq_star_phi`: Now a **THEOREM** (was axiom)
+  - `star4_star3_const`: ⋆⋆ = id for constant forms
+  - Removed abstract `HodgeStar` structure (simplified to star3/star4)
+
+- **DifferentialFormsR7.lean**: Corrected Fano line indices
+  - Old (wrong): {1, 8, 12, 16, 24, 25, 30}
+  - New (correct): {1, 8, 12, 16, 24, 26, 32}
+
+- **G2FormsBridge.lean**: Corrected psi0 coefficients
+  - Now 7 values with proper Levi-Civita signs at indices {2, 8, 10, 18, 22, 26, 33}
+
+### Technical Notes
+
+**Proof Strategy for `psi_eq_star_phi`:**
+```lean
+theorem psi_eq_star_phi : standardG2.psi = star3 standardG2.phi := by
+  ext p i                                    -- DiffForm extensionality
+  unfold star3 standardG2 constDiffForm
+  simp only
+  unfold hodgeStar3to4 complement4to3 sign3
+  fin_cases i <;> norm_num                   -- 35 cases, all numeric
+```
+
+**Key insight**: Can't use `native_decide` on ℝ (Real.decidableEq is noncomputable). Instead, use `fin_cases` + `norm_num` for concrete numerical verification.
+
+**Tier 1 Definition of Done (all achieved):**
+- ✓ φ : Ω³(ℝ⁷) as `DiffForm 3`
+- ✓ ψ := ⋆φ as `DiffForm 4` with `psi_eq_star_phi` **PROVEN**
+- ✓ TorsionFree := (dφ=0) ∧ (dψ=0)
+- ✓ Zero axioms in Geometry module
+- ✓ Zero `sorry`
+- ✓ CI green
+
+---
+
 ## [3.3.3] - 2026-01-14
 
 ### Summary

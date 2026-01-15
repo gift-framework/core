@@ -181,26 +181,33 @@ structure G2FormData where
 def G2FormData.TorsionFree (D : ExteriorDerivative) (g : G2FormData) : Prop :=
   IsClosed D 3 g.phi ∧ IsClosed D 4 g.psi
 
-/-- Standard G₂ form on flat ℝ⁷ (constant coefficients from Fano plane) -/
+/-- Standard G₂ form on flat ℝ⁷ (constant coefficients from Fano plane)
+    The 7 Fano lines are: (0,1,3), (0,2,6), (0,4,5), (1,2,4), (1,5,6), (2,3,5), (3,4,6)
+    Their indices in the C(7,3)=35 ordered 3-tuples are: 1, 8, 12, 16, 24, 26, 32 -/
 def standardG2 : G2FormData where
   phi := constDiffForm 3 (fun n =>
     match n.val with
-    | 0 => 0   -- (0,1,2)
     | 1 => 1   -- (0,1,3): Fano line
     | 8 => 1   -- (0,2,6): Fano line
     | 12 => 1  -- (0,4,5): Fano line
     | 16 => 1  -- (1,2,4): Fano line
     | 24 => 1  -- (1,5,6): Fano line
-    | 25 => 1  -- (2,3,5): Fano line
-    | 30 => 1  -- (3,4,6): Fano line
+    | 26 => 1  -- (2,3,5): Fano line (corrected from 25)
+    | 32 => 1  -- (3,4,6): Fano line (corrected from 30)
     | _ => 0)
   psi := constDiffForm 4 (fun n =>
-    -- Hodge dual of φ (complement pattern)
+    -- Hodge dual of φ: ψ₀ = ⋆φ₀
+    -- Computed via complement indices and Levi-Civita signs
+    -- Nonzero at complements of Fano lines: indices 2, 8, 10, 18, 22, 26, 33
+    -- Signs: +1, -1, -1, +1, +1, -1, -1
     match n.val with
-    | 0 => 1   | 2 => 1   | 4 => 1   | 7 => 1
-    | 9 => 1   | 11 => 1  | 13 => 1  | 15 => 1
-    | 17 => 1  | 19 => 1  | 21 => 1  | 23 => 1
-    | 26 => 1  | 28 => 1  | 31 => 1  | 33 => 1
+    | 2 => 1    -- ⋆(3,4,6) = (0,1,2,5), sign = +1
+    | 8 => -1   -- ⋆(2,3,5) = (0,1,4,6), sign = -1
+    | 10 => -1  -- ⋆(1,5,6) = (0,2,3,4), sign = -1
+    | 18 => 1   -- ⋆(1,2,4) = (0,3,5,6), sign = +1
+    | 22 => 1   -- ⋆(0,4,5) = (1,2,3,6), sign = +1
+    | 26 => -1  -- ⋆(0,2,6) = (1,3,4,5), sign = -1
+    | 33 => -1  -- ⋆(0,1,3) = (2,4,5,6), sign = -1
     | _ => 0)
 
 /-- Standard G₂ is torsion-free on flat ℝ⁷ (since d = 0 for constant forms) -/

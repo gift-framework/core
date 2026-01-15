@@ -989,4 +989,114 @@ star_linear := fun _ _ a _ _ => by
 
 ---
 
-*Last updated: 2026-01-14 - V3.3.3: DG-ready Geometry module (Exterior, DiffForm, HodgeStar)*
+## V3.3.4: Tier 1 Complete - Axiom-Free Hodge Star
+
+### Module: `Geometry/`
+
+Complete axiom-free G₂ differential geometry:
+
+| File | Content |
+|------|---------|
+| `Exterior.lean` | Λ*(ℝ⁷) via `ExteriorAlgebra`, wedge `∧'` |
+| `DifferentialFormsR7.lean` | `DiffForm k`, `ExteriorDerivative`, d²=0 |
+| `HodgeStarCompute.lean` | **NEW**: Explicit Hodge star with Levi-Civita signs |
+| `HodgeStarR7.lean` | `star3`/`star4`, `psi_eq_star_phi` **PROVEN** |
+| `Geometry.lean` | Master import + certificate |
+
+### 20. `native_decide` Fails on ℝ Equality
+
+**Problem**: `Real.decidableEq` is noncomputable, so `native_decide` can't be used for Real comparisons.
+
+```lean
+-- BAD - "depends on declaration 'Real.decidableEq', which has no executable code"
+theorem psi_eq_star_phi : standardG2.psi = star3 standardG2.phi := by
+  ext p i
+  unfold ...
+  fin_cases i <;> native_decide  -- ERROR!
+
+-- GOOD - use norm_num for concrete numerical comparisons
+theorem psi_eq_star_phi : standardG2.psi = star3 standardG2.phi := by
+  ext p i
+  unfold star3 standardG2 constDiffForm
+  simp only
+  unfold hodgeStar3to4 complement4to3 sign3
+  fin_cases i <;> norm_num  -- Works! Each case is concrete arithmetic
+```
+
+### 21. `congr` vs `ext` for Structure Equality
+
+**Problem**: `congr 1` + `funext` doesn't work for structure equality when the goal isn't a function equality.
+
+```lean
+-- BAD - "could not unify the conclusion of @funext with the goal"
+theorem psi_eq_star_phi : standardG2.psi = star3 standardG2.phi := by
+  unfold star3 standardG2 constDiffForm
+  congr 1       -- Tries to reduce to function equality
+  funext _      -- ERROR: goal is DiffForm equality, not function equality
+
+-- GOOD - use ext which applies the @[ext] lemma for the structure
+theorem psi_eq_star_phi : standardG2.psi = star3 standardG2.phi := by
+  ext p i       -- Uses DiffForm.ext, reduces to coefficient equality
+  unfold ...
+  fin_cases i <;> norm_num
+```
+
+### 22. Involutivity Only Holds for Constant Forms
+
+**Problem**: `star3`/`star4` extract coefficients at position 0, so ⋆⋆=id only holds for constant forms.
+
+```lean
+-- BAD - wrong for non-constant forms
+def star3 (ω : DiffForm 3) : DiffForm 4 :=
+  constDiffForm 4 (hodgeStar3to4 (ω.coeffs 0))  -- Uses position 0!
+
+-- This is FALSE for non-constant ω:
+theorem star4_star3 (ω : DiffForm 3) : star4 (star3 ω) = ω  -- WRONG!
+-- Because: star4 (star3 ω) is always constant (depends on ω.coeffs 0)
+-- But ω might have ω.coeffs 0 ≠ ω.coeffs p for some p
+
+-- GOOD - restrict to coefficient functions or constant forms
+theorem star4_star3_const (c : FormCoeffs 3) :
+    star4 (star3 (constDiffForm 3 c)) = constDiffForm 3 c := by
+  unfold star4 star3 constDiffForm
+  congr 1
+  funext _
+  exact hodgeStar_invol_3 c  -- This works!
+```
+
+### 23. Proof Pattern for Hodge Star Involutivity
+
+**Complete pattern for proving ⋆⋆ = id on constant forms:**
+
+```lean
+-- At coefficient level (cleanest)
+theorem hodgeStar_invol_3 (ω : Fin 35 → ℝ) :
+    hodgeStar4to3 (hodgeStar3to4 ω) = ω := by
+  funext i
+  unfold hodgeStar4to3 hodgeStar3to4 sign4
+  simp only [complement_invol_34]           -- complement is involution
+  rw [← mul_assoc, sign3_squared, one_mul]  -- sign² = 1
+
+-- At DiffForm level (uses coefficient lemma)
+theorem star4_star3_const (c : FormCoeffs 3) :
+    star4 (star3 (constDiffForm 3 c)) = constDiffForm 3 c := by
+  unfold star4 star3 constDiffForm
+  congr 1                    -- reduce to coeffs equality
+  funext _                   -- handle position argument (constant, so irrelevant)
+  exact hodgeStar_invol_3 c  -- use coefficient-level lemma
+```
+
+### Tier 1 Definition of Done (v3.3.4)
+
+All achieved:
+- ✓ φ : Ω³(ℝ⁷) as `DiffForm 3`
+- ✓ ψ := ⋆φ as `DiffForm 4` with `psi_eq_star_phi` **PROVEN**
+- ✓ ⋆⋆ = +1 **PROVEN** via `hodgeStar_invol_3`
+- ✓ TorsionFree := (dφ=0) ∧ (dψ=0)
+- ✓ Zero axioms in Geometry module
+- ✓ Zero `sorry`
+- ✓ CI green
+
+---
+
+*Last updated: 2026-01-15 - V3.3.4: Tier 1 COMPLETE - Axiom-free Hodge star (psi_eq_star_phi PROVEN)*

@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.3.3).
+Complete documentation for the `giftpy` Python package (v3.3.4).
 
 ## Installation
 
@@ -13,7 +13,7 @@ For visualization (optional):
 pip install giftpy matplotlib numpy
 ```
 
-## Quick Start (v3.3.3)
+## Quick Start (v3.3.4)
 
 ```python
 from gift_core import *
@@ -41,6 +41,42 @@ print(K7.two_b2)                # 42 (structural invariant)
 from gift_core import verify
 print(verify())          # True
 ```
+
+## New in v3.3.4
+
+### Tier 1 Complete - AXIOM-FREE Hodge Star (Lean 4)
+
+The Geometry module now has **zero axioms**! The key theorem `psi_eq_star_phi` (ψ = ⋆φ) is now PROVEN via explicit Hodge star computation.
+
+```lean
+import GIFT.Geometry
+
+-- ψ = ⋆φ is now a THEOREM, not an axiom!
+#check HodgeStarR7.psi_eq_star_phi
+-- standardG2.psi = star3 standardG2.phi
+
+-- Explicit Hodge star computation
+#check HodgeStarCompute.hodgeStar3to4    -- Coefficient-level ⋆ : Ω³ → Ω⁴
+#check HodgeStarCompute.hodgeStar4to3    -- Coefficient-level ⋆ : Ω⁴ → Ω³
+#check HodgeStarCompute.hodgeStar_invol_3  -- ⋆⋆ = +1 PROVEN
+
+-- Levi-Civita signs for complement bijection
+#check HodgeStarCompute.sign3            -- 35 signs for 3→4
+#check HodgeStarCompute.complement3to4   -- Index bijection
+
+-- Complete G₂ structure (axiom-free)
+#check HodgeStarR7.standardG2Geom        -- (d, ⋆, φ, ψ)
+#check HodgeStarR7.standardG2Geom_torsionFree  -- dφ=0 ∧ dψ=0
+```
+
+**Tier 1 Checklist (all achieved):**
+- ✓ φ : Ω³(ℝ⁷) as `DiffForm 3`
+- ✓ ψ := ⋆φ **PROVEN** (not axiomatized)
+- ✓ TorsionFree := (dφ=0) ∧ (dψ=0)
+- ✓ Zero axioms in Geometry module
+- ✓ CI green
+
+---
 
 ## New in v3.3.3
 
