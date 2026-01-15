@@ -77,44 +77,27 @@ def phi0_at_triple (i j k : Fin 7) : ℝ :=
   epsilon i j k
 
 /-- The 35 coefficients of the canonical G₂ 3-form φ₀.
-    These are determined by the Fano plane structure. -/
+    These are determined by the Fano plane structure.
+
+    The 7 Fano lines and their indices in the C(7,3)=35 ordered 3-tuples:
+    - (0,1,3): index 1
+    - (0,2,6): index 8
+    - (0,4,5): index 12
+    - (1,2,4): index 16
+    - (1,5,6): index 24
+    - (2,3,5): index 26  (corrected from 25)
+    - (3,4,6): index 32  (corrected from 30)
+-/
 def phi0_coefficients : Fin 35 → ℝ := fun n =>
   match n.val with
-  | 0 => 0   -- (0,1,2): not a Fano line
-  | 1 => 1   -- (0,1,3): Fano line! ε = +1
-  | 2 => 0   -- (0,1,4): not a Fano line
-  | 3 => 0   -- (0,1,5): not a Fano line
-  | 4 => 0   -- (0,1,6): not a Fano line
-  | 5 => 0   -- (0,2,3): not a Fano line
-  | 6 => 0   -- (0,2,4): not a Fano line
-  | 7 => 0   -- (0,2,5): not a Fano line
-  | 8 => 1   -- (0,2,6): Fano line (6,0,2)! ε = +1
-  | 9 => 0   -- (0,3,4): not a Fano line
-  | 10 => 0  -- (0,3,5): not a Fano line
-  | 11 => 0  -- (0,3,6): not a Fano line
-  | 12 => 1  -- (0,4,5): Fano line! ε = +1
-  | 13 => 0  -- (0,4,6): not a Fano line
-  | 14 => 0  -- (0,5,6): not a Fano line
-  | 15 => 0  -- (1,2,3): not a Fano line
-  | 16 => 1  -- (1,2,4): Fano line! ε = +1
-  | 17 => 0  -- (1,2,5): not a Fano line
-  | 18 => 0  -- (1,2,6): not a Fano line
-  | 19 => 0  -- (1,3,4): not a Fano line
-  | 20 => 0  -- (1,3,5): not a Fano line
-  | 21 => 0  -- (1,3,6): not a Fano line
-  | 22 => 0  -- (1,4,5): not a Fano line
-  | 23 => 0  -- (1,4,6): not a Fano line
-  | 24 => 1  -- (1,5,6): Fano line! ε = +1
-  | 25 => 1  -- (2,3,5): Fano line! ε = +1
-  | 26 => 0  -- (2,3,6): not a Fano line
-  | 27 => 0  -- (2,4,5): not a Fano line
-  | 28 => 0  -- (2,4,6): not a Fano line
-  | 29 => 0  -- (2,5,6): not a Fano line
-  | 30 => 1  -- (3,4,6): Fano line! ε = +1
-  | 31 => 0  -- (3,4,5): not a Fano line (wait, should check)
-  | 32 => 0  -- (3,5,6): not a Fano line
-  | 33 => 0  -- (4,5,6): not a Fano line
-  | _ => 0   -- (4,5,6) = index 34
+  | 1 => 1   -- (0,1,3): Fano line
+  | 8 => 1   -- (0,2,6): Fano line
+  | 12 => 1  -- (0,4,5): Fano line
+  | 16 => 1  -- (1,2,4): Fano line
+  | 24 => 1  -- (1,5,6): Fano line
+  | 26 => 1  -- (2,3,5): Fano line (index 26, not 25!)
+  | 32 => 1  -- (3,4,6): Fano line (index 32, not 30!)
+  | _ => 0
 
 /-- Integer version of φ₀ coefficients for decidable checking -/
 def phi0_coefficients_int : Fin 35 → ℕ := fun n =>
@@ -124,8 +107,8 @@ def phi0_coefficients_int : Fin 35 → ℕ := fun n =>
   | 12 => 1  -- (0,4,5): Fano line
   | 16 => 1  -- (1,2,4): Fano line
   | 24 => 1  -- (1,5,6): Fano line
-  | 25 => 1  -- (2,3,5): Fano line
-  | 30 => 1  -- (3,4,6): Fano line
+  | 26 => 1  -- (2,3,5): Fano line (corrected)
+  | 32 => 1  -- (3,4,6): Fano line (corrected)
   | _ => 0
 
 /-- φ₀ has exactly 7 nonzero coefficients (one per Fano line) -/
@@ -140,48 +123,28 @@ The Hodge dual ψ₀ = ⋆φ₀ is a 4-form with 35 = C(7,4) coefficients.
 -/
 
 /-- The 35 coefficients of ψ₀ = ⋆φ₀ (the coassociative 4-form).
-    These are related to the psi tensor from G2CrossProduct. -/
+    Computed via Hodge star using complement indices and Levi-Civita signs.
+
+    Fano line (3-tuple) → Complement (4-tuple) → Sign
+    - (0,1,3) idx 1  → (2,4,5,6) idx 33 → sign = -1
+    - (0,2,6) idx 8  → (1,3,4,5) idx 26 → sign = -1
+    - (0,4,5) idx 12 → (1,2,3,6) idx 22 → sign = +1
+    - (1,2,4) idx 16 → (0,3,5,6) idx 18 → sign = +1
+    - (1,5,6) idx 24 → (0,2,3,4) idx 10 → sign = -1
+    - (2,3,5) idx 26 → (0,1,4,6) idx 8  → sign = -1
+    - (3,4,6) idx 32 → (0,1,2,5) idx 2  → sign = +1
+
+    So ψ₀ is nonzero at indices {2, 8, 10, 18, 22, 26, 33} with values {+1, -1, -1, +1, +1, -1, -1}
+-/
 def psi0_coefficients : Fin 35 → ℝ := fun n =>
-  -- The Hodge dual on ℝ⁷ with standard metric
-  -- ⋆(eⁱ ∧ eʲ ∧ eᵏ) = ±e^{complement} depending on orientation
-  -- For φ₀, ψ₀ has a specific pattern dual to φ₀
-  -- We use the fact that ψ appears in the epsilon contraction decomposition
   match n.val with
-  -- The pattern follows from ψ₀_{ijkl} = φ₀_{mnp} where {i,j,k,l} ∪ {m,n,p} = {0,...,6}
-  | 0 => 1   -- (0,1,2,3): complement of some Fano line
-  | 1 => 0   -- etc.
-  | 2 => 1
-  | 3 => 0
-  | 4 => 1
-  | 5 => 0
-  | 6 => 0
-  | 7 => 1
-  | 8 => 0
-  | 9 => 1
-  | 10 => 0
-  | 11 => 1
-  | 12 => 0
-  | 13 => 1
-  | 14 => 0
-  | 15 => 1
-  | 16 => 0
-  | 17 => 1
-  | 18 => 0
-  | 19 => 1
-  | 20 => 0
-  | 21 => 1
-  | 22 => 0
-  | 23 => 1
-  | 24 => 0
-  | 25 => 0
-  | 26 => 1
-  | 27 => 0
-  | 28 => 1
-  | 29 => 0
-  | 30 => 0
-  | 31 => 1
-  | 32 => 0
-  | 33 => 1
+  | 2 => 1    -- ⋆(3,4,6) = (0,1,2,5), sign = +1
+  | 8 => -1   -- ⋆(2,3,5) = (0,1,4,6), sign = -1
+  | 10 => -1  -- ⋆(1,5,6) = (0,2,3,4), sign = -1
+  | 18 => 1   -- ⋆(1,2,4) = (0,3,5,6), sign = +1
+  | 22 => 1   -- ⋆(0,4,5) = (1,2,3,6), sign = +1
+  | 26 => -1  -- ⋆(0,2,6) = (1,3,4,5), sign = -1
+  | 33 => -1  -- ⋆(0,1,3) = (2,4,5,6), sign = -1
   | _ => 0
 
 /-!
