@@ -121,11 +121,10 @@ def G2GeomData.TorsionFree (g : G2GeomData) : Prop :=
 
 /-- For the standard G₂ structure, ψ = ⋆φ (proven by coefficient computation) -/
 theorem psi_eq_star_phi : standardG2.psi = star3 standardG2.phi := by
+  ext p i
+  -- Goal: standardG2.psi.coeffs p i = (star3 standardG2.phi).coeffs p i
   unfold star3 standardG2 constDiffForm
-  congr 1
-  funext _
-  -- Now prove hodgeStar3to4 (phi coeffs) = psi coeffs
-  funext i
+  simp only
   unfold hodgeStar3to4 complement4to3 sign3
   fin_cases i <;> norm_num
 
