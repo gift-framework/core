@@ -16,6 +16,7 @@ import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.Ring
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
+import Mathlib.Tactic.GCongr
 import GIFT.Foundations.GoldenRatio
 import GIFT.Core
 
@@ -181,27 +182,23 @@ theorem phi_inv_54_very_small : phi_inv_54 < (1 : ℝ) / 10^10 := by
     -- First prove on ℕ, then convert to ℝ
     -- 2^27 * 10^10 < 5^27 on ℕ
     have hnum_nat : (2 : ℕ)^27 * 10^10 < 5^27 := by native_decide
-    -- Convert to ℝ inequality using norm_cast
-    have hnum : (2 : ℝ)^27 * 10^10 < (5 : ℝ)^27 := by
-      have : ((2 : ℕ)^27 * 10^10 : ℕ) < (5 : ℕ)^27 := hnum_nat
-      calc (2 : ℝ)^27 * 10^10
-          = ((2 : ℕ)^27 * (10 : ℕ)^10 : ℕ) := by norm_cast
-        _ < ((5 : ℕ)^27 : ℕ) := this
-        _ = (5 : ℝ)^27 := by norm_cast
+    -- Convert to ℝ inequality
+    have hnum : (2 : ℝ)^27 * 10^10 < (5 : ℝ)^27 := by exact_mod_cast hnum_nat
     -- Now (2/5)^27 = 2^27/5^27 < 1/10^10 ⟺ 2^27 * 10^10 < 5^27
+    have h5pos : (0 : ℝ) < 5^27 := by positivity
+    have h10pos : (0 : ℝ) < 10^10 := by positivity
     rw [div_pow, one_div]
-    rw [div_lt_iff (by positivity : (0 : ℝ) < 5^27)]
-    rw [inv_mul_lt_iff (by positivity : (0 : ℝ) < 10^10)]
+    rw [div_lt_inv_iff h5pos h10pos]
     exact hnum
   -- Finally: phi_inv_54 = phi_inv_sq^27 < (2/5)^27 < 1/10^10
   have heq : phi_inv_54 = phi_inv_sq ^ 27 := by
     unfold phi_inv_54 phi_inv_sq
     rw [← pow_mul]
+  have hpos : 0 ≤ phi_inv_sq := le_of_lt phi_inv_sq_pos
+  have h25pos : (0 : ℝ) ≤ 2/5 := by positivity
   calc phi_inv_54
       = phi_inv_sq ^ 27 := heq
-    _ < ((2 : ℝ) / 5) ^ 27 := by
-        have hpos : 0 ≤ phi_inv_sq := le_of_lt phi_inv_sq_pos
-        exact pow_lt_pow_left h1 hpos (by norm_num : 27 ≠ 0)
+    _ < ((2 : ℝ) / 5) ^ 27 := by gcongr
     _ < 1 / 10^10 := h2
 
 /-!
