@@ -187,8 +187,7 @@ theorem phi_inv_54_very_small : phi_inv_54 < (1 : ℝ) / 10^10 := by
     -- Now (2/5)^27 = 2^27/5^27 < 1/10^10 ⟺ 2^27 * 10^10 < 5^27
     have h5pos : (0 : ℝ) < 5^27 := by positivity
     have h10pos : (0 : ℝ) < 10^10 := by positivity
-    rw [div_pow, one_div]
-    rw [div_lt_inv_iff h5pos h10pos]
+    rw [div_pow, one_div, div_lt_iff' h5pos, inv_mul_lt_iff' h10pos]
     exact hnum
   -- Finally: phi_inv_54 = phi_inv_sq^27 < (2/5)^27 < 1/10^10
   have heq : phi_inv_54 = phi_inv_sq ^ 27 := by
