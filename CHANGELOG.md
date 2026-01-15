@@ -5,6 +5,55 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.5] - 2026-01-15
+
+### Summary
+
+**Numerical Bounds - Taylor Series Proofs!** The `NumericalBounds.lean` module now provides axiom-free proofs of transcendental bounds using Mathlib's Taylor series lemmas. Key result: `log(φ) ∈ (0.48, 0.49)` is now **PROVEN**.
+
+### Added
+
+- **Lean/GIFT/Foundations/NumericalBounds.lean** (500+ lines):
+  - `exp_one_gt`/`exp_one_lt`: e ∈ (2.7, 2.72) from `Real.exp_one_gt_d9`
+  - `sqrt5_bounds_tight`: √5 ∈ (2.236, 2.237) via squaring
+  - `phi_bounds`: φ ∈ (1.618, 1.6185) from √5 bounds
+  - `phi_inv_sq_eq`: φ⁻² = 2 - φ (algebraic identity)
+  - `log_two_bounds`: log(2) ∈ (0.693, 0.694) from `Real.log_two_gt_d9`
+  - `log_phi_bounds`: **log(φ) ∈ (0.48, 0.49) PROVEN** via Taylor series
+  - `exp_048_lt`/`exp_049_gt`: Taylor bounds using `Real.exp_bound` and `Real.sum_le_exp_of_nonneg`
+
+### Technical Notes
+
+**Proof Strategy for Taylor Series Bounds:**
+```lean
+-- For upper bound: exp(x) ≤ Taylor_sum + error
+theorem exp_048_lt : exp (48/100) < 1617/1000 := by
+  have hbound := Real.exp_bound hx hn  -- |exp x - sum| ≤ error
+  have hsum : Finset.sum ... = 1 + x + x²/2 + x³/6 + x⁴/24 := by
+    simp only [Finset.sum_range_succ, Nat.factorial, ...]
+    ring
+  have h := abs_sub_le_iff.mp hbound
+  linarith [h.1]  -- exp - sum ≤ error => exp ≤ sum + error
+
+-- For lower bound: Taylor_sum ≤ exp(x)
+theorem exp_049_gt : 1631/1000 < exp (49/100) := by
+  have hsum := ...  -- same expansion
+  calc 1631/1000 < Taylor_sum := by norm_num
+    _ ≤ exp (49/100) := Real.sum_le_exp_of_nonneg hpos 5
+```
+
+**Key Lessons Learned:**
+1. Use `↑(m.factorial)` for explicit coercion (match `Real.exp_bound` type)
+2. Expand sums with `simp only [Finset.sum_range_succ, Nat.factorial, ...]` then `ring`
+3. Use `abs_sub_le_iff.mp` to extract upper/lower bounds from absolute value
+4. `norm_num` works for concrete numerical comparisons after explicit expansion
+
+**Axiom Reduction:**
+- Tier 1 (Numerical): 7 → 4 axioms (3 proven: exp_one_gt, exp_one_lt, log_phi_bounds)
+- Remaining: cohom_suppression (needs log(10)), rpow bounds
+
+---
+
 ## [3.3.4] - 2026-01-15
 
 ### Summary

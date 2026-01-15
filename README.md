@@ -14,7 +14,7 @@ Lean/GIFT/
 ├── Certificate.lean       # Master theorem (185+ relations)
 ├── Foundations/           # E8 roots, G2 cross product, Joyce
 │   └── Analysis/G2Forms/  # G2 structure: d, ⋆, TorsionFree, Bridge
-├── Geometry/              # DG-ready infrastructure [v3.3.4] AXIOM-FREE!
+├── Geometry/              # DG-ready infrastructure [v3.3.5] AXIOM-FREE!
 │   ├── Exterior.lean      # Λ*(ℝ⁷) exterior algebra
 │   ├── DifferentialFormsR7.lean  # DiffForm, d, d²=0
 │   ├── HodgeStarCompute.lean     # Explicit Hodge star (Levi-Civita)
@@ -62,4 +62,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.3.4*
+*GIFT Core v3.3.5*

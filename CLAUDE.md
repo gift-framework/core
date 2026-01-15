@@ -1099,4 +1099,131 @@ All achieved:
 
 ---
 
-*Last updated: 2026-01-15 - V3.3.4: Tier 1 COMPLETE - Axiom-free Hodge star (psi_eq_star_phi PROVEN)*
+## V3.3.5: Numerical Bounds via Taylor Series
+
+### Module: `Foundations/NumericalBounds.lean`
+
+Axiom-free proofs of transcendental function bounds using Mathlib's Taylor series lemmas.
+
+| Theorem | Bound | Method |
+|---------|-------|--------|
+| `exp_one_gt/lt` | 2.7 < e < 2.72 | `Real.exp_one_gt_d9` (Mathlib) |
+| `sqrt5_bounds_tight` | 2.236 < √5 < 2.237 | Squaring inequalities |
+| `phi_bounds` | 1.618 < φ < 1.6185 | From √5 bounds |
+| `log_two_bounds` | 0.693 < log(2) < 0.694 | `Real.log_two_gt_d9` (Mathlib) |
+| `log_phi_bounds` | **0.48 < log(φ) < 0.49** | Taylor series |
+
+### 24. Taylor Series Bounds with `Real.exp_bound`
+
+**Problem**: Need to prove bounds like `exp(0.48) < 1.617` for log(φ) bounds.
+
+**Solution**: Use `Real.exp_bound` and `Real.sum_le_exp_of_nonneg` from Mathlib.
+
+```lean
+-- Real.exp_bound: |exp x - Σₖ xᵏ/k!| ≤ |x|ⁿ * (n+1)/(n! * n)
+-- Real.sum_le_exp_of_nonneg: for x ≥ 0, Σₖ xᵏ/k! ≤ exp(x)
+
+-- Upper bound: exp(x) ≤ sum + error
+theorem exp_048_lt : exp (48/100) < 1617/1000 := by
+  have hbound := Real.exp_bound hx hn
+  have hsum : (Finset.range 5).sum (fun m => ((48 : ℝ)/100)^m / ↑(m.factorial))
+              = 1 + 48/100 + (48/100)^2/2 + (48/100)^3/6 + (48/100)^4/24 := by
+    simp only [Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty,
+               Nat.factorial, Nat.cast_one, pow_zero, pow_one]
+    ring
+  have h := abs_sub_le_iff.mp hbound
+  -- h.1 : exp x - sum ≤ error  =>  exp x ≤ sum + error
+  linarith [h.1]
+
+-- Lower bound: sum ≤ exp(x)
+theorem exp_049_gt : 1631/1000 < exp (49/100) := by
+  have hsum := ...  -- same pattern
+  calc 1631/1000 < Taylor_sum := by norm_num
+    _ ≤ exp (49/100) := Real.sum_le_exp_of_nonneg hpos 5
+```
+
+### 25. Type Coercions in Finset.sum with Factorial
+
+**Problem**: Type mismatch between sum in `Real.exp_bound` and user-defined sum.
+
+```lean
+-- BAD - factorial not coerced, causes type mismatch
+have hsum : (Finset.range 5).sum (fun m => ((48 : ℝ)/100)^m / m.factorial) = ...
+-- The sum type becomes different from Real.exp_bound's sum
+
+-- GOOD - explicit coercion ↑(m.factorial)
+have hsum : (Finset.range 5).sum (fun m => ((48 : ℝ)/100)^m / ↑(m.factorial)) = ...
+-- Now matches Real.exp_bound exactly
+```
+
+**Key**: `Real.exp_bound` uses `↑m.factorial` (coerced to ℝ). Match this exactly.
+
+### 26. Extracting Bounds from Absolute Value
+
+**Problem**: `abs_sub_le_iff` gives a conjunction, need to extract the right part.
+
+```lean
+-- abs_sub_le_iff : |a - b| ≤ c ↔ a - c ≤ b ∧ b ≤ a + c
+-- After mp: (exp - sum ≤ error) ∧ (sum - exp ≤ error)
+-- Rearranged:
+--   h.1 : exp - sum ≤ error  =>  exp ≤ sum + error (UPPER bound)
+--   h.2 : sum - exp ≤ error  =>  sum - error ≤ exp (LOWER bound)
+
+-- For upper bound proof (exp < threshold):
+have h := abs_sub_le_iff.mp hbound
+linarith [h.1]  -- Use h.1, NOT h.2!
+```
+
+### 27. Expanding Finset.sum for norm_num
+
+**Problem**: `norm_num` can't evaluate `Finset.sum` directly.
+
+```lean
+-- BAD - norm_num fails on Finset.sum
+have hsum_lt : (Finset.range 5).sum ... < 1616/1000 := by norm_num  -- FAILS!
+
+-- GOOD - expand to explicit expression, then norm_num
+have hsum : (Finset.range 5).sum (fun m => x^m / ↑(m.factorial))
+            = 1 + x + x^2/2 + x^3/6 + x^4/24 := by
+  simp only [Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty,
+             Nat.factorial, Nat.cast_one, pow_zero, pow_one]
+  ring  -- Combines the terms
+
+have hval : 1 + x + x^2/2 + x^3/6 + x^4/24 < threshold := by norm_num  -- WORKS!
+```
+
+### 28. Factorial Lemmas in Mathlib 4
+
+**Problem**: `Nat.factorial_three`, `Nat.factorial_four`, `Nat.factorial_five` don't exist.
+
+```lean
+-- BAD - these lemmas don't exist in Mathlib 4
+simp only [Nat.factorial_three, Nat.factorial_four]  -- ERROR!
+
+-- GOOD - use Nat.factorial to unfold recursively
+simp only [Nat.factorial, Nat.cast_one, pow_zero, pow_one]
+-- This expands factorial(0)=1, factorial(1)=1, factorial(2)=2, etc.
+
+-- Alternative: prove equality explicitly
+have hf3 : Nat.factorial 3 = 6 := rfl
+have hf4 : Nat.factorial 4 = 24 := rfl
+```
+
+### Axiom Status (v3.3.5)
+
+**Tier 1 (Numerical) - 4 remaining:**
+- ✓ `exp_one_gt/lt` - PROVEN via Mathlib
+- ✓ `log_phi_bounds` - PROVEN via Taylor series
+- ○ `cohom_suppression` - needs tight log(10) ≈ 2.3026
+- ○ `rpow` bounds - need more exp evaluations
+
+**Tier 2 (Algebraic) - 2 remaining:**
+- ○ `gl7_action` - GL(7) action on forms
+- ○ `g2_lie_algebra` - G₂ Lie algebra structure
+
+**Tier 3 (Geometric) - 13 remaining:**
+- ○ Hodge theory axioms (K7 manifold properties)
+
+---
+
+*Last updated: 2026-01-15 - V3.3.5: Numerical bounds via Taylor series (log_phi_bounds PROVEN)*
