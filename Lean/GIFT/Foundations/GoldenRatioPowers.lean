@@ -17,6 +17,7 @@ import Mathlib.Tactic.Ring
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
 import Mathlib.Tactic.GCongr
+import Mathlib.Tactic.FieldSimp
 import GIFT.Foundations.GoldenRatio
 import GIFT.Core
 
@@ -184,13 +185,19 @@ theorem phi_inv_54_very_small : phi_inv_54 < (1 : ℝ) / 10^10 := by
     have hnum : (2 : ℝ)^27 * 10^10 < (5 : ℝ)^27 := by exact_mod_cast hnum_nat
     have h5pos : (0 : ℝ) < 5^27 := by positivity
     have h10pos : (0 : ℝ) < 10^10 := by positivity
+    have h5ne : (5 : ℝ)^27 ≠ 0 := ne_of_gt h5pos
+    have h10ne : (10 : ℝ)^10 ≠ 0 := ne_of_gt h10pos
     rw [div_pow, one_div]
-    -- Goal: 2^27 / 5^27 < (10^10)⁻¹
-    rw [div_lt_iff h5pos]
-    -- Goal: 2^27 < (10^10)⁻¹ * 5^27
-    rw [inv_mul_lt_iff h10pos]
-    -- Goal: 2^27 * 10^10 < 5^27
-    exact hnum
+    -- (2/5)^27 < (10^10)⁻¹ ⟺ 2^27/5^27 * 10^10 < 1 ⟺ 2^27 * 10^10 < 5^27
+    have key : (2 : ℝ)^27 / 5^27 * 10^10 < 1 := by
+      have h1 : (2 : ℝ)^27 / 5^27 * 10^10 = 2^27 * 10^10 / 5^27 := by ring
+      rw [h1, div_lt_one h5pos]
+      exact hnum
+    calc (2 : ℝ)^27 / 5^27 < (2 : ℝ)^27 / 5^27 * 10^10 * (10^10)⁻¹ := by
+          rw [mul_inv_cancel_right₀ h10ne]
+      _ = (2^27 / 5^27 * 10^10) * (10^10)⁻¹ := by ring
+      _ < 1 * (10^10)⁻¹ := by nlinarith [inv_pos.mpr h10pos, key]
+      _ = (10^10)⁻¹ := by ring
   -- Finally: phi_inv_54 = phi_inv_sq^27 < (2/5)^27 < 1/10^10
   have heq : phi_inv_54 = phi_inv_sq ^ 27 := by
     unfold phi_inv_54 phi_inv_sq
