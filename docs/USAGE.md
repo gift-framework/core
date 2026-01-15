@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.3.4).
+Complete documentation for the `giftpy` Python package (v3.3.5).
 
 ## Installation
 
@@ -13,7 +13,7 @@ For visualization (optional):
 pip install giftpy matplotlib numpy
 ```
 
-## Quick Start (v3.3.4)
+## Quick Start (v3.3.5)
 
 ```python
 from gift_core import *
@@ -42,7 +42,37 @@ from gift_core import verify
 print(verify())          # True
 ```
 
-## New in v3.3.4
+## New in v3.3.5
+
+### Numerical Bounds via Taylor Series (Lean 4)
+
+New `NumericalBounds.lean` module provides axiom-free proofs of transcendental bounds:
+
+```lean
+import GIFT.Foundations.NumericalBounds
+
+-- Proven bounds on e (from Mathlib's 9-decimal precision)
+#check exp_one_gt      -- 2.7 < e
+#check exp_one_lt      -- e < 2.72
+
+-- Proven bounds on φ (golden ratio)
+#check phi_bounds      -- 1.618 < φ < 1.6185
+#check phi_inv_sq_eq   -- φ⁻² = 2 - φ (algebraic identity)
+
+-- Proven bounds on log(2) (from Mathlib)
+#check log_two_bounds  -- 0.693 < log(2) < 0.694
+
+-- KEY RESULT: log(φ) bounds via Taylor series
+#check log_phi_bounds  -- 0.48 < log(φ) < 0.49 PROVEN!
+#check exp_048_lt      -- exp(0.48) < 1.617 (Taylor upper bound)
+#check exp_049_gt      -- 1.631 < exp(0.49) (Taylor lower bound)
+```
+
+**Axiom Reduction:** Tier 1 numerical axioms: 7 → 4 (3 proven)
+
+---
+
+## In v3.3.4
 
 ### Tier 1 Complete - AXIOM-FREE Hodge Star (Lean 4)
 

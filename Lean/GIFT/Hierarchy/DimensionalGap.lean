@@ -17,6 +17,7 @@ import Mathlib.Tactic.Linarith
 import GIFT.Core
 import GIFT.Foundations.GoldenRatio
 import GIFT.Foundations.GoldenRatioPowers
+import GIFT.Foundations.NumericalBounds
 
 namespace GIFT.Hierarchy.DimensionalGap
 
@@ -66,16 +67,15 @@ theorem cohom_suppression_lt_one : cohom_suppression < 1 := by
     norm_num
   exact div_pos h1 h2
 
-/-- e > 2.7. Numerically verified: e = 2.71828... > 2.7.
-    Proof requires interval arithmetic (Taylor series to 4+ terms).
-    Mathlib's `Real.add_one_lt_exp` only gives 2 < e, not tight enough.
-    Standard reference: e = Σ(1/n!) = 2.718281828... -/
-axiom exp_one_gt : (27 : ℝ) / 10 < Real.exp 1
+/-- e > 2.7. PROVEN from Mathlib's Real.exp_one_gt_d9.
+    See NumericalBounds.lean for proof. -/
+abbrev exp_one_gt : (27 : ℝ) / 10 < Real.exp 1 :=
+  GIFT.Foundations.NumericalBounds.exp_one_gt
 
-/-- e < 2.72. Numerically verified: e = 2.71828... < 2.72.
-    Proof requires interval arithmetic or Taylor remainder bounds.
-    Standard reference: e = 2.718281828... < 2.72 -/
-axiom exp_one_lt : Real.exp 1 < (272 : ℝ) / 100
+/-- e < 2.72. PROVEN from Mathlib's Real.exp_one_lt_d9.
+    See NumericalBounds.lean for proof. -/
+abbrev exp_one_lt : Real.exp 1 < (272 : ℝ) / 100 :=
+  GIFT.Foundations.NumericalBounds.exp_one_lt
 
 /-- Cohomological suppression magnitude: 10⁻⁶ < exp(-99/8) < 10⁻⁵.
     Numerically verified: exp(-99/8) = exp(-12.375) ≈ 4.22 × 10⁻⁶
@@ -160,10 +160,9 @@ theorem ln_hierarchy_eq : Real.log hierarchy_ratio = ln_hierarchy := by
   ring
 
 /-- log(φ) bounds: 0.48 < log(φ) < 0.49.
-    Numerically verified: φ = (1+√5)/2 ≈ 1.618, so log(φ) ≈ 0.481.
-    Equivalent to: exp(0.48) < φ < exp(0.49), i.e., 1.616 < 1.618 < 1.632 ✓
-    Proof requires Taylor bounds for exp(0.48) and exp(0.49). -/
-axiom log_phi_bounds : (48 : ℝ) / 100 < Real.log phi ∧ Real.log phi < (49 : ℝ) / 100
+    PROVEN in NumericalBounds.lean via Taylor series bounds on exp(0.48) and exp(0.49). -/
+abbrev log_phi_bounds : (48 : ℝ) / 100 < Real.log phi ∧ Real.log phi < (49 : ℝ) / 100 :=
+  GIFT.Foundations.NumericalBounds.log_phi_bounds
 
 /-- ln(hierarchy) ≈ -38.4 (bounds: -39 < ln < -38).
     Proof: ln_hierarchy = -99/8 - 54 × ln(φ) = -12.375 - 54 × ln(φ)
