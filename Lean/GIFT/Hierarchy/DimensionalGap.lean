@@ -160,10 +160,9 @@ theorem ln_hierarchy_eq : Real.log hierarchy_ratio = ln_hierarchy := by
   ring
 
 /-- log(φ) bounds: 0.48 < log(φ) < 0.49.
-    Numerically verified: φ = (1+√5)/2 ≈ 1.618, so log(φ) ≈ 0.481.
-    Equivalent to: exp(0.48) < φ < exp(0.49), i.e., 1.616 < 1.618 < 1.632 ✓
-    Proof requires Taylor bounds for exp(0.48) and exp(0.49). -/
-axiom log_phi_bounds : (48 : ℝ) / 100 < Real.log phi ∧ Real.log phi < (49 : ℝ) / 100
+    PROVEN in NumericalBounds.lean via Taylor series bounds on exp(0.48) and exp(0.49). -/
+abbrev log_phi_bounds : (48 : ℝ) / 100 < Real.log phi ∧ Real.log phi < (49 : ℝ) / 100 :=
+  GIFT.Foundations.NumericalBounds.log_phi_bounds
 
 /-- ln(hierarchy) ≈ -38.4 (bounds: -39 < ln < -38).
     Proof: ln_hierarchy = -99/8 - 54 × ln(φ) = -12.375 - 54 × ln(φ)
