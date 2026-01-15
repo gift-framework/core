@@ -34,7 +34,7 @@ This infrastructure allows expressing the torsion-free G₂ condition:
 
 in a mathematically rigorous way using proper differential geometry concepts.
 
-## Tier 1 Status (v3.3.4)
+## G₂ Differential Geometry Foundation Status (v3.3.4)
 
 COMPLETE with ZERO AXIOMS:
 - φ : Ω³(ℝ⁷) ✓
@@ -61,7 +61,7 @@ open HodgeStarR7
 Unified verification of geometry infrastructure.
 -/
 
-/-- Geometry infrastructure is complete (Tier 1 axiom-free) -/
+/-- Geometry infrastructure is complete (G₂ differential geometry foundation, axiom-free) -/
 theorem geometry_infrastructure_complete :
     -- Exterior algebra dimensions
     (Nat.choose 7 3 = 35) ∧

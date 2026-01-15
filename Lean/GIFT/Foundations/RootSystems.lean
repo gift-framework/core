@@ -345,7 +345,7 @@ theorem E8_decomposition_disjoint :
   simp only [← ha, ← hb, ne_eq]
   exact Sum.inl_ne_inr
 
-/-- A3: E8 = D8 ∪ HalfInt (as finset equation with Sum type) -/
+/-- E8 root system decomposition: E8 = D8 ∪ HalfInt (as finset equation with Sum type) -/
 theorem E8_roots_decomposition :
     E8_enumeration = D8_enumeration.map ⟨Sum.inl, Sum.inl_injective⟩ ∪
                      HalfInt_enumeration.map ⟨Sum.inr, Sum.inr_injective⟩ := rfl

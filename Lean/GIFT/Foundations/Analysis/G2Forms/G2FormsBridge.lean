@@ -1,10 +1,10 @@
 /-
-GIFT Tier 2.5: G2 Forms Bridge
-===============================
+G₂ Forms Bridge: Connecting Abstract and Concrete
+===================================================
 
 This module connects:
-- **Tier 1**: Abstract differential forms (G2Structure, TorsionFree)
-- **Tier 2**: Concrete cross product (epsilon, phi0, Lagrange identity)
+- **Abstract differential forms**: G2Structure, TorsionFree definitions
+- **Concrete cross product**: epsilon, phi0, Lagrange identity
 
 ## Mathematical Content
 

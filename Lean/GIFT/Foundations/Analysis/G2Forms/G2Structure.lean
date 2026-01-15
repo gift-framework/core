@@ -2,7 +2,7 @@
 GIFT G₂ Forms: G2 Structure
 ==========================
 
-Main API for Tier 1: expressing torsion-free G₂ structures.
+Main API for G₂ differential geometry: expressing torsion-free G₂ structures.
 
 ## Definition of Done
 
@@ -76,7 +76,7 @@ def G2Structure.IsCoclosed (g : G2Structure) : Prop :=
   g.dpsi = g.Ω.zero 5
 
 /-- A G₂ structure is **torsion-free** if both dφ = 0 and dψ = 0.
-    This is the main definition of Tier 1. -/
+    This is the central definition of the G₂ differential geometry foundation. -/
 def G2Structure.TorsionFree (g : G2Structure) : Prop :=
   g.IsClosed ∧ g.IsCoclosed
 

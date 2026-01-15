@@ -93,7 +93,7 @@ structure DiffGeomData (n : ℕ) where
   hodge : HodgeData n forms
 
 /-!
-## Tier 1 Goal: Expressing TorsionFree
+## Main Goal: Expressing TorsionFree Condition
 
 The torsion-free condition for a G2 structure is:
   dφ = 0  and  d(⋆φ) = 0
@@ -105,9 +105,9 @@ where φ is the G2 3-form and ⋆φ is its Hodge dual (a 4-form).
 def R7Forms : GradedDiffForms 7 := GradedConstantForms 7
 
 /-!
-## Abstract Tier 1 API
+## Abstract Differential Forms API
 
-The key point of Tier 1: we can EXPRESS the torsion-free condition
+The key point of this foundation: we can EXPRESS the torsion-free condition
 using the structures above, even if we don't have a complete
 concrete implementation for all of ℝ⁷.
 -/

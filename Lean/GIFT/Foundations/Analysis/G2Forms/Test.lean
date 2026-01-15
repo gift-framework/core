@@ -191,7 +191,7 @@ example := g2_forms_bridge_complete
 /-!
 ## Summary
 
-All tests pass by compilation. Tier 1 + Bridge is complete:
+All tests pass by compilation. Differential forms foundation + Bridge is complete:
 
 ✓ Ωᵏ(M) represented canonically via GradedDiffForms
 ✓ d : Ωᵏ → Ωᵏ⁺¹ defined with d∘d=0 proven

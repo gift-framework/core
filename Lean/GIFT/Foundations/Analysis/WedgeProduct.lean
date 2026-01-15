@@ -24,7 +24,7 @@ open GIFT.Foundations.Analysis.ExteriorAlgebra
 For k-form ω and l-form η: ω ∧ η = (-1)^{kl} η ∧ ω
 
 Note: Full graded anticommutativity requires tracking homogeneous degrees
-via GradedAlgebra structure. For Tier 1, we prove the key case (1-forms)
+via GradedAlgebra structure. For the algebraic foundation, we prove the key case (1-forms)
 which suffices to derive higher-degree anticommutativity by induction.
 -/
 
@@ -114,11 +114,11 @@ theorem omega2_G2_decomposition : 7 + 14 = 21 := by native_decide
 theorem omega3_G2_decomposition : 1 + 7 + 27 = 35 := by native_decide
 
 /-!
-## Integration (Tier 2+)
+## Integration (Future Work)
 
 Integration ∫_M : Ω⁷(M) → ℝ and Stokes theorem require measure theory.
-These will be added in a future tier when we formalize compact oriented manifolds.
-For Tier 1, we focus on the algebraic structure (∧, d, ⋆).
+These will be added in a future development phase when we formalize compact oriented manifolds.
+For the current foundation, we focus on the algebraic structure (∧, d, ⋆).
 -/
 
 end GIFT.Foundations.Analysis.WedgeProduct

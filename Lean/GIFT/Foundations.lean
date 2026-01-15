@@ -100,7 +100,7 @@ Derives: b₂ = 21 = 7 + 14 from G₂ representation theory!
 -- Plus: bijection proofs showing enumeration ↔ actual vectors in ℝ⁸
 export RootSystems (D8_enumeration D8_card HalfInt_enumeration HalfInt_card
   E8_roots_card E8_dimension E8_dimension_from_enumeration
-  -- A3: E8 = D8 ∪ HalfInt decomposition (NEW!)
+  -- E8 root system decomposition into D8 and half-integer roots
   E8_enumeration E8_decomposition_disjoint E8_roots_decomposition E8_enumeration_card
   G2_root_count G2_rank G2_dimension
   -- Vector correspondence
