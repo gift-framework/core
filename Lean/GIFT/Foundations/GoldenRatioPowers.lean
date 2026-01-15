@@ -181,20 +181,17 @@ theorem phi_inv_54_very_small : phi_inv_54 < (1 : ℝ) / 10^10 := by
     -- First prove on ℕ, then convert to ℝ
     -- 2^27 * 10^10 < 5^27 on ℕ
     have hnum_nat : (2 : ℕ)^27 * 10^10 < 5^27 := by native_decide
-    -- Convert to ℝ inequality
-    have hnum : (2 : ℝ)^27 * 10^10 < 5^27 := by
-      have h1 : ((2 : ℕ)^27 : ℝ) = (2 : ℝ)^27 := by norm_cast
-      have h2 : ((10 : ℕ)^10 : ℝ) = (10 : ℝ)^10 := by norm_cast
-      have h3 : ((5 : ℕ)^27 : ℝ) = (5 : ℝ)^27 := by norm_cast
+    -- Convert to ℝ inequality using norm_cast
+    have hnum : (2 : ℝ)^27 * 10^10 < (5 : ℝ)^27 := by
+      have : ((2 : ℕ)^27 * 10^10 : ℕ) < (5 : ℕ)^27 := hnum_nat
       calc (2 : ℝ)^27 * 10^10
-          = ((2 : ℕ)^27 : ℝ) * ((10 : ℕ)^10 : ℝ) := by rw [h1, h2]
-        _ = (((2 : ℕ)^27 * 10^10 : ℕ) : ℝ) := by norm_cast
-        _ < ((5 : ℕ)^27 : ℝ) := by exact Nat.cast_lt.mpr hnum_nat
-        _ = (5 : ℝ)^27 := h3
+          = ((2 : ℕ)^27 * (10 : ℕ)^10 : ℕ) := by norm_cast
+        _ < ((5 : ℕ)^27 : ℕ) := this
+        _ = (5 : ℝ)^27 := by norm_cast
     -- Now (2/5)^27 = 2^27/5^27 < 1/10^10 ⟺ 2^27 * 10^10 < 5^27
-    rw [div_pow]
-    rw [div_lt_div_iff (by positivity : (0 : ℝ) < 5^27) (by positivity : (0 : ℝ) < 10^10)]
-    ring_nf
+    rw [div_pow, one_div]
+    rw [div_lt_iff (by positivity : (0 : ℝ) < 5^27)]
+    rw [inv_mul_lt_iff (by positivity : (0 : ℝ) < 10^10)]
     exact hnum
   -- Finally: phi_inv_54 = phi_inv_sq^27 < (2/5)^27 < 1/10^10
   have heq : phi_inv_54 = phi_inv_sq ^ 27 := by
@@ -203,7 +200,8 @@ theorem phi_inv_54_very_small : phi_inv_54 < (1 : ℝ) / 10^10 := by
   calc phi_inv_54
       = phi_inv_sq ^ 27 := heq
     _ < ((2 : ℝ) / 5) ^ 27 := by
-        apply pow_lt_pow_left h1 (le_of_lt phi_inv_sq_pos)
+        have hpos : 0 ≤ phi_inv_sq := le_of_lt phi_inv_sq_pos
+        exact pow_lt_pow_left h1 hpos (by norm_num : 27 ≠ 0)
     _ < 1 / 10^10 := h2
 
 /-!
