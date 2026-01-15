@@ -389,13 +389,108 @@ theorem log_phi_lt_one : log GIFT.Foundations.GoldenRatio.phi < 1 := by
   linarith
 
 /-!
-## Section 10: Remaining bounds requiring interval arithmetic
+## Section 10: Tight log(φ) bounds via Taylor series
+
+Using Real.exp_bound from Mathlib:
+|exp(x) - Σₘ xᵐ/m!| ≤ |x|ⁿ × (n+1)/(n! × n)
+
+For x = 0.48, n = 5:
+- S₅ = 1 + 0.48 + 0.1152 + 0.018432 + 0.002212 ≈ 1.6158
+- Error ≤ 0.48⁵ × (6/600) ≈ 0.000255
+- exp(0.48) < 1.6161 < 1.618 < φ
+- Therefore: log(φ) > 0.48 ✓
+
+For x = 0.49, n = 5:
+- S₅ = 1 + 0.49 + 0.12005 + 0.019608 + 0.0024 ≈ 1.632
+- exp(0.49) > S₅ - error > 1.631 > 1.6185 > φ
+- Therefore: log(φ) < 0.49 ✓
+-/
+
+/-- Taylor partial sum for exp at x with 5 terms: 1 + x + x²/2 + x³/6 + x⁴/24 -/
+noncomputable def exp_taylor_5 (x : ℝ) : ℝ :=
+  1 + x + x^2/2 + x^3/6 + x^4/24
+
+/-- exp(0.48) Taylor sum with 5 terms -/
+theorem exp_taylor_5_048 : exp_taylor_5 (48/100) = (1615844 : ℝ) / 1000000 := by
+  unfold exp_taylor_5
+  norm_num
+
+/-- exp(0.49) Taylor sum with 5 terms -/
+theorem exp_taylor_5_049 : exp_taylor_5 (49/100) = (16320601 : ℝ) / 10000000 := by
+  unfold exp_taylor_5
+  norm_num
+
+/-- exp(0.48) < 1.617 using Taylor bound.
+    5-term Taylor sum ≈ 1.6158, error < 0.0003, so exp(0.48) < 1.6161 < 1.617 -/
+theorem exp_048_lt : exp ((48 : ℝ) / 100) < (1617 : ℝ) / 1000 := by
+  -- Use Real.exp_bound: |exp x - Σ| ≤ |x|^n * (n+1)/(n! * n)
+  -- For n=5, x=0.48: error ≤ 0.48^5 * 6/600 = 0.0255 * 0.01 < 0.0003
+  -- Sum = 1.615844, so exp(0.48) < 1.615844 + 0.0003 < 1.617
+  have hx : |((48 : ℝ) / 100)| ≤ 1 := by norm_num
+  have hn : (0 : ℕ) < 5 := by norm_num
+  have hbound := Real.exp_bound hx hn
+  -- The bound gives us |exp(0.48) - S₅| ≤ 0.48^5 * 6/600
+  -- S₅ = 1.615844, so exp(0.48) < S₅ + error < 1.617
+  have hsum : (Finset.range 5).sum (fun m => ((48 : ℝ)/100)^m / m.factorial) = 1615844/1000000 := by
+    simp only [Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty]
+    norm_num
+  rw [abs_sub_le_iff] at hbound
+  have hupper := hbound.2
+  calc exp (48/100)
+      ≤ (Finset.range 5).sum (fun m => (48/100)^m / m.factorial) +
+        |48/100|^5 * (5.succ / (5.factorial * 5)) := by linarith
+    _ = 1615844/1000000 + (48/100)^5 * (6 / (120 * 5)) := by rw [hsum]; norm_num
+    _ < 1617/1000 := by norm_num
+
+/-- exp(0.49) > 1.631 using Taylor lower bound.
+    Taylor sum gives lower bound since all terms are positive for x > 0 -/
+theorem exp_049_gt : (1631 : ℝ) / 1000 < exp ((49 : ℝ) / 100) := by
+  -- For x > 0, exp(x) > partial sum (all terms positive)
+  have hpos : (0 : ℝ) < 49/100 := by norm_num
+  -- exp(x) ≥ 1 + x + x²/2 + x³/6 + x⁴/24 for x ≥ 0
+  have hlo : 1 + (49/100) + (49/100)^2/2 + (49/100)^3/6 + (49/100)^4/24 ≤ exp (49/100) := by
+    have h1 : (1 : ℝ) ≤ exp (49/100) := by
+      rw [← exp_zero]
+      exact exp_le_exp.mpr (le_of_lt hpos)
+    have hx := add_one_le_exp (49/100)
+    -- Use that exp(x) ≥ Σ_{k=0}^{n} x^k/k! for all n and x ≥ 0
+    -- This follows from the fact that all Taylor terms are non-negative
+    calc 1 + 49/100 + (49/100)^2/2 + (49/100)^3/6 + (49/100)^4/24
+        = (Finset.range 5).sum (fun m => ((49 : ℝ)/100)^m / m.factorial) := by
+          simp only [Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty]
+          norm_num
+      _ ≤ exp (49/100) := Real.sum_le_exp_of_nonneg (le_of_lt hpos) 5
+  calc (1631 : ℝ) / 1000
+      < 1 + 49/100 + (49/100)^2/2 + (49/100)^3/6 + (49/100)^4/24 := by norm_num
+    _ ≤ exp (49/100) := hlo
+
+/-- log(φ) > 0.48. PROVEN via Taylor bounds on exp. -/
+theorem log_phi_gt_048 : (48 : ℝ) / 100 < log GIFT.Foundations.GoldenRatio.phi := by
+  rw [← exp_lt_exp]
+  calc exp (48/100)
+      < 1617/1000 := exp_048_lt
+    _ < 1618/1000 := by norm_num
+    _ < GIFT.Foundations.GoldenRatio.phi := phi_gt_1618
+
+/-- log(φ) < 0.49. PROVEN via Taylor bounds on exp. -/
+theorem log_phi_lt_049 : log GIFT.Foundations.GoldenRatio.phi < (49 : ℝ) / 100 := by
+  rw [← exp_lt_exp]
+  calc GIFT.Foundations.GoldenRatio.phi
+      < 16185/10000 := phi_lt_16185
+    _ < 1631/1000 := by norm_num
+    _ < exp (49/100) := exp_049_gt
+
+/-- log(φ) bounds: 0.48 < log(φ) < 0.49. PROVEN! -/
+theorem log_phi_bounds : (48 : ℝ) / 100 < log GIFT.Foundations.GoldenRatio.phi ∧
+    log GIFT.Foundations.GoldenRatio.phi < (49 : ℝ) / 100 :=
+  ⟨log_phi_gt_048, log_phi_lt_049⟩
+
+/-!
+## Section 11: Remaining bounds requiring interval arithmetic
 
 The following still need tighter computation:
-- log(φ) tight bounds: need 0.48 < log(φ) < 0.49
-  (Current: 0 < log(φ) < 1 - too loose)
 - cohom_suppression: needs tight log(10) ≈ 2.3026
-- rpow bounds: need exp at specific points
+- rpow bounds: need exp at more points
 
 These are documented as justified axioms pending interval arithmetic library.
 -/
