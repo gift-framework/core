@@ -493,13 +493,131 @@ theorem log_phi_bounds : (48 : ℝ) / 100 < log GIFT.Foundations.GoldenRatio.phi
   ⟨log_phi_gt_048, log_phi_lt_049⟩
 
 /-!
-## Section 11: Remaining bounds requiring interval arithmetic
+## Section 11: Tighter log(5) bounds via Taylor series
 
-The following still need tighter computation:
-- cohom_suppression: needs tight log(10) ≈ 2.3026
-- rpow bounds: need exp at more points
+We need: 1.6 < log(5) < 1.7
+Proof:
+- exp(1.6) < 5 implies log(5) > 1.6
+- exp(1.7) > 5 implies log(5) < 1.7
+-/
 
-These are documented as justified axioms pending interval arithmetic library.
+/-- exp(1.6) < 5 using Taylor upper bound. -/
+theorem exp_16_lt_5 : exp ((16 : ℝ) / 10) < 5 := by
+  have hx : |((16 : ℝ) / 10)| ≤ 2 := by norm_num
+  -- Use that exp(1.6) = exp(1) * exp(0.6) and bound both
+  -- Actually, let's use direct Taylor series at x = 1.6 with n = 8 for precision
+  -- exp(1.6) ≈ 4.953 < 5
+  -- Use exp composition: exp(1.6) = exp(0.8)²
+  -- exp(1.6) = exp(0.8 + 0.8) = exp(0.8)²
+  -- exp(0.8) can be bounded by Taylor series
+  have h08_bound : exp ((8 : ℝ) / 10) < (223 : ℝ) / 100 := by
+    have hx : |((8 : ℝ) / 10)| ≤ 1 := by norm_num
+    have hn : (0 : ℕ) < 5 := by norm_num
+    have hbound := Real.exp_bound hx hn
+    have hsum : (Finset.range 5).sum (fun m => ((8 : ℝ)/10)^m / ↑(m.factorial))
+                = 1 + 8/10 + (8/10)^2/2 + (8/10)^3/6 + (8/10)^4/24 := by
+      simp only [Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty,
+                 Nat.factorial, Nat.cast_one, pow_zero, pow_one]
+      ring
+    have herr_eq : |((8 : ℝ)/10)|^5 * (↑(Nat.succ 5) / (↑(Nat.factorial 5) * 5))
+                   = (8/10)^5 * (6 / 600) := by
+      simp only [Nat.factorial, Nat.succ_eq_add_one]
+      norm_num
+    have hval : 1 + 8/10 + (8/10)^2/2 + (8/10)^3/6 + (8/10)^4/24 + (8/10)^5 * (6/600)
+                < (223 : ℝ) / 100 := by norm_num
+    have h := abs_sub_le_iff.mp hbound
+    have hupper : exp (8/10) ≤ (Finset.range 5).sum (fun m => ((8 : ℝ)/10)^m / ↑(m.factorial)) +
+                                 |((8 : ℝ)/10)|^5 * (↑(Nat.succ 5) / (↑(Nat.factorial 5) * 5)) := by
+      linarith [h.1]
+    calc exp (8/10)
+        ≤ (Finset.range 5).sum (fun m => ((8 : ℝ)/10)^m / ↑(m.factorial)) +
+          |((8 : ℝ)/10)|^5 * (↑(Nat.succ 5) / (↑(Nat.factorial 5) * 5)) := hupper
+      _ = 1 + 8/10 + (8/10)^2/2 + (8/10)^3/6 + (8/10)^4/24 + (8/10)^5 * (6/600) := by
+          rw [hsum, herr_eq]
+      _ < 223/100 := hval
+
+  -- Now exp(1.6) = exp(0.8)² < 2.23² = 4.9729 < 5
+  have hsq : (223 : ℝ) / 100 * (223 / 100) < 5 := by norm_num
+  calc exp (16/10)
+      = exp (8/10 + 8/10) := by ring_nf
+    _ = exp (8/10) * exp (8/10) := by rw [exp_add]
+    _ < (223/100) * (223/100) := by nlinarith [exp_pos (8/10 : ℝ), h08_bound]
+    _ < 5 := hsq
+
+/-- exp(1.7) > 5 using Taylor lower bound. -/
+theorem exp_17_gt_5 : 5 < exp ((17 : ℝ) / 10) := by
+  -- exp(1.7) = exp(0.85)² and exp(0.85) > 2.24 (since 2.24² = 5.0176 > 5)
+  -- Taylor sum for exp(0.85) ≈ 2.3354 > 2.24 ✓
+  have h085_bound : (224 : ℝ) / 100 < exp ((85 : ℝ) / 100) := by
+    have hpos : (0 : ℝ) ≤ 85/100 := by norm_num
+    have hsum : (Finset.range 5).sum (fun m => ((85 : ℝ)/100)^m / ↑(m.factorial))
+                = 1 + 85/100 + (85/100)^2/2 + (85/100)^3/6 + (85/100)^4/24 := by
+      simp only [Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty,
+                 Nat.factorial, Nat.cast_one, pow_zero, pow_one]
+      ring
+    have hval : (224 : ℝ) / 100 < 1 + 85/100 + (85/100)^2/2 + (85/100)^3/6 + (85/100)^4/24 := by
+      norm_num
+    calc (224 : ℝ) / 100
+        < 1 + 85/100 + (85/100)^2/2 + (85/100)^3/6 + (85/100)^4/24 := hval
+      _ = (Finset.range 5).sum (fun m => ((85 : ℝ)/100)^m / ↑(m.factorial)) := hsum.symm
+      _ ≤ exp (85/100) := Real.sum_le_exp_of_nonneg hpos 5
+
+  -- Now exp(1.7) = exp(0.85)² > 2.24² = 5.0176 > 5
+  have hsq : 5 < (224 : ℝ) / 100 * (224 / 100) := by norm_num
+  calc 5
+      < (224/100) * (224/100) := hsq
+    _ < exp (85/100) * exp (85/100) := by nlinarith [exp_pos (85/100 : ℝ), h085_bound]
+    _ = exp (85/100 + 85/100) := by rw [exp_add]
+    _ = exp (17/10) := by ring_nf
+
+/-- log(5) > 1.6 since exp(1.6) < 5 -/
+theorem log_five_gt_16 : (16 : ℝ) / 10 < log 5 := by
+  rw [← exp_lt_exp, exp_log (by norm_num : (0 : ℝ) < 5)]
+  exact exp_16_lt_5
+
+/-- log(5) < 1.7 since exp(1.7) > 5 -/
+theorem log_five_lt_17 : log 5 < (17 : ℝ) / 10 := by
+  rw [← exp_lt_exp, exp_log (by norm_num : (0 : ℝ) < 5)]
+  exact exp_17_gt_5
+
+/-- log(5) tight bounds: 1.6 < log(5) < 1.7 -/
+theorem log_five_bounds_tight : (16 : ℝ) / 10 < log 5 ∧ log 5 < (17 : ℝ) / 10 :=
+  ⟨log_five_gt_16, log_five_lt_17⟩
+
+/-!
+## Section 12: Tight log(10) bounds
+
+log(10) = log(2) + log(5)
+With log(2) ∈ (0.693, 0.694) and log(5) ∈ (1.6, 1.7):
+log(10) ∈ (2.293, 2.394)
+-/
+
+/-- log(10) > 2.293 -/
+theorem log_ten_gt : (2293 : ℝ) / 1000 < log 10 := by
+  rw [log_ten_eq]
+  have h2 := log_two_gt       -- 0.693 < log(2)
+  have h5 := log_five_gt_16   -- 1.6 < log(5)
+  linarith
+
+/-- log(10) < 2.394 -/
+theorem log_ten_lt : log 10 < (2394 : ℝ) / 1000 := by
+  rw [log_ten_eq]
+  have h2 := log_two_lt       -- log(2) < 0.694
+  have h5 := log_five_lt_17   -- log(5) < 1.7
+  linarith
+
+/-- log(10) tight bounds: 2.293 < log(10) < 2.394 -/
+theorem log_ten_bounds_tight : (2293 : ℝ) / 1000 < log 10 ∧ log 10 < (2394 : ℝ) / 1000 :=
+  ⟨log_ten_gt, log_ten_lt⟩
+
+/-!
+## Section 13: Remaining bounds
+
+The following still need more work:
+- cohom_suppression: exp(-99/8) bounds - can now be proven with log(10) bounds!
+- rpow bounds: need exp at more points for 27^φ
+
+These are documented as justified axioms pending additional proofs.
 -/
 
 end GIFT.Foundations.NumericalBounds

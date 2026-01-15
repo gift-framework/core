@@ -78,10 +78,45 @@ abbrev exp_one_lt : Real.exp 1 < (272 : ℝ) / 100 :=
   GIFT.Foundations.NumericalBounds.exp_one_lt
 
 /-- Cohomological suppression magnitude: 10⁻⁶ < exp(-99/8) < 10⁻⁵.
-    Numerically verified: exp(-99/8) = exp(-12.375) ≈ 4.22 × 10⁻⁶
-    Equivalent to: 5 ln(10) < 12.375 < 6 ln(10), i.e., 11.51 < 12.375 < 13.82 ✓ -/
-axiom cohom_suppression_magnitude :
-    (1 : ℝ) / 10^6 < cohom_suppression ∧ cohom_suppression < (1 : ℝ) / 10^5
+    PROVEN using log(10) bounds from NumericalBounds.
+    Equivalent to: 99/48 < log(10) < 99/40, i.e., 2.0625 < log(10) < 2.475
+    We have: 2.293 < log(10) < 2.394 ✓ -/
+theorem cohom_suppression_magnitude :
+    (1 : ℝ) / 10^6 < cohom_suppression ∧ cohom_suppression < (1 : ℝ) / 10^5 := by
+  -- cohom_suppression = exp(-99/8) = exp(-12.375)
+  -- 10⁻⁶ < exp(-99/8) ⟺ -6 * log(10) < -99/8 ⟺ log(10) > 99/48 = 2.0625
+  -- exp(-99/8) < 10⁻⁵ ⟺ -99/8 < -5 * log(10) ⟺ log(10) < 99/40 = 2.475
+  have hH : (H_star : ℕ) = 99 := by native_decide
+  have hR : (rank_E8 : ℕ) = 8 := by native_decide
+  have hH_real : (H_star : ℝ) = 99 := by simp only [hH]; norm_num
+  have hR_real : (rank_E8 : ℝ) = 8 := by simp only [hR]; norm_num
+  have hlog10_gt := GIFT.Foundations.NumericalBounds.log_ten_gt  -- 2.293 < log(10)
+  have hlog10_lt := GIFT.Foundations.NumericalBounds.log_ten_lt  -- log(10) < 2.394
+  unfold cohom_suppression
+  rw [hH_real, hR_real]
+  constructor
+  · -- 10⁻⁶ < exp(-99/8)
+    rw [show (1 : ℝ) / 10^6 = Real.exp (-6 * Real.log 10) by
+          rw [← Real.exp_log (by norm_num : (0 : ℝ) < 10^6)]
+          congr 1
+          rw [Real.log_pow]
+          simp only [one_div, ← Real.exp_neg]
+          ring]
+    rw [Real.exp_lt_exp]
+    -- Need: -6 * log(10) < -99/8 ⟺ 99/8 < 6 * log(10) ⟺ 99/48 < log(10)
+    have h1 : (99 : ℝ) / 48 < 2293 / 1000 := by norm_num
+    linarith
+  · -- exp(-99/8) < 10⁻⁵
+    rw [show (1 : ℝ) / 10^5 = Real.exp (-5 * Real.log 10) by
+          rw [← Real.exp_log (by norm_num : (0 : ℝ) < 10^5)]
+          congr 1
+          rw [Real.log_pow]
+          simp only [one_div, ← Real.exp_neg]
+          ring]
+    rw [Real.exp_lt_exp]
+    -- Need: -99/8 < -5 * log(10) ⟺ 5 * log(10) < 99/8 ⟺ log(10) < 99/40
+    have h1 : (2394 : ℝ) / 1000 < 99 / 40 := by norm_num
+    linarith
 
 /-!
 ## Jordan Suppression

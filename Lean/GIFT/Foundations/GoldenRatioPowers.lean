@@ -16,6 +16,8 @@ import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.Ring
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Positivity
+import Mathlib.Tactic.GCongr
+import Mathlib.Tactic.FieldSimp
 import GIFT.Foundations.GoldenRatio
 import GIFT.Core
 
@@ -168,10 +170,45 @@ theorem phi_inv_54_lt_one : phi_inv_54 < 1 := by
   have hn : 0 < (27 : ℕ) := by norm_num
   exact pow_lt_one₀ h0 h1 hn.ne'
 
-/-- φ⁻⁵⁴ < 10⁻¹⁰ (numerical bound).
-    Numerically verified: φ⁻² ≈ 0.382 < 2/5, so (φ⁻²)^27 < (2/5)^27 ≈ 1.8×10⁻¹¹ < 10⁻¹⁰
-    Proof requires power monotonicity lemma with interval arithmetic. -/
-axiom phi_inv_54_very_small : phi_inv_54 < (1 : ℝ) / 10^10
+/-- φ⁻⁵⁴ < 10⁻¹⁰ PROVEN.
+    We have: φ⁻² < 0.383 < 2/5, so (φ⁻²)^27 < (2/5)^27 < 10⁻¹⁰ -/
+theorem phi_inv_54_very_small : phi_inv_54 < (1 : ℝ) / 10^10 := by
+  -- phi_inv_54 = phi_inv_sq^27
+  -- phi_inv_sq < 0.383 < 0.4 = 2/5
+  -- (2/5)^27 < 10⁻¹⁰ ⟺ 2^27 * 10^10 < 5^27
+  have h1 : phi_inv_sq < (2 : ℝ) / 5 := by
+    have hbound := phi_inv_sq_bounds.2  -- phi_inv_sq < 0.383
+    linarith
+  have h2 : ((2 : ℝ) / 5) ^ 27 < (1 : ℝ) / 10^10 := by
+    -- 2^27 * 10^10 < 5^27 on ℕ
+    have hnum_nat : (2 : ℕ)^27 * 10^10 < 5^27 := by native_decide
+    have hnum : (2 : ℝ)^27 * 10^10 < (5 : ℝ)^27 := by exact_mod_cast hnum_nat
+    have h5pos : (0 : ℝ) < 5^27 := by positivity
+    have h10pos : (0 : ℝ) < 10^10 := by positivity
+    have h5ne : (5 : ℝ)^27 ≠ 0 := ne_of_gt h5pos
+    have h10ne : (10 : ℝ)^10 ≠ 0 := ne_of_gt h10pos
+    rw [div_pow, one_div]
+    -- (2/5)^27 < (10^10)⁻¹ ⟺ 2^27/5^27 * 10^10 < 1 ⟺ 2^27 * 10^10 < 5^27
+    have key : (2 : ℝ)^27 / 5^27 * 10^10 < 1 := by
+      have h1 : (2 : ℝ)^27 / 5^27 * 10^10 = 2^27 * 10^10 / 5^27 := by ring
+      rw [h1, div_lt_one h5pos]
+      exact hnum
+    -- a < b ⟺ a * c⁻¹ < b * c⁻¹ (for c > 0)
+    have hinv : (0 : ℝ) < (10^10)⁻¹ := inv_pos.mpr h10pos
+    calc (2 : ℝ)^27 / 5^27
+        = (2^27 / 5^27 * 10^10) * (10^10)⁻¹ := by field_simp
+      _ < 1 * (10^10)⁻¹ := by nlinarith [hinv, key]
+      _ = (10^10)⁻¹ := by ring
+  -- Finally: phi_inv_54 = phi_inv_sq^27 < (2/5)^27 < 1/10^10
+  have heq : phi_inv_54 = phi_inv_sq ^ 27 := by
+    unfold phi_inv_54 phi_inv_sq
+    rw [← pow_mul]
+  have hpos : 0 ≤ phi_inv_sq := le_of_lt phi_inv_sq_pos
+  have h25pos : (0 : ℝ) ≤ 2/5 := by positivity
+  calc phi_inv_54
+      = phi_inv_sq ^ 27 := heq
+    _ < ((2 : ℝ) / 5) ^ 27 := by gcongr
+    _ < 1 / 10^10 := h2
 
 /-!
 ## 27^φ : Muon-Electron Mass Ratio

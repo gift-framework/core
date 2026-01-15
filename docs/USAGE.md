@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.3.5).
+Complete documentation for the `giftpy` Python package (v3.3.6).
 
 ## Installation
 
@@ -13,7 +13,7 @@ For visualization (optional):
 pip install giftpy matplotlib numpy
 ```
 
-## Quick Start (v3.3.5)
+## Quick Start (v3.3.6)
 
 ```python
 from gift_core import *
@@ -42,11 +42,37 @@ from gift_core import verify
 print(verify())          # True
 ```
 
-## New in v3.3.5
+## New in v3.3.6
+
+### Tier 1 Numerical Axioms - Major Reduction!
+
+Four more axioms converted to theorems:
+
+```lean
+import GIFT.Foundations.NumericalBounds
+import GIFT.Foundations.GoldenRatioPowers
+import GIFT.Hierarchy.DimensionalGap
+
+-- NEW: log(5) and log(10) bounds
+#check log_five_bounds_tight   -- 1.6 < log(5) < 1.7 PROVEN
+#check log_ten_bounds_tight    -- 2.293 < log(10) < 2.394 PROVEN
+
+-- NEW: Jordan suppression factor
+#check phi_inv_54_very_small   -- φ⁻⁵⁴ < 10⁻¹⁰ PROVEN
+
+-- NEW: Cohomological suppression magnitude
+#check cohom_suppression_magnitude  -- 10⁻⁶ < exp(-99/8) < 10⁻⁵ PROVEN
+```
+
+**Axiom Reduction:** Tier 1 numerical axioms: 4 → 2 (rpow_27 bounds only remain)
+
+---
+
+## v3.3.5
 
 ### Numerical Bounds via Taylor Series (Lean 4)
 
-New `NumericalBounds.lean` module provides axiom-free proofs of transcendental bounds:
+The `NumericalBounds.lean` module provides axiom-free proofs of transcendental bounds:
 
 ```lean
 import GIFT.Foundations.NumericalBounds

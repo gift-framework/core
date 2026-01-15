@@ -5,6 +5,63 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.6] - 2026-01-15
+
+### Summary
+
+**Tier 1 Numerical Axioms - Major Reduction!** Four more axioms converted to theorems. Key results: `phi_inv_54_very_small` (φ⁻⁵⁴ < 10⁻¹⁰) and `cohom_suppression_magnitude` (10⁻⁶ < exp(-99/8) < 10⁻⁵) are now **PROVEN**.
+
+### Added
+
+- **NumericalBounds.lean** extensions:
+  - `exp_16_lt_5`/`exp_17_gt_5`: exp(1.6) < 5 < exp(1.7) via Taylor composition
+  - `log_five_bounds_tight`: **log(5) ∈ (1.6, 1.7) PROVEN**
+  - `log_ten_bounds_tight`: **log(10) ∈ (2.293, 2.394) PROVEN** from log(2) + log(5)
+
+- **GoldenRatioPowers.lean**:
+  - `phi_inv_54_very_small`: **φ⁻⁵⁴ < 10⁻¹⁰ PROVEN**
+  - Proof via: φ⁻² < 0.383 < 2/5, so (φ⁻²)²⁷ < (2/5)²⁷ < 10⁻¹⁰
+  - Uses native_decide on ℕ (2²⁷ × 10¹⁰ < 5²⁷) then exact_mod_cast
+
+- **DimensionalGap.lean**:
+  - `cohom_suppression_magnitude`: **10⁻⁶ < exp(-99/8) < 10⁻⁵ PROVEN**
+  - Uses log(10) bounds to compare exponents
+
+### Technical Notes
+
+**Key Proof Patterns Discovered:**
+
+1. **ℕ→ℝ for large integers**: `native_decide` fails on ℝ, use on ℕ first:
+   ```lean
+   have hnum_nat : (2 : ℕ)^27 * 10^10 < 5^27 := by native_decide
+   have hnum : (2 : ℝ)^27 * 10^10 < (5 : ℝ)^27 := by exact_mod_cast hnum_nat
+   ```
+
+2. **Power monotonicity with gcongr**: Instead of hunting for `pow_lt_pow_left`:
+   ```lean
+   _ < ((2 : ℝ) / 5) ^ 27 := by gcongr  -- auto-handles 0 ≤ a < b
+   ```
+
+3. **Division inequalities via div_lt_one**:
+   ```lean
+   have key : (2 : ℝ)^27 / 5^27 * 10^10 < 1 := by
+     rw [div_lt_one h5pos]
+     exact hnum
+   ```
+
+4. **1/exp → exp(-) conversion**:
+   ```lean
+   simp only [one_div, ← Real.exp_neg]  -- 1/exp(x) → exp(-x)
+   ```
+
+5. **exp composition for large arguments**: exp(1.6) = exp(0.8)², bounds via Taylor on smaller values
+
+**Axiom Status (v3.3.6):**
+- Tier 1 (Numerical): 4 → 2 axioms remaining (rpow_27 bounds only)
+- Total proven this release: 4 (log_five, log_ten, phi_inv_54, cohom_suppression)
+
+---
+
 ## [3.3.5] - 2026-01-15
 
 ### Summary

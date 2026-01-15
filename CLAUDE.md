@@ -65,7 +65,7 @@ gift-framework/core/
 │
 ├── gift_core/              # Python package
 │   ├── __init__.py         # Exports (update when adding constants!)
-│   ├── _version.py         # Version string (3.1.0)
+│   ├── _version.py         # Version string (3.3.6)
 │   ├── constants.py        # All certified constants
 │   ├── sequences/          # [v2.0] Fibonacci, Lucas embeddings
 │   ├── primes/             # [v2.0] Prime Atlas functions
@@ -1226,4 +1226,107 @@ have hf4 : Nat.factorial 4 = 24 := rfl
 
 ---
 
-*Last updated: 2026-01-15 - V3.3.5: Numerical bounds via Taylor series (log_phi_bounds PROVEN)*
+## V3.3.6: Tier 1 Numerical Axioms - Major Reduction
+
+### Module: `Foundations/NumericalBounds.lean` + `GoldenRatioPowers.lean` + `Hierarchy/DimensionalGap.lean`
+
+Four more axioms converted to theorems:
+
+| Theorem | Bound | Method |
+|---------|-------|--------|
+| `log_five_bounds_tight` | 1.6 < log(5) < 1.7 | exp(1.6) = exp(0.8)² Taylor |
+| `log_ten_bounds_tight` | 2.293 < log(10) < 2.394 | log(2) + log(5) |
+| `phi_inv_54_very_small` | φ⁻⁵⁴ < 10⁻¹⁰ | (2/5)²⁷ < 10⁻¹⁰ via native_decide |
+| `cohom_suppression_magnitude` | 10⁻⁶ < exp(-99/8) < 10⁻⁵ | log(10) bounds |
+
+### 29. native_decide on ℕ then exact_mod_cast for ℝ
+
+**Problem**: `native_decide` fails on ℝ comparisons (Real.decidableLT is noncomputable).
+
+```lean
+-- BAD - "depends on declaration 'Real.decidableLT', which has no executable code"
+have hnum : (2 : ℝ)^27 * 10^10 < 5^27 := by native_decide  -- ERROR!
+
+-- GOOD - prove on ℕ first, then cast
+have hnum_nat : (2 : ℕ)^27 * 10^10 < 5^27 := by native_decide
+have hnum : (2 : ℝ)^27 * 10^10 < (5 : ℝ)^27 := by exact_mod_cast hnum_nat
+```
+
+### 30. gcongr for Power Monotonicity
+
+**Problem**: `pow_lt_pow_left` has different signature in Mathlib 4, hard to find.
+
+```lean
+-- BAD - unknown identifier or wrong signature
+exact pow_lt_pow_left h1 hpos (by norm_num : 27 ≠ 0)  -- ERROR!
+
+-- GOOD - use gcongr tactic (auto-handles monotonicity)
+_ < ((2 : ℝ) / 5) ^ 27 := by gcongr  -- Just works!
+```
+
+### 31. Division Inequalities via div_lt_one
+
+**Problem**: `div_lt_iff`, `div_lt_inv_iff`, etc. names vary across Mathlib versions.
+
+```lean
+-- BAD - hunting for the right lemma name
+rw [div_lt_iff h5pos]           -- Unknown identifier
+rw [div_lt_inv_iff_lt_mul ...]  -- Unknown identifier
+
+-- GOOD - use div_lt_one which is stable
+have key : (2 : ℝ)^27 / 5^27 * 10^10 < 1 := by
+  have h1 : (2 : ℝ)^27 / 5^27 * 10^10 = 2^27 * 10^10 / 5^27 := by ring
+  rw [h1, div_lt_one h5pos]
+  exact hnum
+```
+
+### 32. 1/exp(x) → exp(-x) Conversion
+
+**Problem**: `ring` cannot prove `1/exp(x) = exp(-x)` or `(exp x)⁻¹ = exp(-x)`.
+
+```lean
+-- BAD - ring fails on transcendental identities
+rw [show 1 / 10^6 = exp(-6 * log 10) by ring]  -- ERROR!
+
+-- GOOD - use simp with one_div and exp_neg
+simp only [one_div, ← Real.exp_neg]  -- 1/exp(x) → (exp x)⁻¹ → exp(-x)
+ring  -- Now handles the arithmetic
+```
+
+### 33. exp Composition for Large Arguments
+
+**Problem**: Taylor series bounds require |x| ≤ 1 for `Real.exp_bound`.
+
+```lean
+-- BAD - can't use Taylor directly for x = 1.6
+have hx : |((16 : ℝ) / 10)| ≤ 1 := by norm_num  -- FALSE! 1.6 > 1
+
+-- GOOD - use composition: exp(1.6) = exp(0.8)²
+have h08_bound : exp (8/10) < 223/100 := by
+  -- Taylor on exp(0.8) works since |0.8| ≤ 1
+  have hx : |((8 : ℝ) / 10)| ≤ 1 := by norm_num
+  ...
+have hsq : (223 : ℝ) / 100 * (223 / 100) < 5 := by norm_num
+calc exp (16/10)
+    = exp (8/10 + 8/10) := by ring_nf
+  _ = exp (8/10) * exp (8/10) := by rw [exp_add]
+  _ < (223/100) * (223/100) := by nlinarith [exp_pos ...]
+  _ < 5 := hsq
+```
+
+### Axiom Status (v3.3.6)
+
+**Tier 1 (Numerical) - 2 remaining:**
+- ○ `rpow_27_1618_gt_206` - 27^1.618 > 206
+- ○ `rpow_27_16185_lt_208` - 27^1.6185 < 208
+
+**Tier 2 (Algebraic) - 2 remaining:**
+- ○ `gl7_action` - GL(7) action on forms
+- ○ `g2_lie_algebra` - G₂ Lie algebra structure
+
+**Tier 3 (Geometric) - 13 remaining:**
+- ○ Hodge theory axioms (K7 manifold properties)
+
+---
+
+*Last updated: 2026-01-15 - V3.3.6: Tier 1 major reduction (phi_inv_54, cohom_suppression PROVEN)*
