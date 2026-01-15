@@ -152,11 +152,13 @@ theorem phi_inv_sq_eq : GIFT.Foundations.GoldenRatio.phi⁻¹ ^ 2 = 2 - GIFT.Fou
     GIFT.Foundations.GoldenRatio.phi_squared
   -- phi^(-1) = phi - 1 (from phi^2 = phi + 1, multiply both sides by phi^(-1))
   have hinv : GIFT.Foundations.GoldenRatio.phi⁻¹ = GIFT.Foundations.GoldenRatio.phi - 1 := by
+    have hmul : GIFT.Foundations.GoldenRatio.phi * (GIFT.Foundations.GoldenRatio.phi - 1) = 1 := by
+      calc GIFT.Foundations.GoldenRatio.phi * (GIFT.Foundations.GoldenRatio.phi - 1)
+          = GIFT.Foundations.GoldenRatio.phi^2 - GIFT.Foundations.GoldenRatio.phi := by ring
+        _ = (GIFT.Foundations.GoldenRatio.phi + 1) - GIFT.Foundations.GoldenRatio.phi := by rw [hsq]
+        _ = 1 := by ring
     field_simp
-    calc GIFT.Foundations.GoldenRatio.phi * (GIFT.Foundations.GoldenRatio.phi - 1)
-        = GIFT.Foundations.GoldenRatio.phi^2 - GIFT.Foundations.GoldenRatio.phi := by ring
-      _ = (GIFT.Foundations.GoldenRatio.phi + 1) - GIFT.Foundations.GoldenRatio.phi := by rw [hsq]
-      _ = 1 := by ring
+    linarith
   rw [hinv]
   calc (GIFT.Foundations.GoldenRatio.phi - 1) ^ 2
       = GIFT.Foundations.GoldenRatio.phi^2 - 2*GIFT.Foundations.GoldenRatio.phi + 1 := by ring
@@ -219,6 +221,7 @@ theorem log_two_bounds : (693 : ℝ) / 1000 < log 2 ∧ log 2 < (694 : ℝ) / 10
 theorem log_four_eq : log 4 = 2 * log 2 := by
   have h : (4 : ℝ) = 2^2 := by norm_num
   rw [h, log_pow]
+  norm_cast
 
 /-- log(4) bounds: 1.386 < log(4) < 1.388 -/
 theorem log_four_bounds : (1386 : ℝ) / 1000 < log 4 ∧ log 4 < (1388 : ℝ) / 1000 := by
@@ -230,6 +233,7 @@ theorem log_four_bounds : (1386 : ℝ) / 1000 < log 4 ∧ log 4 < (1388 : ℝ) /
 theorem log_eight_eq : log 8 = 3 * log 2 := by
   have h : (8 : ℝ) = 2^3 := by norm_num
   rw [h, log_pow]
+  norm_cast
 
 /-- log(5) lower bound: log(5) > log(4) = 2*log(2) > 1.386 -/
 theorem log_five_gt : (1386 : ℝ) / 1000 < log 5 := by
