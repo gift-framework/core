@@ -507,14 +507,7 @@ theorem exp_16_lt_5 : exp ((16 : ℝ) / 10) < 5 := by
   -- Use that exp(1.6) = exp(1) * exp(0.6) and bound both
   -- Actually, let's use direct Taylor series at x = 1.6 with n = 8 for precision
   -- exp(1.6) ≈ 4.953 < 5
-  -- Taylor sum (8 terms): 1 + 1.6 + 1.28 + 0.6827 + 0.2731 + 0.0875 + 0.0233 + 0.0053 ≈ 4.9519
-  -- We'll use a simpler approach: exp(1.6) < exp(2) and bound from exp(1)²
-  -- Actually exp(2) = exp(1)² > 2.7² = 7.29 > 5, so this doesn't help
-  -- Use Taylor directly with 6 terms
-  have hn : (0 : ℕ) < 6 := by norm_num
-  have hx' : |((16 : ℝ) / 10)| ≤ 1 := by norm_num  -- FALSE! 1.6 > 1
-
-  -- Different approach: use exp composition
+  -- Use exp composition: exp(1.6) = exp(0.8)²
   -- exp(1.6) = exp(0.8 + 0.8) = exp(0.8)²
   -- exp(0.8) can be bounded by Taylor series
   have h08_bound : exp ((8 : ℝ) / 10) < (223 : ℝ) / 100 := by
@@ -553,26 +546,26 @@ theorem exp_16_lt_5 : exp ((16 : ℝ) / 10) < 5 := by
 
 /-- exp(1.7) > 5 using Taylor lower bound. -/
 theorem exp_17_gt_5 : 5 < exp ((17 : ℝ) / 10) := by
-  -- exp(1.7) = exp(0.85)² and exp(0.85) > 2.34 (since 2.34² = 5.4756 > 5)
-  -- Actually let's use exp(0.85 + 0.85) = exp(0.85)²
-  have h085_bound : (234 : ℝ) / 100 < exp ((85 : ℝ) / 100) := by
+  -- exp(1.7) = exp(0.85)² and exp(0.85) > 2.24 (since 2.24² = 5.0176 > 5)
+  -- Taylor sum for exp(0.85) ≈ 2.3354 > 2.24 ✓
+  have h085_bound : (224 : ℝ) / 100 < exp ((85 : ℝ) / 100) := by
     have hpos : (0 : ℝ) ≤ 85/100 := by norm_num
     have hsum : (Finset.range 5).sum (fun m => ((85 : ℝ)/100)^m / ↑(m.factorial))
                 = 1 + 85/100 + (85/100)^2/2 + (85/100)^3/6 + (85/100)^4/24 := by
       simp only [Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty,
                  Nat.factorial, Nat.cast_one, pow_zero, pow_one]
       ring
-    have hval : (234 : ℝ) / 100 < 1 + 85/100 + (85/100)^2/2 + (85/100)^3/6 + (85/100)^4/24 := by
+    have hval : (224 : ℝ) / 100 < 1 + 85/100 + (85/100)^2/2 + (85/100)^3/6 + (85/100)^4/24 := by
       norm_num
-    calc (234 : ℝ) / 100
+    calc (224 : ℝ) / 100
         < 1 + 85/100 + (85/100)^2/2 + (85/100)^3/6 + (85/100)^4/24 := hval
       _ = (Finset.range 5).sum (fun m => ((85 : ℝ)/100)^m / ↑(m.factorial)) := hsum.symm
       _ ≤ exp (85/100) := Real.sum_le_exp_of_nonneg hpos 5
 
-  -- Now exp(1.7) = exp(0.85)² > 2.34² = 5.4756 > 5
-  have hsq : 5 < (234 : ℝ) / 100 * (234 / 100) := by norm_num
+  -- Now exp(1.7) = exp(0.85)² > 2.24² = 5.0176 > 5
+  have hsq : 5 < (224 : ℝ) / 100 * (224 / 100) := by norm_num
   calc 5
-      < (234/100) * (234/100) := hsq
+      < (224/100) * (224/100) := hsq
     _ < exp (85/100) * exp (85/100) := by nlinarith [exp_pos (85/100 : ℝ), h085_bound]
     _ = exp (85/100 + 85/100) := by rw [exp_add]
     _ = exp (17/10) := by ring_nf
