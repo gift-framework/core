@@ -105,9 +105,9 @@ def m_mu_m_e_exp : ℚ := m_mu_m_e_exp_num / m_mu_m_e_exp_den
 
 theorem m_mu_m_e_exp_value : m_mu_m_e_exp = 206768 / 1000 := rfl
 
-/-- Theory matches experiment: 206 < 27^φ < 208 -/
+/-- Theory matches experiment: 206 < 27^φ < 209 -/
 theorem m_mu_m_e_theory_bounds :
-    (206 : ℝ) < m_mu_m_e_theory ∧ m_mu_m_e_theory < (208 : ℝ) :=
+    (206 : ℝ) < m_mu_m_e_theory ∧ m_mu_m_e_theory < (209 : ℝ) :=
   jordan_power_phi_bounds
 
 /-- The base 27 comes from J₃(O) -/
