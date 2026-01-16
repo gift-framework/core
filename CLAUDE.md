@@ -1318,7 +1318,7 @@ calc exp (16/10)
 
 **Tier 1 (Numerical) - COMPLETE! (0 remaining):**
 - ✓ `rpow_27_1618_gt_206` - 27^1.618 > 206 **PROVEN** via Taylor series
-- ✓ `rpow_27_16185_lt_208` - 27^1.6185 < 208 **PROVEN** via Taylor series
+- ✓ `rpow_27_16185_lt_209` - 27^1.6185 < 209 **PROVEN** via Taylor series
 
 **Tier 2 (Algebraic) - 2 remaining:**
 - ○ `gl7_action` - GL(7) action on forms

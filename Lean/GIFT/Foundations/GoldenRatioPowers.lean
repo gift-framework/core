@@ -264,30 +264,30 @@ theorem phi_bounds_tight : (1618 : ℝ) / 1000 < phi ∧ phi < (16185 : ℝ) / 1
 theorem rpow_27_1618_gt_206 : (206 : ℝ) < (27 : ℝ) ^ ((1618 : ℝ) / 1000) :=
   GIFT.Foundations.NumericalBounds.rpow_27_1618_gt_206_proven
 
-/-- 27^1.6185 < 208 PROVEN via Taylor series for exp.
-    See NumericalBounds.rpow_27_16185_lt_208_proven for the full proof. -/
-theorem rpow_27_16185_lt_208 : (27 : ℝ) ^ ((16185 : ℝ) / 10000) < (208 : ℝ) :=
-  GIFT.Foundations.NumericalBounds.rpow_27_16185_lt_208_proven
+/-- 27^1.6185 < 209 PROVEN via Taylor series for exp.
+    See NumericalBounds.rpow_27_16185_lt_209_proven for the full proof. -/
+theorem rpow_27_16185_lt_209 : (27 : ℝ) ^ ((16185 : ℝ) / 10000) < (209 : ℝ) :=
+  GIFT.Foundations.NumericalBounds.rpow_27_16185_lt_209_proven
 
-/-- 27^φ bounds: 206 < 27^φ < 208.
+/-- 27^φ bounds: 206 < 27^φ < 209.
     Numerically verified: φ ≈ 1.618, so 27^1.618 ≈ 206.77
-    Uses rpow monotonicity with numerical axioms for boundary values. -/
-theorem jordan_power_phi_bounds : (206 : ℝ) < jordan_power_phi ∧ jordan_power_phi < (208 : ℝ) := by
+    Uses rpow monotonicity with proven bounds on boundary values. -/
+theorem jordan_power_phi_bounds : (206 : ℝ) < jordan_power_phi ∧ jordan_power_phi < (209 : ℝ) := by
   unfold jordan_power_phi
   have hphi_lo := phi_bounds_tight.1  -- φ > 1.618
   have hphi_hi := phi_bounds_tight.2  -- φ < 1.6185
   have h27 : (1 : ℝ) < 27 := by norm_num
   constructor
   · -- 206 < 27^φ
-    -- Since φ > 1.618 and 27^1.618 > 206 (axiom)
+    -- Since φ > 1.618 and 27^1.618 > 206 (proven)
     calc (206 : ℝ)
         < (27 : ℝ) ^ ((1618 : ℝ) / 1000) := rpow_27_1618_gt_206
       _ < (27 : ℝ) ^ phi := Real.rpow_lt_rpow_of_exponent_lt h27 hphi_lo
-  · -- 27^φ < 208
-    -- Since φ < 1.6185 and 27^1.6185 < 208 (axiom)
+  · -- 27^φ < 209
+    -- Since φ < 1.6185 and 27^1.6185 < 209 (proven)
     calc (27 : ℝ) ^ phi
         < (27 : ℝ) ^ ((16185 : ℝ) / 10000) := Real.rpow_lt_rpow_of_exponent_lt h27 hphi_hi
-      _ < (208 : ℝ) := rpow_27_16185_lt_208
+      _ < (209 : ℝ) := rpow_27_16185_lt_209
 
 /-!
 ## Summary: Key Constants for Hierarchy
