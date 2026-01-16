@@ -6,8 +6,6 @@
 
 Formally verified mathematical relations from the GIFT framework. All theorems proven in **Lean 4** and **Coq**.
 
-**🎉 v3.3.7: Tier 1 Complete!** All numerical axioms (rpow bounds, log bounds, phi powers) are now PROVEN via Taylor series.
-
 ## Structure
 
 ```
