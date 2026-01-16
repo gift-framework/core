@@ -742,52 +742,52 @@ For 27^1.6185:
 - Need: exp(5.336) < 208
 -/
 
-/-- Argument bound: 1.618 * log(27) > 5.33 -/
-theorem rpow_arg_lower : (533 : ℝ) / 100 < (1618 : ℝ) / 1000 * log 27 := by
+/-- Argument bound: log(27) * 1.618 > 5.329 -/
+theorem rpow_arg_lower : (5329 : ℝ) / 1000 < log 27 * ((1618 : ℝ) / 1000) := by
   have h := log_27_gt  -- 3.294 < log(27)
-  -- 1.618 * 3.294 = 5.329692 > 5.33
-  -- So 1.618 * log(27) > 1.618 * 3.294 > 5.33
-  have h1 : (533 : ℝ) / 100 < (1618 : ℝ) / 1000 * (3294 / 1000) := by norm_num
+  -- 3.294 * 1.618 = 5.329692 > 5.329
+  -- So log(27) * 1.618 > 3.294 * 1.618 > 5.329
+  have h1 : (5329 : ℝ) / 1000 < (3294 / 1000) * (1618 / 1000) := by norm_num
   have h1618_pos : (0 : ℝ) < 1618 / 1000 := by norm_num
-  have hmul : (1618 : ℝ) / 1000 * (3294 / 1000) < (1618 : ℝ) / 1000 * log 27 :=
-    mul_lt_mul_of_pos_left h h1618_pos
+  have hmul : (3294 : ℝ) / 1000 * (1618 / 1000) < log 27 * (1618 / 1000) :=
+    mul_lt_mul_of_pos_right h h1618_pos
   linarith
 
-/-- Argument bound: 1.6185 * log(27) < 5.342 (using log(27) < 3.3) -/
-theorem rpow_arg_upper : (16185 : ℝ) / 10000 * log 27 < (5342 : ℝ) / 1000 := by
+/-- Argument bound: log(27) * 1.6185 < 5.342 (using log(27) < 3.3) -/
+theorem rpow_arg_upper : log 27 * ((16185 : ℝ) / 10000) < (5342 : ℝ) / 1000 := by
   have h := log_27_lt  -- log(27) < 3.3
-  -- 1.6185 * 3.3 = 5.34105 < 5.342
-  have h1 : (16185 : ℝ) / 10000 * (33 / 10) < 5342 / 1000 := by norm_num
+  -- 3.3 * 1.6185 = 5.34105 < 5.342
+  have h1 : (33 : ℝ) / 10 * (16185 / 10000) < 5342 / 1000 := by norm_num
   have hlog27_pos : 0 < log 27 := Real.log_pos (by norm_num : (1 : ℝ) < 27)
   have h16185_pos : (0 : ℝ) < 16185 / 10000 := by norm_num
-  have hmul : (16185 : ℝ) / 10000 * log 27 < (16185 : ℝ) / 10000 * (33 / 10) :=
-    mul_lt_mul_of_pos_left h h16185_pos
+  have hmul : log 27 * ((16185 : ℝ) / 10000) < (33 / 10) * (16185 / 10000) :=
+    mul_lt_mul_of_pos_right h h16185_pos
   linarith
 
-/-- exp(5.33) > 206 via exp(5.33) = exp(1)^5 * exp(0.33)
-    Using e > 2.718 and exp(0.33) > 1.39:
-    2.718^5 * 1.39 > 148 * 1.39 > 206 -/
-theorem exp_533_gt_206 : (206 : ℝ) < exp ((533 : ℝ) / 100) := by
-  -- exp(5.33) = exp(5) * exp(0.33)
+/-- exp(5.329) > 206 via exp(5.329) = exp(5) * exp(0.329)
+    Using e > 2.718 and exp(0.329) > 1.389:
+    2.718^5 * 1.389 > 148 * 1.389 > 206 -/
+theorem exp_5329_gt_206 : (206 : ℝ) < exp ((5329 : ℝ) / 1000) := by
+  -- exp(5.329) = exp(5) * exp(0.329)
   -- exp(5) = exp(1)^5 and we have exp(1) > 2.7182...
-  -- exp(0.33) > 1.39 by Taylor
+  -- exp(0.329) > 1.389 by Taylor
   have he := Real.exp_one_gt_d9  -- 2.7182818283 < exp(1)
   have he_bound : (2718 : ℝ) / 1000 < exp 1 := by linarith
 
-  -- exp(0.33) > 1.39 by Taylor lower bound
-  have hexp033 : (139 : ℝ) / 100 < exp ((33 : ℝ) / 100) := by
-    have hpos : (0 : ℝ) ≤ 33/100 := by norm_num
-    have hsum : (Finset.range 5).sum (fun m => ((33 : ℝ)/100)^m / ↑(m.factorial))
-                = 1 + 33/100 + (33/100)^2/2 + (33/100)^3/6 + (33/100)^4/24 := by
+  -- exp(0.329) > 1.389 by Taylor lower bound
+  have hexp0329 : (1389 : ℝ) / 1000 < exp ((329 : ℝ) / 1000) := by
+    have hpos : (0 : ℝ) ≤ 329/1000 := by norm_num
+    have hsum : (Finset.range 5).sum (fun m => ((329 : ℝ)/1000)^m / ↑(m.factorial))
+                = 1 + 329/1000 + (329/1000)^2/2 + (329/1000)^3/6 + (329/1000)^4/24 := by
       simp only [Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty,
                  Nat.factorial, Nat.cast_one, pow_zero, pow_one]
       ring
-    have hval : (139 : ℝ) / 100 < 1 + 33/100 + (33/100)^2/2 + (33/100)^3/6 + (33/100)^4/24 := by
+    have hval : (1389 : ℝ) / 1000 < 1 + 329/1000 + (329/1000)^2/2 + (329/1000)^3/6 + (329/1000)^4/24 := by
       norm_num
-    calc (139 : ℝ) / 100
-        < 1 + 33/100 + (33/100)^2/2 + (33/100)^3/6 + (33/100)^4/24 := hval
-      _ = (Finset.range 5).sum (fun m => ((33 : ℝ)/100)^m / ↑(m.factorial)) := hsum.symm
-      _ ≤ exp (33/100) := Real.sum_le_exp_of_nonneg hpos 5
+    calc (1389 : ℝ) / 1000
+        < 1 + 329/1000 + (329/1000)^2/2 + (329/1000)^3/6 + (329/1000)^4/24 := hval
+      _ = (Finset.range 5).sum (fun m => ((329 : ℝ)/1000)^m / ↑(m.factorial)) := hsum.symm
+      _ ≤ exp (329/1000) := Real.sum_le_exp_of_nonneg hpos 5
 
   -- exp(5) = exp(1)^5 > 2.718^5
   have hexp5_bound : ((2718 : ℝ) / 1000) ^ 5 < exp 5 := by
@@ -800,21 +800,21 @@ theorem exp_533_gt_206 : (206 : ℝ) < exp ((533 : ℝ) / 100) := by
         < (exp 1) ^ 5 := by gcongr
       _ = exp 5 := h1
 
-  -- 2.718^5 * 1.39 > 206
-  have hprod : (206 : ℝ) < ((2718 : ℝ) / 1000) ^ 5 * (139 / 100) := by norm_num
+  -- 2.718^5 * 1.389 > 206
+  have hprod : (206 : ℝ) < ((2718 : ℝ) / 1000) ^ 5 * (1389 / 1000) := by norm_num
 
-  -- Combine: (2718/1000)^5 * (139/100) < exp 5 * exp(33/100)
+  -- Combine: (2718/1000)^5 * (1389/1000) < exp 5 * exp(329/1000)
   have hexp5_pos : (0 : ℝ) < exp 5 := exp_pos 5
-  have hexp033_pos : (0 : ℝ) < exp (33/100) := exp_pos (33/100)
+  have hexp0329_pos : (0 : ℝ) < exp (329/1000) := exp_pos (329/1000)
   have hbase_pos : (0 : ℝ) < ((2718 : ℝ) / 1000) ^ 5 := by positivity
-  have h139_pos : (0 : ℝ) ≤ 139 / 100 := by norm_num
-  have hmul : ((2718 : ℝ) / 1000) ^ 5 * (139 / 100) < exp 5 * exp (33/100) :=
-    mul_lt_mul hexp5_bound (le_of_lt hexp033) (by positivity) (le_of_lt hexp5_pos)
+  have h1389_pos : (0 : ℝ) ≤ 1389 / 1000 := by norm_num
+  have hmul : ((2718 : ℝ) / 1000) ^ 5 * (1389 / 1000) < exp 5 * exp (329/1000) :=
+    mul_lt_mul hexp5_bound (le_of_lt hexp0329) (by positivity) (le_of_lt hexp5_pos)
   calc (206 : ℝ)
-      < ((2718 : ℝ) / 1000) ^ 5 * (139 / 100) := hprod
-    _ < exp 5 * exp (33/100) := hmul
-    _ = exp (5 + 33/100) := by rw [exp_add]
-    _ = exp (533/100) := by ring_nf
+      < ((2718 : ℝ) / 1000) ^ 5 * (1389 / 1000) := hprod
+    _ < exp 5 * exp (329/1000) := hmul
+    _ = exp (5 + 329/1000) := by rw [exp_add]
+    _ = exp (5329/1000) := by ring_nf
 
 /-- exp(0.336) < 1.40 using Taylor upper bound -/
 theorem exp_0336_lt : exp ((336 : ℝ) / 1000) < (14 : ℝ) / 10 := by
@@ -938,32 +938,32 @@ Replace the axioms with proven theorems!
 -/
 
 /-- 27^1.618 > 206 PROVEN.
-    Uses: 27^x = exp(x * log(27)), and bounds on the argument and exp. -/
+    Uses: 27^x = exp(log(27) * x), and bounds on the argument and exp. -/
 theorem rpow_27_1618_gt_206_proven : (206 : ℝ) < (27 : ℝ) ^ ((1618 : ℝ) / 1000) := by
   have h27pos : (0 : ℝ) < 27 := by norm_num
   rw [Real.rpow_def_of_pos h27pos]
-  -- rpow_def_of_pos gives exp (y * log x), so we have exp ((1618/1000) * log 27)
-  -- 1.618 * log(27) > 5.33, and exp(5.33) > 206
-  have harg := rpow_arg_lower  -- 5.33 < 1.618 * log(27)
-  have hexp := exp_533_gt_206  -- 206 < exp(5.33)
+  -- rpow_def_of_pos gives exp (log x * y), so we have exp (log 27 * (1618/1000))
+  -- log(27) * 1.618 > 5.329, and exp(5.329) > 206
+  have harg := rpow_arg_lower  -- 5.329 < log(27) * 1.618
+  have hexp := exp_5329_gt_206  -- 206 < exp(5.329)
   have hlog27_pos : 0 < log 27 := Real.log_pos (by norm_num : (1 : ℝ) < 27)
   calc (206 : ℝ)
-      < exp (533/100) := hexp
-    _ ≤ exp ((1618 : ℝ) / 1000 * log 27) := by
+      < exp (5329/1000) := hexp
+    _ ≤ exp (log 27 * ((1618 : ℝ) / 1000)) := by
         apply Real.exp_le_exp.mpr
         linarith
 
 /-- 27^1.6185 < 209 PROVEN.
-    Using bounds: 1.6185 * log(27) < 5.342 and exp(5.342) < 209 -/
+    Using bounds: log(27) * 1.6185 < 5.342 and exp(5.342) < 209 -/
 theorem rpow_27_16185_lt_209_proven : (27 : ℝ) ^ ((16185 : ℝ) / 10000) < (209 : ℝ) := by
   have h27pos : (0 : ℝ) < 27 := by norm_num
   rw [Real.rpow_def_of_pos h27pos]
-  -- rpow_def_of_pos gives exp (y * log x), so we have exp ((16185/10000) * log 27)
-  -- 1.6185 * log(27) < 5.342, and exp(5.342) < 209
-  have harg := rpow_arg_upper  -- 1.6185 * log(27) < 5.342
+  -- rpow_def_of_pos gives exp (log x * y), so we have exp (log 27 * (16185/10000))
+  -- log(27) * 1.6185 < 5.342, and exp(5.342) < 209
+  have harg := rpow_arg_upper  -- log(27) * 1.6185 < 5.342
   have hexp := exp_5342_lt_209  -- exp(5.342) < 209
   have hlog27_pos : 0 < log 27 := Real.log_pos (by norm_num : (1 : ℝ) < 27)
-  calc exp ((16185 : ℝ) / 10000 * log 27)
+  calc exp (log 27 * ((16185 : ℝ) / 10000))
       ≤ exp (5342/1000) := by
         apply Real.exp_le_exp.mpr
         linarith
