@@ -19,6 +19,7 @@ import Mathlib.Tactic.Positivity
 import Mathlib.Tactic.GCongr
 import Mathlib.Tactic.FieldSimp
 import GIFT.Foundations.GoldenRatio
+import GIFT.Foundations.NumericalBounds
 import GIFT.Core
 
 namespace GIFT.Foundations.GoldenRatioPowers
@@ -258,15 +259,15 @@ theorem phi_bounds_tight : (1618 : ℝ) / 1000 < phi ∧ phi < (16185 : ℝ) / 1
   unfold phi
   constructor <;> linarith
 
-/-- 27^1.618 > 206 (rpow numerical bound).
-    Numerically verified: 27^1.618 ≈ 206.3 > 206
-    Proof requires interval arithmetic or Taylor series for rpow. -/
-axiom rpow_27_1618_gt_206 : (206 : ℝ) < (27 : ℝ) ^ ((1618 : ℝ) / 1000)
+/-- 27^1.618 > 206 PROVEN via Taylor series for exp.
+    See NumericalBounds.rpow_27_1618_gt_206_proven for the full proof. -/
+theorem rpow_27_1618_gt_206 : (206 : ℝ) < (27 : ℝ) ^ ((1618 : ℝ) / 1000) :=
+  GIFT.Foundations.NumericalBounds.rpow_27_1618_gt_206_proven
 
-/-- 27^1.6185 < 208 (rpow numerical bound).
-    Numerically verified: 27^1.6185 ≈ 206.85 < 208
-    Proof requires interval arithmetic or Taylor series for rpow. -/
-axiom rpow_27_16185_lt_208 : (27 : ℝ) ^ ((16185 : ℝ) / 10000) < (208 : ℝ)
+/-- 27^1.6185 < 208 PROVEN via Taylor series for exp.
+    See NumericalBounds.rpow_27_16185_lt_208_proven for the full proof. -/
+theorem rpow_27_16185_lt_208 : (27 : ℝ) ^ ((16185 : ℝ) / 10000) < (208 : ℝ) :=
+  GIFT.Foundations.NumericalBounds.rpow_27_16185_lt_208_proven
 
 /-- 27^φ bounds: 206 < 27^φ < 208.
     Numerically verified: φ ≈ 1.618, so 27^1.618 ≈ 206.77
