@@ -1,6 +1,6 @@
 -- GIFT: Geometric Integration of Fundamental Topologies
 -- Main entry point for Lean 4 formalization
--- Version: 5.0.0 (180+ certified relations + Hierarchy formula + Real Mathematics)
+-- Version: 3.3.8 (190+ certified relations + Yang-Mills Spectral Gap)
 
 import GIFT.Core
 import GIFT.Relations
@@ -43,3 +43,6 @@ import GIFT.Observables  -- PMNS, CKM, mass ratios, cosmology
 
 -- V3.3.3: DG-Ready Geometry Infrastructure
 import GIFT.Geometry  -- Exterior algebra, differential forms, Hodge star on ℝ⁷
+
+-- V3.3.8: Spectral Gap (Yang-Mills mass gap = 14/99)
+import GIFT.Spectral  -- Mass gap ratio, Cheeger bounds, Yang-Mills prediction

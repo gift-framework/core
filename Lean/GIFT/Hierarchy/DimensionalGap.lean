@@ -98,10 +98,9 @@ theorem cohom_suppression_magnitude :
   · -- 10⁻⁶ < exp(-99/8)
     rw [show (1 : ℝ) / 10^6 = Real.exp (-6 * Real.log 10) by
           rw [← Real.exp_log (by norm_num : (0 : ℝ) < 10^6)]
-          congr 1
           rw [Real.log_pow]
           simp only [one_div, ← Real.exp_neg]
-          ring]
+          ring_nf]
     rw [Real.exp_lt_exp]
     -- Need: -6 * log(10) < -99/8 ⟺ 99/8 < 6 * log(10) ⟺ 99/48 < log(10)
     have h1 : (99 : ℝ) / 48 < 2293 / 1000 := by norm_num
@@ -109,10 +108,9 @@ theorem cohom_suppression_magnitude :
   · -- exp(-99/8) < 10⁻⁵
     rw [show (1 : ℝ) / 10^5 = Real.exp (-5 * Real.log 10) by
           rw [← Real.exp_log (by norm_num : (0 : ℝ) < 10^5)]
-          congr 1
           rw [Real.log_pow]
           simp only [one_div, ← Real.exp_neg]
-          ring]
+          ring_nf]
     rw [Real.exp_lt_exp]
     -- Need: -99/8 < -5 * log(10) ⟺ 5 * log(10) < 99/8 ⟺ log(10) < 99/40
     have h1 : (2394 : ℝ) / 1000 < 99 / 40 := by norm_num
