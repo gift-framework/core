@@ -119,12 +119,14 @@ axiom spectral_theorem_discrete (M : CompactManifold) :
 
 /-- The mass gap (spectral gap) is the first nonzero eigenvalue.
 
-For a compact manifold M with Laplacian Δ:
-  mass_gap(M) = λ₁ = inf { λ > 0 : λ ∈ Spec(Δ) }
+For a compact manifold M with Laplacian Delta:
+  mass_gap(M) = ev_1 = inf { ev > 0 : ev in Spec(Delta) }
 
 This is the fundamental quantity in Yang-Mills theory.
+
+Note: Axiomatized because full definition requires L^2 space formalization.
 -/
-def MassGap (M : CompactManifold) : ℝ := sorry  -- Defined via axiom below
+axiom MassGap (M : CompactManifold) : ℝ
 
 /-- The mass gap exists and is positive for compact manifolds -/
 axiom mass_gap_exists_positive (M : CompactManifold) :

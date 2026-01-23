@@ -53,9 +53,11 @@ For K7, the GIFT prediction is h(K7) = 14/99, which then gives:
     h(M) = inf { Area(S) / min(Vol(A), Vol(B)) }
 
     where the infimum is over all hypersurfaces S that divide M
-    into disjoint open sets A and B with M = A ∪ S ∪ B.
+    into disjoint open sets A and B with M = A union S union B.
+
+    Axiomatized: full definition requires measure theory on manifolds.
 -/
-def CheegerConstant (M : CompactManifold) : ℝ := sorry  -- Axiomatized below
+axiom CheegerConstant (M : CompactManifold) : ℝ
 
 /-- The Cheeger constant is non-negative -/
 axiom cheeger_nonneg (M : CompactManifold) : CheegerConstant M ≥ 0
@@ -90,8 +92,10 @@ axiom cheeger_inequality (M : CompactManifold) :
       lambda_1(M) <= C(n) * h(M)
 
     For n = 7, C_7 is approximately 10-20 (depends on Ricci curvature).
+
+    Axiomatized: explicit value depends on Ricci curvature bounds.
 -/
-def BuserConstant (n : ℕ) : ℝ := sorry  -- Dimension-dependent constant
+axiom BuserConstant (n : ℕ) : ℝ
 
 /-- Buser constant for dimension 7 -/
 noncomputable def C_7 : ℝ := BuserConstant 7

@@ -11,7 +11,7 @@ Formally verified mathematical relations from the GIFT framework. All theorems p
 ```
 Lean/GIFT/
 ├── Core.lean              # Constants (dim_E8, b2, b3, H*, ...)
-├── Certificate.lean       # Master theorem (190+ relations)
+├── Certificate.lean       # Master theorem (215+ relations)
 ├── Foundations/           # E8 roots, G2 cross product, Joyce
 │   └── Analysis/G2Forms/  # G2 structure: d, ⋆, TorsionFree, Bridge
 ├── Geometry/              # DG-ready infrastructure [v3.3.7] AXIOM-FREE!
@@ -19,8 +19,13 @@ Lean/GIFT/
 │   ├── DifferentialFormsR7.lean  # DiffForm, d, d²=0
 │   ├── HodgeStarCompute.lean     # Explicit Hodge star (Levi-Civita)
 │   └── HodgeStarR7.lean   # ⋆, ψ=⋆φ PROVEN, TorsionFree
-├── Spectral/              # Yang-Mills mass gap [v3.3.8] NEW!
-│   └── MassGapRatio.lean  # λ₁ = 14/99, Cheeger bounds
+├── Spectral/              # Spectral theory module [v3.3.9]
+│   ├── SpectralTheory.lean       # Laplacian, mass gap definition
+│   ├── G2Manifold.lean           # G2 holonomy, K7 via TCS
+│   ├── UniversalLaw.lean         # λ₁ × H* = 14 (key theorem)
+│   ├── MassGapRatio.lean         # λ₁ = 14/99, algebraic
+│   ├── CheegerInequality.lean    # Cheeger-Buser bounds
+│   └── YangMills.lean            # Gauge theory connection
 ├── Algebraic/             # Octonions, Betti numbers
 ├── Observables/           # PMNS, CKM, quark masses, cosmology
 └── Relations/             # Physical predictions
@@ -64,4 +69,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.3.7*
+*GIFT Core v3.3.9*
