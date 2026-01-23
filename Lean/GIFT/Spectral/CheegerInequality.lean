@@ -27,7 +27,6 @@ import GIFT.Spectral.MassGapRatio
 
 namespace GIFT.Spectral.CheegerInequality
 
-open GIFT.Core
 open GIFT.Spectral.SpectralTheory
 open GIFT.Spectral.G2Manifold
 open GIFT.Spectral.MassGapRatio
@@ -119,7 +118,7 @@ axiom buser_inequality (M : CompactManifold) (n : ℕ) (hn : M.dim = n) :
     by the same topological data as the spectral gap.
 -/
 axiom K7_cheeger_constant :
-  CheegerConstant K7.toG2HolonomyManifold.toCompactManifold = (14 : ℝ) / 99
+  CheegerConstant K7.g2base.base = (14 : ℝ) / 99
 
 /-- Cheeger lower bound for K7: lambda_1 >= (14/99)^2 / 4 -/
 theorem K7_cheeger_lower_bound :

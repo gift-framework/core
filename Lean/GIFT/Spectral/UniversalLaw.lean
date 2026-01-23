@@ -29,7 +29,6 @@ import GIFT.Spectral.MassGapRatio
 
 namespace GIFT.Spectral.UniversalLaw
 
-open GIFT.Core
 open GIFT.Spectral.SpectralTheory
 open GIFT.Spectral.G2Manifold
 open GIFT.Spectral.MassGapRatio
@@ -83,12 +82,11 @@ The 99 comes from cohomology: H* counts independent topological modes.
 -/
 axiom universal_spectral_law (M : G2HolonomyManifold)
     (h_torsion_free : True) :  -- Placeholder for torsion-free condition
-    MassGap M.toCompactManifold * (M.toCompactManifold.dim +
-      14 + 77 + 1) = dim_G2  -- Placeholder: actual H* computation
+    MassGap M.base * (M.base.dim + 14 + 77 + 1) = GIFT.Core.dim_G2
 
 /-- Simplified version for K7 specifically -/
 axiom K7_spectral_law :
-    MassGap K7.toG2HolonomyManifold.toCompactManifold * 99 = 14
+    MassGap K7.g2base.base * 99 = 14
 
 -- ============================================================================
 -- DERIVATION OF MASS GAP VALUE
@@ -103,7 +101,7 @@ axiom K7_spectral_law :
     This is THE key theorem connecting topology to Yang-Mills.
 -/
 axiom K7_mass_gap_is_14_over_99 :
-    MassGap K7.toG2HolonomyManifold.toCompactManifold = (14 : ℝ) / 99
+    MassGap K7.g2base.base = (14 : ℝ) / 99
 
 /-- The mass gap equals the GIFT ratio -/
 theorem K7_mass_gap_eq_gift_ratio :
@@ -114,7 +112,8 @@ theorem K7_mass_gap_eq_gift_ratio :
 -- ============================================================================
 
 /-- Product formula: lambda_1 * H* = dim(G2) -/
-theorem product_formula : (14 : ℕ) = dim_G2 ∧ (99 : ℕ) = H_star := ⟨rfl, rfl⟩
+theorem product_formula :
+    (14 : ℕ) = GIFT.Core.dim_G2 ∧ (99 : ℕ) = GIFT.Core.H_star := ⟨rfl, rfl⟩
 
 /-- The ratio is irreducible -/
 theorem ratio_irreducible : Nat.gcd 14 99 = 1 := mass_gap_ratio_irreducible
@@ -135,7 +134,8 @@ theorem mass_gap_upper : (14 : ℚ) / 99 < 15 / 100 := by
   native_decide
 
 /-- Tight bounds: 0.1414 < lambda_1 < 0.1415 -/
-theorem mass_gap_tight : (14 : ℚ) / 99 > 1414 / 10000 ∧ (14 : ℚ) / 99 < 1415 / 10000 := by
+theorem mass_gap_tight :
+    (14 : ℚ) / 99 > 1414 / 10000 ∧ (14 : ℚ) / 99 < 1415 / 10000 := by
   constructor <;> native_decide
 
 -- ============================================================================
@@ -143,16 +143,17 @@ theorem mass_gap_tight : (14 : ℚ) / 99 > 1414 / 10000 ∧ (14 : ℚ) / 99 < 14
 -- ============================================================================
 
 /-- The numerator comes from holonomy: 14 = dim(G2) -/
-theorem numerator_from_holonomy : (14 : ℕ) = dim_G2 := rfl
+theorem numerator_from_holonomy : (14 : ℕ) = GIFT.Core.dim_G2 := rfl
 
 /-- The denominator comes from cohomology: 99 = H* -/
-theorem denominator_from_cohomology : (99 : ℕ) = H_star := rfl
+theorem denominator_from_cohomology : (99 : ℕ) = GIFT.Core.H_star := rfl
 
 /-- The denominator decomposes: 99 = 1 + 21 + 77 -/
 theorem denominator_decomposition : (99 : ℕ) = 1 + 21 + 77 := rfl
 
 /-- The decomposition uses Betti numbers: 99 = b0 + b2 + b3 -/
-theorem denominator_betti : H_star = b0 + b2 + b3 := by
+theorem denominator_betti :
+    GIFT.Core.H_star = GIFT.Core.b0 + GIFT.Core.b2 + GIFT.Core.b3 := by
   rfl
 
 -- ============================================================================
@@ -167,8 +168,8 @@ theorem spectral_equals_algebraic :
 
 /-- Both come from the same topological data -/
 theorem common_topological_origin :
-    mass_gap_ratio_num = dim_G2 ∧
-    mass_gap_ratio_den = H_star := ⟨rfl, rfl⟩
+    mass_gap_ratio_num = GIFT.Core.dim_G2 ∧
+    mass_gap_ratio_den = GIFT.Core.H_star := ⟨rfl, rfl⟩
 
 -- ============================================================================
 -- PHYSICAL MASS GAP (in MeV)
@@ -200,12 +201,12 @@ theorem physical_mass_gap_exact :
 -/
 theorem universality_principle :
     ∀ (h_star : ℕ), h_star > 0 →
-    (dim_G2 : ℚ) / h_star = 14 / h_star := by
+    (GIFT.Core.dim_G2 : ℚ) / h_star = 14 / h_star := by
   intro h_star _
   rfl
 
 /-- For the canonical K7 with H* = 99 -/
-theorem K7_specific : (dim_G2 : ℚ) / H_star = 14 / 99 := rfl
+theorem K7_specific : (GIFT.Core.dim_G2 : ℚ) / GIFT.Core.H_star = 14 / 99 := rfl
 
 -- ============================================================================
 -- CERTIFICATE
@@ -216,11 +217,11 @@ theorem universal_law_certificate :
     -- The ratio
     (14 : ℚ) / 99 = mass_gap_ratio ∧
     -- Numerator origin
-    mass_gap_ratio_num = dim_G2 ∧
+    mass_gap_ratio_num = GIFT.Core.dim_G2 ∧
     -- Denominator origin
-    mass_gap_ratio_den = H_star ∧
+    mass_gap_ratio_den = GIFT.Core.H_star ∧
     -- Decomposition
-    H_star = 1 + b2 + b3 ∧
+    GIFT.Core.H_star = 1 + GIFT.Core.b2 + GIFT.Core.b3 ∧
     -- Irreducibility
     Nat.gcd 14 99 = 1 ∧
     -- Bounds

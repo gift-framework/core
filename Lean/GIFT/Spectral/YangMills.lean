@@ -27,7 +27,6 @@ import GIFT.Spectral.MassGapRatio
 
 namespace GIFT.Spectral.YangMills
 
-open GIFT.Core
 open GIFT.Spectral.SpectralTheory
 open GIFT.Spectral.G2Manifold
 open GIFT.Spectral.UniversalLaw
@@ -158,7 +157,7 @@ axiom mass_gap_nonneg {G : CompactSimpleGroup} {M : CompactManifold}
 -/
 axiom GIFT_mass_gap_relation (G : CompactSimpleGroup) :
   ∃ (Delta : ℝ), Delta > 0 ∧
-    Delta = MassGap K7.toG2HolonomyManifold.toCompactManifold * Lambda_QCD_MeV
+    Delta = MassGap K7.g2base.base * Lambda_QCD_MeV
 
 /-- Lambda_QCD in MeV -/
 theorem lambda_QCD_value : Lambda_QCD_MeV = 200 := rfl
@@ -227,13 +226,13 @@ theorem GIFT_provides_candidate :
     No dynamical calculation needed!
 -/
 theorem topological_origin :
-    (14 : ℕ) = dim_G2 ∧
-    (99 : ℕ) = H_star ∧
-    H_star = 1 + b2 + b3 := ⟨rfl, rfl, rfl⟩
+    (14 : ℕ) = GIFT.Core.dim_G2 ∧
+    (99 : ℕ) = GIFT.Core.H_star ∧
+    GIFT.Core.H_star = 1 + GIFT.Core.b2 + GIFT.Core.b3 := ⟨rfl, rfl, rfl⟩
 
 /-- The mass gap ratio is a topological invariant -/
 theorem mass_gap_is_topological :
-    (14 : ℚ) / 99 = dim_G2 / H_star := by native_decide
+    (14 : ℚ) / 99 = GIFT.Core.dim_G2 / GIFT.Core.H_star := by native_decide
 
 -- ============================================================================
 -- COMPARISON WITH LATTICE QCD
@@ -258,8 +257,8 @@ theorem yang_mills_certificate :
     GIFT_mass_gap_MeV > 28 ∧
     GIFT_mass_gap_MeV < 29 ∧
     -- Topological origin
-    (14 : ℕ) = dim_G2 ∧
-    (99 : ℕ) = H_star ∧
+    (14 : ℕ) = GIFT.Core.dim_G2 ∧
+    (99 : ℕ) = GIFT.Core.H_star ∧
     -- Lambda_QCD value used
     Lambda_QCD_MeV = 200 ∧
     -- Lattice QCD range

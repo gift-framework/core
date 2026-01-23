@@ -25,9 +25,10 @@ import GIFT.Foundations.TCSConstruction
 
 namespace GIFT.Spectral.G2Manifold
 
-open GIFT.Core
 open GIFT.Spectral.SpectralTheory
-open GIFT.Foundations.TCSConstruction
+
+-- Use qualified names to avoid ambiguity with TCSConstruction
+-- Core constants: GIFT.Core.H_star, GIFT.Core.dim_G2, etc.
 
 /-!
 ## G2 Holonomy
@@ -39,7 +40,7 @@ For a generic 7-manifold: Hol(M,g) = SO(7)
 For special metrics: Hol(M,g) can be a proper subgroup
 
 G2 holonomy is the most interesting case in dimension 7:
-- G2 ⊂ SO(7) is the automorphism group of octonions
+- G2 is a subset of SO(7) is the automorphism group of octonions
 - dim(G2) = 14
 - G2 holonomy implies Ricci-flatness
 
@@ -58,16 +59,16 @@ space of 2-forms is what connects dim(G2) to spectral properties.
 axiom G2_group : Type
 
 /-- Dimension of G2 = 14 (from GIFT.Core) -/
-theorem G2_dim_is_14 : dim_G2 = 14 := rfl
+theorem G2_dim_is_14 : GIFT.Core.dim_G2 = 14 := rfl
 
 /-- Rank of G2 = 2 (from GIFT.Core) -/
-theorem G2_rank_is_2 : rank_G2 = 2 := rfl
+theorem G2_rank_is_2 : GIFT.Core.rank_G2 = 2 := rfl
 
 /-- G2 embeds in SO(7) -/
 axiom G2_embed_SO7 : True  -- Placeholder for embedding
 
 /-- Codimension of G2 in SO(7) = 21 - 14 = 7 -/
-theorem G2_codimension_in_SO7 : 21 - dim_G2 = 7 := rfl
+theorem G2_codimension_in_SO7 : 21 - GIFT.Core.dim_G2 = 7 := rfl
 
 -- ============================================================================
 -- G2 HOLONOMY MANIFOLD
@@ -80,17 +81,21 @@ theorem G2_codimension_in_SO7 : 21 - dim_G2 = 7 := rfl
     - Ricci-flat (Ric = 0)
     - Admits parallel spinor
     - Has canonical 3-form phi (the G2 form)
+
+    Note: CompactManifold is an axiom, so we use a field instead of extends.
 -/
-structure G2HolonomyManifold extends CompactManifold where
+structure G2HolonomyManifold where
+  /-- The underlying compact manifold -/
+  base : CompactManifold
   /-- Dimension is 7 -/
-  dim_eq_7 : toCompactManifold.dim = 7
+  dim_eq_7 : base.dim = 7
   /-- Holonomy is contained in G2 -/
   holonomy_G2 : Prop  -- Axiomatized: Hol(M,g) ⊆ G2
   /-- Ricci-flatness (consequence of G2 holonomy) -/
   ricci_flat : Prop  -- Axiomatized: Ric(g) = 0
 
 /-- A G2 manifold has dimension 7 = dim(K7) -/
-theorem G2_manifold_dim (M : G2HolonomyManifold) : M.toCompactManifold.dim = dim_K7 := by
+theorem G2_manifold_dim (M : G2HolonomyManifold) : M.base.dim = GIFT.Core.dim_K7 := by
   rw [M.dim_eq_7]
   rfl
 
@@ -109,11 +114,13 @@ theorem G2_manifold_dim (M : G2HolonomyManifold) : M.toCompactManifold.dim = dim
     - b3(K7) = 40 + 37 = 77
     - H* = 1 + 21 + 77 = 99
 -/
-structure K7_Manifold extends G2HolonomyManifold where
+structure K7_Manifold where
+  /-- The underlying G2 manifold -/
+  g2base : G2HolonomyManifold
   /-- Second Betti number from TCS -/
-  betti_2 : ℕ := K7_b2
+  betti_2 : ℕ
   /-- Third Betti number from TCS -/
-  betti_3 : ℕ := K7_b3
+  betti_3 : ℕ
   /-- b2 = 21 (proven in TCSConstruction) -/
   betti_2_eq : betti_2 = 21
   /-- b3 = 77 (proven in TCSConstruction) -/
@@ -138,10 +145,9 @@ theorem K7_betti_3 : K7.betti_3 = 77 := K7.betti_3_eq
 /-- H*(K7) = 99 -/
 theorem K7_H_star : K7.betti_2 + K7.betti_3 + 1 = 99 := by
   rw [K7_betti_2, K7_betti_3]
-  rfl
 
 /-- H*(K7) equals the GIFT constant H_star -/
-theorem K7_H_star_eq_gift : K7.betti_2 + K7.betti_3 + 1 = H_star := by
+theorem K7_H_star_eq_gift : K7.betti_2 + K7.betti_3 + 1 = GIFT.Core.H_star := by
   rw [K7_H_star]
   rfl
 
@@ -150,15 +156,23 @@ theorem K7_H_star_eq_gift : K7.betti_2 + K7.betti_3 + 1 = H_star := by
 -- ============================================================================
 
 /-- K7's b2 comes from TCS: 11 + 10 = 21 -/
-theorem K7_b2_from_TCS : M1_quintic.b2 + M2_CI.b2 = 21 := K7_b2_derivation
+theorem K7_b2_from_TCS :
+    GIFT.Foundations.TCSConstruction.M1_quintic.b2 +
+    GIFT.Foundations.TCSConstruction.M2_CI.b2 = 21 :=
+  GIFT.Foundations.TCSConstruction.K7_b2_derivation
 
 /-- K7's b3 comes from TCS: 40 + 37 = 77 -/
-theorem K7_b3_from_TCS : M1_quintic.b3 + M2_CI.b3 = 77 := K7_b3_derivation
+theorem K7_b3_from_TCS :
+    GIFT.Foundations.TCSConstruction.M1_quintic.b3 +
+    GIFT.Foundations.TCSConstruction.M2_CI.b3 = 77 :=
+  GIFT.Foundations.TCSConstruction.K7_b3_derivation
 
 /-- Full TCS derivation for K7 -/
 theorem K7_TCS_derivation :
-    M1_quintic.b2 + M2_CI.b2 = K7.betti_2 ∧
-    M1_quintic.b3 + M2_CI.b3 = K7.betti_3 := by
+    GIFT.Foundations.TCSConstruction.M1_quintic.b2 +
+    GIFT.Foundations.TCSConstruction.M2_CI.b2 = K7.betti_2 ∧
+    GIFT.Foundations.TCSConstruction.M1_quintic.b3 +
+    GIFT.Foundations.TCSConstruction.M2_CI.b3 = K7.betti_3 := by
   constructor
   · rw [K7_betti_2]; exact K7_b2_from_TCS
   · rw [K7_betti_3]; exact K7_b3_from_TCS
@@ -174,16 +188,17 @@ theorem K7_TCS_derivation :
 
     The 14 in Omega^2_14 corresponds to dim(G2) = 14.
 -/
-theorem G2_form_decomposition_2 : omega2_7 + omega2_14 = 21 := by
-  unfold omega2_7 omega2_14
+theorem G2_form_decomposition_2 : GIFT.Core.omega2_7 + GIFT.Core.omega2_14 = 21 := by
+  unfold GIFT.Core.omega2_7 GIFT.Core.omega2_14
   rfl
 
-theorem G2_form_decomposition_3 : omega3_1 + omega3_7 + omega3_27 = 35 := by
-  unfold omega3_1 omega3_7 omega3_27
+theorem G2_form_decomposition_3 :
+    GIFT.Core.omega3_1 + GIFT.Core.omega3_7 + GIFT.Core.omega3_27 = 35 := by
+  unfold GIFT.Core.omega3_1 GIFT.Core.omega3_7 GIFT.Core.omega3_27
   rfl
 
 /-- The 14-dimensional piece of Omega^2 equals dim(G2) -/
-theorem omega2_14_eq_dim_G2 : omega2_14 = dim_G2 := rfl
+theorem omega2_14_eq_dim_G2 : GIFT.Core.omega2_14 = GIFT.Core.dim_G2 := rfl
 
 -- ============================================================================
 -- SPECTRAL PROPERTIES OF G2 MANIFOLDS
@@ -195,11 +210,11 @@ axiom G2_laplacian_decomposition (M : G2HolonomyManifold) :
 
 /-- The spectral gap is constrained by G2 holonomy -/
 axiom G2_spectral_constraint (M : G2HolonomyManifold) :
-  ∃ (c : ℝ), c > 0 ∧ MassGap M.toCompactManifold ≥ c
+  ∃ (c : ℝ), c > 0 ∧ MassGap M.base ≥ c
 
 /-- For K7, the constraint involves dim(G2) and H* -/
 axiom K7_spectral_bound :
-  MassGap K7.toG2HolonomyManifold.toCompactManifold ≥ (dim_G2 : ℝ) / H_star
+  MassGap K7.g2base.base ≥ (GIFT.Core.dim_G2 : ℝ) / GIFT.Core.H_star
 
 -- ============================================================================
 -- CERTIFICATE
@@ -208,15 +223,17 @@ axiom K7_spectral_bound :
 /-- Summary of G2 manifold formalization -/
 theorem G2_manifold_certificate :
     -- G2 dimension
-    dim_G2 = 14 ∧
+    GIFT.Core.dim_G2 = 14 ∧
     -- K7 Betti numbers
     K7.betti_2 = 21 ∧
     K7.betti_3 = 77 ∧
     -- H* value
-    K7.betti_2 + K7.betti_3 + 1 = H_star ∧
+    K7.betti_2 + K7.betti_3 + 1 = GIFT.Core.H_star ∧
     -- TCS derivation works
-    M1_quintic.b2 + M2_CI.b2 = 21 ∧
-    M1_quintic.b3 + M2_CI.b3 = 77 := by
+    GIFT.Foundations.TCSConstruction.M1_quintic.b2 +
+    GIFT.Foundations.TCSConstruction.M2_CI.b2 = 21 ∧
+    GIFT.Foundations.TCSConstruction.M1_quintic.b3 +
+    GIFT.Foundations.TCSConstruction.M2_CI.b3 = 77 := by
   refine ⟨rfl, K7_betti_2, K7_betti_3, K7_H_star_eq_gift, K7_b2_from_TCS, K7_b3_from_TCS⟩
 
 end GIFT.Spectral.G2Manifold
