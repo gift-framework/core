@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.3.8).
+Complete documentation for the `giftpy` Python package (v3.3.9).
 
 ## Installation
 
@@ -13,7 +13,7 @@ For visualization (optional):
 pip install giftpy matplotlib numpy
 ```
 
-## Quick Start (v3.3.8)
+## Quick Start (v3.3.9)
 
 ```python
 from gift_core import *
@@ -41,6 +41,64 @@ print(K7.two_b2)                # 42 (structural invariant)
 from gift_core import verify
 print(verify())          # True
 ```
+
+## New in v3.3.9
+
+### Complete Spectral Theory Formalization
+
+The `GIFT.Spectral` module now provides a comprehensive 4-phase formalization connecting
+topology to the Yang-Mills mass gap:
+
+```lean
+import GIFT.Spectral
+
+-- Phase 1: Abstract Spectral Theory
+#check GIFT.Spectral.SpectralTheory.CompactManifold    -- Abstract compact Riemannian manifold
+#check GIFT.Spectral.SpectralTheory.LaplaceBeltrami    -- Laplacian operator structure
+#check GIFT.Spectral.SpectralTheory.MassGap            -- First nonzero eigenvalue (axiom)
+#check GIFT.Spectral.SpectralTheory.mass_gap_positive  -- MassGap M > 0 (theorem)
+
+-- Phase 2: G2 Holonomy Manifolds
+#check GIFT.Spectral.G2Manifold.G2HolonomyManifold   -- 7D manifolds with G2 holonomy
+#check GIFT.Spectral.G2Manifold.K7                    -- Canonical K7 via TCS construction
+#check GIFT.Spectral.G2Manifold.K7_is_7_dimensional   -- dim(K7) = 7 (theorem)
+
+-- Phase 3: Universal Spectral Law
+#check GIFT.Spectral.UniversalLaw.K7_spectral_law     -- MassGap(K7) × 99 = 14
+#check GIFT.Spectral.UniversalLaw.K7_mass_gap_is_14_over_99  -- λ₁(K7) = 14/99
+#check GIFT.Spectral.UniversalLaw.topological_origin  -- 14 from G2, 99 from cohomology
+
+-- Phase 4a: Cheeger-Buser Inequalities
+#check GIFT.Spectral.CheegerInequality.CheegerConstant   -- Isoperimetric constant
+#check GIFT.Spectral.CheegerInequality.cheeger_inequality -- h²/4 ≤ λ₁ ≤ 2h + 10h²
+#check GIFT.Spectral.CheegerInequality.K7_cheeger_bound   -- h(K7) = 7/99 (theorem)
+
+-- Phase 4b: Yang-Mills Connection
+#check GIFT.Spectral.YangMills.YangMillsMassGap       -- E₁ - E₀ definition
+#check GIFT.Spectral.YangMills.GIFT_prediction        -- Δ = (14/99) × 200 MeV
+#check GIFT.Spectral.YangMills.mass_gap_in_MeV        -- 28 < Δ < 29 MeV (theorem)
+#check GIFT.Spectral.YangMills.topological_origin     -- Mass gap from pure topology
+```
+
+**Module Structure:**
+
+| Module | Content | Status |
+|--------|---------|--------|
+| `SpectralTheory.lean` | Laplacian, spectral theorem, mass gap definition | Tier 2 |
+| `G2Manifold.lean` | G2 holonomy, K7 via TCS construction | Tier 2 |
+| `UniversalLaw.lean` | λ₁ × H* = dim(G2), the key theorem | Tier 2 |
+| `CheegerInequality.lean` | Cheeger-Buser bounds: h²/4 ≤ λ₁ | Tier 2 |
+| `YangMills.lean` | Gauge theory connection, physical prediction | Tier 2/3 |
+| `MassGapRatio.lean` | Algebraic 14/99 theorems | **Tier 1** |
+
+**Key Results:**
+- Universal spectral law: λ₁(K7) × H* = dim(G2) → λ₁ = 14/99
+- Topological origin: numerator from holonomy (14), denominator from cohomology (99)
+- Cheeger bound: h(K7) = 7/99, giving h²/4 = 49/39204 as lower bound
+- Physical prediction: Δ_YM ≈ 28.28 MeV (within lattice QCD range 20-40 MeV)
+- New proven relations: 215+ certified mathematical relationships
+
+---
 
 ## New in v3.3.8
 
