@@ -105,13 +105,13 @@ def Spectrum (M : CompactManifold) : Type := Eigenvalue M
 
 /-- Spectral theorem for compact manifolds:
     The spectrum is discrete, eigenvalues form an increasing sequence
-    0 = λ₀ < λ₁ ≤ λ₂ ≤ ... → ∞ -/
+    0 = ev_0 < ev_1 <= ev_2 <= ... -> infinity -/
 axiom spectral_theorem_discrete (M : CompactManifold) :
-  ∃ (λseq : ℕ → ℝ),
-    (λseq 0 = 0) ∧                           -- λ₀ = 0 (constants)
-    (∀ n, λseq n ≤ λseq (n + 1)) ∧           -- non-decreasing
-    (∀ n, λseq n ≥ 0) ∧                       -- non-negative
-    (∀ C : ℝ, ∃ N, ∀ n ≥ N, λseq n > C)      -- unbounded (→ ∞)
+  ∃ (eigseq : ℕ → ℝ),
+    (eigseq 0 = 0) ∧                           -- ev_0 = 0 (constants)
+    (∀ n, eigseq n ≤ eigseq (n + 1)) ∧         -- non-decreasing
+    (∀ n, eigseq n ≥ 0) ∧                       -- non-negative
+    (∀ C : ℝ, ∃ N, ∀ n ≥ N, eigseq n > C)      -- unbounded
 
 -- ============================================================================
 -- MASS GAP DEFINITION
@@ -128,12 +128,12 @@ def MassGap (M : CompactManifold) : ℝ := sorry  -- Defined via axiom below
 
 /-- The mass gap exists and is positive for compact manifolds -/
 axiom mass_gap_exists_positive (M : CompactManifold) :
-  ∃ (λ₁ : ℝ), λ₁ > 0 ∧ MassGap M = λ₁
+  ∃ (ev1 : ℝ), ev1 > 0 ∧ MassGap M = ev1
 
 /-- The mass gap is the infimum of positive eigenvalues -/
 axiom mass_gap_is_infimum (M : CompactManifold) :
-  ∀ (λ : ℝ), (λ > 0 ∧ λ ∈ Set.range (fun (e : Eigenvalue M) => e.value)) →
-    MassGap M ≤ λ
+  ∀ (ev : ℝ), (ev > 0 ∧ ev ∈ Set.range (fun (e : Eigenvalue M) => e.value)) →
+    MassGap M ≤ ev
 
 -- ============================================================================
 -- PROPERTIES OF THE MASS GAP
@@ -141,7 +141,7 @@ axiom mass_gap_is_infimum (M : CompactManifold) :
 
 /-- Mass gap is positive -/
 theorem mass_gap_positive (M : CompactManifold) : MassGap M > 0 := by
-  obtain ⟨λ₁, hpos, heq⟩ := mass_gap_exists_positive M
+  obtain ⟨ev1, hpos, heq⟩ := mass_gap_exists_positive M
   rw [heq]
   exact hpos
 
@@ -153,12 +153,12 @@ axiom mass_gap_decay_rate (M : CompactManifold) :
 -- EIGENVALUE COUNTING
 -- ============================================================================
 
-/-- Weyl's law: N(λ) ~ C_n × Vol(M) × λ^(n/2) as λ → ∞
+/-- Weyl's law: N(ev) ~ C_n * Vol(M) * ev^(n/2) as ev -> infinity
 
 Where n = dim(M) and C_n is a universal constant depending only on dimension.
-For n = 7: C_7 = ω_7 / (4π)^(7/2) where ω_7 = π^(7/2) / Γ(9/2)
+For n = 7: C_7 = omega_7 / (4*pi)^(7/2) where omega_7 = pi^(7/2) / Gamma(9/2)
 -/
-axiom weyl_law (M : CompactManifold) (λ : ℝ) (hλ : λ > 0) :
+axiom weyl_law (M : CompactManifold) (ev : ℝ) (hev : ev > 0) :
   ∃ (N : ℕ), True  -- Placeholder for eigenvalue count
 
 -- ============================================================================
