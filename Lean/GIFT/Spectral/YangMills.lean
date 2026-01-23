@@ -133,7 +133,7 @@ axiom first_excited_energy {G : CompactSimpleGroup} {M : CompactManifold}
 
     where E_0 is the vacuum energy and E_1 is the first excited state energy.
 -/
-def YangMillsMassGap {G : CompactSimpleGroup} {M : CompactManifold}
+noncomputable def YangMillsMassGap {G : CompactSimpleGroup} {M : CompactManifold}
     (H : YangMillsHamiltonian G M) : ℝ :=
   first_excited_energy H - vacuum_energy H
 

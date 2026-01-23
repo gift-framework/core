@@ -134,9 +134,9 @@ theorem mass_gap_exceeds_cheeger :
     (14 : ℚ) / 99 > 49 / 9801 := by
   native_decide
 
-/-- Ratio: actual / Cheeger bound = (14/99) / (49/9801) = 99/7 ~ 14.14 -/
+/-- Ratio: actual / Cheeger bound = (14/99) / (49/9801) = 198/7 ~ 28.28 -/
 theorem gap_to_cheeger_ratio :
-    ((14 : ℚ) / 99) / (49 / 9801) = 99 / 7 := by
+    ((14 : ℚ) / 99) / (49 / 9801) = 198 / 7 := by
   native_decide
 
 -- ============================================================================
@@ -207,8 +207,8 @@ theorem cheeger_certificate :
     (49 : ℚ) / 9801 > 0 ∧
     -- Mass gap exceeds Cheeger bound
     (14 : ℚ) / 99 > 49 / 9801 ∧
-    -- Ratio is 99/7
-    ((14 : ℚ) / 99) / (49 / 9801) = 99 / 7 ∧
+    -- Ratio is 198/7
+    ((14 : ℚ) / 99) / (49 / 9801) = 198 / 7 ∧
     -- PINN measurement satisfies bound
     (1406 : ℚ) / 10000 > 49 / 9801 := by
   refine ⟨cheeger_bound_value, ?_, ?_, ?_, ?_⟩
