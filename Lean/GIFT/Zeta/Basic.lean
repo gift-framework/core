@@ -28,6 +28,7 @@ Version: 1.0.0
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.PNat.Basic
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 
 namespace GIFT.Zeta.Basic
 
