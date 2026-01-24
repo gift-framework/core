@@ -161,7 +161,7 @@ Where n = dim(M) and C_n is a universal constant depending only on dimension.
 For n = 7: C_7 = omega_7 / (4*pi)^(7/2) where omega_7 = pi^(7/2) / Gamma(9/2)
 -/
 axiom weyl_law (M : CompactManifold) (ev : ℝ) (hev : ev > 0) :
-  ∃ (N : ℕ), True  -- Placeholder for eigenvalue count
+  ∃ (_ : ℕ), True  -- Placeholder for eigenvalue count
 
 -- ============================================================================
 -- CONNECTION TO GIFT CONSTANTS

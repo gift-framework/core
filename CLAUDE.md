@@ -1478,23 +1478,125 @@ axiom MassGap (M : CompactManifold) : ℝ
 
 ---
 
-### Axiom Status (v3.3.9)
+## V3.4.0: GIFT-Zeta Correspondences & Monster-Zeta Moonshine
+
+### Module: `Zeta/` + `Moonshine/Supersingular.lean` + `Moonshine/MonsterZeta.lean`
+
+New modules formalizing connections between Riemann zeta zeros and GIFT constants.
+
+| File | Content |
+|------|---------|
+| `Zeta/Basic.lean` | `gamma : ℕ+ → ℝ` axiomatized, `lambda` spectral param |
+| `Zeta/Correspondences.lean` | 5 primary correspondences (γ₁~14, γ₂~21, etc.) |
+| `Zeta/Spectral.lean` | Spectral interpretation axiom |
+| `Zeta/MultiplesOf7.lean` | Structure: all correspondences are multiples of 7 |
+| `Moonshine/Supersingular.lean` | 15 supersingular primes GIFT-expressible |
+| `Moonshine/MonsterZeta.lean` | Monster-Zeta Moonshine hypothesis |
+
+### 41. Duplicate Definitions Across Namespaces
+
+**Problem**: Same name defined in multiple modules causes "Ambiguous term" errors.
+
+```lean
+-- MonsterDimension.lean
+def monster_dim : Nat := 196883
+
+-- Supersingular.lean
+theorem monster_dim : 47 * 59 * 71 = 196883 := ...
+
+-- When both opened:
+open MonsterDimension Supersingular
+theorem foo : monster_dim = 196883 := ...  -- ERROR: Ambiguous!
+```
+
+**Solution**: Use qualified names.
+
+```lean
+theorem foo : MonsterDimension.monster_dim = 196883 := rfl
+```
+
+**Known conflicts in v3.4.0:**
+
+| Name | Defined in | Also in |
+|------|-----------|---------|
+| `monster_dim` | `MonsterDimension` (def) | `Supersingular` (theorem) |
+| `monster_dim_gift` | `MonsterDimension` | `Supersingular` |
+| `prime_47/59/71` | `MonsterDimension` | `Supersingular` |
+| `j_constant_E8` | `JInvariant` | `MonsterZeta` |
+
+### 42. Noncomputable Abbrevs for Axiom-Based Definitions
+
+**Problem**: `abbrev` to an axiom fails code generation.
+
+```lean
+axiom gamma : ℕ+ → ℝ  -- Riemann zeta zeros
+
+-- BAD - "not supported by code generator"
+abbrev zeta_gamma := gamma
+
+-- GOOD - mark as noncomputable
+noncomputable abbrev zeta_gamma := gamma
+```
+
+### 43. `decide` for Finite Decidable Propositions
+
+**Problem**: `native_decide` sometimes fails on list membership checks.
+
+```lean
+-- BAD - may fail depending on context
+theorem all_prime : ∀ p ∈ primes, Nat.Prime p := by native_decide
+
+-- GOOD - use decide for finite decidable props
+theorem all_prime : ∀ p ∈ primes, Nat.Prime p := by decide
+```
+
+### 44. `abs_sub_le` for Triangle Inequality
+
+**Problem**: Various `abs_sub_*` lemmas with different signatures.
+
+```lean
+-- abs_sub_le : |a - b| ≤ |a - c| + |c - b|
+-- Use with 3 arguments for triangle inequality
+
+-- BAD - wrong lemma
+have h := abs_sub_abs_le_abs_sub a b  -- Different statement!
+
+-- GOOD - correct triangle inequality
+have h := abs_sub_le a c b  -- |a - b| ≤ |a - c| + |c - b|
+```
+
+### 45. Reserved Keywords in Lean 4
+
+**Problem**: Some identifiers are reserved.
+
+```lean
+-- BAD - `matches` is reserved
+def matches : ℕ := countMatches ...
+
+-- GOOD - use alternative name
+def matchCount : ℕ := countMatches ...
+```
+
+**Reserved identifiers**: `matches`, `where`, `do`, `let`, `have`, `fun`, `if`, `then`, `else`, `match`, `with`
+
+### Axiom Status (v3.4.0)
 
 **Tier 1 (Numerical) - COMPLETE! (0 remaining):**
 - ✓ All Taylor series bounds proven
 
-**Tier 2 (Spectral) - New module with documented axioms:**
-- `CompactManifold` - Abstract manifold type
-- `MassGap` - Spectral gap value
-- `spectral_theorem_discrete` - Discrete spectrum
-- `universal_spectral_law` - λ₁ × H* = dim(G₂)
-- `CheegerConstant` - Isoperimetric constant
-- `cheeger_inequality` - λ₁ ≥ h²/4
-- `buser_inequality` - λ₁ ≤ C(n) × h
+**Tier 2 (Spectral) - Documented axioms:**
+- `CompactManifold`, `MassGap`, `spectral_theorem_discrete`
+- `universal_spectral_law`, `CheegerConstant`, `cheeger_inequality`
 
-**Tier 3 (Geometric) - 13 remaining:**
+**Tier 3 (Zeta) - New axioms:**
+- `gamma : ℕ+ → ℝ` - Riemann zeta zeros (empirical)
+- `gamma_positive`, `gamma_increasing` - Basic properties
+- `gamma1_approx` ... `gamma107_approx` - Numerical approximations
+- `spectral_from_correspondence_bound` - Spectral interpretation
+
+**Tier 4 (Geometric) - 13 remaining:**
 - ○ Hodge theory axioms (K7 manifold properties)
 
 ---
 
-*Last updated: 2026-01-23 - V3.3.9: Complete Spectral Theory module with 4-phase formalization*
+*Last updated: 2026-01-24 - V3.4.0: GIFT-Zeta Correspondences & Monster-Zeta Moonshine*
