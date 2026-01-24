@@ -26,9 +26,10 @@ Lean/GIFT/
 │   ├── Basic.lean         # gamma, lambda axioms
 │   ├── Correspondences.lean      # γ_n ~ GIFT constants
 │   └── MultiplesOf7.lean  # Structure theorem
-├── Moonshine/             # Monster group connections [v3.3.10]
-│   ├── Supersingular.lean # 15 primes GIFT-expressible NEW!
-│   └── MonsterZeta.lean   # Monster-Zeta Moonshine NEW!
+├── Moonshine/             # Monster group connections [v3.3.11]
+│   ├── MonsterCoxeter.lean# Monster dim via Coxeter numbers NEW!
+│   ├── Supersingular.lean # 15 primes GIFT-expressible
+│   └── MonsterZeta.lean   # Monster-Zeta Moonshine
 ├── Algebraic/             # Octonions, Betti numbers
 ├── Observables/           # PMNS, CKM, quark masses, cosmology
 └── Relations/             # Physical predictions
@@ -72,4 +73,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.3.10*
+*GIFT Core v3.3.11*

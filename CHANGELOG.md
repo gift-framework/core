@@ -5,6 +5,66 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.11] - 2026-01-24
+
+### Summary
+
+**Monster Dimension via Coxeter Numbers!** The Monster group's smallest faithful representation dimension (196883) is now expressed purely in terms of Coxeter numbers and the third Betti number b₃.
+
+### Added
+
+- **Core.lean** - Coxeter numbers for exceptional Lie algebras:
+  - `h_G2 : ℕ := 6` — Coxeter number of G₂
+  - `h_E6 : ℕ := 12` — Coxeter number of E₆
+  - `h_E7 : ℕ := 18` — Coxeter number of E₇
+  - `h_E8 : ℕ := 30` — Coxeter number of E₈
+  - Certified theorems: `h_G2_certified`, `h_E6_certified`, etc.
+
+- **Moonshine/MonsterCoxeter.lean** - Main theorem and structural relations:
+  - `monster_dim_coxeter_formula`: dim(M₁) = (b₃ - h(G₂)) × (b₃ - h(E₇)) × (b₃ - h(E₈)) = 196883
+  - `factor_71_from_coxeter`: 71 = b₃ - h(G₂) = 77 - 6
+  - `factor_59_from_coxeter`: 59 = b₃ - h(E₇) = 77 - 18
+  - `factor_47_from_coxeter`: 47 = b₃ - h(E₈) = 77 - 30
+  - `monster_factors_prime`: All three factors are prime
+  - `coxeter_additivity`: h(G₂) + h(E₆) = h(E₇) (6 + 12 = 18)
+  - `coxeter_ratio_E8_G2`: h(E₈) / h(G₂) = Weyl_factor (30 / 6 = 5)
+  - `coxeter_sum_jordan`: h(G₂) + h(E₇) + h(E₈) = 2 × dim(J₃(𝕆)) (54 = 2 × 27)
+  - Root count verifications: `E8_roots_coxeter`, `E7_roots_coxeter`, `G2_roots_coxeter`
+  - `monster_coxeter_certificate`: Complete certificate (12 relations)
+
+- **Moonshine/JInvariant.lean** - j-coefficient ratio observations:
+  - `j_coeff_3 : Nat := 864299970` — Third j-invariant coefficient
+  - `gift_109`: 109 = b₃ + dim(G₂) + h(E₇) = 77 + 14 + 18
+  - `j_coeff_2_quotient`: floor(c₂/c₁) = 109 (GIFT-expressible)
+  - `j_coeff_2_remainder`: c₂ - 109 × c₁ = 33404 (no GIFT expression)
+  - `gift_40`: 40 = b₂ + h(E₇) + b₀ = 21 + 18 + 1
+  - `j_coeff_3_quotient`: floor(c₃/c₂) = 40 (GIFT-expressible)
+
+- **Moonshine.lean** - Module integration:
+  - `import GIFT.Moonshine.MonsterCoxeter`
+  - `monster_coxeter_certified` abbrev
+  - Updated `moonshine_complete_certificate` with Coxeter formula
+
+### Mathematical Significance
+
+The Monster-Coxeter formula is:
+- **Exact**: No remainder or adjustment parameter
+- **Intrinsic**: Uses only fundamental invariants (Betti number, Coxeter numbers)
+- **Predictive**: Given h(G₂), h(E₇), h(E₈), and b₃, the Monster dimension follows
+
+This connects Monstrous Moonshine to exceptional Lie theory via G₂-holonomy geometry:
+- b₃ = 77 is the third Betti number of the G₂-holonomy manifold K₇
+- The three prime factors 71, 59, 47 are exactly b₃ minus Coxeter numbers
+
+### Relation Count
+
+| Module | New Relations |
+|--------|---------------|
+| MonsterCoxeter | 12 |
+| JInvariant (extended) | 6 |
+| **Total v3.3.11** | **18** |
+| **Cumulative** | **~265** |
+
 ## [3.3.10] - 2026-01-24
 
 ### Summary

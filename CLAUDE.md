@@ -1579,7 +1579,34 @@ def matchCount : ℕ := countMatches ...
 
 **Reserved identifiers**: `matches`, `where`, `do`, `let`, `have`, `fun`, `if`, `then`, `else`, `match`, `with`
 
-### Axiom Status (v3.3.10)
+### 46. Import Order in Lean 4
+
+**Problem**: In Lean 4, imports must come BEFORE module docstrings.
+
+```lean
+-- BAD - "invalid 'import' command, it must be used in the beginning of the file"
+/-!
+# My Module
+This is a docstring.
+-/
+
+import GIFT.Core   -- ERROR!
+
+-- GOOD - imports first, then docstring
+import GIFT.Core
+import Mathlib.Data.Nat.Prime.Basic
+
+/-!
+# My Module
+This is a docstring.
+-/
+```
+
+**Rule**: Always place `import` statements at the very top of the file, before any `/-! ... -/` docstrings.
+
+---
+
+### Axiom Status (v3.3.11)
 
 **Numerical Bounds - COMPLETE! (0 remaining):**
 - ✓ All Taylor series bounds proven
@@ -1599,4 +1626,4 @@ def matchCount : ℕ := countMatches ...
 
 ---
 
-*Last updated: 2026-01-24 - V3.3.10: GIFT-Zeta Correspondences & Monster-Zeta Moonshine*
+*Last updated: 2026-01-24 - V3.3.11: Monster Dimension via Coxeter Numbers*

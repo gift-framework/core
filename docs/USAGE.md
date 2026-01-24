@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.3.9).
+Complete documentation for the `giftpy` Python package (v3.3.11).
 
 ## Installation
 
@@ -13,7 +13,7 @@ For visualization (optional):
 pip install giftpy matplotlib numpy
 ```
 
-## Quick Start (v3.3.9)
+## Quick Start (v3.3.11)
 
 ```python
 from gift_core import *
@@ -41,6 +41,70 @@ print(K7.two_b2)                # 42 (structural invariant)
 from gift_core import verify
 print(verify())          # True
 ```
+
+## New in v3.3.11
+
+### Monster Dimension via Coxeter Numbers
+
+The Monster group's smallest faithful representation dimension (196883) is now expressed
+purely in terms of Coxeter numbers and the third Betti number:
+
+```lean
+import GIFT.Moonshine.MonsterCoxeter
+
+-- THE MAIN THEOREM: Monster dimension from Coxeter numbers
+#check monster_dim_coxeter_formula
+-- (b3 - h_G2) * (b3 - h_E7) * (b3 - h_E8) = 196883
+-- (77 - 6) * (77 - 18) * (77 - 30) = 71 × 59 × 47 = 196883
+
+-- Coxeter numbers in Core.lean
+#check GIFT.Core.h_G2   -- 6  (Coxeter number of G₂)
+#check GIFT.Core.h_E6   -- 12 (Coxeter number of E₆)
+#check GIFT.Core.h_E7   -- 18 (Coxeter number of E₇)
+#check GIFT.Core.h_E8   -- 30 (Coxeter number of E₈)
+
+-- Individual prime factors derived from b₃
+#check factor_71_from_coxeter  -- 71 = b₃ - h(G₂) = 77 - 6
+#check factor_59_from_coxeter  -- 59 = b₃ - h(E₇) = 77 - 18
+#check factor_47_from_coxeter  -- 47 = b₃ - h(E₈) = 77 - 30
+
+-- Structural relations between Coxeter numbers
+#check coxeter_additivity      -- h(G₂) + h(E₆) = h(E₇) (6 + 12 = 18)
+#check coxeter_ratio_E8_G2     -- h(E₈) / h(G₂) = Weyl_factor (30/6 = 5)
+#check coxeter_sum_jordan      -- h(G₂) + h(E₇) + h(E₈) = 2 × dim(J₃(𝕆))
+
+-- Root count formula: |roots| = h × rank
+#check E8_roots_coxeter        -- 30 × 8 = 240
+#check G2_roots_coxeter        -- 6 × 2 = 12
+```
+
+**Mathematical Significance:**
+
+The Monster-Coxeter formula is:
+- **Exact**: No remainder or adjustment
+- **Intrinsic**: Only fundamental invariants (b₃, Coxeter numbers)
+- **Predictive**: Monster dimension follows from Lie theory + G₂ topology
+
+### j-Invariant Coefficient Observations
+
+```lean
+import GIFT.Moonshine.JInvariant
+
+-- j(τ) = q⁻¹ + 744 + 196884q + 21493760q² + 864299970q³ + ...
+
+-- Quotient c₂/c₁ ≈ 109 is GIFT-expressible!
+#check gift_109              -- 109 = b₃ + dim(G₂) + h(E₇) = 77 + 14 + 18
+#check j_coeff_2_quotient    -- floor(c₂/c₁) = 109
+
+-- Quotient c₃/c₂ ≈ 40 is also GIFT-expressible
+#check gift_40               -- 40 = b₂ + h(E₇) + b₀ = 21 + 18 + 1
+#check j_coeff_3_quotient    -- floor(c₃/c₂) = 40
+```
+
+**Note:** These are OBSERVATIONS. The integer parts of c₂/c₁ and c₃/c₂ are GIFT-expressible,
+but the remainders have no known interpretation.
+
+---
 
 ## New in v3.3.9
 
