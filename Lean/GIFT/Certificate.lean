@@ -1493,9 +1493,11 @@ IMPORTANT: These are EMPIRICAL observations, NOT proofs of RH!
 open GIFT.Zeta
 open GIFT.Moonshine.Supersingular
 open GIFT.Moonshine.MonsterZeta
+open GIFT.Moonshine.JInvariant
+open GIFT.Moonshine.MonsterDimension
 
 /-- Zeta zeros sequence -/
-abbrev zeta_gamma := GIFT.Zeta.Basic.gamma
+noncomputable abbrev zeta_gamma := GIFT.Zeta.Basic.gamma
 
 /-- Primary zeta correspondences -/
 abbrev zeta_primary_correspondences := GIFT.Zeta.Correspondences.all_primary_correspondences
@@ -1507,7 +1509,7 @@ abbrev zeta_gamma1_dimG2 := GIFT.Zeta.Correspondences.gamma1_near_dimG2
 abbrev zeta_gamma20_b3 := GIFT.Zeta.Correspondences.gamma20_near_b3
 
 /-- Spectral parameter lambda_n = gamma_n^2 + 1/4 -/
-abbrev zeta_spectral_lambda := GIFT.Zeta.Basic.lambda
+noncomputable abbrev zeta_spectral_lambda := GIFT.Zeta.Basic.lambda
 
 /-- Multiples of 7 pattern -/
 abbrev zeta_multiples_of_7 := GIFT.Zeta.MultiplesOf7.seven_is_dimK7
@@ -1587,7 +1589,7 @@ theorem gift_v340_monster_zeta_certificate :
     (j_constant = N_gen * dim_E8) ∧
     -- j coefficient
     (j_coeff_1 = 196884) ∧
-    (j_coeff_1 = monster_dim + 1) := by
+    (j_coeff_1 = MonsterDimension.monster_dim + 1) := by
   repeat (first | constructor | native_decide | rfl)
 
 /-- Supersingular primes: all 15 are GIFT-expressible -/
