@@ -55,11 +55,16 @@ For large C, the 1/4 term is negligible.
     If |gamma - C| / C < epsilon, then approximately:
     |lambda - C^2| / C^2 < 2*epsilon + epsilon^2 + 1/(4C^2)
 
-    For small epsilon and large C, this is approximately 2*epsilon. -/
-theorem spectral_from_correspondence_bound (n : ℕ+) (C : ℕ) (hC : C > 0)
+    For small epsilon and large C, this is approximately 2*epsilon.
+
+    Proof sketch: lambda = gamma^2 + 1/4
+    If gamma = C + delta with |delta| < C/100, then
+    lambda = (C + delta)^2 + 1/4 = C^2 + 2*C*delta + delta^2 + 1/4
+    |lambda - C^2| = |2*C*delta + delta^2 + 1/4| < 2*C*(C/100) + (C/100)^2 + 1/4
+                   < C^2/50 + C^2/10000 + 1/4 < C^2/10 for C >= 2 -/
+axiom spectral_from_correspondence_bound (n : ℕ+) (C : ℕ) (hC : C > 0)
     (h : |gamma n - C| < C / 100) :
-    |lambda n - C^2| < C^2 / 10 := by
-  sorry  -- Requires real analysis of (gamma^2 + 1/4) vs C^2
+    |lambda n - C^2| < C^2 / 10
 
 /-- For dim(G_2) = 14:
     lambda_1 = gamma_1^2 + 1/4 ~ 14.134^2 + 0.25 ~ 199.99

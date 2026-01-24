@@ -47,10 +47,7 @@ theorem supersingular_count : supersingular_primes.length = 15 := rfl
 
 /-- All 15 are prime -/
 theorem all_prime : ∀ p ∈ supersingular_primes, Nat.Prime p := by
-  intro p hp
-  simp only [supersingular_primes, List.mem_cons, List.mem_singleton] at hp
-  rcases hp with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
-  all_goals native_decide
+  decide
 
 /-!
 ## Small Primes (2, 3, 5, 7): Fundamental GIFT Constants
