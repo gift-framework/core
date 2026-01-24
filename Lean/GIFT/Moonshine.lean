@@ -37,8 +37,8 @@ abbrev monster_zeta_certified := MonsterZeta.monster_zeta_certificate
 /-- Complete Moonshine certificate (v3.4.0) -/
 theorem moonshine_complete_certificate :
     -- Monster dimension
-    (monster_dim = 196883) ∧
-    (monster_dim = 47 * 59 * 71) ∧
+    (MonsterDimension.monster_dim = 196883) ∧
+    (MonsterDimension.monster_dim = 47 * 59 * 71) ∧
     -- j-invariant
     (j_constant = 744) ∧
     (j_constant = N_gen * dim_E8) ∧
