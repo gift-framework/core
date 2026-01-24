@@ -75,8 +75,9 @@ theorem gift_109_value : gift_109 = 109 := by native_decide
     The quotient 109 is GIFT-expressible; the remainder is not. -/
 theorem j_coeff_2_quotient : j_coeff_2 / j_coeff_1 = gift_109 := by native_decide
 
-/-- The remainder in c₂ = 109 × c₁ + r has no known GIFT expression. -/
-theorem j_coeff_2_remainder : j_coeff_2 - gift_109 * j_coeff_1 = 21296876 := by native_decide
+/-- The remainder in c₂ = 109 × c₁ + r has no known GIFT expression.
+    109 × 196884 = 21460356, so 21493760 - 21460356 = 33404. -/
+theorem j_coeff_2_remainder : j_coeff_2 - gift_109 * j_coeff_1 = 33404 := by native_decide
 
 /-- 40 = b₂ + h(E₇) + 1 = 21 + 18 + 1.
     This appears near floor(c₃/c₂) = 40.21... -/

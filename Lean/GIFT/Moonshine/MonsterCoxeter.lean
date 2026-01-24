@@ -1,3 +1,7 @@
+import GIFT.Core
+import GIFT.Moonshine.MonsterDimension
+import Mathlib.Data.Nat.Prime.Basic
+
 /-!
 # Monster Dimension via Coxeter Numbers
 
@@ -35,10 +39,6 @@ This connects Monstrous Moonshine to exceptional Lie theory via G₂-holonomy ge
 
 Version: 1.0.0
 -/
-
-import GIFT.Core
-import GIFT.Moonshine.MonsterDimension
-import Mathlib.Data.Nat.Prime.Basic
 
 namespace GIFT.Moonshine.MonsterCoxeter
 
