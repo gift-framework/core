@@ -1,7 +1,7 @@
 -- GIFT Monster Group - j-Invariant Relations
--- v2.0.0: j-invariant and modular function connections
+-- v2.1.0: j-invariant, modular function connections, coefficient observations
 --
--- The j-invariant j(tau) = q^-1 + 744 + 196884*q + ...
+-- The j-invariant j(tau) = q^-1 + 744 + 196884*q + 21493760*q^2 + ...
 -- has constant term 744 = 3 x 248 = N_gen x dim_E8
 --
 -- This connects Monster group to E8 via Monstrous Moonshine.
@@ -49,12 +49,44 @@ def j_coeff_1 : Nat := 196884
 
 theorem j_coeff_1_monster : j_coeff_1 = monster_dim + 1 := by native_decide
 
-/-- Second coefficient: 21493760 = 196884 + 21296876
-    This relates to Monster representations -/
+/-- Second coefficient of j(tau) expansion -/
 def j_coeff_2 : Nat := 21493760
+
+/-- Third coefficient of j(tau) expansion -/
+def j_coeff_3 : Nat := 864299970
 
 /-- The first coefficient is nearly Monster dimension -/
 theorem j_coeff_moonshine : j_coeff_1 - 1 = monster_dim := by native_decide
+
+-- =============================================================================
+-- COEFFICIENT RATIO OBSERVATIONS
+-- =============================================================================
+-- NOTE: These are OBSERVATIONAL patterns, not exact formulas.
+-- The ratios c₂/c₁ and c₃/c₂ have GIFT-expressible integer parts,
+-- but the remainders have no clear interpretation.
+
+/-- 109 = b₃ + dim(G₂) + h(E₇) = 77 + 14 + 18.
+    This appears as floor(c₂/c₁) = 109. -/
+def gift_109 : Nat := b3 + dim_G2 + h_E7
+
+theorem gift_109_value : gift_109 = 109 := by native_decide
+
+/-- OBSERVATION: c₂ = 109 × c₁ + remainder.
+    The quotient 109 is GIFT-expressible; the remainder is not. -/
+theorem j_coeff_2_quotient : j_coeff_2 / j_coeff_1 = gift_109 := by native_decide
+
+/-- The remainder in c₂ = 109 × c₁ + r has no known GIFT expression.
+    109 × 196884 = 21460356, so 21493760 - 21460356 = 33404. -/
+theorem j_coeff_2_remainder : j_coeff_2 - gift_109 * j_coeff_1 = 33404 := by native_decide
+
+/-- 40 = b₂ + h(E₇) + 1 = 21 + 18 + 1.
+    This appears near floor(c₃/c₂) = 40.21... -/
+def gift_40 : Nat := b2 + h_E7 + b0
+
+theorem gift_40_value : gift_40 = 40 := by native_decide
+
+/-- OBSERVATION: floor(c₃/c₂) = 40, which is GIFT-expressible. -/
+theorem j_coeff_3_quotient : j_coeff_3 / j_coeff_2 = gift_40 := by native_decide
 
 -- =============================================================================
 -- E8 AND j-INVARIANT STRUCTURE
