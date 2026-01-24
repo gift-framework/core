@@ -63,7 +63,7 @@ theorem monster_factors_b3 :
 
 /-- Monster dimension = (b_3 - 30)(b_3 - 18)(b_3 - 6) = 196883 -/
 theorem monster_dim_from_b3 :
-    (b3 - 30) * (b3 - 18) * (b3 - 6) = 196883 := monster_dim_gift
+    (b3 - 30) * (b3 - 18) * (b3 - 6) = 196883 := Supersingular.monster_dim_gift
 
 /-!
 ## The j-Invariant Connection
@@ -78,7 +78,7 @@ The j-invariant j(tau) = q^{-1} + 744 + 196884*q + ... connects:
 theorem j_constant_E8 : j_constant = N_gen * dim_E8 := j_constant_gift
 
 /-- 196884 = Monster dimension + 1 (McKay observation) -/
-theorem j_coeff_monster_plus_1 : j_coeff_1 = monster_dim + 1 := j_coeff_1_monster
+theorem j_coeff_monster_plus_1 : j_coeff_1 = MonsterDimension.monster_dim + 1 := j_coeff_1_monster
 
 /-!
 ## The Monster-Zeta Moonshine Hypothesis
@@ -114,7 +114,7 @@ def monster_zeta_moonshine : Prop :=
   -- (4) j-invariant constant encodes dim(E_8)
   (j_constant = N_gen * dim_E8) ∧
   -- (5) j-invariant first coefficient encodes Monster
-  (j_coeff_1 = monster_dim + 1)
+  (j_coeff_1 = MonsterDimension.monster_dim + 1)
 
 /-- The Monster-Zeta Moonshine hypothesis holds -/
 theorem monster_zeta_holds : monster_zeta_moonshine := by
@@ -185,17 +185,18 @@ The arrows represent:
 
 /-- The unified connection theorem -/
 theorem unified_connection :
-    -- Monster-GIFT
-    (monster_dim_gift = rfl) ∧
+    -- Monster-GIFT: Monster dimension from b_3
+    ((b3 - 30) * (b3 - 18) * (b3 - 6) = 196883) ∧
     -- GIFT-Zeta
     (|gamma 1 - dim_G2| < 14 / 100) ∧
     (|gamma 2 - b2| < 3 / 100) ∧
     (|gamma 20 - b3| < 15 / 100) ∧
-    -- Monster-Zeta (via b_3)
+    -- Monster-Zeta (via b_3): Monster dimension and zeta zero connection
     ((b3 - 30) * (b3 - 18) * (b3 - 6) = 196883) ∧
     (|gamma 20 - b3| < 15 / 100) := by
-  refine ⟨rfl, gamma1_near_dimG2, gamma2_near_b2, gamma20_near_b3, ?_, gamma20_near_b3⟩
-  native_decide
+  refine ⟨?_, gamma1_near_dimG2, gamma2_near_b2, gamma20_near_b3, ?_, gamma20_near_b3⟩
+  · native_decide
+  · native_decide
 
 /-!
 ## Certificate
