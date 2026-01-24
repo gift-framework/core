@@ -97,6 +97,33 @@ def dim_F4 : ℕ := 52
 -- Note: dim_G2 and rank_G2 come from Algebraic.G2
 
 -- =============================================================================
+-- COXETER NUMBERS
+-- =============================================================================
+
+/-- Coxeter number of G₂.
+    The Coxeter number h is the order of a Coxeter element in the Weyl group.
+    For G₂: h = 6, and |G₂ roots| = h × rank = 6 × 2 = 12. -/
+def h_G2 : ℕ := 6
+
+/-- Coxeter number of E₆.
+    h(E₆) = 12, and |E₆ roots| = 12 × 6 = 72. -/
+def h_E6 : ℕ := 12
+
+/-- Coxeter number of E₇.
+    h(E₇) = 18, and |E₇ roots| = 18 × 7 = 126. -/
+def h_E7 : ℕ := 18
+
+/-- Coxeter number of E₈.
+    h(E₈) = 30, and |E₈ roots| = 30 × 8 = 240. -/
+def h_E8 : ℕ := 30
+
+-- Certifications for use in norm_num
+theorem h_G2_certified : h_G2 = 6 := rfl
+theorem h_E6_certified : h_E6 = 12 := rfl
+theorem h_E7_certified : h_E7 = 18 := rfl
+theorem h_E8_certified : h_E8 = 30 := rfl
+
+-- =============================================================================
 -- GEOMETRY: K7 MANIFOLD
 -- =============================================================================
 
