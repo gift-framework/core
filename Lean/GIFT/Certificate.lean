@@ -613,19 +613,19 @@ theorem all_75_relations_certified :
 -- =============================================================================
 
 /-- V1.5 Exceptional groups: alpha_s^2, F4, delta_penta, Jordan, Weyl(E8) -/
-abbrev v15_exceptional_groups := ExceptionalGroups.all_5_exceptional_groups_certified
+abbrev v15_exceptional_groups := GIFT.Relations.ExceptionalGroups.all_5_exceptional_groups_certified
 
 /-- V1.5 Base decomposition: kappa_T, b2/b3/H* decompositions -/
-abbrev v15_base_decomposition := BaseDecomposition.all_6_base_decomposition_certified
+abbrev v15_base_decomposition := GIFT.Relations.BaseDecomposition.all_6_base_decomposition_certified
 
 /-- V1.5 Extended decomposition (10 relations) -/
-abbrev v15_extended_decomposition := BaseDecomposition.all_10_decomposition_certified
+abbrev v15_extended_decomposition := GIFT.Relations.BaseDecomposition.all_10_decomposition_certified
 
 /-- V1.6 Mass factorization: 3477, Von Staudt, T_61, Triade 9-18-34 -/
-abbrev v16_mass_factorization := MassFactorization.all_mass_factorization_relations_certified
+abbrev v16_mass_factorization := GIFT.Relations.MassFactorization.all_mass_factorization_relations_certified
 
 /-- V1.7 Exceptional chain: tau_num, E7, E6, E8 chain relations -/
-abbrev v17_exceptional_chain := ExceptionalChain.all_exceptional_chain_relations_certified
+abbrev v17_exceptional_chain := GIFT.Relations.ExceptionalChain.all_exceptional_chain_relations_certified
 
 -- =============================================================================
 -- V2.0: MASTER CERTIFICATE (165+ relations)
@@ -646,13 +646,13 @@ abbrev v2_moonshine_certified := GIFT.Moonshine.all_moonshine_relations_certifie
 abbrev v2_mckay_certified := GIFT.McKay.all_mckay_relations_certified
 
 /-- V2.0 Extended Golden Ratio access -/
-abbrev v2_golden_ratio_certified := GoldenRatio.all_golden_derivation_relations_certified
+abbrev v2_golden_ratio_certified := GIFT.Relations.GoldenRatio.all_golden_derivation_relations_certified
 
 /-- V2.0 Extended Cosmology access -/
-abbrev v2_cosmology_certified := Cosmology.all_cosmology_v2_relations_certified
+abbrev v2_cosmology_certified := GIFT.Relations.Cosmology.all_cosmology_v2_relations_certified
 
 /-- V2.0 Extended Neutrino access -/
-abbrev v2_neutrino_certified := NeutrinoSector.all_neutrino_v2_relations_certified
+abbrev v2_neutrino_certified := GIFT.Relations.NeutrinoSector.all_neutrino_v2_relations_certified
 
 /-- GIFT v2.0 Master Certificate: All 165+ relations proven -/
 theorem gift_v2_master_certificate : True := by trivial
@@ -751,19 +751,19 @@ theorem gift_v3_coverage_summary :
 -- =============================================================================
 
 /-- V3.0 Structural relations access -/
-abbrev v3_structural_certified := Structural.all_structural_relations_certified
+abbrev v3_structural_certified := GIFT.Relations.Structural.all_structural_relations_certified
 
 /-- V3.0 Quark sector relations access -/
-abbrev v3_quark_certified := QuarkSector.all_quark_sector_relations_certified
+abbrev v3_quark_certified := GIFT.Relations.QuarkSector.all_quark_sector_relations_certified
 
 /-- V3.0 Weinberg angle from GaugeSector -/
-abbrev v3_weinberg_angle := GaugeSector.weinberg_angle
+abbrev v3_weinberg_angle := GIFT.Relations.GaugeSector.weinberg_angle
 
 /-- V3.0 Koide formula from LeptonSector -/
-abbrev v3_koide_formula := LeptonSector.koide_formula
+abbrev v3_koide_formula := GIFT.Relations.LeptonSector.koide_formula
 
 /-- V3.0 m_tau/m_e from LeptonSector -/
-abbrev v3_m_tau_m_e := LeptonSector.m_tau_m_e_from_topology
+abbrev v3_m_tau_m_e := GIFT.Relations.LeptonSector.m_tau_m_e_from_topology
 
 /-- GIFT v3.0 Extended Relations Certificate -/
 theorem gift_v3_extended_relations :
@@ -1024,10 +1024,10 @@ open GIFT.Relations.SO16Relations
 open GIFT.Relations.LandauerDarkEnergy
 
 /-- V3.2 SO(16) decomposition relations -/
-abbrev v32_so16_decomposition := SO16Relations.all_SO16_relations
+abbrev v32_so16_decomposition := GIFT.Relations.SO16Relations.all_SO16_relations
 
 /-- V3.2 Landauer dark energy relations -/
-abbrev v32_landauer_DE := LandauerDarkEnergy.landauer_structure
+abbrev v32_landauer_DE := GIFT.Relations.LandauerDarkEnergy.landauer_structure
 
 /-- GIFT v3.2 SO(16) Relations Certificate (Relations 66-72) -/
 theorem gift_v32_SO16_certificate :
@@ -1089,11 +1089,11 @@ from K7 topology.
 -/
 
 /-- Key hierarchy relations from GIFT.Hierarchy -/
-abbrev hierarchy_cohom_ratio := Hierarchy.cohom_ratio_value
-abbrev hierarchy_n_vacua := Hierarchy.n_vacua_eq_b2
-abbrev hierarchy_moduli_dim := Hierarchy.moduli_dim_eq_b3
-abbrev hierarchy_fund_E6 := Hierarchy.fund_E6_eq_J3O
-abbrev hierarchy_mass_formula := Hierarchy.m_tau_m_e_formula
+abbrev hierarchy_cohom_ratio := GIFT.Hierarchy.cohom_ratio_value
+abbrev hierarchy_n_vacua := GIFT.Hierarchy.n_vacua_eq_b2
+abbrev hierarchy_moduli_dim := GIFT.Hierarchy.moduli_dim_eq_b3
+abbrev hierarchy_fund_E6 := GIFT.Hierarchy.fund_E6_eq_J3O
+abbrev hierarchy_mass_formula := GIFT.Hierarchy.m_tau_m_e_formula
 
 /-- GIFT v3.3 Hierarchy Certificate -/
 theorem gift_v33_hierarchy_certificate :
@@ -1118,10 +1118,10 @@ theorem gift_v33_hierarchy_certificate :
 -- =============================================================================
 
 /-- Weyl Triple Identity from Structural module -/
-abbrev v34_weyl_triple := Structural.weyl_triple_identity
+abbrev v34_weyl_triple := GIFT.Relations.Structural.weyl_triple_identity
 
 /-- PSL(2,7) = 168 triple derivation -/
-abbrev v34_PSL27_triple := Structural.PSL27_triple_derivation
+abbrev v34_PSL27_triple := GIFT.Relations.Structural.PSL27_triple_derivation
 
 /-- TCS building blocks now derive BOTH b2 and b3 -/
 abbrev v34_TCS_derivation := GIFT.Foundations.TCS_master_derivation
@@ -1156,19 +1156,19 @@ theorem gift_v34_relation_count : True := by trivial
 open GIFT.Relations.V33
 
 /-- V3.3 Tau structural derivation certificate -/
-abbrev v33_tau_structural := V33.tau_structural_certificate
+abbrev v33_tau_structural := GIFT.Relations.V33.tau_structural_certificate
 
 /-- V3.3 Topological relations (Betti, magic 42) -/
-abbrev v33_topological := V33.topological_relations_certificate
+abbrev v33_topological := GIFT.Relations.V33.topological_relations_certificate
 
 /-- V3.3 E-series Jordan algebra formula -/
-abbrev v33_j3o_e_series := V33.j3o_e_series_certificate
+abbrev v33_j3o_e_series := GIFT.Relations.V33.j3o_e_series_certificate
 
 /-- V3.3 Poincare duality for K7 -/
-abbrev v33_poincare_duality := V33.poincare_duality_K7
+abbrev v33_poincare_duality := GIFT.Relations.V33.poincare_duality_K7
 
 /-- V3.3 Master certificate -/
-abbrev v33_additions := V33.gift_v33_additions_certificate
+abbrev v33_additions := GIFT.Relations.V33.gift_v33_additions_certificate
 
 /-- GIFT v3.3 Complete Certificate -/
 theorem gift_v33_complete_certificate :
@@ -1204,16 +1204,16 @@ theorem gift_v33_new_relations_count : True := by trivial
 open GIFT.Relations.TauBounds
 
 /-- V3.3 Tau power bounds: τ⁴ ∈ (230, 231), τ⁵ ∈ (898, 899) -/
-abbrev v33_tau_power_bounds := TauBounds.tau_power_bounds_certificate
+abbrev v33_tau_power_bounds := GIFT.Relations.TauBounds.tau_power_bounds_certificate
 
 /-- V3.3 τ⁴ near 231 = N_gen × b₃ -/
-abbrev v33_tau4_bounds := TauBounds.tau4_bounds
+abbrev v33_tau4_bounds := GIFT.Relations.TauBounds.tau4_bounds
 
 /-- V3.3 τ⁵ near 900 = h(E₈)² -/
-abbrev v33_tau5_bounds := TauBounds.tau5_bounds
+abbrev v33_tau5_bounds := GIFT.Relations.TauBounds.tau5_bounds
 
 /-- V3.3 Coxeter number squared -/
-abbrev v33_coxeter_E8_sq := TauBounds.coxeter_E8_squared
+abbrev v33_coxeter_E8_sq := GIFT.Relations.TauBounds.coxeter_E8_squared
 
 /-- GIFT v3.3 Tau Bounds Certificate -/
 theorem gift_v33_tau_bounds_certificate :
@@ -1331,31 +1331,31 @@ Key new results:
 -- Abbrevs for dependency graph (creates edges from Certificate to new modules)
 
 /-- Fano basis: all seven constants divisible by 7 -/
-abbrev fano_basis := FanoSelectionPrinciple.fano_basis_complete
+abbrev fano_basis := GIFT.Relations.FanoSelectionPrinciple.fano_basis_complete
 
 /-- N_gen derivation from PSL(2,7) and E₇ -/
-abbrev N_gen_PSL27_derivation := FanoSelectionPrinciple.N_gen_from_PSL27_fund_E7
+abbrev N_gen_PSL27_derivation := GIFT.Relations.FanoSelectionPrinciple.N_gen_from_PSL27_fund_E7
 
 /-- PSL(2,7) factorizations -/
-abbrev PSL27_factorizations := FanoSelectionPrinciple.PSL27_factorizations
+abbrev PSL27_factorizations := GIFT.Relations.FanoSelectionPrinciple.PSL27_factorizations
 
 /-- Fano selection principle master theorem -/
-abbrev fano_selection := FanoSelectionPrinciple.fano_selection_principle
+abbrev fano_selection := GIFT.Relations.FanoSelectionPrinciple.fano_selection_principle
 
 /-- Over-determination: 28 expressions for 6 fractions -/
-abbrev over_determination := OverDetermination.over_determination_certificate
+abbrev over_determination := GIFT.Relations.OverDetermination.over_determination_certificate
 
 /-- Q_Koide = 2/3 (8 expressions) -/
-abbrev Q_koide_expressions := OverDetermination.Q_koide_8_expressions
+abbrev Q_koide_expressions := GIFT.Relations.OverDetermination.Q_koide_8_expressions
 
 /-- Sector classification master theorem -/
-abbrev sector_classification := SectorClassification.sector_classification_certified
+abbrev sector_classification := GIFT.Relations.SectorClassification.sector_classification_certified
 
 /-- m_W/m_Z = 37/42 (corrected formula) -/
-abbrev m_W_over_m_Z := Observables.BosonMasses.m_W_over_m_Z
+abbrev m_W_over_m_Z := GIFT.Observables.BosonMasses.m_W_over_m_Z
 
 /-- m_W/m_Z primary derivation: (2b₂ - Weyl)/(2b₂) -/
-abbrev m_W_over_m_Z_primary := Observables.BosonMasses.m_W_over_m_Z_primary
+abbrev m_W_over_m_Z_primary := GIFT.Observables.BosonMasses.m_W_over_m_Z_primary
 
 /-- GIFT v3.3a Selection Principle Certificate
 
@@ -1376,7 +1376,7 @@ theorem gift_v33a_selection_principle_certificate :
     -- N_gen derivation from PSL(2,7)
     (PSL27 / dim_fund_E7 = N_gen) ∧
     -- m_W/m_Z = 37/42 (NEW!)
-    (Observables.BosonMasses.m_W_over_m_Z = 37 / 42) ∧
+    (GIFT.Observables.BosonMasses.m_W_over_m_Z = 37 / 42) ∧
     -- Structural identity: 2b₂ = χ(K₇) = 42
     (2 * b2 = chi_K7) ∧
     -- m_W/m_Z numerator: χ - Weyl = 37
