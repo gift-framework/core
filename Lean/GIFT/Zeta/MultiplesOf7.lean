@@ -116,7 +116,7 @@ def multiples_of_7_dense : Prop :=
 /-- Stronger conjecture: match rate exceeds 95% -/
 def high_match_rate : Prop :=
   ∀ K : ℕ, K > 100 →
-  ∃ (matches : ℕ), matches > 95 * K / 100 ∧
+  ∃ (matchCount : ℕ), matchCount > 95 * K / 100 ∧
     ∀ k : ℕ, k ≤ K → is_matched k → True
 
 /-!
