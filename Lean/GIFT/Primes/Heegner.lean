@@ -88,7 +88,7 @@ theorem heegner_163_prime : Nat.Prime 163 := by native_decide
 -- =============================================================================
 
 /-- First 5 Heegner numbers are direct GIFT constants -/
-theorem heegner_tier1 :
+theorem heegner_direct :
     (1 = dim_U1) ∧
     (2 = p2) ∧
     (3 = N_gen) ∧
@@ -96,8 +96,8 @@ theorem heegner_tier1 :
     (11 = D_bulk) := by
   repeat (first | constructor | rfl)
 
-/-- Last 4 Heegner numbers have deeper GIFT expressions -/
-theorem heegner_tier2 :
+/-- Last 4 Heegner numbers have derived GIFT expressions -/
+theorem heegner_derived :
     (19 = prime_8) ∧
     (43 = visible_dim) ∧
     (67 = b3 - 2 * Weyl_factor) ∧

@@ -1,5 +1,5 @@
 -- GIFT Monstrous Moonshine Module
--- v3.4.0: Monster group, j-invariant, supersingular primes, and Monster-Zeta Moonshine
+-- v3.3.10: Monster group, j-invariant, supersingular primes, and Monster-Zeta Moonshine
 --
 -- This module provides:
 -- - Monster dimension factorization (196883 = 47 × 59 × 71)
@@ -28,13 +28,13 @@ abbrev monster_dimension_certified := MonsterDimension.all_monster_dimension_rel
 /-- Access j-invariant relations -/
 abbrev j_invariant_certified := JInvariant.all_j_invariant_relations_certified
 
-/-- Access supersingular primes relations (v3.4.0) -/
+/-- Access supersingular primes relations (v3.3.10) -/
 abbrev supersingular_certified := Supersingular.supersingular_certificate
 
-/-- Access Monster-Zeta Moonshine (v3.4.0) -/
+/-- Access Monster-Zeta Moonshine (v3.3.10) -/
 abbrev monster_zeta_certified := MonsterZeta.monster_zeta_certificate
 
-/-- Complete Moonshine certificate (v3.4.0) -/
+/-- Complete Moonshine certificate (v3.3.10) -/
 theorem moonshine_complete_certificate :
     -- Monster dimension
     (MonsterDimension.monster_dim = 196883) ∧

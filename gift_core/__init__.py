@@ -2,16 +2,16 @@
 GIFT Core - Formally Verified Mathematical Constants.
 
 All values proven in Lean 4 and Coq proof assistants.
-180+ certified relations, zero domain-specific axioms.
+250+ certified relations, zero domain-specific axioms.
 
-v3.2 Features:
-- TCS Building Blocks: Both b₂ and b₃ derived from M₁ (Quintic) + M₂ (CI)
-- Weyl Triple Identity: 3 independent paths to Weyl = 5
-- PSL(2,7) = 168: Fano plane symmetry group
+v3.3.10 Features:
+- Zeta Correspondences: γ₁~14, γ₂~21, γ₂₀~77, γ₁₀₇~248
+- Monster-Zeta Moonshine: Ogg's Jack Daniels Problem answer
+- Supersingular Primes: All 15 GIFT-expressible
+- Spectral Theory: Mass gap λ₁ = 14/99, Yang-Mills connection
+- G₂ Geometry: Axiom-free Hodge star, ψ=⋆φ proven
 - E8 Roots: 240 vectors in R^8 with full operations
-- Fano Plane: Octonion multiplication and G2 cross product
-- Verification: Check all certified relations
-- Visualization: Fano plane, E8 projections, Dynkin diagrams
+- Fano Plane: Octonion multiplication and G₂ cross product
 
 Quick Start:
     from gift_core import *
@@ -204,11 +204,14 @@ except ImportError:
 # Primes
 try:
     from gift_core.primes import (
-        TIER1_PRIMES, TIER2_PRIMES, TIER3_PRIMES,
+        DIRECT_PRIMES, DERIVED_PRIMES, HSTAR_PRIMES, E8_PRIMES,
         prime_expression, is_gift_prime,
+        # Backwards compatibility (deprecated)
+        TIER1_PRIMES, TIER2_PRIMES, TIER3_PRIMES, TIER4_PRIMES,
     )
 except ImportError:
-    TIER1_PRIMES = TIER2_PRIMES = TIER3_PRIMES = None
+    DIRECT_PRIMES = DERIVED_PRIMES = HSTAR_PRIMES = E8_PRIMES = None
+    TIER1_PRIMES = TIER2_PRIMES = TIER3_PRIMES = TIER4_PRIMES = None
 
 # Analysis (Joyce certificate)
 try:

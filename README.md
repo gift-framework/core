@@ -22,11 +22,11 @@ Lean/GIFT/
 ├── Spectral/              # Spectral theory [v3.3.9]
 │   ├── MassGapRatio.lean         # λ₁ = 14/99
 │   └── YangMills.lean            # Gauge theory connection
-├── Zeta/                  # GIFT-Zeta correspondences [v3.4.0] NEW!
+├── Zeta/                  # GIFT-Zeta correspondences [v3.3.10]
 │   ├── Basic.lean         # gamma, lambda axioms
 │   ├── Correspondences.lean      # γ_n ~ GIFT constants
 │   └── MultiplesOf7.lean  # Structure theorem
-├── Moonshine/             # Monster group connections [v3.4.0]
+├── Moonshine/             # Monster group connections [v3.3.10]
 │   ├── Supersingular.lean # 15 primes GIFT-expressible NEW!
 │   └── MonsterZeta.lean   # Monster-Zeta Moonshine NEW!
 ├── Algebraic/             # Octonions, Betti numbers

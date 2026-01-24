@@ -12,11 +12,11 @@ import GIFT.Relations.YukawaDuality
 import GIFT.Primes.DirectPrimes
 import Mathlib.Data.Nat.Prime.Basic
 
-namespace GIFT.Primes.Tier2
+namespace GIFT.Primes.Derived
 
 open GIFT.Core GIFT.Relations
 open GIFT.Relations.YukawaDuality
-open GIFT.Primes.Tier1
+open GIFT.Primes.Direct
 
 -- =============================================================================
 -- DERIVED PRIMES: EXPRESSIBLE VIA GIFT CONSTANTS (Relations 111-125)
@@ -83,17 +83,17 @@ theorem prime_97_expr : (97 : Nat) = H_star - p2 := by native_decide
 theorem prime_97_is_prime : Nat.Prime 97 := by native_decide
 
 -- =============================================================================
--- TIER 2 PRIME SET
+-- DERIVED PRIME SET
 -- =============================================================================
 
 /-- The set of derived primes (expressed via GIFT constants) -/
-def tier2_primes : List Nat := [23, 29, 37, 41, 43, 47, 53, 59, 67, 71, 73, 79, 83, 89, 97]
+def derived_primes : List Nat := [23, 29, 37, 41, 43, 47, 53, 59, 67, 71, 73, 79, 83, 89, 97]
 
 /-- All derived values are prime -/
-theorem tier2_all_prime : ∀ p ∈ tier2_primes, Nat.Prime p := by decide
+theorem derived_all_prime : ∀ p ∈ derived_primes, Nat.Prime p := by decide
 
 /-- Count of derived primes -/
-theorem tier2_count : tier2_primes.length = 15 := rfl
+theorem derived_count : derived_primes.length = 15 := rfl
 
 -- =============================================================================
 -- COMPLETE COVERAGE < 100
@@ -108,7 +108,7 @@ theorem primes_below_100_count : primes_below_100.length = 25 := rfl
 
 /-- All primes below 100 are covered by direct or derived -/
 theorem complete_coverage_below_100 :
-    ∀ p ∈ primes_below_100, p ∈ tier1_primes ∨ p ∈ tier2_primes := by decide
+    ∀ p ∈ primes_below_100, p ∈ direct_primes ∨ p ∈ derived_primes := by decide
 
 -- =============================================================================
 -- b3 AS GENERATOR
@@ -131,7 +131,7 @@ theorem b3_generates :
 -- =============================================================================
 
 /-- All 15 derived prime relations certified -/
-theorem all_tier2_relations_certified :
+theorem all_derived_relations_certified :
     -- All derived primes expressible via GIFT constants
     ((23 : Nat) = b2 + p2) ∧
     ((29 : Nat) = 7 * 4 + 1) ∧
@@ -150,4 +150,4 @@ theorem all_tier2_relations_certified :
     ((97 : Nat) = H_star - p2) := by
   repeat (first | constructor | native_decide)
 
-end GIFT.Primes.Tier2
+end GIFT.Primes.Derived

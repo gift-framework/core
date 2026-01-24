@@ -2,7 +2,7 @@
   GIFT Algebraic Foundations: Cayley-Dickson Construction
   =======================================================
 
-  Phase 2b of the Octonion Formalization Plan.
+  Cayley-Dickson algebra doubling construction.
 
   The Cayley-Dickson construction doubles algebras:
   ℝ (1) → ℂ (2) → ℍ (4) → 𝕆 (8) → 𝕊 (16) → ...

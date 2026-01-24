@@ -2,14 +2,14 @@
 GIFT Spectral: Spectral Theory Foundations
 ==========================================
 
-Phase 1: Laplacian and spectral theorem for compact manifolds.
+Laplacian and spectral theorem for compact manifolds.
 
 This module provides the abstract framework for spectral theory:
 - Laplace-Beltrami operator as self-adjoint, positive semi-definite
 - Spectral theorem for compact manifolds (discrete spectrum)
 - Mass gap definition as first nonzero eigenvalue
 
-Status: Tier 2 (uses axioms for manifold spectral theory)
+Status: Uses axioms (full Riemannian geometry not yet in Mathlib)
 
 References:
 - Chavel, I. (1984). Eigenvalues in Riemannian Geometry
@@ -43,7 +43,7 @@ consequences.
 -/
 
 -- ============================================================================
--- ABSTRACT MANIFOLD (Tier 2 - axioms needed)
+-- ABSTRACT MANIFOLD (axiom-based - Mathlib manifold theory in development)
 -- ============================================================================
 
 /-- Abstract compact Riemannian manifold.
@@ -68,7 +68,7 @@ axiom CompactManifold.volume : CompactManifold → ℝ
 axiom CompactManifold.volume_pos (M : CompactManifold) : M.volume > 0
 
 -- ============================================================================
--- LAPLACE-BELTRAMI OPERATOR (Tier 2)
+-- LAPLACE-BELTRAMI OPERATOR (axiom-based)
 -- ============================================================================
 
 /-- The Laplace-Beltrami operator on a compact manifold.
@@ -90,7 +90,7 @@ structure LaplaceBeltrami (M : CompactManifold) where
 axiom LaplaceBeltrami.canonical (M : CompactManifold) : LaplaceBeltrami M
 
 -- ============================================================================
--- SPECTRUM (Tier 2)
+-- SPECTRUM (axiom-based)
 -- ============================================================================
 
 /-- An eigenvalue of the Laplacian -/

@@ -16,6 +16,7 @@ import GIFT.Foundations.Analysis.HodgeTheory
 import GIFT.Foundations.Analysis.HarmonicForms
 import GIFT.Foundations.Analysis.G2TensorForm
 import GIFT.Foundations.Analysis.JoyceAnalytic
+import GIFT.Foundations.Analysis.AnalyticalFoundations
 
 namespace GIFT.Foundations.Analysis
 
@@ -55,6 +56,10 @@ This module collects advanced analytical foundations for GIFT:
 ## Joyce Analytic (JoyceAnalytic.lean)
 - Analytic framework for Joyce theorem
 - Perturbation estimates
+
+## Analytical Foundations (AnalyticalFoundations.lean)
+- Master certificate for Sobolev, Elliptic, IFT
+- PINN bounds verification
 -/
 
 -- Note: This module bundles imports only. Access definitions via their

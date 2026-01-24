@@ -2,7 +2,7 @@
   GIFT Algebraic Foundations: Octonions
   =====================================
 
-  Phase 2 of the Octonion Formalization Plan.
+  Octonion algebra: structure and multiplication.
 
   The octonions 𝕆 are the 8-dimensional normed division algebra
   obtained by Cayley-Dickson doubling of the quaternions.
@@ -242,13 +242,13 @@ theorem b2_equals_imaginary_pairs :
 /-!
 ## Summary
 
-Phase 2 establishes:
+This module establishes:
 1. 𝕆 has dimension 8 with 7 imaginary units
 2. The Fano plane encodes multiplication
 3. C(7,2) = 21 = b₂ derives from imaginary unit pairs
 4. Non-associativity distinguishes 𝕆 from ℍ
 
-Next: Phase 3 - G₂ = Aut(𝕆) with dim(G₂) = 14
+See also: G2.lean for G₂ = Aut(𝕆) with dim(G₂) = 14
 -/
 
 end GIFT.Algebraic.Octonions

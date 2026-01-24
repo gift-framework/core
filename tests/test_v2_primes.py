@@ -5,7 +5,7 @@ Verifies prime coverage and expressions.
 
 import pytest
 from gift_core.primes import (
-    TIER1_PRIMES, TIER2_PRIMES, TIER3_PRIMES, TIER4_PRIMES,
+    DIRECT_PRIMES, DERIVED_PRIMES, HSTAR_PRIMES, E8_PRIMES,
     HEEGNER_NUMBERS, SPECIAL_PRIMES, GENERATORS,
     prime_expression, prime_generator, is_gift_prime,
     is_heegner, verify_prime_coverage,
@@ -26,81 +26,81 @@ def is_prime(n: int) -> bool:
     return True
 
 
-class TestTier1Primes:
-    """Test direct GIFT constant primes (p₂, N_gen, Weyl, etc.)."""
+class TestDirectPrimes:
+    """Test direct GIFT constant primes (p2, N_gen, Weyl, etc.)."""
 
-    def test_tier1_count(self):
-        assert len(TIER1_PRIMES) == 10
+    def test_direct_count(self):
+        assert len(DIRECT_PRIMES) == 10
 
-    def test_tier1_primes_are_prime(self):
-        for p in TIER1_PRIMES:
+    def test_direct_primes_are_prime(self):
+        for p in DIRECT_PRIMES:
             assert is_prime(p), f"{p} is not prime"
 
-    def test_tier1_p2(self):
-        assert 2 in TIER1_PRIMES
-        assert TIER1_PRIMES[2] == "p2"
+    def test_direct_p2(self):
+        assert 2 in DIRECT_PRIMES
+        assert DIRECT_PRIMES[2] == "p2"
 
-    def test_tier1_N_gen(self):
-        assert 3 in TIER1_PRIMES
-        assert TIER1_PRIMES[3] == "N_gen"
+    def test_direct_N_gen(self):
+        assert 3 in DIRECT_PRIMES
+        assert DIRECT_PRIMES[3] == "N_gen"
 
-    def test_tier1_Weyl(self):
-        assert 5 in TIER1_PRIMES
-        assert TIER1_PRIMES[5] == "Weyl_factor"
+    def test_direct_Weyl(self):
+        assert 5 in DIRECT_PRIMES
+        assert DIRECT_PRIMES[5] == "Weyl_factor"
 
-    def test_tier1_dim_K7(self):
-        assert 7 in TIER1_PRIMES
-        assert TIER1_PRIMES[7] == "dim_K7"
+    def test_direct_dim_K7(self):
+        assert 7 in DIRECT_PRIMES
+        assert DIRECT_PRIMES[7] == "dim_K7"
 
-    def test_tier1_D_bulk(self):
-        assert 11 in TIER1_PRIMES
-        assert TIER1_PRIMES[11] == "D_bulk"
+    def test_direct_D_bulk(self):
+        assert 11 in DIRECT_PRIMES
+        assert DIRECT_PRIMES[11] == "D_bulk"
 
-    def test_tier1_alpha_sum(self):
-        assert 13 in TIER1_PRIMES
-        assert TIER1_PRIMES[13] == "alpha_sq_B_sum"
+    def test_direct_alpha_sum(self):
+        assert 13 in DIRECT_PRIMES
+        assert DIRECT_PRIMES[13] == "alpha_sq_B_sum"
 
-    def test_tier1_lambda_H(self):
-        assert 17 in TIER1_PRIMES
-        assert TIER1_PRIMES[17] == "lambda_H_num"
+    def test_direct_lambda_H(self):
+        assert 17 in DIRECT_PRIMES
+        assert DIRECT_PRIMES[17] == "lambda_H_num"
 
-    def test_tier1_kappa_T_inv(self):
-        assert 61 in TIER1_PRIMES
-        assert TIER1_PRIMES[61] == "kappa_T_inv"
+    def test_direct_kappa_T_inv(self):
+        assert 61 in DIRECT_PRIMES
+        assert DIRECT_PRIMES[61] == "kappa_T_inv"
 
 
-class TestTier2Primes:
-    """Test derived primes < 100 via GIFT expressions (23 = b₂ + p₂, etc.)."""
+class TestDerivedPrimes:
+    """Test derived primes < 100 via GIFT expressions (23 = b2 + p2, etc.)."""
 
-    def test_tier2_count(self):
-        assert len(TIER2_PRIMES) == 15
+    def test_derived_count(self):
+        assert len(DERIVED_PRIMES) == 15
 
-    def test_tier2_primes_are_prime(self):
-        for p in TIER2_PRIMES:
+    def test_derived_primes_are_prime(self):
+        for p in DERIVED_PRIMES:
             assert is_prime(p), f"{p} is not prime"
 
     def test_prime_23(self):
-        assert 23 in TIER2_PRIMES
+        assert 23 in DERIVED_PRIMES
         assert 23 == B2 + P2
 
     def test_prime_43(self):
-        assert 43 in TIER2_PRIMES
-        assert TIER2_PRIMES[43] == "visible_dim"
+        assert 43 in DERIVED_PRIMES
+        assert DERIVED_PRIMES[43] == "visible_dim"
 
     def test_prime_67(self):
-        assert 67 in TIER2_PRIMES
+        assert 67 in DERIVED_PRIMES
         assert 67 == B3 - 2 * WEYL_FACTOR
 
     def test_prime_71(self):
-        assert 71 in TIER2_PRIMES
+        assert 71 in DERIVED_PRIMES
         assert 71 == B3 - 6
 
     def test_prime_73(self):
-        assert 73 in TIER2_PRIMES
+        assert 73 in DERIVED_PRIMES
         assert 73 == B3 - P2 * P2
 
     def test_prime_97(self):
-        assert 97 in TIER2_PRIMES
+        assert 97 in DERIVED_PRIMES
         assert 97 == H_STAR - P2
 
 
@@ -207,12 +207,12 @@ class TestSpecialPrimes:
 class TestPrimeExpressions:
     """Test prime expression lookup."""
 
-    def test_tier1_expressions(self):
+    def test_direct_expressions(self):
         assert prime_expression(2) == "p2"
         assert prime_expression(7) == "dim_K7"
         assert prime_expression(61) == "kappa_T_inv"
 
-    def test_tier2_expressions(self):
+    def test_derived_expressions(self):
         assert prime_expression(23) == "b2 + p2"
         assert prime_expression(67) == "b3 - 2 * Weyl_factor"
 

@@ -1478,7 +1478,7 @@ axiom MassGap (M : CompactManifold) : ℝ
 
 ---
 
-## V3.4.0: GIFT-Zeta Correspondences & Monster-Zeta Moonshine
+## V3.3.10: GIFT-Zeta Correspondences & Monster-Zeta Moonshine
 
 ### Module: `Zeta/` + `Moonshine/Supersingular.lean` + `Moonshine/MonsterZeta.lean`
 
@@ -1515,7 +1515,7 @@ theorem foo : monster_dim = 196883 := ...  -- ERROR: Ambiguous!
 theorem foo : MonsterDimension.monster_dim = 196883 := rfl
 ```
 
-**Known conflicts in v3.4.0:**
+**Known conflicts in v3.3.10:**
 
 | Name | Defined in | Also in |
 |------|-----------|---------|
@@ -1579,24 +1579,24 @@ def matchCount : ℕ := countMatches ...
 
 **Reserved identifiers**: `matches`, `where`, `do`, `let`, `have`, `fun`, `if`, `then`, `else`, `match`, `with`
 
-### Axiom Status (v3.4.0)
+### Axiom Status (v3.3.10)
 
-**Tier 1 (Numerical) - COMPLETE! (0 remaining):**
+**Numerical Bounds - COMPLETE! (0 remaining):**
 - ✓ All Taylor series bounds proven
 
-**Tier 2 (Spectral) - Documented axioms:**
+**Spectral Theory - Documented axioms:**
 - `CompactManifold`, `MassGap`, `spectral_theorem_discrete`
 - `universal_spectral_law`, `CheegerConstant`, `cheeger_inequality`
 
-**Tier 3 (Zeta) - New axioms:**
+**Zeta Correspondences - New axioms:**
 - `gamma : ℕ+ → ℝ` - Riemann zeta zeros (empirical)
 - `gamma_positive`, `gamma_increasing` - Basic properties
 - `gamma1_approx` ... `gamma107_approx` - Numerical approximations
 - `spectral_from_correspondence_bound` - Spectral interpretation
 
-**Tier 4 (Geometric) - 13 remaining:**
+**Geometric (K7) - 13 remaining:**
 - ○ Hodge theory axioms (K7 manifold properties)
 
 ---
 
-*Last updated: 2026-01-24 - V3.4.0: GIFT-Zeta Correspondences & Monster-Zeta Moonshine*
+*Last updated: 2026-01-24 - V3.3.10: GIFT-Zeta Correspondences & Monster-Zeta Moonshine*

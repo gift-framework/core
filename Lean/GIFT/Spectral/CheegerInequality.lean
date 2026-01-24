@@ -10,7 +10,7 @@ This module formalizes:
 - Buser's inequality (reverse): lambda_1 <= C(n) * h
 - Application to K7 with h = 14/99
 
-Status: Tier 2 (uses axioms for isoperimetric theory)
+Status: Uses axioms (isoperimetric theory requires measure theory on manifolds)
 
 References:
 - Cheeger, J. (1970). A lower bound for the smallest eigenvalue of the Laplacian

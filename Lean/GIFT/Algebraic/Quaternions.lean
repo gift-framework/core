@@ -2,7 +2,7 @@
   GIFT Algebraic Foundations: Quaternions
   ========================================
 
-  Phase 1 of the Octonion Formalization Plan.
+  Quaternion foundations: K₄ graph correspondence.
 
   Establishes the correspondence between:
   - K₄ (complete graph on 4 vertices)
@@ -107,7 +107,7 @@ theorem matching_count : 3 = imaginary_count := rfl
 /-!
 ## Summary
 
-Phase 1 establishes:
+This module establishes:
 1. K₄ ↔ ℍ correspondence via dimension (4 vertices = dim 4)
 2. 3 imaginary units from 3 perfect matchings of K₄
 3. The "3" in quaternions connects to the "7" in octonions via 3 + 4 = 7

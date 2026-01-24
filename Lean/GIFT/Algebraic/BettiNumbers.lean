@@ -2,7 +2,7 @@
   GIFT Algebraic Foundations: Betti Numbers from Octonions
   ========================================================
 
-  Phase 4 of the Octonion Formalization Plan.
+  Betti numbers from octonion combinatorics.
 
   THIS IS THE KEY FILE: We derive the Betti numbers b₂ and b₃
   from the octonion structure, rather than defining them arbitrarily.
@@ -139,7 +139,7 @@ theorem H_star_minus_one : H_star - 1 = b2 + b3 := rfl
 /-!
 ## Ratio Relations (for GIFT constants)
 
-These ratios will be used in Phase 5 for physical predictions.
+These ratios are used for physical predictions in GIFTConstants.
 -/
 
 /-- b₂ / imaginary_count = 3 (each imaginary appears in 3 pairs) -/
