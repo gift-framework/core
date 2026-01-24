@@ -2,17 +2,17 @@
 GIFT Spectral: Universal Spectral Law
 =====================================
 
-Phase 3: The central theorem connecting topology to spectral gap.
+The central theorem connecting topology to spectral gap.
 
 This is the KEY theorem of the GIFT framework:
-  lambda_1(K7) * H* = dim(G2)
-  lambda_1(K7) * 99 = 14
-  lambda_1(K7) = 14/99
+  λ₁(K7) × H* = dim(G₂)
+  λ₁(K7) × 99 = 14
+  λ₁(K7) = 14/99
 
-This module formalizes the universal spectral law for G2 manifolds
+This module formalizes the universal spectral law for G₂ manifolds
 and derives the mass gap value from pure topology.
 
-Status: Tier 2 (uses axioms for spectral-topology connection)
+Status: Uses axioms (spectral-topology connection requires heat kernel analysis)
 
 References:
 - GIFT Framework: Yang-Mills Mass Gap from Topological Constraints
@@ -61,7 +61,7 @@ The 99 comes from cohomology: H* counts independent topological modes.
 -/
 
 -- ============================================================================
--- THE UNIVERSAL LAW (Tier 2 - key axiom)
+-- THE UNIVERSAL LAW (axiom - key theorem)
 -- ============================================================================
 
 /-- The Universal Spectral Law for G2 manifolds.
@@ -108,7 +108,7 @@ theorem K7_mass_gap_eq_gift_ratio :
     (14 : ℚ) / 99 = mass_gap_ratio := rfl
 
 -- ============================================================================
--- ALGEBRAIC CONSEQUENCES (Tier 1 - proven)
+-- ALGEBRAIC CONSEQUENCES (fully proven from Core constants)
 -- ============================================================================
 
 /-- Product formula: lambda_1 * H* = dim(G2) -/

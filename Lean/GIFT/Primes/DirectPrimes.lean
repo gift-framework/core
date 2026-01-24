@@ -17,7 +17,7 @@ import GIFT.Core
 import GIFT.Relations
 import Mathlib.Data.Nat.Prime.Basic
 
-namespace GIFT.Primes.Tier1
+namespace GIFT.Primes.Direct
 
 open GIFT.Core GIFT.Relations
 
@@ -62,52 +62,52 @@ theorem kappa_T_inv_is_prime : Nat.Prime kappa_T_inv := by native_decide
 -- =============================================================================
 
 /-- The set of direct primes (GIFT constants) -/
-def tier1_primes : List Nat := [2, 3, 5, 7, 11, 13, 17, 19, 31, 61]
+def direct_primes : List Nat := [2, 3, 5, 7, 11, 13, 17, 19, 31, 61]
 
 /-- All direct prime values are prime -/
-theorem tier1_all_prime : ∀ p ∈ tier1_primes, Nat.Prime p := by decide
+theorem direct_all_prime : ∀ p ∈ direct_primes, Nat.Prime p := by decide
 
 /-- Count of direct primes -/
-theorem tier1_count : tier1_primes.length = 10 := rfl
+theorem direct_count : direct_primes.length = 10 := rfl
 
 -- =============================================================================
 -- DIRECT PRIME COVERAGE
 -- =============================================================================
 
 /-- Direct primes sorted -/
-theorem tier1_sorted : tier1_primes = [2, 3, 5, 7, 11, 13, 17, 19, 31, 61] := rfl
+theorem direct_sorted : direct_primes = [2, 3, 5, 7, 11, 13, 17, 19, 31, 61] := rfl
 
 /-- Direct expressions cover the first 6 primes (2, 3, 5, 7, 11, 13) -/
-theorem tier1_covers_first_6 :
-    (2 ∈ tier1_primes) ∧
-    (3 ∈ tier1_primes) ∧
-    (5 ∈ tier1_primes) ∧
-    (7 ∈ tier1_primes) ∧
-    (11 ∈ tier1_primes) ∧
-    (13 ∈ tier1_primes) := by
-  simp only [tier1_primes]
+theorem direct_covers_first_6 :
+    (2 ∈ direct_primes) ∧
+    (3 ∈ direct_primes) ∧
+    (5 ∈ direct_primes) ∧
+    (7 ∈ direct_primes) ∧
+    (11 ∈ direct_primes) ∧
+    (13 ∈ direct_primes) := by
+  simp only [direct_primes]
   repeat (first | constructor | decide)
 
 /-- Direct expressions cover 17, 19, 31, 61 -/
-theorem tier1_covers_special :
-    (17 ∈ tier1_primes) ∧
-    (19 ∈ tier1_primes) ∧
-    (31 ∈ tier1_primes) ∧
-    (61 ∈ tier1_primes) := by
-  simp only [tier1_primes]
+theorem direct_covers_special :
+    (17 ∈ direct_primes) ∧
+    (19 ∈ direct_primes) ∧
+    (31 ∈ direct_primes) ∧
+    (61 ∈ direct_primes) := by
+  simp only [direct_primes]
   repeat (first | constructor | decide)
 
 -- =============================================================================
--- PRIME GAPS IN TIER 1
+-- PRIME GAPS IN DIRECT SET
 -- =============================================================================
 
 /-- Missing small primes between 17 and 61 -/
 -- 23, 29, 37, 41, 43, 47, 53, 59 need derived expressions
-theorem tier1_gaps :
-    ¬(23 ∈ tier1_primes) ∧
-    ¬(29 ∈ tier1_primes) ∧
-    ¬(37 ∈ tier1_primes) := by
-  simp only [tier1_primes]
+theorem direct_gaps :
+    ¬(23 ∈ direct_primes) ∧
+    ¬(29 ∈ direct_primes) ∧
+    ¬(37 ∈ direct_primes) := by
+  simp only [direct_primes]
   repeat (first | constructor | decide)
 
 -- =============================================================================
@@ -115,7 +115,7 @@ theorem tier1_gaps :
 -- =============================================================================
 
 /-- All 10 direct prime relations certified -/
-theorem all_tier1_relations_certified :
+theorem all_direct_relations_certified :
     -- Direct GIFT constant primality
     Nat.Prime p2 ∧
     Nat.Prime N_gen ∧
@@ -131,4 +131,4 @@ theorem all_tier1_relations_certified :
    alpha_B_sum_is_prime, lambda_H_is_prime, prime_8_is_prime, prime_11_is_prime,
    kappa_T_inv_is_prime⟩
 
-end GIFT.Primes.Tier1
+end GIFT.Primes.Direct

@@ -2,7 +2,7 @@
   GIFT Algebraic Foundations: G₂ as Aut(𝕆)
   =========================================
 
-  Phase 3 of the Octonion Formalization Plan.
+  G₂ = Aut(𝕆): automorphism group of octonions.
 
   G₂ is defined as the automorphism group of the octonions:
     G₂ = Aut(𝕆)

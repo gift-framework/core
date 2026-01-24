@@ -5,7 +5,7 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.4.0] - 2026-01-24
+## [3.3.10] - 2026-01-24
 
 ### Summary
 
@@ -51,13 +51,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `unified_connection`: Monster ↔ GIFT ↔ Zeta triangle
   - `monster_zeta_certificate`: Complete certificate
 
-- **Certificate.lean** - v3.4.0 additions:
+- **Certificate.lean** - v3.3.10 additions:
   - `noncomputable abbrev zeta_gamma`: Zeta zeros (axiom-based)
   - `noncomputable abbrev zeta_spectral_lambda`: Spectral parameter
-  - `gift_v340_zeta_certificate`: 8 zeta relations
-  - `gift_v340_monster_zeta_certificate`: 11 Monster-Zeta relations
-  - `gift_v340_supersingular_certificate`: 30 supersingular relations
-  - `gift_v340_master_certificate`: Complete v3.4.0 certificate
+  - `gift_v3310_zeta_certificate`: 8 zeta relations
+  - `gift_v3310_monster_zeta_certificate`: 11 Monster-Zeta relations
+  - `gift_v3310_supersingular_certificate`: 30 supersingular relations
+  - `gift_v3310_master_certificate`: Complete v3.3.10 certificate
 
 ### Module Architecture
 

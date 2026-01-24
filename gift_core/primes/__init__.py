@@ -9,10 +9,10 @@ Three generators: b3=77, H*=99, dim_E8=248
 from typing import Dict, List, Optional, Tuple
 
 # =============================================================================
-# TIER 1 PRIMES: DIRECT GIFT CONSTANTS
+# DIRECT PRIMES: GIFT CONSTANTS THAT ARE PRIME
 # =============================================================================
 
-TIER1_PRIMES: Dict[int, str] = {
+DIRECT_PRIMES: Dict[int, str] = {
     2: "p2",
     3: "N_gen",
     5: "Weyl_factor",
@@ -26,10 +26,10 @@ TIER1_PRIMES: Dict[int, str] = {
 }
 
 # =============================================================================
-# TIER 2 PRIMES: PRIMES < 100 VIA GIFT EXPRESSIONS
+# DERIVED PRIMES: PRIMES < 100 VIA GIFT EXPRESSIONS
 # =============================================================================
 
-TIER2_PRIMES: Dict[int, str] = {
+DERIVED_PRIMES: Dict[int, str] = {
     23: "b2 + p2",
     29: "dim_K7 * 4 + 1",
     37: "b2 + p2 * rank_E8",
@@ -48,10 +48,10 @@ TIER2_PRIMES: Dict[int, str] = {
 }
 
 # =============================================================================
-# TIER 3 PRIMES: 100-150 VIA H*
+# H* PRIMES: 100-150 VIA H* = 99
 # =============================================================================
 
-TIER3_PRIMES: Dict[int, str] = {
+HSTAR_PRIMES: Dict[int, str] = {
     101: "H_star + p2",
     103: "H_star + 4",
     107: "H_star + rank_E8",
@@ -65,10 +65,10 @@ TIER3_PRIMES: Dict[int, str] = {
 }
 
 # =============================================================================
-# TIER 4 PRIMES: 150-200 VIA dim_E8
+# E8 PRIMES: 150-200 VIA dim_E8 = 248
 # =============================================================================
 
-TIER4_PRIMES: Dict[int, str] = {
+E8_PRIMES: Dict[int, str] = {
     151: "dim_E8 - 97",
     157: "dim_E8 - 91",
     163: "dim_E8 - rank_E8 - b3",
@@ -122,21 +122,21 @@ GENERATORS = {
 
 def prime_expression(p: int) -> Optional[str]:
     """Return GIFT expression for prime p < 200"""
-    if p in TIER1_PRIMES:
-        return TIER1_PRIMES[p]
-    if p in TIER2_PRIMES:
-        return TIER2_PRIMES[p]
-    if p in TIER3_PRIMES:
-        return TIER3_PRIMES[p]
-    if p in TIER4_PRIMES:
-        return TIER4_PRIMES[p]
+    if p in DIRECT_PRIMES:
+        return DIRECT_PRIMES[p]
+    if p in DERIVED_PRIMES:
+        return DERIVED_PRIMES[p]
+    if p in HSTAR_PRIMES:
+        return HSTAR_PRIMES[p]
+    if p in E8_PRIMES:
+        return E8_PRIMES[p]
     return None
 
 
 def prime_generator(p: int) -> Optional[str]:
     """Return which generator (b3, H*, or dim_E8) expresses prime p"""
     if p < 30:
-        return "Tier1 (direct)"
+        return "direct"
     if 30 <= p < 90:
         return "b3"
     if 90 <= p < 150:
@@ -172,10 +172,18 @@ def verify_prime_coverage(max_p: int = 100) -> bool:
     return True
 
 
+# Backwards compatibility aliases (deprecated, will be removed in v4.0)
+TIER1_PRIMES = DIRECT_PRIMES
+TIER2_PRIMES = DERIVED_PRIMES
+TIER3_PRIMES = HSTAR_PRIMES
+TIER4_PRIMES = E8_PRIMES
+
 # Exports
 __all__ = [
-    'TIER1_PRIMES', 'TIER2_PRIMES', 'TIER3_PRIMES', 'TIER4_PRIMES',
+    'DIRECT_PRIMES', 'DERIVED_PRIMES', 'HSTAR_PRIMES', 'E8_PRIMES',
     'HEEGNER_NUMBERS', 'SPECIAL_PRIMES', 'GENERATORS',
     'prime_expression', 'prime_generator', 'is_gift_prime',
     'is_heegner', 'verify_prime_coverage',
+    # Backwards compatibility (deprecated)
+    'TIER1_PRIMES', 'TIER2_PRIMES', 'TIER3_PRIMES', 'TIER4_PRIMES',
 ]

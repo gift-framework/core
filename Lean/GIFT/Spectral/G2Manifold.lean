@@ -2,14 +2,14 @@
 GIFT Spectral: G2 Holonomy Manifolds
 ====================================
 
-Phase 2: G2 holonomy manifolds and K7 construction.
+G₂ holonomy manifolds and K7 construction.
 
 This module formalizes:
-- G2 holonomy as a constraint on Riemannian manifolds
+- G₂ holonomy as a constraint on Riemannian manifolds
 - K7 as the TCS (Twisted Connected Sum) construction
 - Connection between holonomy and spectral properties
 
-Status: Tier 2 (uses axioms for holonomy theory)
+Status: Uses axioms (holonomy theory requires full Riemannian geometry)
 
 References:
 - Joyce, D.D. (2000). Compact Manifolds with Special Holonomy
@@ -52,7 +52,7 @@ space of 2-forms is what connects dim(G2) to spectral properties.
 -/
 
 -- ============================================================================
--- G2 HOLONOMY GROUP (Tier 1 - constants proven)
+-- G₂ HOLONOMY GROUP (constants from GIFT.Core)
 -- ============================================================================
 
 /-- G2 as an abstract group -/

@@ -2,14 +2,14 @@
 GIFT Spectral: Yang-Mills Mass Gap
 ==================================
 
-Phase 4: Connection to Yang-Mills gauge theory and the Clay Millennium Prize.
+Connection to Yang-Mills gauge theory and the Clay Millennium Prize.
 
 This module formalizes:
 - Yang-Mills functional on compact manifolds
 - Connection between geometric spectral gap and physical mass gap
 - The GIFT prediction for the Yang-Mills mass gap
 
-Status: Tier 2/3 (uses axioms for gauge theory formalization)
+Status: Uses axioms (gauge theory requires full bundle theory)
 
 References:
 - Jaffe, A. & Witten, E. (2000). Yang-Mills Existence and Mass Gap (Clay Problem)
@@ -63,7 +63,7 @@ first excited state in the quantum theory.
 -/
 
 -- ============================================================================
--- GAUGE THEORY STRUCTURES (Tier 3 - heavily axiomatized)
+-- GAUGE THEORY STRUCTURES (axiom-based - requires Mathlib gauge theory)
 -- ============================================================================
 
 /-- A compact simple Lie group (gauge group) -/

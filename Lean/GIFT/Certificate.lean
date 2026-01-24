@@ -61,7 +61,7 @@ import GIFT.Hierarchy
 -- V3.3.8: Spectral Gap (Yang-Mills mass gap = 14/99)
 import GIFT.Spectral
 
--- V3.4.0: Zeta correspondences and Monster-Zeta Moonshine
+-- V3.3.10: Zeta correspondences and Monster-Zeta Moonshine
 import GIFT.Zeta
 import GIFT.Moonshine.Supersingular
 import GIFT.Moonshine.MonsterZeta
@@ -664,7 +664,7 @@ abbrev v17_foundation := all_75_relations_certified
 theorem gift_v2_coverage_summary : True := by trivial
 
 /-- Access prime coverage -/
-abbrev prime_coverage := GIFT.Primes.Tier2.complete_coverage_below_100
+abbrev prime_coverage := GIFT.Primes.Derived.complete_coverage_below_100
 
 /-- Access Heegner numbers -/
 abbrev heegner_coverage := GIFT.Primes.Heegner.all_heegner_gift_expressible
@@ -1472,11 +1472,11 @@ theorem gift_v338_yang_mills_count :
     11 = 11 := rfl
 
 -- =============================================================================
--- V3.4.0: ZETA CORRESPONDENCES AND MONSTER-ZETA MOONSHINE (NEW)
+-- V3.3.10: ZETA CORRESPONDENCES AND MONSTER-ZETA MOONSHINE
 -- =============================================================================
 
 /-!
-## Riemann Zeta Correspondences (v3.4.0)
+## Riemann Zeta Correspondences (v3.3.10)
 
 GIFT topological constants appear as (or near) Riemann zeta zeros:
 - gamma_1 ~ dim(G2) = 14 (0.96% precision)
@@ -1514,7 +1514,7 @@ noncomputable abbrev zeta_spectral_lambda := GIFT.Zeta.Basic.lambda
 /-- Multiples of 7 pattern -/
 abbrev zeta_multiples_of_7 := GIFT.Zeta.MultiplesOf7.seven_is_dimK7
 
-/-- GIFT v3.4.0 Zeta Correspondences Certificate
+/-- GIFT v3.3.10 Zeta Correspondences Certificate
 
 The five primary correspondences between zeta zeros and GIFT constants:
 - gamma_1 ~ 14 = dim(G2)
@@ -1523,7 +1523,7 @@ The five primary correspondences between zeta zeros and GIFT constants:
 - gamma_60 ~ 163 = |Roots(E8)| - b_3
 - gamma_107 ~ 248 = dim(E8)
 -/
-theorem gift_v340_zeta_certificate :
+theorem gift_v3310_zeta_certificate :
     -- GIFT constants in correspondences
     (dim_G2 = 14) ∧
     (b2 = 21) ∧
@@ -1538,7 +1538,7 @@ theorem gift_v340_zeta_certificate :
   repeat (first | constructor | native_decide | rfl)
 
 /-!
-## Monster-Zeta Moonshine (v3.4.0)
+## Monster-Zeta Moonshine (v3.3.10)
 
 The Monster group, Riemann zeta, and GIFT topology are connected:
 1. All 15 supersingular primes are GIFT-expressible
@@ -1564,7 +1564,7 @@ abbrev monster_zeta_hypothesis := GIFT.Moonshine.MonsterZeta.monster_zeta_moonsh
 /-- Monster-Zeta Moonshine holds -/
 abbrev monster_zeta_holds := GIFT.Moonshine.MonsterZeta.monster_zeta_holds
 
-/-- GIFT v3.4.0 Monster-Zeta Moonshine Certificate
+/-- GIFT v3.3.10 Monster-Zeta Moonshine Certificate
 
 The Monster-Zeta connection is proven:
 1. All 15 supersingular primes are GIFT-expressible
@@ -1572,7 +1572,7 @@ The Monster-Zeta connection is proven:
 3. Factors form arithmetic progression with step 12
 4. j-invariant 744 = 3 × 248
 -/
-theorem gift_v340_monster_zeta_certificate :
+theorem gift_v3310_monster_zeta_certificate :
     -- Monster dimension factorization
     (47 * 59 * 71 = 196883) ∧
     -- Factors from b_3 = 77
@@ -1593,7 +1593,7 @@ theorem gift_v340_monster_zeta_certificate :
   repeat (first | constructor | native_decide | rfl)
 
 /-- Supersingular primes: all 15 are GIFT-expressible -/
-theorem gift_v340_supersingular_certificate :
+theorem gift_v3310_supersingular_certificate :
     -- Small primes
     (2 = p2) ∧ (3 = N_gen) ∧ (5 = dim_K7 - p2) ∧ (7 = dim_K7) ∧
     -- Medium primes
@@ -1609,8 +1609,8 @@ theorem gift_v340_supersingular_certificate :
   refine ⟨rfl, rfl, ?_, rfl, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
           ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> native_decide
 
-/-- v3.4.0 new relations count -/
-theorem gift_v340_new_relations_count :
+/-- v3.3.10 new relations count -/
+theorem gift_v3310_new_relations_count :
     -- Zeta correspondences: 5
     -- Multiples of 7: 4
     -- Supersingular primes: 15
@@ -1618,8 +1618,8 @@ theorem gift_v340_new_relations_count :
     -- Total: 35 new relations
     5 + 4 + 15 + 11 = 35 := by native_decide
 
-/-- GIFT v3.4.0 Master Certificate: 190+ relations + Zeta + Monster-Zeta -/
-theorem gift_v340_master_certificate :
+/-- GIFT v3.3.10 Master Certificate: 190+ relations + Zeta + Monster-Zeta -/
+theorem gift_v3310_master_certificate :
     -- Core topology
     (b2 = 21 ∧ b3 = 77 ∧ H_star = 99) ∧
     -- Zeta correspondences verified

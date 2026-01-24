@@ -2,10 +2,10 @@
   GIFT Algebraic Foundations: Physical Constants
   ==============================================
 
-  Phase 5 of the Octonion Formalization Plan.
+  Physical constants from algebraic structure.
 
   We derive GIFT's physical predictions from the algebraic
-  constants established in earlier phases.
+  constants established from octonion combinatorics.
 
   Main results:
   - sin²θ_W = b₂/(b₃ + dim(G₂)) = 21/91 = 3/13

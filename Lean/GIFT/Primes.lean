@@ -18,14 +18,14 @@ import GIFT.Primes.Special
 
 namespace GIFT.Primes
 
-open Tier1 Tier2 Generators Heegner Special
+open Direct Derived Generators Heegner Special
 
 -- =============================================================================
 -- PRIME COVERAGE SUMMARY
 -- =============================================================================
 
 /-- All primes < 100 are covered by direct or derived GIFT expressions -/
-abbrev primes_below_100_complete := Tier2.complete_coverage_below_100
+abbrev primes_below_100_complete := Derived.complete_coverage_below_100
 
 /-- Access: All 9 Heegner numbers are GIFT-expressible -/
 abbrev heegner_complete := Heegner.all_heegner_gift_expressible
@@ -40,11 +40,11 @@ abbrev three_generator_structure := Generators.three_generator_theorem
 /-- Master theorem: All prime atlas relations certified -/
 theorem all_prime_atlas_relations_certified : True := by trivial
 
-/-- Access Tier1 relations -/
-abbrev tier1_certified := Tier1.all_tier1_relations_certified
+/-- Access direct prime relations -/
+abbrev direct_certified := Direct.all_direct_relations_certified
 
-/-- Access Tier2 relations -/
-abbrev tier2_certified := Tier2.all_tier2_relations_certified
+/-- Access derived prime relations -/
+abbrev derived_certified := Derived.all_derived_relations_certified
 
 /-- Access Generator relations -/
 abbrev generators_certified := Generators.all_generator_relations_certified
