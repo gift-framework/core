@@ -756,19 +756,19 @@ A remarkable discovery: Fibonacci and Lucas numbers map exactly to GIFT constant
 
 GIFT achieves 100\% coverage of primes $< 200$ through explicit expressions.
 
-\section{Tier 1: Direct Constants}
+\section{Direct Primes}
 
-\begin{definition}[Tier 1 Primes]\label{def:tier1_primes}
-    \lean{GIFT.Primes.Tier1.tier1_primes}
+\begin{definition}[Direct Primes]\label{def:direct_primes}
+    \lean{GIFT.Primes.Direct.direct_primes}
     \leanok
     Direct GIFT constants that are prime: $\{2, 3, 5, 7, 11, 13, 17, 19, 31, 61\}$
 \end{definition}
 
-\begin{theorem}[All Tier 1 Prime]\label{thm:tier1_all_prime}
-    \lean{GIFT.Primes.Tier1.tier1_all_prime}
+\begin{theorem}[All Direct Primes]\label{thm:direct_all_prime}
+    \lean{GIFT.Primes.Direct.direct_all_prime}
     \leanok
-    \uses{def:tier1_primes}
-    Every element of tier1\_primes is prime.
+    \uses{def:direct_primes}
+    Every element of direct\_primes is prime.
 \end{theorem}
 
 \section{Heegner Numbers}
