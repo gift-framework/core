@@ -325,6 +325,8 @@ python -c "from gift_core import *; print(GAMMA_GIFT)"
 | `native_decide` evaluates False on ℚ | Type annotation only on first conjunct | Annotate each conjunct: `(16 : ℚ) * ...` (see §47) |
 | `revision not found` for checkdecls | Wrong branch name | Use `rev = "master"` not `"main"` (see §48) |
 | `no such file` for Mathlib imports | Mathlib version mismatch | Pin mathlib to match lean-toolchain (see §48) |
+| `unexpected token 'λ'` | `λ` is reserved keyword in Lean 4 | Use `ev`, `eigval`, or other ASCII names (see §49) |
+| `norm_num` can't prove `n ≤ MyStruct.field` | Structure field not unfolded | Use `rfl` for definitional equality, or unfold definition (see §49) |
 
 ### 6. Namespace Conflicts in Lean 4
 
@@ -1671,9 +1673,67 @@ git  = "https://github.com/leanprover/doc-gen4"
 rev  = "v4.27.0"  # Match lean-toolchain
 ```
 
+### 49. Reserved Keywords and Structure Field Proofs
+
+**Problem 1**: `λ` is a reserved keyword in Lean 4 (for lambda expressions).
+
+```lean
+-- BAD - parse error "unexpected token 'λ'"
+axiom spectral_theorem (K : TCSManifold) :
+  ∃ (λseq : ℕ → ℝ), ...  -- ERROR!
+
+-- GOOD - use ASCII alternatives
+axiom spectral_theorem (K : TCSManifold) :
+  ∃ (ev : ℕ → ℝ), ...  -- Works!
+```
+
+**Common renames for reserved words:**
+- `λ` → `ev`, `eigval`, `lam`
+- `fun` → `fn`, `f`
+- `match` → `m`, `pattern`
+
+**Problem 2**: `norm_num` and `native_decide` cannot prove inequalities involving structure field access.
+
+```lean
+-- BAD - norm_num can't unfold K3_S1.dim
+structure CrossSection where
+  dim : ℕ
+
+def K3_S1 : CrossSection := { dim := 5, ... }
+
+-- This FAILS:
+theorem foo (q : ℕ) (hq : q > 0) (hq' : q ≤ K3_S1.dim) : ... := by
+  have h : 2 ≤ K3_S1.dim := by norm_num  -- ERROR: unsolved goal ⊢ 2 ≤ K3_S1.dim
+
+-- GOOD - use rfl for definitional equality
+theorem K3_S1_dim : K3_S1.dim = 5 := rfl
+
+-- Then use the proven equality
+have h : 2 ≤ K3_S1.dim := by rw [K3_S1_dim]; norm_num
+```
+
+**Pattern for dependent types with structure fields:**
+
+When you have `Fin (X.dim + 1)` where `X` is a structure, avoid bounds proofs inside the type. Instead:
+
+```lean
+-- BAD - proof obligation in type
+def foo (q : ℕ) (hq : q > 0) (hq' : q ≤ X.dim) :
+  ∃ C : ℝ, ... X.betti ⟨q-1, by omega⟩ ...  -- omega may fail!
+
+-- GOOD - use match or direct definition
+def density_coefficient (q : Fin 6) : ℕ :=
+  match q.val with
+  | 1 => 4
+  | 2 => 46
+  | _ => 0
+
+theorem density_coeff_2 : density_coefficient 2 = 46 := rfl  -- Works!
+```
+
 ---
 
-### Axiom Status (v3.3.12)
+### Axiom Status (v3.3.13)
 
 **Numerical Bounds - COMPLETE! (0 remaining):**
 - ✓ All Taylor series bounds proven
@@ -1682,14 +1742,21 @@ rev  = "v4.27.0"  # Match lean-toolchain
 - `CompactManifold`, `MassGap`, `spectral_theorem_discrete`
 - `universal_spectral_law`, `CheegerConstant`, `cheeger_inequality`
 
-**TCS Spectral Bounds (NEW in v3.3.12):**
+**TCS Spectral Bounds:**
 - `ProductNeckMetric` - Product metric g|_N = dt² + g_Y
 - `NeckMinimality` - Area(Γ) ≥ Area(Y) for separating hypersurfaces
 - `spectral_upper_bound` - Rayleigh quotient bound λ₁ ≤ c₂/L²
 - `spectral_lower_bound` - Cheeger-based bound λ₁ ≥ c₁/L²
 - `neck_dominates` - For L > L₀, neck controls Cheeger constant
 
-**Zeta Correspondences - New axioms:**
+**Literature Axioms (NEW in v3.3.13):**
+- `langlais_spectral_density` - Spectral density from Langlais 2024
+- `cgn_no_small_eigenvalues` - No small eigenvalues (CGN 2024)
+- `cgn_cheeger_lower_bound` - Cheeger-based lower bound (CGN 2024)
+- `torsion_free_correction` - Exponential closeness of torsion-free correction
+- `canonical_neck_length_conjecture` - L² ~ H* (conjectural)
+
+**Zeta Correspondences:**
 - `gamma : ℕ+ → ℝ` - Riemann zeta zeros (empirical)
 - `gamma_positive`, `gamma_increasing` - Basic properties
 - `gamma1_approx` ... `gamma107_approx` - Numerical approximations
@@ -1700,4 +1767,4 @@ rev  = "v4.27.0"  # Match lean-toolchain
 
 ---
 
-*Last updated: 2026-01-26 - V3.3.12: TCS Spectral Bounds Model Theorem*
+*Last updated: 2026-01-26 - V3.3.13: Literature Axioms (Langlais 2024, CGN 2024)*

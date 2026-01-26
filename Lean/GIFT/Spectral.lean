@@ -11,7 +11,7 @@ This module formalizes the spectral gap result:
 
 The key insight: the mass gap is determined by TOPOLOGY, not dynamics.
 
-## Contents (v3.3.12)
+## Contents (v3.3.13)
 
 ### Spectral Theory Foundation
 - `SpectralTheory`: Laplacian, spectral theorem, mass gap definition
@@ -23,9 +23,12 @@ The key insight: the mass gap is determined by TOPOLOGY, not dynamics.
 - `UniversalLaw`: λ₁ × H* = dim(G₂), the KEY theorem
 - `MassGapRatio`: The 14/99 theorem (algebraic)
 
-### TCS Spectral Bounds (NEW in v3.3.12)
+### TCS Spectral Bounds (v3.3.12)
 - `NeckGeometry`: TCS manifold structure and hypotheses (H1)-(H6)
 - `TCSBounds`: Model Theorem - λ₁ ~ 1/L² for TCS manifolds
+
+### Literature Axioms (Langlais 2024, CGN 2024)
+- `LiteratureAxioms`: Spectral density formula, no small eigenvalues
 
 ### Applications
 - `CheegerInequality`: Cheeger-Buser bounds
@@ -55,6 +58,9 @@ import GIFT.Spectral.MassGapRatio
 -- TCS Spectral Bounds (NEW)
 import GIFT.Spectral.NeckGeometry
 import GIFT.Spectral.TCSBounds
+
+-- Literature Axioms (Langlais 2024, CGN 2024)
+import GIFT.Spectral.LiteratureAxioms
 
 -- Applications
 import GIFT.Spectral.CheegerInequality
@@ -165,6 +171,29 @@ export TCSBounds (
 )
 
 -- ============================================================================
+-- RE-EXPORTS: LITERATURE AXIOMS (Langlais 2024, CGN 2024)
+-- ============================================================================
+
+export LiteratureAxioms (
+  CrossSection
+  K3_betti
+  K3_S1
+  K3_S1_dim
+  eigenvalue_count
+  langlais_spectral_density
+  density_coefficient_K3S1
+  K3_S1_density_coeff_2
+  K3_S1_density_coeff_3
+  cgn_no_small_eigenvalues
+  cgn_cheeger_lower_bound
+  torsion_free_correction
+  canonical_neck_length_conjecture
+  gift_prediction_structure
+  gift_prediction_in_range
+  literature_axioms_certificate
+)
+
+-- ============================================================================
 -- RE-EXPORTS: CHEEGER INEQUALITY
 -- ============================================================================
 
@@ -215,6 +244,7 @@ Spectral/
 ├── MassGapRatio.lean       # 14/99 algebraic
 ├── NeckGeometry.lean       # TCS structure, hypotheses (H1)-(H6)
 ├── TCSBounds.lean          # Model Theorem: λ₁ ~ 1/L²
+├── LiteratureAxioms.lean   # Literature axioms (Langlais, CGN)
 ├── CheegerInequality.lean  # Cheeger-Buser bounds
 └── YangMills.lean          # Clay Prize connection
 ```
@@ -231,6 +261,10 @@ Spectral/
 | `NeckMinimality` | Isoperimetric bound on neck | Coarea formula |
 | `spectral_upper_bound` | Rayleigh quotient bound | L² space formalization |
 | `neck_dominates` | Neck controls Cheeger | Cut classification |
+| `langlais_spectral_density` | Spectral counting formula | Langlais 2024 |
+| `cgn_no_small_eigenvalues` | No small eigenvalues | CGN 2024 |
+| `cgn_cheeger_lower_bound` | Cheeger lower bound | CGN 2024 |
+| `canonical_neck_length_conjecture` | L² ~ H* conjecture | GIFT conjecture |
 -/
 
 end GIFT.Spectral

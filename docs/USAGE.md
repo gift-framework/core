@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.3.12).
+Complete documentation for the `giftpy` Python package (v3.3.13).
 
 ## Installation
 
@@ -41,6 +41,63 @@ print(K7.two_b2)                # 42 (structural invariant)
 from gift_core import verify
 print(verify())          # True
 ```
+
+## New in v3.3.13
+
+### Literature Axioms for TCS Spectral Theory
+
+New module `LiteratureAxioms.lean` integrating published results:
+
+```lean
+import GIFT.Spectral.LiteratureAxioms
+
+-- Cross-section topology
+#check CrossSection               -- Structure for TCS cross-sections
+#check K3_S1                       -- K3 × S¹ cross-section (dim = 5)
+#check K3_betti                    -- K3 surface Betti numbers
+
+-- Langlais 2024 (Comm. Math. Phys.) - Spectral Density
+#check langlais_spectral_density
+-- Λ_q(s) = 2(b_{q-1}(X) + b_q(X))√s + O(1)
+
+-- Density coefficients for K3 × S¹
+#check density_coefficient_K3S1   -- Direct computation
+#check K3_S1_density_coeff_2      -- 2-forms: 46
+#check K3_S1_density_coeff_3      -- 3-forms: 88
+
+-- CGN 2024 (Inventiones) - No Small Eigenvalues
+#check cgn_no_small_eigenvalues   -- ∃ c > 0: no ev in (0, c/L)
+#check cgn_cheeger_lower_bound    -- C'/L² ≤ λ₁ (Cheeger-based)
+
+-- Torsion-free correction
+#check torsion_free_correction    -- ‖φ̃_T - φ_T‖ ≤ Ce^{-δT}
+
+-- GIFT prediction structure
+#check gift_prediction_structure  -- 14/99 = dim(G₂)/H*
+#check gift_prediction_in_range   -- 1/100 < 14/99 < 1/4
+
+-- Complete certificate
+#check literature_axioms_certificate
+```
+
+**Literature References:**
+
+| Axiom | Source | Statement |
+|-------|--------|-----------|
+| `langlais_spectral_density` | Langlais 2024, Comm. Math. Phys. | Spectral density formula |
+| `cgn_no_small_eigenvalues` | CGN 2024, Inventiones | No eigenvalues in (0, c/L) |
+| `cgn_cheeger_lower_bound` | CGN 2024, line 3598 | Lower bound from Cheeger |
+| `torsion_free_correction` | CGN 2024, Joyce 2000 | Exponential closeness |
+
+**Physical Significance:**
+
+The Model Theorem λ₁ ~ 1/L² combined with:
+- Canonical neck length L² ~ H* = 99 (conjectured)
+- Holonomy coefficient dim(G₂) = 14 (conjectured)
+
+Yields the GIFT prediction: **λ₁ = 14/99**
+
+---
 
 ## New in v3.3.12
 

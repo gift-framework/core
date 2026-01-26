@@ -1436,6 +1436,159 @@ abbrev spectral_yang_mills_prediction := GIFT.Spectral.MassGapRatio.mass_gap_pre
 /-- Mass gap master certificate -/
 abbrev spectral_certified := GIFT.Spectral.MassGapRatio.mass_gap_ratio_certified
 
+-- =============================================================================
+-- V3.3.12: TCS SPECTRAL BOUNDS (Blueprint dependency graph edges)
+-- =============================================================================
+
+/-!
+## TCS Neck Geometry (v3.3.12)
+
+Re-exports for NeckGeometry module to create blueprint dependency edges.
+-/
+
+open GIFT.Spectral.NeckGeometry
+open GIFT.Spectral.TCSBounds
+
+/-- TCS manifold structure -/
+abbrev tcs_manifold := GIFT.Spectral.NeckGeometry.TCSManifold
+
+/-- TCS hypotheses bundle -/
+abbrev tcs_hypotheses := GIFT.Spectral.NeckGeometry.TCSHypotheses
+
+/-- Threshold neck length L₀ -/
+noncomputable abbrev tcs_L0 := GIFT.Spectral.NeckGeometry.L₀
+
+/-- L₀ is positive -/
+abbrev tcs_L0_pos := GIFT.Spectral.NeckGeometry.L₀_pos
+
+/-- Neck geometry certificate -/
+abbrev tcs_neck_certificate := GIFT.Spectral.NeckGeometry.neck_geometry_certificate
+
+/-- Typical TCS parameters (v₀ = v₁ = 1/2, h₀ = 1) -/
+abbrev tcs_typical_parameters := GIFT.Spectral.NeckGeometry.typical_parameters
+
+/-!
+## TCS Spectral Bounds (v3.3.12)
+
+Re-exports for TCSBounds module to create blueprint dependency edges.
+The Model Theorem: λ₁ ~ 1/L² for TCS manifolds.
+-/
+
+/-- Lower bound constant c₁ = v₀² -/
+noncomputable abbrev tcs_c1 := GIFT.Spectral.TCSBounds.c₁
+
+/-- c₁ is positive -/
+abbrev tcs_c1_pos := GIFT.Spectral.TCSBounds.c₁_pos
+
+/-- Upper bound constant c₂ = 16v₁/(1-v₁) -/
+noncomputable abbrev tcs_c2_robust := GIFT.Spectral.TCSBounds.c₂_robust
+
+/-- c₂ is positive -/
+abbrev tcs_c2_robust_pos := GIFT.Spectral.TCSBounds.c₂_robust_pos
+
+/-- Spectral upper bound: λ₁ ≤ c₂/L² -/
+abbrev tcs_spectral_upper := GIFT.Spectral.TCSBounds.spectral_upper_bound
+
+/-- Spectral lower bound: λ₁ ≥ c₁/L² for L > L₀ -/
+abbrev tcs_spectral_lower := GIFT.Spectral.TCSBounds.spectral_lower_bound
+
+/-- Model Theorem: c₁/L² ≤ λ₁ ≤ c₂/L² -/
+abbrev tcs_spectral_bounds := GIFT.Spectral.TCSBounds.tcs_spectral_bounds
+
+/-- Spectral gap scales as 1/L² -/
+abbrev tcs_inverse_L_squared := GIFT.Spectral.TCSBounds.spectral_gap_scales_as_inverse_L_squared
+
+/-- Typical TCS bounds algebraic -/
+abbrev tcs_typical_bounds := GIFT.Spectral.TCSBounds.typical_tcs_bounds_algebraic
+
+/-- TCS bounds certificate -/
+abbrev tcs_bounds_certificate := GIFT.Spectral.TCSBounds.tcs_bounds_certificate
+
+/-- GIFT ratio is TCS type -/
+abbrev tcs_gift_ratio_type := GIFT.Spectral.TCSBounds.gift_ratio_is_tcs_type
+
+/-- GIFT v3.3.12 TCS Spectral Bounds Certificate
+
+The Model Theorem for TCS manifolds:
+- Lower bound: λ₁ ≥ v₀²/L² (Cheeger inequality)
+- Upper bound: λ₁ ≤ 16v₁/((1-v₁)L²) (Rayleigh quotient)
+- For typical parameters (v₀ = v₁ = 1/2): 1/(4L²) ≤ λ₁ ≤ 16/L²
+-/
+theorem gift_v3312_tcs_bounds_certificate :
+    -- c₁ formula: (1/2)² = 1/4
+    ((1 : ℚ) / 2) ^ 2 = 1 / 4 ∧
+    -- c₂ formula: 16·(1/2)/(1-1/2) = 16
+    (16 : ℚ) * (1 / 2) / (1 - 1 / 2) = 16 ∧
+    -- L₀ formula: 2·(1/2)/1 = 1
+    (2 : ℚ) * (1 / 2) / 1 = 1 ∧
+    -- Bound ratio: c₂/c₁ = 64
+    (16 : ℚ) / (1 / 4) = 64 ∧
+    -- GIFT ratio 14/99 in valid TCS range
+    (14 : ℚ) / 99 > 1 / 100 ∧
+    (14 : ℚ) / 99 < 1 / 4 := by
+  native_decide
+
+-- =============================================================================
+-- V3.3.13: LITERATURE AXIOMS (Blueprint dependency graph edges)
+-- =============================================================================
+
+/-!
+## Literature Axioms (v3.3.13)
+
+Re-exports for LiteratureAxioms module to create blueprint dependency edges.
+Based on Langlais 2024 and Crowley-Goette-Nordström 2024.
+-/
+
+open GIFT.Spectral.LiteratureAxioms
+
+/-- Cross-section structure for TCS manifolds -/
+abbrev lit_cross_section := GIFT.Spectral.LiteratureAxioms.CrossSection
+
+/-- K3 × S¹ cross-section -/
+abbrev lit_K3_S1 := GIFT.Spectral.LiteratureAxioms.K3_S1
+
+/-- Langlais spectral density formula -/
+abbrev lit_langlais := GIFT.Spectral.LiteratureAxioms.langlais_spectral_density
+
+/-- CGN no small eigenvalues -/
+abbrev lit_cgn_no_small := GIFT.Spectral.LiteratureAxioms.cgn_no_small_eigenvalues
+
+/-- CGN Cheeger lower bound -/
+abbrev lit_cgn_cheeger := GIFT.Spectral.LiteratureAxioms.cgn_cheeger_lower_bound
+
+/-- Torsion-free correction -/
+abbrev lit_torsion_free := GIFT.Spectral.LiteratureAxioms.torsion_free_correction
+
+/-- Canonical neck length conjecture -/
+abbrev lit_canonical_neck := GIFT.Spectral.LiteratureAxioms.canonical_neck_length_conjecture
+
+/-- GIFT prediction structure -/
+abbrev lit_prediction := GIFT.Spectral.LiteratureAxioms.gift_prediction_structure
+
+/-- Literature axioms certificate -/
+abbrev lit_certificate := GIFT.Spectral.LiteratureAxioms.literature_axioms_certificate
+
+/-- GIFT v3.3.13 Literature Axioms Certificate
+
+Literature-supported axioms for TCS spectral theory:
+1. Langlais 2024: Spectral density Λ_q(s) = 2(b_{q-1} + b_q)√s + O(1)
+2. CGN 2024: No small eigenvalues, Cheeger lower bound
+3. GIFT conjecture: L² ~ H* = 99
+-/
+theorem gift_v3313_literature_certificate :
+    -- K3 × S¹ density coefficients
+    GIFT.Spectral.LiteratureAxioms.density_coefficient_K3S1 2 = 46 ∧
+    GIFT.Spectral.LiteratureAxioms.density_coefficient_K3S1 3 = 88 ∧
+    -- GIFT prediction structure
+    (14 : ℚ) / 99 = dim_G2 / H_star ∧
+    -- Prediction in valid TCS range
+    (1 : ℚ) / 100 < 14 / 99 ∧
+    (14 : ℚ) / 99 < 1 / 4 := by
+  refine ⟨rfl, rfl, ?_, ?_, ?_⟩
+  · simp only [dim_G2, H_star]; native_decide
+  · native_decide
+  · native_decide
+
 /-- GIFT v3.3.8 Yang-Mills Spectral Gap Certificate
 
 The mass gap ratio 14/99 is proven from GIFT topology:
