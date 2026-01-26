@@ -17,7 +17,7 @@ rev  = "v4.27.0"
 [[require]]
 name = "checkdecls"
 git  = "https://github.com/PatrickMassot/checkdecls.git"
-rev  = "lean4.27.0"
+rev  = "main"
 
 [[require]]
 name = "«doc-gen4»"
