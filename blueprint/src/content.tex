@@ -1301,16 +1301,16 @@ the mass gap $\lambda_1 = 14/99$.
     \end{itemize}
 \end{theorem}
 
-\section{Tier-2 Literature Axioms}
+\section{Literature Axioms (Langlais/CGN)}
 
 \begin{definition}[Cross-Section]\label{def:CrossSection}
-    \lean{GIFT.Spectral.Tier2.CrossSection}
+    \lean{GIFT.Spectral.LiteratureAxioms.CrossSection}
     \leanok
     Cross-section of TCS cylindrical end with dimension and Betti numbers.
 \end{definition}
 
 \begin{definition}[K3 x S1 Cross-Section]\label{def:K3_S1}
-    \lean{GIFT.Spectral.Tier2.K3_S1}
+    \lean{GIFT.Spectral.LiteratureAxioms.K3_S1}
     \leanok
     \uses{def:CrossSection}
     Standard Kovalev construction with $\dim = 5$ and
@@ -1318,7 +1318,7 @@ the mass gap $\lambda_1 = 14/99$.
 \end{definition}
 
 \begin{theorem}[Langlais Spectral Density]\label{thm:langlais}
-    \lean{GIFT.Spectral.Tier2.langlais_spectral_density}
+    \lean{GIFT.Spectral.LiteratureAxioms.langlais_spectral_density}
     \uses{def:TCSManifold, def:CrossSection}
     For TCS family $(M_T, g_T)$ with cross-section $X$:
     \[
@@ -1328,7 +1328,7 @@ the mass gap $\lambda_1 = 14/99$.
 \end{theorem}
 
 \begin{theorem}[K3 x S1 Density Coefficients]\label{thm:K3_S1_density}
-    \lean{GIFT.Spectral.Tier2.K3_S1_density_coeff_2}
+    \lean{GIFT.Spectral.LiteratureAxioms.K3_S1_density_coeff_2}
     \leanok
     \uses{def:K3_S1, thm:langlais}
     For K3 $\times$ S$^1$:
@@ -1339,7 +1339,7 @@ the mass gap $\lambda_1 = 14/99$.
 \end{theorem}
 
 \begin{theorem}[CGN No Small Eigenvalues]\label{thm:cgn_no_small}
-    \lean{GIFT.Spectral.Tier2.cgn_no_small_eigenvalues}
+    \lean{GIFT.Spectral.LiteratureAxioms.cgn_no_small_eigenvalues}
     \uses{def:TCSManifold, def:TCSHypotheses}
     For TCS manifold with neck length $L$:
     $\exists c > 0$ such that no eigenvalues in $(0, c/L)$.
@@ -1347,7 +1347,7 @@ the mass gap $\lambda_1 = 14/99$.
 \end{theorem}
 
 \begin{theorem}[GIFT Prediction Structure]\label{thm:gift_prediction}
-    \lean{GIFT.Spectral.Tier2.gift_prediction_structure}
+    \lean{GIFT.Spectral.LiteratureAxioms.gift_prediction_structure}
     \leanok
     \uses{thm:tcs_spectral_bounds}
     The GIFT prediction $\lambda_1 = 14/99 = \dim(\Gtwo)/\Hstar$ is consistent
@@ -1363,12 +1363,12 @@ the mass gap $\lambda_1 = 14/99$.
     Complete verification of TCS spectral bounds and GIFT prediction compatibility.
 \end{theorem}
 
-\begin{remark}[Three-Tier Structure]
-    The GIFT prediction $\lambda_1 = 14/99$ emerges from three tiers:
+\begin{remark}[Three-Level Derivation]
+    The GIFT prediction $\lambda_1 = 14/99$ emerges from three levels:
     \begin{itemize}
-        \item \textbf{Tier 1} (THEOREM): $\lambda_1 \sim 1/L^2$ from TCS geometry
-        \item \textbf{Tier 2} (CONJECTURE): $L^2 \sim \Hstar = 99$ from volume principle
-        \item \textbf{Tier 3} (CONJECTURE): coefficient = $\dim(\Gtwo) = 14$ from holonomy
+        \item \textbf{Model Theorem} (PROVEN): $\lambda_1 \sim 1/L^2$ from TCS geometry
+        \item \textbf{Canonical Length} (CONJECTURE): $L^2 \sim \Hstar = 99$ from volume principle
+        \item \textbf{Holonomy Coefficient} (CONJECTURE): coefficient = $\dim(\Gtwo) = 14$
     \end{itemize}
 \end{remark}
 
@@ -1395,7 +1395,7 @@ McKay Correspondence & 12 & \checkmark \\
 Joyce Theorem & 10 & \checkmark \\
 Physical Relations & 50+ & \checkmark \\
 TCS Spectral Bounds & 15 & \checkmark (v3.3.13) \\
-Tier-2 Literature Axioms & 8 & \checkmark (v3.3.13) \\
+Literature Axioms (Langlais/CGN) & 8 & \checkmark (v3.3.13) \\
 \hline
 \textbf{Total} & \textbf{200+} & -- \\
 \hline
@@ -1414,5 +1414,5 @@ The GIFT framework achieves:
     \item Monster dimension $196883 = 47 \times 59 \times 71$ from $\bthree$
     \item Joyce existence theorem for torsion-free $\Gtwo$ on $\Kseven$
     \item TCS spectral bounds: $\lambda_1 \sim 1/L^2$ (Model Theorem)
-    \item Tier-2 literature axioms: Langlais 2024, CGN 2024
+    \item Literature axioms: Langlais 2024 spectral density, CGN 2024 bounds
 \end{itemize}

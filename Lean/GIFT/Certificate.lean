@@ -1529,64 +1529,62 @@ theorem gift_v3312_tcs_bounds_certificate :
   native_decide
 
 -- =============================================================================
--- V3.3.13: TIER-2 LITERATURE AXIOMS (Blueprint dependency graph edges)
+-- V3.3.13: LITERATURE AXIOMS (Blueprint dependency graph edges)
 -- =============================================================================
 
 /-!
-## Tier-2 Literature Axioms (v3.3.13)
+## Literature Axioms (v3.3.13)
 
-Re-exports for Tier2 module to create blueprint dependency edges.
+Re-exports for LiteratureAxioms module to create blueprint dependency edges.
 Based on Langlais 2024 and Crowley-Goette-Nordström 2024.
 -/
 
-open GIFT.Spectral.Tier2
+open GIFT.Spectral.LiteratureAxioms
 
 /-- Cross-section structure for TCS manifolds -/
-abbrev tier2_cross_section := GIFT.Spectral.Tier2.CrossSection
+abbrev lit_cross_section := GIFT.Spectral.LiteratureAxioms.CrossSection
 
 /-- K3 × S¹ cross-section -/
-abbrev tier2_K3_S1 := GIFT.Spectral.Tier2.K3_S1
+abbrev lit_K3_S1 := GIFT.Spectral.LiteratureAxioms.K3_S1
 
 /-- Langlais spectral density formula -/
-abbrev tier2_langlais := GIFT.Spectral.Tier2.langlais_spectral_density
+abbrev lit_langlais := GIFT.Spectral.LiteratureAxioms.langlais_spectral_density
 
 /-- CGN no small eigenvalues -/
-abbrev tier2_cgn_no_small := GIFT.Spectral.Tier2.cgn_no_small_eigenvalues
+abbrev lit_cgn_no_small := GIFT.Spectral.LiteratureAxioms.cgn_no_small_eigenvalues
 
 /-- CGN Cheeger lower bound -/
-abbrev tier2_cgn_cheeger := GIFT.Spectral.Tier2.cgn_cheeger_lower_bound
+abbrev lit_cgn_cheeger := GIFT.Spectral.LiteratureAxioms.cgn_cheeger_lower_bound
 
 /-- Torsion-free correction -/
-abbrev tier2_torsion_free := GIFT.Spectral.Tier2.torsion_free_correction
+abbrev lit_torsion_free := GIFT.Spectral.LiteratureAxioms.torsion_free_correction
 
-/-- Tier-2 canonical neck length conjecture -/
-abbrev tier2_neck_length := GIFT.Spectral.Tier2.tier2_canonical_neck_length
+/-- Canonical neck length conjecture -/
+abbrev lit_canonical_neck := GIFT.Spectral.LiteratureAxioms.canonical_neck_length_conjecture
 
 /-- GIFT prediction structure -/
-abbrev tier2_prediction := GIFT.Spectral.Tier2.gift_prediction_structure
+abbrev lit_prediction := GIFT.Spectral.LiteratureAxioms.gift_prediction_structure
 
-/-- Tier-2 certificate -/
-abbrev tier2_certificate := GIFT.Spectral.Tier2.tier2_certificate
+/-- Literature axioms certificate -/
+abbrev lit_certificate := GIFT.Spectral.LiteratureAxioms.literature_axioms_certificate
 
-/-- GIFT v3.3.13 Tier-2 Literature Axioms Certificate
+/-- GIFT v3.3.13 Literature Axioms Certificate
 
 Literature-supported axioms for TCS spectral theory:
 1. Langlais 2024: Spectral density Λ_q(s) = 2(b_{q-1} + b_q)√s + O(1)
 2. CGN 2024: No small eigenvalues, Cheeger lower bound
 3. GIFT conjecture: L² ~ H* = 99
 -/
-theorem gift_v3313_tier2_certificate :
+theorem gift_v3313_literature_certificate :
     -- K3 × S¹ density coefficients
-    GIFT.Spectral.Tier2.density_coefficient GIFT.Spectral.Tier2.K3_S1 2 (by norm_num) (by norm_num) = 46 ∧
-    GIFT.Spectral.Tier2.density_coefficient GIFT.Spectral.Tier2.K3_S1 3 (by norm_num) (by norm_num) = 88 ∧
+    GIFT.Spectral.LiteratureAxioms.density_coefficient_K3S1 2 = 46 ∧
+    GIFT.Spectral.LiteratureAxioms.density_coefficient_K3S1 3 = 88 ∧
     -- GIFT prediction structure
     (14 : ℚ) / 99 = dim_G2 / H_star ∧
     -- Prediction in valid TCS range
     (1 : ℚ) / 100 < 14 / 99 ∧
     (14 : ℚ) / 99 < 1 / 4 := by
-  refine ⟨?_, ?_, ?_, ?_, ?_⟩
-  · native_decide
-  · native_decide
+  refine ⟨rfl, rfl, ?_, ?_, ?_⟩
   · simp only [dim_G2, H_star]; native_decide
   · native_decide
   · native_decide
