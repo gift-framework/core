@@ -235,9 +235,9 @@ theorem typical_tcs_bounds_algebraic :
     -- c₁ = (1/2)² = 1/4
     ((1 : ℚ) / 2) ^ 2 = 1 / 4 ∧
     -- c₂ = 16·(1/2)/(1-1/2) = 16
-    16 * (1 / 2) / (1 - 1 / 2) = 16 ∧
+    (16 : ℚ) * (1 / 2) / (1 - 1 / 2) = 16 ∧
     -- L₀ = 2·(1/2)/1 = 1
-    2 * (1 / 2) / 1 = 1 := by
+    (2 : ℚ) * (1 / 2) / 1 = 1 := by
   native_decide
 
 /-- Bound ratio: c₂/c₁ = 64 for typical parameters.
@@ -275,15 +275,15 @@ theorem tcs_bounds_certificate :
     -- c₁ formula
     ((1 : ℚ) / 2) ^ 2 = 1 / 4 ∧
     -- c₂ formula (robust)
-    16 * (1 / 2) / (1 - 1 / 2) = 16 ∧
+    (16 : ℚ) * (1 / 2) / (1 - 1 / 2) = 16 ∧
     -- c₂ formula (symmetric)
-    4 * (1 / 2) / (1 - 2 * (1 / 2) / 3) = 3 ∧
+    (4 : ℚ) * (1 / 2) / (1 - 2 * (1 / 2) / 3) = 3 ∧
     -- L₀ formula
-    2 * (1 / 2) / 1 = 1 ∧
+    (2 : ℚ) * (1 / 2) / 1 = 1 ∧
     -- Cheeger lower bound factor
-    (1 / 4 : ℚ) / 4 = 1 / 16 ∧
+    ((1 : ℚ) / 4) / 4 = 1 / 16 ∧
     -- Bound ratio
-    16 / (1 / 4) = 64 ∧
+    (16 : ℚ) / (1 / 4) = 64 ∧
     -- GIFT ratio in range
     (14 : ℚ) / 99 > 1 / 100 := by
   native_decide

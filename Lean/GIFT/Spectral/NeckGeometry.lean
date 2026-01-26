@@ -228,14 +228,14 @@ theorem typical_parameters :
     -- c₁ = (1/2)² = 1/4
     ((1 : ℚ) / 2) ^ 2 = 1 / 4 ∧
     -- c₂_robust = 16·(1/2)/(1-1/2) = 16
-    16 * (1 / 2) / (1 - 1 / 2) = 16 ∧
+    (16 : ℚ) * (1 / 2) / (1 - 1 / 2) = 16 ∧
     -- L₀ = 2·(1/2)/1 = 1
-    2 * (1 / 2) / 1 = 1 := by
+    (2 : ℚ) * (1 / 2) / 1 = 1 := by
   native_decide
 
 /-- For symmetric blocks, c₂ is smaller: 4v₁/(1-2v₁/3) = 3 when v₁ = 1/2 -/
 theorem symmetric_block_constant :
-    4 * ((1 : ℚ) / 2) / (1 - 2 * (1 / 2) / 3) = 3 := by
+    (4 : ℚ) * (1 / 2) / (1 - 2 * (1 / 2) / 3) = 3 := by
   native_decide
 
 -- ============================================================================
@@ -261,11 +261,11 @@ theorem neck_geometry_certificate :
     -- Typical c₁
     ((1 : ℚ) / 2) ^ 2 = 1 / 4 ∧
     -- Typical c₂
-    16 * (1 / 2) / (1 - 1 / 2) = 16 ∧
+    (16 : ℚ) * (1 / 2) / (1 - 1 / 2) = 16 ∧
     -- Typical L₀
-    2 * (1 / 2) / 1 = 1 ∧
+    (2 : ℚ) * (1 / 2) / 1 = 1 ∧
     -- Symmetric c₂
-    4 * (1 / 2) / (1 - 2 * (1 / 2) / 3) = 3 := by
+    (4 : ℚ) * (1 / 2) / (1 - 2 * (1 / 2) / 3) = 3 := by
   native_decide
 
 end GIFT.Spectral.NeckGeometry
