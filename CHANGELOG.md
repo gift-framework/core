@@ -5,6 +5,75 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.13] - 2026-01-26
+
+### Summary
+
+**Literature Axioms Integration!** New `GIFT.Spectral.LiteratureAxioms` module formalizes spectral density formulas from Langlais 2024 and spectral gap bounds from Crowley-Goette-Nordström 2024.
+
+### Added
+
+- **Spectral/LiteratureAxioms.lean** - Published literature axioms:
+  - `CrossSection`: TCS cylindrical end cross-section structure
+  - `K3_S1`: Standard Kovalev K3 × S¹ construction with Betti numbers
+  - `langlais_spectral_density`: Λ_q(s) = 2(b_{q-1} + b_q)√s + O(1) (Langlais 2024)
+  - `cgn_no_small_eigenvalues`: No eigenvalues in (0, c/L) (CGN 2024)
+  - `cgn_cheeger_lower_bound`: λ₁ ≥ C'/L² (CGN 2024)
+  - `torsion_free_correction`: Exponential closeness of φ̃_T to φ_T
+  - `canonical_neck_length_conjecture`: L² ~ H* = 99 (GIFT conjecture)
+  - `density_coefficient_K3S1`: Direct computation of density coefficients
+  - `literature_axioms_certificate`: Master verification theorem
+
+- **Certificate.lean** - TCS blueprint integration:
+  - `tcs_*` abbrevs for NeckGeometry (TCSManifold, TCSHypotheses, L₀, etc.)
+  - `tcs_*` abbrevs for TCSBounds (c₁, c₂, spectral bounds)
+  - `lit_*` abbrevs for LiteratureAxioms (Langlais, CGN)
+  - `gift_v3312_tcs_bounds_certificate`: TCS bounds verification
+  - `gift_v3313_literature_certificate`: Literature axioms verification
+
+- **Blueprint** - New TCS Spectral Bounds chapter:
+  - TCS Manifold Structure section with definitions
+  - Spectral Bound Constants section (c₁, c₂, L₀)
+  - Model Theorem section with proofs
+  - Literature Axioms section (Langlais/CGN)
+  - Three-Level Derivation remark
+
+### Changed
+
+- **Terminology standardization** - Replaced internal jargon with academic terms:
+  - "Tier-2" → "Literature Axioms" (module name)
+  - "tier2_*" → "lit_*" (abbrev prefixes)
+  - "Tier 1/2/3" → "Model Theorem/Canonical Length/Holonomy Coefficient"
+
+### Fixed
+
+- **Lean 4 reserved keyword**: Replaced `λ` with `ev` (eigenvalue) in axiom signatures
+- **Proof obligations**: Simplified `density_coefficient` to avoid dependent type complications
+- **Blueprint dependency graph**: Added abbrevs to connect NeckGeometry and TCSBounds
+
+### Mathematical Significance
+
+Literature axioms provide rigorous foundation for TCS spectral theory:
+
+| Axiom | Reference | Statement |
+|-------|-----------|-----------|
+| `langlais_spectral_density` | Langlais 2024 | Λ_q(s) = 2(b_{q-1} + b_q)√s + O(1) |
+| `cgn_no_small_eigenvalues` | CGN 2024 | No eigenvalues in (0, c/L) |
+| `cgn_cheeger_lower_bound` | CGN 2024 | λ₁ ≥ C'/L² |
+
+K3 × S¹ density coefficients:
+- 2-forms: 2(1 + 22) = 46
+- 3-forms: 2(22 + 22) = 88
+
+### Relation Count
+
+| Module | New Relations |
+|--------|---------------|
+| LiteratureAxioms | 8 |
+| Certificate (TCS abbrevs) | 15 |
+| **Total v3.3.13** | **23** |
+| **Cumulative** | **~299** |
+
 ## [3.3.12] - 2026-01-26
 
 ### Summary
