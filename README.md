@@ -19,7 +19,9 @@ Lean/GIFT/
 │   ├── DifferentialFormsR7.lean  # DiffForm, d, d²=0
 │   ├── HodgeStarCompute.lean     # Explicit Hodge star (Levi-Civita)
 │   └── HodgeStarR7.lean   # ⋆, ψ=⋆φ PROVEN, TorsionFree
-├── Spectral/              # Spectral theory [v3.3.9]
+├── Spectral/              # Spectral theory [v3.3.12]
+│   ├── NeckGeometry.lean         # TCS structure, H1-H6 hypotheses NEW!
+│   ├── TCSBounds.lean            # Model Theorem: λ₁ ~ 1/L² NEW!
 │   ├── MassGapRatio.lean         # λ₁ = 14/99
 │   └── YangMills.lean            # Gauge theory connection
 ├── Zeta/                  # GIFT-Zeta correspondences [v3.3.10]
@@ -73,4 +75,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.3.11*
+*GIFT Core v3.3.12*

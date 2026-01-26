@@ -11,7 +11,7 @@ This module formalizes the spectral gap result:
 
 The key insight: the mass gap is determined by TOPOLOGY, not dynamics.
 
-## Contents (v3.3.10)
+## Contents (v3.3.12)
 
 ### Spectral Theory Foundation
 - `SpectralTheory`: Laplacian, spectral theorem, mass gap definition
@@ -23,6 +23,10 @@ The key insight: the mass gap is determined by TOPOLOGY, not dynamics.
 - `UniversalLaw`: λ₁ × H* = dim(G₂), the KEY theorem
 - `MassGapRatio`: The 14/99 theorem (algebraic)
 
+### TCS Spectral Bounds (NEW in v3.3.12)
+- `NeckGeometry`: TCS manifold structure and hypotheses (H1)-(H6)
+- `TCSBounds`: Model Theorem - λ₁ ~ 1/L² for TCS manifolds
+
 ### Applications
 - `CheegerInequality`: Cheeger-Buser bounds
 - `YangMills`: Connection to Clay Millennium Prize
@@ -32,9 +36,10 @@ The key insight: the mass gap is determined by TOPOLOGY, not dynamics.
 - Joyce, D.D. (2000). Compact Manifolds with Special Holonomy
 - Cheeger, J. (1970). A lower bound for the smallest eigenvalue of the Laplacian
 - Jaffe, A. & Witten, E. (2000). Yang-Mills Existence and Mass Gap
-- GIFT Framework v3.3.10: Yang-Mills spectral gap from K7 topology
+- Kovalev, A. (2003). Twisted connected sums and special Riemannian holonomy
+- GIFT Framework v3.3.12: TCS spectral bounds
 
-Version: 2.0.0
+Version: 2.1.0
 -/
 
 -- Spectral theory foundations
@@ -46,6 +51,10 @@ import GIFT.Spectral.G2Manifold
 -- Universal law and mass gap ratio
 import GIFT.Spectral.UniversalLaw
 import GIFT.Spectral.MassGapRatio
+
+-- TCS Spectral Bounds (NEW)
+import GIFT.Spectral.NeckGeometry
+import GIFT.Spectral.TCSBounds
 
 -- Applications
 import GIFT.Spectral.CheegerInequality
@@ -120,6 +129,42 @@ export MassGapRatio (
 )
 
 -- ============================================================================
+-- RE-EXPORTS: NECK GEOMETRY (TCS)
+-- ============================================================================
+
+export NeckGeometry (
+  TCSManifold
+  BoundedNeckVolume
+  ProductNeckMetric
+  BlockCheegerBound
+  BalancedBlocks
+  NeckMinimality
+  TCSHypotheses
+  L₀
+  L₀_pos
+  typical_parameters
+  neck_geometry_certificate
+)
+
+-- ============================================================================
+-- RE-EXPORTS: TCS BOUNDS
+-- ============================================================================
+
+export TCSBounds (
+  c₁
+  c₁_pos
+  c₂_robust
+  c₂_robust_pos
+  c₂_symmetric
+  spectral_upper_bound
+  spectral_lower_bound
+  tcs_spectral_bounds
+  spectral_gap_scales_as_inverse_L_squared
+  typical_tcs_bounds_algebraic
+  tcs_bounds_certificate
+)
+
+-- ============================================================================
 -- RE-EXPORTS: CHEEGER INEQUALITY
 -- ============================================================================
 
@@ -168,6 +213,8 @@ Spectral/
 ├── G2Manifold.lean         # G₂ holonomy, K7
 ├── UniversalLaw.lean       # λ₁ × H* = 14
 ├── MassGapRatio.lean       # 14/99 algebraic
+├── NeckGeometry.lean       # TCS structure, hypotheses (H1)-(H6)
+├── TCSBounds.lean          # Model Theorem: λ₁ ~ 1/L²
 ├── CheegerInequality.lean  # Cheeger-Buser bounds
 └── YangMills.lean          # Clay Prize connection
 ```
@@ -180,6 +227,10 @@ Spectral/
 | `K7_spectral_law` | λ₁ × 99 = 14 | Heat kernel + trace formula |
 | `K7_cheeger_constant` | h(K7) = 14/99 | Isoperimetric analysis |
 | `GIFT_mass_gap_relation` | Δ = λ₁ × Λ_QCD | M-theory compactification |
+| `ProductNeckMetric` | Product metric on TCS neck | Differential geometry |
+| `NeckMinimality` | Isoperimetric bound on neck | Coarea formula |
+| `spectral_upper_bound` | Rayleigh quotient bound | L² space formalization |
+| `neck_dominates` | Neck controls Cheeger | Cut classification |
 -/
 
 end GIFT.Spectral

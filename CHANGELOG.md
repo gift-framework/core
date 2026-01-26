@@ -5,6 +5,70 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.12] - 2026-01-26
+
+### Summary
+
+**TCS Spectral Bounds Model Theorem!** New `GIFT.Spectral.NeckGeometry` and `GIFT.Spectral.TCSBounds` modules formalize the spectral bounds for Twisted Connected Sum manifolds with cylindrical neck.
+
+### Added
+
+- **Spectral/NeckGeometry.lean** - TCS manifold structure and hypotheses:
+  - `TCSManifold`: K = M₁ ∪_N M₂ with cylindrical neck N ≅ Y × [0, L]
+  - `BoundedNeckVolume` (H2): Vol(N) ∈ [v₀, v₁]
+  - `BlockCheegerBound` (H4): h(Mᵢ \ N) ≥ h₀
+  - `BalancedBlocks` (H5): Vol(Mᵢ) ∈ [1/4, 3/4]
+  - `ProductNeckMetric` (H3), `NeckMinimality` (H6): Geometric axioms
+  - `TCSHypotheses`: Complete hypothesis bundle
+  - `L₀`: Threshold neck length 2v₀/h₀ with `L₀_pos` proven
+  - `typical_parameters`: Algebraic verification via native_decide
+
+- **Spectral/TCSBounds.lean** - Model Theorem for spectral bounds:
+  - `c₁`, `c₂_robust`, `c₂_symmetric`: Bound constants
+  - `spectral_upper_bound`: λ₁ ≤ 16v₁/((1-v₁)L²) via Rayleigh quotient
+  - `spectral_lower_bound`: λ₁ ≥ v₀²/L² via Cheeger inequality
+  - `tcs_spectral_bounds`: Main theorem combining both bounds
+  - `spectral_gap_scales_as_inverse_L_squared`: λ₁ = Θ(1/L²)
+  - `tcs_bounds_certificate`: Complete algebraic verification
+
+- **Spectral.lean** - Updated re-exports for new modules
+
+### Fixed
+
+- **Lean toolchain compatibility**: Updated to v4.27.0 (stable)
+- **Dependency pinning**: mathlib v4.27.0, doc-gen4 v4.27.0, checkdecls master
+- **Type annotations**: Explicit ℚ annotations for native_decide in conjunctions
+
+### Mathematical Significance
+
+The Model Theorem establishes:
+```
+For TCS manifold K with neck length L > L₀ satisfying (H1)-(H6):
+    v₀²/L² ≤ λ₁(K) ≤ 16v₁/((1-v₁)L²)
+```
+
+**Key insight**: The spectral gap λ₁ scales as 1/L² for long-necked TCS manifolds.
+
+For K7 with L² ~ H*:
+- λ₁ ~ 1/H* = 1/99
+- Combined with dim(G₂) = 14 gives λ₁ = 14/99 (universal spectral law)
+
+### Module Structure
+
+| Module | Content | Status |
+|--------|---------|--------|
+| `NeckGeometry.lean` | TCS structure, hypotheses H1-H6 | Structures + axioms |
+| `TCSBounds.lean` | Model Theorem, bound constants | Axioms + proven algebraic |
+
+### Relation Count
+
+| Module | New Relations |
+|--------|---------------|
+| NeckGeometry | 4 |
+| TCSBounds | 7 |
+| **Total v3.3.12** | **11** |
+| **Cumulative** | **~276** |
+
 ## [3.3.11] - 2026-01-24
 
 ### Summary

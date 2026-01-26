@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.3.11).
+Complete documentation for the `giftpy` Python package (v3.3.12).
 
 ## Installation
 
@@ -13,7 +13,7 @@ For visualization (optional):
 pip install giftpy matplotlib numpy
 ```
 
-## Quick Start (v3.3.11)
+## Quick Start (v3.3.12)
 
 ```python
 from gift_core import *
@@ -41,6 +41,73 @@ print(K7.two_b2)                # 42 (structural invariant)
 from gift_core import verify
 print(verify())          # True
 ```
+
+## New in v3.3.12
+
+### TCS Spectral Bounds (Model Theorem)
+
+New modules for Twisted Connected Sum spectral bounds:
+
+```lean
+import GIFT.Spectral.NeckGeometry
+import GIFT.Spectral.TCSBounds
+
+-- TCS Manifold Structure
+#check TCSManifold                  -- K = M₁ ∪_N M₂ with neck
+#check TCSManifold.neckLength       -- L > 0
+#check TCSManifold.volume_eq_one    -- (H1) Normalized volume
+
+-- Hypotheses (H2)-(H6)
+#check BoundedNeckVolume            -- (H2) Vol(N) ∈ [v₀, v₁]
+#check BlockCheegerBound            -- (H4) h(Mᵢ \ N) ≥ h₀
+#check BalancedBlocks               -- (H5) Vol(Mᵢ) ∈ [1/4, 3/4]
+#check ProductNeckMetric            -- (H3) axiom
+#check NeckMinimality               -- (H6) axiom
+
+-- Complete hypothesis bundle
+#check TCSHypotheses                -- All (H1)-(H6) combined
+
+-- Threshold neck length
+#check L₀                           -- 2v₀/h₀
+#check L₀_pos                       -- L₀ > 0 (proven)
+```
+
+### Model Theorem: λ₁ ~ 1/L²
+
+```lean
+import GIFT.Spectral.TCSBounds
+
+-- Bound constants
+#check c₁                           -- v₀² (lower bound coefficient)
+#check c₂_robust                    -- 16v₁/(1-v₁) (upper bound)
+
+-- THE MODEL THEOREM
+#check tcs_spectral_bounds
+-- For L > L₀:  c₁/L² ≤ λ₁(K) ≤ c₂/L²
+
+-- Individual bounds
+#check spectral_upper_bound         -- Rayleigh quotient (axiom)
+#check spectral_lower_bound         -- Cheeger inequality (axiom)
+
+-- Scaling theorem
+#check spectral_gap_scales_as_inverse_L_squared
+-- λ₁ = Θ(1/L²)
+
+-- Algebraic verification (proven!)
+#check typical_tcs_bounds_algebraic
+-- v₀ = v₁ = 1/2, h₀ = 1 gives c₁ = 1/4, c₂ = 16, L₀ = 1
+
+#check tcs_bounds_certificate       -- Complete certificate
+```
+
+**Physical Significance:**
+
+For K7 (compact G₂-holonomy manifold from TCS construction):
+- Neck length L scales as √H* where H* = b₂ + b₃ + 1 = 99
+- Model theorem gives λ₁ ~ 1/L² ~ 1/H*
+- Universal law: λ₁ × H* = dim(G₂) → λ₁ = 14/99
+
+---
 
 ## New in v3.3.11
 
