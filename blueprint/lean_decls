@@ -115,16 +115,16 @@ GIFT.Sequences.Lucas.b3_lucas_product
 GIFT.Sequences.Lucas.gift_lucas_embedding
 
 # Prime Atlas - Direct GIFT Primes
-GIFT.Primes.Tier1.p2_is_prime
-GIFT.Primes.Tier1.N_gen_is_prime
-GIFT.Primes.Tier1.Weyl_is_prime
-GIFT.Primes.Tier1.dim_K7_is_prime
-GIFT.Primes.Tier1.D_bulk_is_prime
-GIFT.Primes.Tier1.alpha_B_sum_is_prime
-GIFT.Primes.Tier1.lambda_H_is_prime
-GIFT.Primes.Tier1.kappa_T_inv_is_prime
-GIFT.Primes.Tier1.tier1_primes
-GIFT.Primes.Tier1.tier1_all_prime
+GIFT.Primes.Direct.p2_is_prime
+GIFT.Primes.Direct.N_gen_is_prime
+GIFT.Primes.Direct.Weyl_is_prime
+GIFT.Primes.Direct.dim_K7_is_prime
+GIFT.Primes.Direct.D_bulk_is_prime
+GIFT.Primes.Direct.alpha_B_sum_is_prime
+GIFT.Primes.Direct.lambda_H_is_prime
+GIFT.Primes.Direct.kappa_T_inv_is_prime
+GIFT.Primes.Direct.direct_primes
+GIFT.Primes.Direct.direct_all_prime
 
 # Heegner Numbers
 GIFT.Primes.Heegner.heegner_numbers
