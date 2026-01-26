@@ -11,7 +11,7 @@ This module formalizes the spectral gap result:
 
 The key insight: the mass gap is determined by TOPOLOGY, not dynamics.
 
-## Contents (v3.3.11)
+## Contents (v3.3.12)
 
 ### Spectral Theory Foundation
 - `SpectralTheory`: Laplacian, spectral theorem, mass gap definition
@@ -23,7 +23,7 @@ The key insight: the mass gap is determined by TOPOLOGY, not dynamics.
 - `UniversalLaw`: λ₁ × H* = dim(G₂), the KEY theorem
 - `MassGapRatio`: The 14/99 theorem (algebraic)
 
-### TCS Spectral Bounds (NEW in v3.3.11)
+### TCS Spectral Bounds (NEW in v3.3.12)
 - `NeckGeometry`: TCS manifold structure and hypotheses (H1)-(H6)
 - `TCSBounds`: Model Theorem - λ₁ ~ 1/L² for TCS manifolds
 
@@ -37,7 +37,7 @@ The key insight: the mass gap is determined by TOPOLOGY, not dynamics.
 - Cheeger, J. (1970). A lower bound for the smallest eigenvalue of the Laplacian
 - Jaffe, A. & Witten, E. (2000). Yang-Mills Existence and Mass Gap
 - Kovalev, A. (2003). Twisted connected sums and special Riemannian holonomy
-- GIFT Framework v3.3.11: TCS spectral bounds
+- GIFT Framework v3.3.12: TCS spectral bounds
 
 Version: 2.1.0
 -/

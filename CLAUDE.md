@@ -322,6 +322,9 @@ python -c "from gift_core import *; print(GAMMA_GIFT)"
 | `exp (y * log x)` vs `exp (log x * y)` | `rpow_def_of_pos` gives `exp(log x * y)` | Match multiplication order (see §34) |
 | `norm_num` proves bound is false | Arithmetic error (e.g. 5.33 > 5.329692) | Double-check calculations before coding (see §35) |
 | `nlinarith` fails on products | Can't handle `a < b → a*c < b*c` | Use `mul_lt_mul_of_pos_right` explicitly (see §36) |
+| `native_decide` evaluates False on ℚ | Type annotation only on first conjunct | Annotate each conjunct: `(16 : ℚ) * ...` (see §47) |
+| `revision not found` for checkdecls | Wrong branch name | Use `rev = "master"` not `"main"` (see §48) |
+| `no such file` for Mathlib imports | Mathlib version mismatch | Pin mathlib to match lean-toolchain (see §48) |
 
 ### 6. Namespace Conflicts in Lean 4
 
@@ -1604,9 +1607,73 @@ This is a docstring.
 
 **Rule**: Always place `import` statements at the very top of the file, before any `/-! ... -/` docstrings.
 
+### 47. Type Annotations in Conjunctions for native_decide
+
+**Problem**: In a conjunction `A ∧ B ∧ C`, type annotations only apply to their immediate expression, not to other conjuncts.
+
+```lean
+-- BAD - native_decide evaluates as False (integer division!)
+theorem foo :
+    ((1 : ℚ) / 2) ^ 2 = 1 / 4 ∧      -- ✓ This is ℚ
+    16 * (1 / 2) / (1 - 1 / 2) = 16 ∧ -- ✗ This defaults to ℕ!
+    2 * (1 / 2) / 1 = 1 := by         -- ✗ Also ℕ!
+  native_decide  -- FAILS: 16 * 0 / (1 - 0) ≠ 16
+
+-- GOOD - annotate each conjunct's first number
+theorem foo :
+    ((1 : ℚ) / 2) ^ 2 = 1 / 4 ∧
+    (16 : ℚ) * (1 / 2) / (1 - 1 / 2) = 16 ∧
+    (2 : ℚ) * (1 / 2) / 1 = 1 := by
+  native_decide  -- WORKS!
+```
+
+**Rule**: For each conjunct involving division or fractions, annotate the first literal with `(n : ℚ)`.
+
+### 48. Lean Toolchain and Dependency Version Compatibility
+
+**Problem**: Mathlib file structure changes between versions. Imports like `Mathlib.Data.Nat.Basic` may not exist in older Mathlib.
+
+**Key versions (as of v3.3.12):**
+
+| Component | Version | Notes |
+|-----------|---------|-------|
+| `lean-toolchain` | `leanprover/lean4:v4.27.0` | Stable release |
+| `mathlib` | `v4.27.0` | Must match toolchain |
+| `doc-gen4` | `v4.27.0` | Version-tagged |
+| `checkdecls` | `master` | Uses `master`, NOT `main` |
+
+**Common issues:**
+
+1. **Mathlib paths don't exist**: You're using a Mathlib version where files were reorganized
+   - Solution: Update lean-toolchain AND mathlib to matching versions
+
+2. **checkdecls revision not found**: The `lean4.X.Y` tag doesn't exist
+   - Solution: Use `rev = "master"` (checkdecls uses master branch, not version tags for newer Lean)
+
+3. **Batteries compilation errors with rc versions**: Release candidates may have bugs
+   - Solution: Use stable versions (e.g., v4.27.0 not v4.28.0-rc1)
+
+**lakefile.toml pattern:**
+```toml
+[[require]]
+name = "mathlib"
+git  = "https://github.com/leanprover-community/mathlib4.git"
+rev  = "v4.27.0"  # Match lean-toolchain
+
+[[require]]
+name = "checkdecls"
+git  = "https://github.com/PatrickMassot/checkdecls.git"
+rev  = "master"   # NOT "main"!
+
+[[require]]
+name = "«doc-gen4»"
+git  = "https://github.com/leanprover/doc-gen4"
+rev  = "v4.27.0"  # Match lean-toolchain
+```
+
 ---
 
-### Axiom Status (v3.3.11)
+### Axiom Status (v3.3.12)
 
 **Numerical Bounds - COMPLETE! (0 remaining):**
 - ✓ All Taylor series bounds proven
@@ -1614,6 +1681,13 @@ This is a docstring.
 **Spectral Theory - Documented axioms:**
 - `CompactManifold`, `MassGap`, `spectral_theorem_discrete`
 - `universal_spectral_law`, `CheegerConstant`, `cheeger_inequality`
+
+**TCS Spectral Bounds (NEW in v3.3.12):**
+- `ProductNeckMetric` - Product metric g|_N = dt² + g_Y
+- `NeckMinimality` - Area(Γ) ≥ Area(Y) for separating hypersurfaces
+- `spectral_upper_bound` - Rayleigh quotient bound λ₁ ≤ c₂/L²
+- `spectral_lower_bound` - Cheeger-based bound λ₁ ≥ c₁/L²
+- `neck_dominates` - For L > L₀, neck controls Cheeger constant
 
 **Zeta Correspondences - New axioms:**
 - `gamma : ℕ+ → ℝ` - Riemann zeta zeros (empirical)
@@ -1626,4 +1700,4 @@ This is a docstring.
 
 ---
 
-*Last updated: 2026-01-24 - V3.3.11: Monster Dimension via Coxeter Numbers*
+*Last updated: 2026-01-26 - V3.3.12: TCS Spectral Bounds Model Theorem*
