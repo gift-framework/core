@@ -1972,10 +1972,10 @@ abbrev grp_phi_inv_sq_bounds := GIFT.Foundations.GoldenRatioPowers.phi_inv_sq_bo
 /-- φ⁻⁵⁴ very small (< 10⁻¹⁰) -/
 abbrev grp_phi_inv_54_small := GIFT.Foundations.GoldenRatioPowers.phi_inv_54_very_small
 
-/-- 27^φ ≈ 206 bounds -/
-abbrev grp_27_phi_bounds := GIFT.Foundations.GoldenRatioPowers.rpow_27_phi_bounds
+/-- 27^φ (Jordan power) bounds: 206 < 27^φ < 209 -/
+abbrev grp_jordan_power_bounds := GIFT.Foundations.GoldenRatioPowers.jordan_power_phi_bounds
 
-/-- Golden ratio powers certificate -/
-abbrev grp_certificate := GIFT.Foundations.GoldenRatioPowers.golden_ratio_powers_certificate
+/-- Cohomology ratio: H*/rank(E₈) = 99/8 -/
+abbrev grp_cohom_ratio := GIFT.Foundations.GoldenRatioPowers.cohom_ratio
 
 end GIFT.Certificate
