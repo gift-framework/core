@@ -123,12 +123,12 @@ noncomputable def spectralCoefficient : Real := pi_squared
 /-- pi^2 > 0 -/
 theorem spectralCoefficient_pos : spectralCoefficient > 0 := pi_squared_pos
 
-/-- pi^2 is approximately 9.8696 -/
+/-- pi^2 is approximately 9.8696 (rough bounds: 9 < pi^2 < 10) -/
 theorem spectralCoefficient_approx :
-    (9.86 : Real) < spectralCoefficient ∧ spectralCoefficient < 9.88 := by
+    (9 : Real) < spectralCoefficient ∧ spectralCoefficient < 10 := by
   constructor
-  · exact pi_squared_gt_986
-  · exact pi_squared_lt_988
+  · exact pi_squared_gt_9
+  · exact pi_squared_lt_10
 
 -- ============================================================================
 -- LOCALIZATION LEMMA

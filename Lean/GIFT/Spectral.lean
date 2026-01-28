@@ -188,7 +188,7 @@ export SelectionPrinciple (
   pi_squared_pos
   kappa
   kappa_pos
-  kappa_bounds
+  kappa_rough_bounds
   -- Building blocks
   QuinticBlock
   CIBlock
