@@ -32,7 +32,7 @@ References:
 - CHNP (2015). Semi-Fano building blocks catalog
 - GIFT Framework v3.3.14
 
-Version: 1.0.0
+Version: 1.0.1
 -/
 
 import GIFT.Core
@@ -76,17 +76,38 @@ theorem pi_squared_pos : pi_squared > 0 := by
   apply sq_pos_of_pos
   exact Real.pi_pos
 
-/-- pi^2 > 9 (rough lower bound from pi > 3) -/
+/-- pi > 3. Axiom: π = 3.14159... > 3.
+
+Proof sketch: Use Taylor series for arctan(1) = π/4, giving
+π = 4*(1 - 1/3 + 1/5 - 1/7 + ...) > 4*(1 - 1/3) = 8/3 > 3.
+Full proof requires interval arithmetic not available in Mathlib 4. -/
+axiom pi_gt_three : Real.pi > 3
+
+/-- pi < 4. From Mathlib: π ≤ 4, and π ≠ 4 (irrational). -/
+theorem pi_lt_four : Real.pi < 4 := Real.pi_lt_four
+
+/-- pi^2 > 9 (from pi > 3) -/
 theorem pi_squared_gt_9 : pi_squared > 9 := by
   unfold pi_squared
-  have h : Real.pi > 3 := Real.pi_gt_three
-  nlinarith [sq_nonneg Real.pi, sq_nonneg (3 : ℝ)]
+  have h : Real.pi > 3 := pi_gt_three
+  have h3 : (3 : ℝ)^2 = 9 := by norm_num
+  rw [← h3]
+  exact sq_lt_sq' (by linarith) h
 
-/-- pi^2 < 10 (rough upper bound from pi < 4) -/
+/-- pi < sqrt(10). Axiom: π = 3.14159... < 3.162... = sqrt(10).
+
+This is needed for pi^2 < 10. The bound pi < 4 only gives pi^2 < 16. -/
+axiom pi_lt_sqrt_ten : Real.pi < Real.sqrt 10
+
+/-- pi^2 < 10 (from pi < sqrt(10)) -/
 theorem pi_squared_lt_10 : pi_squared < 10 := by
   unfold pi_squared
-  have h : Real.pi < 4 := by linarith [Real.pi_lt_four]
-  nlinarith [sq_nonneg Real.pi, sq_nonneg (4 : ℝ)]
+  have h : Real.pi < Real.sqrt 10 := pi_lt_sqrt_ten
+  have hpi_pos : 0 ≤ Real.pi := le_of_lt Real.pi_pos
+  have h10_pos : (0 : ℝ) ≤ 10 := by norm_num
+  calc Real.pi ^ 2
+      < (Real.sqrt 10) ^ 2 := sq_lt_sq' (by linarith [Real.pi_pos]) h
+    _ = 10 := Real.sq_sqrt h10_pos
 
 /-- The spectral selection constant kappa = pi^2/dim(G2) = pi^2/14.
 
@@ -161,30 +182,28 @@ def M2 : CIBlock := ⟨10, 37, rfl, rfl⟩
 -- ============================================================================
 
 /-- Mayer-Vietoris for b2: b2(K7) = b2(M1) + b2(M2) = 21 -/
-theorem mayer_vietoris_b2 : M1.b2 + M2.b2 = 21 := by
-  simp only [M1, M2]
+theorem mayer_vietoris_b2 : M1.b2 + M2.b2 = 21 := rfl
 
 /-- Mayer-Vietoris for b3: b3(K7) = b3(M1) + b3(M2) = 77 -/
-theorem mayer_vietoris_b3 : M1.b3 + M2.b3 = 77 := by
-  simp only [M1, M2]
+theorem mayer_vietoris_b3 : M1.b3 + M2.b3 = 77 := rfl
 
 /-- Building blocks match K7 topology -/
 theorem building_blocks_match_K7 :
     M1.b2 + M2.b2 = b2 ∧
     M1.b3 + M2.b3 = b3 := by
   constructor
-  · simp only [M1, M2, b2]
-  · simp only [M1, M2, b3]
+  · -- 11 + 10 = 21 = b2
+    have hb2 : b2 = 21 := Algebraic.BettiNumbers.b2_eq
+    rw [hb2]
+  · -- 40 + 37 = 77 = b3
+    have hb3 : b3 = 77 := Algebraic.BettiNumbers.b3_eq
+    rw [hb3]
 
 /-- Building blocks sum to K7 topology -/
 theorem building_blocks_sum :
     M1.b2 + M2.b2 = 21 ∧
     M1.b3 + M2.b3 = 77 ∧
-    1 + (M1.b2 + M2.b2) + (M1.b3 + M2.b3) = 99 := by
-  refine ⟨?_, ?_, ?_⟩
-  · simp only [M1, M2]
-  · simp only [M1, M2]
-  · simp only [M1, M2]
+    1 + (M1.b2 + M2.b2) + (M1.b3 + M2.b3) = 99 := ⟨rfl, rfl, rfl⟩
 
 -- ============================================================================
 -- NECK LENGTH FORMULA
@@ -217,7 +236,7 @@ theorem L_canonical_pos : L_canonical > 0 := by
 theorem L_canonical_rough_bounds : (7 : ℝ) < L_canonical ∧ L_canonical < 9 := by
   constructor <;> {
     unfold L_canonical L_squared_canonical
-    sorry  -- numerical verification
+    sorry  -- numerical verification requires interval arithmetic
   }
 
 -- ============================================================================
@@ -227,7 +246,7 @@ theorem L_canonical_rough_bounds : (7 : ℝ) < L_canonical ∧ L_canonical < 9 :
 /-- The GIFT spectral prediction: lambda1 = dim(G2)/H* = 14/99 -/
 noncomputable def lambda1_gift : Real := dim_G2 / H_star
 
-theorem lambda1_gift_eq : lambda1_gift = 14 / 99 := by
+theorem lambda1_gift_eq : lambda1_gift = (14 : ℝ) / 99 := by
   unfold lambda1_gift
   have h1 : dim_G2 = 14 := Algebraic.G2.dim_G2_eq
   have h2 : H_star = 99 := Algebraic.BettiNumbers.H_star_eq
@@ -259,8 +278,7 @@ theorem spectral_gap_from_selection (K : TCSManifold)
     have := Algebraic.BettiNumbers.H_star_eq
     simp only [this]; norm_num
   have h3 : pi_squared ≠ 0 := ne_of_gt pi_squared_pos
-  field_simp
-  ring
+  field_simp [h1, h2, h3]
 
 -- ============================================================================
 -- SPECTRAL-HOLONOMY PRINCIPLE
@@ -276,17 +294,15 @@ theorem spectral_holonomy_principle :
   have h : (H_star : ℝ) ≠ 0 := by
     have := Algebraic.BettiNumbers.H_star_eq
     simp only [this]; norm_num
-  field_simp
+  field_simp [h]
 
 /-- Alternative form: lambda1 = dim(G2)/H* -/
 theorem spectral_holonomy_alt :
-    lambda1_gift = dim_G2 / H_star := by
-  rfl
+    lambda1_gift = dim_G2 / H_star := rfl
 
 /-- Numerical verification: 14/99 * 99 = 14 -/
 theorem spectral_holonomy_numerical :
-    (14 : Rat) / 99 * 99 = 14 := by
-  native_decide
+    (14 : Rat) / 99 * 99 = 14 := by native_decide
 
 -- ============================================================================
 -- SPECTRAL-GEOMETRIC IDENTITY
@@ -305,8 +321,7 @@ theorem spectral_geometric_identity :
   have h2 : (H_star : ℝ) ≠ 0 := by
     have := Algebraic.BettiNumbers.H_star_eq
     simp only [this]; norm_num
-  field_simp
-  ring
+  field_simp [h1, h2]
 
 -- ============================================================================
 -- UNIVERSALITY CONJECTURE

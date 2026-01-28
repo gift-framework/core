@@ -183,9 +183,15 @@ export TCSBounds (
 -- ============================================================================
 
 export SelectionPrinciple (
+  -- Pi bounds (axioms for numerical bounds not in Mathlib)
+  pi_gt_three
+  pi_lt_four
+  pi_lt_sqrt_ten
   -- Selection constant
   pi_squared
   pi_squared_pos
+  pi_squared_gt_9
+  pi_squared_lt_10
   kappa
   kappa_pos
   kappa_rough_bounds
@@ -197,9 +203,11 @@ export SelectionPrinciple (
   -- Mayer-Vietoris
   mayer_vietoris_b2
   mayer_vietoris_b3
+  building_blocks_match_K7
   building_blocks_sum
   -- Neck length
   L_squared_canonical
+  L_squared_canonical_pos
   L_canonical
   L_canonical_pos
   -- Spectral gap
@@ -208,8 +216,12 @@ export SelectionPrinciple (
   spectral_gap_from_selection
   -- Spectral-Holonomy Principle
   spectral_holonomy_principle
+  spectral_holonomy_alt
   spectral_holonomy_numerical
   spectral_geometric_identity
+  -- Axioms
+  selection_principle_holds
+  universality_conjecture
   -- Certificate
   selection_principle_certificate
 )
