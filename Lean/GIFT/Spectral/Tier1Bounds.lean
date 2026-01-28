@@ -165,7 +165,7 @@ This function:
 The Rayleigh quotient of this function gives the upper bound.
 -/
 axiom test_function_exists (K : TCSManifold) (hyp : TCSHypotheses K) :
-  exists (f : Type), True  -- Placeholder for L^2 function construction
+  ∃ (_ : Type), True  -- Placeholder for L^2 function construction
 
 /-- Rayleigh quotient of the test function is <= pi^2/L^2 + O(1/L^3).
 
@@ -259,10 +259,9 @@ theorem tier1_spectral_bounds (K : TCSManifold) (hyp : TCSHypothesesExt K)
   · calc MassGap K.toCompactManifold
       <= spectralCoefficient / K.neckLength ^ 2 + C_up / K.neckLength ^ 3 := h_up
     _ <= spectralCoefficient / K.neckLength ^ 2 + max C_up C_lo / K.neckLength ^ 3 := by
-        apply add_le_add_left
-        apply div_le_div_of_nonneg_right
-        · exact le_max_left _ _
-        · apply pow_pos K.neckLength_pos
+        apply add_le_add (le_refl _)
+        apply div_le_div_of_nonneg_right (le_max_left _ _)
+        exact le_of_lt (pow_pos K.neckLength_pos _)
 
 -- ============================================================================
 -- COROLLARIES
@@ -275,20 +274,16 @@ theorem spectral_gap_vanishes_at_rate (K : TCSManifold) (hyp : TCSHypothesesExt 
       MassGap K.toCompactManifold <= C / K.neckLength ^ 2 := by
   obtain ⟨C, delta, hC, hdelta, _, h_up⟩ := tier1_spectral_bounds K hyp hL
   refine ⟨spectralCoefficient + C, ?_, ?_⟩
-  · apply add_pos spectralCoefficient_pos
-    exact lt_max_of_lt_left (by linarith : (0 : Real) < C)
+  · exact add_pos spectralCoefficient_pos hC
   · calc MassGap K.toCompactManifold
       <= spectralCoefficient / K.neckLength ^ 2 + C / K.neckLength ^ 3 := h_up
     _ <= spectralCoefficient / K.neckLength ^ 2 + C / K.neckLength ^ 2 := by
-        apply add_le_add_left
-        apply div_le_div_of_nonneg_left
-        · linarith
-        · apply pow_pos K.neckLength_pos
-        · have h : K.neckLength ^ 2 <= K.neckLength ^ 3 := by
-            apply pow_le_pow_right
-            · exact le_of_lt (lt_trans (L₀_pos K hyp.toTCSHypotheses) hL)
-            · norm_num
-          exact h
+        apply add_le_add (le_refl _)
+        apply div_le_div_of_nonneg_left (le_of_lt hC)
+        · exact pow_pos K.neckLength_pos _
+        · exact pow_le_pow_right
+            (le_of_lt (lt_trans (L₀_pos K hyp.toTCSHypotheses) hL))
+            (by norm_num : 2 ≤ 3)
     _ = (spectralCoefficient + C) / K.neckLength ^ 2 := by ring
 
 /-- The coefficient is exactly pi^2, not some other constant. -/
