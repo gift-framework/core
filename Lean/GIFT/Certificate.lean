@@ -72,6 +72,15 @@ import GIFT.Foundations.Analysis.G2Forms.All
 -- V5.0: Extended Observables (~50 observables, 0.24% mean deviation)
 import GIFT.Observables
 
+-- V5.0: Algebraic Foundations (octonion-based derivation) - Blueprint connection
+import GIFT.Algebraic
+
+-- V3.3.3: DG-Ready Geometry Infrastructure - Blueprint connection
+import GIFT.Geometry
+
+-- V4.0: Golden Ratio Powers - Blueprint connection
+import GIFT.Foundations.GoldenRatioPowers
+
 namespace GIFT.Certificate
 
 open GIFT.Core GIFT.Relations
@@ -1599,56 +1608,56 @@ abbrev sel_geometric_identity := GIFT.Spectral.SelectionPrinciple.spectral_geome
 abbrev sel_certificate := GIFT.Spectral.SelectionPrinciple.selection_principle_certificate
 
 -- =============================================================================
--- V3.3.14: TIER 1 BOUNDS (Blueprint dependency graph edges)
+-- V3.3.14: REFINED SPECTRAL BOUNDS (Blueprint dependency graph edges)
 -- =============================================================================
 
 /-!
-## Tier 1 Bounds (v3.3.14)
+## Refined Spectral Bounds (v3.3.14)
 
-Re-exports for Tier1Bounds module to create blueprint dependency edges.
-Defines H7 hypothesis, π² coefficient, and refined spectral bounds.
+Re-exports for RefinedSpectralBounds module to create blueprint dependency edges.
+Defines H7 cross-section hypothesis, π² Neumann coefficient, and rigorous bounds.
 -/
 
-open GIFT.Spectral.Tier1Bounds
+open GIFT.Spectral.RefinedSpectralBounds
 
 /-- Cross-section spectral gap (H7) -/
-abbrev t1_cross_section_gap := GIFT.Spectral.Tier1Bounds.CrossSectionGap
+abbrev rsb_cross_section_gap := GIFT.Spectral.RefinedSpectralBounds.CrossSectionGap
 
 /-- Extended TCS hypotheses (H1-H7) -/
-abbrev t1_hypotheses_ext := GIFT.Spectral.Tier1Bounds.TCSHypothesesExt
+abbrev rsb_hypotheses_ext := GIFT.Spectral.RefinedSpectralBounds.TCSHypothesesExt
 
 /-- Decay parameter δ = √(γ - λ) -/
-noncomputable abbrev t1_decay_param := GIFT.Spectral.Tier1Bounds.decayParameter
+noncomputable abbrev rsb_decay_param := GIFT.Spectral.RefinedSpectralBounds.decayParameter
 
 /-- Decay parameter is positive -/
-abbrev t1_decay_param_pos := GIFT.Spectral.Tier1Bounds.decayParameter_pos
+abbrev rsb_decay_param_pos := GIFT.Spectral.RefinedSpectralBounds.decayParameter_pos
 
-/-- Spectral coefficient = π² -/
-noncomputable abbrev t1_spectral_coeff := GIFT.Spectral.Tier1Bounds.spectralCoefficient
+/-- Neumann spectral coefficient = π² -/
+noncomputable abbrev rsb_spectral_coeff := GIFT.Spectral.RefinedSpectralBounds.spectralCoefficient
 
 /-- π² > 0 -/
-abbrev t1_spectral_coeff_pos := GIFT.Spectral.Tier1Bounds.spectralCoefficient_pos
+abbrev rsb_spectral_coeff_pos := GIFT.Spectral.RefinedSpectralBounds.spectralCoefficient_pos
 
 /-- π² ≈ 9.87 -/
-abbrev t1_spectral_coeff_approx := GIFT.Spectral.Tier1Bounds.spectralCoefficient_approx
+abbrev rsb_spectral_coeff_approx := GIFT.Spectral.RefinedSpectralBounds.spectralCoefficient_approx
 
-/-- Tier 1 spectral bounds theorem -/
-abbrev t1_spectral_bounds := GIFT.Spectral.Tier1Bounds.tier1_spectral_bounds
+/-- Refined spectral bounds theorem -/
+abbrev rsb_spectral_bounds := GIFT.Spectral.RefinedSpectralBounds.refined_spectral_bounds
 
 /-- Spectral gap vanishes at rate 1/L² -/
-abbrev t1_gap_vanishes := GIFT.Spectral.Tier1Bounds.spectral_gap_vanishes_at_rate
+abbrev rsb_gap_vanishes := GIFT.Spectral.RefinedSpectralBounds.spectral_gap_vanishes_at_rate
 
 /-- Coefficient is exactly π² -/
-abbrev t1_coeff_is_pi_sq := GIFT.Spectral.Tier1Bounds.coefficient_is_pi_squared
+abbrev rsb_coeff_is_pi_sq := GIFT.Spectral.RefinedSpectralBounds.coefficient_is_pi_squared
 
 /-- GIFT connection (algebraic) -/
-abbrev t1_gift_connection := GIFT.Spectral.Tier1Bounds.gift_connection_algebraic
+abbrev rsb_gift_connection := GIFT.Spectral.RefinedSpectralBounds.gift_connection_algebraic
 
 /-- GIFT neck length (algebraic) -/
-abbrev t1_gift_neck_length := GIFT.Spectral.Tier1Bounds.gift_neck_length_algebraic
+abbrev rsb_gift_neck_length := GIFT.Spectral.RefinedSpectralBounds.gift_neck_length_algebraic
 
-/-- Tier 1 bounds certificate -/
-abbrev t1_certificate := GIFT.Spectral.Tier1Bounds.tier1_bounds_certificate
+/-- Refined spectral bounds certificate -/
+abbrev rsb_certificate := GIFT.Spectral.RefinedSpectralBounds.refined_bounds_certificate
 
 /-- GIFT v3.3.14 Selection Principle Certificate
 
@@ -1927,5 +1936,46 @@ theorem gift_v3310_master_certificate :
     -- Universal spectral law connection
     (dim_G2 : ℚ) / H_star = 14 / 99 := by
   refine ⟨⟨rfl, rfl, rfl⟩, ⟨rfl, ?_, rfl⟩, ?_, ?_, ?_⟩ <;> native_decide
+
+-- =============================================================================
+-- BLUEPRINT DEPENDENCY GRAPH CONNECTIONS
+-- =============================================================================
+
+/-!
+## Blueprint Graph Connections (v3.3.14)
+
+Abbrevs to connect previously-orphaned modules to the dependency graph.
+These modules were imported in GIFT.lean but not Certificate.lean.
+-/
+
+-- Algebraic Foundations (octonion-based derivation)
+/-- Betti numbers derive from octonion imaginary count -/
+abbrev alg_betti_derivation := GIFT.Algebraic.betti_derivation
+
+/-- Physical predictions from algebraic structure -/
+abbrev alg_physical_predictions := GIFT.Algebraic.physical_predictions
+
+/-- sin²θ_W cross-multiplication verification -/
+abbrev alg_sin2_theta_W := GIFT.Algebraic.sin2_theta_W_verified
+
+/-- Q_Koide cross-multiplication verification -/
+abbrev alg_Q_Koide := GIFT.Algebraic.Q_Koide_verified
+
+-- DG-Ready Geometry Infrastructure
+/-- Geometry infrastructure complete (G₂ differential geometry, axiom-free) -/
+abbrev geom_infrastructure := GIFT.Geometry.geometry_infrastructure_complete
+
+-- Golden Ratio Powers
+/-- φ⁻² ≈ 0.382 bounds -/
+abbrev grp_phi_inv_sq_bounds := GIFT.Foundations.GoldenRatioPowers.phi_inv_sq_bounds
+
+/-- φ⁻⁵⁴ very small (< 10⁻¹⁰) -/
+abbrev grp_phi_inv_54_small := GIFT.Foundations.GoldenRatioPowers.phi_inv_54_very_small
+
+/-- 27^φ (Jordan power) bounds: 206 < 27^φ < 209 -/
+abbrev grp_jordan_power_bounds := GIFT.Foundations.GoldenRatioPowers.jordan_power_phi_bounds
+
+/-- Cohomology ratio: H*/rank(E₈) = 99/8 -/
+abbrev grp_cohom_ratio := GIFT.Foundations.GoldenRatioPowers.cohom_ratio
 
 end GIFT.Certificate

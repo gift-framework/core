@@ -1,37 +1,40 @@
 /-
-GIFT Spectral: Tier 1 Spectral Bounds (Rigorous)
-=================================================
+GIFT Spectral: Refined Spectral Bounds with Cross-Section Hypothesis
+=====================================================================
 
-Rigorous formalization of spectral bounds for TCS G2 manifolds.
+Rigorous formalization of spectral bounds for twisted connected sum (TCS)
+G₂-holonomy manifolds, incorporating the cross-section spectral gap hypothesis (H7).
 
-This module refines TCSBounds.lean by:
-1. Adding cross-section spectral gap (H7)
-2. Identifying the coefficient as pi^2
-3. Including exponential error terms O(e^{-delta*L})
-4. Providing the localization lemma
+This module extends TCSBounds.lean with:
+1. Cross-section spectral gap hypothesis (H7): γ = λ₁(Y) > 0
+2. Neumann eigenvalue coefficient: π²
+3. Exponential error correction: O(e^{-δL}) where δ = √(γ - λ)
+4. Eigenfunction localization lemma (Mazzeo-Melrose surgery)
 
-## Main Theorem (Tier 1)
+## Main Theorem (Refined Spectral Bounds)
 
-For TCS manifold K with hypotheses (H1)-(H7) and L > L0:
-    pi^2/L^2 - C*e^{-delta*L} <= lambda1(K) <= pi^2/L^2 + C/L^3
+For a TCS manifold K satisfying hypotheses (H1)-(H7) with neck length L > L₀:
 
-This is proven via:
-- Upper bound: Rayleigh quotient with test function cos(pi*t/L)
-- Lower bound: Eigenfunction localization + 1D Poincare inequality
+    π²/L² - C·e^{-δL} ≤ λ₁(K) ≤ π²/L² + C/L³
+
+Proof methods:
+- Upper bound: Rayleigh quotient with Neumann eigenfunction cos(πt/L)
+- Lower bound: Eigenfunction localization + one-dimensional Poincaré inequality
 
 ## Status
 
 - Statement: THEOREM (rigorous with explicit hypotheses)
-- Proof: AXIOMATIZED (awaiting full differential geometry in Mathlib)
-- Coefficient: pi^2 (from 1D Neumann eigenvalue)
+- Proof: AXIOMATIZED (awaiting full Riemannian geometry in Mathlib)
+- Coefficient: π² (from Neumann spectrum on interval)
 
-References:
-- Cheeger, J. (1970). A lower bound for the smallest eigenvalue
-- Mazzeo, R. & Melrose, R. (1987). Analytic surgery
-- Kovalev, A. (2003). Twisted connected sums
-- Langlais, J. (2024). Spectral density for TCS G2 manifolds
+## References
 
-Version: 1.0.0
+- Cheeger, J. (1970). A lower bound for the smallest eigenvalue of the Laplacian
+- Mazzeo, R. & Melrose, R. (1987). Analytic surgery and the eta invariant
+- Kovalev, A. (2003). Twisted connected sums and special Riemannian holonomy
+- Langlais, J. (2024). Spectral density for TCS G₂ manifolds
+
+Version: 1.1.0
 -/
 
 import GIFT.Core
@@ -41,7 +44,7 @@ import GIFT.Spectral.TCSBounds
 import GIFT.Spectral.CheegerInequality
 import GIFT.Spectral.SelectionPrinciple
 
-namespace GIFT.Spectral.Tier1Bounds
+namespace GIFT.Spectral.RefinedSpectralBounds
 
 open GIFT.Core
 open GIFT.Spectral.SpectralTheory
@@ -207,10 +210,10 @@ axiom spectral_lower_bound_refined (K : TCSManifold) (hyp : TCSHypothesesExt K)
       spectralCoefficient / K.neckLength ^ 2 - C * Real.exp (-delta * K.neckLength)
 
 -- ============================================================================
--- TIER 1 MAIN THEOREM
+-- MAIN THEOREM: REFINED SPECTRAL BOUNDS
 -- ============================================================================
 
-/-- **TIER 1 THEOREM: Spectral Bounds for TCS G2 Manifolds**
+/-- **Refined Spectral Bounds for TCS G₂ Manifolds**
 
 Let K be a TCS manifold satisfying hypotheses (H1)-(H7) with neck length L > L0.
 
@@ -235,7 +238,7 @@ In particular, lambda1 = pi^2/L^2 (1 + o(1)) as L -> infinity.
 - (H6) Area(Gamma) >= Area(Y) (neck minimality)
 - (H7) lambda1(Y) = gamma > 0 (cross-section gap)
 -/
-theorem tier1_spectral_bounds (K : TCSManifold) (hyp : TCSHypothesesExt K)
+theorem refined_spectral_bounds (K : TCSManifold) (hyp : TCSHypothesesExt K)
     (hL : K.neckLength > L₀ K hyp.toTCSHypotheses) :
     exists (C delta : Real), C > 0 ∧ delta > 0 ∧
       (spectralCoefficient / K.neckLength ^ 2 - C * Real.exp (-delta * K.neckLength)
@@ -272,7 +275,7 @@ theorem spectral_gap_vanishes_at_rate (K : TCSManifold) (hyp : TCSHypothesesExt 
     (hL : K.neckLength > L₀ K hyp.toTCSHypotheses) :
     exists (C : Real), C > 0 ∧
       MassGap K.toCompactManifold <= C / K.neckLength ^ 2 := by
-  obtain ⟨C, delta, hC, hdelta, _, h_up⟩ := tier1_spectral_bounds K hyp hL
+  obtain ⟨C, delta, hC, hdelta, _, h_up⟩ := refined_spectral_bounds K hyp hL
   refine ⟨spectralCoefficient + C, ?_, ?_⟩
   · exact add_pos spectralCoefficient_pos hC
   · calc MassGap K.toCompactManifold
@@ -329,8 +332,8 @@ theorem gift_neck_length_algebraic :
 -- CERTIFICATE
 -- ============================================================================
 
-/-- Tier 1 Spectral Bounds Certificate -/
-theorem tier1_bounds_certificate :
+/-- Refined Spectral Bounds Certificate -/
+theorem refined_bounds_certificate :
     -- pi^2 is positive (structural)
     spectralCoefficient > 0 ∧
     -- GIFT connection (algebraic)
@@ -341,4 +344,19 @@ theorem tier1_bounds_certificate :
   · rfl
   · native_decide
 
+-- Backwards compatibility aliases
+abbrev tier1_spectral_bounds := refined_spectral_bounds
+abbrev tier1_bounds_certificate := refined_bounds_certificate
+
+end GIFT.Spectral.RefinedSpectralBounds
+
+-- Backwards compatibility namespace alias
+namespace GIFT.Spectral.Tier1Bounds
+  export RefinedSpectralBounds (
+    CrossSectionGap TCSHypothesesExt decayParameter decayParameter_pos
+    spectralCoefficient spectralCoefficient_pos spectralCoefficient_approx
+    refined_spectral_bounds spectral_gap_vanishes_at_rate coefficient_is_pi_squared
+    gift_connection_algebraic gift_neck_length_algebraic refined_bounds_certificate
+    tier1_spectral_bounds tier1_bounds_certificate
+  )
 end GIFT.Spectral.Tier1Bounds

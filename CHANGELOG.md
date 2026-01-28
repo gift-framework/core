@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Summary
 
-**TCS Selection Principle & Tier 1 Spectral Bounds!** Integration of research/tcs Lean plan with complete spectral selection theory: κ = π²/14, building blocks (Quintic, CI(2,2,2)), and refined spectral bounds with H7 cross-section gap hypothesis.
+**TCS Selection Principle & Refined Spectral Bounds!** Integration of research/tcs Lean plan with complete spectral selection theory: κ = π²/14, building blocks (Quintic, CI(2,2,2)), and refined spectral bounds with H7 cross-section gap hypothesis.
 
 ### Added
 
@@ -26,12 +26,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `spectral_geometric_identity`: λ₁ × L² = π²
   - Pi bounds axioms: `pi_gt_three`, `pi_lt_four`, `pi_lt_sqrt_ten`
 
-- **Spectral/Tier1Bounds.lean** - Refined spectral bounds:
+- **Spectral/RefinedSpectralBounds.lean** - Refined spectral bounds:
   - `CrossSectionGap`: (H7) hypothesis γ > 0 for cross-section
   - `TCSHypothesesExt`: Extended hypotheses including H7
   - `decayParameter`: δ = √(γ - λ) for exponential estimates
   - `spectralCoefficient`: π² identification
-  - `tier1_spectral_bounds`: Main theorem with upper/lower bounds
+  - `refined_spectral_bounds`: Main theorem with upper/lower bounds
   - `spectral_gap_vanishes_at_rate`: λ₁ = O(1/L²)
   - `coefficient_is_pi_squared`: π² is the exact coefficient
   - `gift_connection_algebraic`: For L² = 99π²/14, λ₁ ≈ 14/99
@@ -43,7 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Certificate.lean** - Blueprint integration:
   - `sel_*` abbrevs for SelectionPrinciple
-  - `t1_*` abbrevs for Tier1Bounds
+  - `rsb_*` abbrevs for RefinedSpectralBounds
   - `gift_v3314_selection_certificate`: Selection principle verification
 
 ### Fixed
@@ -88,7 +88,7 @@ Building blocks for K7:
 | Module | New Relations |
 |--------|---------------|
 | SelectionPrinciple | 18 |
-| Tier1Bounds | 12 |
+| RefinedSpectralBounds | 12 |
 | NeckGeometry | 1 |
 | **Total v3.3.14** | **31** |
 | **Cumulative** | **~330** |
