@@ -44,13 +44,13 @@ print(verify())          # True
 
 ## New in v3.3.14
 
-### Selection Principle & Tier 1 Spectral Bounds
+### Selection Principle & Refined Spectral Bounds
 
 New modules formalizing the TCS selection principle and refined spectral bounds:
 
 ```lean
 import GIFT.Spectral.SelectionPrinciple
-import GIFT.Spectral.Tier1Bounds
+import GIFT.Spectral.RefinedSpectralBounds
 
 -- Selection constant κ = π²/14
 #check kappa                    -- π²/dim(G₂)
@@ -75,10 +75,10 @@ import GIFT.Spectral.Tier1Bounds
 #check spectral_holonomy_principle   -- λ₁ × H* = dim(G₂)
 #check spectral_geometric_identity   -- λ₁ × L² = π²
 
--- Tier 1 bounds (H7 cross-section gap)
+-- Refined spectral bounds (H7 cross-section gap)
 #check CrossSectionGap          -- γ > 0 hypothesis
 #check TCSHypothesesExt         -- Extended hypotheses with H7
-#check tier1_spectral_bounds    -- π²/L² - Ce^{-δL} ≤ λ₁ ≤ π²/L² + C/L³
+#check refined_spectral_bounds  -- π²/L² - Ce^{-δL} ≤ λ₁ ≤ π²/L² + C/L³
 #check spectral_gap_vanishes_at_rate  -- λ₁ = O(1/L²)
 #check coefficient_is_pi_squared      -- Coefficient is exactly π²
 ```

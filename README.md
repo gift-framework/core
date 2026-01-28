@@ -21,7 +21,7 @@ Lean/GIFT/
 │   └── HodgeStarR7.lean   # ⋆, ψ=⋆φ PROVEN, TorsionFree
 ├── Spectral/              # Spectral theory [v3.3.14]
 │   ├── SelectionPrinciple.lean   # κ = π²/14, building blocks NEW!
-│   ├── Tier1Bounds.lean          # Refined bounds with H7 NEW!
+│   ├── RefinedSpectralBounds.lean # Refined bounds with H7 NEW!
 │   ├── NeckGeometry.lean         # TCS structure, H1-H6 hypotheses
 │   ├── TCSBounds.lean            # Model Theorem: λ₁ ~ 1/L²
 │   ├── LiteratureAxioms.lean     # Langlais 2024, CGN 2024
@@ -78,4 +78,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.3.12*
+*GIFT Core v3.3.14*

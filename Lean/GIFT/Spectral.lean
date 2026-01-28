@@ -29,7 +29,7 @@ The key insight: the mass gap is determined by TOPOLOGY, not dynamics.
 
 ### Selection Principle (v3.3.14 - NEW)
 - `SelectionPrinciple`: κ = π²/14, building blocks, L² = κ·H*
-- `Tier1Bounds`: Refined bounds with H7 hypothesis, π² coefficient
+- `RefinedSpectralBounds`: Refined bounds with H7 hypothesis, π² coefficient
 
 ### Literature Axioms (Langlais 2024, CGN 2024)
 - `LiteratureAxioms`: Spectral density formula, no small eigenvalues
@@ -44,7 +44,7 @@ The key insight: the mass gap is determined by TOPOLOGY, not dynamics.
 - Cheeger, J. (1970). A lower bound for the smallest eigenvalue of the Laplacian
 - Jaffe, A. & Witten, E. (2000). Yang-Mills Existence and Mass Gap
 - Kovalev, A. (2003). Twisted connected sums and special Riemannian holonomy
-- GIFT Framework v3.3.14: Selection principle and Tier 1 bounds
+- GIFT Framework v3.3.14: Selection principle and refined spectral bounds
 
 Version: 2.2.0
 -/
@@ -65,7 +65,7 @@ import GIFT.Spectral.TCSBounds
 
 -- Selection Principle (NEW in v3.3.14)
 import GIFT.Spectral.SelectionPrinciple
-import GIFT.Spectral.Tier1Bounds
+import GIFT.Spectral.RefinedSpectralBounds
 
 -- Literature Axioms (Langlais 2024, CGN 2024)
 import GIFT.Spectral.LiteratureAxioms
@@ -228,10 +228,10 @@ export SelectionPrinciple (
 )
 
 -- ============================================================================
--- RE-EXPORTS: TIER 1 BOUNDS (NEW in v3.3.14)
+-- RE-EXPORTS: REFINED SPECTRAL BOUNDS (NEW in v3.3.14)
 -- ============================================================================
 
-export Tier1Bounds (
+export RefinedSpectralBounds (
   -- H7 hypothesis
   CrossSectionGap
   TCSHypothesesExt
@@ -243,12 +243,15 @@ export Tier1Bounds (
   spectralCoefficient_pos
   spectralCoefficient_approx
   -- Main theorem
-  tier1_spectral_bounds
+  refined_spectral_bounds
   spectral_gap_vanishes_at_rate
   coefficient_is_pi_squared
   -- GIFT connection
   gift_connection_algebraic
   gift_neck_length_algebraic
+  refined_bounds_certificate
+  -- Backwards compatibility
+  tier1_spectral_bounds
   tier1_bounds_certificate
 )
 
@@ -326,8 +329,8 @@ Spectral/
 ├── MassGapRatio.lean         # 14/99 algebraic
 ├── NeckGeometry.lean         # TCS structure, hypotheses (H1)-(H6)
 ├── TCSBounds.lean            # Model Theorem: λ₁ ~ 1/L²
-├── SelectionPrinciple.lean   # κ = π²/14, building blocks (NEW)
-├── Tier1Bounds.lean          # H7 hypothesis, π² coefficient (NEW)
+├── SelectionPrinciple.lean       # κ = π²/14, building blocks (NEW)
+├── RefinedSpectralBounds.lean    # H7 hypothesis, π² coefficient (NEW)
 ├── LiteratureAxioms.lean     # Literature axioms (Langlais, CGN)
 ├── CheegerInequality.lean    # Cheeger-Buser bounds
 └── YangMills.lean            # Clay Prize connection
