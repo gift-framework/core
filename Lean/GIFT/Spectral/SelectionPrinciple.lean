@@ -190,7 +190,8 @@ theorem building_blocks_match_K7 :
     M1.b3 + M2.b3 = b3 := by
   have hb2 : b2 = 21 := Algebraic.BettiNumbers.b2_eq
   have hb3 : b3 = 77 := Algebraic.BettiNumbers.b3_eq
-  simp only [M1, M2, hb2, hb3]
+  rw [hb2, hb3]
+  exact ⟨rfl, rfl⟩
 
 /-- Building blocks sum to K7 topology -/
 theorem building_blocks_sum :
