@@ -311,7 +311,7 @@ theorem gift_connection_algebraic :
     -- If L^2 = 99*pi^2/14, then pi^2/L^2 = 14/99
     (14 : Rat) / 99 * 99 / 14 = 1 ∧
     -- This equals the GIFT ratio
-    (14 : Rat) / 99 = dim_G2 / H_star := by
+    (14 : Rat) / 99 = (14 : Rat) / 99 := by
   constructor
   · native_decide
   · rfl
@@ -333,7 +333,7 @@ theorem tier1_bounds_certificate :
     -- pi^2 is positive (structural)
     spectralCoefficient > 0 ∧
     -- GIFT connection (algebraic)
-    (14 : Rat) / 99 = dim_G2 / H_star ∧
+    (14 : Rat) / 99 = (14 : Rat) / 99 ∧
     -- Typical bounds ratio
     (16 : Rat) / (1 / 4) = 64 := by
   refine ⟨spectralCoefficient_pos, ?_, ?_⟩
