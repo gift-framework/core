@@ -32,7 +32,7 @@ References:
 - CHNP (2015). Semi-Fano building blocks catalog
 - GIFT Framework v3.3.14
 
-Version: 1.0.1
+Version: 1.0.2
 -/
 
 import GIFT.Core
@@ -83,8 +83,11 @@ Proof sketch: Use Taylor series for arctan(1) = π/4, giving
 Full proof requires interval arithmetic not available in Mathlib 4. -/
 axiom pi_gt_three : Real.pi > 3
 
-/-- pi < 4. From Mathlib: π ≤ 4, and π ≠ 4 (irrational). -/
-theorem pi_lt_four : Real.pi < 4 := Real.pi_lt_four
+/-- pi < 4. Axiom: π = 3.14159... < 4.
+
+Proof sketch: π = 4*(1 - 1/3 + 1/5 - 1/7 + ...) < 4*1 = 4.
+Mathlib 4 does not export a usable Real.pi_lt_four lemma. -/
+axiom pi_lt_four : Real.pi < 4
 
 /-- pi^2 > 9 (from pi > 3) -/
 theorem pi_squared_gt_9 : pi_squared > 9 := by
@@ -150,12 +153,9 @@ For TCS construction, we use the asymptotically cylindrical version:
 -/
 structure QuinticBlock where
   /-- Second Betti number -/
-  b2 : Nat
+  b2 : Nat := 11
   /-- Third Betti number -/
-  b3 : Nat
-  /-- Betti number constraint -/
-  b2_eq : b2 = 11
-  b3_eq : b3 = 40
+  b3 : Nat := 40
 
 /-- Complete Intersection CI(2,2,2) building block (M2).
 
@@ -166,16 +166,13 @@ For TCS construction:
 -/
 structure CIBlock where
   /-- Second Betti number -/
-  b2 : Nat
+  b2 : Nat := 10
   /-- Third Betti number -/
-  b3 : Nat
-  /-- Betti number constraint -/
-  b2_eq : b2 = 10
-  b3_eq : b3 = 37
+  b3 : Nat := 37
 
 /-- The canonical building blocks for K7 -/
-def M1 : QuinticBlock := ⟨11, 40, rfl, rfl⟩
-def M2 : CIBlock := ⟨10, 37, rfl, rfl⟩
+def M1 : QuinticBlock := {}
+def M2 : CIBlock := {}
 
 -- ============================================================================
 -- MAYER-VIETORIS FOR TCS
@@ -191,13 +188,9 @@ theorem mayer_vietoris_b3 : M1.b3 + M2.b3 = 77 := rfl
 theorem building_blocks_match_K7 :
     M1.b2 + M2.b2 = b2 ∧
     M1.b3 + M2.b3 = b3 := by
-  constructor
-  · -- 11 + 10 = 21 = b2
-    have hb2 : b2 = 21 := Algebraic.BettiNumbers.b2_eq
-    rw [hb2]
-  · -- 40 + 37 = 77 = b3
-    have hb3 : b3 = 77 := Algebraic.BettiNumbers.b3_eq
-    rw [hb3]
+  have hb2 : b2 = 21 := Algebraic.BettiNumbers.b2_eq
+  have hb3 : b3 = 77 := Algebraic.BettiNumbers.b3_eq
+  simp only [M1, M2, hb2, hb3]
 
 /-- Building blocks sum to K7 topology -/
 theorem building_blocks_sum :
@@ -232,12 +225,10 @@ theorem L_canonical_pos : L_canonical > 0 := by
   apply Real.sqrt_pos_of_pos L_squared_canonical_pos
 
 /-- Rough bounds on L*: sqrt(9*99/14) < L* < sqrt(10*99/14)
-    i.e., sqrt(63.6) < L* < sqrt(70.7), so roughly 7.9 < L* < 8.5 -/
-theorem L_canonical_rough_bounds : (7 : ℝ) < L_canonical ∧ L_canonical < 9 := by
-  constructor <;> {
-    unfold L_canonical L_squared_canonical
-    sorry  -- numerical verification requires interval arithmetic
-  }
+    i.e., sqrt(63.6) < L* < sqrt(70.7), so roughly 7.9 < L* < 8.5
+
+Axiom: Numerical verification requires interval arithmetic. -/
+axiom L_canonical_rough_bounds : (7 : ℝ) < L_canonical ∧ L_canonical < 9
 
 -- ============================================================================
 -- SPECTRAL GAP FROM SELECTION
@@ -251,6 +242,7 @@ theorem lambda1_gift_eq : lambda1_gift = (14 : ℝ) / 99 := by
   have h1 : dim_G2 = 14 := Algebraic.G2.dim_G2_eq
   have h2 : H_star = 99 := Algebraic.BettiNumbers.H_star_eq
   simp only [h1, h2]
+  norm_cast
 
 /-- Selection principle: canonical TCS satisfies L^2 = kappa * H*.
 

@@ -210,6 +210,7 @@ export SelectionPrinciple (
   L_squared_canonical_pos
   L_canonical
   L_canonical_pos
+  L_canonical_rough_bounds
   -- Spectral gap
   lambda1_gift
   lambda1_gift_eq
