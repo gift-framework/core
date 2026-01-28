@@ -281,9 +281,9 @@ theorem spectral_gap_vanishes_at_rate (K : TCSManifold) (hyp : TCSHypothesesExt 
         apply add_le_add (le_refl _)
         apply div_le_div_of_nonneg_left (le_of_lt hC)
         · exact pow_pos K.neckLength_pos _
-        · -- Need L^2 ≤ L^3, i.e., L^2 * 1 ≤ L^2 * L
+        · -- Need L^2 ≤ L^3, i.e., L^2 * 1 ≤ L^2 * L (requires L ≥ 1)
           have hL1 : 1 ≤ K.neckLength :=
-            le_of_lt (lt_trans (L₀_pos K hyp.toTCSHypotheses) hL)
+            le_trans (L₀_ge_one K hyp.toTCSHypotheses) (le_of_lt hL)
           calc K.neckLength ^ 2
               = K.neckLength ^ 2 * 1 := by ring
             _ ≤ K.neckLength ^ 2 * K.neckLength := by
