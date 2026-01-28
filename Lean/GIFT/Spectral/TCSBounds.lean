@@ -112,7 +112,7 @@ We construct f : K → ℝ as:
 Then orthogonalize: f ↦ f - f̄ where f̄ = ∫f dV.
 -/
 axiom rayleigh_test_function (K : TCSManifold) (hyp : TCSHypotheses K) :
-  ∃ (f : Type), True  -- Placeholder for L² function
+  ∃ (_ : Type), True  -- Placeholder for L² function
 
 /-- Gradient energy of test function: ∫|∇f|² = 4·Vol(N)/L².
 

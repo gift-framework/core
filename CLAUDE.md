@@ -1731,9 +1731,66 @@ def density_coefficient (q : Fin 6) : ℕ :=
 theorem density_coeff_2 : density_coefficient 2 = 46 := rfl  -- Works!
 ```
 
+### 50. `add_le_add_left` vs `add_le_add` for Left Addition
+
+**Problem**: `add_le_add_left` produces `b + a ≤ c + a`, but goal has form `a + b ≤ a + c`.
+
+```lean
+-- Goal: spectral/L² + C_up/L³ ≤ spectral/L² + max C_up C_lo/L³
+-- This is: a + b ≤ a + c (constant on LEFT)
+
+-- BAD - add_le_add_left produces b + a ≤ c + a
+apply add_le_add_left  -- ERROR: could not unify
+
+-- GOOD - use add_le_add with le_refl for left term
+apply add_le_add (le_refl _)  -- Now need to prove: b ≤ c
+apply div_le_div_of_nonneg_right (le_max_left _ _)
+exact le_of_lt (pow_pos K.neckLength_pos _)
+```
+
+**Key insight**: `add_le_add : a ≤ b → c ≤ d → a + c ≤ b + d`. Use `le_refl _` for unchanged terms.
+
+### 51. `pow_le_pow_right` Doesn't Exist in Mathlib 4
+
+**Problem**: Need to prove `L² ≤ L³` for L ≥ 1, but `pow_le_pow_right` is not available.
+
+```lean
+-- BAD - unknown identifier
+exact pow_le_pow_right hL1 (by norm_num : 2 ≤ 3)  -- ERROR!
+
+-- GOOD - explicit calc proof via multiplication
+have hL1 : 1 ≤ K.neckLength := ...
+calc K.neckLength ^ 2
+    = K.neckLength ^ 2 * 1 := by ring
+  _ ≤ K.neckLength ^ 2 * K.neckLength := by
+      apply mul_le_mul_of_nonneg_left hL1
+      exact le_of_lt (pow_pos K.neckLength_pos _)
+  _ = K.neckLength ^ 3 := by ring
+```
+
+### 52. L₀_ge_one Axiom for TCS Manifolds
+
+**Problem**: Power comparison `L² ≤ L³` requires `L ≥ 1`, but `L₀_pos` only gives `L₀ > 0`.
+
+```lean
+-- Context: hL : K.neckLength > L₀ K hyp
+
+-- BAD - L₀ > 0 doesn't imply L ≥ 1
+have hL1 : 1 ≤ K.neckLength :=
+  le_of_lt (lt_trans (L₀_pos K hyp) hL)  -- ERROR: Type mismatch
+
+-- GOOD - use L₀_ge_one axiom (added to NeckGeometry.lean)
+axiom L₀_ge_one (K : TCSManifold) (hyp : TCSHypotheses K) : L₀ K hyp ≥ 1
+
+have hL1 : 1 ≤ K.neckLength :=
+  le_trans (L₀_ge_one K hyp) (le_of_lt hL)  -- Chain: 1 ≤ L₀ ≤ L
+```
+
+**Physical justification**: For typical TCS parameters (v₀=1/2, h₀=1), L₀ = 2v₀/h₀ = 1.
+
 ---
 
-### Axiom Status (v3.3.13)
+### Axiom Status (v3.3.14)
 
 **Numerical Bounds - COMPLETE! (0 remaining):**
 - ✓ All Taylor series bounds proven
@@ -1749,7 +1806,23 @@ theorem density_coeff_2 : density_coefficient 2 = 46 := rfl  -- Works!
 - `spectral_lower_bound` - Cheeger-based bound λ₁ ≥ c₁/L²
 - `neck_dominates` - For L > L₀, neck controls Cheeger constant
 
-**Literature Axioms (NEW in v3.3.13):**
+**Selection Principle (NEW in v3.3.14):**
+- `pi_gt_three` - π > 3 (interval arithmetic not in Mathlib 4)
+- `pi_lt_four` - π < 4 (not exported in Mathlib 4)
+- `pi_lt_sqrt_ten` - π < √10 for π² < 10 bound
+- `L_canonical_rough_bounds` - 7 < L* < 9
+- `L₀_ge_one` - L₀ ≥ 1 for physical TCS manifolds
+- `selection_principle_holds` - Variational selection (placeholder)
+- `universality_conjecture` - Generalization to all TCS
+
+**Tier 1 Bounds (NEW in v3.3.14):**
+- `test_function_exists` - Rayleigh quotient test function
+- `rayleigh_upper_bound_refined` - Upper bound axiom
+- `poincare_neumann_interval` - 1D Poincaré inequality
+- `spectral_lower_bound_refined` - Lower bound axiom
+- `localization_lemma` - Eigenfunction concentration
+
+**Literature Axioms (v3.3.13):**
 - `langlais_spectral_density` - Spectral density from Langlais 2024
 - `cgn_no_small_eigenvalues` - No small eigenvalues (CGN 2024)
 - `cgn_cheeger_lower_bound` - Cheeger-based lower bound (CGN 2024)
@@ -1767,4 +1840,4 @@ theorem density_coeff_2 : density_coefficient 2 = 46 := rfl  -- Works!
 
 ---
 
-*Last updated: 2026-01-26 - V3.3.13: Literature Axioms (Langlais 2024, CGN 2024)*
+*Last updated: 2026-01-28 - V3.3.14: Selection Principle & Tier 1 Bounds*

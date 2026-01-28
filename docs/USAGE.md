@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.3.13).
+Complete documentation for the `giftpy` Python package (v3.3.14).
 
 ## Installation
 
@@ -41,6 +41,56 @@ print(K7.two_b2)                # 42 (structural invariant)
 from gift_core import verify
 print(verify())          # True
 ```
+
+## New in v3.3.14
+
+### Selection Principle & Tier 1 Spectral Bounds
+
+New modules formalizing the TCS selection principle and refined spectral bounds:
+
+```lean
+import GIFT.Spectral.SelectionPrinciple
+import GIFT.Spectral.Tier1Bounds
+
+-- Selection constant κ = π²/14
+#check kappa                    -- π²/dim(G₂)
+#check kappa_pos                -- κ > 0
+#check kappa_rough_bounds       -- 9/14 < κ < 10/14
+
+-- Building blocks for K7
+#check QuinticBlock             -- Quintic 3-fold (b2=11, b3=40)
+#check CIBlock                  -- CI(2,2,2) (b2=10, b3=37)
+#check M1                       -- Canonical quintic
+#check M2                       -- Canonical CI
+#check mayer_vietoris_b2        -- 11 + 10 = 21
+#check mayer_vietoris_b3        -- 40 + 37 = 77
+
+-- Canonical neck length
+#check L_squared_canonical      -- L*² = κ × H*
+#check L_canonical              -- L* = √(κ × H*)
+#check L_canonical_pos          -- L* > 0
+
+-- GIFT spectral prediction
+#check lambda1_gift             -- λ₁ = dim(G₂)/H* = 14/99
+#check spectral_holonomy_principle   -- λ₁ × H* = dim(G₂)
+#check spectral_geometric_identity   -- λ₁ × L² = π²
+
+-- Tier 1 bounds (H7 cross-section gap)
+#check CrossSectionGap          -- γ > 0 hypothesis
+#check TCSHypothesesExt         -- Extended hypotheses with H7
+#check tier1_spectral_bounds    -- π²/L² - Ce^{-δL} ≤ λ₁ ≤ π²/L² + C/L³
+#check spectral_gap_vanishes_at_rate  -- λ₁ = O(1/L²)
+#check coefficient_is_pi_squared      -- Coefficient is exactly π²
+```
+
+**Key Formulas:**
+
+| Formula | Meaning |
+|---------|---------|
+| κ = π²/14 | Selection constant |
+| L*² = κ × H* = 99π²/14 | Canonical neck length squared |
+| λ₁ = 14/99 | GIFT spectral prediction |
+| λ₁ × H* = dim(G₂) | Spectral-Holonomy Principle |
 
 ## New in v3.3.13
 

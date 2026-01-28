@@ -1529,6 +1529,149 @@ theorem gift_v3312_tcs_bounds_certificate :
   native_decide
 
 -- =============================================================================
+-- V3.3.14: SELECTION PRINCIPLE (Blueprint dependency graph edges)
+-- =============================================================================
+
+/-!
+## Selection Principle (v3.3.14)
+
+Re-exports for SelectionPrinciple module to create blueprint dependency edges.
+Defines κ = π²/14 and the spectral-holonomy principle λ₁·H* = dim(G₂).
+-/
+
+open GIFT.Spectral.SelectionPrinciple
+
+/-- Pi squared constant -/
+noncomputable abbrev sel_pi_squared := GIFT.Spectral.SelectionPrinciple.pi_squared
+
+/-- Selection constant κ = π²/14 -/
+noncomputable abbrev sel_kappa := GIFT.Spectral.SelectionPrinciple.kappa
+
+/-- κ is positive -/
+abbrev sel_kappa_pos := GIFT.Spectral.SelectionPrinciple.kappa_pos
+
+/-- Numerical bounds on κ -/
+abbrev sel_kappa_rough_bounds := GIFT.Spectral.SelectionPrinciple.kappa_rough_bounds
+
+/-- Quintic building block -/
+abbrev sel_quintic := GIFT.Spectral.SelectionPrinciple.QuinticBlock
+
+/-- CI(2,2,2) building block -/
+abbrev sel_ci_block := GIFT.Spectral.SelectionPrinciple.CIBlock
+
+/-- M1 = Quintic -/
+abbrev sel_M1 := GIFT.Spectral.SelectionPrinciple.M1
+
+/-- M2 = CI(2,2,2) -/
+abbrev sel_M2 := GIFT.Spectral.SelectionPrinciple.M2
+
+/-- Mayer-Vietoris for b2 -/
+abbrev sel_mayer_vietoris_b2 := GIFT.Spectral.SelectionPrinciple.mayer_vietoris_b2
+
+/-- Mayer-Vietoris for b3 -/
+abbrev sel_mayer_vietoris_b3 := GIFT.Spectral.SelectionPrinciple.mayer_vietoris_b3
+
+/-- Building blocks sum -/
+abbrev sel_building_blocks := GIFT.Spectral.SelectionPrinciple.building_blocks_sum
+
+/-- Canonical neck length squared -/
+noncomputable abbrev sel_L_squared := GIFT.Spectral.SelectionPrinciple.L_squared_canonical
+
+/-- Canonical neck length -/
+noncomputable abbrev sel_L_canonical := GIFT.Spectral.SelectionPrinciple.L_canonical
+
+/-- GIFT spectral prediction λ₁ = 14/99 -/
+noncomputable abbrev sel_lambda1 := GIFT.Spectral.SelectionPrinciple.lambda1_gift
+
+/-- λ₁ = 14/99 -/
+abbrev sel_lambda1_eq := GIFT.Spectral.SelectionPrinciple.lambda1_gift_eq
+
+/-- Spectral gap from selection -/
+abbrev sel_gap_from_selection := GIFT.Spectral.SelectionPrinciple.spectral_gap_from_selection
+
+/-- Spectral-Holonomy Principle: λ₁·H* = dim(G₂) -/
+abbrev sel_holonomy_principle := GIFT.Spectral.SelectionPrinciple.spectral_holonomy_principle
+
+/-- Spectral-geometric identity: λ₁·L² = π² -/
+abbrev sel_geometric_identity := GIFT.Spectral.SelectionPrinciple.spectral_geometric_identity
+
+/-- Selection principle certificate -/
+abbrev sel_certificate := GIFT.Spectral.SelectionPrinciple.selection_principle_certificate
+
+-- =============================================================================
+-- V3.3.14: TIER 1 BOUNDS (Blueprint dependency graph edges)
+-- =============================================================================
+
+/-!
+## Tier 1 Bounds (v3.3.14)
+
+Re-exports for Tier1Bounds module to create blueprint dependency edges.
+Defines H7 hypothesis, π² coefficient, and refined spectral bounds.
+-/
+
+open GIFT.Spectral.Tier1Bounds
+
+/-- Cross-section spectral gap (H7) -/
+abbrev t1_cross_section_gap := GIFT.Spectral.Tier1Bounds.CrossSectionGap
+
+/-- Extended TCS hypotheses (H1-H7) -/
+abbrev t1_hypotheses_ext := GIFT.Spectral.Tier1Bounds.TCSHypothesesExt
+
+/-- Decay parameter δ = √(γ - λ) -/
+noncomputable abbrev t1_decay_param := GIFT.Spectral.Tier1Bounds.decayParameter
+
+/-- Decay parameter is positive -/
+abbrev t1_decay_param_pos := GIFT.Spectral.Tier1Bounds.decayParameter_pos
+
+/-- Spectral coefficient = π² -/
+noncomputable abbrev t1_spectral_coeff := GIFT.Spectral.Tier1Bounds.spectralCoefficient
+
+/-- π² > 0 -/
+abbrev t1_spectral_coeff_pos := GIFT.Spectral.Tier1Bounds.spectralCoefficient_pos
+
+/-- π² ≈ 9.87 -/
+abbrev t1_spectral_coeff_approx := GIFT.Spectral.Tier1Bounds.spectralCoefficient_approx
+
+/-- Tier 1 spectral bounds theorem -/
+abbrev t1_spectral_bounds := GIFT.Spectral.Tier1Bounds.tier1_spectral_bounds
+
+/-- Spectral gap vanishes at rate 1/L² -/
+abbrev t1_gap_vanishes := GIFT.Spectral.Tier1Bounds.spectral_gap_vanishes_at_rate
+
+/-- Coefficient is exactly π² -/
+abbrev t1_coeff_is_pi_sq := GIFT.Spectral.Tier1Bounds.coefficient_is_pi_squared
+
+/-- GIFT connection (algebraic) -/
+abbrev t1_gift_connection := GIFT.Spectral.Tier1Bounds.gift_connection_algebraic
+
+/-- GIFT neck length (algebraic) -/
+abbrev t1_gift_neck_length := GIFT.Spectral.Tier1Bounds.gift_neck_length_algebraic
+
+/-- Tier 1 bounds certificate -/
+abbrev t1_certificate := GIFT.Spectral.Tier1Bounds.tier1_bounds_certificate
+
+/-- GIFT v3.3.14 Selection Principle Certificate
+
+The selection constant κ = π²/14 determines the canonical neck length:
+- L² = κ·H* = (π²/14)·99
+- λ₁ = π²/L² = 14/99
+- Spectral-Holonomy Principle: λ₁·H* = dim(G₂) = 14
+-/
+theorem gift_v3314_selection_certificate :
+    -- Building blocks sum
+    (11 : ℕ) + 10 = 21 ∧
+    (40 : ℕ) + 37 = 77 ∧
+    -- H* formula
+    1 + 21 + 77 = 99 ∧
+    -- Spectral-holonomy (algebraic)
+    (14 : ℚ) / 99 * 99 = 14 ∧
+    -- GIFT ratio
+    (14 : ℚ) / 99 = dim_G2 / H_star := by
+  refine ⟨rfl, rfl, rfl, ?_, ?_⟩
+  · native_decide
+  · simp only [dim_G2, H_star]; native_decide
+
+-- =============================================================================
 -- V3.3.13: LITERATURE AXIOMS (Blueprint dependency graph edges)
 -- =============================================================================
 

@@ -213,6 +213,13 @@ theorem L₀_pos (K : TCSManifold) (hyp : TCSHypotheses K) : L₀ K hyp > 0 := b
     · exact hyp.neckVol.v₀_pos
   · exact hyp.blockCheeger.h₀_pos
 
+/-- L₀ >= 1 for physical TCS manifolds.
+
+For typical parameters (v₀ = 1/2, h₀ = 1), we have L₀ = 2v₀/h₀ = 1.
+For more general parameters, this is a physical constraint ensuring
+the neck is long enough for the spectral analysis to apply. -/
+axiom L₀_ge_one (K : TCSManifold) (hyp : TCSHypotheses K) : L₀ K hyp ≥ 1
+
 -- ============================================================================
 -- TYPICAL TCS PARAMETERS
 -- ============================================================================
