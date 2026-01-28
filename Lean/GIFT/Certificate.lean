@@ -1551,7 +1551,7 @@ noncomputable abbrev sel_kappa := GIFT.Spectral.SelectionPrinciple.kappa
 abbrev sel_kappa_pos := GIFT.Spectral.SelectionPrinciple.kappa_pos
 
 /-- Numerical bounds on κ -/
-abbrev sel_kappa_bounds := GIFT.Spectral.SelectionPrinciple.kappa_bounds
+abbrev sel_kappa_rough_bounds := GIFT.Spectral.SelectionPrinciple.kappa_rough_bounds
 
 /-- Quintic building block -/
 abbrev sel_quintic := GIFT.Spectral.SelectionPrinciple.QuinticBlock
