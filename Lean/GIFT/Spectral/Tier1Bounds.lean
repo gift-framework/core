@@ -95,7 +95,7 @@ structure TCSHypothesesExt (K : TCSManifold) extends TCSHypotheses K where
 For eigenvalue lambda < gamma, eigenfunctions decay into the caps with rate sqrt(gamma - lambda).
 -/
 noncomputable def decayParameter (K : TCSManifold) (hyp : TCSHypothesesExt K)
-    (ev : Real) (hev : ev < hyp.crossGap.gamma) : Real :=
+    (ev : Real) (_ : ev < hyp.crossGap.gamma) : Real :=
   Real.sqrt (hyp.crossGap.gamma - ev)
 
 /-- The decay parameter is positive for lambda < gamma. -/
@@ -148,7 +148,7 @@ Proof idea:
 -/
 axiom localization_lemma (K : TCSManifold) (hyp : TCSHypothesesExt K) :
   exists (C : Real), C > 0 ∧
-    forall (ev : Real) (hev : ev < hyp.crossGap.gamma / 2),
+    forall (ev : Real) (_ : ev < hyp.crossGap.gamma / 2),
       True  -- Placeholder for: integral_{M\N} |f|^2 <= C*e^{-delta*L}*integral_M |f|^2
 
 -- ============================================================================
@@ -159,7 +159,7 @@ axiom localization_lemma (K : TCSManifold) (hyp : TCSHypothesesExt K) :
 
 This function:
 - Equals cos(pi*t/L) on the neck [0, L] x Y
-- Extends smoothly to +/-1 on the caps
+- Extends smoothly to (plus or minus 1) on the caps
 - Has mean zero (after orthogonalization)
 
 The Rayleigh quotient of this function gives the upper bound.
