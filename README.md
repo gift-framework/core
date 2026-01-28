@@ -19,10 +19,12 @@ Lean/GIFT/
 │   ├── DifferentialFormsR7.lean  # DiffForm, d, d²=0
 │   ├── HodgeStarCompute.lean     # Explicit Hodge star (Levi-Civita)
 │   └── HodgeStarR7.lean   # ⋆, ψ=⋆φ PROVEN, TorsionFree
-├── Spectral/              # Spectral theory [v3.3.13]
+├── Spectral/              # Spectral theory [v3.3.14]
+│   ├── SelectionPrinciple.lean   # κ = π²/14, building blocks NEW!
+│   ├── Tier1Bounds.lean          # Refined bounds with H7 NEW!
 │   ├── NeckGeometry.lean         # TCS structure, H1-H6 hypotheses
 │   ├── TCSBounds.lean            # Model Theorem: λ₁ ~ 1/L²
-│   ├── LiteratureAxioms.lean     # Langlais 2024, CGN 2024 NEW!
+│   ├── LiteratureAxioms.lean     # Langlais 2024, CGN 2024
 │   ├── MassGapRatio.lean         # λ₁ = 14/99
 │   └── YangMills.lean            # Gauge theory connection
 ├── Zeta/                  # GIFT-Zeta correspondences [v3.3.10]

@@ -5,6 +5,94 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.14] - 2026-01-28
+
+### Summary
+
+**TCS Selection Principle & Tier 1 Spectral Bounds!** Integration of research/tcs Lean plan with complete spectral selection theory: κ = π²/14, building blocks (Quintic, CI(2,2,2)), and refined spectral bounds with H7 cross-section gap hypothesis.
+
+### Added
+
+- **Spectral/SelectionPrinciple.lean** - Selection constant formalization:
+  - `pi_squared`: π² with positivity proof
+  - `kappa`: Selection constant κ = π²/dim(G₂) = π²/14
+  - `kappa_rough_bounds`: 9/14 < κ < 10/14
+  - `QuinticBlock`, `CIBlock`: TCS building block structures
+  - `M1`, `M2`: Canonical K7 building blocks (b2=11+10=21, b3=40+37=77)
+  - `mayer_vietoris_b2/b3`: Betti number addition theorems
+  - `L_squared_canonical`: L*² = κ × H* = 99π²/14
+  - `lambda1_gift`: Predicted gap λ₁ = 14/99
+  - `spectral_holonomy_principle`: λ₁ × H* = dim(G₂)
+  - `spectral_geometric_identity`: λ₁ × L² = π²
+  - Pi bounds axioms: `pi_gt_three`, `pi_lt_four`, `pi_lt_sqrt_ten`
+
+- **Spectral/Tier1Bounds.lean** - Refined spectral bounds:
+  - `CrossSectionGap`: (H7) hypothesis γ > 0 for cross-section
+  - `TCSHypothesesExt`: Extended hypotheses including H7
+  - `decayParameter`: δ = √(γ - λ) for exponential estimates
+  - `spectralCoefficient`: π² identification
+  - `tier1_spectral_bounds`: Main theorem with upper/lower bounds
+  - `spectral_gap_vanishes_at_rate`: λ₁ = O(1/L²)
+  - `coefficient_is_pi_squared`: π² is the exact coefficient
+  - `gift_connection_algebraic`: For L² = 99π²/14, λ₁ ≈ 14/99
+
+- **NeckGeometry.lean** - New axiom:
+  - `L₀_ge_one`: L₀ ≥ 1 for physical TCS manifolds
+
+- **Spectral.lean** - Updated re-exports for all new theorems
+
+- **Certificate.lean** - Blueprint integration:
+  - `sel_*` abbrevs for SelectionPrinciple
+  - `t1_*` abbrevs for Tier1Bounds
+  - `gift_v3314_selection_certificate`: Selection principle verification
+
+### Fixed
+
+- **Mathlib 4 compatibility issues**:
+  - `add_le_add_left` → `add_le_add (le_refl _)` for `a + b ≤ a + c` goals
+  - `pow_le_pow_right` doesn't exist → explicit calc proof via `mul_le_mul_of_nonneg_left`
+  - `Real.pi_gt_three`, `Real.pi_lt_four` don't exist → axioms
+  - `+/-` in docstrings → `(plus or minus)` to avoid nested comment issue
+
+### Mathematical Significance
+
+The Selection Principle connects spectral geometry to holonomy:
+
+| Formula | Meaning |
+|---------|---------|
+| κ = π²/14 | Selection constant from 1D Neumann spectrum |
+| L*² = κ × H* | Canonical neck length squared |
+| λ₁ = dim(G₂)/H* = 14/99 | GIFT spectral prediction |
+| λ₁ × H* = dim(G₂) | Spectral-Holonomy Principle |
+
+Building blocks for K7:
+- M1: Quintic 3-fold (b2=11, b3=40)
+- M2: CI(2,2,2) (b2=10, b3=37)
+- Mayer-Vietoris: 11+10=21, 40+37=77
+
+### Axioms Added (8 total)
+
+| Axiom | Purpose |
+|-------|---------|
+| `pi_gt_three` | π > 3 (interval arithmetic) |
+| `pi_lt_four` | π < 4 (Mathlib 4 missing) |
+| `pi_lt_sqrt_ten` | π < √10 for π² < 10 |
+| `L_canonical_rough_bounds` | 7 < L* < 9 |
+| `L₀_ge_one` | L₀ ≥ 1 for TCS manifolds |
+| `selection_principle_holds` | Variational selection |
+| `universality_conjecture` | Generalization to all TCS |
+| `test_function_exists` | Rayleigh quotient test function |
+
+### Relation Count
+
+| Module | New Relations |
+|--------|---------------|
+| SelectionPrinciple | 18 |
+| Tier1Bounds | 12 |
+| NeckGeometry | 1 |
+| **Total v3.3.14** | **31** |
+| **Cumulative** | **~330** |
+
 ## [3.3.13] - 2026-01-26
 
 ### Summary
