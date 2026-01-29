@@ -154,11 +154,11 @@ theorem step_is_alpha_denom : (12 : ℕ) = dim_G2 - p2 := by native_decide
 47, 59, 71 are exactly the prime factors of the Monster dimension 196883.
 -/
 
-/-- Monster dimension = 47 * 59 * 71 -/
-theorem monster_dim : 47 * 59 * 71 = 196883 := by native_decide
+/-- Monster dimension = 47 * 59 * 71 (factored form) -/
+theorem monster_dim_factored : 47 * 59 * 71 = 196883 := by native_decide
 
 /-- Monster dimension from GIFT: (b_3 - 30)(b_3 - 18)(b_3 - 6) -/
-theorem monster_dim_gift : (b3 - 30) * (b3 - 18) * (b3 - 6) = 196883 := by native_decide
+theorem monster_dim_from_b3 : (b3 - 30) * (b3 - 18) * (b3 - 6) = 196883 := by native_decide
 
 /-- Monster dimension factors are all b_3 - k -/
 theorem monster_factors_from_b3 :
@@ -251,8 +251,8 @@ theorem supersingular_certificate :
     (∀ p ∈ supersingular_primes, Nat.Prime p) ∧
     -- Arithmetic progression in large primes
     (59 - 47 = 12) ∧ (71 - 59 = 12) ∧
-    -- Monster dimension
+    -- Monster dimension (uses monster_dim_factored)
     47 * 59 * 71 = 196883 := by
-  refine ⟨rfl, all_prime, ?_, ?_, ?_⟩ <;> native_decide
+  refine ⟨rfl, all_prime, ?_, ?_, monster_dim_factored⟩ <;> native_decide
 
 end GIFT.Moonshine.Supersingular

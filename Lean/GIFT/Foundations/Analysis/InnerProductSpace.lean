@@ -6,6 +6,18 @@ Establishes ℝⁿ with standard inner product using Mathlib.
 This is the foundation for E8 lattice and differential forms.
 
 Version: 3.2.0
+
+NOTE ON NAMESPACE CONFLICTS:
+  R7 and R8 are also defined in domain-specific modules:
+  - R8: GIFT.Foundations.E8Lattice.R8 (canonical for E8 work)
+  - R7: GIFT.Foundations.G2CrossProduct.R7 (canonical for G2 work)
+
+  When importing multiple modules, use qualified names to avoid ambiguity:
+    open GIFT.Foundations.E8Lattice (R8)
+    open GIFT.Foundations.G2CrossProduct (R7)
+
+  The definitions here are equivalent (all are EuclideanSpace ℝ (Fin n))
+  but exist for standalone use of this utility module.
 -/
 
 import Mathlib.Analysis.InnerProductSpace.PiL2

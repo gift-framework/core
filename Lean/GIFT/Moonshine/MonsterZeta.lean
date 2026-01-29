@@ -75,7 +75,7 @@ The j-invariant j(tau) = q^{-1} + 744 + 196884*q + ... connects:
 -/
 
 /-- 744 = N_gen * dim(E_8) = 3 * 248 -/
-theorem j_constant_E8 : j_constant = N_gen * dim_E8 := j_constant_gift
+theorem j_constant_product : j_constant = N_gen * dim_E8 := j_constant_gift
 
 /-- 196884 = Monster dimension + 1 (McKay observation) -/
 theorem j_coeff_monster_plus_1 : j_coeff_1 = MonsterDimension.monster_dim + 1 := j_coeff_1_monster

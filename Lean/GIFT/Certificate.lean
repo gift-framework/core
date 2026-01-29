@@ -812,6 +812,35 @@ abbrev v32_harmonic := GIFT.Foundations.Analysis.HarmonicForms.harmonic_forms_ce
 abbrev v32_G2_tensor := GIFT.Foundations.Analysis.G2TensorForm.G2_certified
 
 -- =============================================================================
+-- ANALYSIS UTILITY MODULES (v3.3.14)
+-- Connects previously orphaned Analysis submodules to dependency graph
+-- =============================================================================
+
+/-- Analytical foundations certificate -/
+abbrev v32_analytical_foundations := GIFT.Foundations.Analysis.AnalyticalFoundations.analytical_foundations_certified
+
+/-- Exterior algebra: dim(Ω²) = C(7,2) = 21 = b₂ -/
+abbrev v32_exterior_dim_2forms := GIFT.Foundations.Analysis.ExteriorAlgebra.dim_2forms_7
+
+/-- Exterior algebra: dim(Ω³) = C(7,3) = 35 -/
+abbrev v32_exterior_dim_3forms := GIFT.Foundations.Analysis.ExteriorAlgebra.dim_3forms_7
+
+/-- Exterior algebra: Ω² G2 decomposition 7 + 14 = 21 -/
+abbrev v32_exterior_omega2_G2 := GIFT.Foundations.Analysis.ExteriorAlgebra.omega2_G2_decomposition
+
+/-- Exterior algebra: Ω³ G2 decomposition 1 + 7 + 27 = 35 -/
+abbrev v32_exterior_omega3_G2 := GIFT.Foundations.Analysis.ExteriorAlgebra.omega3_G2_decomposition
+
+/-- Inner product space: Cauchy-Schwarz inequality -/
+abbrev v32_cauchy_schwarz := GIFT.Foundations.Analysis.InnerProductSpace.cauchy_schwarz
+
+/-- Inner product space: norm² = Σᵢ vᵢ² -/
+abbrev v32_normSq_eq_sum := GIFT.Foundations.Analysis.InnerProductSpace.normSq_eq_sum
+
+/-- Inner product space: ⟨v,w⟩ = Σᵢ vᵢwᵢ -/
+abbrev v32_inner_eq_sum := GIFT.Foundations.Analysis.InnerProductSpace.inner_eq_sum
+
+-- =============================================================================
 -- G₂ CROSS PRODUCT CONNECTIONS (v3.1.11)
 -- Connects fano_lines cluster to main dependency graph
 -- =============================================================================

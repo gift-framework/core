@@ -3,7 +3,7 @@ name: Formal Verification
 on:
   push:
     branches: [main]
-    paths: ['Lean/**', 'COQ/**']
+    paths: ['Lean/**']
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -43,31 +43,7 @@ jobs:
             exit 1
           fi
 
-  coq:
-    name: Coq Verification
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: COQ
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Coq
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y opam
-          opam init --disable-sandboxing -y
-          eval $(opam env)
-          opam pin add coq 8.18.0 -y
-
-      - name: Build
-        run: |
-          eval $(opam env)
-          opam exec -- make -j2
-
-      - name: Verify zero Admitted
-        run: |
-          if grep -r "Admitted\." Certificate/; then
-            echo "ERROR: Found Admitted!"
-            exit 1
-          fi
+  # NOTE: Coq verification removed in v3.3.14
+  # Coq code archived to .archive/COQ-v1.7.0/ (75 relations, arithmetic-only proofs)
+  # Lean 4 is now the sole proof assistant (250+ relations, real mathematics via Mathlib)
+  # Coq may be restored when Lean reaches axiom-free zero-sorry status
