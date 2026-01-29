@@ -574,7 +574,7 @@ def main():
     st.markdown("---")
     st.markdown("""
     <div style='text-align: center; color: gray;'>
-    GIFT Framework | Formally verified with Lean 4 + Coq 8.18 | Zero axioms
+    GIFT Framework | Formally verified with Lean 4 | Zero axioms
     </div>
     """, unsafe_allow_html=True)
 

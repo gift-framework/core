@@ -2,7 +2,7 @@
 
 **Version**: 3.3.6
 **Date**: 2026-01-15
-**Proof Systems**: Lean 4 + Coq
+**Proof Systems**: Lean 4
 
 ---
 
@@ -102,7 +102,7 @@ Build: `uvx leanblueprint pdf` / `uvx leanblueprint web`
 
 | Workflow | Status |
 |----------|--------|
-| verify.yml (Lean + Coq) | Active |
+| verify.yml (Lean 4) | Active |
 | test.yml (Python) | Active |
 | publish.yml (PyPI) | Active |
 | blueprint.yml | Not yet configured |
@@ -122,8 +122,7 @@ Build: `uvx leanblueprint pdf` / `uvx leanblueprint web`
 
 ### 3.2 Medium-term (P2)
 
-1. **Coq Synchronization**: Ensure COQ/ mirrors latest Lean relations
-2. **Mathlib PR**: Submit E₈ root enumeration to leanprover-community/mathlib4
+1. **Mathlib PR**: Submit E₈ root enumeration to leanprover-community/mathlib4
 
 ### 3.3 Long-term (Research)
 
@@ -155,10 +154,6 @@ Lean/GIFT/
 blueprint/
   src/content.tex              # Main blueprint document
   lean_decls                   # 185 Lean declarations
-
-COQ/
-  _CoqProject                  # File list
-  Certificate/AllProven.v      # Coq certificate
 
 gift_core/
   _version.py                  # Version 3.1.12

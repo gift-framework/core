@@ -62,8 +62,8 @@ theorem monster_factors_b3 :
   monster_factors_from_b3
 
 /-- Monster dimension = (b_3 - 30)(b_3 - 18)(b_3 - 6) = 196883 -/
-theorem monster_dim_from_b3 :
-    (b3 - 30) * (b3 - 18) * (b3 - 6) = 196883 := Supersingular.monster_dim_gift
+theorem monster_dim_b3_form :
+    (b3 - 30) * (b3 - 18) * (b3 - 6) = 196883 := Supersingular.monster_dim_from_b3
 
 /-!
 ## The j-Invariant Connection
@@ -75,7 +75,7 @@ The j-invariant j(tau) = q^{-1} + 744 + 196884*q + ... connects:
 -/
 
 /-- 744 = N_gen * dim(E_8) = 3 * 248 -/
-theorem j_constant_E8 : j_constant = N_gen * dim_E8 := j_constant_gift
+theorem j_constant_product : j_constant = N_gen * dim_E8 := j_constant_gift
 
 /-- 196884 = Monster dimension + 1 (McKay observation) -/
 theorem j_coeff_monster_plus_1 : j_coeff_1 = MonsterDimension.monster_dim + 1 := j_coeff_1_monster

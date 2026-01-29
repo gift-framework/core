@@ -26,8 +26,7 @@ GIFT derives Standard Model parameters from E₈ × E₈ gauge theory compactifi
 
 ```
 gift-framework/core/
-├── Lean/           # Lean 4 formal proofs (180+ relations)
-├── COQ/            # Coq formal proofs
+├── Lean/           # Lean 4 formal proofs (250+ relations)
 ├── blueprint/      # Mathematical documentation
 ├── gift_core/      # Python package
 └── tests/          # Test suite

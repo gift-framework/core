@@ -1,7 +1,7 @@
 """
 Tests for the 12 TOPOLOGICAL extension relations.
 These complement the 13 original PROVEN relations for a total of 25 certified relations.
-All values verified against Lean4 + Coq formal proofs.
+All values verified against Lean 4 formal proofs.
 """
 from fractions import Fraction
 import gift_core.constants as gc

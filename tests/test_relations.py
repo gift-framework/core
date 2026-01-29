@@ -8,10 +8,6 @@ def test_all_have_lean_theorem():
     for r in PROVEN_RELATIONS:
         assert r.lean_theorem, f"{r.name} missing Lean theorem"
 
-def test_all_have_coq_theorem():
-    for r in PROVEN_RELATIONS:
-        assert r.coq_theorem, f"{r.name} missing Coq theorem"
-
 def test_get_relation():
     w = get_relation("sin^2(theta_W)")
     assert w.name == "Weinberg angle"

@@ -1,10 +1,12 @@
 """
 GIFT Core - Formally Verified Mathematical Constants.
 
-All values proven in Lean 4 and Coq proof assistants.
+All values proven in Lean 4.
 250+ certified relations, zero domain-specific axioms.
 
-v3.3.10 Features:
+v3.3.14 Features:
+- Selection Principle: Canonical neck length L* from variational argument
+- Tier 1 Bounds: Rayleigh quotient upper/lower bounds for spectral gap
 - Zeta Correspondences: γ₁~14, γ₂~21, γ₂₀~77, γ₁₀₇~248
 - Monster-Zeta Moonshine: Ogg's Jack Daniels Problem answer
 - Supersingular Primes: All 15 GIFT-expressible

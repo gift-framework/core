@@ -1,6 +1,6 @@
 -- GIFT: Geometric Integration of Fundamental Topologies
 -- Main entry point for Lean 4 formalization
--- Version: 3.3.8 (190+ certified relations + Yang-Mills Spectral Gap)
+-- Version: 3.3.14 (250+ certified relations + Selection Principle + Tier1 Bounds)
 
 import GIFT.Core
 import GIFT.Relations

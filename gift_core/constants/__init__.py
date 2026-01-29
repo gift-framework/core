@@ -8,7 +8,7 @@ All certified constants organized by theme:
 - physics: Weinberg angle, Koide, mass ratios
 - cosmology: Dark energy, Hubble, CMB
 
-All values formally proven in Lean 4 and Coq.
+All values formally proven in Lean 4.
 """
 
 # Exceptional Lie algebras

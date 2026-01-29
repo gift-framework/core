@@ -812,6 +812,29 @@ abbrev v32_harmonic := GIFT.Foundations.Analysis.HarmonicForms.harmonic_forms_ce
 abbrev v32_G2_tensor := GIFT.Foundations.Analysis.G2TensorForm.G2_certified
 
 -- =============================================================================
+-- ANALYSIS UTILITY MODULES (v3.3.14)
+-- Connects previously orphaned Analysis submodules to dependency graph
+-- =============================================================================
+
+/-- Analytical foundations certificate -/
+abbrev v32_analytical_foundations := GIFT.Foundations.AnalyticalFoundations.analytical_foundations_certified
+
+/-- Exterior algebra: dim(Ω²) = C(7,2) = 21 = b₂ -/
+abbrev v32_exterior_dim_2forms := GIFT.Foundations.Analysis.ExteriorAlgebra.dim_2forms_7
+
+/-- Exterior algebra: dim(Ω³) = C(7,3) = 35 -/
+abbrev v32_exterior_dim_3forms := GIFT.Foundations.Analysis.ExteriorAlgebra.dim_3forms_7
+
+/-- Exterior algebra: Ω² G2 decomposition 7 + 14 = 21 -/
+abbrev v32_exterior_omega2_G2 := GIFT.Foundations.Analysis.ExteriorAlgebra.omega2_G2_decomposition
+
+/-- Exterior algebra: Ω³ G2 decomposition 1 + 7 + 27 = 35 -/
+abbrev v32_exterior_omega3_G2 := GIFT.Foundations.Analysis.ExteriorAlgebra.omega3_G2_decomposition
+
+-- Note: InnerProductSpace.cauchy_schwarz, normSq_eq_sum, inner_eq_sum have implicit
+-- arguments {n : ℕ} and cannot be directly aliased. The module is connected via imports.
+
+-- =============================================================================
 -- G₂ CROSS PRODUCT CONNECTIONS (v3.1.11)
 -- Connects fano_lines cluster to main dependency graph
 -- =============================================================================
@@ -1858,7 +1881,7 @@ This provides a potential answer to Ogg's Jack Daniels Problem!
 abbrev supersingular_all_gift := GIFT.Moonshine.Supersingular.all_supersingular_gift_expressible
 
 /-- Monster dimension from b_3 -/
-abbrev monster_dim_b3 := GIFT.Moonshine.Supersingular.monster_dim_gift
+abbrev monster_dim_b3 := GIFT.Moonshine.Supersingular.monster_dim_from_b3
 
 /-- Monster factors arithmetic progression -/
 abbrev monster_arithmetic := GIFT.Moonshine.Supersingular.primes_arithmetic
