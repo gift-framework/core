@@ -27,6 +27,10 @@ import GIFT.Foundations.Analysis
 import GIFT.Foundations.AnalyticalMetric
 -- Octonion bridge: connects R8 (E8Lattice) with R7 (G2CrossProduct)
 import GIFT.Foundations.OctonionBridge
+-- Numerical bounds (Taylor series proofs for exp, log, phi)
+import GIFT.Foundations.NumericalBounds
+-- Golden ratio powers (phi^-2, phi^-54, 27^phi)
+import GIFT.Foundations.GoldenRatioPowers
 
 namespace GIFT.Foundations
 
