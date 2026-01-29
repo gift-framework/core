@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.3.14).
+Complete documentation for the `giftpy` Python package (v3.3.15).
 
 ## Installation
 
@@ -13,7 +13,7 @@ For visualization (optional):
 pip install giftpy matplotlib numpy
 ```
 
-## Quick Start (v3.3.12)
+## Quick Start (v3.3.15)
 
 ```python
 from gift_core import *
@@ -41,6 +41,54 @@ print(K7.two_b2)                # 42 (structural invariant)
 from gift_core import verify
 print(verify())          # True
 ```
+
+## New in v3.3.15
+
+### Axiom Classification System
+
+All spectral module axioms now have category labels and academic citations:
+
+```lean
+import GIFT.Foundations.PiBounds
+import GIFT.Spectral.CheegerInequality
+
+-- π bounds (Category F: Numerical)
+#check pi_gt_three              -- π > 3 (numerically verified)
+#check pi_lt_four               -- π < 4 (numerically verified)
+#check pi_lt_sqrt_ten           -- π < √10 (numerically verified)
+
+-- Derived bounds (proven from axioms)
+#check pi_squared_gt_9          -- π² > 9
+#check pi_squared_lt_10         -- π² < 10
+#check pi_between_3_and_4       -- 3 < π < 4
+
+-- Cheeger inequality (Category B: Standard result)
+#check cheeger_inequality       -- λ₁ ≥ h²/4 (Cheeger 1970)
+#check buser_inequality         -- λ₁ ≤ C(n)·h (Buser 1982)
+#check K7_cheeger_constant      -- h(K7) = 14/99 (Category E: GIFT claim)
+```
+
+**Axiom Categories:**
+
+| Category | Description | Example |
+|----------|-------------|---------|
+| A | Definitions | `CheegerConstant`, `CompactSimpleGroup` |
+| B | Standard results | `cheeger_inequality` (Cheeger 1970) |
+| C | Geometric structure | `ProductNeckMetric`, `NeckMinimality` |
+| D | Literature axioms | `langlais_spectral_density` |
+| E | GIFT claims | `K7_cheeger_constant`, `GIFT_mass_gap_relation` |
+| F | Numerical (verified) | `pi_gt_three`, `pi_lt_sqrt_ten` |
+
+### Mathlib 4.27 π Bounds Limitation
+
+Note: Mathlib 4.27 does NOT export `Real.pi_gt_314` or `Real.pi_lt_315` directly.
+Available bounds:
+- `Real.pi_pos` : 0 < π
+- `Real.two_le_pi` : 2 ≤ π
+- `Real.pi_le_four` : π ≤ 4 (non-strict)
+
+The tighter bounds (π > 3, π < √10) are kept as Category F numerical axioms until
+Mathlib exports them or we implement sqrtTwoAddSeries computation.
 
 ## New in v3.3.14
 
