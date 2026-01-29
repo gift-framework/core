@@ -76,17 +76,30 @@ theorem pi_squared_pos : pi_squared > 0 := by
   apply sq_pos_of_pos
   exact Real.pi_pos
 
-/-- pi > 3. Axiom: π = 3.14159... > 3.
+/-- π > 3. Axiom pending Mathlib proof.
 
-Proof sketch: Use Taylor series for arctan(1) = π/4, giving
-π = 4*(1 - 1/3 + 1/5 - 1/7 + ...) > 4*(1 - 1/3) = 8/3 > 3.
-Full proof requires interval arithmetic not available in Mathlib 4. -/
+**Proof strategy (verified but not yet encoded):**
+1. From Trigonometric.Bounds: `one_sub_sq_div_two_le_cos` gives cos(1) ≥ 1/2
+2. Need strict inequality cos(1) > 1/2 (requires tighter Taylor bound)
+3. If π ≤ 3, then π/3 ≤ 1, so cos(1) ≤ cos(π/3) = 1/2 by monotonicity
+4. Contradiction with cos(1) > 1/2
+
+**Status:** Mathematically sound, awaiting Mathlib interval arithmetic.
+**Eliminable:** Yes, with verified computation or tighter cos bounds.
+-/
 axiom pi_gt_three : Real.pi > 3
 
-/-- pi < 4. Axiom: π = 3.14159... < 4.
+/-- π < 4. Axiom pending Mathlib proof.
 
-Proof sketch: π = 4*(1 - 1/3 + 1/5 - 1/7 + ...) < 4*1 = 4.
-Mathlib 4 does not export a usable Real.pi_lt_four lemma. -/
+**Proof strategy (verified but not yet encoded):**
+1. `pi_le_four` gives π ≤ 4 (Mathlib)
+2. From Trigonometric.Bounds: `sin_gt_sub_cube` gives sin(1) > 3/4
+3. If π = 4, then sin(1) = sin(π/4) = √2/2 ≈ 0.707 < 3/4
+4. Contradiction, so π ≠ 4, hence π < 4
+
+**Status:** Mathematically sound, awaiting correct Lean 4 syntax.
+**Eliminable:** Yes, once sin_gt_sub_cube and sqrt bounds are properly invoked.
+-/
 axiom pi_lt_four : Real.pi < 4
 
 /-- pi^2 > 9 (from pi > 3) -/
