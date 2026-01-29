@@ -31,6 +31,8 @@ import GIFT.Foundations.OctonionBridge
 import GIFT.Foundations.NumericalBounds
 -- Golden ratio powers (phi^-2, phi^-54, 27^phi)
 import GIFT.Foundations.GoldenRatioPowers
+-- Pi bounds (π > 3, π < 4, π < √10) - v3.3.15
+import GIFT.Foundations.PiBounds
 
 namespace GIFT.Foundations
 
@@ -177,6 +179,11 @@ export E8Mathlib (E8_coxeter E8_coxeter_number E8_rank_val
   E8_roots_from_coxeter gift_E8_roots enumeration_matches_coxeter
   E8_lie_dim E8_dimension_certified E8_dimension_from_coxeter
   E8_weyl_order E8_weyl_factored exceptional_dimensions)
+
+-- Pi bounds (v3.3.15) - eliminates 3 axioms
+export PiBounds (pi_gt_314 pi_lt_315 pi_gt_three pi_lt_four pi_lt_sqrt_ten
+  pi_squared_gt_9 pi_squared_lt_10 pi_squared_lt_16
+  pi_gt_31 pi_lt_32 pi_between_3_and_4 pi_squared_between_9_and_10)
 
 -- Octonion Bridge: R8-R7 connection (v3.2.15)
 -- This unifies E8Lattice (R8) with G2CrossProduct (R7) via octonion structure

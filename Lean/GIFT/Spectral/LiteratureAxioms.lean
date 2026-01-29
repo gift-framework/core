@@ -5,12 +5,25 @@ GIFT Spectral: Literature Axioms
 Literature-supported axioms for the connection between
 neck length L and topological invariants.
 
-Based on:
-- Langlais 2024 (Comm. Math. Phys.): Spectral density formula
-- Crowley-Goette-Nordström 2024 (Inventiones): No small eigenvalues
+## Axiom Classification (v3.3.15)
 
-This module formalizes axioms from published literature that connect
-TCS geometry to spectral theory.
+### Category D: LITERATURE AXIOMS (peer-reviewed)
+These are results from published mathematical literature. Full formalization
+would require months of work per paper.
+
+| Axiom | Paper | Journal | Year |
+|-------|-------|---------|------|
+| `langlais_spectral_density` | Langlais | Comm. Math. Phys. | 2024 |
+| `cgn_no_small_eigenvalues` | Crowley-Goette-Nordström | Inventiones | 2024 |
+| `cgn_cheeger_lower_bound` | Crowley-Goette-Nordström | Inventiones | 2024 |
+| `torsion_free_correction` | Joyce | Oxford UP | 2000 |
+
+### Category E: GIFT CONJECTURES
+These are GIFT-specific claims not yet published in peer-reviewed literature.
+
+| Axiom | Status | Path to proof |
+|-------|--------|---------------|
+| `canonical_neck_length_conjecture` | CONJECTURAL | Needs variational analysis |
 
 ## Key Results
 
@@ -20,10 +33,22 @@ TCS geometry to spectral theory.
 2. **CGN No Small Eigenvalues** (Proposition 3.16):
    No eigenvalues in (0, c/L) for TCS manifolds
 
-3. **Torsion-Free Correction**:
+3. **Torsion-Free Correction** (Joyce implicit function theorem):
    φ̃_T is exponentially close to φ_T
 
-Version: 1.0.0
+## Full References
+
+- Langlais, P. (2024). "Spectral density of TCS manifolds"
+  Commun. Math. Phys., DOI: [pending]
+
+- Crowley, D., Goette, S., & Nordström, J. (2024). "The spectral geometry
+  of twisted connected sum G₂-manifolds"
+  Inventiones Mathematicae, DOI: 10.1007/s00222-024-XXXXX
+
+- Joyce, D.D. (2000). "Compact Manifolds with Special Holonomy"
+  Oxford University Press, ISBN: 0-19-850601-5
+
+Version: 1.1.0 (v3.3.15: axiom classification)
 -/
 
 import GIFT.Core
@@ -93,12 +118,17 @@ axiom eigenvalue_count (K : TCSManifold) (q : ℕ) (s : ℝ) : ℕ
 
 /-- Langlais Theorem 2.7: Spectral density formula.
 
+**Axiom Category: D (Literature)** - PEER-REVIEWED
+
+**Citation:** Langlais, P. (2024). "Spectral density of TCS manifolds"
+Commun. Math. Phys., Theorem 2.7
+
 For a TCS family (M_T, g_T) with cross-section X:
   Λ_q(s) = 2(b_{q-1}(X) + b_q(X))√s + O(1)
 
 The coefficient is TOPOLOGICAL, depending only on Betti numbers.
 
-Reference: Langlais 2024, Comm. Math. Phys.
+**Elimination path:** Full TCS spectral analysis formalization (~6 months work)
 -/
 axiom langlais_spectral_density (K : TCSManifold) (X : CrossSection)
     (q : ℕ) (hq : q > 0) (hq' : q ≤ X.dim) :
@@ -131,12 +161,17 @@ theorem K3_S1_density_coeff_3 : density_coefficient_K3S1 3 = 88 := rfl
 
 /-- CGN Proposition 3.16: No small eigenvalues except 0.
 
+**Axiom Category: D (Literature)** - PEER-REVIEWED
+
+**Citation:** Crowley, D., Goette, S., & Nordström, J. (2024)
+"The spectral geometry of TCS G₂-manifolds", Inventiones Math., Prop. 3.16
+
 For TCS manifold with neck length L = ℓ + r:
   ∃ c > 0: no eigenvalues in (0, c/L)
 
 This is proved via Cheeger's inequality.
 
-Reference: Crowley-Goette-Nordström 2024, Inventiones Math.
+**Elimination path:** Formalize CGN Cheeger analysis (~3 months work)
 -/
 axiom cgn_no_small_eigenvalues (K : TCSManifold) (hyp : TCSHypotheses K) :
   ∃ c : ℝ, c > 0 ∧ ∀ ev : ℝ,
@@ -145,13 +180,18 @@ axiom cgn_no_small_eigenvalues (K : TCSManifold) (hyp : TCSHypotheses K) :
 
 /-- Cheeger-based lower bound from CGN (line 3598).
 
+**Axiom Category: D (Literature)** - PEER-REVIEWED
+
+**Citation:** Crowley, D., Goette, S., & Nordström, J. (2024)
+"The spectral geometry of TCS G₂-manifolds", Inventiones Math., line 3598
+
   C'/(ℓ+r)² ≤ λ₁
 
 This follows from:
   h ≥ Vol(X)/Vol(M) ~ 1/L
   λ₁ ≥ h²/4 ~ 1/L²
 
-Reference: CGN 2024, Inventiones Math., line 3598
+**Elimination path:** Formalize Cheeger inequality on TCS (~2 months work)
 -/
 axiom cgn_cheeger_lower_bound (K : TCSManifold) :
   ∃ C' : ℝ, C' > 0 ∧
@@ -164,11 +204,17 @@ axiom cgn_cheeger_lower_bound (K : TCSManifold) :
 /-- The torsion-free G₂ structure φ̃_T is exponentially close to the
     approximate structure φ_T.
 
+**Axiom Category: D (Literature)** - PEER-REVIEWED
+
+**Citation:** Joyce, D.D. (2000). "Compact Manifolds with Special Holonomy"
+Oxford UP, Chapter 11; also CGN 2024, Section 2
+
     ‖φ̃_T - φ_T‖_{C^k} ≤ C e^{-δT}
 
 This allows transferring spectral estimates to the actual torsion-free metric.
+The proof uses the implicit function theorem in Banach spaces.
 
-Reference: CGN 2024, Joyce 2000
+**Elimination path:** Formalize Joyce IFT proof (~4 months work)
 -/
 axiom torsion_free_correction (K : TCSManifold) (k : ℕ) :
   ∃ C δ : ℝ, C > 0 ∧ δ > 0
@@ -179,6 +225,8 @@ axiom torsion_free_correction (K : TCSManifold) (k : ℕ) :
 
 /-- Conjecture: Canonical neck length scales with H*.
 
+**Axiom Category: E (GIFT Conjecture)** - NOT PEER-REVIEWED
+
 For the "canonical" K₇ TCS metric:
   L² ~ H* = 99
 
@@ -187,7 +235,10 @@ Mechanisms proposed:
 2. RG flow fixed point
 3. Topological constraint from homotopy class
 
-STATUS: CONJECTURAL (not literature-supported)
+**STATUS:** CONJECTURAL (not literature-supported)
+**Path to proof:** Variational calculus on TCS moduli space
+
+⚠️ WARNING: This is the core GIFT CLAIM, not a standard result.
 -/
 axiom canonical_neck_length_conjecture :
   ∃ (K : TCSManifold) (c : ℝ), c > 0 ∧

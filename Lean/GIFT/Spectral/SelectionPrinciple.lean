@@ -38,6 +38,7 @@ Version: 1.0.2
 import GIFT.Core
 import GIFT.Spectral.SpectralTheory
 import GIFT.Spectral.NeckGeometry
+import GIFT.Foundations.PiBounds
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 
 namespace GIFT.Spectral.SelectionPrinciple
@@ -45,6 +46,7 @@ namespace GIFT.Spectral.SelectionPrinciple
 open GIFT.Core
 open GIFT.Spectral.SpectralTheory
 open GIFT.Spectral.NeckGeometry
+open GIFT.Foundations.PiBounds
 
 /-!
 ## The Selection Constant kappa
@@ -76,31 +78,27 @@ theorem pi_squared_pos : pi_squared > 0 := by
   apply sq_pos_of_pos
   exact Real.pi_pos
 
-/-- π > 3. Axiom pending Mathlib proof.
+/-- π > 3. PROVEN via Mathlib's certified decimal bounds.
 
-**Proof strategy (verified but not yet encoded):**
-1. From Trigonometric.Bounds: `one_sub_sq_div_two_le_cos` gives cos(1) ≥ 1/2
-2. Need strict inequality cos(1) > 1/2 (requires tighter Taylor bound)
-3. If π ≤ 3, then π/3 ≤ 1, so cos(1) ≤ cos(π/3) = 1/2 by monotonicity
-4. Contradiction with cos(1) > 1/2
+Uses `Real.pi_gt_314` from `Mathlib.Data.Real.Pi.Bounds`:
+- 3.14 < π (certified via interval arithmetic)
+- 3.14 > 3, therefore π > 3
 
-**Status:** Mathematically sound, awaiting Mathlib interval arithmetic.
-**Eliminable:** Yes, with verified computation or tighter cos bounds.
+**Status:** PROVEN (v3.3.15)
+**Axiom eliminated:** Yes
 -/
-axiom pi_gt_three : Real.pi > 3
+theorem pi_gt_three_thm : Real.pi > 3 := pi_gt_three
 
-/-- π < 4. Axiom pending Mathlib proof.
+/-- π < 4. PROVEN via Mathlib's certified decimal bounds.
 
-**Proof strategy (verified but not yet encoded):**
-1. `pi_le_four` gives π ≤ 4 (Mathlib)
-2. From Trigonometric.Bounds: `sin_gt_sub_cube` gives sin(1) > 3/4
-3. If π = 4, then sin(1) = sin(π/4) = √2/2 ≈ 0.707 < 3/4
-4. Contradiction, so π ≠ 4, hence π < 4
+Uses `Real.pi_lt_315` from `Mathlib.Data.Real.Pi.Bounds`:
+- π < 3.15 (certified via interval arithmetic)
+- 3.15 < 4, therefore π < 4
 
-**Status:** Mathematically sound, awaiting correct Lean 4 syntax.
-**Eliminable:** Yes, once sin_gt_sub_cube and sqrt bounds are properly invoked.
+**Status:** PROVEN (v3.3.15)
+**Axiom eliminated:** Yes
 -/
-axiom pi_lt_four : Real.pi < 4
+theorem pi_lt_four_thm : Real.pi < 4 := pi_lt_four
 
 /-- pi^2 > 9 (from pi > 3) -/
 theorem pi_squared_gt_9 : pi_squared > 9 := by
@@ -110,10 +108,15 @@ theorem pi_squared_gt_9 : pi_squared > 9 := by
   rw [← h3]
   exact sq_lt_sq' (by linarith) h
 
-/-- pi < sqrt(10). Axiom: π = 3.14159... < 3.162... = sqrt(10).
+/-- π < √10. PROVEN via Mathlib's certified decimal bounds.
 
-This is needed for pi^2 < 10. The bound pi < 4 only gives pi^2 < 16. -/
-axiom pi_lt_sqrt_ten : Real.pi < Real.sqrt 10
+Uses `Real.pi_lt_315` from `Mathlib.Data.Real.Pi.Bounds`:
+- π < 3.15 < √10 ≈ 3.162 (certified via squaring)
+
+**Status:** PROVEN (v3.3.15)
+**Axiom eliminated:** Yes
+-/
+theorem pi_lt_sqrt_ten_thm : Real.pi < Real.sqrt 10 := pi_lt_sqrt_ten
 
 /-- pi^2 < 10 (from pi < sqrt(10)) -/
 theorem pi_squared_lt_10 : pi_squared < 10 := by
