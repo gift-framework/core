@@ -62,8 +62,8 @@ theorem monster_factors_b3 :
   monster_factors_from_b3
 
 /-- Monster dimension = (b_3 - 30)(b_3 - 18)(b_3 - 6) = 196883 -/
-theorem monster_dim_from_b3 :
-    (b3 - 30) * (b3 - 18) * (b3 - 6) = 196883 := Supersingular.monster_dim_gift
+theorem monster_dim_b3_form :
+    (b3 - 30) * (b3 - 18) * (b3 - 6) = 196883 := Supersingular.monster_dim_from_b3
 
 /-!
 ## The j-Invariant Connection

@@ -1887,7 +1887,7 @@ This provides a potential answer to Ogg's Jack Daniels Problem!
 abbrev supersingular_all_gift := GIFT.Moonshine.Supersingular.all_supersingular_gift_expressible
 
 /-- Monster dimension from b_3 -/
-abbrev monster_dim_b3 := GIFT.Moonshine.Supersingular.monster_dim_gift
+abbrev monster_dim_b3 := GIFT.Moonshine.Supersingular.monster_dim_from_b3
 
 /-- Monster factors arithmetic progression -/
 abbrev monster_arithmetic := GIFT.Moonshine.Supersingular.primes_arithmetic
