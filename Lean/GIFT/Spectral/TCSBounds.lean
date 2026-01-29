@@ -9,6 +9,19 @@ Main result: For TCS manifold K with neck length L > L₀ satisfying (H1)-(H6):
 
 This is the "Model Theorem" establishing the 1/L² scaling of the spectral gap.
 
+## Axiom Classification
+
+| Axiom | Category | Status |
+|-------|----------|--------|
+| `rayleigh_test_function` | C: Geometric structure | Test function existence |
+| `gradient_energy_bound` | C: Geometric structure | Variational bound |
+| `l2_norm_lower_bound` | C: Geometric structure | Variational bound |
+| `spectral_upper_bound` | B: Standard result | Rayleigh quotient |
+| `neck_cheeger_bound` | C: Geometric structure | Isoperimetric on neck |
+| `cut_classification` | C: Geometric structure | Topological property |
+| `neck_dominates` | C: Geometric structure | Comparison lemma |
+| `spectral_lower_bound` | B: Standard result | Cheeger-based bound |
+
 ## Proof Strategy
 
 **Upper bound** (Rayleigh quotient):
@@ -26,11 +39,14 @@ This is the "Model Theorem" establishing the 1/L² scaling of the spectral gap.
 5. Cheeger: λ₁ ≥ h²/4 = v₀²/L²
 
 References:
-- Cheeger, J. (1970). A lower bound for the smallest eigenvalue of the Laplacian
-- Buser, P. (1982). A note on the isoperimetric constant
-- Corti, A., Haskins, M., et al. (2015). G₂-manifolds and associative submanifolds
+- Cheeger, J. (1970). A lower bound for the smallest eigenvalue of the Laplacian.
+  Proceedings of the Symposium in Pure Mathematics 36:195-199.
+- Buser, P. (1982). A note on the isoperimetric constant.
+  Annales scientifiques de l'École Normale Supérieure 15(2):213-230.
+- Corti, A., Haskins, M., et al. (2015). G₂-manifolds and associative submanifolds.
+  Duke Mathematical Journal 164(10):1971-2092.
 
-Version: 1.0.0
+Version: 1.1.0 (v3.3.15: axiom classification)
 -/
 
 import GIFT.Core

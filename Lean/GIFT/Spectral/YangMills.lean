@@ -9,14 +9,35 @@ This module formalizes:
 - Connection between geometric spectral gap and physical mass gap
 - The GIFT prediction for the Yang-Mills mass gap
 
-Status: Uses axioms (gauge theory requires full bundle theory)
+## Axiom Classification
+
+| Axiom | Category | Status |
+|-------|----------|--------|
+| `CompactSimpleGroup` | A: Definition | Type for gauge groups |
+| `SU` | A: Definition | SU(N) constructor |
+| `Connection` | A: Definition | Gauge field type |
+| `Curvature` | A: Definition | Field strength type |
+| `YangMillsAction` | A: Definition | Action functional |
+| `yang_mills_nonneg` | A: Definition | Basic property |
+| `flat_connection_minimizes` | B: Standard result | Variational principle |
+| `YangMillsHamiltonian` | A: Definition | Quantum operator type |
+| `vacuum` | A: Definition | Ground state type |
+| `vacuum_energy` | A: Definition | Ground state energy |
+| `first_excited_energy` | A: Definition | Excited state energy |
+| `mass_gap_nonneg` | A: Definition | Basic property |
+| `GIFT_mass_gap_relation` | E: GIFT claim | Δ = λ₁ × Λ_QCD |
+
+**Note**: Most axioms here are DEFINITIONS (Category A), not claims.
+The only GIFT-specific claim is `GIFT_mass_gap_relation`.
 
 References:
-- Jaffe, A. & Witten, E. (2000). Yang-Mills Existence and Mass Gap (Clay Problem)
-- Donaldson, S.K. (1990). Polynomial invariants for smooth four-manifolds
-- GIFT Framework: Topological origin of the Yang-Mills mass gap
+- Jaffe, A. & Witten, E. (2000). Yang-Mills Existence and Mass Gap.
+  Clay Mathematics Institute Millennium Problems.
+- Donaldson, S.K. (1990). Polynomial invariants for smooth four-manifolds.
+  Topology 29(3):257-315.
+- GIFT Framework: Topological origin of the Yang-Mills mass gap.
 
-Version: 1.0.0
+Version: 1.1.0 (v3.3.15: axiom classification)
 -/
 
 import GIFT.Core
