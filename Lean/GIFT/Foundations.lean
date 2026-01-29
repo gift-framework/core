@@ -180,10 +180,12 @@ export E8Mathlib (E8_coxeter E8_coxeter_number E8_rank_val
   E8_lie_dim E8_dimension_certified E8_dimension_from_coxeter
   E8_weyl_order E8_weyl_factored exceptional_dimensions)
 
--- Pi bounds (v3.3.15) - eliminates 3 axioms
-export PiBounds (pi_gt_314 pi_lt_315 pi_gt_three pi_lt_four pi_lt_sqrt_ten
+-- Pi bounds (v3.3.15) - documented numerical axioms
+-- These remain as axioms until Mathlib exports tighter π bounds
+export PiBounds (pi_pos' two_le_pi' pi_le_four' pi_ne_zero'
+  pi_gt_three pi_lt_four pi_lt_sqrt_ten
   pi_squared_gt_9 pi_squared_lt_10 pi_squared_lt_16
-  pi_gt_31 pi_lt_32 pi_between_3_and_4 pi_squared_between_9_and_10)
+  pi_between_3_and_4 pi_squared_between_9_and_10)
 
 -- Octonion Bridge: R8-R7 connection (v3.2.15)
 -- This unifies E8Lattice (R8) with G2CrossProduct (R7) via octonion structure

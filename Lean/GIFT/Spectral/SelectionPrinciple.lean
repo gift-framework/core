@@ -78,27 +78,9 @@ theorem pi_squared_pos : pi_squared > 0 := by
   apply sq_pos_of_pos
   exact Real.pi_pos
 
-/-- π > 3. PROVEN via Mathlib's certified decimal bounds.
-
-Uses `Real.pi_gt_314` from `Mathlib.Data.Real.Pi.Bounds`:
-- 3.14 < π (certified via interval arithmetic)
-- 3.14 > 3, therefore π > 3
-
-**Status:** PROVEN (v3.3.15)
-**Axiom eliminated:** Yes
--/
-theorem pi_gt_three_thm : Real.pi > 3 := pi_gt_three
-
-/-- π < 4. PROVEN via Mathlib's certified decimal bounds.
-
-Uses `Real.pi_lt_315` from `Mathlib.Data.Real.Pi.Bounds`:
-- π < 3.15 (certified via interval arithmetic)
-- 3.15 < 4, therefore π < 4
-
-**Status:** PROVEN (v3.3.15)
-**Axiom eliminated:** Yes
--/
-theorem pi_lt_four_thm : Real.pi < 4 := pi_lt_four
+-- π bounds are imported from GIFT.Foundations.PiBounds
+-- They remain as documented numerical axioms until Mathlib exports tighter bounds.
+-- See PiBounds.lean for full documentation.
 
 /-- pi^2 > 9 (from pi > 3) -/
 theorem pi_squared_gt_9 : pi_squared > 9 := by
