@@ -16,12 +16,24 @@ This module formalizes the geometric setup for TCS manifolds K = M₁ ∪_N M₂
 These hypotheses are sufficient for the spectral bounds:
   c₁/L² ≤ λ₁(K) ≤ c₂/L²
 
-References:
-- Kovalev, A. (2003). Twisted connected sums and special Riemannian holonomy
-- Corti, A., Haskins, M., et al. (2015). G₂-manifolds and associative submanifolds
-- Cheeger, J. (1970). A lower bound for the smallest eigenvalue of the Laplacian
+## Axiom Classification
 
-Version: 1.0.0
+| Axiom | Category | Status |
+|-------|----------|--------|
+| `ProductNeckMetric` | C: Geometric structure | Metric hypothesis |
+| `NeckMinimality` | C: Geometric structure | Isoperimetric hypothesis |
+| `L₀_ge_one` | C: Geometric structure | Physical constraint |
+| `K7_is_TCS` | C: Geometric structure | Existence (Kovalev 2003) |
+
+References:
+- Kovalev, A. (2003). Twisted connected sums and special Riemannian holonomy.
+  Journal of Differential Geometry 64(2):169-238.
+- Corti, A., Haskins, M., et al. (2015). G₂-manifolds and associative submanifolds.
+  Duke Mathematical Journal 164(10):1971-2092.
+- Cheeger, J. (1970). A lower bound for the smallest eigenvalue of the Laplacian.
+  Proceedings of the Symposium in Pure Mathematics 36:195-199.
+
+Version: 1.1.0 (v3.3.15: axiom classification)
 -/
 
 import GIFT.Core

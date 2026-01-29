@@ -1722,46 +1722,114 @@ have hL1 : 1 ≤ K.neckLength :=
 
 ---
 
-### Axiom Status (v3.3.14)
+### 53. Axiom Classification System (v3.3.15)
+
+**Problem**: Axioms in the codebase have varying provenance - some are definitions, some are standard theorems, some are GIFT claims. Without clear labeling, it's unclear which require proof vs. which are data.
+
+**Solution**: Use a 6-category classification system:
+
+| Category | Description | Example |
+|----------|-------------|---------|
+| A | Definitions | `CheegerConstant`, `CompactSimpleGroup` |
+| B | Standard results | `cheeger_inequality` (cite: Cheeger 1970) |
+| C | Geometric structure | `ProductNeckMetric`, `NeckMinimality` |
+| D | Literature axioms | `langlais_spectral_density` (cite: Langlais 2024) |
+| E | GIFT claims | `K7_cheeger_constant`, `GIFT_mass_gap_relation` |
+| F | Numerical (verified) | `pi_gt_three`, `gamma1_approx` |
+
+**Documentation pattern**:
+```lean
+/-- Description of the axiom.
+
+**Axiom Category: B (Standard result)** - Cheeger 1970
+
+**Reference**: Cheeger, J. (1970). "A lower bound for the smallest eigenvalue
+of the Laplacian." Proceedings of the Symposium in Pure Mathematics 36:195-199.
+
+**Why axiom**: Proof requires co-area formula on manifolds.
+**Elimination path**: Formalize co-area formula in Mathlib.
+-/
+axiom cheeger_inequality (M : CompactManifold) : MassGap M ≥ (CheegerConstant M)^2 / 4
+```
+
+### 54. Non-Existent Mathlib 4.27 π Bounds
+
+**Problem**: Web searches may claim `Real.pi_gt_314` and `Real.pi_lt_315` exist in Mathlib, but they don't in Mathlib 4.27.
+
+```lean
+-- BAD - These don't exist!
+import Mathlib.Data.Real.Pi.Bounds  -- Deprecated
+have h := Real.pi_gt_314  -- Unknown constant!
+have h := Real.pi_lt_315  -- Unknown constant!
+```
+
+**What Mathlib 4.27 actually provides:**
+- `Real.pi_pos` : 0 < π
+- `Real.two_le_pi` : 2 ≤ π
+- `Real.pi_le_four` : π ≤ 4 (non-strict!)
+- `Real.pi_ne_zero` : π ≠ 0
+
+**Solution**: Keep tighter π bounds as Category F numerical axioms:
+```lean
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+
+-- Document as Category F (numerically verified)
+axiom pi_gt_three : Real.pi > 3
+axiom pi_lt_four : Real.pi < 4  -- Strict (Mathlib only has ≤)
+axiom pi_lt_sqrt_ten : Real.pi < Real.sqrt 10
+
+-- Derive what we can
+theorem pi_squared_gt_9 : Real.pi ^ 2 > 9 := by
+  have h := pi_gt_three
+  exact sq_lt_sq' (by linarith) h
+```
+
+**Elimination path**: Implement `sqrtTwoAddSeries` computation (~100 lines) or wait for Mathlib to export tighter bounds.
+
+---
+
+### Axiom Status (v3.3.15)
 
 **Numerical Bounds - COMPLETE! (0 remaining):**
 - ✓ All Taylor series bounds proven
 
-**Spectral Theory - Documented axioms:**
-- `CompactManifold`, `MassGap`, `spectral_theorem_discrete`
-- `universal_spectral_law`, `CheegerConstant`, `cheeger_inequality`
+**π Bounds (Category F - numerically verified):**
+- `pi_gt_three` - π > 3 (Mathlib 4.27 only has π ≥ 2)
+- `pi_lt_four` - π < 4 (strict; Mathlib only has π ≤ 4)
+- `pi_lt_sqrt_ten` - π < √10 for π² < 10 bound
 
-**TCS Spectral Bounds:**
+**Spectral Theory - Documented axioms:**
+- `CompactManifold`, `MassGap`, `spectral_theorem_discrete` (Category A/B)
+- `universal_spectral_law`, `CheegerConstant`, `cheeger_inequality` (Category A/B)
+
+**TCS Spectral Bounds (Category C):**
 - `ProductNeckMetric` - Product metric g|_N = dt² + g_Y
 - `NeckMinimality` - Area(Γ) ≥ Area(Y) for separating hypersurfaces
 - `spectral_upper_bound` - Rayleigh quotient bound λ₁ ≤ c₂/L²
 - `spectral_lower_bound` - Cheeger-based bound λ₁ ≥ c₁/L²
 - `neck_dominates` - For L > L₀, neck controls Cheeger constant
 
-**Selection Principle (NEW in v3.3.14):**
-- `pi_gt_three` - π > 3 (interval arithmetic not in Mathlib 4)
-- `pi_lt_four` - π < 4 (not exported in Mathlib 4)
-- `pi_lt_sqrt_ten` - π < √10 for π² < 10 bound
+**Selection Principle:**
 - `L_canonical_rough_bounds` - 7 < L* < 9
 - `L₀_ge_one` - L₀ ≥ 1 for physical TCS manifolds
 - `selection_principle_holds` - Variational selection (placeholder)
 - `universality_conjecture` - Generalization to all TCS
 
-**Tier 1 Bounds (NEW in v3.3.14):**
+**Tier 1 Bounds:**
 - `test_function_exists` - Rayleigh quotient test function
 - `rayleigh_upper_bound_refined` - Upper bound axiom
 - `poincare_neumann_interval` - 1D Poincaré inequality
 - `spectral_lower_bound_refined` - Lower bound axiom
 - `localization_lemma` - Eigenfunction concentration
 
-**Literature Axioms (v3.3.13):**
+**Literature Axioms (Category D):**
 - `langlais_spectral_density` - Spectral density from Langlais 2024
 - `cgn_no_small_eigenvalues` - No small eigenvalues (CGN 2024)
 - `cgn_cheeger_lower_bound` - Cheeger-based lower bound (CGN 2024)
 - `torsion_free_correction` - Exponential closeness of torsion-free correction
 - `canonical_neck_length_conjecture` - L² ~ H* (conjectural)
 
-**Zeta Correspondences:**
+**Zeta Correspondences (Category F):**
 - `gamma : ℕ+ → ℝ` - Riemann zeta zeros (empirical)
 - `gamma_positive`, `gamma_increasing` - Basic properties
 - `gamma1_approx` ... `gamma107_approx` - Numerical approximations
@@ -1772,4 +1840,4 @@ have hL1 : 1 ≤ K.neckLength :=
 
 ---
 
-*Last updated: 2026-01-28 - V3.3.14: Selection Principle & Tier 1 Bounds*
+*Last updated: 2026-01-29 - V3.3.15: Axiom Classification & π Bounds Documentation*

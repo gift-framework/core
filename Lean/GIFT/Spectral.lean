@@ -183,10 +183,7 @@ export TCSBounds (
 -- ============================================================================
 
 export SelectionPrinciple (
-  -- Pi bounds (axioms for numerical bounds not in Mathlib)
-  pi_gt_three
-  pi_lt_four
-  pi_lt_sqrt_ten
+  -- Pi bounds (documented numerical axioms - see PiBounds.lean)
   -- Selection constant
   pi_squared
   pi_squared_pos
@@ -337,6 +334,14 @@ Spectral/
 ```
 
 ## Axiom Summary
+
+**DOCUMENTED NUMERICAL AXIOMS (v3.3.15):**
+These bounds are computationally trivial but Mathlib 4.27 doesn't export them directly.
+- `pi_gt_three` → π > 3 (needs sqrtTwoAddSeries or future Mathlib)
+- `pi_lt_four` → π < 4 (needs sqrtTwoAddSeries or future Mathlib)
+- `pi_lt_sqrt_ten` → π < √10 (needs π < 3.16 bound)
+
+See `GIFT/Foundations/PiBounds.lean` for full documentation and elimination paths.
 
 | Axiom | Purpose | Elimination Path |
 |-------|---------|------------------|

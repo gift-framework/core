@@ -10,14 +10,26 @@ This module formalizes:
 - Buser's inequality (reverse): lambda_1 <= C(n) * h
 - Application to K7 with h = 14/99
 
-Status: Uses axioms (isoperimetric theory requires measure theory on manifolds)
+## Axiom Classification
+
+| Axiom | Category | Status |
+|-------|----------|--------|
+| `CheegerConstant` | A: Definition | Isoperimetric constant |
+| `cheeger_nonneg` | A: Definition | Basic property |
+| `cheeger_positive` | A: Definition | Basic property |
+| `cheeger_inequality` | B: Standard result | Cheeger 1970 |
+| `BuserConstant` | A: Definition | Dimension-dependent |
+| `buser_inequality` | B: Standard result | Buser 1982 |
+| `K7_cheeger_constant` | E: GIFT claim | h(K7) = 14/99 |
 
 References:
-- Cheeger, J. (1970). A lower bound for the smallest eigenvalue of the Laplacian
-- Buser, P. (1982). A note on the isoperimetric constant
-- Chavel, I. (1984). Eigenvalues in Riemannian Geometry
+- Cheeger, J. (1970). A lower bound for the smallest eigenvalue of the Laplacian.
+  Proceedings of the Symposium in Pure Mathematics, 36, 195-199.
+- Buser, P. (1982). A note on the isoperimetric constant.
+  Annales scientifiques de l'École Normale Supérieure, 15(2), 213-230.
+- Chavel, I. (1984). Eigenvalues in Riemannian Geometry. Academic Press.
 
-Version: 1.0.0
+Version: 1.1.0 (v3.3.15: axiom classification)
 -/
 
 import GIFT.Core
@@ -50,19 +62,30 @@ For K7, the GIFT prediction is h(K7) = 14/99, which then gives:
 
 /-- The Cheeger constant of a compact manifold.
 
-    h(M) = inf { Area(S) / min(Vol(A), Vol(B)) }
+**Axiom Category: A (Definition)**
 
-    where the infimum is over all hypersurfaces S that divide M
-    into disjoint open sets A and B with M = A union S union B.
+h(M) = inf { Area(S) / min(Vol(A), Vol(B)) }
 
-    Axiomatized: full definition requires measure theory on manifolds.
+where the infimum is over all hypersurfaces S that divide M
+into disjoint open sets A and B with M = A union S union B.
+
+**Why axiom**: Full definition requires measure theory on manifolds,
+which is not yet available in Mathlib for general Riemannian manifolds.
+
+**Elimination path**: Mathlib manifold measure theory library.
 -/
 axiom CheegerConstant (M : CompactManifold) : ℝ
 
-/-- The Cheeger constant is non-negative -/
+/-- The Cheeger constant is non-negative.
+
+**Axiom Category: A (Definition)** - Basic property of infimum over non-negative ratios.
+-/
 axiom cheeger_nonneg (M : CompactManifold) : CheegerConstant M ≥ 0
 
-/-- The Cheeger constant is positive for compact connected manifolds -/
+/-- The Cheeger constant is positive for compact connected manifolds.
+
+**Axiom Category: A (Definition)** - Follows from compactness and connectivity.
+-/
 axiom cheeger_positive (M : CompactManifold) : CheegerConstant M > 0
 
 -- ============================================================================
@@ -71,13 +94,21 @@ axiom cheeger_positive (M : CompactManifold) : CheegerConstant M > 0
 
 /-- Cheeger's Inequality (1970):
 
-    For any compact Riemannian manifold M:
-      lambda_1(M) >= h(M)^2 / 4
+**Axiom Category: B (Standard result)** - Cheeger 1970
 
-    This is the fundamental lower bound connecting isoperimetric
-    geometry to spectral theory.
+For any compact Riemannian manifold M:
+  lambda_1(M) >= h(M)^2 / 4
 
-    Proof idea: Use co-area formula and Rayleigh quotient.
+This is the fundamental lower bound connecting isoperimetric
+geometry to spectral theory.
+
+**Proof idea**: Use co-area formula and Rayleigh quotient.
+
+**Reference**: Cheeger, J. (1970). "A lower bound for the smallest eigenvalue
+of the Laplacian." Proceedings of the Symposium in Pure Mathematics 36:195-199.
+
+**Why axiom**: Proof requires co-area formula and Rayleigh quotient on manifolds.
+**Elimination path**: Formalize co-area formula in Mathlib.
 -/
 axiom cheeger_inequality (M : CompactManifold) :
   MassGap M ≥ (CheegerConstant M)^2 / 4
@@ -88,12 +119,14 @@ axiom cheeger_inequality (M : CompactManifold) :
 
 /-- Buser's constant for dimension n.
 
-    C(n) is a dimension-dependent constant such that:
-      lambda_1(M) <= C(n) * h(M)
+**Axiom Category: A (Definition)** - Dimension-dependent constant
 
-    For n = 7, C_7 is approximately 10-20 (depends on Ricci curvature).
+C(n) is a dimension-dependent constant such that:
+  lambda_1(M) <= C(n) * h(M)
 
-    Axiomatized: explicit value depends on Ricci curvature bounds.
+For n = 7, C_7 is approximately 10-20 (depends on Ricci curvature).
+
+**Why axiom**: Explicit value depends on Ricci curvature bounds.
 -/
 axiom BuserConstant (n : ℕ) : ℝ
 
@@ -102,10 +135,18 @@ noncomputable def C_7 : ℝ := BuserConstant 7
 
 /-- Buser's Inequality (1982):
 
-    For a compact Riemannian n-manifold M with Ricci >= -(n-1)K:
-      lambda_1(M) <= C(n, K, diam(M)) * h(M)
+**Axiom Category: B (Standard result)** - Buser 1982
 
-    For Ricci-flat manifolds (like K7), this simplifies.
+For a compact Riemannian n-manifold M with Ricci >= -(n-1)K:
+  lambda_1(M) <= C(n, K, diam(M)) * h(M)
+
+For Ricci-flat manifolds (like K7), this simplifies.
+
+**Reference**: Buser, P. (1982). "A note on the isoperimetric constant."
+Annales scientifiques de l'École Normale Supérieure 15(2):213-230.
+
+**Why axiom**: Proof requires Ricci curvature comparison theorems.
+**Elimination path**: Mathlib Riemannian comparison geometry.
 -/
 axiom buser_inequality (M : CompactManifold) (n : ℕ) (hn : M.dim = n) :
   MassGap M ≤ BuserConstant n * CheegerConstant M
@@ -116,10 +157,15 @@ axiom buser_inequality (M : CompactManifold) (n : ℕ) (hn : M.dim = n) :
 
 /-- For K7, the Cheeger constant equals the mass gap ratio.
 
-    This is a GIFT prediction: h(K7) = 14/99.
+**Axiom Category: E (GIFT claim)** - Prediction: h(K7) = 14/99
 
-    Physical meaning: The isoperimetric ratio of K7 is determined
-    by the same topological data as the spectral gap.
+This is a GIFT prediction: h(K7) = 14/99.
+
+Physical meaning: The isoperimetric ratio of K7 is determined
+by the same topological data as the spectral gap.
+
+**Status**: This is a central GIFT conjecture, not a proven result.
+The claim is that holonomy constraints force h(K7) = dim(G₂)/H*.
 -/
 axiom K7_cheeger_constant :
   CheegerConstant K7.g2base.base = (14 : ℝ) / 99
