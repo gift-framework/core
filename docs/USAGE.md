@@ -1202,9 +1202,8 @@ if gc.NUMPY_AVAILABLE:
     print(f"b2 = {result.betti[2]}")
     print(f"b3 = {result.betti[3]}")
 
-    # Export to proof assistants
+    # Export to proof assistant
     lean_proof = result.certificate.to_lean()
-    coq_proof = result.certificate.to_coq()
 
     # Physics extraction
     yukawa = gc.YukawaTensor(result.harmonic_forms)
@@ -1233,7 +1232,7 @@ r = PROVEN_RELATIONS[0]
 print(r.symbol)      # Human-readable symbol
 print(r.value)       # Exact value (Fraction or int)
 print(r.derivation)  # How it's derived
-print(r.status)      # "Lean + Coq"
+print(r.lean_theorem)  # Lean 4 theorem name
 ```
 
 ## Lean 4 Usage (v3.1+)

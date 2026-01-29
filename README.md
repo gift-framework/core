@@ -4,7 +4,7 @@
 [![Python Tests](https://github.com/gift-framework/core/actions/workflows/test.yml/badge.svg)](https://github.com/gift-framework/core/actions/workflows/test.yml)
 [![PyPI](https://img.shields.io/pypi/v/giftpy)](https://pypi.org/project/giftpy/)
 
-Formally verified mathematical relations from the GIFT framework. All theorems proven in **Lean 4** and **Coq**.
+Formally verified mathematical relations from the GIFT framework. All theorems proven in **Lean 4**.
 
 ## Structure
 
@@ -39,8 +39,6 @@ Lean/GIFT/
 ├── Observables/           # PMNS, CKM, quark masses, cosmology
 └── Relations/             # Physical predictions
 
-COQ/                       # Coq mirror proofs
-
 gift_core/                 # Python package (giftpy)
 ```
 
@@ -61,11 +59,7 @@ print(TAU)            # Fraction(3472, 891)
 ## Building Proofs
 
 ```bash
-# Lean 4
 cd Lean && lake build
-
-# Coq
-cd COQ && make
 ```
 
 ## Documentation

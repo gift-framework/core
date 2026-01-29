@@ -1,5 +1,5 @@
 """
-Topological constants - All values from Lean/Coq proofs.
+Topological constants - All values from Lean 4 proofs.
 Extended to 25 certified relations.
 """
 from fractions import Fraction
@@ -51,7 +51,7 @@ H_STAR = B2 + B3 + 1  # = 99 - Effective degrees of freedom
 P2 = DIM_G2 // DIM_K7 # = 2 - Second Pontryagin class contribution
 
 # =============================================================================
-# 13 ORIGINAL PROVEN PHYSICAL RELATIONS (Lean + Coq verified)
+# 13 ORIGINAL PROVEN PHYSICAL RELATIONS (Lean 4 verified)
 # =============================================================================
 
 # Weinberg angle: sin^2(theta_W) = b2/(b3 + dim(G2)) = 21/91 = 3/13
@@ -85,7 +85,7 @@ LAMBDA_H_NUM = 17
 N_GEN = 3
 
 # =============================================================================
-# 12 TOPOLOGICAL EXTENSION RELATIONS (Lean + Coq verified)
+# 12 TOPOLOGICAL EXTENSION RELATIONS (Lean 4 verified)
 # =============================================================================
 
 # --- GAUGE SECTOR ---
@@ -145,7 +145,7 @@ OMEGA_DE_DEN = H_STAR      # = 99
 OMEGA_DE_FRACTION = Fraction(OMEGA_DE_NUM, OMEGA_DE_DEN)
 
 # =============================================================================
-# YUKAWA DUALITY RELATIONS (v1.3.0) - Lean + Coq verified
+# YUKAWA DUALITY RELATIONS (v1.3.0) - Lean 4 verified
 # =============================================================================
 
 # Visible/Hidden sector dimensions
@@ -198,7 +198,7 @@ DUALITY_GAP_FROM_COLOR = P2 * N_GEN * N_GEN  # = 18
 KAPPA_T_INV = ALPHA_PROD_B + 1  # = 61
 
 # =============================================================================
-# IRRATIONAL SECTOR RELATIONS (v1.4.0) - Lean + Coq verified
+# IRRATIONAL SECTOR RELATIONS (v1.4.0) - Lean 4 verified
 # =============================================================================
 
 # --- THETA_13: pi/21 ---
@@ -239,7 +239,7 @@ M_MU_M_E_UPPER = 208
 M_MU_M_E_BASE_CUBE = 3 ** 3  # = 27
 
 # =============================================================================
-# EXCEPTIONAL GROUPS RELATIONS (v1.5.0) - Lean + Coq verified
+# EXCEPTIONAL GROUPS RELATIONS (v1.5.0) - Lean 4 verified
 # =============================================================================
 
 # --- NEW CONSTANTS ---
@@ -287,7 +287,7 @@ WEYL_E8_FORMULA = (P2 ** DIM_G2) * (N_GEN ** WEYL_FACTOR) * (WEYL_FACTOR ** P2) 
 EXCEPTIONAL_CHAIN = DIM_E8 - DIM_F4 - DIM_J3O  # = 169
 
 # =============================================================================
-# BASE DECOMPOSITION RELATIONS (v1.5.0) - Lean + Coq verified
+# BASE DECOMPOSITION RELATIONS (v1.5.0) - Lean 4 verified
 # =============================================================================
 
 # --- RELATION 45: κ_T⁻¹ decomposition ---
@@ -317,7 +317,7 @@ QUOTIENT_SUM = DIM_U1 + WEYL_FACTOR + DIM_K7  # = 13
 OMEGA_DE_PRODUCT = DIM_K7 * DIM_G2  # = 98
 
 # =============================================================================
-# EXTENDED DECOMPOSITION RELATIONS (v1.5.0) - Lean + Coq verified
+# EXTENDED DECOMPOSITION RELATIONS (v1.5.0) - Lean 4 verified
 # =============================================================================
 
 # --- RELATION 51: τ base-13 digit structure ---

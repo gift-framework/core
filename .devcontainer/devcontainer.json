@@ -12,7 +12,6 @@
     "vscode": {
       "extensions": [
         "leanprover.lean4",
-        "maximedenes.vscoq",
         "ms-python.python"
       ]
     }

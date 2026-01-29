@@ -1,7 +1,7 @@
 """
 GIFT Core - Formally Verified Mathematical Constants.
 
-All values proven in Lean 4 and Coq proof assistants.
+All values proven in Lean 4.
 250+ certified relations, zero domain-specific axioms.
 
 v3.3.14 Features:

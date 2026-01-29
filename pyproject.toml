@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "giftpy"
 dynamic = ["version"]
-description = "GIFT mathematical core - Formally verified constants (Lean 4 + Coq)"
+description = "GIFT mathematical core - Formally verified constants (Lean 4)"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
@@ -13,7 +13,7 @@ authors = [
 ]
 keywords = [
     "physics", "mathematics", "formal-verification",
-    "lean4", "coq", "standard-model", "E8", "topology"
+    "lean4", "standard-model", "E8", "topology"
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -35,7 +35,6 @@ Homepage = "https://github.com/gift-framework/core"
 Documentation = "https://github.com/gift-framework/GIFT"
 Repository = "https://github.com/gift-framework/core"
 "Lean Proofs" = "https://github.com/gift-framework/core/tree/main/Lean"
-"Coq Proofs" = "https://github.com/gift-framework/core/tree/main/COQ"
 
 [project.optional-dependencies]
 dev = ["pytest>=7.0", "pytest-cov", "black", "ruff"]

@@ -1,7 +1,7 @@
 """
 Tests for Yukawa Duality relations (v1.3.0).
 
-All identities are formally verified in Lean 4 and Coq.
+All identities are formally verified in Lean 4.
 These tests validate the Python implementation matches the proofs.
 """
 import pytest
