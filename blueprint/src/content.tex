@@ -35,6 +35,7 @@ We formalize its lattice structure in $\R^8$.
 \begin{definition}[Standard Basis]\label{def:stdBasis}
     \lean{GIFT.Foundations.E8Lattice.stdBasis}
     \leanok
+    \uses{def:R8}
     The standard basis vectors $e_i$ for $i \in \{0, \ldots, 7\}$ satisfy
     $\ip{e_i}{e_j} = \delta_{ij}$.
 \end{definition}
@@ -52,12 +53,14 @@ We formalize its lattice structure in $\R^8$.
 \begin{theorem}[Norm Squared Sum]\label{thm:normSq_eq_sum}
     \lean{GIFT.Foundations.E8Lattice.normSq_eq_sum}
     \leanok
+    \uses{def:R8}
     For $v \in \R^8$: $\norm{v}^2 = \sum_{i=0}^{7} v_i^2$
 \end{theorem}
 
 \begin{theorem}[Inner Product Sum]\label{thm:inner_eq_sum}
     \lean{GIFT.Foundations.E8Lattice.inner_eq_sum}
     \leanok
+    \uses{def:R8}
     For $v, w \in \R^8$: $\ip{v}{w} = \sum_{i=0}^{7} v_i w_i$
 \end{theorem}
 
@@ -806,6 +809,7 @@ Monstrous moonshine connects the Monster group to modular functions via its dime
 \begin{definition}[Monster Dimension]\label{def:monster_dim}
     \lean{GIFT.Moonshine.MonsterDimension.monster_dim}
     \leanok
+    \uses{def:b3}
     The smallest faithful representation: $196883$
 \end{definition}
 
@@ -835,6 +839,7 @@ Monstrous moonshine connects the Monster group to modular functions via its dime
 \begin{definition}[j Constant Term]\label{def:j_constant}
     \lean{GIFT.Moonshine.JInvariant.j_constant}
     \leanok
+    \uses{def:monster_dim}
     $j(\tau) = q^{-1} + 744 + 196884q + \ldots$
 \end{definition}
 
@@ -863,6 +868,7 @@ The McKay correspondence links $\Eeight$ to the binary icosahedral group and gol
 \begin{definition}[Coxeter Number]\label{def:coxeter}
     \lean{GIFT.McKay.Correspondence.coxeter_E8}
     \leanok
+    \uses{def:E8_lattice}
     $h(\Eeight) = 30 = $ icosahedron edges
 \end{definition}
 
@@ -952,6 +958,7 @@ on $\Kseven$ by encoding the algebraic structure directly in the neural architec
 \begin{definition}[Standard G2 Form]\label{def:phi0_standard}
     \lean{GIFT.Foundations.AnalyticalMetric.fano_lines}
     \leanok
+    \uses{def:fano_lines, def:epsilon}
     The standard associative 3-form $\varphi_0 = \sum_{ijk} \eps_{ijk}\, dx^i \wedge dx^j \wedge dx^k$
     where $\eps_{ijk}$ are the Fano plane structure constants, normalized for $\det(g) = 65/32$.
 \end{definition}
@@ -1005,6 +1012,7 @@ on $\Kseven$ by encoding the algebraic structure directly in the neural architec
 \section{Analytical Extraction}
 
 \begin{definition}[Fourier Coefficients]\label{def:fourier_coeffs}
+    \uses{def:phi0_standard}
     The trained PINN is evaluated on a grid and FFT identifies dominant modes.
     Coefficients are rationalized to $\Q$ within tolerance $10^{-8}$.
 \end{definition}
@@ -1349,7 +1357,7 @@ the mass gap $\lambda_1 = 14/99$.
 \begin{theorem}[GIFT Prediction Structure]\label{thm:gift_prediction}
     \lean{GIFT.Spectral.LiteratureAxioms.gift_prediction_structure}
     \leanok
-    \uses{thm:tcs_spectral_bounds}
+    \uses{thm:tcs_spectral_bounds, def:dim_G2, def:H_star}
     The GIFT prediction $\lambda_1 = 14/99 = \dim(\Gtwo)/\Hstar$ is consistent
     with TCS bounds: $1/100 < 14/99 < 1/4$.
 \end{theorem}
@@ -1411,13 +1419,14 @@ All results in this chapter are \emph{fully proven} with zero axioms.
 \begin{definition}[Physical Gap Numerator]\label{def:physical_gap_num}
     \lean{GIFT.Spectral.PhysicalSpectralGap.physical_gap_num}
     \leanok
-    \uses{def:parallel_spinors_G2}
+    \uses{def:parallel_spinors_G2, def:dim_G2}
     The physical mass gap numerator: $\opdim(\Gtwo) - h = 14 - 1 = 13$.
 \end{definition}
 
 \begin{definition}[Physical Gap Ratio]\label{def:physical_gap_ratio}
     \lean{GIFT.Spectral.PhysicalSpectralGap.physical_gap_ratio}
     \leanok
+    \uses{def:physical_gap_num, def:H_star}
     The physical mass gap ratio: $\lambda_1 = 13/99$.
 \end{definition}
 
@@ -1437,14 +1446,14 @@ All results in this chapter are \emph{fully proven} with zero axioms.
 \begin{theorem}[Spectral-Holonomy Identity (Corrected)]\label{thm:spectral_holonomy_corrected}
     \lean{GIFT.Spectral.PhysicalSpectralGap.spectral_holonomy_corrected}
     \leanok
-    \uses{def:physical_gap_ratio}
+    \uses{def:physical_gap_ratio, def:H_star}
     $(13/99) \times 99 = 13 = \opdim(\Gtwo) - h$.
 \end{theorem}
 
 \begin{theorem}[Bare to Physical Correction]\label{thm:bare_minus_physical}
     \lean{GIFT.Spectral.PhysicalSpectralGap.bare_minus_physical}
     \leanok
-    \uses{def:physical_gap_ratio}
+    \uses{def:physical_gap_ratio, def:H_star}
     $14/99 - 13/99 = 1/99 = h/\Hstar$. The correction is exactly the
     parallel spinor count divided by the total cohomological dimension.
 \end{theorem}
@@ -1728,7 +1737,9 @@ the finite sum, and the adaptive cutoff. All results in this section are
 \begin{theorem}[Master Certificate]\label{thm:mollified_sum_cert}
     \lean{GIFT.MollifiedSum.mollified_sum_certified}
     \leanok
-    \uses{thm:kernel_nonneg, thm:kernel_bounded, thm:kernel_zero, thm:S_welldefined}
+    \uses{thm:kernel_nonneg, thm:kernel_bounded, thm:kernel_zero, thm:kernel_support,
+          thm:S_welldefined, def:S_adaptive,
+          thm:counting_100, thm:localization_98, thm:R2_939}
     Complete verification of the constructive core:
     kernel properties + sum well-definedness + standard $K = 3$.
 \end{theorem}
@@ -1839,6 +1850,7 @@ The bounds below are proven from axiomatized 6-decimal approximations.
 \begin{theorem}[Heegner 163 from $\Eeight$]\label{thm:heegner_163_E8}
     \lean{GIFT.Zeta.Correspondences.heegner_163_from_E8}
     \leanok
+    \uses{thm:heegner_163, def:b3}
     $163 = |\mathrm{Roots}(\Eeight)| - \bthree = 240 - 77$.
 \end{theorem}
 
@@ -1986,7 +1998,11 @@ a nearby zeta zero (2222 out of $\sim$2300 tested, holdout set zeros 100k--500k)
 \begin{theorem}[Zeta Module Certificate]\label{thm:zeta_cert}
     \lean{GIFT.Zeta.zeta_certificate}
     \leanok
-    \uses{thm:all_correspondences, thm:dimG2_7, thm:b2_7, thm:b3_7}
+    \uses{thm:all_correspondences, thm:heegner_163_E8,
+          thm:gamma1_rel, thm:gamma2_rel,
+          thm:dimG2_7, thm:b2_7, thm:b3_7, thm:Hstar_7,
+          thm:163_mod7, thm:248_mod7, thm:density_factor,
+          thm:squared_constants, def:spectral_hyp, thm:unified_ratio}
     Complete verification: all five primary correspondences hold and
     the structural identities $14 = 2 \times 7$, $21 = 3 \times 7$,
     $77 = 11 \times 7$ are confirmed.
@@ -2032,6 +2048,30 @@ GIFT-Zeta Correspondences & 20+ & \checkmark (v3.3.16) \\
 \hline
 \end{tabular}
 \end{center}
+
+\begin{theorem}[GIFT Grand Certificate]\label{thm:grand_certificate}
+    \lean{GIFT.Certificate.all_290_relations_certified}
+    \leanok
+    \uses{thm:reflect_preserves_lattice, thm:E8_sub_closed,
+          thm:G2_cross_norm, cor:cross_self, thm:G2_cross_bilinear,
+          thm:E8_SO16_decomposition, thm:gauge_fermion_split,
+          thm:weinberg_angle, thm:weinberg_simplified,
+          thm:alpha_inv_complete, thm:alpha_s_structure,
+          thm:koide_formula, thm:m_tau_m_e_factorization, thm:lambda_H,
+          thm:n_s_indices, thm:Omega_DE_fraction,
+          thm:fib_master, thm:b3_lucas,
+          thm:direct_all_prime, thm:heegner_all,
+          thm:monster_gift, thm:monster_ap, thm:j_E8, thm:j_triality,
+          thm:E8_kissing, thm:coxeter_gift, thm:euler_p2,
+          thm:joyce_cert, thm:analytical_metric, thm:joyce_exact,
+          thm:tcs_certificate, thm:physical_gap_cert,
+          thm:selberg_bridge_cert, thm:mollified_sum_cert,
+          thm:zeta_cert, thm:unified_ratio,
+          thm:density_factor, thm:163_mod7, thm:248_mod7}
+    Complete GIFT framework: 290+ certified relations spanning
+    E$_8$ lattice, G$_2$ holonomy, physical predictions, spectral theory,
+    number-theoretic correspondences, and the Selberg bridge.
+\end{theorem}
 
 \section{Key Results}
 
