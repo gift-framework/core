@@ -27,7 +27,7 @@ Lean/GIFT/
 │   ├── LiteratureAxioms.lean     # Langlais 2024, CGN 2024
 │   ├── MassGapRatio.lean         # λ₁ = 14/99
 │   └── YangMills.lean            # Gauge theory connection
-├── PrimeSpectral/         # Mollified Dirichlet polynomial S_w(T) [v3.3.16]
+├── MollifiedSum/         # Mollified Dirichlet polynomial S_w(T) [v3.3.16]
 │   ├── Mollifier.lean         # Cosine-squared kernel w(x)
 │   ├── Sum.lean               # S_w(T) as Finset.sum over primes
 │   └── Adaptive.lean          # Adaptive cutoff θ(T) = θ₀ + θ₁/log T

@@ -1,8 +1,8 @@
 /-
-GIFT Prime-Spectral Module
-===========================
+GIFT Mollified Sum Module
+==========================
 
-Master import for the prime-spectral mollified sum formalization.
+Master import for the mollified Dirichlet polynomial formalization.
 
 This module formalizes the mollified Dirichlet polynomial S_w(T)
 that approximates S(T) = π⁻¹ arg ζ(½+iT) on the critical line.
@@ -41,11 +41,11 @@ of S_w itself.
 Version: 1.0.0
 -/
 
-import GIFT.PrimeSpectral.Mollifier
-import GIFT.PrimeSpectral.Sum
-import GIFT.PrimeSpectral.Adaptive
+import GIFT.MollifiedSum.Mollifier
+import GIFT.MollifiedSum.Sum
+import GIFT.MollifiedSum.Adaptive
 
-namespace GIFT.PrimeSpectral
+namespace GIFT.MollifiedSum
 
 open Mollifier Sum Adaptive
 
@@ -53,8 +53,8 @@ open Mollifier Sum Adaptive
 ## Module Summary
 -/
 
-/-- Complete prime-spectral module certificate. -/
-theorem prime_spectral_certified :
+/-- Complete mollified sum module certificate. -/
+theorem mollified_sum_certified :
     -- Mollifier kernel properties
     cosineKernel 0 = 1 ∧
     (∀ x, 0 ≤ cosineKernel x) ∧
@@ -69,4 +69,4 @@ theorem prime_spectral_certified :
    fun T θ N K => S_mollified_welldefined T θ N K,
    rfl⟩
 
-end GIFT.PrimeSpectral
+end GIFT.MollifiedSum

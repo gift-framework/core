@@ -1,5 +1,5 @@
 /-
-GIFT Prime-Spectral: Mollifier Kernel
+GIFT Mollified Sum: Mollifier Kernel
 ======================================
 
 Cosine-squared mollifier kernel and its properties.
@@ -20,7 +20,7 @@ import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Bounds
 import Mathlib.Data.Real.Basic
 
-namespace GIFT.PrimeSpectral.Mollifier
+namespace GIFT.MollifiedSum.Mollifier
 
 open Real
 
@@ -115,4 +115,4 @@ theorem mollifier_certified :
    cosineKernel_le_one,
    cosineKernel_support⟩
 
-end GIFT.PrimeSpectral.Mollifier
+end GIFT.MollifiedSum.Mollifier

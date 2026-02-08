@@ -1373,7 +1373,7 @@ the mass gap $\lambda_1 = 14/99$.
 \end{remark}
 
 % =============================================================================
-\chapter{Prime-Spectral Mollified Sum}\label{chap:prime_spectral}
+\chapter{Mollified Dirichlet Polynomial}\label{chap:mollified_sum}
 % =============================================================================
 
 The mollified Dirichlet polynomial $S_w(T)$ provides a computable approximation
@@ -1385,7 +1385,7 @@ the finite sum, and the adaptive cutoff. All results in this section are
 \section{Cosine-Squared Mollifier Kernel}
 
 \begin{definition}[Cosine Kernel]\label{def:cosineKernel}
-    \lean{GIFT.PrimeSpectral.Mollifier.cosineKernel}
+    \lean{GIFT.MollifiedSum.Mollifier.cosineKernel}
     \leanok
     The cosine-squared mollifier kernel:
     \[
@@ -1397,28 +1397,28 @@ the finite sum, and the adaptive cutoff. All results in this section are
 \end{definition}
 
 \begin{theorem}[Kernel Non-negativity]\label{thm:kernel_nonneg}
-    \lean{GIFT.PrimeSpectral.Mollifier.cosineKernel_nonneg}
+    \lean{GIFT.MollifiedSum.Mollifier.cosineKernel_nonneg}
     \leanok
     \uses{def:cosineKernel}
     $w(x) \geq 0$ for all $x \in \R$.
 \end{theorem}
 
 \begin{theorem}[Kernel Bounded]\label{thm:kernel_bounded}
-    \lean{GIFT.PrimeSpectral.Mollifier.cosineKernel_le_one}
+    \lean{GIFT.MollifiedSum.Mollifier.cosineKernel_le_one}
     \leanok
     \uses{def:cosineKernel}
     $w(x) \leq 1$ for all $x \in \R$.
 \end{theorem}
 
 \begin{theorem}[Kernel at Zero]\label{thm:kernel_zero}
-    \lean{GIFT.PrimeSpectral.Mollifier.cosineKernel_at_zero}
+    \lean{GIFT.MollifiedSum.Mollifier.cosineKernel_at_zero}
     \leanok
     \uses{def:cosineKernel}
     $w(0) = 1$.
 \end{theorem}
 
 \begin{theorem}[Compact Support]\label{thm:kernel_support}
-    \lean{GIFT.PrimeSpectral.Mollifier.cosineKernel_support}
+    \lean{GIFT.MollifiedSum.Mollifier.cosineKernel_support}
     \leanok
     \uses{def:cosineKernel}
     $w(x) = 0$ for all $x \geq 1$.
@@ -1427,7 +1427,7 @@ the finite sum, and the adaptive cutoff. All results in this section are
 \section{Mollified Dirichlet Polynomial}
 
 \begin{definition}[Prime Power Term]\label{def:primePowerTerm}
-    \lean{GIFT.PrimeSpectral.Sum.primePowerTerm}
+    \lean{GIFT.MollifiedSum.Sum.primePowerTerm}
     \leanok
     \uses{def:cosineKernel}
     For prime $p$ and power $m$:
@@ -1438,7 +1438,7 @@ the finite sum, and the adaptive cutoff. All results in this section are
 \end{definition}
 
 \begin{definition}[Mollified Sum]\label{def:S_mollified}
-    \lean{GIFT.PrimeSpectral.Sum.S_mollified}
+    \lean{GIFT.MollifiedSum.Sum.S_mollified}
     \leanok
     \uses{def:primePowerTerm}
     \[
@@ -1448,7 +1448,7 @@ the finite sum, and the adaptive cutoff. All results in this section are
 \end{definition}
 
 \begin{theorem}[Well-Definedness]\label{thm:S_welldefined}
-    \lean{GIFT.PrimeSpectral.Sum.S_mollified_welldefined}
+    \lean{GIFT.MollifiedSum.Sum.S_mollified_welldefined}
     \leanok
     \uses{def:S_mollified}
     $S_w(T; \theta)$ is a finite sum and therefore always a well-defined real number.
@@ -1476,7 +1476,7 @@ the finite sum, and the adaptive cutoff. All results in this section are
 \section{Adaptive Cutoff}
 
 \begin{definition}[Adaptive Theta]\label{def:adaptiveTheta}
-    \lean{GIFT.PrimeSpectral.Adaptive.adaptiveTheta}
+    \lean{GIFT.MollifiedSum.Adaptive.adaptiveTheta}
     \leanok
     The adaptive cutoff exponent:
     \[
@@ -1488,7 +1488,7 @@ the finite sum, and the adaptive cutoff. All results in this section are
 \end{definition}
 
 \begin{definition}[Adaptive Sum]\label{def:S_adaptive}
-    \lean{GIFT.PrimeSpectral.Adaptive.S_adaptive}
+    \lean{GIFT.MollifiedSum.Adaptive.S_adaptive}
     \leanok
     \uses{def:S_mollified, def:adaptiveTheta}
     $S_w(T) = S_w(T; \theta(T))$ using the adaptive cutoff.
@@ -1530,8 +1530,8 @@ the finite sum, and the adaptive cutoff. All results in this section are
     $\delta_n$ ($R^2 = 0.939$, out-of-sample $R^2 = 0.919$).
 \end{theorem}
 
-\begin{theorem}[Master Certificate]\label{thm:prime_spectral_cert}
-    \lean{GIFT.PrimeSpectral.prime_spectral_certified}
+\begin{theorem}[Master Certificate]\label{thm:mollified_sum_cert}
+    \lean{GIFT.MollifiedSum.mollified_sum_certified}
     \leanok
     \uses{thm:kernel_nonneg, thm:kernel_bounded, thm:kernel_zero, thm:S_welldefined}
     Complete verification of the constructive core:

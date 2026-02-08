@@ -1860,4 +1860,4 @@ This module is FULLY CONSTRUCTIVE: zero axioms, all goals closed.
 
 ---
 
-*Last updated: 2026-02-08 - V3.3.16: Prime-Spectral Mollified Sum Module*
+*Last updated: 2026-02-08 - V3.3.16: Mollified Dirichlet Polynomial Module*

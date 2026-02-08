@@ -1,5 +1,5 @@
 /-
-GIFT Prime-Spectral: Adaptive Cutoff
+GIFT Mollified Sum: Adaptive Cutoff
 =====================================
 
 The adaptive cutoff θ(T) = θ₀ + θ₁/log T and associated formulas.
@@ -10,12 +10,12 @@ Reference: de La Fournière (2026), §4
 Version: 1.0.0
 -/
 
-import GIFT.PrimeSpectral.Sum
+import GIFT.MollifiedSum.Sum
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
 
-namespace GIFT.PrimeSpectral.Adaptive
+namespace GIFT.MollifiedSum.Adaptive
 
-open Real GIFT.PrimeSpectral.Sum
+open Real GIFT.MollifiedSum.Sum
 
 /-!
 ## Adaptive Cutoff Parameters
@@ -101,4 +101,4 @@ theorem adaptive_certified :
     standardKMax = 3 :=
   ⟨by native_decide, by native_decide, rfl⟩
 
-end GIFT.PrimeSpectral.Adaptive
+end GIFT.MollifiedSum.Adaptive

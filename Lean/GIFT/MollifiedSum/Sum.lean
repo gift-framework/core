@@ -1,6 +1,6 @@
 /-
-GIFT Prime-Spectral: Mollified Dirichlet Polynomial
-====================================================
+GIFT Mollified Sum: Dirichlet Polynomial
+==========================================
 
 The mollified sum S_w(T) as a finite sum over primes.
 
@@ -13,14 +13,14 @@ Reference: de La Fournière (2026), §3.2, §3.6
 Version: 1.0.0
 -/
 
-import GIFT.PrimeSpectral.Mollifier
+import GIFT.MollifiedSum.Mollifier
 import Mathlib.Data.Nat.Prime.Basic
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
 
-namespace GIFT.PrimeSpectral.Sum
+namespace GIFT.MollifiedSum.Sum
 
-open Real GIFT.PrimeSpectral.Mollifier
+open Real GIFT.MollifiedSum.Mollifier
 
 /-!
 ## The Mollified Sum Definition
@@ -98,4 +98,4 @@ theorem sum_certified :
     (∀ T θ : ℝ, ∀ N K : ℕ, ∃ v : ℝ, S_mollified T θ N K = v) :=
   ⟨rfl, fun T θ N K => S_mollified_welldefined T θ N K⟩
 
-end GIFT.PrimeSpectral.Sum
+end GIFT.MollifiedSum.Sum
