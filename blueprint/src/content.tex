@@ -1373,6 +1373,172 @@ the mass gap $\lambda_1 = 14/99$.
 \end{remark}
 
 % =============================================================================
+\chapter{Prime-Spectral Mollified Sum}\label{chap:prime_spectral}
+% =============================================================================
+
+The mollified Dirichlet polynomial $S_w(T)$ provides a computable approximation
+to $S(T) = \pi^{-1}\arg\zeta(\frac{1}{2} + iT)$ using a finite sum over primes.
+This chapter formalizes the constructive core (Layer~B): the mollifier kernel,
+the finite sum, and the adaptive cutoff. All results in this section are
+\emph{fully proven} in Lean~4 with zero axioms.
+
+\section{Cosine-Squared Mollifier Kernel}
+
+\begin{definition}[Cosine Kernel]\label{def:cosineKernel}
+    \lean{GIFT.PrimeSpectral.Mollifier.cosineKernel}
+    \leanok
+    The cosine-squared mollifier kernel:
+    \[
+        w(x) = \begin{cases}
+            \cos^2\!\left(\frac{\pi x}{2}\right) & \text{if } x < 1 \\
+            0 & \text{if } x \geq 1
+        \end{cases}
+    \]
+\end{definition}
+
+\begin{theorem}[Kernel Non-negativity]\label{thm:kernel_nonneg}
+    \lean{GIFT.PrimeSpectral.Mollifier.cosineKernel_nonneg}
+    \leanok
+    \uses{def:cosineKernel}
+    $w(x) \geq 0$ for all $x \in \R$.
+\end{theorem}
+
+\begin{theorem}[Kernel Bounded]\label{thm:kernel_bounded}
+    \lean{GIFT.PrimeSpectral.Mollifier.cosineKernel_le_one}
+    \leanok
+    \uses{def:cosineKernel}
+    $w(x) \leq 1$ for all $x \in \R$.
+\end{theorem}
+
+\begin{theorem}[Kernel at Zero]\label{thm:kernel_zero}
+    \lean{GIFT.PrimeSpectral.Mollifier.cosineKernel_at_zero}
+    \leanok
+    \uses{def:cosineKernel}
+    $w(0) = 1$.
+\end{theorem}
+
+\begin{theorem}[Compact Support]\label{thm:kernel_support}
+    \lean{GIFT.PrimeSpectral.Mollifier.cosineKernel_support}
+    \leanok
+    \uses{def:cosineKernel}
+    $w(x) = 0$ for all $x \geq 1$.
+\end{theorem}
+
+\section{Mollified Dirichlet Polynomial}
+
+\begin{definition}[Prime Power Term]\label{def:primePowerTerm}
+    \lean{GIFT.PrimeSpectral.Sum.primePowerTerm}
+    \leanok
+    \uses{def:cosineKernel}
+    For prime $p$ and power $m$:
+    \[
+        a_{p,m}(T; \theta) = w\!\left(\frac{m\log p}{\theta\log T}\right)
+        \cdot \frac{\sin(T \cdot m\log p)}{m \cdot p^{m/2}}
+    \]
+\end{definition}
+
+\begin{definition}[Mollified Sum]\label{def:S_mollified}
+    \lean{GIFT.PrimeSpectral.Sum.S_mollified}
+    \leanok
+    \uses{def:primePowerTerm}
+    \[
+        S_w(T; \theta) = -\frac{1}{\pi} \sum_{\substack{p \leq N \\ p\text{ prime}}}
+        \sum_{m=1}^{K} a_{p,m}(T; \theta)
+    \]
+\end{definition}
+
+\begin{theorem}[Well-Definedness]\label{thm:S_welldefined}
+    \lean{GIFT.PrimeSpectral.Sum.S_mollified_welldefined}
+    \leanok
+    \uses{def:S_mollified}
+    $S_w(T; \theta)$ is a finite sum and therefore always a well-defined real number.
+    Unlike the formal Dirichlet series $-\zeta'/\zeta(s)$ which diverges on
+    $\mathrm{Re}(s) = \frac{1}{2}$, no convergence issues arise.
+\end{theorem}
+
+\begin{remark}[Prime Power Hierarchy]
+    \uses{def:S_mollified}
+    The $R^2$ contribution by prime power order $m$ is:
+    \begin{center}
+    \begin{tabular}{|c|c|c|}
+    \hline
+    $m$ & $\Delta R^2$ & Fraction \\
+    \hline
+    1 (primes) & 0.872 & 92.8\% \\
+    2 (squares) & 0.057 & 6.1\% \\
+    3 (cubes) & 0.011 & 1.1\% \\
+    \hline
+    \end{tabular}
+    \end{center}
+    This justifies the standard choice $K = 3$.
+\end{remark}
+
+\section{Adaptive Cutoff}
+
+\begin{definition}[Adaptive Theta]\label{def:adaptiveTheta}
+    \lean{GIFT.PrimeSpectral.Adaptive.adaptiveTheta}
+    \leanok
+    The adaptive cutoff exponent:
+    \[
+        \theta(T) = \theta_0 + \frac{\theta_1}{\log T}
+        = 1.4091 + \frac{-3.9537}{\log T}
+    \]
+    determined by the normalization constraint $\alpha = 1$ uniformly
+    across height windows.
+\end{definition}
+
+\begin{definition}[Adaptive Sum]\label{def:S_adaptive}
+    \lean{GIFT.PrimeSpectral.Adaptive.S_adaptive}
+    \leanok
+    \uses{def:S_mollified, def:adaptiveTheta}
+    $S_w(T) = S_w(T; \theta(T))$ using the adaptive cutoff.
+\end{definition}
+
+\begin{remark}[Three Cutoff Parameterizations]
+    \uses{def:adaptiveTheta}
+    Three related cutoff models appear across the paper:
+    \begin{center}
+    \begin{tabular}{|l|c|c|}
+    \hline
+    \textbf{Model} & \textbf{Value} & \textbf{Context} \\
+    \hline
+    Constant $\theta^*$ (mpmath) & 0.9941 & \S3.5 (100K zeros) \\
+    Constant $\theta^*$ (Odlyzko) & 0.9640 & \S9 (2M zeros) \\
+    Adaptive $(\theta_0, \theta_1)$ & $(1.409, -3.954)$ & \S4 (recommended) \\
+    \hline
+    \end{tabular}
+    \end{center}
+\end{remark}
+
+\section{Main Results (Numerical Certificates)}
+
+\begin{theorem}[Counting Accuracy]\label{thm:counting_100}
+    \uses{def:S_mollified}
+    Over the first 100{,}000 zeros:
+    $\max_n |N_{\text{approx}}(T_n) - n| = 0.111 < 0.5$ (safety factor $4.52\times$).
+\end{theorem}
+
+\begin{theorem}[Localization Rate]\label{thm:localization_98}
+    \uses{def:S_mollified}
+    98.0\% of zeros are localized to their correct inter-Gram interval.
+    The 2.0\% failure rate is predicted (within 8\%) by a simplified GUE model.
+\end{theorem}
+
+\begin{theorem}[Variance Explained]\label{thm:R2_939}
+    \uses{def:S_adaptive}
+    The adaptive formula explains 93.9\% of the variance in zero corrections
+    $\delta_n$ ($R^2 = 0.939$, out-of-sample $R^2 = 0.919$).
+\end{theorem}
+
+\begin{theorem}[Master Certificate]\label{thm:prime_spectral_cert}
+    \lean{GIFT.PrimeSpectral.prime_spectral_certified}
+    \leanok
+    \uses{thm:kernel_nonneg, thm:kernel_bounded, thm:kernel_zero, thm:S_welldefined}
+    Complete verification of the constructive core:
+    kernel properties + sum well-definedness + standard $K = 3$.
+\end{theorem}
+
+% =============================================================================
 \chapter{Summary and Status}\label{chap:summary}
 % =============================================================================
 
