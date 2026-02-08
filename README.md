@@ -11,7 +11,7 @@ Formally verified mathematical relations from the GIFT framework. All theorems p
 ```
 Lean/GIFT/
 ├── Core.lean              # Constants (dim_E8, b2, b3, H*, ...)
-├── Certificate.lean       # Master theorem (250+ relations)
+├── Certificate.lean       # Master theorem (290+ relations)
 ├── Foundations/           # E8 roots, G2 cross product, Joyce
 │   └── Analysis/G2Forms/  # G2 structure: d, ⋆, TorsionFree, Bridge
 ├── Geometry/              # DG-ready infrastructure [v3.3.7] AXIOM-FREE!
@@ -19,13 +19,15 @@ Lean/GIFT/
 │   ├── DifferentialFormsR7.lean  # DiffForm, d, d²=0
 │   ├── HodgeStarCompute.lean     # Explicit Hodge star (Levi-Civita)
 │   └── HodgeStarR7.lean   # ⋆, ψ=⋆φ PROVEN, TorsionFree
-├── Spectral/              # Spectral theory [v3.3.14]
-│   ├── SelectionPrinciple.lean   # κ = π²/14, building blocks NEW!
-│   ├── RefinedSpectralBounds.lean # Refined bounds with H7 NEW!
+├── Spectral/              # Spectral theory [v3.3.17]
+│   ├── PhysicalSpectralGap.lean  # ev₁ = 13/99 (zero axioms)
+│   ├── SelbergBridge.lean        # Trace formula: MollifiedSum <-> Spectral
+│   ├── SelectionPrinciple.lean   # κ = π²/14, building blocks
+│   ├── RefinedSpectralBounds.lean # Refined bounds with H7
 │   ├── NeckGeometry.lean         # TCS structure, H1-H6 hypotheses
-│   ├── TCSBounds.lean            # Model Theorem: λ₁ ~ 1/L²
+│   ├── TCSBounds.lean            # Model Theorem: ev₁ ~ 1/L²
 │   ├── LiteratureAxioms.lean     # Langlais 2024, CGN 2024
-│   ├── MassGapRatio.lean         # λ₁ = 14/99
+│   ├── MassGapRatio.lean         # 14/99 bare algebraic
 │   └── YangMills.lean            # Gauge theory connection
 ├── MollifiedSum/         # Mollified Dirichlet polynomial S_w(T) [v3.3.16]
 │   ├── Mollifier.lean         # Cosine-squared kernel w(x)
@@ -76,4 +78,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.3.16*
+*GIFT Core v3.3.17*

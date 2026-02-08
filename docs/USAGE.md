@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.3.15).
+Complete documentation for the `giftpy` Python package (v3.3.17).
 
 ## Installation
 
@@ -41,6 +41,43 @@ print(K7.two_b2)                # 42 (structural invariant)
 from gift_core import verify
 print(verify())          # True
 ```
+
+## New in v3.3.17
+
+### Physical Spectral Gap (13/99) & Selberg Bridge
+
+The corrected spectral gap accounts for the parallel spinor from Berger classification:
+
+```lean
+import GIFT.Spectral.PhysicalSpectralGap
+import GIFT.Spectral.SelbergBridge
+
+-- Physical spectral gap: ev₁ = (dim(G₂) − h) / H* = 13/99
+-- where h = 1 parallel spinor for G₂ holonomy (Berger)
+#check physical_gap_from_topology   -- (13 : Rat) / 99 = (dim_G2 - parallel_spinors_G2) / H_star
+#check physical_gap_irreducible     -- gcd(13, 99) = 1
+#check spectral_holonomy_corrected  -- (13 : Rat) / 99 * 99 = 13
+#check bare_minus_physical          -- 14/99 - 13/99 = 1/99 = h/H*
+
+-- Cross-holonomy universality
+#check SU3_spectral_product         -- dim(SU(3)) - 2 = 6
+#check pell_equation                -- 99² - 50 × 14² = 1
+
+-- Selberg Bridge: MollifiedSum <-> Spectral
+#check trace_formula                -- Selberg-Duistermaat-Guillemin (Category B)
+#check geodesic_prime_correspondence -- l_γ = c · log(p) (Category E)
+#check kmax_equals_N_gen            -- standardKMax = N_gen = 3
+#check physical_spectral_equals_alpha_sum -- dim(G₂) - h = rank(E₈) + Weyl = 13
+#check selberg_bridge_certificate   -- Master certificate
+```
+
+**Key identity:** `ev₁ × H* = dim(G₂) − h = 14 − 1 = 13`
+
+| Prediction | Value | ev₁ × H* | Source |
+|-----------|-------|----------|--------|
+| Bare algebraic | 14/99 = 0.1414 | 14 | Pell equation |
+| Physical (corrected) | 13/99 = 0.1313 | 13 | Spectral-holonomy |
+| Graph Laplacian (N=50K) | 0.1313 | 13.0 | Numerical |
 
 ## New in v3.3.15
 

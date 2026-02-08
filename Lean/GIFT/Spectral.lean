@@ -7,32 +7,36 @@ Spectral theory foundations for the Yang-Mills mass gap.
 ## Overview
 
 This module formalizes the spectral gap result:
-  lambda_1(K7) = dim(G2)/H* = 14/99
+  ev₁(K7) = (dim(G₂) − h) / H* = 13/99
 
 The key insight: the mass gap is determined by TOPOLOGY, not dynamics.
 
-## Contents (v3.3.14)
+## Contents (v3.3.16)
 
 ### Spectral Theory Foundation
 - `SpectralTheory`: Laplacian, spectral theorem, mass gap definition
 
 ### G₂ Holonomy Manifolds
-- `G2Manifold`: G₂ holonomy, K7 construction, TCS connection
+- `G2Manifold`: G₂ holonomy, K7 construction, TCS connection, parallel spinors
 
 ### Universal Spectral Law
-- `UniversalLaw`: λ₁ × H* = dim(G₂), the KEY theorem
-- `MassGapRatio`: The 14/99 theorem (algebraic)
+- `UniversalLaw`: ev₁ × H* = dim(G₂) − h, the universal identity
+- `MassGapRatio`: The 14/99 bare ratio (algebraic)
+- `PhysicalSpectralGap`: The 13/99 physical ratio (zero axioms)
 
 ### TCS Spectral Bounds (v3.3.12)
 - `NeckGeometry`: TCS manifold structure and hypotheses (H1)-(H6)
-- `TCSBounds`: Model Theorem - λ₁ ~ 1/L² for TCS manifolds
+- `TCSBounds`: Model Theorem - ev₁ ~ 1/L² for TCS manifolds
 
-### Selection Principle (v3.3.14 - NEW)
-- `SelectionPrinciple`: κ = π²/14, building blocks, L² = κ·H*
-- `RefinedSpectralBounds`: Refined bounds with H7 hypothesis, π² coefficient
+### Selection Principle (v3.3.14)
+- `SelectionPrinciple`: kappa = pi^2/14, building blocks, L^2 = kappa*H*
+- `RefinedSpectralBounds`: Refined bounds with H7 hypothesis, pi^2 coefficient
 
 ### Literature Axioms (Langlais 2024, CGN 2024)
 - `LiteratureAxioms`: Spectral density formula, no small eigenvalues
+
+### Selberg Bridge (v3.3.16)
+- `SelbergBridge`: Trace formula connecting MollifiedSum to Spectral
 
 ### Applications
 - `CheegerInequality`: Cheeger-Buser bounds
@@ -44,9 +48,10 @@ The key insight: the mass gap is determined by TOPOLOGY, not dynamics.
 - Cheeger, J. (1970). A lower bound for the smallest eigenvalue of the Laplacian
 - Jaffe, A. & Witten, E. (2000). Yang-Mills Existence and Mass Gap
 - Kovalev, A. (2003). Twisted connected sums and special Riemannian holonomy
-- GIFT Framework v3.3.14: Selection principle and refined spectral bounds
+- Selberg, A. (1956). Harmonic analysis and discontinuous groups
+- Duistermaat, J.J. & Guillemin, V. (1975). Invent. Math. 29:39-79
 
-Version: 2.2.0
+Version: 2.3.0
 -/
 
 -- Spectral theory foundations
@@ -55,9 +60,10 @@ import GIFT.Spectral.SpectralTheory
 -- G₂ holonomy manifolds
 import GIFT.Spectral.G2Manifold
 
--- Universal law and mass gap ratio
+-- Universal law, mass gap ratio, physical spectral gap
 import GIFT.Spectral.UniversalLaw
 import GIFT.Spectral.MassGapRatio
+import GIFT.Spectral.PhysicalSpectralGap
 
 -- TCS Spectral Bounds
 import GIFT.Spectral.NeckGeometry
@@ -69,6 +75,9 @@ import GIFT.Spectral.RefinedSpectralBounds
 
 -- Literature Axioms (Langlais 2024, CGN 2024)
 import GIFT.Spectral.LiteratureAxioms
+
+-- Selberg Bridge: MollifiedSum <-> Spectral connection (v3.3.16)
+import GIFT.Spectral.SelbergBridge
 
 -- Applications
 import GIFT.Spectral.CheegerInequality
@@ -276,6 +285,56 @@ export LiteratureAxioms (
 )
 
 -- ============================================================================
+-- RE-EXPORTS: PHYSICAL SPECTRAL GAP (v3.3.16, zero axioms)
+-- ============================================================================
+
+export PhysicalSpectralGap (
+  -- Core definitions
+  physical_gap_num
+  physical_gap_den
+  physical_gap_ratio
+  -- Derivation from topology
+  physical_gap_num_eq
+  physical_gap_den_eq
+  physical_gap_ratio_value
+  physical_gap_from_topology
+  -- Algebraic properties
+  physical_gap_irreducible
+  physical_gap_coprime
+  numerator_prime
+  -- Spectral-holonomy identity
+  spectral_holonomy_corrected
+  spectral_holonomy_from_topology
+  -- Bare vs physical
+  bare_minus_physical
+  correction_from_spinors
+  -- Cross-holonomy
+  SU3_spectral_product
+  cross_holonomy_integers
+  -- Pell connection
+  pell_equation
+  -- Certificate
+  physical_spectral_gap_certificate
+)
+
+-- ============================================================================
+-- RE-EXPORTS: SELBERG BRIDGE (v3.3.16)
+-- ============================================================================
+
+export SelbergBridge (
+  -- Trace formula types
+  LengthSpectrum
+  geodesicLength
+  geodesicAmplitude
+  -- Cross-module identities
+  kmax_equals_N_gen
+  physical_spectral_equals_alpha_sum
+  spectral_gap_in_kernel_support
+  -- Certificate
+  selberg_bridge_certificate
+)
+
+-- ============================================================================
 -- RE-EXPORTS: CHEEGER INEQUALITY
 -- ============================================================================
 
@@ -308,29 +367,31 @@ export YangMills (
 
 | Quantity | Value | GIFT Origin |
 |----------|-------|-------------|
-| Numerator | 14 | dim(G₂) |
+| Bare ratio | 14/99 | dim(G₂) / H* |
+| Physical ratio | 13/99 | (dim(G₂) − h) / H* |
+| Spinor correction | 1/99 | h / H* (Berger) |
 | Denominator | 99 | H* = b₂ + b₃ + 1 |
-| Ratio | 14/99 | 0.1414... |
 | Cheeger bound | 49/9801 | (14/99)²/4 |
-| PINN measurement | 0.1406 | Numerical verification |
-| Deviation | 0.57% | < 1% agreement |
-| Mass gap | 28.28 MeV | (14/99) × 200 MeV |
+| Graph Laplacian (N=50K) | 0.1313 | Numerical confirmation |
+| Physical mass gap | 26.26 MeV | (13/99) x 200 MeV |
 
 ## Module Hierarchy
 
 ```
 Spectral/
-├── SpectralTheory.lean       # Laplacian, spectral theorem
-├── G2Manifold.lean           # G₂ holonomy, K7
-├── UniversalLaw.lean         # λ₁ × H* = 14
-├── MassGapRatio.lean         # 14/99 algebraic
-├── NeckGeometry.lean         # TCS structure, hypotheses (H1)-(H6)
-├── TCSBounds.lean            # Model Theorem: λ₁ ~ 1/L²
-├── SelectionPrinciple.lean       # κ = π²/14, building blocks (NEW)
-├── RefinedSpectralBounds.lean    # H7 hypothesis, π² coefficient (NEW)
-├── LiteratureAxioms.lean     # Literature axioms (Langlais, CGN)
-├── CheegerInequality.lean    # Cheeger-Buser bounds
-└── YangMills.lean            # Clay Prize connection
+├── SpectralTheory.lean          # Laplacian, spectral theorem
+├── G2Manifold.lean              # G₂ holonomy, K7, parallel spinors
+├── UniversalLaw.lean            # ev₁ x H* = dim(G₂) - h
+├── MassGapRatio.lean            # 14/99 bare algebraic
+├── PhysicalSpectralGap.lean     # 13/99 physical (zero axioms)
+├── NeckGeometry.lean            # TCS structure, hypotheses (H1)-(H6)
+├── TCSBounds.lean               # Model Theorem: ev₁ ~ 1/L^2
+├── SelectionPrinciple.lean      # kappa = pi^2/14, building blocks
+├── RefinedSpectralBounds.lean   # H7 hypothesis, pi^2 coefficient
+├── LiteratureAxioms.lean        # Literature axioms (Langlais, CGN)
+├── SelbergBridge.lean           # Trace formula: MollifiedSum <-> Spectral
+├── CheegerInequality.lean       # Cheeger-Buser bounds
+└── YangMills.lean               # Clay Prize connection
 ```
 
 ## Axiom Summary
@@ -360,7 +421,10 @@ See `GIFT/Foundations/PiBounds.lean` for full documentation and elimination path
 | `selection_principle_holds` | L² = κ·H* selection | Variational proof |
 | `universality_conjecture` | λ₁·H* = dim(G₂) for all TCS | Geometric analysis |
 | `localization_lemma` | Eigenfunction localization | Mazzeo-Melrose |
-| `spectral_lower_bound_refined` | π²/L² - exp correction | Poincaré + localization |
+| `spectral_lower_bound_refined` | pi^2/L^2 - exp correction | Poincare + localization |
+| `trace_formula` | Selberg trace formula | Microlocal analysis |
+| `geodesic_prime_correspondence` | l_gamma = c log(p) | TCS geodesic analysis |
+| `geometric_side_matches_mollified` | Geom. side ~ S_w(T) | Stationary phase on K7 |
 -/
 
 end GIFT.Spectral

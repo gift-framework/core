@@ -4,13 +4,20 @@ GIFT Spectral: Universal Spectral Law
 
 The central theorem connecting topology to spectral gap.
 
-This is the KEY theorem of the GIFT framework:
-  λ₁(K7) × H* = dim(G₂)
-  λ₁(K7) × 99 = 14
-  λ₁(K7) = 14/99
+The universal spectral-holonomy identity for compact manifolds:
+  λ₁(M) × H* = dim(Hol) − h
 
-This module formalizes the universal spectral law for G₂ manifolds
-and derives the mass gap value from pure topology.
+where h = number of parallel spinors (Berger classification).
+
+For K₇ with G₂ holonomy (h = 1):
+  λ₁(K7) × 99 = 14 − 1 = 13
+  λ₁(K7) = 13/99
+
+The "bare" algebraic value 14/99 (from Pell equation) receives a
+correction of −h/H* = −1/99 from the parallel spinor.
+
+See PhysicalSpectralGap.lean for the axiom-free derivation of 13/99.
+This file retains the historical 14/99 axioms for compatibility.
 
 Status: Uses axioms (spectral-topology connection requires heat kernel analysis)
 
@@ -26,6 +33,7 @@ import GIFT.Core
 import GIFT.Spectral.SpectralTheory
 import GIFT.Spectral.G2Manifold
 import GIFT.Spectral.MassGapRatio
+import GIFT.Spectral.PhysicalSpectralGap
 
 namespace GIFT.Spectral.UniversalLaw
 
@@ -236,5 +244,36 @@ theorem universal_law_certificate :
   · native_decide
   · native_decide
   · native_decide
+
+-- ============================================================================
+-- CORRECTED SPECTRAL LAW (references PhysicalSpectralGap)
+-- ============================================================================
+
+/-- The corrected universal spectral law: λ₁ × H* = dim(G₂) − h.
+
+    For G₂ holonomy with h = 1 parallel spinor:
+      λ₁ × 99 = 14 − 1 = 13
+      λ₁ = 13/99
+
+    The derivation of 13/99 is axiom-free (see PhysicalSpectralGap.lean).
+    The claim that MassGap(K7) equals 13/99 remains an axiom pending
+    Selberg trace formula formalization.
+-/
+axiom K7_physical_spectral_law :
+    MassGap K7.g2base.base * 99 = 13
+
+/-- The physical mass gap: MassGap(K7) = 13/99 -/
+axiom K7_physical_mass_gap :
+    MassGap K7.g2base.base = (13 : ℝ) / 99
+
+/-- The correction from bare to physical is exactly h/H* = 1/99 -/
+theorem bare_to_physical_correction :
+    (14 : ℚ) / 99 - 13 / 99 = 1 / 99 :=
+  GIFT.Spectral.PhysicalSpectralGap.bare_minus_physical
+
+/-- The corrected spectral product matches the axiom-free derivation -/
+theorem corrected_product_axiom_free :
+    GIFT.Spectral.G2Manifold.physical_spectral_product_G2 = 13 :=
+  GIFT.Spectral.G2Manifold.physical_spectral_product_G2_eq
 
 end GIFT.Spectral.UniversalLaw

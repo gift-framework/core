@@ -1,6 +1,6 @@
 -- GIFT: Geometric Integration of Fundamental Topologies
 -- Main entry point for Lean 4 formalization
--- Version: 3.3.14 (250+ certified relations + Selection Principle + Tier1 Bounds)
+-- Version: 3.3.17 (290+ certified relations + Physical Spectral Gap + Selberg Bridge)
 
 import GIFT.Core
 import GIFT.Relations
@@ -44,5 +44,8 @@ import GIFT.Observables  -- PMNS, CKM, mass ratios, cosmology
 -- V3.3.3: DG-Ready Geometry Infrastructure
 import GIFT.Geometry  -- Exterior algebra, differential forms, Hodge star on ℝ⁷
 
--- V3.3.8: Spectral Gap (Yang-Mills mass gap = 14/99)
+-- V3.3.8: Spectral Gap (Yang-Mills mass gap)
 import GIFT.Spectral  -- Mass gap ratio, Cheeger bounds, Yang-Mills prediction
+
+-- V3.3.16: Mollified Dirichlet Polynomial + Selberg Bridge
+import GIFT.MollifiedSum  -- Cosine-squared kernel, mollified sum S_w(T)

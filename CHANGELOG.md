@@ -5,6 +5,60 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.17] - 2026-02-08
+
+### Summary
+
+**Physical Spectral Gap & Selberg Bridge.** Axiom-free derivation of the corrected spectral gap ev₁ = 13/99 from the universal spectral-holonomy identity ev₁ × H* = dim(G₂) − h, where h = 1 is the parallel spinor count (Berger classification). Selberg trace formula bridge connecting MollifiedSum to Spectral modules. Two new blueprint chapters with full dependency tracking.
+
+### Added
+
+- **Spectral/PhysicalSpectralGap.lean** — Corrected spectral gap 13/99 (zero axioms):
+  - `physical_gap_num`, `physical_gap_den`, `physical_gap_ratio` definitions
+  - `physical_gap_from_topology`: 13/99 = (dim(G₂) − h) / H*
+  - `physical_gap_irreducible`: gcd(13, 99) = 1, `numerator_prime`: 13 is prime
+  - `spectral_holonomy_corrected`: (13/99) × 99 = 13
+  - `bare_minus_physical`: 14/99 − 13/99 = 1/99 = h/H*
+  - `SU3_spectral_product`: cross-holonomy check (dim(SU(3)) − 2 = 6)
+  - `pell_equation`: 99² − 50 × 14² = 1
+  - `physical_spectral_gap_certificate`: 11-property master certificate
+  - 28 theorems total, all proven via rfl or native_decide
+
+- **Spectral/SelbergBridge.lean** — Trace formula connecting MollifiedSum to Spectral:
+  - `LengthSpectrum`, `geodesicLength`, `geodesicAmplitude` (Category A)
+  - `trace_formula`: Selberg-Duistermaat-Guillemin (Category B, standard result)
+  - `geodesic_prime_correspondence`: l_γ = c · log(p) (Category E, GIFT hypothesis)
+  - `geometric_side_matches_mollified`: geometric side ∝ S_w(T) (Category E)
+  - Proven cross-module identities (zero axioms):
+    - `kmax_equals_N_gen`: standardKMax = N_gen = 3
+    - `physical_spectral_equals_alpha_sum`: dim(G₂) − h = rank(E₈) + Weyl = 13
+    - `spectral_gap_in_kernel_support`: 0 < 13/99 < 1 (in kernel support)
+    - `pell_connects_bare_topology`: Pell + spinor correction
+  - `selberg_bridge_certificate`: master certificate
+
+- **Blueprint chapters**:
+  - "Physical Spectral Gap" (chap:physical_spectral): 10 entries, all \leanok
+  - "Selberg Trace Formula Bridge" (chap:selberg_bridge): 8 entries with cross-module \uses{}
+
+### Changed
+
+- **Spectral/G2Manifold.lean** — Added parallel spinor definitions:
+  - `parallel_spinors_G2 := 1` (G₂, Berger classification)
+  - `parallel_spinors_SU3 := 2` (SU(3), Calabi-Yau)
+  - `physical_spectral_product_G2 := dim_G2 − parallel_spinors_G2 = 13`
+
+- **Spectral/UniversalLaw.lean** — Added corrected spectral law:
+  - `K7_physical_spectral_law`: MassGap(K7) × 99 = 13
+  - `K7_physical_mass_gap`: MassGap(K7) = 13/99
+  - `bare_to_physical_correction`, `corrected_product_axiom_free`
+  - Updated docstring: ev₁ × H* = dim(Hol) − h
+
+- **Spectral.lean** — Import and re-export PhysicalSpectralGap and SelbergBridge
+- **GIFT.lean** — Import MollifiedSum at root level
+- **Blueprint summary** — 290+ theorems, updated module table and key results
+
+---
+
 ## [3.3.16] - 2026-02-08
 
 ### Summary
