@@ -48,9 +48,9 @@ noncomputable def primePowerTerm (T θ : ℝ) (p : ℕ) (m : ℕ) : ℝ :=
     - primesBound : upper bound for prime enumeration
     - kMax : maximum prime power order (Paper 1 uses K = 3) -/
 noncomputable def S_mollified (T θ : ℝ) (primesBound kMax : ℕ) : ℝ :=
-  let primes := (Finset.range primesBound).filter Nat.Prime
-  -(1 / Real.pi) * primes.sum (fun p =>
-    (Finset.range kMax).sum (fun m => primePowerTerm T θ p m))
+  -(1 / Real.pi) *
+    ((Finset.range primesBound).filter (fun p => Nat.Prime p)).sum fun p =>
+      (Finset.range kMax).sum fun m => primePowerTerm T θ p m
 
 /-!
 ## Properties of the Mollified Sum
