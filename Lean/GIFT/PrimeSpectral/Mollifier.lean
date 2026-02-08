@@ -49,13 +49,15 @@ theorem cosineKernel_nonneg (x : ℝ) : 0 ≤ cosineKernel x := by
   unfold cosineKernel
   split
   · exact sq_nonneg _
-  · le_refl
+  · norm_num
 
 /-- The kernel is bounded above by 1. -/
 theorem cosineKernel_le_one (x : ℝ) : cosineKernel x ≤ 1 := by
   unfold cosineKernel
   split
-  · exact sq_le_one_of_abs_le_one (abs_cos_le_one _)
+  · nlinarith [abs_cos_le_one (Real.pi * x / 2),
+               sq_abs (Real.cos (Real.pi * x / 2)),
+               abs_nonneg (Real.cos (Real.pi * x / 2))]
   · linarith
 
 /-- At x = 0, the kernel equals 1. -/
