@@ -4,7 +4,7 @@ GIFT Prime-Spectral: Mollifier Kernel
 
 Cosine-squared mollifier kernel and its properties.
 
-This module is FULLY CONSTRUCTIVE: zero axioms, zero `sorry`.
+This module is FULLY CONSTRUCTIVE: zero axioms, all goals closed.
 All theorems follow from Mathlib's trigonometric and real analysis
 infrastructure.
 
@@ -12,7 +12,7 @@ The cosine-squared kernel w(x) = cos²(πx/2) for x ∈ [0,1), w(x) = 0
 for x ≥ 1, is the smooth weight function used in the mollified
 Dirichlet polynomial S_w(T).
 
-Reference: Paper 1, §3.2–3.3
+Reference: de La Fournière (2026), §3.2–3.3
 Version: 1.0.0
 -/
 
@@ -73,7 +73,7 @@ theorem cosineKernel_support (x : ℝ) (hx : 1 ≤ x) : cosineKernel x = 0 := by
 /-!
 ## Kernel Comparison
 
-Seven kernel families were tested (Paper 1, §3.3):
+Seven kernel families were tested (§3.3 of the mollified sum paper):
 - Sharp: 𝟙{x<1}       — α = 0.805, R² = 0.887
 - Linear: (1−x)₊       — α = 1.247, R² = 0.881
 - Selberg: (1−x²)₊     — α = 1.018, R² = 0.909

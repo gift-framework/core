@@ -4,12 +4,12 @@ GIFT Prime-Spectral: Mollified Dirichlet Polynomial
 
 The mollified sum S_w(T) as a finite sum over primes.
 
-This module is FULLY CONSTRUCTIVE: zero axioms, zero `sorry`.
+This module is FULLY CONSTRUCTIVE: zero axioms, all goals closed.
 The mollified sum is defined as a `Finset.sum` and its basic
 properties (boundedness, finite support) follow from elementary
 Mathlib results.
 
-Reference: Paper 1, §3.2, §3.6
+Reference: de La Fournière (2026), §3.2, §3.6
 Version: 1.0.0
 -/
 
@@ -46,7 +46,7 @@ noncomputable def primePowerTerm (T θ : ℝ) (p : ℕ) (m : ℕ) : ℝ :=
     - T : height on the critical line
     - θ : cutoff exponent (constant model) or θ(T) (adaptive model)
     - primesBound : upper bound for prime enumeration
-    - kMax : maximum prime power order (Paper 1 uses K = 3) -/
+    - kMax : maximum prime power order (standard choice K = 3) -/
 noncomputable def S_mollified (T θ : ℝ) (primesBound kMax : ℕ) : ℝ :=
   -(1 / Real.pi) *
     ((Finset.range primesBound).filter (fun p => Nat.Prime p)).sum fun p =>
@@ -69,7 +69,7 @@ theorem S_mollified_welldefined (T θ : ℝ) (N K : ℕ) :
 /-!
 ## Prime Power Hierarchy
 
-The R² decomposition by prime power m reveals (Paper 1, §3.7):
+The R² decomposition by prime power m reveals (§3.7):
 - m = 1 (primes):  ΔR² = 0.872 (92.8%)
 - m = 2 (squares): ΔR² = 0.057 (6.1%)
 - m = 3 (cubes):   ΔR² = 0.011 (1.1%)

@@ -5,8 +5,8 @@ GIFT Prime-Spectral Module
 Master import for the prime-spectral mollified sum formalization.
 
 This module formalizes the mollified Dirichlet polynomial S_w(T)
-from Paper 1: "A Self-Normalized Mollified Approximation to the
-Argument of the Riemann Zeta Function."
+that approximates S(T) = π⁻¹ arg ζ(½+iT) on the critical line.
+Reference: de La Fournière (2026).
 
 ## Architecture
 

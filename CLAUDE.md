@@ -1788,7 +1788,27 @@ theorem pi_squared_gt_9 : Real.pi ^ 2 > 9 := by
 
 ---
 
-### Axiom Status (v3.3.15)
+### 55. CI `sorry` Grep in Comments
+
+**Problem**: The CI runs `grep -r "sorry" GIFT/ --include="*.lean"` to enforce zero-sorry policy. This catches the literal string `sorry` even inside doc comments and strings.
+
+```lean
+-- BAD - triggers CI sorry grep
+/-
+This module is FULLY CONSTRUCTIVE: zero axioms, zero `sorry`.
+-/
+
+-- GOOD - avoid the word entirely
+/-
+This module is FULLY CONSTRUCTIVE: zero axioms, all goals closed.
+-/
+```
+
+**Rule**: Never write the word `sorry` in any `.lean` file, including comments, docstrings, and module headers. Use alternatives like "all goals closed", "no incomplete proofs", or "all theorems proven".
+
+---
+
+### Axiom Status (v3.3.16)
 
 **Numerical Bounds - COMPLETE! (0 remaining):**
 - ✓ All Taylor series bounds proven
@@ -1840,4 +1860,4 @@ theorem pi_squared_gt_9 : Real.pi ^ 2 > 9 := by
 
 ---
 
-*Last updated: 2026-01-29 - V3.3.15: Axiom Classification & π Bounds Documentation*
+*Last updated: 2026-02-08 - V3.3.16: Prime-Spectral Mollified Sum Module*

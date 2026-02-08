@@ -4,9 +4,9 @@ GIFT Prime-Spectral: Adaptive Cutoff
 
 The adaptive cutoff θ(T) = θ₀ + θ₁/log T and associated formulas.
 
-This module is FULLY CONSTRUCTIVE: zero axioms, zero `sorry`.
+This module is FULLY CONSTRUCTIVE: zero axioms, all goals closed.
 
-Reference: Paper 1, §4
+Reference: de La Fournière (2026), §4
 Version: 1.0.0
 -/
 
@@ -48,7 +48,7 @@ noncomputable def S_adaptive (T : ℝ) (N K : ℕ) : ℝ :=
   S_mollified T (adaptiveTheta T) N K
 
 /-!
-## Results Comparison (Paper 1, §4.4)
+## Results Comparison (§4.4)
 
 | Metric            | Constant θ | Adaptive θ(T) | Improvement |
 |-------------------|-----------|---------------|-------------|
