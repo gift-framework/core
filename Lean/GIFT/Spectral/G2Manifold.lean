@@ -201,6 +201,42 @@ theorem G2_form_decomposition_3 :
 theorem omega2_14_eq_dim_G2 : GIFT.Core.omega2_14 = GIFT.Core.dim_G2 := rfl
 
 -- ============================================================================
+-- PARALLEL SPINORS (Berger classification)
+-- ============================================================================
+
+/-- G₂ holonomy manifolds admit exactly 1 parallel spinor.
+
+    Standard result from Berger's classification of Riemannian holonomy:
+    - SO(n): 0 parallel spinors (generic)
+    - SU(n): 2 parallel spinors (Calabi-Yau)
+    - Sp(n): n+1 parallel spinors (hyperkähler)
+    - G₂:   1 parallel spinor (exceptional, 7-dim)
+    - Spin(7): 1 parallel spinor (exceptional, 8-dim)
+
+    Reference: Joyce (2000), Compact Manifolds with Special Holonomy, Table 10.1
+-/
+def parallel_spinors_G2 : ℕ := 1
+
+/-- SU(3) holonomy (Calabi-Yau 3-folds) admit 2 parallel spinors -/
+def parallel_spinors_SU3 : ℕ := 2
+
+/-- The physical spectral product: dim(Hol) - h, where h = parallel spinors.
+
+    For G₂: 14 - 1 = 13
+    For SU(3): 8 - 2 = 6
+
+    This is the corrected spectral-holonomy identity:
+      λ₁ × H* = dim(Hol) - h
+-/
+def physical_spectral_product_G2 : ℕ := GIFT.Core.dim_G2 - parallel_spinors_G2
+
+theorem physical_spectral_product_G2_eq : physical_spectral_product_G2 = 13 := rfl
+
+theorem physical_spectral_product_G2_components :
+    GIFT.Core.dim_G2 = 14 ∧ parallel_spinors_G2 = 1 ∧
+    physical_spectral_product_G2 = 13 := ⟨rfl, rfl, rfl⟩
+
+-- ============================================================================
 -- SPECTRAL PROPERTIES OF G2 MANIFOLDS
 -- ============================================================================
 
