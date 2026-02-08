@@ -5,6 +5,52 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.16] - 2026-02-08
+
+### Summary
+
+**Mollified Dirichlet Polynomial Module!** Constructive (zero axioms, zero sorry) formalization of the mollified Dirichlet polynomial S_w(T) approximating S(T) = π⁻¹ arg ζ(½+iT) on the critical line. Blueprint chapter added with full Lean ↔ LaTeX linking.
+
+### Added
+
+- **MollifiedSum/Mollifier.lean** — Cosine-squared kernel w(x) = cos²(πx/2):
+  - `cosineKernel` definition with compact support
+  - 4 proven properties: non-negativity, boundedness, normalization, support
+  - Kernel family comparison table (7 families, indices 0–6)
+
+- **MollifiedSum/Sum.lean** — Mollified Dirichlet polynomial S_w(T):
+  - `primePowerTerm` single (p, m) contribution
+  - `S_mollified` as `Finset.sum` over primes (always finite, well-defined)
+  - `S_mollified_welldefined` existence theorem
+  - `prime_power_hierarchy` verified: m=1 (92.8%), m=2 (6.1%), m=3 (1.1%)
+  - Standard cutoff K = 3
+
+- **MollifiedSum/Adaptive.lean** — Adaptive cutoff θ(T) = θ₀ + θ₁/log T:
+  - `adaptiveTheta`, `S_adaptive` definitions
+  - `theta_star_mpmath`, `theta_star_odlyzko` calibration constants
+  - σ_α improvement ratio (7×) and α-range improvement (7×) verified
+
+- **MollifiedSum.lean** — Master import + `mollified_sum_certified` theorem
+
+- **Blueprint chapter** "Mollified Dirichlet Polynomial":
+  - 8 definitions and 9 theorems, all marked `\leanok`
+  - Full `\lean{}` annotations linking LaTeX to Lean declarations
+  - Three-layer architecture (A: axioms, B: constructive, C: certificates)
+
+### Documentation
+
+- **CLAUDE.md** — Added tip §55: CI `sorry` grep and comment wording
+- **README.md** — Added MollifiedSum module to structure tree
+
+### Architecture Note
+
+This is Layer B (constructive core) of a planned three-layer formalization:
+- Layer A (future): Number theory axioms (zeta zero sequence, Riemann–von Mangoldt formula, explicit formula)
+- Layer B (this release): Constructive definitions with elementary proofs — zero axioms
+- Layer C (future): Numerical certificates (100% zero counting, 98% localization, R² = 0.939)
+
+---
+
 ## [3.3.15] - 2026-01-29
 
 ### Summary

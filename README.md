@@ -27,6 +27,10 @@ Lean/GIFT/
 │   ├── LiteratureAxioms.lean     # Langlais 2024, CGN 2024
 │   ├── MassGapRatio.lean         # λ₁ = 14/99
 │   └── YangMills.lean            # Gauge theory connection
+├── MollifiedSum/         # Mollified Dirichlet polynomial S_w(T) [v3.3.16]
+│   ├── Mollifier.lean         # Cosine-squared kernel w(x)
+│   ├── Sum.lean               # S_w(T) as Finset.sum over primes
+│   └── Adaptive.lean          # Adaptive cutoff θ(T) = θ₀ + θ₁/log T
 ├── Zeta/                  # GIFT-Zeta correspondences [v3.3.10]
 │   ├── Basic.lean         # gamma, lambda axioms
 │   ├── Correspondences.lean      # γ_n ~ GIFT constants
@@ -72,4 +76,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.3.15*
+*GIFT Core v3.3.16*
