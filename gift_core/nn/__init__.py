@@ -48,6 +48,17 @@ try:
 except ImportError:
     HAS_GIFT_NATIVE = False
 
+# V3.3.17: Geodesic solver for prime-geodesic correspondence
+try:
+    from .geodesics import (
+        GeodesicSolver, CheckpointPINNAdapter,
+        prime_geodesic_test, quick_test,
+        extract_primitive_lengths, PRIMES_77,
+    )
+    HAS_GEODESICS = True
+except ImportError:
+    HAS_GEODESICS = False
+
 __all__ = [
     'FourierFeatures',
     'positional_encoding',
@@ -76,4 +87,12 @@ __all__ = [
     'phi0_standard',
     'FANO_LINES',
     'EPSILON',
+    # V3.3.17: Geodesic solver
+    'HAS_GEODESICS',
+    'GeodesicSolver',
+    'CheckpointPINNAdapter',
+    'prime_geodesic_test',
+    'quick_test',
+    'extract_primitive_lengths',
+    'PRIMES_77',
 ]
