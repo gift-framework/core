@@ -113,8 +113,10 @@ theorem K3_S1_dim : K3_S1.dim = 5 := rfl
 /-- Eigenvalue counting function Λ_q(s) for q-forms.
 
 Axiomatized: counts eigenvalues ev of Δ_q with ev ≤ s.
-Full implementation requires Mathlib spectral theory. -/
-axiom eigenvalue_count (K : TCSManifold) (q : ℕ) (s : ℝ) : ℕ
+Full implementation requires Mathlib spectral theory.
+
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+opaque eigenvalue_count (K : TCSManifold) (q : ℕ) (s : ℝ) : ℕ
 
 /-- Langlais Theorem 2.7: Spectral density formula.
 

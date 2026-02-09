@@ -4,45 +4,21 @@ GIFT Foundations: Pi Bounds
 
 Bounds on π used in the Selection Principle.
 
-## Axiom Classification (v3.3.15)
+All bounds are PROVEN using Mathlib's `Mathlib.Analysis.Real.Pi.Bounds` module,
+which provides `pi_gt_three`, `pi_lt_four`, and tighter bounds via the
+sqrtTwoAddSeries method.
 
-### Category F: NUMERICAL AXIOMS (computationally verified)
-These are numerical facts verified to arbitrary precision by computer algebra
-systems (Mathematica, PARI/GP, mpmath) but not yet formally proven in Mathlib 4.27.
+**Ralph Wiggum elimination (2026-02-09)**: 3 axioms → 0 axioms.
+Previously these were Category F numerical axioms because the CLAUDE.md
+incorrectly stated Mathlib 4.27 did not export them. In fact,
+`Mathlib.Analysis.Real.Pi.Bounds` provides `pi_gt_three`, `pi_lt_four`,
+`pi_lt_d2` (π < 3.15), and much tighter bounds up to 20 decimal places.
 
-| Axiom | Value | Verification |
-|-------|-------|--------------|
-| `pi_gt_three` | π > 3 | π = 3.14159... > 3 |
-| `pi_lt_four` | π < 4 | π = 3.14159... < 4 |
-| `pi_lt_sqrt_ten` | π < √10 | π = 3.14159... < 3.162... = √10 |
-
-### Mathlib 4.27 Status
-
-The module `Mathlib.Data.Real.Pi.Bounds` provides the `sqrtTwoAddSeries` approach
-for computing π bounds, but does NOT export simple theorems like `pi_gt_314`.
-
-Available in Mathlib 4.27:
-- `Real.pi_pos` : 0 < π
-- `Real.two_le_pi` : 2 ≤ π
-- `Real.pi_le_four` : π ≤ 4 (non-strict)
-- `Real.pi_ne_zero` : π ≠ 0
-
-NOT available:
-- `Real.pi_gt_314` - Would need sqrtTwoAddSeries computation
-- `Real.pi_lt_315` - Would need sqrtTwoAddSeries computation
-- `Real.three_lt_pi` - Not exported
-
-### Elimination Path
-
-These axioms can be eliminated when:
-1. Mathlib exports `pi_gt_314`/`pi_lt_315` directly, OR
-2. We implement the sqrtTwoAddSeries computation (~100 lines), OR
-3. Mathlib adds interval arithmetic library
-
-Version: 1.1.0 (v3.3.15: honest axiom documentation)
+Version: 2.0.0 (zero axioms)
 -/
 
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+import Mathlib.Analysis.Real.Pi.Bounds
 import Mathlib.Data.Real.Sqrt
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.NormNum
@@ -52,9 +28,7 @@ namespace GIFT.Foundations.PiBounds
 open Real
 
 /-!
-## Section 1: What Mathlib 4.27 provides
-
-These are directly available and proven.
+## Section 1: Core π bounds (all from Mathlib)
 -/
 
 /-- π > 0 (from Mathlib) -/
@@ -70,60 +44,34 @@ theorem pi_le_four' : Real.pi ≤ 4 := Real.pi_le_four
 theorem pi_ne_zero' : Real.pi ≠ 0 := Real.pi_ne_zero
 
 /-!
-## Section 2: Numerical axioms
+## Section 2: Strict bounds (proven via Mathlib.Analysis.Real.Pi.Bounds)
 
-These bounds are computationally trivial (π = 3.14159...) but Mathlib 4.27
-does not export them directly. We axiomatize with full documentation.
-
-**Verification**: All bounds verified in Mathematica, PARI/GP, and mpmath
-to 1000+ decimal places.
+Previously axiomatized as Category F. Now fully proven.
 -/
 
-/-- π > 3.
+/-- π > 3. PROVEN via Mathlib's `pi_gt_three`.
 
-**Axiom Category: F (Numerical)** - COMPUTATIONALLY VERIFIED
+**Former axiom, now theorem** (Ralph Wiggum elimination 2026-02-09).
+Uses `pi_lower_bound` tactic with witness `[23/16]` internally. -/
+theorem pi_gt_three : Real.pi > 3 := Real.pi_gt_three
 
-**Numerical verification**: π = 3.14159265358979... > 3
+/-- π < 4. PROVEN via Mathlib's `pi_lt_four`.
 
-**Why axiom**: Mathlib 4.27 has `two_le_pi` (π ≥ 2) but not `three_lt_pi`.
-The sqrtTwoAddSeries approach could prove this but requires ~50 lines of
-computation that would be eliminated when Mathlib exports tighter bounds.
+**Former axiom, now theorem** (Ralph Wiggum elimination 2026-02-09).
+Uses `pi_upper_bound` tactic with witness `[4/3]` internally. -/
+theorem pi_lt_four : Real.pi < 4 := Real.pi_lt_four
 
-**Elimination path**: Use `Real.pi_gt_sqrtTwoAddSeries` with n=4, or
-wait for Mathlib to export `Real.three_lt_pi`.
--/
-axiom pi_gt_three : Real.pi > 3
+/-- π < √10. PROVEN from π < 3.15 (Mathlib's `pi_lt_d2`) and 3.15² < 10.
 
-/-- π < 4.
-
-**Axiom Category: F (Numerical)** - COMPUTATIONALLY VERIFIED
-
-**Numerical verification**: π = 3.14159265358979... < 4
-
-**Why axiom**: Mathlib has `pi_le_four` (π ≤ 4) but proving strict inequality
-requires showing π ≠ 4. This is obvious numerically but the formal proof
-requires either:
-1. Tighter bounds (π < 3.15 < 4), or
-2. Contradiction via trigonometry (sin(1) ≠ sin(π/4) if π = 4)
-
-**Elimination path**: Derive from `pi_le_four` + proof that π ≠ 4, or
-use sqrtTwoAddSeries for upper bound.
--/
-axiom pi_lt_four : Real.pi < 4
-
-/-- π < √10.
-
-**Axiom Category: F (Numerical)** - COMPUTATIONALLY VERIFIED
-
-**Numerical verification**: π = 3.14159... < 3.16227... = √10
-
-**Why axiom**: This is equivalent to π² < 10, which requires π < 3.163.
-Mathlib's `pi_le_four` only gives π² ≤ 16, which is too loose.
-
-**Elimination path**: Prove π < 3.16 via sqrtTwoAddSeries, then use
-3.16² = 9.9856 < 10 to get 3.16 < √10.
--/
-axiom pi_lt_sqrt_ten : Real.pi < Real.sqrt 10
+**Former axiom, now theorem** (Ralph Wiggum elimination 2026-02-09).
+Chain: π < 3.15 < √10 (since 3.15² = 9.9225 < 10). -/
+theorem pi_lt_sqrt_ten : Real.pi < Real.sqrt 10 := by
+  have h_pi_lt : Real.pi < 3.15 := Real.pi_lt_d2
+  have h_sqrt : 3.15 < Real.sqrt 10 := by
+    rw [show (3.15 : ℝ) = 315 / 100 from by norm_num]
+    rw [Real.lt_sqrt (by norm_num : (315 : ℝ) / 100 ≥ 0)]
+    norm_num
+  linarith
 
 /-!
 ## Section 3: Derived bounds on π²

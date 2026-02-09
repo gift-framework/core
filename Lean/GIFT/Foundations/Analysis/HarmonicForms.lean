@@ -88,8 +88,10 @@ axiom omega3_basis_orthonormal :
 ## de Rham Cohomology and Hodge Isomorphism
 -/
 
-/-- de Rham cohomology group Hᵏ(M) -/
-axiom deRham (M : Type*) (k : ℕ) : Type*
+/-- de Rham cohomology group Hᵏ(M).
+
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+opaque deRham (M : Type*) (k : ℕ) : Type*
 
 /-- Hodge isomorphism: ℋᵏ(M) ≅ Hᵏ_dR(M) -/
 axiom hodge_isomorphism (k : ℕ) :

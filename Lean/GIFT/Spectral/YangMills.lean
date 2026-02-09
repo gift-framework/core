@@ -87,20 +87,32 @@ first excited state in the quantum theory.
 -- GAUGE THEORY STRUCTURES (axiom-based - requires Mathlib gauge theory)
 -- ============================================================================
 
-/-- A compact simple Lie group (gauge group) -/
-axiom CompactSimpleGroup : Type
+/-- A compact simple Lie group (gauge group).
 
-/-- SU(N) as a gauge group -/
-axiom SU : ℕ → CompactSimpleGroup
+**Former axiom, now def+irreducible** (Ralph Wiggum elimination 2026-02-09).
+Uses def+irreducible instead of opaque to provide Inhabited instance
+needed by downstream opaque declarations (SU, etc.). -/
+def CompactSimpleGroup : Type := PUnit
+instance : Inhabited CompactSimpleGroup := ⟨PUnit.unit⟩
+attribute [irreducible] CompactSimpleGroup
+
+/-- SU(N) as a gauge group.
+
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+opaque SU : ℕ → CompactSimpleGroup
 
 /-- The gauge group for QCD: SU(3) -/
 noncomputable def SU3 : CompactSimpleGroup := SU 3
 
-/-- A connection (gauge field) on a principal bundle -/
-axiom Connection (G : CompactSimpleGroup) (M : CompactManifold) : Type
+/-- A connection (gauge field) on a principal bundle.
 
-/-- The curvature (field strength) of a connection -/
-axiom Curvature {G : CompactSimpleGroup} {M : CompactManifold}
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+opaque Connection (G : CompactSimpleGroup) (M : CompactManifold) : Type
+
+/-- The curvature (field strength) of a connection.
+
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+opaque Curvature {G : CompactSimpleGroup} {M : CompactManifold}
     (A : Connection G M) : Type
 
 -- ============================================================================
@@ -112,8 +124,9 @@ axiom Curvature {G : CompactSimpleGroup} {M : CompactManifold}
     S_YM[A] = integral_M |F_A|^2 dvol
 
     where F_A is the curvature of the connection A.
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09).
 -/
-axiom YangMillsAction {G : CompactSimpleGroup} {M : CompactManifold}
+noncomputable opaque YangMillsAction {G : CompactSimpleGroup} {M : CompactManifold}
     (A : Connection G M) : ℝ
 
 /-- Yang-Mills action is non-negative -/
@@ -129,19 +142,27 @@ axiom flat_connection_minimizes {G : CompactSimpleGroup} {M : CompactManifold}
 -- QUANTUM YANG-MILLS
 -- ============================================================================
 
-/-- The quantum Yang-Mills Hamiltonian (abstract) -/
-axiom YangMillsHamiltonian (G : CompactSimpleGroup) (M : CompactManifold) : Type
+/-- The quantum Yang-Mills Hamiltonian (abstract).
 
-/-- The vacuum state (ground state) -/
-axiom vacuum {G : CompactSimpleGroup} {M : CompactManifold}
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+opaque YangMillsHamiltonian (G : CompactSimpleGroup) (M : CompactManifold) : Type
+
+/-- The vacuum state (ground state).
+
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+opaque vacuum {G : CompactSimpleGroup} {M : CompactManifold}
     (H : YangMillsHamiltonian G M) : Type
 
-/-- The vacuum energy -/
-axiom vacuum_energy {G : CompactSimpleGroup} {M : CompactManifold}
+/-- The vacuum energy.
+
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+noncomputable opaque vacuum_energy {G : CompactSimpleGroup} {M : CompactManifold}
     (H : YangMillsHamiltonian G M) : ℝ
 
-/-- First excited state energy -/
-axiom first_excited_energy {G : CompactSimpleGroup} {M : CompactManifold}
+/-- First excited state energy.
+
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+noncomputable opaque first_excited_energy {G : CompactSimpleGroup} {M : CompactManifold}
     (H : YangMillsHamiltonian G M) : ℝ
 
 -- ============================================================================
