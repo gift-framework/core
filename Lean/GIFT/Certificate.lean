@@ -2001,4 +2001,57 @@ abbrev grp_jordan_power_bounds := GIFT.Foundations.GoldenRatioPowers.jordan_powe
 /-- Cohomology ratio: H*/rank(E₈) = 99/8 -/
 abbrev grp_cohom_ratio := GIFT.Foundations.GoldenRatioPowers.cohom_ratio
 
+-- Connes Bridge (v3.3.17): Weil positivity <-> GIFT mollified sum
+/-- Connes' 6-prime list -/
+abbrev connes_primes := GIFT.Spectral.ConnesBridge.connes_primes_list
+
+/-- 6 = h(G₂) Coxeter number -/
+abbrev connes_coxeter := GIFT.Spectral.ConnesBridge.connes_count_eq_coxeter_G2
+
+/-- Largest Connes prime = physical gap numerator = 13 -/
+abbrev connes_gap_num := GIFT.Spectral.ConnesBridge.largest_connes_prime_eq_gap_num
+
+/-- All Connes primes < dim(G₂) = 14 -/
+abbrev connes_below_G2 := GIFT.Spectral.ConnesBridge.all_connes_primes_below_dimG2
+
+/-- sum(primes) - dim(G₂) = 41 - 14 = 27 = dim(J₃(O)) -/
+abbrev connes_jordan := GIFT.Spectral.ConnesBridge.connes_sum_minus_dimG2_eq_jordan
+
+/-- 2 × 3 × 5 = 30 = h(E₈) -/
+abbrev connes_coxeter_E8 := GIFT.Spectral.ConnesBridge.first_3_connes_product_eq_coxeter_E8
+
+/-- 2 × 3 × 5 × 7 = 210 = dim(K₇) × h(E₈) -/
+abbrev connes_K7_E8 := GIFT.Spectral.ConnesBridge.first_4_connes_product_eq_dimK7_times_coxeter
+
+/-- Pell equation: 99² − 50 × 14² = 1 and 14 − 1 = 13 -/
+abbrev connes_pell := GIFT.Spectral.ConnesBridge.pell_and_connes
+
+/-- Connes Bridge master certificate -/
+abbrev connes_bridge_cert := GIFT.Spectral.ConnesBridge.connes_bridge_certificate
+
+/-- GIFT v3.3.17 Connes Bridge Certificate
+
+Connes' 6-prime Weil positivity approach (arXiv:2602.04022) connects to GIFT:
+1. |primes| = 6 = h(G₂) Coxeter number
+2. max(primes) = 13 = physical spectral gap numerator
+3. All primes < 14 = dim(G₂) (natural truncation scale)
+4. sum(primes) - dim(G₂) = 41 - 14 = 27 = dim(J₃(O))
+5. 2 × 3 × 5 = 30 = h(E₈), 2 × 3 × 5 × 7 = 210 = 7 × 30
+6. Pell equation 99² − 50 × 14² = 1 with 14 − 1 = 13
+-/
+theorem gift_v3317_connes_bridge_certificate :
+    -- Connes prime set properties
+    (connes_primes.length = 6) ∧
+    -- 6 = h(G₂)
+    (6 = GIFT.Core.h_G2) ∧
+    -- 13 = physical gap numerator
+    ((13 : Nat) = GIFT.Spectral.PhysicalSpectralGap.physical_gap_num) ∧
+    -- sum - dim(G₂) = 27 = dim(J₃(O))
+    ((41 : Nat) - 14 = GIFT.Core.dim_J3O) ∧
+    -- 2 × 3 × 5 = 30 = h(E₈)
+    (2 * 3 * 5 = GIFT.Core.h_E8) ∧
+    -- Pell equation
+    (99 * 99 - 50 * (14 * 14) = 1) := by
+  repeat (first | constructor | native_decide | rfl)
+
 end GIFT.Certificate
