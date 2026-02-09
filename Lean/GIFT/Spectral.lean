@@ -38,6 +38,9 @@ The key insight: the mass gap is determined by TOPOLOGY, not dynamics.
 ### Selberg Bridge (v3.3.16)
 - `SelbergBridge`: Trace formula connecting MollifiedSum to Spectral
 
+### Connes Bridge (v3.3.17)
+- `ConnesBridge`: Weil quadratic form connecting Connes' approach to GIFT
+
 ### Applications
 - `CheegerInequality`: Cheeger-Buser bounds
 - `YangMills`: Connection to Clay Millennium Prize
@@ -78,6 +81,9 @@ import GIFT.Spectral.LiteratureAxioms
 
 -- Selberg Bridge: MollifiedSum <-> Spectral connection (v3.3.16)
 import GIFT.Spectral.SelbergBridge
+
+-- Connes Bridge: Weil positivity <-> GIFT mollified sum (v3.3.17)
+import GIFT.Spectral.ConnesBridge
 
 -- Applications
 import GIFT.Spectral.CheegerInequality
@@ -335,6 +341,31 @@ export SelbergBridge (
 )
 
 -- ============================================================================
+-- RE-EXPORTS: CONNES BRIDGE (v3.3.17)
+-- ============================================================================
+
+export ConnesBridge (
+  -- Connes' 6-prime set
+  connes_primes_list
+  connes_primes_card
+  connes_primes_all_prime
+  connes_primes_bounded
+  -- Algebraic identities
+  connes_count_eq_coxeter_G2
+  largest_connes_prime_eq_gap_num
+  largest_connes_prime_eq_alpha_sum
+  all_connes_primes_below_dimG2
+  connes_sum_minus_dimG2_eq_jordan
+  first_3_connes_product_eq_coxeter_E8
+  first_4_connes_product_eq_dimK7_times_coxeter
+  gift_theta_components
+  gift_theta_correction_components
+  pell_and_connes
+  -- Certificate
+  connes_bridge_certificate
+)
+
+-- ============================================================================
 -- RE-EXPORTS: CHEEGER INEQUALITY
 -- ============================================================================
 
@@ -390,6 +421,7 @@ Spectral/
 ├── RefinedSpectralBounds.lean   # H7 hypothesis, pi^2 coefficient
 ├── LiteratureAxioms.lean        # Literature axioms (Langlais, CGN)
 ├── SelbergBridge.lean           # Trace formula: MollifiedSum <-> Spectral
+├── ConnesBridge.lean            # Weil positivity: Connes <-> GIFT
 ├── CheegerInequality.lean       # Cheeger-Buser bounds
 └── YangMills.lean               # Clay Prize connection
 ```
@@ -425,6 +457,12 @@ See `GIFT/Foundations/PiBounds.lean` for full documentation and elimination path
 | `trace_formula` | Selberg trace formula | Microlocal analysis |
 | `geodesic_prime_correspondence` | l_gamma = c log(p) | TCS geodesic analysis |
 | `geometric_side_matches_mollified` | Geom. side ~ S_w(T) | Stationary phase on K7 |
+| `weil_positivity_equiv_RH` | Weil positivity ↔ RH | Connes 2026 |
+| `connes_6_prime_50_zeros` | 6 primes → 50 zeros | Connes 2026 §5 |
+| `connes_convergence_to_Xi` | Truncation → Ξ | Connes 2026 §6 |
+| `prolate_optimal_localization` | Prolate operators | Slepian-Landau-Pollak |
+| `gift_theta_asymptotic_advantage` | θ(T)=10/7 advantage | connes_comparison.py |
+| `mollified_sum_convergence_matches_weil` | S_w ~ Weil | Structural matching |
 -/
 
 end GIFT.Spectral
