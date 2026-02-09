@@ -81,14 +81,20 @@ The Selberg trace formula (1956) makes this duality precise.
 **Axiom Category: A (Type Definition)**
 
 For a compact Riemannian manifold (M, g), the length spectrum
-is the multiset of lengths of closed geodesics. -/
-axiom LengthSpectrum (M : CompactManifold) : Type
+is the multiset of lengths of closed geodesics.
 
-/-- A closed geodesic has a length (positive real number). -/
-axiom geodesicLength {M : CompactManifold} : LengthSpectrum M → ℝ
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+opaque LengthSpectrum (M : CompactManifold) : Type
 
-/-- A closed geodesic has an amplitude from the stationary phase expansion. -/
-axiom geodesicAmplitude {M : CompactManifold} : LengthSpectrum M → ℝ
+/-- A closed geodesic has a length (positive real number).
+
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+noncomputable opaque geodesicLength {M : CompactManifold} : LengthSpectrum M → ℝ
+
+/-- A closed geodesic has an amplitude from the stationary phase expansion.
+
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+noncomputable opaque geodesicAmplitude {M : CompactManifold} : LengthSpectrum M → ℝ
 
 /-- Geodesic lengths are positive. -/
 axiom geodesicLength_pos {M : CompactManifold} (geo : LengthSpectrum M) :

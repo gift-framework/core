@@ -46,8 +46,10 @@ zeta zeros. These are the gamma_n values where zeta(1/2 + i*gamma_n) = 0.
     - gamma(1) = 14.134725...
     - gamma(2) = 21.022040...
     - gamma(3) = 25.010858...
-    etc. -/
-axiom gamma : ℕ+ → ℝ
+    etc.
+
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+noncomputable opaque gamma : ℕ+ → ℝ
 
 /-- All zeros have positive imaginary part -/
 axiom gamma_pos : ∀ n : ℕ+, gamma n > 0

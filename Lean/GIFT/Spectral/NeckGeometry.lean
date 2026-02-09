@@ -115,8 +115,10 @@ This means the neck is geometrically a cylinder Y × [0, L].
 The metric is the product of the line metric and the cross-section metric.
 
 Axiomatized: requires differential geometry formalization.
+
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09).
 -/
-axiom ProductNeckMetric (K : TCSManifold) : Prop
+opaque ProductNeckMetric (K : TCSManifold) : Prop
 
 -- ============================================================================
 -- HYPOTHESIS (H4): BLOCK CHEEGER BOUND
@@ -178,8 +180,10 @@ at least as large as the cross-section Y. This follows from the
 projection argument: π_Y : N → Y is 1-Lipschitz.
 
 Axiomatized: requires measure theory on manifolds.
+
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09).
 -/
-axiom NeckMinimality (K : TCSManifold) : Prop
+opaque NeckMinimality (K : TCSManifold) : Prop
 
 -- ============================================================================
 -- FULL HYPOTHESIS BUNDLE

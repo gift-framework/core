@@ -83,14 +83,20 @@ For GIFT, we only need:
 - Riemannian metric (for Laplacian)
 
 **Elimination path:** Mathlib.Geometry.Manifold.Instances.Real (when completed)
+
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09).
 -/
-axiom CompactManifold : Type
+opaque CompactManifold : Type
 
-/-- Dimension of a compact manifold -/
-axiom CompactManifold.dim : CompactManifold → ℕ
+/-- Dimension of a compact manifold.
 
-/-- A compact manifold has finite volume -/
-axiom CompactManifold.volume : CompactManifold → ℝ
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+opaque CompactManifold.dim : CompactManifold → ℕ
+
+/-- A compact manifold has finite volume.
+
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+noncomputable opaque CompactManifold.volume : CompactManifold → ℝ
 
 /-- Volume is positive -/
 axiom CompactManifold.volume_pos (M : CompactManifold) : M.volume > 0
@@ -114,8 +120,12 @@ structure LaplaceBeltrami (M : CompactManifold) where
   /-- Positive semi-definiteness -/
   positive_semidefinite : Prop
 
-/-- Every compact manifold has a canonical Laplacian -/
-axiom LaplaceBeltrami.canonical (M : CompactManifold) : LaplaceBeltrami M
+instance (M : CompactManifold) : Inhabited (LaplaceBeltrami M) := ⟨⟨PUnit, True, True⟩⟩
+
+/-- Every compact manifold has a canonical Laplacian.
+
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+opaque LaplaceBeltrami.canonical (M : CompactManifold) : LaplaceBeltrami M
 
 -- ============================================================================
 -- SPECTRUM (axiom-based)
@@ -172,8 +182,10 @@ positive mass gap is equivalent to exponential decay of correlations.
 For compact M, existence of positive gap is guaranteed by spectral_theorem_discrete.
 
 **Elimination path:** Define as `eigseq 1` from spectral_theorem_discrete.
+
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09).
 -/
-axiom MassGap (M : CompactManifold) : ℝ
+noncomputable opaque MassGap (M : CompactManifold) : ℝ
 
 /-- The mass gap exists and is positive for compact manifolds -/
 axiom mass_gap_exists_positive (M : CompactManifold) :

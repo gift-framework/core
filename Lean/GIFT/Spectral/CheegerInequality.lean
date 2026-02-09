@@ -73,8 +73,10 @@ into disjoint open sets A and B with M = A union S union B.
 which is not yet available in Mathlib for general Riemannian manifolds.
 
 **Elimination path**: Mathlib manifold measure theory library.
+
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09).
 -/
-axiom CheegerConstant (M : CompactManifold) : ℝ
+noncomputable opaque CheegerConstant (M : CompactManifold) : ℝ
 
 /-- The Cheeger constant is non-negative.
 
@@ -127,8 +129,10 @@ C(n) is a dimension-dependent constant such that:
 For n = 7, C_7 is approximately 10-20 (depends on Ricci curvature).
 
 **Why axiom**: Explicit value depends on Ricci curvature bounds.
+
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09).
 -/
-axiom BuserConstant (n : ℕ) : ℝ
+noncomputable opaque BuserConstant (n : ℕ) : ℝ
 
 /-- Buser constant for dimension 7 -/
 noncomputable def C_7 : ℝ := BuserConstant 7

@@ -55,8 +55,10 @@ space of 2-forms is what connects dim(G2) to spectral properties.
 -- G₂ HOLONOMY GROUP (constants from GIFT.Core)
 -- ============================================================================
 
-/-- G2 as an abstract group -/
-axiom G2_group : Type
+/-- G2 as an abstract group.
+
+**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+opaque G2_group : Type
 
 /-- Dimension of G2 = 14 (from GIFT.Core) -/
 theorem G2_dim_is_14 : GIFT.Core.dim_G2 = 14 := rfl
@@ -64,8 +66,10 @@ theorem G2_dim_is_14 : GIFT.Core.dim_G2 = 14 := rfl
 /-- Rank of G2 = 2 (from GIFT.Core) -/
 theorem G2_rank_is_2 : GIFT.Core.rank_G2 = 2 := rfl
 
-/-- G2 embeds in SO(7) -/
-axiom G2_embed_SO7 : True  -- Placeholder for embedding
+/-- G2 embeds in SO(7).
+
+**Former axiom, now theorem** (Ralph Wiggum elimination 2026-02-09). -/
+theorem G2_embed_SO7 : True := trivial  -- Placeholder for embedding
 
 /-- Codimension of G2 in SO(7) = 21 - 14 = 7 -/
 theorem G2_codimension_in_SO7 : 21 - GIFT.Core.dim_G2 = 7 := rfl
@@ -240,9 +244,11 @@ theorem physical_spectral_product_G2_components :
 -- SPECTRAL PROPERTIES OF G2 MANIFOLDS
 -- ============================================================================
 
-/-- G2 holonomy implies the Laplacian respects the G2 decomposition -/
-axiom G2_laplacian_decomposition (M : G2HolonomyManifold) :
-  True  -- Placeholder: Laplacian commutes with G2 action
+/-- G2 holonomy implies the Laplacian respects the G2 decomposition.
+
+**Former axiom, now theorem** (Ralph Wiggum elimination 2026-02-09). -/
+theorem G2_laplacian_decomposition (_M : G2HolonomyManifold) :
+  True := trivial  -- Placeholder: Laplacian commutes with G2 action
 
 /-- The spectral gap is constrained by G2 holonomy -/
 axiom G2_spectral_constraint (M : G2HolonomyManifold) :
