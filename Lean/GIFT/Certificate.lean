@@ -61,6 +61,9 @@ import GIFT.Hierarchy
 -- V3.3.8: Spectral Gap (Yang-Mills mass gap = 14/99)
 import GIFT.Spectral
 
+-- V3.3.18: GIFT Topological Adaptive Cutoff
+import GIFT.MollifiedSum.AdaptiveGIFT
+
 -- V3.3.10: Zeta correspondences and Monster-Zeta Moonshine
 import GIFT.Zeta
 import GIFT.Moonshine.Supersingular
@@ -2053,5 +2056,15 @@ theorem gift_v3317_connes_bridge_certificate :
     -- Pell equation
     (99 * 99 - 50 * (14 * 14) = 1) := by
   repeat (first | constructor | native_decide | rfl)
+
+-- GIFT Adaptive Cutoff (v3.3.18): Topological derivation of theta(T) = 10/7 - (14/3)/log(T)
+/-- GIFT asymptotic exponent theta_inf = 10/7 -/
+abbrev gift_theta_inf := GIFT.MollifiedSum.AdaptiveGIFT.gift_theta_inf
+
+/-- GIFT correction coefficient = 14/3 -/
+abbrev gift_theta_corr := GIFT.MollifiedSum.AdaptiveGIFT.gift_theta_corr
+
+/-- GIFT adaptive cutoff master certificate -/
+abbrev adaptive_gift_cert := GIFT.MollifiedSum.AdaptiveGIFT.adaptive_gift_certificate
 
 end GIFT.Certificate

@@ -44,10 +44,11 @@ Version: 1.0.0
 import GIFT.MollifiedSum.Mollifier
 import GIFT.MollifiedSum.Sum
 import GIFT.MollifiedSum.Adaptive
+import GIFT.MollifiedSum.AdaptiveGIFT
 
 namespace GIFT.MollifiedSum
 
-open Mollifier Sum Adaptive
+open Mollifier Sum Adaptive AdaptiveGIFT
 
 /-!
 ## Module Summary
@@ -68,5 +69,12 @@ theorem mollified_sum_certified :
    cosineKernel_le_one,
    fun T θ N K => S_mollified_welldefined T θ N K,
    rfl⟩
+
+/-- GIFT-derived parameters certificate. -/
+theorem gift_parameters_certified :
+    AdaptiveGIFT.gift_theta_inf = 10 / 7 ∧
+    AdaptiveGIFT.gift_theta_corr = 14 / 3 ∧
+    standardKMax = 3 :=
+  ⟨rfl, rfl, rfl⟩
 
 end GIFT.MollifiedSum
