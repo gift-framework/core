@@ -5,6 +5,53 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.18] - 2026-02-10
+
+### Summary
+
+**Connes Bridge & Topological Adaptive Cutoff.** Two new modules connecting (1) Alain Connes' Weil positivity approach (arXiv:2602.04022) to the GIFT mollified sum framework, and (2) the topological derivation of the adaptive cutoff θ(T) = 10/7 − (14/3)/log(T) from GIFT constants.
+
+### Added
+
+- **Spectral/ConnesBridge.lean** — Weil positivity ↔ GIFT mollified sum bridge:
+  - `connes_primes_list`: the 6 primes {2, 3, 5, 7, 11, 13} used in Connes' "Letter to Riemann"
+  - `connes_primes_all_prime`, `connes_primes_card` (6 primes, all prime)
+  - Proven algebraic identities (zero axioms):
+    - `connes_count_eq_coxeter_G2`: |primes| = 6 = h(G₂) Coxeter number
+    - `largest_connes_prime_eq_gap_num`: 13 = physical spectral gap numerator
+    - `all_connes_primes_below_dimG2`: all primes < dim(G₂) = 14
+    - `connes_sum_minus_dimG2_eq_jordan`: Σprimes − dim(G₂) = 41 − 14 = 27 = dim(J₃(O))
+    - `first_3_connes_product_eq_coxeter_E8`: 2 × 3 × 5 = 30 = h(E₈)
+    - `first_4_connes_product_eq_dimK7_times_coxeter`: 2 × 3 × 5 × 7 = 210 = dim(K₇) × h(E₈)
+    - `pell_and_connes`: 99² − 50 × 14² = 1 and 14 − 1 = 13
+    - `gap_in_kernel_support`: 0 < 13/99 < 1 (in cosine kernel support)
+  - 8 axioms (Categories B/D/E): Weil positivity, prolate operators, Connes 6-prime result, GIFT-Connes structural matching
+  - `connes_bridge_certificate`: 19-conjunct master certificate
+
+- **MollifiedSum/AdaptiveGIFT.lean** — Topological derivation of θ(T) = 10/7 − (14/3)/log(T):
+  - `gift_theta_inf`, `gift_theta_corr`: rational parameters from GIFT constants
+  - `gift_theta_inf_from_topology`: 10/7 = (dim(K₇) + N_gen) / dim(K₇)
+  - `gift_theta_corr_from_topology`: 14/3 = dim(G₂) / N_gen
+  - Algebraic properties: irreducibility (gcd), bounds (1 < 10/7 < 3/2), products, ratio 49/15
+  - `numerator_two_perspectives`: dim(K₇) + N_gen = 2 × Weyl_factor
+  - `giftTheta`, `S_gift`: noncomputable real-valued definitions
+  - Comparison with empirical: |10/7 − 1.4091| < 2%
+  - 5 Category F axioms documenting 2M-zero validation (T5a, T5b, T7, T8)
+  - `adaptive_gift_certificate`: 12-conjunct master certificate
+  - 23 proven theorems total, zero axioms for algebraic content
+
+### Changed
+
+- **Certificate.lean** — Added abbrevs and certificates for both new modules:
+  - ConnesBridge: `connes_primes`, `connes_coxeter`, `connes_gap_num`, `connes_below_G2`, `connes_jordan`, `connes_coxeter_E8`, `connes_K7_E8`, `connes_pell`, `connes_bridge_cert`
+  - AdaptiveGIFT: `gift_theta_inf`, `gift_theta_corr`, `adaptive_gift_cert`
+  - `gift_v3317_connes_bridge_certificate`: 6-conjunct cross-module certificate
+
+- **MollifiedSum.lean** — Added import of `AdaptiveGIFT`
+- **Spectral.lean** — Added import and re-export of `ConnesBridge`
+
+---
+
 ## [3.3.17] - 2026-02-08
 
 ### Summary

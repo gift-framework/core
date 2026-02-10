@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.3.17).
+Complete documentation for the `giftpy` Python package (v3.3.18).
 
 ## Installation
 
@@ -40,6 +40,67 @@ print(K7.two_b2)                # 42 (structural invariant)
 # Verify all relations
 from gift_core import verify
 print(verify())          # True
+```
+
+## New in v3.3.18
+
+### Connes Bridge: Weil Positivity ↔ GIFT Mollified Sum
+
+Connects Alain Connes' Weil positivity approach to RH (arXiv:2602.04022, Feb 2026) with the GIFT mollified sum framework. Connes shows that 6 primes {2, 3, 5, 7, 11, 13} recover 50 zeta zeros via Weil quadratic form minimization — GIFT independently uses the same primes through the mollified Dirichlet polynomial.
+
+```lean
+import GIFT.Spectral.ConnesBridge
+
+-- Connes' 6 primes and their GIFT connections
+#check connes_primes_list                -- [2, 3, 5, 7, 11, 13]
+#check connes_primes_all_prime           -- all 6 are prime
+#check connes_count_eq_coxeter_G2        -- |primes| = 6 = h(G₂)
+#check largest_connes_prime_eq_gap_num   -- 13 = physical spectral gap numerator
+#check all_connes_primes_below_dimG2     -- all < 14 = dim(G₂)
+#check connes_sum_minus_dimG2_eq_jordan  -- 41 - 14 = 27 = dim(J₃(O))
+
+-- Primorial connections
+#check first_3_connes_product_eq_coxeter_E8              -- 2×3×5 = 30 = h(E₈)
+#check first_4_connes_product_eq_dimK7_times_coxeter     -- 2×3×5×7 = 210 = 7×30
+
+-- Pell equation bridge
+#check pell_and_connes                   -- 99² - 50×14² = 1 and 14-1 = 13
+
+-- Master certificate (19 proven conjuncts)
+#check connes_bridge_certificate
+```
+
+### Topological Adaptive Cutoff: θ(T) = 10/7 − (14/3)/log(T)
+
+The GIFT-derived adaptive cutoff parameters come from topology, not curve fitting:
+
+- θ\_∞ = (dim(K₇) + N\_gen) / dim(K₇) = (7 + 3)/7 = **10/7**
+- Correction = dim(G₂) / N\_gen = **14/3**
+
+```lean
+import GIFT.MollifiedSum.AdaptiveGIFT
+
+-- Parameters derived from topology
+#check gift_theta_inf_from_topology   -- 10/7 = (dim(K₇) + N_gen) / dim(K₇)
+#check gift_theta_corr_from_topology  -- 14/3 = dim(G₂) / N_gen
+
+-- Algebraic properties (all proven, zero axioms)
+#check gift_theta_inf_irreducible     -- gcd(10, 7) = 1
+#check gift_theta_corr_irreducible    -- gcd(14, 3) = 1
+#check gift_theta_inf_gt_one          -- 10/7 > 1
+#check gift_theta_inf_lt_three_halves -- 10/7 < 3/2
+#check gift_corr_over_inf             -- (14/3) / (10/7) = 49/15
+#check numerator_two_perspectives     -- dim(K₇) + N_gen = 2 × Weyl
+
+-- Real-valued function
+#check giftTheta                      -- T ↦ 10/7 - (14/3)/log(T)
+#check S_gift                         -- GIFT adaptive mollified sum
+
+-- Comparison with empirical fit
+#check gift_theta_inf_close_to_empirical  -- |10/7 - 1.4091| < 2%
+
+-- Master certificate (12 proven conjuncts)
+#check adaptive_gift_certificate
 ```
 
 ## New in v3.3.17
