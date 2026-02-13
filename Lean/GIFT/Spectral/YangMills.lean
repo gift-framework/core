@@ -187,19 +187,10 @@ axiom mass_gap_nonneg {G : CompactSimpleGroup} {M : CompactManifold}
 -- GIFT CONNECTION: SPECTRAL GAP → MASS GAP
 -- ============================================================================
 
-/-- The GIFT relation between geometric spectral gap and physical mass gap.
-
-    For M-theory compactified on K7:
-      Delta_YM = lambda_1(K7) * Lambda_QCD
-
-    where:
-    - Delta_YM = Yang-Mills mass gap (in energy units)
-    - lambda_1(K7) = first nonzero eigenvalue of Laplacian on K7 = 14/99
-    - Lambda_QCD = QCD scale ~ 200 MeV
--/
-axiom GIFT_mass_gap_relation (G : CompactSimpleGroup) :
-  ∃ (Delta : ℝ), Delta > 0 ∧
-    Delta = MassGap K7.g2base.base * Lambda_QCD_MeV
+-- [REMOVED v3.3.19] Ad-hoc GIFT claim — mass gap relation depends on spectral gap value
+-- axiom GIFT_mass_gap_relation (G : CompactSimpleGroup) :
+--   ∃ (Delta : ℝ), Delta > 0 ∧
+--     Delta = MassGap K7.g2base.base * Lambda_QCD_MeV
 
 /-- Lambda_QCD in MeV -/
 theorem lambda_QCD_value : Lambda_QCD_MeV = 200 := rfl

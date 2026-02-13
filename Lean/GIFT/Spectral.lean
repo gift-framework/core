@@ -284,7 +284,7 @@ export LiteratureAxioms (
   cgn_no_small_eigenvalues
   cgn_cheeger_lower_bound
   torsion_free_correction
-  canonical_neck_length_conjecture
+  -- canonical_neck_length_conjecture  -- [REMOVED v3.3.19]
   gift_prediction_structure
   gift_prediction_in_range
   literature_axioms_certificate

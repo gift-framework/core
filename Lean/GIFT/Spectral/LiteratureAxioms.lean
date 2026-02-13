@@ -225,27 +225,11 @@ axiom torsion_free_correction (K : TCSManifold) (k : ℕ) :
 -- CANONICAL NECK LENGTH CONJECTURE
 -- ============================================================================
 
-/-- Conjecture: Canonical neck length scales with H*.
-
-**Axiom Category: E (GIFT Conjecture)** - NOT PEER-REVIEWED
-
-For the "canonical" K₇ TCS metric:
-  L² ~ H* = 99
-
-Mechanisms proposed:
-1. Volume minimization principle
-2. RG flow fixed point
-3. Topological constraint from homotopy class
-
-**STATUS:** CONJECTURAL (not literature-supported)
-**Path to proof:** Variational calculus on TCS moduli space
-
-⚠️ WARNING: This is the core GIFT CLAIM, not a standard result.
--/
-axiom canonical_neck_length_conjecture :
-  ∃ (K : TCSManifold) (c : ℝ), c > 0 ∧
-    K.toCompactManifold.dim = 7 ∧
-    K.neckLength ^ 2 = c * H_star
+-- [REMOVED v3.3.19] Ad-hoc GIFT conjecture — neck length scaling is an open question
+-- axiom canonical_neck_length_conjecture :
+--   ∃ (K : TCSManifold) (c : ℝ), c > 0 ∧
+--     K.toCompactManifold.dim = 7 ∧
+--     K.neckLength ^ 2 = c * H_star
 
 -- ============================================================================
 -- COMBINING RESULTS: λ₁ = 14/99

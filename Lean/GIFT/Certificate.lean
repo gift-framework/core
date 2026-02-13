@@ -1737,8 +1737,8 @@ abbrev lit_cgn_cheeger := GIFT.Spectral.LiteratureAxioms.cgn_cheeger_lower_bound
 /-- Torsion-free correction -/
 abbrev lit_torsion_free := GIFT.Spectral.LiteratureAxioms.torsion_free_correction
 
-/-- Canonical neck length conjecture -/
-abbrev lit_canonical_neck := GIFT.Spectral.LiteratureAxioms.canonical_neck_length_conjecture
+-- [REMOVED v3.3.19] Ad-hoc conjecture removed
+-- abbrev lit_canonical_neck := GIFT.Spectral.LiteratureAxioms.canonical_neck_length_conjecture
 
 /-- GIFT prediction structure -/
 abbrev lit_prediction := GIFT.Spectral.LiteratureAxioms.gift_prediction_structure
