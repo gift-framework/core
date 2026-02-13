@@ -1,32 +1,26 @@
 /-
-GIFT Spectral: Universal Spectral Law
-=====================================
+GIFT Spectral: Universal Spectral Law — Algebraic Properties
+=============================================================
 
-The central theorem connecting topology to spectral gap.
+Algebraic properties of the ratio dim(G₂)/H* = 14/99.
 
-The universal spectral-holonomy identity for compact manifolds:
-  λ₁(M) × H* = dim(Hol) − h
+The spectral gap λ₁(K₇) is an OPEN QUESTION. This file retains:
+- Pure algebraic theorems about 14/99 (coprimality, bounds, decomposition)
+- The axiom-free correction 14→13 from PhysicalSpectralGap.lean
 
-where h = number of parallel spinors (Berger classification).
+The ad-hoc axioms claiming MassGap(K7) = 14/99 or 13/99 have been
+REMOVED in v3.3.19. The spectral gap value is now treated as a
+research objective, not a prediction.
 
-For K₇ with G₂ holonomy (h = 1):
-  λ₁(K7) × 99 = 14 − 1 = 13
-  λ₁(K7) = 13/99
-
-The "bare" algebraic value 14/99 (from Pell equation) receives a
-correction of −h/H* = −1/99 from the parallel spinor.
-
-See PhysicalSpectralGap.lean for the axiom-free derivation of 13/99.
-This file retains the historical 14/99 axioms for compatibility.
-
-Status: Uses axioms (spectral-topology connection requires heat kernel analysis)
+See PhysicalSpectralGap.lean for the axiom-free derivation showing
+that IF λ₁×H* = dim(G₂)−h, THEN the value would be 13/99.
 
 References:
 - GIFT Framework: Yang-Mills Mass Gap from Topological Constraints
 - Cheeger, J. (1970). A lower bound for the smallest eigenvalue of the Laplacian
 - Joyce, D.D. (2000). Compact Manifolds with Special Holonomy
 
-Version: 1.0.0
+Version: 1.1.0 (v3.3.19: removed ad-hoc spectral axioms)
 -/
 
 import GIFT.Core
@@ -72,44 +66,22 @@ The 99 comes from cohomology: H* counts independent topological modes.
 -- THE UNIVERSAL LAW (axiom - key theorem)
 -- ============================================================================
 
-/-- The Universal Spectral Law for G2 manifolds.
+-- [REMOVED v3.3.19] Ad-hoc spectral prediction — spectral gap is now an open question
+-- axiom universal_spectral_law (M : G2HolonomyManifold)
+--     (h_torsion_free : True) :
+--     MassGap M.base * (M.base.dim + 14 + 77 + 1) = GIFT.Core.dim_G2
 
-    For a G2-holonomy manifold M with torsion-free G2 structure:
-      MassGap(M) * H*(M) = dim(G2)
-
-    This is the fundamental prediction of the GIFT framework.
-
-    Physical meaning: The spectral gap is determined by the ratio
-    of holonomy dimension to topological degrees of freedom.
-
-    Mathematical status: This is an AXIOM in our formalization.
-    Full proof would require:
-    1. Heat kernel analysis on G2 manifolds
-    2. Selberg trace formula generalization
-    3. Topological constraints on the spectrum
--/
-axiom universal_spectral_law (M : G2HolonomyManifold)
-    (h_torsion_free : True) :  -- Placeholder for torsion-free condition
-    MassGap M.base * (M.base.dim + 14 + 77 + 1) = GIFT.Core.dim_G2
-
-/-- Simplified version for K7 specifically -/
-axiom K7_spectral_law :
-    MassGap K7.g2base.base * 99 = 14
+-- [REMOVED v3.3.19] Ad-hoc spectral prediction
+-- axiom K7_spectral_law :
+--     MassGap K7.g2base.base * 99 = 14
 
 -- ============================================================================
 -- DERIVATION OF MASS GAP VALUE
 -- ============================================================================
 
-/-- The mass gap of K7 is 14/99.
-
-    This follows directly from the universal spectral law:
-      lambda_1 * 99 = 14
-      lambda_1 = 14/99
-
-    This is THE key theorem connecting topology to Yang-Mills.
--/
-axiom K7_mass_gap_is_14_over_99 :
-    MassGap K7.g2base.base = (14 : ℝ) / 99
+-- [REMOVED v3.3.19] Ad-hoc spectral prediction
+-- axiom K7_mass_gap_is_14_over_99 :
+--     MassGap K7.g2base.base = (14 : ℝ) / 99
 
 /-- The mass gap equals the GIFT ratio -/
 theorem K7_mass_gap_eq_gift_ratio :
@@ -249,22 +221,13 @@ theorem universal_law_certificate :
 -- CORRECTED SPECTRAL LAW (references PhysicalSpectralGap)
 -- ============================================================================
 
-/-- The corrected universal spectral law: λ₁ × H* = dim(G₂) − h.
+-- [REMOVED v3.3.19] Ad-hoc spectral prediction
+-- axiom K7_physical_spectral_law :
+--     MassGap K7.g2base.base * 99 = 13
 
-    For G₂ holonomy with h = 1 parallel spinor:
-      λ₁ × 99 = 14 − 1 = 13
-      λ₁ = 13/99
-
-    The derivation of 13/99 is axiom-free (see PhysicalSpectralGap.lean).
-    The claim that MassGap(K7) equals 13/99 remains an axiom pending
-    Selberg trace formula formalization.
--/
-axiom K7_physical_spectral_law :
-    MassGap K7.g2base.base * 99 = 13
-
-/-- The physical mass gap: MassGap(K7) = 13/99 -/
-axiom K7_physical_mass_gap :
-    MassGap K7.g2base.base = (13 : ℝ) / 99
+-- [REMOVED v3.3.19] Ad-hoc spectral prediction
+-- axiom K7_physical_mass_gap :
+--     MassGap K7.g2base.base = (13 : ℝ) / 99
 
 /-- The correction from bare to physical is exactly h/H* = 1/99 -/
 theorem bare_to_physical_correction :

@@ -155,20 +155,9 @@ axiom buser_inequality (M : CompactManifold) (n : ℕ) (hn : M.dim = n) :
 -- APPLICATION TO K7
 -- ============================================================================
 
-/-- For K7, the Cheeger constant equals the mass gap ratio.
-
-**Axiom Category: E (GIFT claim)** - Prediction: h(K7) = 14/99
-
-This is a GIFT prediction: h(K7) = 14/99.
-
-Physical meaning: The isoperimetric ratio of K7 is determined
-by the same topological data as the spectral gap.
-
-**Status**: This is a central GIFT conjecture, not a proven result.
-The claim is that holonomy constraints force h(K7) = dim(G₂)/H*.
--/
-axiom K7_cheeger_constant :
-  CheegerConstant K7.g2base.base = (14 : ℝ) / 99
+-- [REMOVED v3.3.19] Ad-hoc GIFT claim — Cheeger constant of K7 is an open question
+-- axiom K7_cheeger_constant :
+--   CheegerConstant K7.g2base.base = (14 : ℝ) / 99
 
 /-- Cheeger lower bound for K7: lambda_1 >= (14/99)^2 / 4 -/
 theorem K7_cheeger_lower_bound :

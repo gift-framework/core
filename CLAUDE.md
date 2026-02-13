@@ -1,5 +1,7 @@
 # CLAUDE.md - Development Guide for GIFT Core
 
+> **Persistent context**: Read `../.claude-persistent-context.md` at session start for cross-session memory (key insights, ongoing experiments, decisions).
+
 This file contains development conventions and lessons learned to avoid repeating past mistakes.
 
 ---
@@ -1860,4 +1862,4 @@ This module is FULLY CONSTRUCTIVE: zero axioms, all goals closed.
 
 ---
 
-*Last updated: 2026-02-10 - V3.3.18: Connes Bridge & Topological Adaptive Cutoff*
+*Last updated: 2026-02-13 - V3.3.19: Spectral axiom cleanup (8 ad-hoc axioms removed)*

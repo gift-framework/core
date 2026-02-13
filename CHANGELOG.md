@@ -5,6 +5,45 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.19] - 2026-02-13
+
+### Summary
+
+**Spectral axiom cleanup: spectral gap as open question.** Removes 8 ad-hoc Category E axioms that claimed specific values for the K₇ spectral gap (λ₁ = 14/99 or 13/99). These predictions were circular and not independently justified. The spectral gap is now treated as an open research question. All proven algebraic theorems (coprimality, bounds, decompositions) are preserved intact. Zero axioms added, 8 axioms removed. Full build passes (2641 jobs).
+
+### Removed
+
+- **Spectral/UniversalLaw.lean** — 5 ad-hoc axioms commented out:
+  - `universal_spectral_law`: MassGap(M) × H* = dim(G₂) for all G₂ manifolds
+  - `K7_spectral_law`: MassGap(K7) × 99 = 14
+  - `K7_mass_gap_is_14_over_99`: MassGap(K7) = 14/99
+  - `K7_physical_spectral_law`: MassGap(K7) × 99 = 13
+  - `K7_physical_mass_gap`: MassGap(K7) = 13/99
+
+- **Spectral/CheegerInequality.lean** — 1 ad-hoc axiom commented out:
+  - `K7_cheeger_constant`: h(K7) = 14/99
+
+- **Spectral/YangMills.lean** — 1 ad-hoc axiom commented out:
+  - `GIFT_mass_gap_relation`: ∃ Δ > 0, Δ = MassGap(K7) × Λ_QCD
+
+- **Spectral/LiteratureAxioms.lean** — 1 ad-hoc axiom commented out:
+  - `canonical_neck_length_conjecture`: L² ~ H* = 99
+
+- **Certificate.lean** — Removed `lit_canonical_neck` abbrev
+- **Spectral.lean** — Removed `canonical_neck_length_conjecture` from re-exports
+
+### Unchanged
+
+- **MassGapRatio.lean** — Pure algebraic properties of 14/99 (zero axioms, intact)
+- **PhysicalSpectralGap.lean** — Axiom-free derivation: IF λ₁×H* = dim(G₂)−h THEN 13/99 (intact)
+- All proven ℚ theorems: coprimality, bounds, Betti decomposition, certificates
+
+### Motivation
+
+Numerical investigation (graph Laplacian on TCS-sampled K₇, v6 and v7 scripts) showed the spectral gap cannot be reliably determined from current methods — values range from 12.7 to 20.7 depending on bandwidth parameter k, with no convergent plateau. The 14/99 prediction was inherited from early explorations and its Lean formalization was circular (axiom → theorem using axiom). Removing these axioms gives the framework more intellectual honesty and freedom.
+
+---
+
 ## [3.3.18] - 2026-02-10
 
 ### Summary
