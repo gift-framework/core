@@ -1,51 +1,57 @@
 -- GIFT: Geometric Integration of Fundamental Topologies
 -- Main entry point for Lean 4 formalization
--- Version: 3.3.17 (290+ certified relations + Physical Spectral Gap + Selberg Bridge)
+-- Version: 4.0.0 (290+ certified relations, modular certificate structure)
+
+-- ═══════════════════════════════════════════════════════════════════════════════
+-- CORE & RELATIONS
+-- ═══════════════════════════════════════════════════════════════════════════════
 
 import GIFT.Core
 import GIFT.Relations
-import GIFT.Certificate
-
--- V4.0: Mathematical Foundations (real content, not just arithmetic)
-import GIFT.Foundations
-
--- V5.0: Algebraic Foundations (octonion-based derivation)
-import GIFT.Algebraic
-
--- Topological Extension: +12 relations (25 total)
 import GIFT.Relations.GaugeSector
 import GIFT.Relations.NeutrinoSector
 import GIFT.Relations.LeptonSector
 import GIFT.Relations.Cosmology
-
--- Mass Factorization Theorem: +11 relations (v1.6.0)
 import GIFT.Relations.MassFactorization
 
--- V2.0 New modules
+-- ═══════════════════════════════════════════════════════════════════════════════
+-- MATHEMATICAL FOUNDATIONS
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+import GIFT.Foundations
+import GIFT.Algebraic
+import GIFT.Geometry
+
+-- Joyce existence theorem
+import GIFT.Sobolev
+import GIFT.DifferentialForms
+import GIFT.ImplicitFunction
+import GIFT.IntervalArithmetic
+import GIFT.Joyce
+
+-- Dimensional hierarchy & golden ratio
+import GIFT.Foundations.GoldenRatioPowers
+import GIFT.Hierarchy
+
+-- ═══════════════════════════════════════════════════════════════════════════════
+-- OBSERVABLES & SPECTRAL THEORY
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+import GIFT.Observables
+import GIFT.Spectral
+
+-- ═══════════════════════════════════════════════════════════════════════════════
+-- EXTENSIONS (standalone modules, compiled but not in Certificate)
+-- ═══════════════════════════════════════════════════════════════════════════════
+
 import GIFT.Sequences      -- Fibonacci, Lucas, Recurrence
 import GIFT.Primes         -- Prime Atlas (direct, derived, Heegner)
 import GIFT.Moonshine      -- Monstrous moonshine (Monster group, j-invariant)
 import GIFT.McKay          -- McKay correspondence, Golden emergence
+import GIFT.MollifiedSum   -- Cosine-squared kernel, mollified sum S_w(T)
 
--- V3.0: Joyce Perturbation Theorem
-import GIFT.Sobolev            -- Sobolev spaces H^k
-import GIFT.DifferentialForms  -- Exterior calculus
-import GIFT.ImplicitFunction   -- Implicit function theorem
-import GIFT.IntervalArithmetic -- Verified numerical bounds
-import GIFT.Joyce              -- Torsion-free G2 existence
+-- ═══════════════════════════════════════════════════════════════════════════════
+-- CERTIFICATE (modular: Foundations / Predictions / Spectral)
+-- ═══════════════════════════════════════════════════════════════════════════════
 
--- V4.0: Dimensional Hierarchy
-import GIFT.Foundations.GoldenRatioPowers  -- phi^-2, phi^-54, 27^phi
-import GIFT.Hierarchy                       -- Master hierarchy formula
-
--- V5.0: Extended Observables (~50 observables, 0.24% mean deviation)
-import GIFT.Observables  -- PMNS, CKM, mass ratios, cosmology
-
--- V3.3.3: DG-Ready Geometry Infrastructure
-import GIFT.Geometry  -- Exterior algebra, differential forms, Hodge star on ℝ⁷
-
--- V3.3.8: Spectral Gap (Yang-Mills mass gap)
-import GIFT.Spectral  -- Mass gap ratio, Cheeger bounds, Yang-Mills prediction
-
--- V3.3.16: Mollified Dirichlet Polynomial + Selberg Bridge
-import GIFT.MollifiedSum  -- Cosine-squared kernel, mollified sum S_w(T)
+import GIFT.Certificate.Core
