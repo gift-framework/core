@@ -5,6 +5,53 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.20] - 2026-02-22
+
+### Summary
+
+**G₂ metric formalization: three new Lean modules.** Formalizes the G₂ metric journey results as certified Lean 4 theorems. Adds ~90 new theorems across three modules covering metric properties, TCS piecewise structure, and conformal rigidity. Zero axioms, zero incomplete proofs. Full build passes (2642 jobs). Blueprint updated with three new chapters.
+
+### Added
+
+- **Relations/G2MetricProperties.lean** — G₂ metric algebraic identities (25 theorems):
+  - Non-flatness of K₇ via Bieberbach bound: b₃ = 77 > C(7,3) = 35
+  - Spectral degeneracy pattern [1, 10, 9, 30] with topological derivations
+  - SPD₇ parametrization: 28 = 2 × dim(G₂) independent entries
+  - Triple derivation of det(g) = 65/32 (Weyl, cohomological, H* paths)
+  - κ_T⁻¹ = 61 = dim(F₄) + N_gen² structural decomposition
+  - PINN compression ratio > 38,000×
+  - Master certificate: 12 conjuncts, all proven
+
+- **Foundations/TCSPiecewiseMetric.lean** — TCS piecewise metric structure (30 theorems):
+  - Building block asymmetry: b₃(M₁) − b₃(M₂) = N_gen = 3
+  - H*(M₁) = dim(F₄) = 52 (quintic block carries F₄ structure)
+  - H*(M₂) = h(G₂) × rank(E₈) = 6 × 8 = 48
+  - Matrix space decomposition: 7² = 2·dim(G₂) + b₂ = 28 + 21
+  - Fano automorphism group: |PSL(2,7)| = 168 = rank(E₈) × b₂
+  - Kovalev involution eigenspace: 7 = (N_gen+1) + N_gen = 4 + 3
+  - C(7,4) = C(7,3) = 35 = dim(Λ³ℝ⁷) (involution count = 3-form components)
+  - Master certificate: 10 conjuncts, all proven
+
+- **Foundations/ConformalRigidity.lean** — Conformal rigidity (37 theorems):
+  - Sym²(V₇) = 1 ⊕ 27 under G₂ (conformal + traceless = J₃(𝕆))
+  - Λ²(V₇) = 7 ⊕ 14 under G₂ (standard + adjoint)
+  - End(V₇) = 1 ⊕ 7 ⊕ 14 ⊕ 27 (all four G₂ irreps, total 49 = 7²)
+  - Λ³(V₇) = 1 + 7 + 27 = 35 (same 27 as in Sym²)
+  - Conformal rigidity: 28 − 27 − 1 = 0 (zero free parameters)
+  - Conformal exponent: 2 × dim(K₇) = dim(G₂) = 14
+  - dim(J₃(𝕆)) = N_gen³ = 27
+  - Moduli gap: b₃ − b₂ = 56 = dim(fund. E₇) = rank(E₈) × dim(K₇)
+  - Master certificate: 9 conjuncts, all proven
+
+### Changed
+
+- **Certificate.lean** — Added 20 abbrevs for the three new modules
+- **Foundations.lean** — Added imports and export blocks for TCSPiecewiseMetric and ConformalRigidity
+- **blueprint/src/content.tex** — Three new chapters, summary table updated (380+ theorems)
+- **lakefile.toml** — Version bumped to 3.3.20
+
+---
+
 ## [3.3.19] - 2026-02-13
 
 ### Summary

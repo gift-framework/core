@@ -33,6 +33,10 @@ import GIFT.Foundations.NumericalBounds
 import GIFT.Foundations.GoldenRatioPowers
 -- Pi bounds (π > 3, π < 4, π < √10) - v3.3.15
 import GIFT.Foundations.PiBounds
+-- TCS piecewise metric structure (building block asymmetry, Fano twist, matrix decomposition)
+import GIFT.Foundations.TCSPiecewiseMetric
+-- Conformal rigidity (G₂ representation theory, metric uniqueness)
+import GIFT.Foundations.ConformalRigidity
 
 namespace GIFT.Foundations
 
@@ -210,6 +214,40 @@ export OctonionBridge (
   octonion_lagrange_identity octonion_multiplication_structure
   -- Master unification (hub connecting E8Lattice, G2CrossProduct, Core)
   octonion_unification)
+
+-- TCS Piecewise Metric: Kovalev twist, building block asymmetry, Fano automorphism
+export TCSPiecewiseMetric (
+  -- Building block asymmetry
+  building_block_b3_asymmetry asymmetry_product
+  -- Building block effective degrees of freedom
+  H_star_M1 H_star_M2 H_star_M1_eq_dim_F4 H_star_M2_eq_coxeter_rank
+  H_star_blocks_sum H_star_blocks_diff
+  -- Matrix space decomposition
+  matrix_gift_decomposition symmetric_eq_twice_G2 antisymmetric_eq_b2
+  -- Fano automorphism group
+  PSL27_eq_rank_times_b2 PSL27_orbit_stabilizer
+  -- Fano incidence
+  b2_eq_dimK7_times_Ngen fano_incidence_eq_b2
+  -- Kovalev involution eigenspace
+  kovalev_eigenspace_split kovalev_involutions_eq_3form_dim
+  threeforms_plus_G2_eq_matrix_dim
+  -- Master theorem
+  tcs_piecewise_metric_certificate)
+
+-- Conformal Rigidity: G₂ representation theory, metric uniqueness
+export ConformalRigidity (
+  -- G₂ representation decompositions
+  sym2_decomposition skew2_decomposition end_four_irreps
+  lambda3_decomposition choose_73_decomposition
+  -- Conformal rigidity
+  conformal_rigidity rigidity_expanded holonomy_reduces_to_conformal
+  -- Conformal exponent
+  conformal_exponent_eq_dim_G2 det_irreducible
+  -- Structural identities
+  J3O_eq_Ngen_cubed J3O_plus_one_eq_twice_G2
+  moduli_minus_b2 moduli_gap_factored
+  -- Master theorem
+  conformal_rigidity_certificate)
 
 /-!
 ## Comparison: Old vs New
