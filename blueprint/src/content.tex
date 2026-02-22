@@ -2615,6 +2615,132 @@ $L^2/\pi^2 = \Hstar/\opdim(\Gtwo)$ satisfies a Pell equation.
 
 % =============================================================================
 
+\chapter{Poincar\'e Duality and the GIFT Spectrum}\label{chap:poincare_duality}
+% =============================================================================
+
+Poincar\'e duality doubles the GIFT spectrum: the full Betti sequence
+$(1, 0, 21, 77, 77, 21, 0, 1)$ of $\Kseven$ sums to $198 = 2 \times \Hstar$.
+The central structural identity $\Hstar = 1 + 2 \times \opdim(\Kseven)^2$
+shows the effective cohomological dimension is determined by the manifold
+dimension alone.
+
+\section{Full Betti Sequence and Total Betti Number}
+
+\begin{definition}[Total Betti number]\label{def:total_betti}
+    \lean{GIFT.Foundations.PoincareDuality.total_betti}
+    \leanok
+    The total Betti number $\beta_{\mathrm{total}} = \sum_{k=0}^{7} b_k = 198$.
+\end{definition}
+
+\begin{theorem}[Poincar\'e duality doubles $\Hstar$]\label{thm:total_betti_doubled}
+    \lean{GIFT.Foundations.PoincareDuality.total_betti_eq_two_H_star}
+    \leanok
+    \uses{def:total_betti}
+    $\beta_{\mathrm{total}} = 2 \times \Hstar = 198$.
+\end{theorem}
+
+\begin{theorem}[Total Betti factored]\label{thm:total_betti_factored}
+    \lean{GIFT.Foundations.PoincareDuality.total_betti_factored}
+    \leanok
+    \uses{def:total_betti}
+    $198 = 2 \times N_{\mathrm{gen}}^2 \times D_{\mathrm{bulk}} = 2 \times 9 \times 11$.
+\end{theorem}
+
+\section{Structural Identity: $\Hstar = 1 + 2 \opdim(\Kseven)^2$}
+
+\begin{theorem}[Betti pair from manifold dimension]\label{thm:betti_pair_K7_sq}
+    \lean{GIFT.Foundations.PoincareDuality.betti_pair_eq_two_K7_sq}
+    \leanok
+    $\btwo + \bthree = 2 \times \opdim(\Kseven)^2 = 98$.
+\end{theorem}
+
+\begin{theorem}[$\Hstar$ structural identity]\label{thm:H_star_structural}
+    \lean{GIFT.Foundations.PoincareDuality.H_star_structural}
+    \leanok
+    \uses{thm:betti_pair_K7_sq}
+    $\Hstar = 1 + 2 \times \opdim(\Kseven)^2 = 99$.
+\end{theorem}
+
+\section{Holonomy Embedding Chain $\Gtwo < \mathrm{SO}(7) < \mathrm{GL}(7)$}
+
+\begin{definition}[Dimension of $\mathrm{SO}(7)$]\label{def:dim_SO7}
+    \lean{GIFT.Foundations.PoincareDuality.dim_SO7}
+    \leanok
+    $\opdim(\mathrm{SO}(7)) = \binom{7}{2} = 21$.
+\end{definition}
+
+\begin{theorem}[$\opdim(\mathrm{SO}(7)) = \btwo$]\label{thm:SO7_eq_b2}
+    \lean{GIFT.Foundations.PoincareDuality.SO7_eq_b2}
+    \leanok
+    \uses{def:dim_SO7}
+    The second Betti number equals the dimension of $\mathrm{SO}(7)$.
+\end{theorem}
+
+\begin{theorem}[Codimension $\mathrm{GL}(7)/\Gtwo = \binom{7}{3}$]\label{thm:codim_3forms}
+    \lean{GIFT.Foundations.PoincareDuality.codim_GL7_G2_eq_3forms}
+    \leanok
+    $\opdim(\mathrm{GL}(7)) - \opdim(\Gtwo) = \binom{7}{3} = 35$: the number of
+    independent 3-forms on $\Kseven$.
+\end{theorem}
+
+\begin{theorem}[Chain additivity]\label{thm:chain_additive}
+    \lean{GIFT.Foundations.PoincareDuality.chain_additive}
+    \leanok
+    \uses{def:dim_SO7, thm:SO7_eq_b2}
+    $\opdim(\Gtwo) + \opdim(\Kseven) + 28 = \opdim(\mathrm{GL}(7))$, i.e., $14 + 7 + 28 = 49$.
+\end{theorem}
+
+\section{$\Gtwo$ Torsion Decomposition}
+
+\begin{theorem}[Torsion space $= \opdim(\Kseven)^2$]\label{thm:torsion_K7_sq}
+    \lean{GIFT.Foundations.PoincareDuality.torsion_space_eq_K7_sq}
+    \leanok
+    $1 + \opdim(\Kseven) + \opdim(\Gtwo) + \opdim(J_3(\mathbb{O})) = \opdim(\Kseven)^2 = 49$.
+\end{theorem}
+
+\begin{theorem}[Torsion-free constraints $= \binom{7}{3}$]\label{thm:torsion_3forms}
+    \lean{GIFT.Foundations.PoincareDuality.torsion_complement_eq_3forms}
+    \leanok
+    \uses{thm:torsion_K7_sq}
+    $1 + \opdim(\Kseven) + \opdim(J_3(\mathbb{O})) = \binom{7}{3} = 35$.
+\end{theorem}
+
+\section{SU(3) Branching Rule}
+
+\begin{theorem}[$\Gtwo$ adjoint branching]\label{thm:G2_branching}
+    \lean{GIFT.Foundations.PoincareDuality.G2_adjoint_branching}
+    \leanok
+    $\opdim(\Gtwo) = \opdim(\mathrm{SU}(3)) + 2 N_{\mathrm{gen}} = 8 + 6 = 14$.
+\end{theorem}
+
+\begin{theorem}[SU(3) coprime to $\Hstar$]\label{thm:SU3_coprime}
+    \lean{GIFT.Foundations.PoincareDuality.SU3_coprime_H_star}
+    \leanok
+    $\gcd(\opdim(\mathrm{SU}(3)), \Hstar) = \gcd(8, 99) = 1$.
+\end{theorem}
+
+\section{Betti--Torsion Bridge}
+
+\begin{theorem}[Betti pair $= 2 \times$ torsion space]\label{thm:betti_torsion}
+    \lean{GIFT.Foundations.PoincareDuality.betti_pair_eq_two_torsion}
+    \leanok
+    \uses{thm:betti_pair_K7_sq, thm:torsion_K7_sq}
+    $\btwo + \bthree = 2 \times (1 + \opdim(\Kseven) + \opdim(\Gtwo) + \opdim(J_3(\mathbb{O})))$.
+\end{theorem}
+
+\section{Master Certificate}
+
+\begin{theorem}[Poincar\'e Duality Certificate]\label{thm:poincare_duality_cert}
+    \lean{GIFT.Foundations.PoincareDuality.poincare_duality_certificate}
+    \leanok
+    \uses{thm:total_betti_doubled, thm:H_star_structural, thm:betti_pair_K7_sq,
+          thm:SO7_eq_b2, thm:codim_3forms, thm:torsion_K7_sq,
+          thm:torsion_3forms, thm:G2_branching, thm:betti_torsion}
+    All 12 conjuncts of the Poincar\'e duality certificate are proven.
+\end{theorem}
+
+% =============================================================================
+
 \chapter{Summary and Status}\label{chap:summary}
 % =============================================================================
 
@@ -2646,8 +2772,9 @@ $\Gtwo$ Metric Properties & 25 & \checkmark (v3.3.19) \\
 TCS Piecewise Metric & 30 & \checkmark (v3.3.20) \\
 Conformal Rigidity & 37 & \checkmark (v3.3.20) \\
 Spectral Scaling & 35 & \checkmark (v3.3.21) \\
+Poincar\'e Duality & 41 & \checkmark (v3.3.22) \\
 \hline
-\textbf{Total} & \textbf{415+} & -- \\
+\textbf{Total} & \textbf{455+} & -- \\
 \hline
 \end{tabular}
 \end{center}
@@ -2672,11 +2799,12 @@ Spectral Scaling & 35 & \checkmark (v3.3.21) \\
           thm:zeta_cert, thm:unified_ratio,
           thm:density_factor, thm:163_mod7, thm:248_mod7,
           thm:g2_metric_cert, thm:tcs_piecewise_cert,
-          thm:conformal_rigidity_cert}
-    Complete GIFT framework: 380+ certified relations spanning
+          thm:conformal_rigidity_cert, thm:poincare_duality_cert}
+    Complete GIFT framework: 455+ certified relations spanning
     E$_8$ lattice, G$_2$ holonomy, physical predictions, spectral theory,
     number-theoretic correspondences, the Selberg bridge,
-    G$_2$ metric properties, TCS piecewise metric, and conformal rigidity.
+    G$_2$ metric properties, TCS piecewise metric, conformal rigidity,
+    and Poincar\'e duality.
 \end{theorem}
 
 \section{Key Results}
@@ -2711,4 +2839,11 @@ The GIFT framework achieves:
     \item $\mathrm{End}(V_7) = 1 \oplus 7 \oplus 14 \oplus 27$ (all four $\Gtwo$ irreps, $49 = 7^2$)
     \item $\opdim(J_3(\mathbb{O})) = N_{\mathrm{gen}}^3 = 27$: traceless symmetric $=$ generation cube
     \item Moduli gap: $\bthree - \btwo = 56 = \opdim(\mathrm{fund.}\; E_7) = \mathrm{rank}(E_8) \times \opdim(K_7)$
+    \item Poincar\'e duality: $\beta_{\mathrm{total}} = 198 = 2 \times \Hstar$ (duality doubles the spectrum)
+    \item Structural identity: $\Hstar = 1 + 2 \times \opdim(\Kseven)^2$ (manifold dimension controls all)
+    \item Holonomy chain: $\opdim(\mathrm{SO}(7)) = \btwo = 21$, $\opdim(\mathrm{GL}(7)) = 7^2 = 49$
+    \item Codimension: $\opdim(\mathrm{GL}(7)) - \opdim(\Gtwo) = \binom{7}{3} = 35$ (3-form components)
+    \item Torsion space: $1 + 7 + 14 + 27 = 49 = \opdim(\Kseven)^2$ (frame bundle decomposition)
+    \item $\Gtwo$ branching: $14 = 8 + 6 = \opdim(\mathrm{SU}(3)) + 2 N_{\mathrm{gen}}$
+    \item Betti--torsion bridge: $\btwo + \bthree = 2 \times (1 + 7 + 14 + 27)$
 \end{itemize}

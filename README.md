@@ -11,11 +11,12 @@ Formally verified mathematical relations from the GIFT framework. All theorems p
 ```
 Lean/GIFT/
 ├── Core.lean              # Constants (dim_E8, b2, b3, H*, ...)
-├── Certificate.lean       # Master theorem (415+ relations)
+├── Certificate.lean       # Master theorem (455+ relations)
 ├── Foundations/           # E8 roots, G2 cross product, Joyce
 │   ├── TCSPiecewiseMetric.lean    # Building block asymmetry, Fano [v3.3.20]
 │   ├── ConformalRigidity.lean     # G2 rep theory, metric uniqueness [v3.3.20]
 │   ├── SpectralScaling.lean       # Neumann eigenvalue hierarchy [v3.3.21]
+│   ├── PoincareDuality.lean       # H*=1+2*dim_K7^2, holonomy chain [v3.3.22]
 │   └── Analysis/G2Forms/  # G2 structure: d, ⋆, TorsionFree, Bridge
 ├── Geometry/              # DG-ready infrastructure [v3.3.7] AXIOM-FREE!
 │   ├── Exterior.lean      # Λ*(ℝ⁷) exterior algebra

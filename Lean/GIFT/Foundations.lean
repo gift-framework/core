@@ -39,6 +39,8 @@ import GIFT.Foundations.TCSPiecewiseMetric
 import GIFT.Foundations.ConformalRigidity
 -- Spectral scaling (Neumann eigenvalue hierarchy, sub-gap mode counting)
 import GIFT.Foundations.SpectralScaling
+-- Poincare duality (total Betti, H* = 1 + 2*dim_K7^2, holonomy chain, torsion)
+import GIFT.Foundations.PoincareDuality
 
 namespace GIFT.Foundations
 
@@ -276,6 +278,31 @@ export SpectralScaling (
   pell_equation pell_discriminant pell_rationalized
   -- Master theorem
   spectral_scaling_certificate)
+
+-- Poincare Duality: total Betti, H* = 1 + 2*dim_K7^2, holonomy chain, torsion
+export PoincareDuality (
+  -- Total Betti number
+  total_betti total_betti_from_betti total_betti_eq_two_H_star
+  total_betti_factored H_star_is_half_total
+  even_betti_sum odd_betti_sum total_betti_div_h_E7 total_betti_div_D_bulk
+  -- Structural identity H* = 1 + 2*dim_K7^2
+  betti_pair_eq_two_K7_sq H_star_structural total_betti_structural
+  K7_sq_eq_half_betti_pair H_star_minus_one_even
+  -- Holonomy embedding chain G2 < SO(7) < GL(7)
+  dim_SO7 dim_SO7_value dim_GL7_value SO7_eq_b2 GL7_eq_torsion_space
+  codim_GL7_SO7 codim_SO7_G2 codim_GL7_G2 codim_GL7_G2_eq_3forms
+  chain_additive
+  -- G2 torsion decomposition
+  torsion_free_constraints torsion_space_eq_K7_sq torsion_complement
+  torsion_complement_eq_3forms torsion_G2_split
+  -- SU(3) branching rule
+  G2_adjoint_branching SU3_eq_rank_E8 SU3_complement
+  SU3_spectral_ratio SU3_coprime_H_star Sp1_spectral_ratio
+  -- Betti-torsion bridge
+  betti_pair_eq_two_torsion H_star_from_torsion total_betti_from_torsion
+  cheeger_ratio_eq_total_betti_div_K7 betti_torsion_reciprocity
+  -- Master certificate
+  poincare_duality_certificate)
 
 /-!
 ## Comparison: Old vs New
