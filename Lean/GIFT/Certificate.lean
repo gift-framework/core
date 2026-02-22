@@ -2182,4 +2182,51 @@ abbrev conf_J3O_cube := GIFT.Foundations.ConformalRigidity.J3O_eq_Ngen_cubed
 /-- Conformal rigidity master certificate -/
 abbrev conf_rigidity_cert := GIFT.Foundations.ConformalRigidity.conformal_rigidity_certificate
 
+-- =============================================================================
+-- SPECTRAL SCALING (Tier B: Neumann eigenvalue hierarchy, sub-gap mode counting)
+-- =============================================================================
+
+/-!
+## Spectral Scaling on the TCS Neck
+
+Neumann eigenvalue hierarchy on [0,L] connects to GIFT constants:
+1. Eigenvalue sums: 1² + 2² + 3² = dim(G₂) = 14
+2. Sub-gap mode count: 3 = N_gen (fermion generations from waveguide modes)
+3. Division algorithm: 99 = 7 × 14 + 1 (remainder = parallel spinor count)
+4. Pell equation: 99² − 50 × 14² = 1
+5. Second eigenvalue: ev₂ × H* = 56 = dim(fund. E₇)
+-/
+
+open GIFT.Foundations.SpectralScaling
+
+/-- Eigenvalue sum 1² + 2² + 3² = dim(G₂) -/
+abbrev spec_ev_sum_G2 := GIFT.Foundations.SpectralScaling.ev_sum_3_eq_dim_G2
+
+/-- Eigenvalue sum 1² + 2² + 3² + 4² = h(E₈) -/
+abbrev spec_ev_sum_coxeter := GIFT.Foundations.SpectralScaling.ev_sum_4_eq_coxeter_E8
+
+/-- Second spectral gap = N_gen -/
+abbrev spec_gap_N_gen := GIFT.Foundations.SpectralScaling.second_gap_eq_N_gen
+
+/-- Sub-gap mode count = 3 = N_gen -/
+abbrev spec_subgap_N_gen := GIFT.Foundations.SpectralScaling.subgap_count_eq_N_gen
+
+/-- Sub-gap threshold = dim(K₇) -/
+abbrev spec_threshold_K7 := GIFT.Foundations.SpectralScaling.subgap_threshold_eq_dim_K7
+
+/-- Division algorithm: H* = dim_K₇ × dim_G₂ + 1 -/
+abbrev spec_euclidean := GIFT.Foundations.SpectralScaling.euclidean_division
+
+/-- Second eigenvalue: 4 × dim(G₂) = dim(fund. E₇) -/
+abbrev spec_second_ev_E7 := GIFT.Foundations.SpectralScaling.second_ev_product
+
+/-- Pell equation: 99² − 50 × 14² = 1 -/
+abbrev spec_pell := GIFT.Foundations.SpectralScaling.pell_equation
+
+/-- dim(G₂) = p₂ × dim(K₇) (Pontryagin-manifold factorization) -/
+abbrev spec_G2_factored := GIFT.Foundations.SpectralScaling.dim_G2_pontryagin_manifold
+
+/-- Spectral scaling master certificate -/
+abbrev spec_scaling_cert := GIFT.Foundations.SpectralScaling.spectral_scaling_certificate
+
 end GIFT.Certificate

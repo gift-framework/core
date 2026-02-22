@@ -2453,6 +2453,168 @@ $\Gtwo$ holonomy (kills 27 traceless deformations) and $\det(g) = 65/32$
 
 % =============================================================================
 
+\chapter{Spectral Scaling on the TCS Neck}\label{chap:spectral_scaling}
+% =============================================================================
+
+The neck $N \cong [0,L] \times Y$ of the TCS manifold $\Kseven$ supports a
+waveguide spectrum. The longitudinal Neumann eigenvalues
+$\lambda_n = n^2 \pi^2/L^2$ connect to GIFT topological constants through
+remarkable arithmetic identities: the eigenvalue sum $1^2+2^2+3^2 = \opdim(\Gtwo)$,
+the sub-gap mode count equals $N_{\mathrm{gen}}$, and the neck length ratio
+$L^2/\pi^2 = \Hstar/\opdim(\Gtwo)$ satisfies a Pell equation.
+
+\section{Neumann Eigenvalue Hierarchy}
+
+\begin{definition}[Neumann eigenvalue ratio]\label{def:neumann_ratio}
+    \lean{GIFT.Foundations.SpectralScaling.neumann_ratio}
+    \leanok
+    The $n$-th Neumann eigenvalue ratio $\lambda_n/\lambda_1 = n^2$,
+    from the 1D problem $-f'' = \lambda f$ on $[0,L]$ with $f'(0) = f'(L) = 0$.
+\end{definition}
+
+\begin{theorem}[Second spectral gap $= N_{\mathrm{gen}}$]\label{thm:second_gap_Ngen}
+    \lean{GIFT.Foundations.SpectralScaling.second_gap_eq_N_gen}
+    \leanok
+    \uses{def:neumann_ratio}
+    The gap between the first two excited modes is
+    $\lambda_2 - \lambda_1 = 3 = N_{\mathrm{gen}}$.
+\end{theorem}
+
+\begin{theorem}[Third spectral gap $=$ Weyl factor]\label{thm:third_gap_Weyl}
+    \lean{GIFT.Foundations.SpectralScaling.third_gap_eq_Weyl}
+    \leanok
+    \uses{def:neumann_ratio}
+    The gap $\lambda_3 - \lambda_2 = 5 = W$.
+\end{theorem}
+
+\begin{theorem}[Eigenvalue sum $= \opdim(\Gtwo)$]\label{thm:ev_sum_dim_G2}
+    \lean{GIFT.Foundations.SpectralScaling.ev_sum_3_eq_dim_G2}
+    \leanok
+    \uses{def:neumann_ratio}
+    $1^2 + 2^2 + 3^2 = 14 = \opdim(\Gtwo)$: the holonomy dimension emerges
+    as a sum of eigenvalue ratios.
+\end{theorem}
+
+\begin{theorem}[Eigenvalue sum $= h(E_8)$]\label{thm:ev_sum_coxeter_E8}
+    \lean{GIFT.Foundations.SpectralScaling.ev_sum_4_eq_coxeter_E8}
+    \leanok
+    \uses{def:neumann_ratio}
+    $1^2 + 2^2 + 3^2 + 4^2 = 30 = h(E_8)$: the Coxeter number of $E_8$
+    emerges at the fourth level.
+\end{theorem}
+
+\section{Neck Length Ratio and Selection Constant}
+
+\begin{theorem}[Neck ratio from GIFT constants]\label{thm:neck_ratio}
+    \lean{GIFT.Foundations.SpectralScaling.neck_ratio_from_constants}
+    \leanok
+    $L^2/\pi^2 = \Hstar/\opdim(\Gtwo) = 99/14$.
+\end{theorem}
+
+\begin{theorem}[Selection constant structure]\label{thm:kappa_structure}
+    \lean{GIFT.Foundations.SpectralScaling.dim_G2_pontryagin_manifold}
+    \leanok
+    $\opdim(\Gtwo) = p_2 \times \opdim(\Kseven) = 2 \times 7$: the Pontryagin-manifold
+    factorization of the holonomy dimension.
+\end{theorem}
+
+\begin{theorem}[$\kappa \times \Hstar = L^2/\pi^2$]\label{thm:kappa_H_star}
+    \lean{GIFT.Foundations.SpectralScaling.kappa_times_H_star}
+    \leanok
+    \uses{thm:neck_ratio}
+    $(1/14) \times 99 = 99/14$: the rational skeleton of $L^2 = \kappa \Hstar$.
+\end{theorem}
+
+\section{Division Algorithm Connection}
+
+\begin{theorem}[Euclidean division of $\Hstar$ by $\opdim(\Gtwo)$]\label{thm:euclidean_div}
+    \lean{GIFT.Foundations.SpectralScaling.euclidean_division}
+    \leanok
+    $\Hstar = \opdim(\Kseven) \times \opdim(\Gtwo) + 1$, i.e., $99 = 7 \times 14 + 1$.
+    The quotient is $\opdim(\Kseven)$ and the remainder is 1 (the parallel spinor count
+    for $\Gtwo$ holonomy from Berger's classification).
+\end{theorem}
+
+\begin{theorem}[Remainder $=$ spinor correction]\label{thm:remainder_spinor}
+    \lean{GIFT.Foundations.SpectralScaling.remainder_is_spinor_correction}
+    \leanok
+    \uses{thm:euclidean_div}
+    $\Hstar \bmod \opdim(\Gtwo) = 1$, and
+    $(\opdim(\Gtwo) - 1)/\Hstar = 13/99$: the physical spectral gap.
+\end{theorem}
+
+\section{Sub-Gap Mode Counting}
+
+\begin{theorem}[Sub-gap threshold $= \opdim(\Kseven)$]\label{thm:subgap_threshold}
+    \lean{GIFT.Foundations.SpectralScaling.subgap_threshold_eq_dim_K7}
+    \leanok
+    \uses{thm:euclidean_div}
+    $\lfloor L^2/\pi^2 \rfloor = \lfloor 99/14 \rfloor = 7 = \opdim(\Kseven)$.
+\end{theorem}
+
+\begin{theorem}[Sub-gap mode count $= N_{\mathrm{gen}}$]\label{thm:subgap_Ngen}
+    \lean{GIFT.Foundations.SpectralScaling.subgap_count_eq_N_gen}
+    \leanok
+    \uses{def:neumann_ratio, thm:subgap_threshold}
+    Modes with $n^2 \le 7$: $n = 0, 1, 2$ (since $3^2 = 9 > 7$).
+    The count is $3 = N_{\mathrm{gen}}$: the three fermion generations correspond
+    to the three longitudinal waveguide modes below the cross-section gap.
+\end{theorem}
+
+\section{Second Eigenvalue and $E_7$}
+
+\begin{theorem}[$\lambda_2 \times \Hstar = \opdim(\mathrm{fund.}\; E_7)$]\label{thm:second_ev_E7}
+    \lean{GIFT.Foundations.SpectralScaling.second_ev_product}
+    \leanok
+    $4 \times \opdim(\Gtwo) = 56 = \opdim(\mathrm{fund.}\; E_7) = \bthree - \btwo$.
+\end{theorem}
+
+\begin{theorem}[$56 = C(\mathrm{rank}(E_8), N_{\mathrm{gen}})$]\label{thm:second_ev_binom}
+    \lean{GIFT.Foundations.SpectralScaling.second_ev_binomial}
+    \leanok
+    \uses{thm:second_ev_E7}
+    $\opdim(\mathrm{fund.}\; E_7) = \binom{8}{3}$: a binomial coefficient
+    involving the rank of $E_8$ and $N_{\mathrm{gen}}$.
+\end{theorem}
+
+\section{Pell Equation}
+
+\begin{theorem}[Pell equation for $(\Hstar, \opdim(\Gtwo))$]\label{thm:pell_eq}
+    \lean{GIFT.Foundations.SpectralScaling.pell_equation}
+    \leanok
+    $99^2 - 50 \times 14^2 = 1$. The discriminant $50 = p_2 \times W^2 = 2 \times 5^2$
+    connects to the Pontryagin class and Weyl factor.
+\end{theorem}
+
+\begin{theorem}[Pell discriminant structure]\label{thm:pell_disc}
+    \lean{GIFT.Foundations.SpectralScaling.pell_discriminant}
+    \leanok
+    $50 = p_2 \times W^2$: the Pontryagin-Weyl decomposition of the discriminant.
+\end{theorem}
+
+\section{Spectral-Topological Dictionary}
+
+\begin{theorem}[Spectral ladder]\label{thm:spectral_ladder}
+    \lean{GIFT.Foundations.SpectralScaling.spectral_ladder}
+    \leanok
+    \uses{thm:ev_sum_dim_G2, thm:second_ev_E7}
+    $\lambda_1 \Hstar = 14$, $\lambda_2 \Hstar = 56$,
+    gap $= 42 = 2\btwo$.
+\end{theorem}
+
+\section{Master Certificate}
+
+\begin{theorem}[Spectral Scaling Certificate]\label{thm:spectral_scaling_cert}
+    \lean{GIFT.Foundations.SpectralScaling.spectral_scaling_certificate}
+    \leanok
+    \uses{thm:second_gap_Ngen, thm:ev_sum_dim_G2, thm:neck_ratio,
+          thm:kappa_structure, thm:euclidean_div, thm:subgap_threshold,
+          thm:subgap_Ngen, thm:second_ev_E7, thm:pell_eq}
+    All 12 conjuncts of the spectral scaling certificate are proven.
+\end{theorem}
+
+% =============================================================================
+
 \chapter{Summary and Status}\label{chap:summary}
 % =============================================================================
 
@@ -2483,8 +2645,9 @@ GIFT-Zeta Correspondences & 20+ & \checkmark (v3.3.16) \\
 $\Gtwo$ Metric Properties & 25 & \checkmark (v3.3.19) \\
 TCS Piecewise Metric & 30 & \checkmark (v3.3.20) \\
 Conformal Rigidity & 37 & \checkmark (v3.3.20) \\
+Spectral Scaling & 35 & \checkmark (v3.3.21) \\
 \hline
-\textbf{Total} & \textbf{380+} & -- \\
+\textbf{Total} & \textbf{415+} & -- \\
 \hline
 \end{tabular}
 \end{center}

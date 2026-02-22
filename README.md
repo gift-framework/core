@@ -11,8 +11,11 @@ Formally verified mathematical relations from the GIFT framework. All theorems p
 ```
 Lean/GIFT/
 ├── Core.lean              # Constants (dim_E8, b2, b3, H*, ...)
-├── Certificate.lean       # Master theorem (290+ relations)
+├── Certificate.lean       # Master theorem (415+ relations)
 ├── Foundations/           # E8 roots, G2 cross product, Joyce
+│   ├── TCSPiecewiseMetric.lean    # Building block asymmetry, Fano [v3.3.20]
+│   ├── ConformalRigidity.lean     # G2 rep theory, metric uniqueness [v3.3.20]
+│   ├── SpectralScaling.lean       # Neumann eigenvalue hierarchy [v3.3.21]
 │   └── Analysis/G2Forms/  # G2 structure: d, ⋆, TorsionFree, Bridge
 ├── Geometry/              # DG-ready infrastructure [v3.3.7] AXIOM-FREE!
 │   ├── Exterior.lean      # Λ*(ℝ⁷) exterior algebra
@@ -43,7 +46,8 @@ Lean/GIFT/
 │   └── MonsterZeta.lean   # Monster-Zeta Moonshine
 ├── Algebraic/             # Octonions, Betti numbers
 ├── Observables/           # PMNS, CKM, quark masses, cosmology
-└── Relations/             # Physical predictions
+├── Relations/             # Physical predictions
+│   └── G2MetricProperties.lean    # Non-flatness, SPD₇, det(g) [v3.3.20]
 
 gift_core/                 # Python package (giftpy)
 ```
@@ -78,4 +82,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.3.17*
+*GIFT Core v3.3.21*
