@@ -2017,6 +2017,442 @@ a nearby zeta zero (2222 out of $\sim$2300 tested, holdout set zeros 100k--500k)
 \end{remark}
 
 % =============================================================================
+% =============================================================================
+\chapter{G\texorpdfstring{$_2$}{2} Metric Properties}\label{chap:g2metric}
+% =============================================================================
+
+Properties of the numerical $\Gtwo$ metric on $\Kseven$, computed via
+physics-informed neural networks (PINNs) and compressed to a single
+$7 \times 7$ symmetric positive-definite matrix.
+
+\section{Non-Flatness of $\Kseven$ (Bieberbach Bound)}
+
+\begin{definition}[Bieberbach Bound]\label{def:bieberbach_bound}
+    \lean{GIFT.Relations.G2MetricProperties.bieberbach_b3_bound}
+    \leanok
+    For compact flat $n$-manifolds (Bieberbach, 1911), the third Betti number
+    satisfies $\bthree \leq \binom{n}{3}$, with equality realized by the $n$-torus.
+    For $n = 7$: $\binom{7}{3} = 35$.
+\end{definition}
+
+\begin{theorem}[Bieberbach Bound from Binomial Coefficient]\label{thm:bieberbach_binomial}
+    \lean{GIFT.Relations.G2MetricProperties.bieberbach_from_binomial}
+    \leanok
+    \uses{def:bieberbach_bound}
+    $\binom{7}{3} = 35$.
+\end{theorem}
+
+\begin{theorem}[Non-Flatness of $\Kseven$]\label{thm:K7_nonflatness}
+    \lean{GIFT.Relations.G2MetricProperties.K7_exceeds_bieberbach_bound}
+    \leanok
+    \uses{def:bieberbach_bound}
+    $\bthree(\Kseven) = 77 > 35 = \binom{7}{3}$, so $\Kseven$ does not admit
+    a flat Riemannian metric.
+\end{theorem}
+
+\begin{theorem}[Bieberbach Gap]\label{thm:bieberbach_gap}
+    \lean{GIFT.Relations.G2MetricProperties.bieberbach_gap_eq_two_b2}
+    \leanok
+    \uses{def:bieberbach_bound, thm:K7_nonflatness}
+    $\bthree - \binom{7}{3} = 77 - 35 = 42 = 2\btwo$.
+\end{theorem}
+
+\section{Spectral Degeneracy Pattern $[1, 10, 9, 30]$}
+
+The first four eigenvalue multiplicities of the Laplacian on $\Kseven$
+are observed at $5.8\sigma$ significance.
+
+\begin{definition}[Spectral Multiplicities]\label{def:spectral_mult}
+    \lean{GIFT.Relations.G2MetricProperties.mult_1}
+    \lean{GIFT.Relations.G2MetricProperties.mult_2}
+    \lean{GIFT.Relations.G2MetricProperties.mult_3}
+    \lean{GIFT.Relations.G2MetricProperties.mult_4}
+    \leanok
+    The first four eigenvalue multiplicities:
+    $[m_1, m_2, m_3, m_4] = [1, 10, 9, 30]$.
+\end{definition}
+
+\begin{theorem}[Topological Origin of $m_2 = 10$]\label{thm:mult2_CI222}
+    \lean{GIFT.Relations.G2MetricProperties.mult_2_from_CI222}
+    \leanok
+    \uses{def:spectral_mult}
+    $m_2 = 10 = \btwo(\mathrm{CI}(2,2,2))$, the second Betti number
+    of the complete intersection building block.
+\end{theorem}
+
+\begin{theorem}[Mode Decomposition of $m_4 = 30$]\label{thm:mult4_decomp}
+    \lean{GIFT.Relations.G2MetricProperties.mult_4_decomposition}
+    \leanok
+    \uses{def:spectral_mult}
+    $m_4 = 30 = 13 + 12 + 4 + 1$ (K3 + fiber + neck + twist modes).
+\end{theorem}
+
+\begin{theorem}[Total Modes are Topological]\label{thm:total_modes}
+    \lean{GIFT.Relations.G2MetricProperties.total_modes_topological}
+    \leanok
+    \uses{def:spectral_mult}
+    $m_1 + m_2 + m_3 + m_4 = 50 = \bthree - \opdim(J_3(\OO))$.
+\end{theorem}
+
+\section{SPD$_7$ Metric Parametrization}
+
+\begin{definition}[SPD$_7$ Dimension]\label{def:spd7}
+    \lean{GIFT.Relations.G2MetricProperties.spd7_dim}
+    \leanok
+    The space of $7 \times 7$ symmetric positive-definite matrices has
+    $\opdim(\mathrm{SPD}_7) = 7 \cdot 8/2 = 28$ independent entries.
+\end{definition}
+
+\begin{theorem}[SPD$_7$ from Formula]\label{thm:spd7_formula}
+    \lean{GIFT.Relations.G2MetricProperties.spd7_from_formula}
+    \leanok
+    \uses{def:spd7}
+    $\opdim(\Kseven) \cdot (\opdim(\Kseven) + 1) / 2 = 28$.
+\end{theorem}
+
+\begin{theorem}[SPD$_7$ = Twice Holonomy]\label{thm:spd7_twice_G2}
+    \lean{GIFT.Relations.G2MetricProperties.spd7_eq_twice_dimG2}
+    \leanok
+    \uses{def:spd7}
+    $28 = 2 \times \opdim(\Gtwo) = 2 \times 14$: the metric degrees of freedom
+    are twice the holonomy dimension.
+\end{theorem}
+
+\begin{theorem}[PINN Compression Ratio]\label{thm:compression}
+    \lean{GIFT.Relations.G2MetricProperties.compression_ratio}
+    \leanok
+    \uses{def:spd7}
+    $1{,}070{,}471 / 28 = 38{,}231$: compression from PINN parameters
+    to the analytical metric matrix.
+\end{theorem}
+
+\section{Triple Derivation of $\det(g) = 65/32$}
+
+Three algebraically independent paths yield the same determinant.
+
+\begin{theorem}[Path 1: Weyl Formula]\label{thm:detg_weyl}
+    \lean{GIFT.Relations.G2MetricProperties.det_g_path1_num}
+    \lean{GIFT.Relations.G2MetricProperties.det_g_path1_den}
+    \leanok
+    $\mathrm{Weyl} \times (\rank(\Eeight) + \mathrm{Weyl}) = 5 \times 13 = 65$
+    and $2^{\mathrm{Weyl}} = 2^5 = 32$.
+\end{theorem}
+
+\begin{theorem}[Path 2: Cohomological Formula]\label{thm:detg_cohom}
+    \lean{GIFT.Relations.G2MetricProperties.det_g_path2_num}
+    \lean{GIFT.Relations.G2MetricProperties.det_g_path2_den}
+    \leanok
+    $p_2 \times (\btwo + \opdim(\Gtwo) - N_{\mathrm{gen}}) + 1 = 2 \times 32 + 1 = 65$
+    and $\btwo + \opdim(\Gtwo) - N_{\mathrm{gen}} = 21 + 14 - 3 = 32$.
+\end{theorem}
+
+\begin{theorem}[Path 3: $\Hstar$ Formula]\label{thm:detg_Hstar}
+    \lean{GIFT.Relations.G2MetricProperties.det_g_path3_num}
+    \leanok
+    $\Hstar - \btwo - \alpha_{\mathrm{sum}} = 99 - 21 - 13 = 65$.
+\end{theorem}
+
+\begin{theorem}[Triple Consistency]\label{thm:detg_triple}
+    \lean{GIFT.Relations.G2MetricProperties.det_g_triple_consistency_num}
+    \leanok
+    \uses{thm:detg_weyl, thm:detg_cohom, thm:detg_Hstar}
+    All three paths yield $\det(g) = 65/32$.
+\end{theorem}
+
+\begin{theorem}[Irreducibility]\label{thm:detg_irred}
+    \lean{GIFT.Relations.G2MetricProperties.det_g_irreducible}
+    \leanok
+    $\gcd(65, 32) = 1$: the fraction $65/32$ is irreducible.
+\end{theorem}
+
+\section{$\kappa_T^{-1} = 61$ Structural Decomposition}
+
+\begin{theorem}[$\kappa_T$ from $F_4$ and Generations]\label{thm:kappa_F4}
+    \lean{GIFT.Relations.G2MetricProperties.kappa_T_from_F4_generations}
+    \leanok
+    $\kappa_T^{-1} = 61 = \opdim(F_4) + N_{\mathrm{gen}}^2 = 52 + 9$.
+\end{theorem}
+
+\begin{theorem}[$\kappa_T^{-1}$ is Prime]\label{thm:kappa_prime}
+    \lean{GIFT.Relations.G2MetricProperties.kappa_T_den_prime}
+    \leanok
+    $61$ is prime.
+\end{theorem}
+
+\begin{theorem}[$\kappa_T$ to $\tau$-Electron Mass Ratio]\label{thm:kappa_to_tau}
+    \lean{GIFT.Relations.G2MetricProperties.kappa_T_to_tau_mass}
+    \leanok
+    \uses{thm:kappa_F4}
+    $(\kappa_T^{-1} + 1) \times (\bthree - \btwo) + \mathrm{Weyl}
+    = 62 \times 56 + 5 = 3477 = m_\tau/m_e$.
+\end{theorem}
+
+\section{Master Certificate}
+
+\begin{theorem}[$\Gtwo$ Metric Properties Certificate]\label{thm:g2_metric_cert}
+    \lean{GIFT.Relations.G2MetricProperties.g2_metric_properties_certificate}
+    \leanok
+    \uses{thm:K7_nonflatness, thm:total_modes, thm:spd7_twice_G2,
+          thm:detg_triple, thm:detg_irred, thm:kappa_F4,
+          thm:kappa_prime, thm:compression}
+    All 12 conjuncts of the $\Gtwo$ metric master certificate are proven:
+    non-flatness, spectral degeneracies, SPD$_7$ parametrization,
+    $\det(g) = 65/32$ triple derivation, and $\kappa_T$ decomposition.
+\end{theorem}
+
+% =============================================================================
+
+\chapter{TCS Piecewise Metric Structure}\label{chap:tcs_piecewise}
+% =============================================================================
+
+On the TCS manifold $\Kseven = M_1 \cup M_2$, the analytical metric is
+piecewise-constant:
+\[
+    g(t) = \begin{cases}
+        G & t < 3/4 \quad\text{(quintic block)} \\
+        J^\top G J & t > 3/4 \quad\text{(CI block, Kovalev twist)}
+    \end{cases}
+\]
+where $J$ is an involutory orthogonal matrix from the automorphism group
+of the Fano plane $\mathrm{PG}(2,2)$.
+
+\section{Building Block Asymmetry}
+
+\begin{definition}[Building blocks]\label{def:building_blocks}
+    \lean{GIFT.Foundations.TCSConstruction.M1_quintic}
+    \lean{GIFT.Foundations.TCSConstruction.M2_CI}
+    \leanok
+    $M_1$ is the quintic in $\mathbb{CP}^4$ with $b_2 = 11$, $b_3 = 40$.
+    $M_2$ is the complete intersection $\mathrm{CI}(2,2,2)$ in $\mathbb{CP}^6$
+    with $b_2 = 10$, $b_3 = 37$.
+\end{definition}
+
+\begin{theorem}[$b_3$ asymmetry equals $N_{\mathrm{gen}}$]\label{thm:b3_asymmetry}
+    \lean{GIFT.Foundations.TCSPiecewiseMetric.building_block_b3_asymmetry}
+    \leanok
+    \uses{def:building_blocks}
+    $b_3(M_1) - b_3(M_2) = 40 - 37 = 3 = N_{\mathrm{gen}}$.
+\end{theorem}
+
+\begin{theorem}[$b_2$ asymmetry]\label{thm:b2_asymmetry}
+    \lean{GIFT.Foundations.TCSPiecewiseMetric.building_block_b2_asymmetry}
+    \leanok
+    \uses{def:building_blocks}
+    $b_2(M_1) - b_2(M_2) = 11 - 10 = 1$.
+\end{theorem}
+
+\section{Effective Degrees of Freedom per Block}
+
+\begin{definition}[$\Hstar(M_i)$]\label{def:H_star_blocks}
+    \lean{GIFT.Foundations.TCSPiecewiseMetric.H_star_M1}
+    \lean{GIFT.Foundations.TCSPiecewiseMetric.H_star_M2}
+    \leanok
+    $\Hstar(M_i) := 1 + b_2(M_i) + b_3(M_i)$ for each building block.
+\end{definition}
+
+\begin{theorem}[$\Hstar(M_1) = \opdim(F_4)$]\label{thm:H_star_M1_F4}
+    \lean{GIFT.Foundations.TCSPiecewiseMetric.H_star_M1_eq_dim_F4}
+    \leanok
+    \uses{def:H_star_blocks}
+    $\Hstar(M_1) = 1 + 11 + 40 = 52 = \opdim(F_4)$, where $F_4$ is
+    the automorphism group of the exceptional Jordan algebra $J_3(\mathbb{O})$.
+\end{theorem}
+
+\begin{theorem}[$\Hstar(M_2) = h(\Gtwo) \times \mathrm{rank}(E_8)$]\label{thm:H_star_M2_coxeter}
+    \lean{GIFT.Foundations.TCSPiecewiseMetric.H_star_M2_eq_coxeter_rank}
+    \leanok
+    \uses{def:H_star_blocks}
+    $\Hstar(M_2) = 1 + 10 + 37 = 48 = h(\Gtwo) \times \mathrm{rank}(E_8) = 6 \times 8$,
+    where $h(\Gtwo) = 6$ is the Coxeter number of $\Gtwo$.
+\end{theorem}
+
+\begin{theorem}[Block sum]\label{thm:H_star_blocks_sum}
+    \lean{GIFT.Foundations.TCSPiecewiseMetric.H_star_blocks_sum}
+    \leanok
+    \uses{def:H_star_blocks}
+    $\Hstar(M_1) + \Hstar(M_2) = 52 + 48 = 100 = \Hstar + 1$.
+    The extra~$1$ accounts for the double-counted $b_0$ from each connected block.
+\end{theorem}
+
+\section{Matrix Space Decomposition}
+
+\begin{theorem}[$\opdim(K_7)^2 = 2 \cdot \opdim(\Gtwo) + \btwo$]\label{thm:matrix_decomp}
+    \lean{GIFT.Foundations.TCSPiecewiseMetric.matrix_gift_decomposition}
+    \leanok
+    The $7 \times 7$ matrix space decomposes as
+    $49 = 28 + 21 = 2 \cdot \opdim(\Gtwo) + \btwo$.
+    The symmetric part (28 = metric DOF) equals $2 \times \opdim(\Gtwo)$;
+    the antisymmetric part (21 = torsion 2-forms) equals~$\btwo$.
+\end{theorem}
+
+\begin{theorem}[Symmetric = $2 \times \opdim(\Gtwo)$]\label{thm:sym_twice_G2}
+    \lean{GIFT.Foundations.TCSPiecewiseMetric.symmetric_eq_twice_G2}
+    \leanok
+    $\opdim(\mathrm{Sym}_7) = 7 \times 8 / 2 = 28 = 2 \times \opdim(\Gtwo)$.
+\end{theorem}
+
+\begin{theorem}[Antisymmetric = $\btwo$]\label{thm:skew_eq_b2}
+    \lean{GIFT.Foundations.TCSPiecewiseMetric.antisymmetric_eq_b2}
+    \leanok
+    $\opdim(\mathrm{Skew}_7) = 7 \times 6 / 2 = 21 = \btwo$.
+\end{theorem}
+
+\section{Fano Plane Automorphism Group}
+
+\begin{theorem}[$|\mathrm{PSL}(2,7)| = \mathrm{rank}(E_8) \times \btwo$]\label{thm:PSL27_factored}
+    \lean{GIFT.Foundations.TCSPiecewiseMetric.PSL27_eq_rank_times_b2}
+    \leanok
+    The Fano automorphism group has order $168 = 8 \times 21$.
+\end{theorem}
+
+\begin{theorem}[Orbit-stabilizer]\label{thm:PSL27_orbit_stab}
+    \lean{GIFT.Foundations.TCSPiecewiseMetric.PSL27_orbit_stabilizer}
+    \leanok
+    $168 = 7 \times 4!$ (orbit-stabilizer: 7 points, stabilizer~$\cong S_4$).
+\end{theorem}
+
+\section{Fano Incidence Arithmetic}
+
+\begin{theorem}[$\btwo = \opdim(K_7) \times N_{\mathrm{gen}}$]\label{thm:b2_fano_incidence}
+    \lean{GIFT.Foundations.TCSPiecewiseMetric.b2_eq_dimK7_times_Ngen}
+    \leanok
+    From the Fano plane: 7 points $\times$ 3 lines per point $= 21 = \btwo$.
+\end{theorem}
+
+\section{Kovalev Involution Eigenspace}
+
+\begin{theorem}[Eigenspace split]\label{thm:kovalev_eigenspace}
+    \lean{GIFT.Foundations.TCSPiecewiseMetric.kovalev_eigenspace_split}
+    \leanok
+    The Kovalev twist $J$ splits $\mathbb{R}^7$ into $V_+ \oplus V_-$
+    with $\opdim(V_+) = N_{\mathrm{gen}} + 1 = 4$ and
+    $\opdim(V_-) = N_{\mathrm{gen}} = 3$.
+\end{theorem}
+
+\begin{theorem}[$C(7,4) = C(7,3) = 35$]\label{thm:kovalev_3form}
+    \lean{GIFT.Foundations.TCSPiecewiseMetric.kovalev_involutions_eq_3form_dim}
+    \leanok
+    The number of Kovalev-type involutions (with 4 fixed directions) equals
+    the dimension of $\Lambda^3(\mathbb{R}^7)$: both equal 35.
+\end{theorem}
+
+\begin{theorem}[$35 + \opdim(\Gtwo) = \opdim(K_7)^2$]\label{thm:3form_plus_G2}
+    \lean{GIFT.Foundations.TCSPiecewiseMetric.threeforms_plus_G2_eq_matrix_dim}
+    \leanok
+    $C(7,3) + 14 = 35 + 14 = 49 = 7^2$.
+\end{theorem}
+
+\section{Master Certificate}
+
+\begin{theorem}[TCS Piecewise Metric Certificate]\label{thm:tcs_piecewise_cert}
+    \lean{GIFT.Foundations.TCSPiecewiseMetric.tcs_piecewise_metric_certificate}
+    \leanok
+    \uses{thm:b3_asymmetry, thm:H_star_M1_F4, thm:H_star_M2_coxeter,
+          thm:H_star_blocks_sum, thm:matrix_decomp, thm:PSL27_factored,
+          thm:b2_fano_incidence, thm:kovalev_eigenspace, thm:kovalev_3form,
+          thm:3form_plus_G2}
+    All 10 conjuncts of the TCS piecewise metric master certificate are proven.
+\end{theorem}
+
+% =============================================================================
+
+\chapter{Conformal Rigidity}\label{chap:conformal_rigidity}
+% =============================================================================
+
+The $\Gtwo$ metric on $\Kseven$ is completely determined by two constraints:
+$\Gtwo$ holonomy (kills 27 traceless deformations) and $\det(g) = 65/32$
+(fixes the remaining conformal modulus), leaving zero free parameters.
+
+\section{$\Gtwo$ Representation Decompositions}
+
+\begin{theorem}[$\mathrm{Sym}^2(V_7) = 1 \oplus 27$ under $\Gtwo$]\label{thm:sym2_decomp}
+    \lean{GIFT.Foundations.ConformalRigidity.sym2_decomposition}
+    \leanok
+    The symmetric 2-tensors decompose as conformal trace ($1$)
+    plus traceless part ($27 = \opdim(J_3(\mathbb{O}))$):
+    $28 = 1 + 27$.
+\end{theorem}
+
+\begin{theorem}[$\Lambda^2(V_7) = 7 \oplus 14$ under $\Gtwo$]\label{thm:skew2_decomp}
+    \lean{GIFT.Foundations.ConformalRigidity.skew2_decomposition}
+    \leanok
+    The 2-forms decompose as standard ($7$) plus adjoint ($14$):
+    $21 = \opdim(K_7) + \opdim(\Gtwo)$.
+\end{theorem}
+
+\begin{theorem}[$\mathrm{End}(V_7) = 1 \oplus 7 \oplus 14 \oplus 27$]\label{thm:end_decomp}
+    \lean{GIFT.Foundations.ConformalRigidity.end_four_irreps}
+    \leanok
+    \uses{thm:sym2_decomp, thm:skew2_decomp}
+    The endomorphism algebra uses all four fundamental $\Gtwo$ representations:
+    $49 = 1 + 7 + 14 + 27 = \opdim(K_7)^2$.
+\end{theorem}
+
+\begin{theorem}[$\Lambda^3(V_7) = 1 \oplus 7 \oplus 27$]\label{thm:lambda3_decomp}
+    \lean{GIFT.Foundations.ConformalRigidity.lambda3_decomposition}
+    \leanok
+    The 3-forms decompose as $C(7,3) = 35 = 1 + \opdim(K_7) + \opdim(J_3(\mathbb{O}))$.
+    The singlet is the associative 3-form $\varphi_0$; the $27$ is the same representation
+    as in $\mathrm{Sym}^2_0(V_7)$.
+\end{theorem}
+
+\section{Conformal Rigidity Theorem}
+
+\begin{theorem}[Zero residual degrees of freedom]\label{thm:conformal_rigidity}
+    \lean{GIFT.Foundations.ConformalRigidity.conformal_rigidity}
+    \leanok
+    \uses{thm:sym2_decomp}
+    The metric has $28 - 27 - 1 = 0$ free parameters:
+    \begin{enumerate}
+        \item $\opdim(\mathrm{SPD}_7) = 28$ total metric DOF
+        \item $\Gtwo$ holonomy kills $\opdim(J_3(\mathbb{O})) = 27$ traceless directions
+        \item $\det(g) = 65/32$ fixes the remaining conformal modulus
+    \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[Conformal exponent = $\opdim(\Gtwo)$]\label{thm:conformal_exponent}
+    \lean{GIFT.Foundations.ConformalRigidity.conformal_exponent_eq_dim_G2}
+    \leanok
+    For the isotropic metric $g = c^2 \cdot I_7$:
+    $\det(g) = c^{2 \times \opdim(K_7)} = c^{\opdim(\Gtwo)}$.
+    The holonomy dimension determines the conformal equation.
+\end{theorem}
+
+\begin{theorem}[$\opdim(J_3(\mathbb{O})) = N_{\mathrm{gen}}^3$]\label{thm:J3O_Ngen_cubed}
+    \lean{GIFT.Foundations.ConformalRigidity.J3O_eq_Ngen_cubed}
+    \leanok
+    $27 = 3^3$: the traceless symmetric space dimension equals the cube
+    of the generation number.
+\end{theorem}
+
+\begin{theorem}[$\opdim(J_3(\mathbb{O})) + 1 = 2 \times \opdim(\Gtwo)$]\label{thm:J3O_plus_one}
+    \lean{GIFT.Foundations.ConformalRigidity.J3O_plus_one_eq_twice_G2}
+    \leanok
+    $27 + 1 = 28 = 2 \times 14$: traceless + conformal = twice holonomy dimension.
+\end{theorem}
+
+\section{Moduli Space Structure}
+
+\begin{theorem}[$\bthree - \btwo = \opdim(\mathrm{fund.}\; E_7)$]\label{thm:moduli_gap}
+    \lean{GIFT.Foundations.ConformalRigidity.moduli_minus_b2}
+    \leanok
+    The moduli gap $77 - 21 = 56 = \opdim(\mathrm{fund.}\; E_7)
+    = \mathrm{rank}(E_8) \times \opdim(K_7) = 8 \times 7$.
+\end{theorem}
+
+\section{Master Certificate}
+
+\begin{theorem}[Conformal Rigidity Certificate]\label{thm:conformal_rigidity_cert}
+    \lean{GIFT.Foundations.ConformalRigidity.conformal_rigidity_certificate}
+    \leanok
+    \uses{thm:sym2_decomp, thm:skew2_decomp, thm:end_decomp,
+          thm:lambda3_decomp, thm:conformal_rigidity, thm:conformal_exponent,
+          thm:J3O_Ngen_cubed, thm:moduli_gap}
+    All 9 conjuncts of the conformal rigidity certificate are proven.
+\end{theorem}
+
+% =============================================================================
+
 \chapter{Summary and Status}\label{chap:summary}
 % =============================================================================
 
@@ -2044,8 +2480,11 @@ Physical Spectral Gap (13/99) & 28 & \checkmark (v3.3.16, zero axioms) \\
 Selberg Bridge & 8 & \checkmark (v3.3.16, algebraic identities) \\
 Mollified Dirichlet Polynomial & 9 & \checkmark (v3.3.16) \\
 GIFT-Zeta Correspondences & 20+ & \checkmark (v3.3.16) \\
+$\Gtwo$ Metric Properties & 25 & \checkmark (v3.3.19) \\
+TCS Piecewise Metric & 30 & \checkmark (v3.3.20) \\
+Conformal Rigidity & 37 & \checkmark (v3.3.20) \\
 \hline
-\textbf{Total} & \textbf{290+} & -- \\
+\textbf{Total} & \textbf{380+} & -- \\
 \hline
 \end{tabular}
 \end{center}
@@ -2068,10 +2507,13 @@ GIFT-Zeta Correspondences & 20+ & \checkmark (v3.3.16) \\
           thm:tcs_certificate, thm:physical_gap_cert,
           thm:selberg_bridge_cert, thm:mollified_sum_cert,
           thm:zeta_cert, thm:unified_ratio,
-          thm:density_factor, thm:163_mod7, thm:248_mod7}
-    Complete GIFT framework: 290+ certified relations spanning
+          thm:density_factor, thm:163_mod7, thm:248_mod7,
+          thm:g2_metric_cert, thm:tcs_piecewise_cert,
+          thm:conformal_rigidity_cert}
+    Complete GIFT framework: 380+ certified relations spanning
     E$_8$ lattice, G$_2$ holonomy, physical predictions, spectral theory,
-    number-theoretic correspondences, and the Selberg bridge.
+    number-theoretic correspondences, the Selberg bridge,
+    G$_2$ metric properties, TCS piecewise metric, and conformal rigidity.
 \end{theorem}
 
 \section{Key Results}
@@ -2092,4 +2534,18 @@ The GIFT framework achieves:
     \item Mollified Dirichlet polynomial $S_w(T)$: constructive core, zero axioms
     \item GIFT-zeta correspondences: 5 primary matches ($< 1\%$ relative error)
     \item Multiples of 7 pattern: $> 96\%$ match rate (2222/2300 tested)
+    \item $\Gtwo$ metric non-flatness via Bieberbach bound ($\bthree = 77 > 35$)
+    \item Spectral degeneracy $[1, 10, 9, 30]$ with topological derivations
+    \item $\det(g) = 65/32$: triple independent derivation (Weyl, cohomological, $\Hstar$)
+    \item $\kappa_T^{-1} = 61 = \opdim(F_4) + N_{\mathrm{gen}}^2$: structural decomposition
+    \item $38{,}231\times$ PINN compression: $\opdim(\mathrm{SPD}_7) = 28 = 2 \times \opdim(\Gtwo)$
+    \item TCS building block asymmetry: $b_3(M_1) - b_3(M_2) = N_{\mathrm{gen}} = 3$
+    \item $\Hstar(M_1) = \opdim(F_4) = 52$: quintic block carries $F_4$ degrees of freedom
+    \item Matrix space: $7^2 = 2 \cdot \opdim(\Gtwo) + \btwo = 28 + 21$
+    \item Fano automorphism: $|\mathrm{PSL}(2,7)| = 168 = \mathrm{rank}(E_8) \times \btwo$
+    \item Kovalev involution count $C(7,4) = C(7,3) = 35 = \opdim(\Lambda^3 \mathbb{R}^7)$
+    \item Conformal rigidity: $28 - 27 - 1 = 0$ residual DOF ($\Gtwo$ holonomy + determinant)
+    \item $\mathrm{End}(V_7) = 1 \oplus 7 \oplus 14 \oplus 27$ (all four $\Gtwo$ irreps, $49 = 7^2$)
+    \item $\opdim(J_3(\mathbb{O})) = N_{\mathrm{gen}}^3 = 27$: traceless symmetric $=$ generation cube
+    \item Moduli gap: $\bthree - \btwo = 56 = \opdim(\mathrm{fund.}\; E_7) = \mathrm{rank}(E_8) \times \opdim(K_7)$
 \end{itemize}

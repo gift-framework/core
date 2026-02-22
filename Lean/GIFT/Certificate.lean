@@ -37,6 +37,9 @@ import GIFT.Relations.LandauerDarkEnergy
 import GIFT.Relations.V33Additions
 import GIFT.Relations.TauBounds
 
+-- G₂ metric properties (non-flatness, spectral degeneracies, SPD parametrization)
+import GIFT.Relations.G2MetricProperties
+
 -- V3.3a: Fano Selection Principle and Sector Classification (NEW)
 import GIFT.Relations.FanoSelectionPrinciple
 import GIFT.Relations.OverDetermination
@@ -2066,5 +2069,117 @@ abbrev gift_theta_corr := GIFT.MollifiedSum.AdaptiveGIFT.gift_theta_corr
 
 /-- GIFT adaptive cutoff master certificate -/
 abbrev adaptive_gift_cert := GIFT.MollifiedSum.AdaptiveGIFT.adaptive_gift_certificate
+
+-- =============================================================================
+-- G₂ METRIC PROPERTIES (non-flatness, spectral degeneracies, SPD₇, det(g))
+-- =============================================================================
+
+/-!
+## G₂ Metric Properties
+
+Algebraic identities from the numerical G₂ metric construction on K₇:
+1. Non-flatness via Bieberbach's bound (b₃ = 77 > 35 = C(7,3))
+2. Spectral degeneracy pattern [1, 10, 9, 30] with topological origins
+3. SPD₇ parametrization: 28 = 2 × dim(G₂) independent entries
+4. Triple derivation of det(g) = 65/32
+5. κ_T⁻¹ = 61 = dim(F₄) + N_gen² structural decomposition
+-/
+
+open GIFT.Relations.G2MetricProperties
+
+/-- Bieberbach non-flatness: b₃(K₇) > C(7,3) -/
+abbrev g2_bieberbach := GIFT.Relations.G2MetricProperties.K7_exceeds_bieberbach_bound
+
+/-- Spectral degeneracy total = b₃ - dim(J₃(O)) -/
+abbrev g2_spectral_total := GIFT.Relations.G2MetricProperties.total_modes_topological
+
+/-- SPD₇ = 2 × dim(G₂) -/
+abbrev g2_spd7_twice_G2 := GIFT.Relations.G2MetricProperties.spd7_eq_twice_dimG2
+
+/-- det(g) triple derivation consistency -/
+abbrev g2_det_triple := GIFT.Relations.G2MetricProperties.det_g_triple_consistency_num
+
+/-- κ_T = dim(F₄) + N_gen² -/
+abbrev g2_kappa_F4 := GIFT.Relations.G2MetricProperties.kappa_T_from_F4_generations
+
+/-- G₂ metric master certificate -/
+abbrev g2_metric_cert := GIFT.Relations.G2MetricProperties.g2_metric_properties_certificate
+
+-- =============================================================================
+-- TCS PIECEWISE METRIC (Tier B: Kovalev twist, building block structure)
+-- =============================================================================
+
+/-!
+## TCS Piecewise Metric Structure
+
+Algebraic identities of the piecewise-constant G₂ metric on K₇.
+Key results:
+1. Building block b₃ asymmetry = N_gen
+2. H*(M₁) = dim(F₄) (quintic block carries F₄ degrees of freedom)
+3. Matrix space: 7² = 2·dim(G₂) + b₂
+4. Fano automorphism: |PSL(2,7)| = rank(E₈) × b₂
+5. Kovalev involution count C(7,4) = C(7,3) = 35 = dim(Λ³ℝ⁷)
+-/
+
+open GIFT.Foundations.TCSPiecewiseMetric
+
+/-- Building block b₃ asymmetry equals N_gen -/
+abbrev tcs_b3_asymmetry := GIFT.Foundations.TCSPiecewiseMetric.building_block_b3_asymmetry
+
+/-- H*(quintic block) = dim(F₄) -/
+abbrev tcs_H_star_M1_F4 := GIFT.Foundations.TCSPiecewiseMetric.H_star_M1_eq_dim_F4
+
+/-- H*(CI block) = h(G₂) × rank(E₈) -/
+abbrev tcs_H_star_M2_coxeter := GIFT.Foundations.TCSPiecewiseMetric.H_star_M2_eq_coxeter_rank
+
+/-- Matrix space: 7² = 2·dim(G₂) + b₂ -/
+abbrev tcs_matrix_decomp := GIFT.Foundations.TCSPiecewiseMetric.matrix_gift_decomposition
+
+/-- |PSL(2,7)| = rank(E₈) × b₂ -/
+abbrev tcs_PSL27 := GIFT.Foundations.TCSPiecewiseMetric.PSL27_eq_rank_times_b2
+
+/-- Kovalev involutions = 3-form components -/
+abbrev tcs_kovalev_3form := GIFT.Foundations.TCSPiecewiseMetric.kovalev_involutions_eq_3form_dim
+
+/-- TCS piecewise metric master certificate -/
+abbrev tcs_piecewise_cert := GIFT.Foundations.TCSPiecewiseMetric.tcs_piecewise_metric_certificate
+
+-- =============================================================================
+-- CONFORMAL RIGIDITY (Tier B: G₂ representation theory, metric uniqueness)
+-- =============================================================================
+
+/-!
+## Conformal Rigidity
+
+G₂ representation theory proves the analytical metric is completely
+determined (zero free parameters):
+1. Sym²(V₇) = 1 + 27 under G₂ (conformal + traceless)
+2. G₂ holonomy kills the 27 traceless directions
+3. det(g) = 65/32 fixes the remaining conformal modulus
+4. Result: 28 - 27 - 1 = 0 residual DOF
+-/
+
+open GIFT.Foundations.ConformalRigidity
+
+/-- Sym²(V₇) = 1 + dim(J₃(𝕆)) = 28 -/
+abbrev conf_sym2 := GIFT.Foundations.ConformalRigidity.sym2_decomposition
+
+/-- Conformal rigidity: 28 - 27 - 1 = 0 -/
+abbrev conf_rigidity := GIFT.Foundations.ConformalRigidity.conformal_rigidity
+
+/-- Conformal exponent: 2 × dim(K₇) = dim(G₂) -/
+abbrev conf_exponent := GIFT.Foundations.ConformalRigidity.conformal_exponent_eq_dim_G2
+
+/-- End(V₇) = 1 + 7 + 14 + 27 = 49 (all four G₂ irreps) -/
+abbrev conf_end_decomp := GIFT.Foundations.ConformalRigidity.end_four_irreps
+
+/-- Λ³(V₇) = 1 + 7 + 27 = 35 -/
+abbrev conf_lambda3 := GIFT.Foundations.ConformalRigidity.lambda3_decomposition
+
+/-- dim(J₃(𝕆)) = N_gen³ -/
+abbrev conf_J3O_cube := GIFT.Foundations.ConformalRigidity.J3O_eq_Ngen_cubed
+
+/-- Conformal rigidity master certificate -/
+abbrev conf_rigidity_cert := GIFT.Foundations.ConformalRigidity.conformal_rigidity_certificate
 
 end GIFT.Certificate
