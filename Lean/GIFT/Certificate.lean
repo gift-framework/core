@@ -14,11 +14,7 @@ The certificate is now organized by mathematical domain:
 Use `import GIFT.Certificate.Core` for the master certificate.
 -/
 
--- Re-export all sub-certificate namespaces for backward compatibility
-open GIFT.Certificate.Foundations in
-open GIFT.Certificate.Predictions in
-open GIFT.Certificate.Spectral in
-
+-- Re-export sub-certificate namespaces for backward compatibility
 namespace GIFT.Certificate
 
 -- Legacy aliases for the most commonly referenced theorems
