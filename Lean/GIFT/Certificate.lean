@@ -2229,4 +2229,53 @@ abbrev spec_G2_factored := GIFT.Foundations.SpectralScaling.dim_G2_pontryagin_ma
 /-- Spectral scaling master certificate -/
 abbrev spec_scaling_cert := GIFT.Foundations.SpectralScaling.spectral_scaling_certificate
 
+-- =============================================================================
+-- POINCARE DUALITY (v3.3.22)
+-- =============================================================================
+
+/-!
+## Poincare Duality
+
+Consolidation of spectral-topological arithmetic identities controlled
+by dim(K7) = 7. Key discovery: H* = 1 + 2 * dim_K7^2.
+
+1. Total Betti = 2 * H* (Poincare duality doubles the GIFT spectrum)
+2. Betti pair b2 + b3 = 2 * dim_K7^2 = 98
+3. Holonomy chain: dim(SO7) = b2, codim(G2, GL7) = C(7,3)
+4. Torsion: 1 + 7 + 14 + 27 = 49 = dim_K7^2
+5. SU(3) branching: dim_G2 = dim_SU3 + 2 * N_gen
+-/
+
+open GIFT.Foundations.PoincareDuality
+
+/-- Total Betti = 2 * H* -/
+abbrev pd_total_betti_doubled := GIFT.Foundations.PoincareDuality.total_betti_eq_two_H_star
+
+/-- H* = 1 + 2 * dim_K7^2 (structural identity) -/
+abbrev pd_H_star_structural := GIFT.Foundations.PoincareDuality.H_star_structural
+
+/-- b2 + b3 = 2 * dim_K7^2 -/
+abbrev pd_betti_pair := GIFT.Foundations.PoincareDuality.betti_pair_eq_two_K7_sq
+
+/-- dim(SO7) = b2 -/
+abbrev pd_SO7_eq_b2 := GIFT.Foundations.PoincareDuality.SO7_eq_b2
+
+/-- codim(G2, GL7) = C(7,3) = 35 -/
+abbrev pd_codim_3forms := GIFT.Foundations.PoincareDuality.codim_GL7_G2_eq_3forms
+
+/-- Torsion space = dim_K7^2 = 49 -/
+abbrev pd_torsion_K7_sq := GIFT.Foundations.PoincareDuality.torsion_space_eq_K7_sq
+
+/-- Torsion-free constraints = C(7,3) = 35 -/
+abbrev pd_torsion_3forms := GIFT.Foundations.PoincareDuality.torsion_complement_eq_3forms
+
+/-- G2 adjoint branching: 14 = 8 + 6 -/
+abbrev pd_G2_branching := GIFT.Foundations.PoincareDuality.G2_adjoint_branching
+
+/-- Betti pair = 2 * torsion space -/
+abbrev pd_betti_torsion := GIFT.Foundations.PoincareDuality.betti_pair_eq_two_torsion
+
+/-- Poincare duality master certificate -/
+abbrev pd_certificate := GIFT.Foundations.PoincareDuality.poincare_duality_certificate
+
 end GIFT.Certificate

@@ -5,6 +5,34 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.22] - 2026-02-22
+
+### Summary
+
+**Poincare duality doubles the GIFT spectrum.** Consolidates spectral-topological arithmetic identities into a single Foundations module. Key discovery: H* = 1 + 2 * dim_K7^2 — the effective cohomological dimension is determined by the manifold dimension alone. Adds ~40 new theorems covering the full Betti sequence, holonomy embedding chain G2 < SO(7) < GL(7), G2 torsion decomposition, SU(3) branching rule, and the Betti-torsion bridge. Zero axioms, all goals closed. Full build passes. Blueprint updated with new chapter.
+
+### Added
+
+- **Foundations/PoincareDuality.lean** — Poincare duality (41 theorems, 4 defs):
+  - Full Betti sequence: total Betti = 198 = 2 * H* (Poincare duality doubles the spectrum)
+  - Total Betti factored: 198 = 2 * N_gen^2 * D_bulk, 198/18 = D_bulk, 198/11 = h(E7)
+  - Structural identity: H* = 1 + 2 * dim_K7^2, b2 + b3 = 2 * dim_K7^2 = 98
+  - Holonomy chain: dim(SO7) = C(7,2) = 21 = b2, dim(GL7) = 7^2 = 49
+  - Codimensions: GL7/SO7 = 28 (SPD), SO7/G2 = 7 = dim_K7, GL7/G2 = 35 = C(7,3)
+  - Torsion decomposition: 1 + 7 + 14 + 27 = 49 = dim_K7^2, torsion-free = 35 = C(7,3)
+  - SU(3) branching: dim_G2 = dim_SU3 + 2*N_gen (14 = 8 + 6), gcd(8, 99) = 1
+  - Betti-torsion bridge: b2 + b3 = 2*(1 + dim_K7 + dim_G2 + dim_J3O)
+  - Master certificate: 12 conjuncts, all proven
+
+### Changed
+
+- **Certificate.lean** — Added 10 abbrevs for PoincareDuality
+- **Foundations.lean** — Added import and export block for PoincareDuality
+- **blueprint/src/content.tex** — New chapter "Poincare Duality and the GIFT Spectrum", summary updated (455+ theorems)
+- **lakefile.toml** — Version bumped to 3.3.22
+
+---
+
 ## [3.3.21] - 2026-02-22
 
 ### Summary
