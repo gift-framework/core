@@ -1,20 +1,3 @@
-/-!
-# GIFT Certificate: Predictions & Observables
-
-The 33+ published predictions (R1-R20 from papers) plus V5.0 observables.
-All relations are rational arithmetic, formally verified with zero axioms.
-
-Categories:
-- Electroweak: sin2 theta_W = 3/13
-- Lepton masses: Koide Q = 2/3, m_tau/m_e = 3477
-- Quark masses: m_s/m_d = 20, CKM matrix elements
-- Neutrino mixing: PMNS matrix elements
-- Cosmology: Omega_DE = 98/99, Omega_DM/Omega_b = 43/8
-- Gauge couplings: alpha^(-1), alpha_s^2
-- Exceptional groups: E6, E7, E8 chain relations
-- Hierarchy: electroweak-Planck from K7 topology
--/
-
 import GIFT.Core
 import GIFT.Relations
 import GIFT.Relations.GaugeSector
@@ -40,6 +23,23 @@ import GIFT.Relations.OverDetermination
 import GIFT.Relations.SectorClassification
 import GIFT.Observables
 import GIFT.Hierarchy
+
+/-!
+# GIFT Certificate: Predictions & Observables
+
+The 33+ published predictions (R1-R20 from papers) plus V5.0 observables.
+All relations are rational arithmetic, formally verified with zero axioms.
+
+Categories:
+- Electroweak: sin2 theta_W = 3/13
+- Lepton masses: Koide Q = 2/3, m_tau/m_e = 3477
+- Quark masses: m_s/m_d = 20, CKM matrix elements
+- Neutrino mixing: PMNS matrix elements
+- Cosmology: Omega_DE = 98/99, Omega_DM/Omega_b = 43/8
+- Gauge couplings: alpha^(-1), alpha_s^2
+- Exceptional groups: E6, E7, E8 chain relations
+- Hierarchy: electroweak-Planck from K7 topology
+-/
 
 namespace GIFT.Certificate.Predictions
 

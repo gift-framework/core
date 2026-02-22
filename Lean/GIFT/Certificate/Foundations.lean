@@ -1,13 +1,3 @@
-/-!
-# GIFT Certificate: Mathematical Foundations
-
-E₈ root system, G₂ cross product, octonion bridge,
-Betti numbers, Poincare duality, differential forms,
-Joyce existence, conformal rigidity, G₂ metric properties.
-
-These are the mathematical building blocks on which GIFT is constructed.
--/
-
 import GIFT.Core
 import GIFT.Foundations
 import GIFT.Foundations.Analysis
@@ -27,6 +17,16 @@ import GIFT.Joyce
 import GIFT.Algebraic
 import GIFT.Geometry
 import GIFT.Hierarchy
+
+/-!
+# GIFT Certificate: Mathematical Foundations
+
+E₈ root system, G₂ cross product, octonion bridge,
+Betti numbers, Poincare duality, differential forms,
+Joyce existence, conformal rigidity, G₂ metric properties.
+
+These are the mathematical building blocks on which GIFT is constructed.
+-/
 
 namespace GIFT.Certificate.Foundations
 

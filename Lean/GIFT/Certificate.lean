@@ -1,3 +1,5 @@
+import GIFT.Certificate.Core
+
 /-!
 # GIFT Certificate (Backward Compatibility)
 
@@ -11,8 +13,6 @@ The certificate is now organized by mathematical domain:
 
 Use `import GIFT.Certificate.Core` for the master certificate.
 -/
-
-import GIFT.Certificate.Core
 
 -- Re-export all sub-certificate namespaces for backward compatibility
 open GIFT.Certificate.Foundations in

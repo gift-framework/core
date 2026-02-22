@@ -1,3 +1,8 @@
+import GIFT.Core
+import GIFT.Spectral
+import GIFT.Foundations.SpectralScaling
+import GIFT.Foundations.PoincareDuality
+
 /-!
 # GIFT Certificate: Spectral Theory
 
@@ -10,11 +15,6 @@ The complete spectral gap programme:
 - Spectral scaling on the TCS neck
 - Connes bridge (Weil positivity connection)
 -/
-
-import GIFT.Core
-import GIFT.Spectral
-import GIFT.Foundations.SpectralScaling
-import GIFT.Foundations.PoincareDuality
 
 namespace GIFT.Certificate.Spectral
 

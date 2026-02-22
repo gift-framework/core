@@ -1,3 +1,7 @@
+import GIFT.Certificate.Foundations
+import GIFT.Certificate.Predictions
+import GIFT.Certificate.Spectral
+
 /-!
 # GIFT Master Certificate
 
@@ -14,10 +18,6 @@ Structure:
 
 Replaces the legacy monolithic Certificate.lean.
 -/
-
-import GIFT.Certificate.Foundations
-import GIFT.Certificate.Predictions
-import GIFT.Certificate.Spectral
 
 namespace GIFT.Certificate
 
