@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.3.18).
+Complete documentation for the `giftpy` Python package (v3.3.23).
 
 ## Installation
 
@@ -41,6 +41,41 @@ print(K7.two_b2)                # 42 (structural invariant)
 from gift_core import verify
 print(verify())          # True
 ```
+
+## New in v3.3.23
+
+### Certificate Modularization
+
+The monolithic `Certificate.lean` (2281 lines, 55 theorems, 233 abbrevs) has been restructured into domain-organized sub-certificates:
+
+```
+GIFT/Certificate/
+├── Core.lean         # Master: Foundations ∧ Predictions ∧ Spectral
+├── Foundations.lean  # E₈, G₂, octonions, K₇, Joyce, conformal rigidity
+├── Predictions.lean  # 33+ published relations, V5.0 observables, hierarchy
+└── Spectral.lean     # Mass gap 14/99, TCS bounds, selection principle
+```
+
+**Lean 4 usage:**
+
+```lean
+-- Import the master certificate
+import GIFT.Certificate.Core
+
+-- Access sub-certificates
+#check GIFT.Certificate.gift_master_certificate
+-- : Foundations.statement ∧ Predictions.statement ∧ Spectral.statement
+
+-- Or import individual pillars
+import GIFT.Certificate.Predictions
+#check GIFT.Certificate.Predictions.observables_certified
+```
+
+**Adding new relations:** Add imports and abbrevs to the appropriate sub-module (`Foundations.lean`, `Predictions.lean`, or `Spectral.lean`), then add conjuncts to its `def statement : Prop`.
+
+**Backward compatibility:** `import GIFT.Certificate` still works and provides legacy aliases (`all_relations_certified`, etc.).
+
+---
 
 ## New in v3.3.18
 

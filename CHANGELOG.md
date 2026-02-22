@@ -5,6 +5,51 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.23] - 2026-02-22
+
+### Summary
+
+**Certificate modularization: monolithic → domain-organized.** Restructures the 2281-line monolithic `Certificate.lean` (55 theorems, 233 abbrevs, 9 stacked master theorems) into four focused files organized by mathematical domain. Removes 16 versioned certificates and 9 stacked master theorems. The new structure uses `def statement : Prop` / `theorem certified : statement` pattern for composability. One master certificate combines all three pillars: `Foundations.statement ∧ Predictions.statement ∧ Spectral.statement`. Backward-compatible `Certificate.lean` wrapper preserves legacy aliases. Zero proof changes, full build passes (2651 jobs).
+
+### Added
+
+- **Certificate/Foundations.lean** (~440 lines) — E₈ root system, G₂ cross product, octonion bridge, K₇ Betti numbers, exterior algebra, Joyce existence, Sobolev embedding, conformal rigidity, Poincare duality, G₂ metric properties, TCS piecewise structure:
+  - 80+ abbrevs creating dependency graph edges
+  - `def statement : Prop` with 19 conjuncts
+  - `theorem certified : statement` proven via `refine` + `native_decide`
+
+- **Certificate/Predictions.lean** (~460 lines) — All 33+ published dimensionless predictions (R1-R20), V5.0 observables (~50 rational fractions), Fano selection principle, tau bounds, hierarchy, SO(16) decomposition, Landauer dark energy:
+  - 30+ abbrevs for Relations submodules
+  - `def statement : Prop` with 48 conjuncts
+  - 7 additional theorems: `observables_certified`, `the_42_universality`, `fano_selection_certified`, `tau_bounds_certified`, `hierarchy_certified`, `SO16_certified`, `landauer_certified`
+
+- **Certificate/Spectral.lean** (~380 lines) — Mass gap ratio 14/99, TCS manifold structure, TCS spectral bounds, selection principle, refined bounds, literature axioms, spectral scaling, Connes bridge:
+  - 60+ abbrevs for Spectral submodules
+  - `def statement : Prop` with 27 conjuncts
+  - `theorem certified : statement` proven via `repeat (first | constructor | native_decide | rfl | norm_num)`
+
+- **Certificate/Core.lean** (~40 lines) — Single master certificate:
+  - `theorem gift_master_certificate : Foundations.statement ∧ Predictions.statement ∧ Spectral.statement`
+
+### Changed
+
+- **Certificate.lean** — Replaced 2281-line monolithic file with ~35-line backward-compat wrapper:
+  - Imports `GIFT.Certificate.Core`
+  - Provides legacy aliases: `all_relations_certified`, `gift_v32_foundations_certificate`, `gift_v338_yang_mills_certificate`, `gift_v50_extended_observables_certificate`
+- **GIFT.lean** — Updated import from `GIFT.Certificate` to `GIFT.Certificate.Core`
+- **CLAUDE.md** — Updated project structure, certificate workflow documentation
+- **docs/USAGE.md** — Added v3.3.23 certificate modularization section
+- **blueprint/src/content.tex** — Updated Grand Certificate reference to `gift_master_certificate`
+
+### Removed
+
+- 9 stacked master theorems (`all_13_relations_certified` → `all_75_relations_certified`)
+- 16 versioned certificates (`gift_v2_*`, `gift_v3_*`, `gift_v32_*`, etc.)
+- Trivial certificates (`True := by trivial`)
+- ~1400 lines of redundant code
+
+---
+
 ## [3.3.22] - 2026-02-22
 
 ### Summary
