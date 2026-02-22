@@ -972,8 +972,6 @@ on $\Kseven$ by encoding the algebraic structure directly in the neural architec
 \end{definition}
 
 \begin{theorem}[Dimension Reduction]\label{thm:dim_reduction}
-    \lean{GIFT.Foundations.AnalyticalMetric.dimension_reduction_eq}
-    \leanok
     \uses{def:phi0_standard, def:delta_phi}
     The G2 constraint reduces parameters from 35 to 14:
     $35 - 14 = 21 = \btwo$
@@ -982,29 +980,21 @@ on $\Kseven$ by encoding the algebraic structure directly in the neural architec
 \section{Certified Bounds}
 
 \begin{definition}[Torsion Bound]\label{def:torsion_bound}
-    \lean{GIFT.Foundations.AnalyticalMetric.torsion_bound}
-    \leanok
     \uses{def:phi0_standard, def:H_star}
     PINN torsion bound: $\|T\| < 0.001$
 \end{definition}
 
 \begin{definition}[Det Error Bound]\label{def:det_error}
-    \lean{GIFT.Foundations.AnalyticalMetric.det_error_bound}
-    \leanok
     \uses{def:torsion_bound, def:H_star}
     Determinant error: $|\det(g) - 65/32| < 10^{-6}$
 \end{definition}
 
 \begin{theorem}[Joyce Condition]\label{thm:joyce_satisfied}
-    \lean{GIFT.Foundations.AnalyticalMetric.joyce_condition_satisfied}
-    \leanok
     \uses{def:torsion_bound, def:joyce_epsilon}
     The PINN torsion is well below Joyce threshold: $0.001 < 0.0288$
 \end{theorem}
 
 \begin{theorem}[20x Margin]\label{thm:margin_20x}
-    \lean{GIFT.Foundations.AnalyticalMetric.margin_verification}
-    \leanok
     \uses{def:torsion_bound, def:joyce_epsilon, thm:joyce_satisfied}
     $20 \times \|T\|_{\text{PINN}} < \varepsilon_{\text{Joyce}}$
 \end{theorem}
@@ -1018,8 +1008,6 @@ on $\Kseven$ by encoding the algebraic structure directly in the neural architec
 \end{definition}
 
 \begin{theorem}[Target in Interval]\label{thm:target_interval}
-    \lean{GIFT.Foundations.AnalyticalMetric.target_in_interval}
-    \leanok
     \uses{def:det_error, def:H_star, thm:margin_20x}
     The target value $65/32$ lies in the certified interval for $\det(g)$.
 \end{theorem}
@@ -1258,21 +1246,21 @@ the mass gap $\lambda_1 = 14/99$.
 \section{Spectral Bound Constants}
 
 \begin{definition}[Lower Bound Constant]\label{def:c1}
-    \lean{GIFT.Spectral.TCSBounds.c1}
+    \lean{GIFT.Spectral.TCSBounds.c₁}
     \leanok
     \uses{def:TCSHypotheses}
     $c_1 = v_0^2$ (from Cheeger inequality)
 \end{definition}
 
 \begin{definition}[Upper Bound Constant]\label{def:c2}
-    \lean{GIFT.Spectral.TCSBounds.c2_robust}
+    \lean{GIFT.Spectral.TCSBounds.c₂_robust}
     \leanok
     \uses{def:TCSHypotheses}
     $c_2 = \frac{16 v_1}{1 - v_1}$ (from Rayleigh quotient)
 \end{definition}
 
 \begin{definition}[Threshold Length]\label{def:L0}
-    \lean{GIFT.Spectral.NeckGeometry.L0}
+    \lean{GIFT.Spectral.NeckGeometry.L₀}
     \leanok
     \uses{def:TCSHypotheses}
     $L_0 = \frac{2 v_0}{h_0}$ (neck dominates for $L > L_0$)

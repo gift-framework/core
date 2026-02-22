@@ -42,13 +42,9 @@ GIFT.Foundations.G2CrossProduct.G2_cross_norm
 # Analytical Metric
 # ══════════════════════════════════════════════════════════════
 GIFT.Foundations.AnalyticalMetric.canonical_metric
-GIFT.Foundations.AnalyticalMetric.det_error_bound
 GIFT.Foundations.AnalyticalMetric.det_g_equals_target
 GIFT.Foundations.AnalyticalMetric.det_g_target_value
-GIFT.Foundations.AnalyticalMetric.dimension_reduction_eq
 GIFT.Foundations.AnalyticalMetric.fano_lines
-GIFT.Foundations.AnalyticalMetric.joyce_condition_satisfied
-GIFT.Foundations.AnalyticalMetric.margin_verification
 GIFT.Foundations.AnalyticalMetric.metric_is_scaled_identity
 GIFT.Foundations.AnalyticalMetric.num_3form_components
 GIFT.Foundations.AnalyticalMetric.phi0_has_7_terms
@@ -57,8 +53,6 @@ GIFT.Foundations.AnalyticalMetric.phi0_linear_indices
 GIFT.Foundations.AnalyticalMetric.phi0_signs
 GIFT.Foundations.AnalyticalMetric.phi0_sparsity
 GIFT.Foundations.AnalyticalMetric.scale_factor_power_14
-GIFT.Foundations.AnalyticalMetric.target_in_interval
-GIFT.Foundations.AnalyticalMetric.torsion_bound
 GIFT.Foundations.AnalyticalMetric.torsion_norm_constant_form
 GIFT.Foundations.AnalyticalMetric.torsion_satisfies_joyce
 
@@ -248,11 +242,11 @@ GIFT.Relations.G2MetricProperties.g2_metric_properties_certificate
 # Neck Geometry & TCS Manifold
 GIFT.Spectral.NeckGeometry.TCSManifold
 GIFT.Spectral.NeckGeometry.TCSHypotheses
-GIFT.Spectral.NeckGeometry.L0
+GIFT.Spectral.NeckGeometry.L₀
 
 # TCS Spectral Bounds
-GIFT.Spectral.TCSBounds.c1
-GIFT.Spectral.TCSBounds.c2_robust
+GIFT.Spectral.TCSBounds.c₁
+GIFT.Spectral.TCSBounds.c₂_robust
 GIFT.Spectral.TCSBounds.tcs_spectral_bounds
 GIFT.Spectral.TCSBounds.spectral_gap_scales_as_inverse_L_squared
 GIFT.Spectral.TCSBounds.typical_tcs_bounds_algebraic
