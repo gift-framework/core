@@ -398,7 +398,8 @@ All mathematical infrastructure proven:
 - Conformal rigidity: zero free parameters
 - Poincare duality: H* = 1 + 2 x dim_K7^2
 -/
-theorem certified :
+/-- The proposition certified by the Foundations pillar -/
+def statement : Prop :=
     -- E₈ root system: 112 + 128 = 240, rank = 8
     (112 + 128 = 240) ∧
     (240 + 8 = 248) ∧
@@ -432,7 +433,9 @@ theorem certified :
     (1 + 2 * 7 * 7 = 99) ∧
     -- TCS building blocks: b₂ = 11 + 10, b₃ = 40 + 37
     (11 + 10 = 21) ∧
-    (40 + 37 = 77) := by
+    (40 + 37 = 77)
+
+theorem certified : statement := by
   refine ⟨rfl, rfl, rfl, rfl, rfl, rfl, ?_, ?_,
          GIFT.Joyce.k7_admits_torsion_free_g2, ?_, ?_,
          rfl, ?_, ?_, rfl, rfl, rfl, rfl, rfl⟩

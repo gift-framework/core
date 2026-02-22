@@ -327,7 +327,8 @@ The complete spectral gap programme:
 - Connes bridge: 6 primes < dim(G₂) with sum - 14 = 27
 - Pell equation: 99^2 - 50 x 14^2 = 1
 -/
-theorem certified :
+/-- The proposition certified by the Spectral pillar -/
+def statement : Prop :=
     -- Mass gap ratio = dim(G₂)/H*
     (GIFT.Spectral.MassGapRatio.mass_gap_ratio_num = dim_G2) ∧
     (GIFT.Spectral.MassGapRatio.mass_gap_ratio_den = H_star) ∧
@@ -370,7 +371,9 @@ theorem certified :
     -- Spectral scaling: 1^2 + 2^2 + 3^2 = dim(G₂)
     (1 + 4 + 9 = 14) ∧
     -- Division: H* = dim_K₇ x dim_G₂ + 1
-    (7 * 14 + 1 = 99) := by
+    (7 * 14 + 1 = 99)
+
+theorem certified : statement := by
   repeat (first | constructor | native_decide | rfl | norm_num)
 
 end GIFT.Certificate.Spectral

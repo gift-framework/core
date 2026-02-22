@@ -29,9 +29,9 @@ Three independent pillars:
 3. **Spectral** — Spectral gap programme (mass gap, TCS, selection)
 -/
 theorem gift_master_certificate :
-    Foundations.certified ∧
-    Predictions.certified ∧
-    Spectral.certified :=
+    Foundations.statement ∧
+    Predictions.statement ∧
+    Spectral.statement :=
   ⟨Foundations.certified, Predictions.certified, Spectral.certified⟩
 
 end GIFT.Certificate

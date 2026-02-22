@@ -217,7 +217,8 @@ Covers the 33 dimensionless derivations from the papers:
 - SO(16) decomposition: 248 = 120 + 128
 - Cosmology: Omega_DE = 98/99
 -/
-theorem certified :
+/-- The proposition certified by the Predictions pillar -/
+def statement : Prop :=
     -- ═══ CORE TOPOLOGY ═══
     -- 1. Weinberg angle (cross-multiplied)
     (b2 * 13 = 3 * (b3 + dim_G2)) ∧
@@ -303,7 +304,9 @@ theorem certified :
     -- Betti difference = fund(E₇)
     (Hierarchy.betti_difference = 56) ∧
     -- Mass formula
-    (Hierarchy.betti_difference * Hierarchy.kappa_plus_one + Weyl_factor = 3477) := by
+    (Hierarchy.betti_difference * Hierarchy.kappa_plus_one + Weyl_factor = 3477)
+
+theorem certified : statement := by
   repeat (first | constructor | native_decide | rfl)
 
 -- Backward compatibility alias
