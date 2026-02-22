@@ -182,3 +182,13 @@ GIFT.Joyce.k7_g2_structure
 GIFT.Joyce.k7_is_torsion_free
 GIFT.Joyce.k7_admits_torsion_free_g2
 GIFT.Joyce.joyce_complete_certificate
+
+# Certificate System (v3.3.23 modular structure)
+GIFT.Certificate.Foundations.statement
+GIFT.Certificate.Foundations.certified
+GIFT.Certificate.Predictions.statement
+GIFT.Certificate.Predictions.certified
+GIFT.Certificate.Predictions.observables_certified
+GIFT.Certificate.Spectral.statement
+GIFT.Certificate.Spectral.certified
+GIFT.Certificate.gift_master_certificate

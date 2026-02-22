@@ -30,7 +30,12 @@ gift-framework/core/
 │   ├── GIFT.lean           # Main entry point
 │   ├── GIFT/
 │   │   ├── Core.lean       # Source of truth for constants
-│   │   ├── Certificate.lean # Master theorems (185+ relations)
+│   │   ├── Certificate/    # Modular certificate system (v3.3.23)
+│   │   │   ├── Core.lean       # Master: Foundations ∧ Predictions ∧ Spectral
+│   │   │   ├── Foundations.lean # E₈, G₂, octonions, K₇, Joyce
+│   │   │   ├── Predictions.lean # 33+ published relations, observables
+│   │   │   └── Spectral.lean   # Mass gap 14/99, TCS, selection
+│   │   ├── Certificate.lean # Backward-compat wrapper (legacy aliases)
 │   │   │
 │   │   ├── Algebra.lean    # E₈, G₂, E₇, F₄, E₆ constants
 │   │   ├── Topology.lean   # Betti numbers, H*, p₂
@@ -221,8 +226,11 @@ python -c "from gift_core import *; print(GAMMA_GIFT)"
 ## Adding New Certified Relations
 
 1. **Lean**: Create/update file in `Lean/GIFT/Relations/`
-2. **Lean**: Add import to `Lean/GIFT/Certificate.lean`
-3. **Lean**: Add to master theorem
+2. **Lean**: Add import + abbrev to appropriate `Certificate/` sub-module:
+   - `Certificate/Foundations.lean` — math infrastructure (E₈, G₂, K₇, Joyce)
+   - `Certificate/Predictions.lean` — physical predictions, observables
+   - `Certificate/Spectral.lean` — spectral gap, TCS, selection
+3. **Lean**: Add conjunct to the sub-module's `def statement : Prop`
 4. **Python**: Add constants to `gift_core/constants.py`
 5. **Python**: Export in `gift_core/__init__.py`
 6. **Python**: Add tests in `tests/`
@@ -598,31 +606,33 @@ theorem H_star_value : H_star = 99 := by unfold H_star b2 b3; norm_num  -- WORKS
 To connect an isolated module to the dependency graph:
 
 ```lean
--- In Certificate.lean:
+-- In the appropriate Certificate/ sub-module (e.g., Certificate/Foundations.lean):
 import GIFT.NewModule  -- Add import
 
 -- Create abbrevs for key theorems (creates edges)
 abbrev new_theorem := NewModule.key_theorem
 
--- Add to certification theorem
-theorem gift_certificate :
-    ...existing relations... ∧
+-- Add conjuncts to the sub-module's statement
+def statement : Prop :=
+    ...existing conjuncts... ∧
     -- Use VALUES directly, not theorem names
     (NewModule.some_value = 42) ∧
-    (NewModule.x + NewModule.y = NewModule.z) := by
+    (NewModule.x + NewModule.y = NewModule.z)
+
+theorem certified : statement := by
   repeat (first | constructor | native_decide | rfl)
 ```
 
 ### 9. Blueprint Dependency Graph Orphans
 
-**Problem**: Modules imported in Certificate.lean but without `abbrev` references appear as isolated clusters in the blueprint dependency graph.
+**Problem**: Modules imported in a `Certificate/` sub-module but without `abbrev` references appear as isolated clusters in the blueprint dependency graph.
 
 **Diagnosis**: Check the blueprint visualization. Disconnected clusters indicate missing `abbrev` edges.
 
-**Fix**: For each orphaned module, add abbrevs in Certificate.lean:
+**Fix**: For each orphaned module, add abbrevs in the appropriate `Certificate/` sub-module:
 
 ```lean
--- Module is imported but orphaned
+-- In Certificate/Foundations.lean (or Predictions.lean, Spectral.lean):
 import GIFT.SomeModule
 
 -- Fix: Add abbrevs to create dependency graph edges
