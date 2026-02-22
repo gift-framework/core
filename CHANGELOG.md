@@ -5,6 +5,35 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.21] - 2026-02-22
+
+### Summary
+
+**Spectral scaling on the TCS neck.** Formalizes the rational skeleton of Neumann eigenvalue scaling on the TCS neck interval [0,L], connecting eigenvalue arithmetic to GIFT topological constants. Adds ~35 new theorems including eigenvalue sum identities, sub-gap mode counting (3 = N_gen), division algorithm (99 = 7 × 14 + 1), and the Pell equation 99² − 50 × 14² = 1. Zero axioms, all goals closed. Full build passes. Blueprint updated with new chapter.
+
+### Added
+
+- **Foundations/SpectralScaling.lean** — Spectral scaling (35 theorems):
+  - Neumann eigenvalue hierarchy: ev_n/ev_1 = n² with gap structure
+  - Eigenvalue sum identities: 1² + 2² + 3² = dim(G₂) = 14, 1² + 2² + 3² + 4² = h(E₈) = 30
+  - Neck length ratio: L²/π² = H*/dim(G₂) = 99/14
+  - Selection constant structure: κ/π² = 1/(p₂ × dim_K₇) = 1/14
+  - Division algorithm: H* = dim_K₇ × dim_G₂ + 1 (remainder = parallel spinor count)
+  - Sub-gap mode counting: {n : n² ≤ ⌊99/14⌋} = {0, 1, 2}, count = 3 = N_gen
+  - Second eigenvalue: ev₂ × H* = 4 × dim(G₂) = 56 = dim(fund. E₇) = b₃ − b₂
+  - Pell equation: 99² − 50 × 14² = 1, discriminant 50 = p₂ × Weyl²
+  - Spectral-topological dictionary: systematic mode-cohomology correspondences
+  - Master certificate: 12 conjuncts, all proven
+
+### Changed
+
+- **Certificate.lean** — Added 10 abbrevs for SpectralScaling
+- **Foundations.lean** — Added import and export block for SpectralScaling
+- **blueprint/src/content.tex** — New chapter "Spectral Scaling on the TCS Neck", summary updated (415+ theorems)
+- **lakefile.toml** — Version bumped to 3.3.21
+
+---
+
 ## [3.3.20] - 2026-02-22
 
 ### Summary

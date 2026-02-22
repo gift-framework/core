@@ -37,6 +37,8 @@ import GIFT.Foundations.PiBounds
 import GIFT.Foundations.TCSPiecewiseMetric
 -- Conformal rigidity (G₂ representation theory, metric uniqueness)
 import GIFT.Foundations.ConformalRigidity
+-- Spectral scaling (Neumann eigenvalue hierarchy, sub-gap mode counting)
+import GIFT.Foundations.SpectralScaling
 
 namespace GIFT.Foundations
 
@@ -248,6 +250,32 @@ export ConformalRigidity (
   moduli_minus_b2 moduli_gap_factored
   -- Master theorem
   conformal_rigidity_certificate)
+
+-- Spectral Scaling: Neumann eigenvalue hierarchy and GIFT connections
+export SpectralScaling (
+  -- Neumann eigenvalue hierarchy
+  neumann_ratio neumann_ratio_0 neumann_ratio_1 neumann_ratio_2
+  second_gap_eq_N_gen third_gap_eq_Weyl
+  -- Eigenvalue sum identities
+  ev_sum_3_eq_dim_G2 ev_sum_4_eq_coxeter_E8 partial_sum_sequence
+  -- Neck length ratio
+  neck_ratio neck_ratio_from_constants neck_ratio_inverse neck_ratio_reciprocity
+  -- Selection constant structure
+  kappa_rational dim_G2_pontryagin_manifold kappa_times_H_star kappa_times_dim_G2
+  -- Division algorithm
+  euclidean_division euclidean_quotient euclidean_remainder
+  remainder_is_spinor_correction
+  -- Sub-gap mode counting
+  subgap_threshold subgap_threshold_eq_dim_K7
+  subgap_count_eq_N_gen excited_subgap_eq_p2
+  -- Second eigenvalue and E7
+  second_ev_product second_ev_eq_moduli_gap second_ev_binomial second_ev_factored
+  -- Spectral-topological dictionary
+  spectral_holonomy_rational spectral_geometric_rational spectral_ladder
+  -- Pell equation
+  pell_equation pell_discriminant pell_rationalized
+  -- Master theorem
+  spectral_scaling_certificate)
 
 /-!
 ## Comparison: Old vs New
