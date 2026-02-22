@@ -2779,27 +2779,51 @@ Poincar\'e Duality & 41 & \checkmark (v3.3.22) \\
 \end{tabular}
 \end{center}
 
-\begin{theorem}[GIFT Grand Certificate]\label{thm:grand_certificate}
-    \lean{GIFT.Certificate.gift_master_certificate}
+\begin{theorem}[Foundations Certificate]\label{thm:foundations_cert}
+    \lean{GIFT.Certificate.Foundations.certified}
     \leanok
     \uses{thm:reflect_preserves_lattice, thm:E8_sub_closed,
           thm:G2_cross_norm, cor:cross_self, thm:G2_cross_bilinear,
           thm:E8_SO16_decomposition, thm:gauge_fermion_split,
-          thm:weinberg_angle, thm:weinberg_simplified,
+          thm:joyce_cert, thm:analytical_metric, thm:joyce_exact,
+          thm:g2_metric_cert, thm:tcs_piecewise_cert,
+          thm:conformal_rigidity_cert, thm:spectral_scaling_cert,
+          thm:poincare_duality_cert}
+    Mathematical infrastructure: E$_8$ lattice (240 roots), G$_2$ cross product,
+    octonion bridge, K$_7$ Betti numbers, Joyce existence, conformal rigidity,
+    Poincar\'e duality, G$_2$ metric properties, TCS piecewise metric.
+\end{theorem}
+
+\begin{theorem}[Predictions Certificate]\label{thm:predictions_cert}
+    \lean{GIFT.Certificate.Predictions.certified}
+    \leanok
+    \uses{thm:weinberg_angle, thm:weinberg_simplified,
           thm:alpha_inv_complete, thm:alpha_s_structure,
           thm:koide_formula, thm:m_tau_m_e_factorization, thm:lambda_H,
           thm:n_s_indices, thm:Omega_DE_fraction,
           thm:fib_master, thm:b3_lucas,
           thm:direct_all_prime, thm:heegner_all,
           thm:monster_gift, thm:monster_ap, thm:j_E8, thm:j_triality,
-          thm:E8_kissing, thm:coxeter_gift, thm:euler_p2,
-          thm:joyce_cert, thm:analytical_metric, thm:joyce_exact,
-          thm:tcs_certificate, thm:physical_gap_cert,
+          thm:E8_kissing, thm:coxeter_gift, thm:euler_p2}
+    Published predictions: 33+ dimensionless derivations, V5.0 observables,
+    Fano selection, exceptional chain, SO(16) decomposition, hierarchy.
+\end{theorem}
+
+\begin{theorem}[Spectral Certificate]\label{thm:spectral_cert}
+    \lean{GIFT.Certificate.Spectral.certified}
+    \leanok
+    \uses{thm:tcs_certificate, thm:physical_gap_cert,
           thm:selberg_bridge_cert, thm:mollified_sum_cert,
           thm:zeta_cert, thm:unified_ratio,
-          thm:density_factor, thm:163_mod7, thm:248_mod7,
-          thm:g2_metric_cert, thm:tcs_piecewise_cert,
-          thm:conformal_rigidity_cert, thm:poincare_duality_cert}
+          thm:density_factor, thm:163_mod7, thm:248_mod7}
+    Spectral gap programme: mass gap ratio 14/99, TCS spectral bounds,
+    selection principle, Cheeger inequality, Connes bridge, Pell equation.
+\end{theorem}
+
+\begin{theorem}[GIFT Grand Certificate]\label{thm:grand_certificate}
+    \lean{GIFT.Certificate.gift_master_certificate}
+    \leanok
+    \uses{thm:foundations_cert, thm:predictions_cert, thm:spectral_cert}
     Complete GIFT framework: 455+ certified relations spanning
     E$_8$ lattice, G$_2$ holonomy, physical predictions, spectral theory,
     number-theoretic correspondences, the Selberg bridge,
