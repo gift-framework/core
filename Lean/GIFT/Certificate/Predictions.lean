@@ -200,24 +200,17 @@ abbrev hierarchy_mass_formula := GIFT.Hierarchy.m_tau_m_e_formula
 -- Combined from all published relations (replaces stacked all_13 -> all_75)
 -- ═══════════════════════════════════════════════════════════════════════════════
 
-/-- GIFT Predictions Master Certificate
+/-- GIFT Predictions Certificate: the proposition combining all 33+ published derivations.
 
-All published GIFT predictions in a single theorem.
-Covers the 33 dimensionless derivations from the papers:
 - Electroweak: sin2 theta_W = b₂/(b₃ + dim_G₂) (cross-multiplied)
 - Koide: dim_G₂ x 3 = b₂ x 2
-- N_gen = 3, delta_CP = 197
-- H* = 99, p₂ = 2
-- kappa_T denominator: b₃ - dim_G₂ - p₂ = 61
+- N_gen = 3, delta_CP = 197, H* = 99, p₂ = 2
 - m_tau/m_e = 3477, m_s/m_d = 20
-- E₈xE₈ dimension = 496
-- tau fraction: 10416/2673
-- Gauge couplings, mixing angles, Yukawa duality
+- E₈xE₈ dimension = 496, tau fraction: 10416/2673
 - Exceptional chain: E₆ = 6 x 13, E₇ = 7 x 19, E₈ = 8 x 31
 - SO(16) decomposition: 248 = 120 + 128
 - Cosmology: Omega_DE = 98/99
 -/
-/-- The proposition certified by the Predictions pillar -/
 def statement : Prop :=
     -- ═══ CORE TOPOLOGY ═══
     -- 1. Weinberg angle (cross-multiplied)

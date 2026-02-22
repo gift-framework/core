@@ -317,9 +317,8 @@ abbrev connes_bridge_cert := GIFT.Spectral.ConnesBridge.connes_bridge_certificat
 -- SPECTRAL MASTER CERTIFICATE
 -- ═══════════════════════════════════════════════════════════════════════════════
 
-/-- GIFT Spectral Certificate
+/-- GIFT Spectral Certificate: the proposition combining the spectral gap programme.
 
-The complete spectral gap programme:
 - Mass gap ratio = dim(G₂)/H* = 14/99 (proven, irreducible)
 - TCS spectral bounds: c_1/L^2 <= lambda_1 <= c_2/L^2
 - Selection principle: L^2 = (pi^2/14) x 99
@@ -327,7 +326,6 @@ The complete spectral gap programme:
 - Connes bridge: 6 primes < dim(G₂) with sum - 14 = 27
 - Pell equation: 99^2 - 50 x 14^2 = 1
 -/
-/-- The proposition certified by the Spectral pillar -/
 def statement : Prop :=
     -- Mass gap ratio = dim(G₂)/H*
     (GIFT.Spectral.MassGapRatio.mass_gap_ratio_num = dim_G2) ∧

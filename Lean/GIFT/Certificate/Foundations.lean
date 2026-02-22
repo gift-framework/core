@@ -386,11 +386,10 @@ abbrev pd_certificate := GIFT.Foundations.PoincareDuality.poincare_duality_certi
 
 open GIFT.Joyce GIFT.Sobolev GIFT.IntervalArithmetic
 
-/-- GIFT Foundations Certificate
+/-- GIFT Foundations Certificate: the proposition combining all mathematical infrastructure.
 
-All mathematical infrastructure proven:
 - E₈ root system: 240 roots = 112 (D₈) + 128 (half-integer)
-- G₂ cross product: bilinearity, antisymmetry, Lagrange identity
+- G₂ cross product: stabilizer gives dim = 14
 - Octonion bridge: R⁸ <-> R⁷ via octonion decomposition
 - K₇ topology: Betti numbers b₂=21, b₃=77, H*=99
 - Differential forms: Hodge duality, G₂ decompositions
@@ -398,7 +397,6 @@ All mathematical infrastructure proven:
 - Conformal rigidity: zero free parameters
 - Poincare duality: H* = 1 + 2 x dim_K7^2
 -/
-/-- The proposition certified by the Foundations pillar -/
 def statement : Prop :=
     -- E₈ root system: 112 + 128 = 240, rank = 8
     (112 + 128 = 240) ∧
