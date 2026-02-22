@@ -17,6 +17,7 @@ import GIFT.Joyce
 import GIFT.Algebraic
 import GIFT.Geometry
 import GIFT.Hierarchy
+import GIFT.Relations.G2MetricProperties
 
 /-!
 # GIFT Certificate: Mathematical Foundations

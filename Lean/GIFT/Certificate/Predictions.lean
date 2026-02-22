@@ -23,6 +23,7 @@ import GIFT.Relations.OverDetermination
 import GIFT.Relations.SectorClassification
 import GIFT.Observables
 import GIFT.Hierarchy
+import GIFT.Foundations
 
 /-!
 # GIFT Certificate: Predictions & Observables
