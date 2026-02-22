@@ -42,13 +42,9 @@ GIFT.Foundations.G2CrossProduct.G2_cross_norm
 # Analytical Metric
 # ══════════════════════════════════════════════════════════════
 GIFT.Foundations.AnalyticalMetric.canonical_metric
-GIFT.Foundations.AnalyticalMetric.det_error_bound
 GIFT.Foundations.AnalyticalMetric.det_g_equals_target
 GIFT.Foundations.AnalyticalMetric.det_g_target_value
-GIFT.Foundations.AnalyticalMetric.dimension_reduction_eq
 GIFT.Foundations.AnalyticalMetric.fano_lines
-GIFT.Foundations.AnalyticalMetric.joyce_condition_satisfied
-GIFT.Foundations.AnalyticalMetric.margin_verification
 GIFT.Foundations.AnalyticalMetric.metric_is_scaled_identity
 GIFT.Foundations.AnalyticalMetric.num_3form_components
 GIFT.Foundations.AnalyticalMetric.phi0_has_7_terms
@@ -57,8 +53,6 @@ GIFT.Foundations.AnalyticalMetric.phi0_linear_indices
 GIFT.Foundations.AnalyticalMetric.phi0_signs
 GIFT.Foundations.AnalyticalMetric.phi0_sparsity
 GIFT.Foundations.AnalyticalMetric.scale_factor_power_14
-GIFT.Foundations.AnalyticalMetric.target_in_interval
-GIFT.Foundations.AnalyticalMetric.torsion_bound
 GIFT.Foundations.AnalyticalMetric.torsion_norm_constant_form
 GIFT.Foundations.AnalyticalMetric.torsion_satisfies_joyce
 
@@ -248,11 +242,11 @@ GIFT.Relations.G2MetricProperties.g2_metric_properties_certificate
 # Neck Geometry & TCS Manifold
 GIFT.Spectral.NeckGeometry.TCSManifold
 GIFT.Spectral.NeckGeometry.TCSHypotheses
-GIFT.Spectral.NeckGeometry.L0
+GIFT.Spectral.NeckGeometry.L₀
 
 # TCS Spectral Bounds
-GIFT.Spectral.TCSBounds.c1
-GIFT.Spectral.TCSBounds.c2_robust
+GIFT.Spectral.TCSBounds.c₁
+GIFT.Spectral.TCSBounds.c₂_robust
 GIFT.Spectral.TCSBounds.tcs_spectral_bounds
 GIFT.Spectral.TCSBounds.spectral_gap_scales_as_inverse_L_squared
 GIFT.Spectral.TCSBounds.typical_tcs_bounds_algebraic
@@ -441,6 +435,171 @@ GIFT.Joyce.k7_g2_structure
 GIFT.Joyce.k7_is_torsion_free
 GIFT.Joyce.k7_admits_torsion_free_g2
 GIFT.Joyce.joyce_complete_certificate
+
+# ══════════════════════════════════════════════════════════════
+# G2 Differential Geometry (Geometry/)
+# ══════════════════════════════════════════════════════════════
+
+# Exterior Algebra
+GIFT.Geometry.Exterior.Ext
+GIFT.Geometry.Exterior.wedge
+GIFT.Geometry.Exterior.wedge_anticomm_1forms
+GIFT.Geometry.Exterior.dim_3forms
+GIFT.Geometry.Exterior.G2_decomp_Omega2
+GIFT.Geometry.Exterior.G2_decomp_Omega3
+GIFT.Geometry.Exterior.exterior_infrastructure_complete
+
+# Differential Forms
+GIFT.Geometry.DifferentialFormsR7.DiffForm
+GIFT.Geometry.DifferentialFormsR7.ExteriorDerivative
+GIFT.Geometry.DifferentialFormsR7.exact_implies_closed
+GIFT.Geometry.DifferentialFormsR7.standardG2
+GIFT.Geometry.DifferentialFormsR7.standardG2_torsionFree
+
+# Hodge Star
+GIFT.Geometry.HodgeStarR7.starStar_sign_positive
+GIFT.Geometry.HodgeStarR7.star3
+GIFT.Geometry.HodgeStarR7.psi_eq_star_phi
+GIFT.Geometry.HodgeStarR7.star4_star3_const
+GIFT.Geometry.HodgeStarR7.G2GeomData
+GIFT.Geometry.HodgeStarR7.standardG2Geom_torsionFree
+
+# Geometry Master
+GIFT.Geometry.geometry_infrastructure_complete
+
+# ══════════════════════════════════════════════════════════════
+# Dimensional Hierarchy (Hierarchy/)
+# ══════════════════════════════════════════════════════════════
+
+# Dimensional Gap
+GIFT.Hierarchy.DimensionalGap.cohom_ratio_nat
+GIFT.Hierarchy.DimensionalGap.cohom_suppression
+GIFT.Hierarchy.DimensionalGap.cohom_suppression_magnitude
+GIFT.Hierarchy.DimensionalGap.jordan_suppression
+GIFT.Hierarchy.DimensionalGap.jordan_suppression_small
+GIFT.Hierarchy.DimensionalGap.hierarchy_ratio
+GIFT.Hierarchy.DimensionalGap.hierarchy_ratio_very_small
+GIFT.Hierarchy.DimensionalGap.ln_hierarchy_bounds
+
+# Vacuum Structure
+GIFT.Hierarchy.VacuumStructure.n_vacua
+GIFT.Hierarchy.VacuumStructure.n_vacua_eq_b2
+GIFT.Hierarchy.VacuumStructure.vev_eq_2_minus_phi
+GIFT.Hierarchy.VacuumStructure.moduli_dim_eq_b3
+GIFT.Hierarchy.VacuumStructure.tcs_total
+GIFT.Hierarchy.VacuumStructure.vacuum_topology_correspondence
+
+# E6 Cascade
+GIFT.Hierarchy.E6Cascade.sum_exceptional_ranks
+GIFT.Hierarchy.E6Cascade.fund_E6_eq_J3O
+GIFT.Hierarchy.E6Cascade.E8_E6_SU3_branching
+GIFT.Hierarchy.E6Cascade.cascade_decreasing
+GIFT.Hierarchy.E6Cascade.cascade_differences
+
+# Absolute Masses
+GIFT.Hierarchy.AbsoluteMasses.m_tau_m_e_formula
+GIFT.Hierarchy.AbsoluteMasses.m_tau_m_e_expanded
+GIFT.Hierarchy.AbsoluteMasses.m_tau_m_e_prime_factorization
+GIFT.Hierarchy.AbsoluteMasses.m_mu_m_e_theory_bounds
+GIFT.Hierarchy.AbsoluteMasses.y_tau_value
+GIFT.Hierarchy.AbsoluteMasses.mass_formulas_verified
+
+# ══════════════════════════════════════════════════════════════
+# Extended Observables (Observables/)
+# ══════════════════════════════════════════════════════════════
+
+# Weak Mixing Angle
+GIFT.Observables.WeakMixingAngle.sin2_theta_W
+GIFT.Observables.WeakMixingAngle.sin2_theta_W_primary
+
+# PMNS
+GIFT.Observables.PMNS.sin2_theta12
+GIFT.Observables.PMNS.sin2_theta23
+GIFT.Observables.PMNS.sin2_theta13
+
+# Quark Masses
+GIFT.Observables.QuarkMasses.m_s_over_m_d
+GIFT.Observables.QuarkMasses.m_b_over_m_t
+GIFT.Observables.QuarkMasses.m_c_over_m_s
+GIFT.Observables.QuarkMasses.m_u_over_m_d
+
+# Boson Masses
+GIFT.Observables.BosonMasses.m_H_over_m_W
+GIFT.Observables.BosonMasses.m_H_over_m_t
+GIFT.Observables.BosonMasses.m_W_over_m_Z
+
+# CKM
+GIFT.Observables.CKM.sin2_theta12_CKM
+GIFT.Observables.CKM.A_Wolf
+GIFT.Observables.CKM.sin2_theta23_CKM
+
+# Cosmology
+GIFT.Observables.Cosmology.Omega_DM_over_Omega_b
+GIFT.Observables.Cosmology.hubble_h
+GIFT.Observables.Cosmology.sigma_8
+GIFT.Observables.Cosmology.Y_p
+
+# Universality
+GIFT.Observables.the_42_universality
+GIFT.Observables.eight_eleven_universality
+
+# ══════════════════════════════════════════════════════════════
+# Spectral Theory Foundations & Mass Gap Ratio
+# ══════════════════════════════════════════════════════════════
+
+# SpectralTheory base types
+GIFT.Spectral.SpectralTheory.CompactManifold
+GIFT.Spectral.SpectralTheory.LaplaceBeltrami
+GIFT.Spectral.SpectralTheory.MassGap
+GIFT.Spectral.SpectralTheory.mass_gap_positive
+
+# Mass Gap Ratio (14/99)
+GIFT.Spectral.MassGapRatio.mass_gap_ratio_num
+GIFT.Spectral.MassGapRatio.mass_gap_ratio_den
+GIFT.Spectral.MassGapRatio.mass_gap_ratio
+GIFT.Spectral.MassGapRatio.mass_gap_ratio_irreducible
+GIFT.Spectral.MassGapRatio.mass_gap_from_holonomy_cohomology
+GIFT.Spectral.MassGapRatio.mass_gap_ratio_certified
+
+# Universal Law
+GIFT.Spectral.UniversalLaw.product_formula
+GIFT.Spectral.UniversalLaw.ratio_irreducible
+GIFT.Spectral.UniversalLaw.physical_mass_gap_MeV
+GIFT.Spectral.UniversalLaw.universal_law_certificate
+
+# ══════════════════════════════════════════════════════════════
+# Selection Principle, Cheeger, Yang-Mills, Connes Bridge
+# ══════════════════════════════════════════════════════════════
+
+# Selection Principle
+GIFT.Spectral.SelectionPrinciple.kappa
+GIFT.Spectral.SelectionPrinciple.kappa_rough_bounds
+GIFT.Spectral.SelectionPrinciple.building_blocks_match_K7
+GIFT.Spectral.SelectionPrinciple.L_canonical
+GIFT.Spectral.SelectionPrinciple.L_canonical_rough_bounds
+GIFT.Spectral.SelectionPrinciple.spectral_gap_from_selection
+GIFT.Spectral.SelectionPrinciple.spectral_holonomy_principle
+GIFT.Spectral.SelectionPrinciple.selection_principle_certificate
+
+# Cheeger Inequality
+GIFT.Spectral.CheegerInequality.CheegerConstant
+GIFT.Spectral.CheegerInequality.K7_cheeger_lower_bound
+GIFT.Spectral.CheegerInequality.mass_gap_exceeds_cheeger
+GIFT.Spectral.CheegerInequality.cheeger_certificate
+
+# Yang-Mills
+GIFT.Spectral.YangMills.GIFT_prediction
+GIFT.Spectral.YangMills.mass_gap_in_MeV
+GIFT.Spectral.YangMills.GIFT_provides_candidate
+GIFT.Spectral.YangMills.topological_origin
+GIFT.Spectral.YangMills.yang_mills_certificate
+
+# Connes Bridge
+GIFT.Spectral.ConnesBridge.connes_primes_list
+GIFT.Spectral.ConnesBridge.connes_count_eq_coxeter_G2
+GIFT.Spectral.ConnesBridge.largest_connes_prime_eq_gap_num
+GIFT.Spectral.ConnesBridge.first_3_connes_product_eq_coxeter_E8
+GIFT.Spectral.ConnesBridge.connes_bridge_certificate
 
 # ══════════════════════════════════════════════════════════════
 # Certificate System (v3.3.23 modular structure)

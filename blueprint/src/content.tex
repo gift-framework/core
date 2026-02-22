@@ -972,8 +972,6 @@ on $\Kseven$ by encoding the algebraic structure directly in the neural architec
 \end{definition}
 
 \begin{theorem}[Dimension Reduction]\label{thm:dim_reduction}
-    \lean{GIFT.Foundations.AnalyticalMetric.dimension_reduction_eq}
-    \leanok
     \uses{def:phi0_standard, def:delta_phi}
     The G2 constraint reduces parameters from 35 to 14:
     $35 - 14 = 21 = \btwo$
@@ -982,29 +980,21 @@ on $\Kseven$ by encoding the algebraic structure directly in the neural architec
 \section{Certified Bounds}
 
 \begin{definition}[Torsion Bound]\label{def:torsion_bound}
-    \lean{GIFT.Foundations.AnalyticalMetric.torsion_bound}
-    \leanok
     \uses{def:phi0_standard, def:H_star}
     PINN torsion bound: $\|T\| < 0.001$
 \end{definition}
 
 \begin{definition}[Det Error Bound]\label{def:det_error}
-    \lean{GIFT.Foundations.AnalyticalMetric.det_error_bound}
-    \leanok
     \uses{def:torsion_bound, def:H_star}
     Determinant error: $|\det(g) - 65/32| < 10^{-6}$
 \end{definition}
 
 \begin{theorem}[Joyce Condition]\label{thm:joyce_satisfied}
-    \lean{GIFT.Foundations.AnalyticalMetric.joyce_condition_satisfied}
-    \leanok
     \uses{def:torsion_bound, def:joyce_epsilon}
     The PINN torsion is well below Joyce threshold: $0.001 < 0.0288$
 \end{theorem}
 
 \begin{theorem}[20x Margin]\label{thm:margin_20x}
-    \lean{GIFT.Foundations.AnalyticalMetric.margin_verification}
-    \leanok
     \uses{def:torsion_bound, def:joyce_epsilon, thm:joyce_satisfied}
     $20 \times \|T\|_{\text{PINN}} < \varepsilon_{\text{Joyce}}$
 \end{theorem}
@@ -1018,8 +1008,6 @@ on $\Kseven$ by encoding the algebraic structure directly in the neural architec
 \end{definition}
 
 \begin{theorem}[Target in Interval]\label{thm:target_interval}
-    \lean{GIFT.Foundations.AnalyticalMetric.target_in_interval}
-    \leanok
     \uses{def:det_error, def:H_star, thm:margin_20x}
     The target value $65/32$ lies in the certified interval for $\det(g)$.
 \end{theorem}
@@ -1258,21 +1246,21 @@ the mass gap $\lambda_1 = 14/99$.
 \section{Spectral Bound Constants}
 
 \begin{definition}[Lower Bound Constant]\label{def:c1}
-    \lean{GIFT.Spectral.TCSBounds.c1}
+    \lean{GIFT.Spectral.TCSBounds.c₁}
     \leanok
     \uses{def:TCSHypotheses}
     $c_1 = v_0^2$ (from Cheeger inequality)
 \end{definition}
 
 \begin{definition}[Upper Bound Constant]\label{def:c2}
-    \lean{GIFT.Spectral.TCSBounds.c2_robust}
+    \lean{GIFT.Spectral.TCSBounds.c₂_robust}
     \leanok
     \uses{def:TCSHypotheses}
     $c_2 = \frac{16 v_1}{1 - v_1}$ (from Rayleigh quotient)
 \end{definition}
 
 \begin{definition}[Threshold Length]\label{def:L0}
-    \lean{GIFT.Spectral.NeckGeometry.L0}
+    \lean{GIFT.Spectral.NeckGeometry.L₀}
     \leanok
     \uses{def:TCSHypotheses}
     $L_0 = \frac{2 v_0}{h_0}$ (neck dominates for $L > L_0$)
@@ -2741,6 +2729,777 @@ dimension alone.
 
 % =============================================================================
 
+\chapter{$\Gtwo$ Differential Geometry}\label{chap:geometry}
+% =============================================================================
+
+The axiom-free formalization of $\Gtwo$ differential geometry on $\R^7$:
+exterior algebra $\Lambda^*(\R^7)$, differential forms $\Omega^k(\R^7)$,
+Hodge star $\star : \Omega^3 \to \Omega^4$, and the torsion-free condition
+$d\varphi = 0 \wedge d\psi = 0$.
+
+\section{Exterior Algebra on $\R^7$}
+
+\begin{definition}[Exterior Algebra]\label{def:exterior}
+    \lean{GIFT.Geometry.Exterior.Ext}
+    \leanok
+    The exterior algebra $\Lambda^*(\R^7)$ via Mathlib's \texttt{ExteriorAlgebra}.
+\end{definition}
+
+\begin{definition}[Wedge Product]\label{def:wedge}
+    \lean{GIFT.Geometry.Exterior.wedge}
+    \leanok
+    \uses{def:exterior}
+    The wedge product $\wedge' : \Lambda^p \times \Lambda^q \to \Lambda^{p+q}$.
+\end{definition}
+
+\begin{theorem}[Wedge Anticommutativity]\label{thm:wedge_anticomm}
+    \lean{GIFT.Geometry.Exterior.wedge_anticomm_1forms}
+    \leanok
+    \uses{def:wedge}
+    For 1-forms $\alpha, \beta$: $\alpha \wedge' \beta = -\beta \wedge' \alpha$.
+\end{theorem}
+
+\begin{theorem}[Dimension of 3-Forms]\label{thm:dim_3forms}
+    \lean{GIFT.Geometry.Exterior.dim_3forms}
+    \leanok
+    $\opdim(\Lambda^3 \R^7) = \binom{7}{3} = 35$.
+\end{theorem}
+
+\begin{theorem}[$\Gtwo$ Decomposition of $\Omega^2$]\label{thm:G2_decomp_Omega2}
+    \lean{GIFT.Geometry.Exterior.G2_decomp_Omega2}
+    \leanok
+    $\Omega^2 = \Omega^2_7 \oplus \Omega^2_{14}$, with $7 + 14 = 21 = \btwo$.
+\end{theorem}
+
+\begin{theorem}[$\Gtwo$ Decomposition of $\Omega^3$]\label{thm:G2_decomp_Omega3}
+    \lean{GIFT.Geometry.Exterior.G2_decomp_Omega3}
+    \leanok
+    $\Omega^3 = \Omega^3_1 \oplus \Omega^3_7 \oplus \Omega^3_{27}$, with $1 + 7 + 27 = 35$.
+\end{theorem}
+
+\begin{theorem}[Exterior Infrastructure]\label{thm:exterior_cert}
+    \lean{GIFT.Geometry.Exterior.exterior_infrastructure_complete}
+    \leanok
+    \uses{thm:wedge_anticomm, thm:dim_3forms, thm:G2_decomp_Omega2, thm:G2_decomp_Omega3}
+    Complete exterior algebra infrastructure on $\R^7$.
+\end{theorem}
+
+\section{Differential Forms on $\R^7$}
+
+\begin{definition}[Differential $k$-Form]\label{def:diffform}
+    \lean{GIFT.Geometry.DifferentialFormsR7.DiffForm}
+    \leanok
+    A differential $k$-form on $\R^7$: position-dependent coefficients
+    $\omega \in C^\infty(\R^7, \R^{\binom{7}{k}})$.
+\end{definition}
+
+\begin{definition}[Exterior Derivative]\label{def:ext_deriv}
+    \lean{GIFT.Geometry.DifferentialFormsR7.ExteriorDerivative}
+    \leanok
+    \uses{def:diffform}
+    Structure encoding $d : \Omega^k \to \Omega^{k+1}$ with $d^2 = 0$.
+\end{definition}
+
+\begin{theorem}[Exact $\Rightarrow$ Closed]\label{thm:exact_closed}
+    \lean{GIFT.Geometry.DifferentialFormsR7.exact_implies_closed}
+    \leanok
+    \uses{def:ext_deriv}
+    $d\omega = 0 \Rightarrow d(d\omega) = 0$: exactness implies closedness.
+\end{theorem}
+
+\begin{definition}[Standard $\Gtwo$ Form Data]\label{def:standardG2}
+    \lean{GIFT.Geometry.DifferentialFormsR7.standardG2}
+    \leanok
+    \uses{def:diffform}
+    The canonical $\Gtwo$ 3-form $\varphi$ with Fano plane indices and its dual $\psi$.
+\end{definition}
+
+\begin{theorem}[Standard $\Gtwo$ Torsion-Free]\label{thm:standardG2_tf}
+    \lean{GIFT.Geometry.DifferentialFormsR7.standardG2_torsionFree}
+    \leanok
+    \uses{def:standardG2}
+    The constant $\Gtwo$ form on flat $\R^7$ is torsion-free: $d\varphi = 0 \wedge d\psi = 0$.
+\end{theorem}
+
+\section{Hodge Star on $\R^7$}
+
+\begin{theorem}[$\star\star$ Sign in 7 Dimensions]\label{thm:starstar_sign}
+    \lean{GIFT.Geometry.HodgeStarR7.starStar_sign_positive}
+    \leanok
+    For all $k \in \{0, \ldots, 7\}$:
+    $(-1)^{k(7-k)} = +1$.
+    In 7 dimensions, the Hodge star satisfies $\star\star = +1$ (not $\pm 1$).
+\end{theorem}
+
+\begin{definition}[Hodge Star $\star_3$]\label{def:star3}
+    \lean{GIFT.Geometry.HodgeStarR7.star3}
+    \leanok
+    $\star : \Omega^3(\R^7) \to \Omega^4(\R^7)$ via complement map and Levi-Civita signs.
+\end{definition}
+
+\begin{theorem}[$\psi = \star\varphi$ (Proven)]\label{thm:psi_eq_star_phi}
+    \lean{GIFT.Geometry.HodgeStarR7.psi_eq_star_phi}
+    \leanok
+    \uses{def:standardG2, def:star3}
+    The $\Gtwo$ 4-form $\psi$ equals the Hodge dual of $\varphi$:
+    $\psi = \star\varphi$. \textbf{Proven}, not axiomatized.
+\end{theorem}
+
+\begin{theorem}[Hodge Involutivity]\label{thm:hodge_invol}
+    \lean{GIFT.Geometry.HodgeStarR7.star4_star3_const}
+    \leanok
+    \uses{def:star3}
+    $\star_4(\star_3(\omega)) = \omega$ for constant 3-forms.
+\end{theorem}
+
+\begin{definition}[$\Gtwo$ Geometric Data]\label{def:g2geomdata}
+    \lean{GIFT.Geometry.HodgeStarR7.G2GeomData}
+    \leanok
+    \uses{def:ext_deriv, def:star3}
+    Structure combining $\varphi$, $\psi$, exterior derivative $d$, and Hodge star $\star$
+    with the torsion-free condition: $d\varphi = 0 \wedge d(\star\varphi) = 0$.
+\end{definition}
+
+\begin{theorem}[Standard $\Gtwo$ Geometry Torsion-Free]\label{thm:standardG2Geom_tf}
+    \lean{GIFT.Geometry.HodgeStarR7.standardG2Geom_torsionFree}
+    \leanok
+    \uses{def:g2geomdata, thm:psi_eq_star_phi, thm:hodge_invol}
+    The standard $\Gtwo$ structure on flat $\R^7$ is torsion-free.
+\end{theorem}
+
+\section{Master Certificate}
+
+\begin{theorem}[Geometry Infrastructure Certificate]\label{thm:geometry_cert}
+    \lean{GIFT.Geometry.geometry_infrastructure_complete}
+    \leanok
+    \uses{thm:starstar_sign, thm:psi_eq_star_phi, thm:hodge_invol, thm:standardG2Geom_tf}
+    Complete $\Gtwo$ differential geometry infrastructure with zero axioms:
+    $\varphi \in \Omega^3$, $\psi = \star\varphi$ (proven), $\star\star = +1$ (proven),
+    torsion-free on flat $\R^7$ (proven).
+\end{theorem}
+
+% =============================================================================
+
+\chapter{Dimensional Hierarchy}\label{chap:hierarchy}
+% =============================================================================
+
+The electroweak--Planck hierarchy $M_{\mathrm{EW}}/M_{\mathrm{Pl}} \approx 10^{-17}$
+is derived from $\Kseven$ topology via:
+\[
+    \frac{M_{\mathrm{EW}}}{M_{\mathrm{Pl}}} = e^{-\Hstar/\rank(\Eeight)} \times \varphi^{-54}
+    = e^{-99/8} \times \varphi^{-54} \approx 10^{-17}
+\]
+
+\section{Cohomological Suppression}
+
+\begin{definition}[Cohomological Ratio]\label{def:cohom_ratio}
+    \lean{GIFT.Hierarchy.DimensionalGap.cohom_ratio_nat}
+    \leanok
+    \uses{def:H_star}
+    The cohomological exponent $\Hstar / \rank(\Eeight) = 99/8$.
+\end{definition}
+
+\begin{definition}[Cohomological Suppression]\label{def:cohom_suppression}
+    \lean{GIFT.Hierarchy.DimensionalGap.cohom_suppression}
+    \leanok
+    \uses{def:cohom_ratio}
+    $S_{\mathrm{cohom}} := e^{-\Hstar/\rank(\Eeight)} = e^{-99/8}$.
+\end{definition}
+
+\begin{theorem}[Suppression Magnitude]\label{thm:cohom_magnitude}
+    \lean{GIFT.Hierarchy.DimensionalGap.cohom_suppression_magnitude}
+    \leanok
+    \uses{def:cohom_suppression}
+    $10^{-6} < e^{-99/8} < 10^{-5}$.
+\end{theorem}
+
+\begin{definition}[Jordan Suppression]\label{def:jordan_suppression}
+    \lean{GIFT.Hierarchy.DimensionalGap.jordan_suppression}
+    \leanok
+    $S_{\mathrm{Jordan}} := \varphi^{-54} = (\varphi^{-2})^{27}$,
+    where $27 = \opdim(J_3(\OO))$ and $\varphi^{-2} \approx 0.382$.
+\end{definition}
+
+\begin{theorem}[Jordan Suppression Small]\label{thm:jordan_small}
+    \lean{GIFT.Hierarchy.DimensionalGap.jordan_suppression_small}
+    \leanok
+    \uses{def:jordan_suppression}
+    $\varphi^{-54} < 10^{-10}$.
+\end{theorem}
+
+\begin{definition}[Hierarchy Ratio]\label{def:hierarchy_ratio}
+    \lean{GIFT.Hierarchy.DimensionalGap.hierarchy_ratio}
+    \leanok
+    \uses{def:cohom_suppression, def:jordan_suppression}
+    $R_{\mathrm{hier}} := S_{\mathrm{cohom}} \times S_{\mathrm{Jordan}}
+     = e^{-99/8} \times \varphi^{-54}$.
+\end{definition}
+
+\begin{theorem}[Hierarchy Very Small]\label{thm:hierarchy_very_small}
+    \lean{GIFT.Hierarchy.DimensionalGap.hierarchy_ratio_very_small}
+    \leanok
+    \uses{def:hierarchy_ratio, thm:cohom_magnitude, thm:jordan_small}
+    $R_{\mathrm{hier}} < 10^{-15}$. The hierarchy problem is solved by topology.
+\end{theorem}
+
+\begin{theorem}[Hierarchy Bounds]\label{thm:hierarchy_bounds}
+    \lean{GIFT.Hierarchy.DimensionalGap.ln_hierarchy_bounds}
+    \leanok
+    \uses{def:hierarchy_ratio}
+    $-39 < \ln(R_{\mathrm{hier}}) < -38$, matching $M_{\mathrm{EW}}/M_{\mathrm{Pl}} \approx 10^{-17}$.
+\end{theorem}
+
+\section{Vacuum Structure}
+
+\begin{definition}[Number of Vacua]\label{def:n_vacua}
+    \lean{GIFT.Hierarchy.VacuumStructure.n_vacua}
+    \leanok
+    \uses{def:b2}
+    $N_{\mathrm{vacua}} := \btwo = 21$ associative 3-cycles on $\Kseven$.
+\end{definition}
+
+\begin{theorem}[Vacua Equal $\btwo$]\label{thm:n_vacua_eq_b2}
+    \lean{GIFT.Hierarchy.VacuumStructure.n_vacua_eq_b2}
+    \leanok
+    \uses{def:n_vacua}
+    $N_{\mathrm{vacua}} = \btwo = 21$.
+\end{theorem}
+
+\begin{theorem}[VEV from Golden Ratio]\label{thm:vev_phi}
+    \lean{GIFT.Hierarchy.VacuumStructure.vev_eq_2_minus_phi}
+    \leanok
+    The vacuum expectation value $v = 2 - \varphi = \varphi^{-2} \approx 0.382$.
+\end{theorem}
+
+\begin{theorem}[Moduli Dimension]\label{thm:moduli_b3}
+    \lean{GIFT.Hierarchy.VacuumStructure.moduli_dim_eq_b3}
+    \leanok
+    $\opdim(\mathcal{M}) = \bthree = 77$.
+\end{theorem}
+
+\begin{theorem}[TCS Building Block Decomposition]\label{thm:tcs_total}
+    \lean{GIFT.Hierarchy.VacuumStructure.tcs_total}
+    \leanok
+    \uses{thm:moduli_b3}
+    $\bthree = 40 + 37$ (quintic and CI blocks).
+\end{theorem}
+
+\begin{theorem}[Vacuum--Topology Correspondence]\label{thm:vacuum_topo}
+    \lean{GIFT.Hierarchy.VacuumStructure.vacuum_topology_correspondence}
+    \leanok
+    \uses{thm:n_vacua_eq_b2, thm:moduli_b3, thm:tcs_total}
+    Complete vacuum structure derived from topology.
+\end{theorem}
+
+\section{$\Eeight \to E_6$ Symmetry Cascade}
+
+\begin{theorem}[Exceptional Rank Sum]\label{thm:sum_exceptional_ranks}
+    \lean{GIFT.Hierarchy.E6Cascade.sum_exceptional_ranks}
+    \leanok
+    $\rank(\Eeight) + \rank(\Eseven) + \rank(E_6) + \rank(F_4) + \rank(\Gtwo) = 8 + 7 + 6 + 4 + 2 = 27 = \opdim(J_3(\OO))$.
+\end{theorem}
+
+\begin{theorem}[$E_6$ Fundamental]\label{thm:fund_E6_J3O}
+    \lean{GIFT.Hierarchy.E6Cascade.fund_E6_eq_J3O}
+    \leanok
+    $\opdim(\mathrm{fund.}\; E_6) = 27 = \opdim(J_3(\OO))$.
+\end{theorem}
+
+\begin{theorem}[$\Eeight$--$E_6$--$\SU(3)$ Branching]\label{thm:E8_E6_branching}
+    \lean{GIFT.Hierarchy.E6Cascade.E8_E6_SU3_branching}
+    \leanok
+    $248 = 78 + 8 + 2 \times 27 \times 3 = \opdim(E_6) + \opdim(\SU(3)) + 162$.
+\end{theorem}
+
+\begin{theorem}[Cascade Decreasing]\label{thm:cascade_decreasing}
+    \lean{GIFT.Hierarchy.E6Cascade.cascade_decreasing}
+    \leanok
+    $248 > 133 > 78 > 52 > 14$: exceptional group dimensions strictly decrease.
+\end{theorem}
+
+\begin{theorem}[Cascade Differences]\label{thm:cascade_differences}
+    \lean{GIFT.Hierarchy.E6Cascade.cascade_differences}
+    \leanok
+    \uses{thm:cascade_decreasing}
+    $248 - 133 = 115$, $133 - 78 = 55$, $78 - 52 = 26$, $52 - 14 = 38$.
+\end{theorem}
+
+\section{Absolute Lepton Masses}
+
+\begin{theorem}[$m_\tau/m_e$ Formula]\label{thm:m_tau_m_e}
+    \lean{GIFT.Hierarchy.AbsoluteMasses.m_tau_m_e_formula}
+    \leanok
+    $m_\tau / m_e = (\bthree - \btwo)(\kappa_T^{-1} + 1) + W = 56 \times 62 + 5 = 3477$.
+\end{theorem}
+
+\begin{theorem}[$m_\tau/m_e$ Expanded]\label{thm:m_tau_m_e_expanded}
+    \lean{GIFT.Hierarchy.AbsoluteMasses.m_tau_m_e_expanded}
+    \leanok
+    \uses{thm:m_tau_m_e}
+    $3477 = 3472 + 5$ where $3472 = 56 \times 62$ (Betti $\times$ kappa) and $5 = W$ (Weyl factor).
+\end{theorem}
+
+\begin{theorem}[$m_\tau/m_e$ Prime Factorization]\label{thm:m_tau_m_e_primes}
+    \lean{GIFT.Hierarchy.AbsoluteMasses.m_tau_m_e_prime_factorization}
+    \leanok
+    \uses{thm:m_tau_m_e}
+    $3477 = 3 \times 19 \times 61$ (all prime factors are GIFT-expressible).
+\end{theorem}
+
+\begin{theorem}[$m_\mu/m_e$ Bounds]\label{thm:m_mu_m_e_bounds}
+    \lean{GIFT.Hierarchy.AbsoluteMasses.m_mu_m_e_theory_bounds}
+    \leanok
+    $206 < 27^\varphi < 208$ (Jordan algebra base with golden exponent).
+\end{theorem}
+
+\begin{theorem}[$y_\tau$ Yukawa]\label{thm:y_tau}
+    \lean{GIFT.Hierarchy.AbsoluteMasses.y_tau_value}
+    \leanok
+    $y_\tau = 1/98 = 1/(\Hstar - 1)$ (tau Yukawa from cohomology).
+\end{theorem}
+
+\begin{theorem}[Mass Formulas Verified]\label{thm:mass_formulas}
+    \lean{GIFT.Hierarchy.AbsoluteMasses.mass_formulas_verified}
+    \leanok
+    \uses{thm:m_tau_m_e, thm:m_mu_m_e_bounds, thm:y_tau}
+    All absolute mass formulas verified.
+\end{theorem}
+
+% =============================================================================
+
+\chapter{Extended Observables}\label{chap:observables}
+% =============================================================================
+
+Approximately 50 physical observables derived from topology with zero free parameters.
+Mean deviation: $0.24\%$.
+
+\section{Weak Mixing Angle (14 Expressions)}
+
+\begin{definition}[$\sin^2\theta_W$ Observable]\label{def:sin2_theta_W_obs}
+    \lean{GIFT.Observables.WeakMixingAngle.sin2_theta_W}
+    \leanok
+    $\sin^2\theta_W := 3/13$.
+\end{definition}
+
+\begin{theorem}[14 Equivalent Expressions]\label{thm:sin2_theta_W_14}
+    \lean{GIFT.Observables.WeakMixingAngle.sin2_theta_W_primary}
+    \leanok
+    \uses{def:sin2_theta_W_obs}
+    Primary: $\sin^2\theta_W = N_{\mathrm{gen}} / (\opdim(\Gtwo) - 1) = 3/13$.
+    Deviation: $0.20\%$ from experiment.
+\end{theorem}
+
+\section{PMNS Neutrino Mixing}
+
+\begin{definition}[$\sin^2\theta_{12}^{\mathrm{PMNS}}$]\label{def:theta12_pmns}
+    \lean{GIFT.Observables.PMNS.sin2_theta12}
+    \leanok
+    $\sin^2\theta_{12} := 4/13$ (solar mixing angle).
+\end{definition}
+
+\begin{definition}[$\sin^2\theta_{23}^{\mathrm{PMNS}}$]\label{def:theta23_pmns}
+    \lean{GIFT.Observables.PMNS.sin2_theta23}
+    \leanok
+    $\sin^2\theta_{23} := 6/11 = 6/\Dbulk$ (atmospheric mixing angle).
+\end{definition}
+
+\begin{definition}[$\sin^2\theta_{13}^{\mathrm{PMNS}}$]\label{def:theta13_pmns}
+    \lean{GIFT.Observables.PMNS.sin2_theta13}
+    \leanok
+    $\sin^2\theta_{13} := 11/496 = \Dbulk / (2 \times \opdim(\Eeight))$ (reactor angle).
+\end{definition}
+
+\section{Quark Mass Ratios}
+
+\begin{definition}[$m_s/m_d$]\label{def:ms_md}
+    \lean{GIFT.Observables.QuarkMasses.m_s_over_m_d}
+    \leanok
+    $m_s / m_d := 20$.
+\end{definition}
+
+\begin{definition}[$m_b/m_t$]\label{def:mb_mt}
+    \lean{GIFT.Observables.QuarkMasses.m_b_over_m_t}
+    \leanok
+    $m_b / m_t := 1/42 = 1/(2\btwo)$ --- the structural invariant 42 appears!
+\end{definition}
+
+\begin{definition}[$m_c/m_s$]\label{def:mc_ms}
+    \lean{GIFT.Observables.QuarkMasses.m_c_over_m_s}
+    \leanok
+    $m_c / m_s := 246/21 = (\opdim(\Eeight) - p_2) / \btwo$.
+\end{definition}
+
+\begin{definition}[$m_u/m_d$]\label{def:mu_md}
+    \lean{GIFT.Observables.QuarkMasses.m_u_over_m_d}
+    \leanok
+    $m_u / m_d := 79/168$.
+\end{definition}
+
+\section{Boson Mass Ratios}
+
+\begin{definition}[$m_H/m_W$]\label{def:mH_mW}
+    \lean{GIFT.Observables.BosonMasses.m_H_over_m_W}
+    \leanok
+    $m_H / m_W := 81/52$.
+\end{definition}
+
+\begin{definition}[$m_H/m_t$]\label{def:mH_mt}
+    \lean{GIFT.Observables.BosonMasses.m_H_over_m_t}
+    \leanok
+    $m_H / m_t := 8/11 = \rank(\Eeight) / \Dbulk$.
+\end{definition}
+
+\begin{definition}[$m_W/m_Z$]\label{def:mW_mZ}
+    \lean{GIFT.Observables.BosonMasses.m_W_over_m_Z}
+    \leanok
+    $m_W / m_Z := 37/42$.
+\end{definition}
+
+\section{CKM Quark Mixing}
+
+\begin{definition}[Cabibbo Angle]\label{def:cabibbo}
+    \lean{GIFT.Observables.CKM.sin2_theta12_CKM}
+    \leanok
+    $\sin^2\theta_{12}^{\mathrm{CKM}} := 56/248 = \opdim(\mathrm{fund.}\; \Eseven) / \opdim(\Eeight)$.
+\end{definition}
+
+\begin{definition}[Wolfenstein $A$]\label{def:A_wolf}
+    \lean{GIFT.Observables.CKM.A_Wolf}
+    \leanok
+    $A := 83/99 = 83/\Hstar$.
+\end{definition}
+
+\begin{definition}[$\sin^2\theta_{23}^{\mathrm{CKM}}$]\label{def:theta23_ckm}
+    \lean{GIFT.Observables.CKM.sin2_theta23_CKM}
+    \leanok
+    $\sin^2\theta_{23}^{\mathrm{CKM}} := 7/168 = \opdim(\Kseven) / (8 \times \btwo)$.
+\end{definition}
+
+\section{Cosmological Parameters}
+
+\begin{definition}[Dark Matter / Baryonic Ratio]\label{def:DM_b}
+    \lean{GIFT.Observables.Cosmology.Omega_DM_over_Omega_b}
+    \leanok
+    $\Omega_{\mathrm{DM}} / \Omega_b := 43/8 = (1 + 2\btwo) / \rank(\Eeight)$.
+\end{definition}
+
+\begin{definition}[Hubble Parameter]\label{def:hubble_h}
+    \lean{GIFT.Observables.Cosmology.hubble_h}
+    \leanok
+    $h := 167/248 = 167/\opdim(\Eeight)$.
+    Deviation: $0.09\%$ from Planck 2018.
+\end{definition}
+
+\begin{definition}[$\sigma_8$]\label{def:sigma8}
+    \lean{GIFT.Observables.Cosmology.sigma_8}
+    \leanok
+    $\sigma_8 := 17/21 = 17/\btwo$.
+\end{definition}
+
+\begin{definition}[Primordial Helium $Y_p$]\label{def:Yp}
+    \lean{GIFT.Observables.Cosmology.Y_p}
+    \leanok
+    $Y_p := 15/61 = 15/\kappa_T^{-1}$.
+\end{definition}
+
+\section{Universality}
+
+\begin{theorem}[The 42 Universality]\label{thm:42_universality}
+    \lean{GIFT.Observables.the_42_universality}
+    \leanok
+    \uses{def:mb_mt, def:DM_b}
+    The structural invariant $2\btwo = 42$ appears in both particle physics
+    ($m_b/m_t = 1/42$) and cosmology ($\Omega_{\mathrm{DM}}/\Omega_b = 43/8$).
+\end{theorem}
+
+\begin{theorem}[8/11 Universality]\label{thm:8_11_universality}
+    \lean{GIFT.Observables.eight_eleven_universality}
+    \leanok
+    \uses{def:mH_mt, def:theta23_pmns}
+    $\rank(\Eeight)/\Dbulk = 8/11$ appears in both $m_H/m_t$ and $\sin^2\theta_{23}^{\mathrm{PMNS}}$.
+\end{theorem}
+
+% =============================================================================
+
+\chapter{Mass Gap Ratio and Universal Law}\label{chap:mass_gap}
+% =============================================================================
+
+The bare spectral gap $\lambda_1 = \opdim(\Gtwo) / \Hstar = 14/99$
+and the universal spectral law $\lambda_1 \times \Hstar = \opdim(\Gtwo)$.
+
+\section{Spectral Theory Foundations}
+
+\begin{definition}[Compact Manifold]\label{def:compact_manifold}
+    \lean{GIFT.Spectral.SpectralTheory.CompactManifold}
+    \leanok
+    Abstract compact Riemannian manifold with dimension and volume.
+\end{definition}
+
+\begin{definition}[Laplace--Beltrami Operator]\label{def:laplace_beltrami}
+    \lean{GIFT.Spectral.SpectralTheory.LaplaceBeltrami}
+    \leanok
+    \uses{def:compact_manifold}
+    The Laplace--Beltrami operator $\Delta$ on a compact Riemannian manifold.
+\end{definition}
+
+\begin{definition}[Mass Gap]\label{def:mass_gap}
+    \lean{GIFT.Spectral.SpectralTheory.MassGap}
+    \leanok
+    \uses{def:laplace_beltrami}
+    $\Delta_{\mathrm{gap}} := \inf \sigma(\Delta) \setminus \{0\}$
+    (smallest positive eigenvalue of $\Delta$).
+\end{definition}
+
+\begin{theorem}[Mass Gap Positivity]\label{thm:mass_gap_pos}
+    \lean{GIFT.Spectral.SpectralTheory.mass_gap_positive}
+    \leanok
+    \uses{def:mass_gap}
+    $\Delta_{\mathrm{gap}} > 0$ for compact manifolds.
+\end{theorem}
+
+\section{Bare Mass Gap Ratio: 14/99}
+
+\begin{definition}[Mass Gap Numerator]\label{def:mgr_num}
+    \lean{GIFT.Spectral.MassGapRatio.mass_gap_ratio_num}
+    \leanok
+    $\lambda_{\mathrm{num}} := \opdim(\Gtwo) = 14$.
+\end{definition}
+
+\begin{definition}[Mass Gap Denominator]\label{def:mgr_den}
+    \lean{GIFT.Spectral.MassGapRatio.mass_gap_ratio_den}
+    \leanok
+    \uses{def:H_star}
+    $\lambda_{\mathrm{den}} := \Hstar = 99$.
+\end{definition}
+
+\begin{definition}[Mass Gap Ratio]\label{def:mgr}
+    \lean{GIFT.Spectral.MassGapRatio.mass_gap_ratio}
+    \leanok
+    \uses{def:mgr_num, def:mgr_den}
+    $\lambda_1 := \opdim(\Gtwo) / \Hstar = 14/99$.
+\end{definition}
+
+\begin{theorem}[Mass Gap Irreducible]\label{thm:mgr_irred}
+    \lean{GIFT.Spectral.MassGapRatio.mass_gap_ratio_irreducible}
+    \leanok
+    \uses{def:mgr}
+    $\gcd(14, 99) = 1$: the fraction $14/99$ is irreducible.
+\end{theorem}
+
+\begin{theorem}[Mass Gap from Holonomy--Cohomology]\label{thm:mgr_holonomy}
+    \lean{GIFT.Spectral.MassGapRatio.mass_gap_from_holonomy_cohomology}
+    \leanok
+    \uses{def:mgr}
+    The ratio $14/99$ arises as $\opdim(\mathrm{Hol}) / (\btwo + \bthree + 1)$
+    --- holonomy divided by cohomological complexity.
+\end{theorem}
+
+\begin{theorem}[Mass Gap Certificate]\label{thm:mgr_cert}
+    \lean{GIFT.Spectral.MassGapRatio.mass_gap_ratio_certified}
+    \leanok
+    \uses{thm:mgr_irred, thm:mgr_holonomy}
+    Complete mass gap ratio certification.
+\end{theorem}
+
+\section{Universal Spectral Law}
+
+\begin{theorem}[Product Formula]\label{thm:product_formula}
+    \lean{GIFT.Spectral.UniversalLaw.product_formula}
+    \leanok
+    \uses{def:mgr}
+    $\lambda_1 \times \Hstar = \opdim(\Gtwo) = 14$: the universal spectral identity.
+\end{theorem}
+
+\begin{theorem}[Ratio Irreducible]\label{thm:ratio_irreducible}
+    \lean{GIFT.Spectral.UniversalLaw.ratio_irreducible}
+    \leanok
+    \uses{def:mgr}
+    $\gcd(14, 99) = 1$.
+\end{theorem}
+
+\begin{theorem}[Physical Mass Gap]\label{thm:physical_mass_gap}
+    \lean{GIFT.Spectral.UniversalLaw.physical_mass_gap_MeV}
+    \leanok
+    $\Delta_{\mathrm{phys}} = (14/99) \times 200\; \mathrm{MeV} \approx 28.3\; \mathrm{MeV}$.
+\end{theorem}
+
+\begin{theorem}[Universal Law Certificate]\label{thm:universal_law_cert}
+    \lean{GIFT.Spectral.UniversalLaw.universal_law_certificate}
+    \leanok
+    \uses{thm:product_formula, thm:ratio_irreducible, thm:physical_mass_gap}
+    Complete universal spectral law certificate.
+\end{theorem}
+
+% =============================================================================
+
+\chapter{Selection Principle and Yang--Mills}\label{chap:selection}
+% =============================================================================
+
+Selection of the canonical neck length $L^* = \sqrt{\kappa \Hstar}$
+with $\kappa = \pi^2/14$, Cheeger inequality, and connection to Clay Millennium Prize.
+
+\section{Selection Constant}
+
+\begin{definition}[$\kappa$]\label{def:kappa}
+    \lean{GIFT.Spectral.SelectionPrinciple.kappa}
+    \leanok
+    $\kappa := \pi^2 / \opdim(\Gtwo) = \pi^2/14$.
+\end{definition}
+
+\begin{theorem}[$\kappa$ Bounds]\label{thm:kappa_bounds}
+    \lean{GIFT.Spectral.SelectionPrinciple.kappa_rough_bounds}
+    \leanok
+    \uses{def:kappa}
+    $9/14 < \kappa < 10/14$, i.e., $0.643 < \kappa < 0.714$.
+\end{theorem}
+
+\begin{theorem}[Building Blocks Match $\Kseven$]\label{thm:building_blocks}
+    \lean{GIFT.Spectral.SelectionPrinciple.building_blocks_match_K7}
+    \leanok
+    $b_2(M_1) + b_2(M_2) = \btwo$ and $b_3(M_1) + b_3(M_2) = \bthree$ (Mayer--Vietoris).
+\end{theorem}
+
+\begin{definition}[Canonical Neck Length]\label{def:L_canonical}
+    \lean{GIFT.Spectral.SelectionPrinciple.L_canonical}
+    \leanok
+    \uses{def:kappa, def:H_star}
+    $L^* := \sqrt{\kappa \Hstar} = \sqrt{99\pi^2/14}$.
+\end{definition}
+
+\begin{theorem}[$L^*$ Rough Bounds]\label{thm:L_bounds}
+    \lean{GIFT.Spectral.SelectionPrinciple.L_canonical_rough_bounds}
+    \leanok
+    \uses{def:L_canonical}
+    $7 < L^* < 9$.
+\end{theorem}
+
+\begin{theorem}[Spectral Gap from Selection]\label{thm:gap_from_selection}
+    \lean{GIFT.Spectral.SelectionPrinciple.spectral_gap_from_selection}
+    \leanok
+    \uses{def:L_canonical, def:kappa}
+    $\lambda_1 = \pi^2 / (L^*)^2 = \opdim(\Gtwo) / \Hstar = 14/99$.
+\end{theorem}
+
+\begin{theorem}[Spectral--Holonomy Principle]\label{thm:spectral_holonomy}
+    \lean{GIFT.Spectral.SelectionPrinciple.spectral_holonomy_principle}
+    \leanok
+    \uses{thm:gap_from_selection}
+    The spectral gap equals holonomy dimension divided by cohomological complexity.
+\end{theorem}
+
+\begin{theorem}[Selection Principle Certificate]\label{thm:selection_cert}
+    \lean{GIFT.Spectral.SelectionPrinciple.selection_principle_certificate}
+    \leanok
+    \uses{thm:building_blocks, thm:gap_from_selection, thm:spectral_holonomy}
+    Complete selection principle certificate.
+\end{theorem}
+
+\section{Cheeger--Buser Inequality}
+
+\begin{definition}[Cheeger Constant]\label{def:cheeger}
+    \lean{GIFT.Spectral.CheegerInequality.CheegerConstant}
+    \leanok
+    \uses{def:compact_manifold}
+    $h(M) := \inf \frac{\mathrm{Area}(\Sigma)}{\min(\mathrm{Vol}(A), \mathrm{Vol}(B))}$
+    over all separating hypersurfaces $\Sigma$.
+\end{definition}
+
+\begin{theorem}[$\Kseven$ Cheeger Lower Bound]\label{thm:K7_cheeger}
+    \lean{GIFT.Spectral.CheegerInequality.K7_cheeger_lower_bound}
+    \leanok
+    \uses{def:cheeger, def:mgr}
+    $h(\Kseven) \geq 14/99$.
+\end{theorem}
+
+\begin{theorem}[Mass Gap Exceeds Cheeger]\label{thm:gap_exceeds_cheeger}
+    \lean{GIFT.Spectral.CheegerInequality.mass_gap_exceeds_cheeger}
+    \leanok
+    \uses{thm:K7_cheeger}
+    $\lambda_1 \geq h(\Kseven)^2/4 = (14/99)^2/4 = 49/9801$.
+\end{theorem}
+
+\begin{theorem}[Cheeger Certificate]\label{thm:cheeger_cert}
+    \lean{GIFT.Spectral.CheegerInequality.cheeger_certificate}
+    \leanok
+    \uses{thm:K7_cheeger, thm:gap_exceeds_cheeger}
+    Cheeger--Buser bounds satisfied.
+\end{theorem}
+
+\section{Yang--Mills Mass Gap}
+
+\begin{theorem}[GIFT Yang--Mills Prediction]\label{thm:ym_prediction}
+    \lean{GIFT.Spectral.YangMills.GIFT_prediction}
+    \leanok
+    \uses{def:mgr}
+    GIFT predicts a mass gap $\Delta = (14/99) \times \Lambda_{\mathrm{QCD}}$.
+\end{theorem}
+
+\begin{theorem}[Mass Gap in MeV]\label{thm:ym_MeV}
+    \lean{GIFT.Spectral.YangMills.mass_gap_in_MeV}
+    \leanok
+    \uses{thm:ym_prediction}
+    $\Delta \approx 28.28\; \mathrm{MeV}$ (with $\Lambda_{\mathrm{QCD}} = 200\; \mathrm{MeV}$).
+\end{theorem}
+
+\begin{theorem}[Clay Millennium Candidate]\label{thm:clay}
+    \lean{GIFT.Spectral.YangMills.GIFT_provides_candidate}
+    \leanok
+    \uses{thm:ym_prediction}
+    GIFT provides a candidate solution for the Clay Millennium Prize
+    Yang--Mills existence and mass gap problem.
+\end{theorem}
+
+\begin{theorem}[Topological Origin]\label{thm:topological_origin}
+    \lean{GIFT.Spectral.YangMills.topological_origin}
+    \leanok
+    \uses{thm:ym_prediction}
+    The mass gap has purely topological origin: $\opdim(\Gtwo) / \Hstar$.
+\end{theorem}
+
+\begin{theorem}[Yang--Mills Certificate]\label{thm:ym_cert}
+    \lean{GIFT.Spectral.YangMills.yang_mills_certificate}
+    \leanok
+    \uses{thm:ym_prediction, thm:ym_MeV, thm:clay, thm:topological_origin}
+    Complete Yang--Mills connection certificate.
+\end{theorem}
+
+\section{Connes Bridge}
+
+\begin{definition}[Connes' 6 Primes]\label{def:connes_primes}
+    \lean{GIFT.Spectral.ConnesBridge.connes_primes_list}
+    \leanok
+    The set $\{2, 3, 5, 7, 11, 13\}$ from Connes' Weil positivity approach.
+\end{definition}
+
+\begin{theorem}[Count Equals Coxeter $\Gtwo$]\label{thm:connes_count}
+    \lean{GIFT.Spectral.ConnesBridge.connes_count_eq_coxeter_G2}
+    \leanok
+    \uses{def:connes_primes}
+    $|\{2,3,5,7,11,13\}| = 6 = $ Coxeter number of $\Gtwo$.
+\end{theorem}
+
+\begin{theorem}[Largest Prime $= 13$]\label{thm:connes_13}
+    \lean{GIFT.Spectral.ConnesBridge.largest_connes_prime_eq_gap_num}
+    \leanok
+    \uses{def:connes_primes}
+    The largest Connes prime is $13 = \opdim(\Gtwo) - 1$.
+\end{theorem}
+
+\begin{theorem}[First 3 Product $= 30$]\label{thm:connes_product_3}
+    \lean{GIFT.Spectral.ConnesBridge.first_3_connes_product_eq_coxeter_E8}
+    \leanok
+    $2 \times 3 \times 5 = 30 = $ Coxeter number of $\Eeight$.
+\end{theorem}
+
+\begin{theorem}[Connes Bridge Certificate]\label{thm:connes_cert}
+    \lean{GIFT.Spectral.ConnesBridge.connes_bridge_certificate}
+    \leanok
+    \uses{thm:connes_count, thm:connes_13, thm:connes_product_3}
+    Complete Connes bridge certificate.
+\end{theorem}
+
+% =============================================================================
+
 \chapter{Summary and Status}\label{chap:summary}
 % =============================================================================
 
@@ -2773,8 +3532,13 @@ TCS Piecewise Metric & 30 & \checkmark (v3.3.20) \\
 Conformal Rigidity & 37 & \checkmark (v3.3.20) \\
 Spectral Scaling & 35 & \checkmark (v3.3.21) \\
 Poincar\'e Duality & 41 & \checkmark (v3.3.22) \\
+$\Gtwo$ Differential Geometry & 18 & \checkmark (v3.3.4, zero axioms) \\
+Dimensional Hierarchy & 25 & \checkmark (v3.3.6) \\
+Extended Observables & 50+ & \checkmark (v3.3.7) \\
+Mass Gap Ratio \& Universal Law & 20 & \checkmark (v3.3.9) \\
+Selection Principle \& Yang--Mills & 30 & \checkmark (v3.3.14) \\
 \hline
-\textbf{Total} & \textbf{455+} & -- \\
+\textbf{Total} & \textbf{600+} & -- \\
 \hline
 \end{tabular}
 \end{center}
@@ -2788,10 +3552,11 @@ Poincar\'e Duality & 41 & \checkmark (v3.3.22) \\
           thm:joyce_cert, thm:analytical_metric, thm:joyce_exact,
           thm:g2_metric_cert, thm:tcs_piecewise_cert,
           thm:conformal_rigidity_cert, thm:spectral_scaling_cert,
-          thm:poincare_duality_cert}
+          thm:poincare_duality_cert, thm:geometry_cert}
     Mathematical infrastructure: E$_8$ lattice (240 roots), G$_2$ cross product,
-    octonion bridge, K$_7$ Betti numbers, Joyce existence, conformal rigidity,
-    Poincar\'e duality, G$_2$ metric properties, TCS piecewise metric.
+    $\Gtwo$ differential geometry (axiom-free), octonion bridge, K$_7$ Betti numbers,
+    Joyce existence, conformal rigidity, Poincar\'e duality, G$_2$ metric properties,
+    TCS piecewise metric.
 \end{theorem}
 
 \begin{theorem}[Predictions Certificate]\label{thm:predictions_cert}
@@ -2804,9 +3569,11 @@ Poincar\'e Duality & 41 & \checkmark (v3.3.22) \\
           thm:fib_master, thm:b3_lucas,
           thm:direct_all_prime, thm:heegner_all,
           thm:monster_gift, thm:monster_ap, thm:j_E8, thm:j_triality,
-          thm:E8_kissing, thm:coxeter_gift, thm:euler_p2}
-    Published predictions: 33+ dimensionless derivations, V5.0 observables,
-    Fano selection, exceptional chain, SO(16) decomposition, hierarchy.
+          thm:E8_kissing, thm:coxeter_gift, thm:euler_p2,
+          thm:sin2_theta_W_14, thm:42_universality, thm:8_11_universality,
+          thm:mass_formulas, thm:hierarchy_very_small, thm:E8_E6_branching}
+    Published predictions: 33+ dimensionless derivations, 50+ observables,
+    hierarchy solution, Fano selection, exceptional chain, SO(16) decomposition.
 \end{theorem}
 
 \begin{theorem}[Spectral Certificate]\label{thm:spectral_cert}
@@ -2815,20 +3582,26 @@ Poincar\'e Duality & 41 & \checkmark (v3.3.22) \\
     \uses{thm:tcs_certificate, thm:physical_gap_cert,
           thm:selberg_bridge_cert, thm:mollified_sum_cert,
           thm:zeta_cert, thm:unified_ratio,
-          thm:density_factor, thm:163_mod7, thm:248_mod7}
-    Spectral gap programme: mass gap ratio 14/99, TCS spectral bounds,
-    selection principle, Cheeger inequality, Connes bridge, Pell equation.
+          thm:density_factor, thm:163_mod7, thm:248_mod7,
+          thm:mgr_cert, thm:universal_law_cert,
+          thm:selection_cert, thm:cheeger_cert,
+          thm:ym_cert, thm:connes_cert}
+    Spectral gap programme: mass gap ratio 14/99, universal spectral law,
+    TCS spectral bounds, selection principle, Cheeger inequality,
+    Yang--Mills connection, Connes bridge, Selberg bridge, Pell equation.
 \end{theorem}
 
 \begin{theorem}[GIFT Grand Certificate]\label{thm:grand_certificate}
     \lean{GIFT.Certificate.gift_master_certificate}
     \leanok
     \uses{thm:foundations_cert, thm:predictions_cert, thm:spectral_cert}
-    Complete GIFT framework: 455+ certified relations spanning
-    E$_8$ lattice, G$_2$ holonomy, physical predictions, spectral theory,
-    number-theoretic correspondences, the Selberg bridge,
-    G$_2$ metric properties, TCS piecewise metric, conformal rigidity,
-    and Poincar\'e duality.
+    Complete GIFT framework: 600+ certified relations spanning
+    E$_8$ lattice, $\Gtwo$ holonomy, $\Gtwo$ differential geometry (axiom-free),
+    dimensional hierarchy, 50+ physical observables, spectral theory,
+    mass gap ratio $14/99$, selection principle, Yang--Mills connection,
+    Cheeger inequality, Connes bridge, Selberg bridge,
+    number-theoretic correspondences, $\Gtwo$ metric properties,
+    TCS piecewise metric, conformal rigidity, and Poincar\'e duality.
 
     Structure (v3.3.23): three domain-organized pillars ---
     \texttt{Foundations.statement} $\wedge$
