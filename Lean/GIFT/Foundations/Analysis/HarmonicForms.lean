@@ -33,7 +33,12 @@ Note: Defining exact/coexact forms directly requires type coercions
 due to Nat subtraction. We axiomatize the decomposition instead.
 -/
 
-/-- Hodge decomposition exists (axiomatized to avoid Nat subtraction issues) -/
+/-- Hodge decomposition exists (axiomatized to avoid Nat subtraction issues).
+
+**Axiom Category: B (Standard Result)** — Hodge (1941)
+
+**Why axiom**: Full proof requires Fredholm theory on manifolds.
+**Elimination path**: Formalize elliptic regularity in Mathlib. -/
 axiom hodge_decomposition_exists (k : ℕ) :
   ∀ _ω : hd.bundle.Omega k,
     ∃ (h : hd.bundle.Omega k),
@@ -43,7 +48,12 @@ axiom hodge_decomposition_exists (k : ℕ) :
 ## Application to K7
 -/
 
-/-- K7 Laplacian -/
+/-- K7 Laplacian.
+
+**Axiom Category: C (Geometric structure)**
+
+**Why axiom**: Requires Hodge structure on specific K₇ manifold.
+**Elimination path**: Construct HodgeData for K₇ from G₂ structure. -/
 axiom K7_laplacian : HodgeLaplacian K7 K7_hodge_data
 
 /-- dim(ℋ²(K7)) = 21 -/
@@ -62,24 +72,42 @@ Y_ijk = ∫_{K7} ωᵢ ∧ ωⱼ ∧ ηₖ
 where ωᵢ, ωⱼ ∈ ℋ²(K7) and ηₖ ∈ ℋ³(K7)
 -/
 
-/-- Orthonormal basis of harmonic 2-forms on K7 -/
+/-- Orthonormal basis of harmonic 2-forms on K7.
+
+**Axiom Category: C (Geometric structure)**
+
+**Why axiom**: Requires explicit construction on K₇.
+**Elimination path**: Derive from Hodge theory + TCS building blocks. -/
 axiom omega2_basis : Fin 21 → K7_hodge_data.bundle.Omega 2
 
-/-- Orthonormal basis of harmonic 3-forms on K7 -/
+/-- Orthonormal basis of harmonic 3-forms on K7.
+
+**Axiom Category: C (Geometric structure)**
+
+**Why axiom**: Requires explicit construction on K₇.
+**Elimination path**: Derive from Hodge theory + TCS building blocks. -/
 axiom omega3_basis : Fin 77 → K7_hodge_data.bundle.Omega 3
 
-/-- Basis elements of ω² are harmonic -/
+/-- Basis elements of ω² are harmonic.
+
+**Axiom Category: C (Geometric structure)** -/
 axiom omega2_basis_harmonic : ∀ i, IsHarmonic K7_laplacian 2 (omega2_basis i)
 
-/-- Basis elements of ω³ are harmonic -/
+/-- Basis elements of ω³ are harmonic.
+
+**Axiom Category: C (Geometric structure)** -/
 axiom omega3_basis_harmonic : ∀ i, IsHarmonic K7_laplacian 3 (omega3_basis i)
 
-/-- Basis ω² is orthonormal -/
+/-- Basis ω² is orthonormal.
+
+**Axiom Category: C (Geometric structure)** -/
 axiom omega2_basis_orthonormal :
   ∀ i j, K7_hodge_data.innerp.inner 2 (omega2_basis i) (omega2_basis j) =
          if i = j then 1 else 0
 
-/-- Basis ω³ is orthonormal -/
+/-- Basis ω³ is orthonormal.
+
+**Axiom Category: C (Geometric structure)** -/
 axiom omega3_basis_orthonormal :
   ∀ i j, K7_hodge_data.innerp.inner 3 (omega3_basis i) (omega3_basis j) =
          if i = j then 1 else 0
@@ -93,7 +121,12 @@ axiom omega3_basis_orthonormal :
 **Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
 opaque deRham (M : Type*) (k : ℕ) : Type*
 
-/-- Hodge isomorphism: ℋᵏ(M) ≅ Hᵏ_dR(M) -/
+/-- Hodge isomorphism: ℋᵏ(M) ≅ Hᵏ_dR(M).
+
+**Axiom Category: B (Standard Result)** — Hodge (1941)
+
+**Why axiom**: Requires elliptic regularity + Fredholm theory.
+**Elimination path**: Formalize de Rham cohomology in Mathlib. -/
 axiom hodge_isomorphism (k : ℕ) :
   HarmonicSpace K7_hodge_data K7_laplacian k ≃ deRham K7 k
 

@@ -156,7 +156,9 @@ The high match rate for multiples of 7 is consistent with:
 This does NOT prove the pattern is special to 7, but supports it.
 -/
 
-/-- The pattern is consistent with pair correlation -/
+/-- The pattern is consistent with pair correlation.
+
+**Axiom Category: F (Numerically verified)** — Holdout set validation (zeros 100k-500k). -/
 axiom pattern_consistent_with_pair_correlation : high_match_rate
 
 end GIFT.Zeta.MultiplesOf7

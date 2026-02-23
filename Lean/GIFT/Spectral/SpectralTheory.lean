@@ -98,7 +98,9 @@ opaque CompactManifold.dim : CompactManifold → ℕ
 **Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
 noncomputable opaque CompactManifold.volume : CompactManifold → ℝ
 
-/-- Volume is positive -/
+/-- Volume is positive.
+
+**Axiom Category: A (Definition)** — Property of compact Riemannian manifolds. -/
 axiom CompactManifold.volume_pos (M : CompactManifold) : M.volume > 0
 
 -- ============================================================================
@@ -187,11 +189,15 @@ For compact M, existence of positive gap is guaranteed by spectral_theorem_discr
 -/
 noncomputable opaque MassGap (M : CompactManifold) : ℝ
 
-/-- The mass gap exists and is positive for compact manifolds -/
+/-- The mass gap exists and is positive for compact manifolds.
+
+**Axiom Category: B (Standard Result)** — Follows from spectral theorem (discrete spectrum). -/
 axiom mass_gap_exists_positive (M : CompactManifold) :
   ∃ (ev1 : ℝ), ev1 > 0 ∧ MassGap M = ev1
 
-/-- The mass gap is the infimum of positive eigenvalues -/
+/-- The mass gap is the infimum of positive eigenvalues.
+
+**Axiom Category: A (Definition)** — Characterization of spectral gap. -/
 axiom mass_gap_is_infimum (M : CompactManifold) :
   ∀ (ev : ℝ), (ev > 0 ∧ ev ∈ Set.range (fun (e : Eigenvalue M) => e.value)) →
     MassGap M ≤ ev
@@ -206,7 +212,9 @@ theorem mass_gap_positive (M : CompactManifold) : MassGap M > 0 := by
   rw [heq]
   exact hpos
 
-/-- Mass gap determines the decay rate of eigenfunctions -/
+/-- Mass gap determines the decay rate of eigenfunctions.
+
+**Axiom Category: B (Standard Result)** — Heat kernel decay estimate. -/
 axiom mass_gap_decay_rate (M : CompactManifold) :
   ∀ (t : ℝ), t > 0 → ∃ C > 0, True  -- Placeholder for heat kernel decay
 

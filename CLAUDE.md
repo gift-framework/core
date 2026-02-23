@@ -46,6 +46,7 @@ gift-framework/core/
 │   │   │   ├── E8Lattice.lean        # E₈ lattice formalization (R8)
 │   │   │   ├── G2CrossProduct.lean   # 7D cross product (R7)
 │   │   │   ├── OctonionBridge.lean   # R8-R7 connection via octonions
+│   │   │   ├── AmbroseSinger.lean    # Holonomy diagnostics (v3.3.24)
 │   │   │   ├── Analysis/             # Hodge theory, Sobolev (research)
 │   │   │   └── ...
 │   │   │
@@ -1872,4 +1873,68 @@ This module is FULLY CONSTRUCTIVE: zero axioms, all goals closed.
 
 ---
 
-*Last updated: 2026-02-13 - V3.3.19: Spectral axiom cleanup (8 ad-hoc axioms removed)*
+---
+
+### Hodge Star File Hierarchy (v3.3.23)
+
+Multiple files touch the Hodge star. The canonical hierarchy is:
+
+| File | Role | Axioms | Status |
+|------|------|--------|--------|
+| `Geometry/HodgeStarR7.lean` | **CANONICAL** — `standardG2Geom`, `TorsionFree` predicate | 0 | Axiom-free |
+| `Geometry/HodgeStarCompute.lean` | Explicit Levi-Civita sign computation | 0 | Axiom-free |
+| `Foundations/Analysis/G2Forms/HodgeStar.lean` | `HodgeData` structure for ⋆ : Ωᵏ → Ωⁿ⁻ᵏ | 0 | Axiom-free |
+| `Foundations/Analysis/HodgeTheory.lean` | Abstract `HodgeLaplacian`, K₇ Betti defs | 2 | Cat C axioms |
+
+**Rule**: `Geometry/HodgeStarR7.lean` is the canonical file for G₂ differential geometry. Other files build infrastructure (abstract framework, computation). When in doubt, import `GIFT.Geometry`.
+
+---
+
+### Ambrose-Singer Module (v3.3.24)
+
+**Module**: `Foundations/AmbroseSinger.lean`
+
+Formalizes the gap between torsion-free G₂ structures and G₂ holonomy:
+
+| Result | Statement |
+|--------|-----------|
+| `so7_g2_decomposition` | so(7) = g₂ ⊕ g₂⊥ : 21 = 14 + 7 |
+| `dim_g2_complement_eq_dim_K7` | dim(g₂⊥) = dim(K₇) = 7 |
+| `b2_holonomy_manifold_sum` | b₂ = dim(g₂) + dim(K₇) |
+| `holonomy_rank_gap` | Current - target = 21 - 14 = 7 |
+| `as_constraints_decomposition` | AS constraints per point = 147 = dim(K₇) × b₂ |
+| `ambrose_singer_certificate` | Master certificate (10 conjuncts) |
+
+Connected to `Certificate/Foundations.lean` via 7 abbrevs.
+
+Key insight from Phase 3 PINN training: **torsion-free (∇φ=0) is necessary but NOT sufficient for G₂ holonomy**. The curvature must additionally lie in g₂ ⊂ so(7) (Ambrose-Singer theorem). Phase 3 v20 status: AS ratio ≈ 4.0, hol_rank = 21 (target 14).
+
+---
+
+### Axiom Classification System
+
+All 87 axioms across the codebase are tagged with one of 6 categories:
+
+| Category | Count | Description | Example |
+|----------|-------|-------------|---------|
+| A | ~5 | Definitions | `CompactManifold.volume_pos`, `mass_gap_nonneg` |
+| B | ~15 | Standard results (cite paper) | `cheeger_inequality`, `spectral_theorem_discrete` |
+| C | ~25 | Geometric structure (K₇) | `K7_exists`, `spectral_upper_bound` |
+| D | ~8 | Literature axioms (cite paper) | `langlais_spectral_density`, `connes_6_prime_50_zeros` |
+| E | ~12 | GIFT claims | `K7_spectral_bound`, `universality_conjecture` |
+| F | ~22 | Numerically verified | `gamma_1_approx`, `gift_alpha_closer_to_one` |
+
+Pattern in docstrings:
+```lean
+/-- Description of the axiom.
+
+**Axiom Category: B (Standard Result)** — Cheeger (1970)
+
+**Why axiom**: Proof requires co-area formula on manifolds.
+**Elimination path**: Formalize co-area formula in Mathlib. -/
+axiom cheeger_inequality ...
+```
+
+---
+
+*Last updated: 2026-02-23 - V3.3.24: AmbroseSinger.lean, axiom category tags (87/87), Hodge star hierarchy*

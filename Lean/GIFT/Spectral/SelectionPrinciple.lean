@@ -226,7 +226,7 @@ theorem L_canonical_pos : L_canonical > 0 := by
 /-- Rough bounds on L*: sqrt(9*99/14) < L* < sqrt(10*99/14)
     i.e., sqrt(63.6) < L* < sqrt(70.7), so roughly 7.9 < L* < 8.5
 
-Axiom: Numerical verification requires interval arithmetic. -/
+**Axiom Category: F (Numerically verified)** — Interval arithmetic computation. -/
 axiom L_canonical_rough_bounds : (7 : ℝ) < L_canonical ∧ L_canonical < 9
 
 -- ============================================================================
@@ -248,7 +248,8 @@ theorem lambda1_gift_eq : lambda1_gift = (14 : ℝ) / 99 := by
 AXIOM: Pending variational proof. The conjecture is that among all
 TCS G2 manifolds with fixed topology (b2, b3), the canonical one
 minimizes some geometric functional at L^2 = kappa * H*.
--/
+
+**Axiom Category: E (GIFT Claim)** — Variational selection principle (pending proof). -/
 axiom selection_principle_holds (K : TCSManifold) :
     K.neckLength ^ 2 = L_squared_canonical → True  -- placeholder constraint
 
@@ -322,7 +323,8 @@ theorem spectral_geometric_identity :
     the spectral gap is lambda1 = dim(G2) / (1 + b2 + b3).
 
 This generalizes from K7 (b2=21, b3=77) to arbitrary TCS constructions.
--/
+
+**Axiom Category: E (GIFT Claim)** — Conjectural generalization to all TCS manifolds. -/
 axiom universality_conjecture (b2_val b3_val : Nat) (K : TCSManifold)
     (hK : True) :  -- placeholder for "K is TCS with Betti numbers (b2_val, b3_val)"
     pi_squared / K.neckLength ^ 2 * (1 + b2_val + b3_val) = dim_G2

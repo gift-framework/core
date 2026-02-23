@@ -96,7 +96,10 @@ noncomputable opaque geodesicLength {M : CompactManifold} : LengthSpectrum M →
 **Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
 noncomputable opaque geodesicAmplitude {M : CompactManifold} : LengthSpectrum M → ℝ
 
-/-- Geodesic lengths are positive. -/
+/-- Geodesic lengths are positive.
+
+**Axiom Category: A (Definition)** — Property of closed geodesics.
+-/
 axiom geodesicLength_pos {M : CompactManifold} (geo : LengthSpectrum M) :
     geodesicLength geo > 0
 

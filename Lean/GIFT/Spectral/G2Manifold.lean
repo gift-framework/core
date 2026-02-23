@@ -130,7 +130,11 @@ structure K7_Manifold where
   /-- b3 = 77 (proven in TCSConstruction) -/
   betti_3_eq : betti_3 = 77
 
-/-- K7 exists (axiom: TCS construction produces a G2 manifold) -/
+/-- K7 exists (axiom: TCS construction produces a G2 manifold).
+
+**Axiom Category: C (Geometric structure)** — Kovalev (2003), Joyce (2000)
+
+**Why axiom**: Full TCS construction requires Calabi-Yau formalization. -/
 axiom K7_exists : K7_Manifold
 
 /-- The canonical K7 manifold -/
@@ -250,11 +254,15 @@ theorem physical_spectral_product_G2_components :
 theorem G2_laplacian_decomposition (_M : G2HolonomyManifold) :
   True := trivial  -- Placeholder: Laplacian commutes with G2 action
 
-/-- The spectral gap is constrained by G2 holonomy -/
+/-- The spectral gap is constrained by G2 holonomy.
+
+**Axiom Category: E (GIFT Claim)** — Spectral gap controlled by holonomy dimension. -/
 axiom G2_spectral_constraint (M : G2HolonomyManifold) :
   ∃ (c : ℝ), c > 0 ∧ MassGap M.base ≥ c
 
-/-- For K7, the constraint involves dim(G2) and H* -/
+/-- For K7, the constraint involves dim(G2) and H*.
+
+**Axiom Category: E (GIFT Claim)** — Central GIFT spectral prediction. -/
 axiom K7_spectral_bound :
   MassGap K7.g2base.base ≥ (GIFT.Core.dim_G2 : ℝ) / GIFT.Core.H_star
 

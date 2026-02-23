@@ -4,14 +4,14 @@
 [![Python Tests](https://github.com/gift-framework/core/actions/workflows/test.yml/badge.svg)](https://github.com/gift-framework/core/actions/workflows/test.yml)
 [![PyPI](https://img.shields.io/pypi/v/giftpy)](https://pypi.org/project/giftpy/)
 
-Formally verified mathematical relations from the GIFT framework. 455+ certified relations, all theorems proven in **Lean 4**.
+Formally verified mathematical relations from the GIFT framework. 455+ certified relations, 87 axioms classified (A-F), all theorems proven in **Lean 4**.
 
 ## Structure
 
 ```
 Lean/GIFT/
 ├── Core.lean                # Constants (dim_E8, b2, b3, H*, ...)
-├── Certificate/             # Modular certificate system [v3.3.23]
+├── Certificate/             # Modular certificate system [v3.3.24]
 │   ├── Core.lean            # Master: Foundations ∧ Predictions ∧ Spectral
 │   ├── Foundations.lean     # E₈, G₂, octonions, K₇, Joyce (19 conjuncts)
 │   ├── Predictions.lean     # 33+ relations, ~50 observables (48 conjuncts)
@@ -23,6 +23,7 @@ Lean/GIFT/
 │   ├── E8Lattice.lean       # E₈ lattice, Weyl reflection
 │   ├── G2CrossProduct.lean  # 7D cross product, Fano plane
 │   ├── OctonionBridge.lean  # R8-R7 connection via octonions
+│   ├── AmbroseSinger.lean   # Holonomy diagnostics (so(7)=g₂⊕g₂⊥) [v3.3.24]
 │   ├── NumericalBounds.lean # Taylor series bounds (axiom-free)
 │   ├── GoldenRatioPowers.lean # φ power bounds
 │   ├── PoincareDuality.lean # H*=1+2*dim_K7², holonomy chain [v3.3.22]
@@ -126,4 +127,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.3.23*
+*GIFT Core v3.3.24*

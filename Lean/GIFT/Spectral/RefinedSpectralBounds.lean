@@ -148,6 +148,11 @@ Proof idea:
 1. Decompose f = f_0 * 1_Y + f_perp on the neck
 2. For f_perp: transverse eigenvalue >= gamma, so f_perp decays exponentially
 3. For f_0: extends to caps with exponential decay from matching conditions
+
+**Axiom Category: B (Standard Result)** — Eigenfunction localization via exponential decay.
+
+**Why axiom**: Requires Agmon-type estimates on manifolds.
+**Elimination path**: Formalize Agmon estimates in Mathlib.
 -/
 axiom localization_lemma (K : TCSManifold) (hyp : TCSHypothesesExt K) :
   exists (C : Real), C > 0 ∧
@@ -166,6 +171,8 @@ This function:
 - Has mean zero (after orthogonalization)
 
 The Rayleigh quotient of this function gives the upper bound.
+
+**Axiom Category: C (Geometric structure)** — Smooth test function on TCS neck.
 -/
 axiom test_function_exists (K : TCSManifold) (hyp : TCSHypotheses K) :
   ∃ (_ : Type), True  -- Placeholder for L^2 function construction
@@ -176,6 +183,8 @@ Calculation:
 - integral|nabla f|^2 = integral_0^L (pi/L)^2 sin^2(pi*t/L) Vol(Y) dt = (pi^2/L^2) * Vol(Y) * L/2
 - integral|f|^2 = integral_0^L cos^2(pi*t/L) Vol(Y) dt + O(1) = Vol(Y) * L/2 + O(1)
 - Ratio = pi^2/L^2 + O(1/L^3)
+
+**Axiom Category: C (Geometric structure)** — Rayleigh quotient with pi^2/L^2 leading term.
 -/
 axiom rayleigh_upper_bound_refined (K : TCSManifold) (hyp : TCSHypotheses K) :
   exists (C : Real), MassGap K.toCompactManifold <=
@@ -191,6 +200,10 @@ For f : [0, L] -> R with integral f = 0:
   integral|f'|^2 >= (pi^2/L^2) integral|f|^2
 
 This is the sharp constant, achieved by cos(pi*t/L).
+
+**Axiom Category: B (Standard Result)** — Sharp Poincare constant for Neumann problem on interval.
+
+**Reference**: Payne & Weinberger (1960).
 -/
 axiom poincare_neumann_interval :
   forall (L : Real), L > 0 -> True  -- Placeholder for Poincare inequality
@@ -202,6 +215,8 @@ Proof:
 2. The zero mode (constant on Y) dominates for lambda << gamma
 3. Apply 1D Poincare to the zero mode: lambda >= pi^2/L^2 - correction
 4. Correction is O(e^{-delta*L}) from exponential tails
+
+**Axiom Category: C (Geometric structure)** — Localization-based spectral lower bound.
 -/
 axiom spectral_lower_bound_refined (K : TCSManifold) (hyp : TCSHypothesesExt K)
     (hL : K.neckLength > L₀ K hyp.toTCSHypotheses) :

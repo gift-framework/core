@@ -126,7 +126,8 @@ We construct f : K → ℝ as:
 - f linear interpolation on N (from +1 to -1)
 
 Then orthogonalize: f ↦ f - f̄ where f̄ = ∫f dV.
--/
+
+**Axiom Category: C (Geometric structure)** — Test function construction on TCS neck. -/
 axiom rayleigh_test_function (K : TCSManifold) (hyp : TCSHypotheses K) :
   ∃ (_ : Type), True  -- Placeholder for L² function
 
@@ -134,7 +135,8 @@ axiom rayleigh_test_function (K : TCSManifold) (hyp : TCSHypotheses K) :
 
 The gradient is supported only on the neck, where |∇f| = 2/L.
 Thus ∫|∇f|² = (2/L)² · Vol(N) = 4·Vol(N)/L².
--/
+
+**Axiom Category: C (Geometric structure)** — Gradient energy from product metric. -/
 axiom gradient_energy_bound (K : TCSManifold) (hyp : TCSHypotheses K) :
   ∃ (E : ℝ), E ≤ 4 * hyp.neckVol.v₁ / K.neckLength ^ 2
 
@@ -142,14 +144,16 @@ axiom gradient_energy_bound (K : TCSManifold) (hyp : TCSHypotheses K) :
 
 By (H5) balanced blocks, Vol(Mᵢ) ∈ [1/4, 3/4].
 After orthogonalization, ∫f² ≥ (1/4)(1-Vol(N)) ≥ (1/4)(1-v₁).
--/
+
+**Axiom Category: C (Geometric structure)** — L² bound from balanced blocks. -/
 axiom l2_norm_lower_bound (K : TCSManifold) (hyp : TCSHypotheses K) :
   ∃ (N : ℝ), N ≥ (1/4) * (1 - hyp.neckVol.v₁)
 
 /-- Spectral upper bound via Rayleigh quotient.
 
 λ₁ ≤ ∫|∇f|² / ∫f² ≤ (4v₁/L²) / ((1/4)(1-v₁)) = 16v₁/((1-v₁)L²)
--/
+
+**Axiom Category: C (Geometric structure)** — Rayleigh quotient upper bound. -/
 axiom spectral_upper_bound (K : TCSManifold) (hyp : TCSHypotheses K) :
   MassGap K.toCompactManifold ≤ c₂_robust K hyp / K.neckLength ^ 2
 
@@ -165,7 +169,8 @@ For a cut Γ ⊂ N separating the ends:
 - Thus h_neck ≥ Area(Y) / (Area(Y)·L/2) = 2/L
 
 Accounting for volume normalization: h_neck ≥ 2v₀/L.
--/
+
+**Axiom Category: C (Geometric structure)** — Cheeger constant of cylindrical neck. -/
 axiom neck_cheeger_bound (K : TCSManifold) (hyp : TCSHypotheses K) :
   ∃ (h_neck : ℝ), h_neck ≥ 2 * hyp.neckVol.v₀ / K.neckLength
 
@@ -177,7 +182,8 @@ Any hypersurface Σ dividing K falls into one of two cases:
 
 In Case A, h(Σ) ≥ h₀ by (H4).
 In Case B, h(Σ) ≥ 2v₀/L by neck_cheeger_bound.
--/
+
+**Axiom Category: C (Geometric structure)** — Isoperimetric cut dichotomy. -/
 axiom cut_classification (K : TCSManifold) (hyp : TCSHypotheses K) :
   ∀ (h : ℝ), h = CheegerConstant K.toCompactManifold →
     (h ≥ hyp.blockCheeger.h₀ ∨ h ≥ 2 * hyp.neckVol.v₀ / K.neckLength)
@@ -187,7 +193,8 @@ axiom cut_classification (K : TCSManifold) (hyp : TCSHypotheses K) :
 When L > L₀ = 2v₀/h₀, we have 2v₀/L < h₀, so the minimum in
   h(K) = min(h₀, 2v₀/L)
 is achieved by the neck term.
--/
+
+**Axiom Category: C (Geometric structure)** — Neck-dominated regime for long neck. -/
 axiom neck_dominates (K : TCSManifold) (hyp : TCSHypotheses K)
     (hL : K.neckLength > L₀ K hyp) :
   CheegerConstant K.toCompactManifold ≥ 2 * hyp.neckVol.v₀ / K.neckLength
@@ -203,7 +210,8 @@ Axiomatized: Full proof requires combining Cheeger inequality with
 monotonicity of squaring, which involves nonlinear arithmetic on
 transcendental (real) inequalities. The algebraic structure is:
   λ₁ ≥ h²/4 ≥ (2v₀/L)²/4 = v₀²/L²
--/
+
+**Axiom Category: C (Geometric structure)** — Cheeger-based spectral lower bound. -/
 axiom spectral_lower_bound (K : TCSManifold) (hyp : TCSHypotheses K)
     (hL : K.neckLength > L₀ K hyp) :
     MassGap K.toCompactManifold ≥ c₁ K hyp / K.neckLength ^ 2

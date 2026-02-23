@@ -51,10 +51,14 @@ zeta zeros. These are the gamma_n values where zeta(1/2 + i*gamma_n) = 0.
 **Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
 noncomputable opaque gamma : ℕ+ → ℝ
 
-/-- All zeros have positive imaginary part -/
+/-- All zeros have positive imaginary part.
+
+**Axiom Category: B (Standard Result)** — Riemann zeta zero properties. -/
 axiom gamma_pos : ∀ n : ℕ+, gamma n > 0
 
-/-- The zeros are strictly increasing -/
+/-- The zeros are strictly increasing.
+
+**Axiom Category: B (Standard Result)** — Standard ordering of zeta zeros. -/
 axiom gamma_mono : StrictMono gamma
 
 /-!
@@ -64,34 +68,54 @@ These approximations are accurate to 6 decimal places.
 The actual values are transcendental.
 -/
 
-/-- gamma_1 = 14.134725... (first zeta zero) -/
+/-- gamma_1 = 14.134725... (first zeta zero).
+
+**Axiom Category: F (Numerically verified)** — Odlyzko tables. -/
 axiom gamma_1_approx : |gamma 1 - 14134725 / 1000000| < 1 / 1000000
 
-/-- gamma_2 = 21.022040... (second zeta zero) -/
+/-- gamma_2 = 21.022040... (second zeta zero).
+
+**Axiom Category: F (Numerically verified)** — Odlyzko tables. -/
 axiom gamma_2_approx : |gamma 2 - 21022040 / 1000000| < 1 / 1000000
 
-/-- gamma_3 = 25.010858... -/
+/-- gamma_3 = 25.010858...
+
+**Axiom Category: F (Numerically verified)** — Odlyzko tables. -/
 axiom gamma_3_approx : |gamma 3 - 25010858 / 1000000| < 1 / 1000000
 
-/-- gamma_4 = 30.424876... -/
+/-- gamma_4 = 30.424876...
+
+**Axiom Category: F (Numerically verified)** — Odlyzko tables. -/
 axiom gamma_4_approx : |gamma 4 - 30424876 / 1000000| < 1 / 1000000
 
-/-- gamma_5 = 32.935062... -/
+/-- gamma_5 = 32.935062...
+
+**Axiom Category: F (Numerically verified)** — Odlyzko tables. -/
 axiom gamma_5_approx : |gamma 5 - 32935062 / 1000000| < 1 / 1000000
 
-/-- gamma_6 = 37.586178... -/
+/-- gamma_6 = 37.586178...
+
+**Axiom Category: F (Numerically verified)** — Odlyzko tables. -/
 axiom gamma_6_approx : |gamma 6 - 37586178 / 1000000| < 1 / 1000000
 
-/-- gamma_7 = 40.918719... -/
+/-- gamma_7 = 40.918719...
+
+**Axiom Category: F (Numerically verified)** — Odlyzko tables. -/
 axiom gamma_7_approx : |gamma 7 - 40918719 / 1000000| < 1 / 1000000
 
-/-- gamma_8 = 43.327073... -/
+/-- gamma_8 = 43.327073...
+
+**Axiom Category: F (Numerically verified)** — Odlyzko tables. -/
 axiom gamma_8_approx : |gamma 8 - 43327073 / 1000000| < 1 / 1000000
 
-/-- gamma_9 = 48.005151... -/
+/-- gamma_9 = 48.005151...
+
+**Axiom Category: F (Numerically verified)** — Odlyzko tables. -/
 axiom gamma_9_approx : |gamma 9 - 48005151 / 1000000| < 1 / 1000000
 
-/-- gamma_10 = 49.773832... -/
+/-- gamma_10 = 49.773832...
+
+**Axiom Category: F (Numerically verified)** — Odlyzko tables. -/
 axiom gamma_10_approx : |gamma 10 - 49773832 / 1000000| < 1 / 1000000
 
 /-!
@@ -100,13 +124,19 @@ axiom gamma_10_approx : |gamma 10 - 49773832 / 1000000| < 1 / 1000000
 These zeros are particularly important because they approximate GIFT constants.
 -/
 
-/-- gamma_20 = 77.144840... (near b_3 = 77) -/
+/-- gamma_20 = 77.144840... (near b_3 = 77).
+
+**Axiom Category: F (Numerically verified)** — Odlyzko tables. -/
 axiom gamma_20_approx : |gamma 20 - 77144840 / 1000000| < 1 / 1000000
 
-/-- gamma_60 = 163.030710... (near Heegner 163) -/
+/-- gamma_60 = 163.030710... (near Heegner 163).
+
+**Axiom Category: F (Numerically verified)** — Odlyzko tables. -/
 axiom gamma_60_approx : |gamma 60 - 163030710 / 1000000| < 1 / 1000000
 
-/-- gamma_107 = 248.101990... (near dim(E_8) = 248) -/
+/-- gamma_107 = 248.101990... (near dim(E_8) = 248).
+
+**Axiom Category: F (Numerically verified)** — Odlyzko tables. -/
 axiom gamma_107_approx : |gamma 107 - 248101990 / 1000000| < 1 / 1000000
 
 /-!
