@@ -7,6 +7,7 @@ import GIFT.Foundations.TCSPiecewiseMetric
 import GIFT.Foundations.ConformalRigidity
 import GIFT.Foundations.SpectralScaling
 import GIFT.Foundations.PoincareDuality
+import GIFT.Foundations.AmbroseSinger
 
 import GIFT.Sobolev
 import GIFT.DifferentialForms
@@ -381,6 +382,31 @@ abbrev pd_betti_torsion := GIFT.Foundations.PoincareDuality.betti_pair_eq_two_to
 abbrev pd_certificate := GIFT.Foundations.PoincareDuality.poincare_duality_certificate
 
 -- ═══════════════════════════════════════════════════════════════════════════════
+-- AMBROSE-SINGER THEOREM (holonomy diagnostics, torsion-free ≠ G₂ gap)
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+/-- dim(so(7)) = b₂(K₇) = 21 -/
+abbrev as_dim_so7_eq_b2 := GIFT.Foundations.AmbroseSinger.dim_so7_eq_b2
+
+/-- so(7) = g₂ ⊕ g₂⊥: 21 = 14 + 7 -/
+abbrev as_so7_decomposition := GIFT.Foundations.AmbroseSinger.so7_g2_decomposition
+
+/-- g₂ complement = dim(K₇) = 7 (standard rep) -/
+abbrev as_g2_perp_eq_K7 := GIFT.Foundations.AmbroseSinger.dim_g2_complement_eq_dim_K7
+
+/-- b₂ = dim(g₂) + dim(K₇) -/
+abbrev as_b2_holonomy_manifold := GIFT.Foundations.AmbroseSinger.b2_holonomy_manifold_sum
+
+/-- Holonomy rank gap: 21 - 14 = 7 = dim(K₇) -/
+abbrev as_holonomy_rank_gap := GIFT.Foundations.AmbroseSinger.holonomy_rank_gap
+
+/-- AS constraints per point = dim(K₇) × b₂ = 147 -/
+abbrev as_constraints_structure := GIFT.Foundations.AmbroseSinger.as_constraints_decomposition
+
+/-- Ambrose-Singer master certificate -/
+abbrev as_certificate := GIFT.Foundations.AmbroseSinger.ambrose_singer_certificate
+
+-- ═══════════════════════════════════════════════════════════════════════════════
 -- FOUNDATIONS MASTER CERTIFICATE
 -- ═══════════════════════════════════════════════════════════════════════════════
 
@@ -396,6 +422,7 @@ open GIFT.Joyce GIFT.Sobolev GIFT.IntervalArithmetic
 - Joyce existence: K₇ admits torsion-free G₂ structure
 - Conformal rigidity: zero free parameters
 - Poincare duality: H* = 1 + 2 x dim_K7^2
+- Ambrose-Singer: so(7) = g₂ + g₂⊥, holonomy gap = dim(K₇)
 -/
 def statement : Prop :=
     -- E₈ root system: 112 + 128 = 240, rank = 8
@@ -431,12 +458,15 @@ def statement : Prop :=
     (1 + 2 * 7 * 7 = 99) ∧
     -- TCS building blocks: b₂ = 11 + 10, b₃ = 40 + 37
     (11 + 10 = 21) ∧
-    (40 + 37 = 77)
+    (40 + 37 = 77) ∧
+    -- Ambrose-Singer: so(7) = g₂ ⊕ g₂⊥, gap = dim(K₇)
+    (GIFT.Foundations.AmbroseSinger.dim_so7 = b2) ∧
+    (GIFT.Foundations.AmbroseSinger.dim_g2_complement = dim_K7)
 
 theorem certified : statement := by
   refine ⟨rfl, rfl, rfl, rfl, rfl, rfl, ?_, ?_,
          GIFT.Joyce.k7_admits_torsion_free_g2, ?_, ?_,
-         rfl, ?_, ?_, rfl, rfl, rfl, rfl, rfl⟩
+         rfl, ?_, ?_, rfl, rfl, rfl, rfl, rfl, ?_, ?_⟩
   all_goals native_decide
 
 end GIFT.Certificate.Foundations

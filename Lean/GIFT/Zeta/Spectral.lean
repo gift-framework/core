@@ -61,7 +61,11 @@ For large C, the 1/4 term is negligible.
     If gamma = C + delta with |delta| < C/100, then
     lambda = (C + delta)^2 + 1/4 = C^2 + 2*C*delta + delta^2 + 1/4
     |lambda - C^2| = |2*C*delta + delta^2 + 1/4| < 2*C*(C/100) + (C/100)^2 + 1/4
-                   < C^2/50 + C^2/10000 + 1/4 < C^2/10 for C >= 2 -/
+                   < C^2/50 + C^2/10000 + 1/4 < C^2/10 for C >= 2
+
+**Axiom Category: E (GIFT Claim)**
+
+**Why axiom**: Requires interval arithmetic on transcendental functions. -/
 axiom spectral_from_correspondence_bound (n : ℕ+) (C : ℕ) (hC : C > 0)
     (h : |gamma n - C| < C / 100) :
     |lambda n - C^2| < C^2 / 10
@@ -171,10 +175,14 @@ The density of GIFT constants matching zeta zeros should follow
 this asymptotic behavior.
 -/
 
-/-- Asymptotic bound: for n > 10, gamma_n > n -/
+/-- Asymptotic bound: for n > 10, gamma_n > n.
+
+**Axiom Category: B (Standard Result)** — Follows from Riemann-von Mangoldt formula. -/
 axiom gamma_lower_bound : ∀ n : ℕ+, n > 10 → gamma n > n
 
-/-- Asymptotic bound: for n > 10, gamma_n < 10*n -/
+/-- Asymptotic bound: for n > 10, gamma_n < 10*n.
+
+**Axiom Category: B (Standard Result)** — Follows from Riemann-von Mangoldt formula. -/
 axiom gamma_upper_bound : ∀ n : ℕ+, n > 10 → gamma n < 10 * n
 
 end GIFT.Zeta.Spectral

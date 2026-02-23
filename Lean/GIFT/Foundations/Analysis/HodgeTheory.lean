@@ -121,10 +121,20 @@ theorem euler_char_K7 :
     b 0 + b 2 + b 4 + b 6 = b 1 + b 3 + b 5 + b 7 := by
   native_decide
 
-/-- K7 admits a HodgeData structure -/
+/-- K7 admits a HodgeData structure.
+
+**Axiom Category: C (Geometric structure)**
+
+**Why axiom**: Requires differential forms on specific manifold K₇.
+**Elimination path**: Construct from G₂ structure + Riemannian metric. -/
 axiom K7_hodge_data : HodgeData K7
 
-/-- Hodge theorem: dim(ker Δₖ) = bₖ (statement) -/
+/-- Hodge theorem: dim(ker Δₖ) = bₖ (statement).
+
+**Axiom Category: B (Standard Result)** — Hodge (1941)
+
+**Why axiom**: Proof requires elliptic PDE theory on manifolds.
+**Elimination path**: Formalize elliptic regularity in Mathlib. -/
 axiom hodge_theorem_K7 (k : ℕ) (hk : k ≤ 7) :
   True -- finrank ℝ { ω | IsHarmonic K7_hodge_data k ω } = b k
 

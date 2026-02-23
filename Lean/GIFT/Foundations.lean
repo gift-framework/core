@@ -41,6 +41,8 @@ import GIFT.Foundations.ConformalRigidity
 import GIFT.Foundations.SpectralScaling
 -- Poincare duality (total Betti, H* = 1 + 2*dim_K7^2, holonomy chain, torsion)
 import GIFT.Foundations.PoincareDuality
+-- Ambrose-Singer theorem and holonomy diagnostics (torsion-free vs G₂ holonomy gap)
+import GIFT.Foundations.AmbroseSinger
 
 namespace GIFT.Foundations
 
@@ -98,6 +100,13 @@ Derives: b₂ = 21 = 7 + 14 from G₂ representation theory!
    - dim(G₂) = 14 from orbit-stabilizer
    - Ω² = Ω²₇ ⊕ Ω²₁₄ decomposition
    - b₂(K7) = 21 = dim(K7) + dim(G₂)
+
+5b. **AmbroseSinger.lean**
+   - Ambrose-Singer theorem: holonomy = Lie algebra of curvature endomorphisms
+   - Torsion-free is necessary but NOT sufficient for G₂ holonomy
+   - so(7) = g₂ ⊕ g₂⊥ decomposition: 21 = 14 + 7
+   - AS constraints: 147 = dim(K₇) × b₂ per point
+   - Phase 3 diagnostic: hol_rank = 21 (target: 14)
 
 6. **TCSConstruction.lean** (v3.4 update)
    - K7 as Twisted Connected Sum of CY3 building blocks
@@ -278,6 +287,26 @@ export SpectralScaling (
   pell_equation pell_discriminant pell_rationalized
   -- Master theorem
   spectral_scaling_certificate)
+
+-- Ambrose-Singer: holonomy algebra dimensions, torsion-free vs G₂ holonomy gap
+export AmbroseSinger (
+  -- Holonomy algebra dimensions
+  dim_so7 dim_so7_value dim_so7_eq_b2
+  dim_g2_complement dim_g2_complement_value dim_g2_complement_eq_dim_K7
+  so7_g2_decomposition
+  -- Holonomy rank diagnostic
+  target_hol_rank current_hol_rank holonomy_rank_gap holonomy_rank_ratio
+  -- AS constraints
+  as_constraints_per_point as_constraints_value as_constraints_decomposition
+  -- Berger classification
+  parallel_spinors_G2 G2_unique_exceptional_7
+  -- g₂ score
+  g2_generators g2_perp_generators so7_generator_split g2_su3_branching
+  -- Topological connections
+  b2_holonomy_manifold_sum so7_holonomy_manifold_sum
+  g2_perp_is_standard_rep holonomy_manifold_ratio so7_triple_K7
+  -- Master certificate
+  ambrose_singer_certificate)
 
 -- Poincare Duality: total Betti, H* = 1 + 2*dim_K7^2, holonomy chain, torsion
 export PoincareDuality (

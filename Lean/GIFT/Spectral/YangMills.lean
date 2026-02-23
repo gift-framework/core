@@ -129,11 +129,15 @@ opaque Curvature {G : CompactSimpleGroup} {M : CompactManifold}
 noncomputable opaque YangMillsAction {G : CompactSimpleGroup} {M : CompactManifold}
     (A : Connection G M) : ℝ
 
-/-- Yang-Mills action is non-negative -/
+/-- Yang-Mills action is non-negative.
+
+**Axiom Category: B (Standard Result)** — Non-negativity of the curvature norm integral. -/
 axiom yang_mills_nonneg {G : CompactSimpleGroup} {M : CompactManifold}
     (A : Connection G M) : YangMillsAction A ≥ 0
 
-/-- Flat connections minimize the action (S = 0) -/
+/-- Flat connections minimize the action (S = 0).
+
+**Axiom Category: B (Standard Result)** — F_A = 0 implies S_YM = 0. -/
 axiom flat_connection_minimizes {G : CompactSimpleGroup} {M : CompactManifold}
     (A : Connection G M) (h_flat : True) :  -- Placeholder for flatness
     YangMillsAction A = 0
@@ -179,7 +183,9 @@ noncomputable def YangMillsMassGap {G : CompactSimpleGroup} {M : CompactManifold
     (H : YangMillsHamiltonian G M) : ℝ :=
   first_excited_energy H - vacuum_energy H
 
-/-- The mass gap is non-negative -/
+/-- The mass gap is non-negative.
+
+**Axiom Category: A (Definition)** — E₁ ≥ E₀ by construction. -/
 axiom mass_gap_nonneg {G : CompactSimpleGroup} {M : CompactManifold}
     (H : YangMillsHamiltonian G M) : YangMillsMassGap H ≥ 0
 

@@ -233,7 +233,9 @@ theorem L₀_pos (K : TCSManifold) (hyp : TCSHypotheses K) : L₀ K hyp > 0 := b
 
 For typical parameters (v₀ = 1/2, h₀ = 1), we have L₀ = 2v₀/h₀ = 1.
 For more general parameters, this is a physical constraint ensuring
-the neck is long enough for the spectral analysis to apply. -/
+the neck is long enough for the spectral analysis to apply.
+
+**Axiom Category: C (Geometric structure)** — Physical constraint on TCS neck length. -/
 axiom L₀_ge_one (K : TCSManifold) (hyp : TCSHypotheses K) : L₀ K hyp ≥ 1
 
 -- ============================================================================
@@ -272,7 +274,8 @@ via twisted connected sums of asymptotically cylindrical Calabi-Yau 3-folds
 crossed with S¹.
 
 Axiomatized: full construction requires Calabi-Yau formalization.
--/
+
+**Axiom Category: C (Geometric structure)** — Kovalev (2003) -/
 axiom K7_is_TCS : ∃ (K : TCSManifold), K.toCompactManifold.dim = 7
 
 -- ============================================================================
