@@ -1,6 +1,6 @@
 -- GIFT: Geometric Integration of Fundamental Topologies
 -- Main entry point for Lean 4 formalization
--- Version: 4.0.0 (290+ certified relations, modular certificate structure)
+-- Version: 3.3.23 (455+ certified relations, modular certificate structure)
 
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- CORE & RELATIONS

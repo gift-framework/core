@@ -2,16 +2,17 @@
 GIFT Core - Formally Verified Mathematical Constants.
 
 All values proven in Lean 4.
-250+ certified relations, zero domain-specific axioms.
+455+ certified relations, modular certificate structure.
 
-v3.3.14 Features:
+v3.3.23 Features:
+- Certificate Modularization: Foundations / Predictions / Spectral pillars
+- Spectral Theory: Mass gap λ₁ = 14/99, TCS bounds, Yang-Mills connection
 - Selection Principle: Canonical neck length L* from variational argument
-- Tier 1 Bounds: Rayleigh quotient upper/lower bounds for spectral gap
+- G₂ Geometry: Axiom-free Hodge star, ψ=⋆φ proven
+- Selberg Bridge: Mollified Dirichlet polynomial, trace formula
 - Zeta Correspondences: γ₁~14, γ₂~21, γ₂₀~77, γ₁₀₇~248
 - Monster-Zeta Moonshine: Ogg's Jack Daniels Problem answer
 - Supersingular Primes: All 15 GIFT-expressible
-- Spectral Theory: Mass gap λ₁ = 14/99, Yang-Mills connection
-- G₂ Geometry: Axiom-free Hodge star, ψ=⋆φ proven
 - E8 Roots: 240 vectors in R^8 with full operations
 - Fano Plane: Octonion multiplication and G₂ cross product
 
