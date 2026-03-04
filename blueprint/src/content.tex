@@ -101,16 +101,6 @@ We formalize its lattice structure in $\R^8$.
 
 \section{Lattice Properties}
 
-\begin{lemma}[Sum of Squares Mod 2]\label{lem:sum_sq_mod_two}
-    \lean{GIFT.Foundations.E8Lattice.sum_sq_mod_two}
-    \leanok
-    For integers $n_0, \ldots, n_7$:
-    $\left(\sum_i n_i^2\right) \mod 2 = \left(\sum_i n_i\right) \mod 2$
-\end{lemma}
-\begin{proof}
-    Since $n^2 \equiv n \pmod{2}$ (as $n(n-1)$ is always even), the result follows
-    by summing over all coordinates.
-\end{proof}
 
 \begin{theorem}[E8 Inner Product Integral]\label{thm:E8_inner_integral}
     \lean{GIFT.Foundations.E8Lattice.E8_inner_integral}
@@ -607,19 +597,6 @@ for 43 years until GIFT derived it from topology.
 \end{theorem}
 
 \section{Lepton Mass Ratios}
-
-\begin{definition}[Muon Base]\label{def:m_mu_base}
-    \lean{GIFT.Relations.LeptonSector.m_mu_m_e_base}
-    \leanok
-    $m_\mu/m_e$ base: $\opdim(J_3(\OO)) = 27$ (exceptional Jordan algebra)
-\end{definition}
-
-\begin{theorem}[Muon/Electron from Jordan]\label{thm:m_mu_from_jordan}
-    \lean{GIFT.Relations.LeptonSector.m_mu_m_e_from_Jordan}
-    \leanok
-    \uses{def:m_mu_base}
-    $m_\mu/m_e \approx 27^\phi$ where $\phi = (1 + \sqrt{5})/2$ is the golden ratio.
-\end{theorem}
 
 \begin{theorem}[Tau/Electron Ratio]\label{thm:m_tau_m_e}
     \lean{GIFT.Relations.LeptonSector.m_tau_m_e_from_topology}
@@ -2273,30 +2250,12 @@ of the Fano plane $\mathrm{PG}(2,2)$.
     the antisymmetric part (21 = torsion 2-forms) equals~$\btwo$.
 \end{theorem}
 
-\begin{theorem}[Symmetric = $2 \times \opdim(\Gtwo)$]\label{thm:sym_twice_G2}
-    \lean{GIFT.Foundations.TCSPiecewiseMetric.symmetric_eq_twice_G2}
-    \leanok
-    $\opdim(\mathrm{Sym}_7) = 7 \times 8 / 2 = 28 = 2 \times \opdim(\Gtwo)$.
-\end{theorem}
-
-\begin{theorem}[Antisymmetric = $\btwo$]\label{thm:skew_eq_b2}
-    \lean{GIFT.Foundations.TCSPiecewiseMetric.antisymmetric_eq_b2}
-    \leanok
-    $\opdim(\mathrm{Skew}_7) = 7 \times 6 / 2 = 21 = \btwo$.
-\end{theorem}
-
 \section{Fano Plane Automorphism Group}
 
 \begin{theorem}[$|\mathrm{PSL}(2,7)| = \mathrm{rank}(E_8) \times \btwo$]\label{thm:PSL27_factored}
     \lean{GIFT.Foundations.TCSPiecewiseMetric.PSL27_eq_rank_times_b2}
     \leanok
     The Fano automorphism group has order $168 = 8 \times 21$.
-\end{theorem}
-
-\begin{theorem}[Orbit-stabilizer]\label{thm:PSL27_orbit_stab}
-    \lean{GIFT.Foundations.TCSPiecewiseMetric.PSL27_orbit_stabilizer}
-    \leanok
-    $168 = 7 \times 4!$ (orbit-stabilizer: 7 points, stabilizer~$\cong S_4$).
 \end{theorem}
 
 \section{Fano Incidence Arithmetic}
@@ -2411,12 +2370,6 @@ $\Gtwo$ holonomy (kills 27 traceless deformations) and $\det(g) = 65/32$
     \leanok
     $27 = 3^3$: the traceless symmetric space dimension equals the cube
     of the generation number.
-\end{theorem}
-
-\begin{theorem}[$\opdim(J_3(\mathbb{O})) + 1 = 2 \times \opdim(\Gtwo)$]\label{thm:J3O_plus_one}
-    \lean{GIFT.Foundations.ConformalRigidity.J3O_plus_one_eq_twice_G2}
-    \leanok
-    $27 + 1 = 28 = 2 \times 14$: traceless + conformal = twice holonomy dimension.
 \end{theorem}
 
 \section{Moduli Space Structure}
@@ -2574,12 +2527,6 @@ $L^2/\pi^2 = \Hstar/\opdim(\Gtwo)$ satisfies a Pell equation.
     connects to the Pontryagin class and Weyl factor.
 \end{theorem}
 
-\begin{theorem}[Pell discriminant structure]\label{thm:pell_disc}
-    \lean{GIFT.Foundations.SpectralScaling.pell_discriminant}
-    \leanok
-    $50 = p_2 \times W^2$: the Pontryagin-Weyl decomposition of the discriminant.
-\end{theorem}
-
 \section{Spectral-Topological Dictionary}
 
 \begin{theorem}[Spectral ladder]\label{thm:spectral_ladder}
@@ -2701,12 +2648,6 @@ dimension alone.
     $\opdim(\Gtwo) = \opdim(\mathrm{SU}(3)) + 2 N_{\mathrm{gen}} = 8 + 6 = 14$.
 \end{theorem}
 
-\begin{theorem}[SU(3) coprime to $\Hstar$]\label{thm:SU3_coprime}
-    \lean{GIFT.Foundations.PoincareDuality.SU3_coprime_H_star}
-    \leanok
-    $\gcd(\opdim(\mathrm{SU}(3)), \Hstar) = \gcd(8, 99) = 1$.
-\end{theorem}
-
 \section{Betti--Torsion Bridge}
 
 \begin{theorem}[Betti pair $= 2 \times$ torsion space]\label{thm:betti_torsion}
@@ -2736,53 +2677,6 @@ The axiom-free formalization of $\Gtwo$ differential geometry on $\R^7$:
 exterior algebra $\Lambda^*(\R^7)$, differential forms $\Omega^k(\R^7)$,
 Hodge star $\star : \Omega^3 \to \Omega^4$, and the torsion-free condition
 $d\varphi = 0 \wedge d\psi = 0$.
-
-\section{Exterior Algebra on $\R^7$}
-
-\begin{definition}[Exterior Algebra]\label{def:exterior}
-    \lean{GIFT.Geometry.Exterior.Ext}
-    \leanok
-    The exterior algebra $\Lambda^*(\R^7)$ via Mathlib's \texttt{ExteriorAlgebra}.
-\end{definition}
-
-\begin{definition}[Wedge Product]\label{def:wedge}
-    \lean{GIFT.Geometry.Exterior.wedge}
-    \leanok
-    \uses{def:exterior}
-    The wedge product $\wedge' : \Lambda^p \times \Lambda^q \to \Lambda^{p+q}$.
-\end{definition}
-
-\begin{theorem}[Wedge Anticommutativity]\label{thm:wedge_anticomm}
-    \lean{GIFT.Geometry.Exterior.wedge_anticomm_1forms}
-    \leanok
-    \uses{def:wedge}
-    For 1-forms $\alpha, \beta$: $\alpha \wedge' \beta = -\beta \wedge' \alpha$.
-\end{theorem}
-
-\begin{theorem}[Dimension of 3-Forms]\label{thm:dim_3forms}
-    \lean{GIFT.Geometry.Exterior.dim_3forms}
-    \leanok
-    $\opdim(\Lambda^3 \R^7) = \binom{7}{3} = 35$.
-\end{theorem}
-
-\begin{theorem}[$\Gtwo$ Decomposition of $\Omega^2$]\label{thm:G2_decomp_Omega2}
-    \lean{GIFT.Geometry.Exterior.G2_decomp_Omega2}
-    \leanok
-    $\Omega^2 = \Omega^2_7 \oplus \Omega^2_{14}$, with $7 + 14 = 21 = \btwo$.
-\end{theorem}
-
-\begin{theorem}[$\Gtwo$ Decomposition of $\Omega^3$]\label{thm:G2_decomp_Omega3}
-    \lean{GIFT.Geometry.Exterior.G2_decomp_Omega3}
-    \leanok
-    $\Omega^3 = \Omega^3_1 \oplus \Omega^3_7 \oplus \Omega^3_{27}$, with $1 + 7 + 27 = 35$.
-\end{theorem}
-
-\begin{theorem}[Exterior Infrastructure]\label{thm:exterior_cert}
-    \lean{GIFT.Geometry.Exterior.exterior_infrastructure_complete}
-    \leanok
-    \uses{thm:wedge_anticomm, thm:dim_3forms, thm:G2_decomp_Omega2, thm:G2_decomp_Omega3}
-    Complete exterior algebra infrastructure on $\R^7$.
-\end{theorem}
 
 \section{Differential Forms on $\R^7$}
 
@@ -2965,12 +2859,6 @@ is derived from $\Kseven$ topology via:
     $N_{\mathrm{vacua}} = \btwo = 21$.
 \end{theorem}
 
-\begin{theorem}[VEV from Golden Ratio]\label{thm:vev_phi}
-    \lean{GIFT.Hierarchy.VacuumStructure.vev_eq_2_minus_phi}
-    \leanok
-    The vacuum expectation value $v = 2 - \varphi = \varphi^{-2} \approx 0.382$.
-\end{theorem}
-
 \begin{theorem}[Moduli Dimension]\label{thm:moduli_b3}
     \lean{GIFT.Hierarchy.VacuumStructure.moduli_dim_eq_b3}
     \leanok
@@ -2993,12 +2881,6 @@ is derived from $\Kseven$ topology via:
 
 \section{$\Eeight \to E_6$ Symmetry Cascade}
 
-\begin{theorem}[Exceptional Rank Sum]\label{thm:sum_exceptional_ranks}
-    \lean{GIFT.Hierarchy.E6Cascade.sum_exceptional_ranks}
-    \leanok
-    $\rank(\Eeight) + \rank(\Eseven) + \rank(E_6) + \rank(F_4) + \rank(\Gtwo) = 8 + 7 + 6 + 4 + 2 = 27 = \opdim(J_3(\OO))$.
-\end{theorem}
-
 \begin{theorem}[$E_6$ Fundamental]\label{thm:fund_E6_J3O}
     \lean{GIFT.Hierarchy.E6Cascade.fund_E6_eq_J3O}
     \leanok
@@ -3009,19 +2891,6 @@ is derived from $\Kseven$ topology via:
     \lean{GIFT.Hierarchy.E6Cascade.E8_E6_SU3_branching}
     \leanok
     $248 = 78 + 8 + 2 \times 27 \times 3 = \opdim(E_6) + \opdim(\SU(3)) + 162$.
-\end{theorem}
-
-\begin{theorem}[Cascade Decreasing]\label{thm:cascade_decreasing}
-    \lean{GIFT.Hierarchy.E6Cascade.cascade_decreasing}
-    \leanok
-    $248 > 133 > 78 > 52 > 14$: exceptional group dimensions strictly decrease.
-\end{theorem}
-
-\begin{theorem}[Cascade Differences]\label{thm:cascade_differences}
-    \lean{GIFT.Hierarchy.E6Cascade.cascade_differences}
-    \leanok
-    \uses{thm:cascade_decreasing}
-    $248 - 133 = 115$, $133 - 78 = 55$, $78 - 52 = 26$, $52 - 14 = 38$.
 \end{theorem}
 
 \section{Absolute Lepton Masses}
@@ -3552,7 +3421,8 @@ Selection Principle \& Yang--Mills & 30 & \checkmark (v3.3.14) \\
           thm:joyce_cert, thm:analytical_metric, thm:joyce_exact,
           thm:g2_metric_cert, thm:tcs_piecewise_cert,
           thm:conformal_rigidity_cert, thm:spectral_scaling_cert,
-          thm:poincare_duality_cert, thm:geometry_cert}
+          thm:poincare_duality_cert, thm:geometry_cert,
+          thm:fund_E6_J3O}
     Mathematical infrastructure: E$_8$ lattice (240 roots), G$_2$ cross product,
     $\Gtwo$ differential geometry (axiom-free), octonion bridge, K$_7$ Betti numbers,
     Joyce existence, conformal rigidity, Poincar\'e duality, G$_2$ metric properties,
@@ -3571,7 +3441,12 @@ Selection Principle \& Yang--Mills & 30 & \checkmark (v3.3.14) \\
           thm:monster_gift, thm:monster_ap, thm:j_E8, thm:j_triality,
           thm:E8_kissing, thm:coxeter_gift, thm:euler_p2,
           thm:sin2_theta_W_14, thm:42_universality, thm:8_11_universality,
-          thm:mass_formulas, thm:hierarchy_very_small, thm:E8_E6_branching}
+          thm:mass_formulas, thm:hierarchy_very_small, thm:E8_E6_branching,
+          def:theta12_pmns, def:theta13_pmns,
+          def:ms_md, def:mc_ms, def:mu_md,
+          def:mH_mW, def:mW_mZ,
+          def:cabibbo, def:A_wolf, def:theta23_ckm,
+          def:hubble_h, def:sigma8, def:Yp}
     Published predictions: 33+ dimensionless derivations, 50+ observables,
     hierarchy solution, Fano selection, exceptional chain, SO(16) decomposition.
 \end{theorem}

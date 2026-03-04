@@ -14,7 +14,6 @@ GIFT.Foundations.E8Lattice.AllInteger
 GIFT.Foundations.E8Lattice.AllHalfInteger
 GIFT.Foundations.E8Lattice.SumEven
 GIFT.Foundations.E8Lattice.E8_lattice
-GIFT.Foundations.E8Lattice.sum_sq_mod_two
 GIFT.Foundations.E8Lattice.E8_inner_integral
 GIFT.Foundations.E8Lattice.E8_norm_sq_even
 GIFT.Foundations.E8Lattice.E8_sub_closed
@@ -60,7 +59,6 @@ GIFT.Foundations.AnalyticalMetric.torsion_satisfies_joyce
 # Conformal Rigidity
 # ══════════════════════════════════════════════════════════════
 GIFT.Foundations.ConformalRigidity.J3O_eq_Ngen_cubed
-GIFT.Foundations.ConformalRigidity.J3O_plus_one_eq_twice_G2
 GIFT.Foundations.ConformalRigidity.conformal_exponent_eq_dim_G2
 GIFT.Foundations.ConformalRigidity.conformal_rigidity
 GIFT.Foundations.ConformalRigidity.conformal_rigidity_certificate
@@ -76,7 +74,6 @@ GIFT.Foundations.ConformalRigidity.sym2_decomposition
 GIFT.Foundations.PoincareDuality.G2_adjoint_branching
 GIFT.Foundations.PoincareDuality.H_star_structural
 GIFT.Foundations.PoincareDuality.SO7_eq_b2
-GIFT.Foundations.PoincareDuality.SU3_coprime_H_star
 GIFT.Foundations.PoincareDuality.betti_pair_eq_two_K7_sq
 GIFT.Foundations.PoincareDuality.betti_pair_eq_two_torsion
 GIFT.Foundations.PoincareDuality.chain_additive
@@ -99,7 +96,6 @@ GIFT.Foundations.SpectralScaling.ev_sum_4_eq_coxeter_E8
 GIFT.Foundations.SpectralScaling.kappa_times_H_star
 GIFT.Foundations.SpectralScaling.neck_ratio_from_constants
 GIFT.Foundations.SpectralScaling.neumann_ratio
-GIFT.Foundations.SpectralScaling.pell_discriminant
 GIFT.Foundations.SpectralScaling.pell_equation
 GIFT.Foundations.SpectralScaling.remainder_is_spinor_correction
 GIFT.Foundations.SpectralScaling.second_ev_binomial
@@ -122,15 +118,12 @@ GIFT.Foundations.TCSPiecewiseMetric.H_star_M2
 GIFT.Foundations.TCSPiecewiseMetric.H_star_M2_eq_coxeter_rank
 GIFT.Foundations.TCSPiecewiseMetric.H_star_blocks_sum
 GIFT.Foundations.TCSPiecewiseMetric.PSL27_eq_rank_times_b2
-GIFT.Foundations.TCSPiecewiseMetric.PSL27_orbit_stabilizer
-GIFT.Foundations.TCSPiecewiseMetric.antisymmetric_eq_b2
 GIFT.Foundations.TCSPiecewiseMetric.b2_eq_dimK7_times_Ngen
 GIFT.Foundations.TCSPiecewiseMetric.building_block_b2_asymmetry
 GIFT.Foundations.TCSPiecewiseMetric.building_block_b3_asymmetry
 GIFT.Foundations.TCSPiecewiseMetric.kovalev_eigenspace_split
 GIFT.Foundations.TCSPiecewiseMetric.kovalev_involutions_eq_3form_dim
 GIFT.Foundations.TCSPiecewiseMetric.matrix_gift_decomposition
-GIFT.Foundations.TCSPiecewiseMetric.symmetric_eq_twice_G2
 GIFT.Foundations.TCSPiecewiseMetric.tcs_piecewise_metric_certificate
 GIFT.Foundations.TCSPiecewiseMetric.threeforms_plus_G2_eq_matrix_dim
 
@@ -197,8 +190,6 @@ GIFT.Relations.LeptonSector.koide_formula
 GIFT.Relations.LeptonSector.koide_simplified
 GIFT.Relations.LeptonSector.m_tau_m_e_from_topology
 GIFT.Relations.LeptonSector.m_tau_m_e_components
-GIFT.Relations.LeptonSector.m_mu_m_e_base
-GIFT.Relations.LeptonSector.m_mu_m_e_from_Jordan
 GIFT.Relations.LeptonSector.lambda_H_sq_num
 GIFT.Relations.LeptonSector.lambda_H_sq_den
 GIFT.Relations.LeptonSector.lambda_H_sq_certified
@@ -440,15 +431,6 @@ GIFT.Joyce.joyce_complete_certificate
 # G2 Differential Geometry (Geometry/)
 # ══════════════════════════════════════════════════════════════
 
-# Exterior Algebra
-GIFT.Geometry.Exterior.Ext
-GIFT.Geometry.Exterior.wedge
-GIFT.Geometry.Exterior.wedge_anticomm_1forms
-GIFT.Geometry.Exterior.dim_3forms
-GIFT.Geometry.Exterior.G2_decomp_Omega2
-GIFT.Geometry.Exterior.G2_decomp_Omega3
-GIFT.Geometry.Exterior.exterior_infrastructure_complete
-
 # Differential Forms
 GIFT.Geometry.DifferentialFormsR7.DiffForm
 GIFT.Geometry.DifferentialFormsR7.ExteriorDerivative
@@ -484,17 +466,13 @@ GIFT.Hierarchy.DimensionalGap.ln_hierarchy_bounds
 # Vacuum Structure
 GIFT.Hierarchy.VacuumStructure.n_vacua
 GIFT.Hierarchy.VacuumStructure.n_vacua_eq_b2
-GIFT.Hierarchy.VacuumStructure.vev_eq_2_minus_phi
 GIFT.Hierarchy.VacuumStructure.moduli_dim_eq_b3
 GIFT.Hierarchy.VacuumStructure.tcs_total
 GIFT.Hierarchy.VacuumStructure.vacuum_topology_correspondence
 
 # E6 Cascade
-GIFT.Hierarchy.E6Cascade.sum_exceptional_ranks
 GIFT.Hierarchy.E6Cascade.fund_E6_eq_J3O
 GIFT.Hierarchy.E6Cascade.E8_E6_SU3_branching
-GIFT.Hierarchy.E6Cascade.cascade_decreasing
-GIFT.Hierarchy.E6Cascade.cascade_differences
 
 # Absolute Masses
 GIFT.Hierarchy.AbsoluteMasses.m_tau_m_e_formula
