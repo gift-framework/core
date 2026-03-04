@@ -63,7 +63,7 @@ gift-framework/core/
 │   │   │   ├── McKay/      # McKay correspondence, golden emergence
 │   │   │   └── Zeta/       # Riemann zeta correspondences (conjectures)
 │   │   └── Joyce.lean      # Joyce existence theorem
-│   └── lakefile.lean
+│   └── lakefile.toml
 │
 ├── gift_core/              # Python package
 │   ├── __init__.py         # Exports (update when adding constants!)
@@ -76,10 +76,8 @@ gift-framework/core/
 │   ├── analysis/           # [v3.0] Joyce certificate, intervals
 │   └── ...
 │
-├── tests/                  # Python tests
 └── .github/workflows/      # CI/CD
     ├── verify.yml          # Lean 4 verification
-    ├── test.yml            # Python tests
     └── publish.yml         # PyPI publish on release
 ```
 
@@ -193,11 +191,6 @@ theorem qux : ... := by
 - Builds Lean 4 proofs (`lake build`)
 - Must pass before merge
 
-### test.yml
-- Triggers on: push, PR
-- Runs Python tests (`pytest`)
-- Tests all certified relations
-
 ### publish.yml
 - Triggers on: GitHub release published
 - Verifies proofs first
@@ -217,9 +210,6 @@ theorem qux : ... := by
 # Lean 4
 cd Lean && lake build
 
-# Python
-python -m pytest tests/ -v
-
 # Quick verification of constants
 python -c "from gift_core import *; print(GAMMA_GIFT)"
 ```
@@ -236,8 +226,7 @@ python -c "from gift_core import *; print(GAMMA_GIFT)"
 3. **Lean**: Add conjunct to the sub-module's `def statement : Prop`
 4. **Python**: Add constants to appropriate file in `gift_core/constants/`
 5. **Python**: Export in `gift_core/__init__.py`
-6. **Python**: Add tests in `tests/`
-7. **Docs**: Update `README.md`
+6. **Docs**: Update `README.md`
 8. **Version**: Bump in `gift_core/_version.py`
 
 ---

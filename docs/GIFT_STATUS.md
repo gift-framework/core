@@ -74,7 +74,6 @@ Build: `uvx leanblueprint pdf` / `uvx leanblueprint web`
 | Workflow | Status |
 |----------|--------|
 | verify.yml (Lean 4) | Active |
-| test.yml (Python) | Active |
 | publish.yml (PyPI) | Active |
 
 ---

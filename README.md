@@ -1,7 +1,6 @@
 # GIFT Core
 
 [![Formal Verification](https://github.com/gift-framework/core/actions/workflows/verify.yml/badge.svg)](https://github.com/gift-framework/core/actions/workflows/verify.yml)
-[![Python Tests](https://github.com/gift-framework/core/actions/workflows/test.yml/badge.svg)](https://github.com/gift-framework/core/actions/workflows/test.yml)
 [![PyPI](https://img.shields.io/pypi/v/giftpy)](https://pypi.org/project/giftpy/)
 
 Formally verified mathematical relations from the GIFT framework. 455+ certified relations, 87 axioms classified (A-F), all theorems proven in **Lean 4** (146 files, 2656 build jobs).

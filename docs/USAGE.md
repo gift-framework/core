@@ -289,19 +289,6 @@ cert = JoyceCertificate.verify()
 print(cert.safety_margin)    # ~20.4x
 ```
 
-### K7 Metric Pipeline (requires numpy)
-
-```python
-import gift_core as gc
-
-if gc.NUMPY_AVAILABLE:
-    config = gc.PipelineConfig(neck_length=15.0, resolution=32, pinn_epochs=1000)
-    result = gc.run_pipeline(config)
-    print(f"det(g) = {result.det_g}")
-```
-
----
-
 ## Building Proofs Locally
 
 ```bash
