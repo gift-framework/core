@@ -10,11 +10,11 @@
 --
 -- Total: 60+ new relations (Relations 174-233)
 
-import GIFT.Moonshine.MonsterDimension
-import GIFT.Moonshine.MonsterCoxeter
-import GIFT.Moonshine.JInvariant
-import GIFT.Moonshine.Supersingular
-import GIFT.Moonshine.MonsterZeta
+import GIFT.Exploratory.Moonshine.MonsterDimension
+import GIFT.Exploratory.Moonshine.MonsterCoxeter
+import GIFT.Exploratory.Moonshine.JInvariant
+import GIFT.Exploratory.Moonshine.Supersingular
+import GIFT.Exploratory.Moonshine.MonsterZeta
 
 namespace GIFT.Moonshine
 

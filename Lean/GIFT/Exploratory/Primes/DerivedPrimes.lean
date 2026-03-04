@@ -9,7 +9,7 @@
 import GIFT.Core
 import GIFT.Relations
 import GIFT.Relations.YukawaDuality
-import GIFT.Primes.DirectPrimes
+import GIFT.Exploratory.Primes.DirectPrimes
 import Mathlib.Data.Nat.Prime.Basic
 
 namespace GIFT.Primes.Derived

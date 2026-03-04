@@ -1,6 +1,6 @@
 -- GIFT: Geometric Integration of Fundamental Topologies
 -- Main entry point for Lean 4 formalization
--- Version: 3.3.23 (455+ certified relations, modular certificate structure)
+-- Version: 3.3.25 (455+ certified relations, modular certificate, Exploratory separation)
 
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- CORE & RELATIONS
@@ -41,14 +41,17 @@ import GIFT.Observables
 import GIFT.Spectral
 
 -- ═══════════════════════════════════════════════════════════════════════════════
--- EXTENSIONS (standalone modules, compiled but not in Certificate)
+-- EXTENSIONS
 -- ═══════════════════════════════════════════════════════════════════════════════
 
-import GIFT.Sequences      -- Fibonacci, Lucas, Recurrence
-import GIFT.Primes         -- Prime Atlas (direct, derived, Heegner)
-import GIFT.Moonshine      -- Monstrous moonshine (Monster group, j-invariant)
-import GIFT.McKay          -- McKay correspondence, Golden emergence
 import GIFT.MollifiedSum   -- Cosine-squared kernel, mollified sum S_w(T)
+
+-- Exploratory modules (not in published papers, separate from Certificate)
+import GIFT.Exploratory.Sequences    -- Fibonacci, Lucas embeddings
+import GIFT.Exploratory.Primes       -- Prime Atlas (direct, derived, Heegner)
+import GIFT.Exploratory.Moonshine    -- Monstrous moonshine (Monster, j-invariant)
+import GIFT.Exploratory.McKay        -- McKay correspondence, Golden emergence
+import GIFT.Exploratory.Zeta         -- Riemann zeta correspondences (conjectures)
 
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- CERTIFICATE (modular: Foundations / Predictions / Spectral)

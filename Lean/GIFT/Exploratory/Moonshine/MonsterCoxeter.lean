@@ -1,5 +1,5 @@
 import GIFT.Core
-import GIFT.Moonshine.MonsterDimension
+import GIFT.Exploratory.Moonshine.MonsterDimension
 import Mathlib.Data.Nat.Prime.Basic
 
 /-!

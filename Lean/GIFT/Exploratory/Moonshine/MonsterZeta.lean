@@ -27,11 +27,11 @@ Status: Hypothesis with formal statement
 Version: 1.0.0
 -/
 
-import GIFT.Zeta.Basic
-import GIFT.Zeta.Correspondences
-import GIFT.Moonshine.Supersingular
-import GIFT.Moonshine.JInvariant
-import GIFT.Moonshine.MonsterDimension
+import GIFT.Exploratory.Zeta.Basic
+import GIFT.Exploratory.Zeta.Correspondences
+import GIFT.Exploratory.Moonshine.Supersingular
+import GIFT.Exploratory.Moonshine.JInvariant
+import GIFT.Exploratory.Moonshine.MonsterDimension
 import GIFT.Core
 
 namespace GIFT.Moonshine.MonsterZeta

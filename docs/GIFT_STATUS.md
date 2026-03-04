@@ -1,7 +1,7 @@
 # GIFT Framework Status
 
-**Version**: 3.3.23
-**Date**: 2026-02-23
+**Version**: 3.3.25
+**Date**: 2026-03-04
 **Proof Systems**: Lean 4 (v4.27.0 + Mathlib v4.27.0)
 
 ---
@@ -14,13 +14,13 @@ GIFT (Geometric Information Field Theory) derives Standard Model parameters from
 
 ## 1. Current State
 
-### 1.1 Modular Certificate Structure (v3.3.23)
+### 1.1 Modular Certificate Structure (v3.3.25)
 
 The certificate system is organized into three pillars:
 
 | Pillar | File | Conjuncts | Content |
 |--------|------|-----------|---------|
-| **Foundations** | `Certificate/Foundations.lean` | 19 | E₈ roots, G₂ cross product, octonions, K₇, Joyce, Sobolev, conformal rigidity |
+| **Foundations** | `Certificate/Foundations.lean` | 26 | E₈ roots, G₂ cross product, octonions, K₇, Joyce, NK cert, K3 torsion |
 | **Predictions** | `Certificate/Predictions.lean` | 48 | 33+ published relations, ~50 observables, Fano selection, tau bounds, SO(16) |
 | **Spectral** | `Certificate/Spectral.lean` | 27 | Mass gap 14/99, TCS bounds, selection principle, literature axioms |
 | **Master** | `Certificate/Core.lean` | — | `Foundations.statement ∧ Predictions.statement ∧ Spectral.statement` |
@@ -90,11 +90,14 @@ Lean/GIFT/
     Predictions.lean           # 33+ relations, observables
     Spectral.lean              # Mass gap 14/99, TCS, selection
   Certificate.lean             # Backward-compat wrapper (legacy aliases)
-  Foundations/                  # Mathematical foundations (20 files)
+  Foundations/                  # Mathematical foundations (23 files)
     RootSystems.lean           # E₈ roots in ℝ⁸
     E8Lattice.lean             # E₈ lattice formalization
     G2CrossProduct.lean        # 7D cross product
     OctonionBridge.lean        # R8-R7 connection
+    ExplicitG2Metric.lean      # 169-param Chebyshev-Cholesky [v3.3.25]
+    NewtonKantorovich.lean     # NK cert: h=6.65e-8 [v3.3.25]
+    K3HarmonicCorrection.lean  # x2995 torsion reduction [v3.3.25]
     NumericalBounds.lean       # Taylor series bounds
     GoldenRatioPowers.lean     # φ powers
     PoincareDuality.lean       # H*=1+2*dim_K7^2
@@ -105,18 +108,19 @@ Lean/GIFT/
   Geometry/                    # Axiom-free DG infrastructure
   Spectral/                    # 14 files: spectral gap theory
   MollifiedSum/                # Cosine-squared kernel, S_w(T)
-  Zeta/                        # GIFT-Zeta correspondences
-  Moonshine/                   # Monster group, j-invariant, supersingular primes
   Relations/                   # 21 files: physical predictions
   Observables/                 # PMNS, CKM, quark masses, cosmology
   Algebraic/                   # Octonions, Betti numbers
-  Sequences/                   # Fibonacci, Lucas embeddings
-  Primes/                      # Prime Atlas
-  McKay/                       # McKay correspondence
   Hierarchy/                   # Dimensional gap, golden ratio
+  Exploratory/                 # Number-theoretic curiosities (not in papers) [v3.3.25]
+    Sequences/                 # Fibonacci, Lucas embeddings
+    Primes/                    # Prime Atlas
+    Moonshine/                 # Monster group, j-invariant
+    McKay/                     # McKay correspondence
+    Zeta/                      # Riemann zeta correspondences
 
 gift_core/                     # Python package (giftpy)
-  _version.py                  # Version 3.3.23
+  _version.py                  # Version 3.3.25
   constants/                   # All certified constants
   roots.py                     # E₈ root system (240 vectors)
   fano.py                      # Fano plane, G₂ cross product
@@ -130,6 +134,8 @@ gift_core/                     # Python package (giftpy)
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| 3.3.25 | 2026-03-04 | Explicit G₂ metric + Exploratory separation |
+| 3.3.24 | 2026-02-23 | Ambrose-Singer holonomy diagnostics |
 | 3.3.23 | 2026-02-22 | Certificate modularization (monolithic → 3 pillars) |
 | 3.3.22 | 2026-02-21 | Poincare duality, holonomy chain |
 | 3.3.21 | 2026-02-20 | Spectral scaling, Neumann eigenvalue hierarchy |
@@ -157,4 +163,4 @@ GIFT bridges three active research programs:
 
 ---
 
-*Updated: 2026-02-23*
+*Updated: 2026-03-04*

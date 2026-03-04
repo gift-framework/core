@@ -13,7 +13,7 @@
 import GIFT.Core
 import GIFT.Relations
 import GIFT.Relations.YukawaDuality
-import GIFT.Sequences.Fibonacci
+import GIFT.Exploratory.Sequences.Fibonacci
 
 namespace GIFT.Sequences.Lucas
 

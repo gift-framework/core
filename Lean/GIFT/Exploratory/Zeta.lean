@@ -29,10 +29,10 @@ Status: Conjectures with strong numerical evidence
 Version: 1.0.0
 -/
 
-import GIFT.Zeta.Basic
-import GIFT.Zeta.Correspondences
-import GIFT.Zeta.Spectral
-import GIFT.Zeta.MultiplesOf7
+import GIFT.Exploratory.Zeta.Basic
+import GIFT.Exploratory.Zeta.Correspondences
+import GIFT.Exploratory.Zeta.Spectral
+import GIFT.Exploratory.Zeta.MultiplesOf7
 
 namespace GIFT.Zeta
 

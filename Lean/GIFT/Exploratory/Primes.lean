@@ -10,11 +10,11 @@
 --
 -- Total: 50+ new relations (Relations 101-173)
 
-import GIFT.Primes.DirectPrimes
-import GIFT.Primes.DerivedPrimes
-import GIFT.Primes.Generators
-import GIFT.Primes.Heegner
-import GIFT.Primes.Special
+import GIFT.Exploratory.Primes.DirectPrimes
+import GIFT.Exploratory.Primes.DerivedPrimes
+import GIFT.Exploratory.Primes.Generators
+import GIFT.Exploratory.Primes.Heegner
+import GIFT.Exploratory.Primes.Special
 
 namespace GIFT.Primes
 

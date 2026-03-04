@@ -11,8 +11,8 @@
 import GIFT.Core
 import GIFT.Relations
 import GIFT.Relations.YukawaDuality
-import GIFT.Sequences.Fibonacci
-import GIFT.Sequences.Lucas
+import GIFT.Exploratory.Sequences.Fibonacci
+import GIFT.Exploratory.Sequences.Lucas
 
 namespace GIFT.Sequences.Recurrence
 

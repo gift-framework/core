@@ -1,7 +1,7 @@
 # GIFT Blueprint - Jekyll Configuration
 
 title: "GIFT: Geometric Information Field Theory"
-description: "Formal verification of G2 holonomy framework - 175+ machine-verified relations"
+description: "Formal verification of G2 holonomy framework - 455+ machine-verified relations"
 baseurl: "/core"
 url: "https://gift-framework.github.io"
 github_username: gift-framework

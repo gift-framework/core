@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.3.24).
+Complete documentation for the `giftpy` Python package (v3.3.25).
 
 ## Installation
 
@@ -41,6 +41,49 @@ print(K7.two_b2)                # 42 (structural invariant)
 from gift_core import verify
 print(verify())          # True
 ```
+
+## New in v3.3.25
+
+### Explicit G₂ Metric Formalization
+
+Three new Lean modules formalizing the published analytical metric:
+
+```lean
+import GIFT.Foundations.ExplicitG2Metric
+import GIFT.Foundations.NewtonKantorovich
+import GIFT.Foundations.K3HarmonicCorrection
+
+-- 169-parameter Chebyshev-Cholesky metric
+#check GIFT.Foundations.ExplicitG2Metric.n_params_total        -- 169
+#check GIFT.Foundations.ExplicitG2Metric.n_params_eq_alpha_sum_sq  -- 169 = 13²
+
+-- Newton-Kantorovich unconditional certification
+#check GIFT.Foundations.NewtonKantorovich.nk_contraction_certified  -- h < 1/2
+#check GIFT.Foundations.NewtonKantorovich.nk_safety_margin          -- margin > 7.5M
+
+-- K3 harmonic correction: ×2995 torsion reduction
+#check GIFT.Foundations.K3HarmonicCorrection.torsion_space_total   -- 1+7+14+27 = 49
+#check GIFT.Foundations.K3HarmonicCorrection.K3_torsion_small      -- K3 < 0.1%
+```
+
+### Exploratory Module Separation
+
+Number-theoretic curiosities (not in published papers) moved to `Exploratory/`:
+
+```lean
+-- Old: import GIFT.Moonshine.MonsterCoxeter
+-- New:
+import GIFT.Exploratory.Moonshine.MonsterCoxeter
+
+-- All exploratory modules:
+import GIFT.Exploratory.Sequences    -- Fibonacci, Lucas
+import GIFT.Exploratory.Primes       -- Prime Atlas
+import GIFT.Exploratory.Moonshine    -- Monster group, j-invariant
+import GIFT.Exploratory.McKay        -- McKay correspondence
+import GIFT.Exploratory.Zeta         -- Riemann zeta correspondences
+```
+
+---
 
 ## New in v3.3.24
 
@@ -163,10 +206,10 @@ import GIFT.Geometry
 #check HodgeStarR7.standardG2Geom_torsionFree
 ```
 
-### Moonshine (v3.3.11)
+### Moonshine (Exploratory)
 
 ```lean
-import GIFT.Moonshine.MonsterCoxeter
+import GIFT.Exploratory.Moonshine.MonsterCoxeter
 
 -- Monster dimension from Coxeter numbers
 #check monster_dim_coxeter_formula

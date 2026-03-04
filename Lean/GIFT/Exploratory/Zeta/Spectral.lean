@@ -22,8 +22,8 @@ Status: Spectral interpretation with GIFT connections
 Version: 1.0.0
 -/
 
-import GIFT.Zeta.Basic
-import GIFT.Zeta.Correspondences
+import GIFT.Exploratory.Zeta.Basic
+import GIFT.Exploratory.Zeta.Correspondences
 import GIFT.Core
 
 namespace GIFT.Zeta.Spectral

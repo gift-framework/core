@@ -10,7 +10,7 @@
 
 import GIFT.Core
 import GIFT.Relations
-import GIFT.McKay.Correspondence
+import GIFT.Exploratory.McKay.Correspondence
 
 namespace GIFT.McKay.GoldenEmergence
 

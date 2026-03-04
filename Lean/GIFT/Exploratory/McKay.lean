@@ -8,8 +8,8 @@
 --
 -- Total: 15 new relations (Relations 186-200)
 
-import GIFT.McKay.Correspondence
-import GIFT.McKay.GoldenEmergence
+import GIFT.Exploratory.McKay.Correspondence
+import GIFT.Exploratory.McKay.GoldenEmergence
 
 namespace GIFT.McKay
 

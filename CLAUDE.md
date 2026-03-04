@@ -56,10 +56,12 @@ gift-framework/core/
 │   │   │   └── BettiNumbers.lean
 │   │   │
 │   │   ├── Relations/      # Physical predictions (15+ files)
-│   │   ├── Sequences/      # Fibonacci, Lucas embeddings
-│   │   ├── Primes/         # Prime Atlas (DirectPrimes, DerivedPrimes)
-│   │   ├── Moonshine/      # Monstrous moonshine (Monster, j-invariant)
-│   │   ├── McKay/          # McKay correspondence
+│   │   ├── Exploratory/    # Number-theoretic curiosities (not in papers)
+│   │   │   ├── Sequences/  # Fibonacci, Lucas embeddings
+│   │   │   ├── Primes/     # Prime Atlas (DirectPrimes, DerivedPrimes)
+│   │   │   ├── Moonshine/  # Monster group, j-invariant, supersingular
+│   │   │   ├── McKay/      # McKay correspondence, golden emergence
+│   │   │   └── Zeta/       # Riemann zeta correspondences (conjectures)
 │   │   └── Joyce.lean      # Joyce existence theorem
 │   └── lakefile.lean
 │
@@ -1937,4 +1939,4 @@ axiom cheeger_inequality ...
 
 ---
 
-*Last updated: 2026-02-23 - V3.3.24: AmbroseSinger.lean, axiom category tags (87/87), Hodge star hierarchy*
+*Last updated: 2026-03-04 - V3.3.25: ExplicitG2Metric, NewtonKantorovich, K3HarmonicCorrection, Exploratory/ separation (24 files moved)*

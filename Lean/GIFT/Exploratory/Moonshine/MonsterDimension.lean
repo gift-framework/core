@@ -9,7 +9,7 @@
 
 import GIFT.Core
 import GIFT.Relations
-import GIFT.Sequences.Lucas
+import GIFT.Exploratory.Sequences.Lucas
 import Mathlib.Data.Nat.Prime.Basic
 
 namespace GIFT.Moonshine.MonsterDimension

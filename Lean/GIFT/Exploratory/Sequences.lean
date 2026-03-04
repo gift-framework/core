@@ -9,9 +9,9 @@
 --
 -- Total: 25 new relations (Relations 76-100)
 
-import GIFT.Sequences.Fibonacci
-import GIFT.Sequences.Lucas
-import GIFT.Sequences.Recurrence
+import GIFT.Exploratory.Sequences.Fibonacci
+import GIFT.Exploratory.Sequences.Lucas
+import GIFT.Exploratory.Sequences.Recurrence
 
 namespace GIFT.Sequences
 

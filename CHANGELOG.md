@@ -5,6 +5,54 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.25] - 2026-03-04
+
+### Summary
+
+**Explicit G₂ metric formalization + exploratory module separation.** Three new Lean modules formalizing the 169-parameter Chebyshev-Cholesky metric, Newton-Kantorovich certification (h = 6.65e-8 < 0.5), and K3 harmonic correction (x2995 torsion reduction). Five exploratory modules (Moonshine, McKay, Zeta, Sequences, Primes) moved to `Exploratory/` subdirectory — published core now cleanly separated from number-theoretic curiosities. Certificate/Foundations updated from 21 to 26 conjuncts. Build: 2656 jobs, zero incomplete proofs.
+
+### Added
+
+- **Foundations/ExplicitG2Metric.lean** (~280 lines) — 169-parameter metric:
+  - Chebyshev-Cholesky structure: K=5, 28 entries x 6 modes + 1 gamma = 169
+  - `n_params_eq_alpha_sum_sq`: 169 = 13^2
+  - Compression ratios: 6334x (Chebyshev), 38231x (single SPD)
+  - 12-conjunct master certificate
+
+- **Foundations/NewtonKantorovich.lean** (~230 lines) — NK certification:
+  - `nk_contraction_certified`: h x 2 < 10^10 (h = 6.65e-8 < 0.5)
+  - Safety margin > 7.5M, 5 Joyce steps = Weyl factor
+  - `NKCertificate` structure bundling all bounds
+  - 7-conjunct master certificate
+
+- **Foundations/K3HarmonicCorrection.lean** (~260 lines) — Torsion reduction:
+  - Torsion classes: W1(1) + W7(7) + W14(14) + W27(27) = 49 = dim(K7)^2
+  - tau3 dominates (99.6%), dphi/d*phi = 1/Weyl
+  - K3 fiber: 0.07% of torsion, 220k verification points
+  - 10-conjunct master certificate
+
+- **Exploratory.lean** — Master import for separated exploratory modules
+
+### Changed
+
+- **Exploratory/ directory** — Moved 24 files (5 modules) from top-level:
+  - `Moonshine/` (5 files), `McKay/` (2), `Zeta/` (4), `Sequences/` (3), `Primes/` (5) + 5 masters
+  - All import paths updated, namespaces preserved
+  - ConnesBridge.lean: removed unused Zeta.Basic import
+
+- **Certificate/Foundations.lean** — 21 -> 26 conjuncts (3 new imports, 18 new abbrevs)
+- **Foundations.lean** — Added 3 new imports + export blocks
+- **GIFT.lean** — Exploratory imports now under `GIFT.Exploratory.*`
+- **All version refs** — 3.3.24 -> 3.3.25
+
+### Stats
+
+- Published core: 122 Lean files across 9 directories
+- Exploratory: 24 Lean files across 5 directories
+- Build: 2656 jobs (up from 2652)
+
+---
+
 ## [3.3.24] - 2026-02-23
 
 ### Summary

@@ -24,7 +24,7 @@ Status: Empirical observation with strong numerical evidence
 Version: 1.0.0
 -/
 
-import GIFT.Zeta.Basic
+import GIFT.Exploratory.Zeta.Basic
 import GIFT.Core
 
 namespace GIFT.Zeta.MultiplesOf7

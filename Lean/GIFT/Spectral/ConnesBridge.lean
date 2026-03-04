@@ -64,7 +64,6 @@ import GIFT.Spectral.SelbergBridge
 import GIFT.MollifiedSum.Sum
 import GIFT.MollifiedSum.Mollifier
 import GIFT.MollifiedSum.Adaptive
-import GIFT.Zeta.Basic
 import Mathlib.Data.Nat.Prime.Basic
 
 namespace GIFT.Spectral.ConnesBridge
