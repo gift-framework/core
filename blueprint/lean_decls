@@ -1,5 +1,5 @@
 # GIFT Blueprint Declaration Registry
-# Auto-synchronized with content.tex v3.3.23
+# Auto-synchronized with content.tex v3.3.25
 # All declarations verified against Lean source
 
 # ══════════════════════════════════════════════════════════════
@@ -54,6 +54,155 @@ GIFT.Foundations.AnalyticalMetric.phi0_sparsity
 GIFT.Foundations.AnalyticalMetric.scale_factor_power_14
 GIFT.Foundations.AnalyticalMetric.torsion_norm_constant_form
 GIFT.Foundations.AnalyticalMetric.torsion_satisfies_joyce
+
+# ══════════════════════════════════════════════════════════════
+# Explicit G₂ Metric (169-Parameter Chebyshev-Cholesky)
+# ══════════════════════════════════════════════════════════════
+GIFT.Foundations.ExplicitG2Metric.chebyshev_K
+GIFT.Foundations.ExplicitG2Metric.chebyshev_modes
+GIFT.Foundations.ExplicitG2Metric.chebyshev_modes_value
+GIFT.Foundations.ExplicitG2Metric.cholesky_entries
+GIFT.Foundations.ExplicitG2Metric.cholesky_entries_value
+GIFT.Foundations.ExplicitG2Metric.cholesky_diagonal
+GIFT.Foundations.ExplicitG2Metric.cholesky_offdiag
+GIFT.Foundations.ExplicitG2Metric.cholesky_offdiag_eq_b2
+GIFT.Foundations.ExplicitG2Metric.cholesky_split
+GIFT.Foundations.ExplicitG2Metric.n_chebyshev_params
+GIFT.Foundations.ExplicitG2Metric.n_chebyshev_params_value
+GIFT.Foundations.ExplicitG2Metric.n_acyl_params
+GIFT.Foundations.ExplicitG2Metric.n_params_total
+GIFT.Foundations.ExplicitG2Metric.n_params_total_value
+GIFT.Foundations.ExplicitG2Metric.n_params_eq_alpha_sum_sq
+GIFT.Foundations.ExplicitG2Metric.n_params_eq_rank_weyl_sq
+GIFT.Foundations.ExplicitG2Metric.n_params_is_square
+GIFT.Foundations.ExplicitG2Metric.spd_dim_matches_K7
+GIFT.Foundations.ExplicitG2Metric.metric_rows
+GIFT.Foundations.ExplicitG2Metric.metric_cols
+GIFT.Foundations.ExplicitG2Metric.metric_is_square
+GIFT.Foundations.ExplicitG2Metric.det_num
+GIFT.Foundations.ExplicitG2Metric.det_den
+GIFT.Foundations.ExplicitG2Metric.det_target
+GIFT.Foundations.ExplicitG2Metric.det_den_eq_power
+GIFT.Foundations.ExplicitG2Metric.det_coprime
+GIFT.Foundations.ExplicitG2Metric.pinn_params
+GIFT.Foundations.ExplicitG2Metric.compression_chebyshev
+GIFT.Foundations.ExplicitG2Metric.compression_chebyshev_value
+GIFT.Foundations.ExplicitG2Metric.compression_chebyshev_exceeds
+GIFT.Foundations.ExplicitG2Metric.compression_spd
+GIFT.Foundations.ExplicitG2Metric.compression_spd_value
+GIFT.Foundations.ExplicitG2Metric.compression_spd_exceeds
+GIFT.Foundations.ExplicitG2Metric.R2_fit_num
+GIFT.Foundations.ExplicitG2Metric.R2_fit_den
+GIFT.Foundations.ExplicitG2Metric.R2_exceeds_9998
+GIFT.Foundations.ExplicitG2Metric.R2_exceeds_999
+GIFT.Foundations.ExplicitG2Metric.T_bulk
+GIFT.Foundations.ExplicitG2Metric.N_neck
+GIFT.Foundations.ExplicitG2Metric.N_tail
+GIFT.Foundations.ExplicitG2Metric.N_total
+GIFT.Foundations.ExplicitG2Metric.N_total_value
+GIFT.Foundations.ExplicitG2Metric.K3_dim
+GIFT.Foundations.ExplicitG2Metric.S1_fibers
+GIFT.Foundations.ExplicitG2Metric.neck_dim
+GIFT.Foundations.ExplicitG2Metric.index_decomposition
+GIFT.Foundations.ExplicitG2Metric.params_decomposition
+GIFT.Foundations.ExplicitG2Metric.chebyshev_params_eq_PSL27
+GIFT.Foundations.ExplicitG2Metric.chebyshev_params_eq_rank_b2
+GIFT.Foundations.ExplicitG2Metric.chebyshev_params_factored
+GIFT.Foundations.ExplicitG2Metric.chebyshev_params_gauge_G2
+GIFT.Foundations.ExplicitG2Metric.total_params_eq_PSL27_plus_1
+GIFT.Foundations.ExplicitG2Metric.G0_diag_approx
+GIFT.Foundations.ExplicitG2Metric.G0_diag_length
+GIFT.Foundations.ExplicitG2Metric.K3_block_degeneracy
+GIFT.Foundations.ExplicitG2Metric.explicit_g2_metric_certificate
+
+# ══════════════════════════════════════════════════════════════
+# Newton-Kantorovich Certification
+# ══════════════════════════════════════════════════════════════
+GIFT.Foundations.NewtonKantorovich.nk_threshold_num
+GIFT.Foundations.NewtonKantorovich.nk_threshold_den
+GIFT.Foundations.NewtonKantorovich.nk_threshold_value
+GIFT.Foundations.NewtonKantorovich.h_bound_num
+GIFT.Foundations.NewtonKantorovich.h_bound_den
+GIFT.Foundations.NewtonKantorovich.nk_contraction_certified
+GIFT.Foundations.NewtonKantorovich.nk_safety_margin
+GIFT.Foundations.NewtonKantorovich.h_order_of_magnitude
+GIFT.Foundations.NewtonKantorovich.joyce_steps
+GIFT.Foundations.NewtonKantorovich.joyce_steps_eq_weyl
+GIFT.Foundations.NewtonKantorovich.torsion_reduction_factor
+GIFT.Foundations.NewtonKantorovich.torsion_reduction_large
+GIFT.Foundations.NewtonKantorovich.initial_torsion_num
+GIFT.Foundations.NewtonKantorovich.initial_torsion_den
+GIFT.Foundations.NewtonKantorovich.final_torsion_num
+GIFT.Foundations.NewtonKantorovich.final_torsion_den
+GIFT.Foundations.NewtonKantorovich.torsion_decreases
+GIFT.Foundations.NewtonKantorovich.proximity_num
+GIFT.Foundations.NewtonKantorovich.proximity_den
+GIFT.Foundations.NewtonKantorovich.proximity_small
+GIFT.Foundations.NewtonKantorovich.proximity_very_small
+GIFT.Foundations.NewtonKantorovich.joyce_thresh_num
+GIFT.Foundations.NewtonKantorovich.joyce_thresh_den
+GIFT.Foundations.NewtonKantorovich.final_torsion_below_joyce
+GIFT.Foundations.NewtonKantorovich.joyce_margin
+GIFT.Foundations.NewtonKantorovich.NKCertificate
+GIFT.Foundations.NewtonKantorovich.gift_nk_certificate
+GIFT.Foundations.NewtonKantorovich.gift_nk_params
+GIFT.Foundations.NewtonKantorovich.gift_nk_steps
+GIFT.Foundations.NewtonKantorovich.newton_kantorovich_certificate
+
+# ══════════════════════════════════════════════════════════════
+# K3 Harmonic Correction
+# ══════════════════════════════════════════════════════════════
+GIFT.Foundations.K3HarmonicCorrection.dim_W1
+GIFT.Foundations.K3HarmonicCorrection.dim_W7
+GIFT.Foundations.K3HarmonicCorrection.dim_W14
+GIFT.Foundations.K3HarmonicCorrection.dim_W27
+GIFT.Foundations.K3HarmonicCorrection.torsion_space_total
+GIFT.Foundations.K3HarmonicCorrection.torsion_G2_reps
+GIFT.Foundations.K3HarmonicCorrection.W7_eq_dim_K7
+GIFT.Foundations.K3HarmonicCorrection.W14_eq_dim_G2
+GIFT.Foundations.K3HarmonicCorrection.W27_eq_dim_J3O
+GIFT.Foundations.K3HarmonicCorrection.tau3_frac_num
+GIFT.Foundations.K3HarmonicCorrection.tau3_frac_den
+GIFT.Foundations.K3HarmonicCorrection.tau3_dominates
+GIFT.Foundations.K3HarmonicCorrection.tau1_max_num
+GIFT.Foundations.K3HarmonicCorrection.tau1_max_den
+GIFT.Foundations.K3HarmonicCorrection.tau1_negligible
+GIFT.Foundations.K3HarmonicCorrection.dphi_ratio_num
+GIFT.Foundations.K3HarmonicCorrection.dphi_ratio_den
+GIFT.Foundations.K3HarmonicCorrection.dphi_ratio_eq_weyl
+GIFT.Foundations.K3HarmonicCorrection.dphi_ratio
+GIFT.Foundations.K3HarmonicCorrection.K3_torsion_frac_num
+GIFT.Foundations.K3HarmonicCorrection.K3_torsion_frac_den
+GIFT.Foundations.K3HarmonicCorrection.K3_torsion_small
+GIFT.Foundations.K3HarmonicCorrection.K3_torsion_negligible
+GIFT.Foundations.K3HarmonicCorrection.K3_verification_points
+GIFT.Foundations.K3HarmonicCorrection.K3_verification_sufficient
+GIFT.Foundations.K3HarmonicCorrection.K3_surface_dim
+GIFT.Foundations.K3HarmonicCorrection.K3_h11
+GIFT.Foundations.K3HarmonicCorrection.K3_euler
+GIFT.Foundations.K3HarmonicCorrection.K3_euler_factorial
+GIFT.Foundations.K3HarmonicCorrection.K3_h11_value
+GIFT.Foundations.K3HarmonicCorrection.n_steps
+GIFT.Foundations.K3HarmonicCorrection.reduction_factor
+GIFT.Foundations.K3HarmonicCorrection.reduction_large
+GIFT.Foundations.K3HarmonicCorrection.T0_num
+GIFT.Foundations.K3HarmonicCorrection.T0_den
+GIFT.Foundations.K3HarmonicCorrection.T5_num
+GIFT.Foundations.K3HarmonicCorrection.T5_den
+GIFT.Foundations.K3HarmonicCorrection.reduction_verified
+GIFT.Foundations.K3HarmonicCorrection.final_torsion_order
+GIFT.Foundations.K3HarmonicCorrection.steps_eq_weyl
+GIFT.Foundations.K3HarmonicCorrection.headroom_num
+GIFT.Foundations.K3HarmonicCorrection.headroom_den
+GIFT.Foundations.K3HarmonicCorrection.near_optimal
+GIFT.Foundations.K3HarmonicCorrection.well_within_optimal
+GIFT.Foundations.K3HarmonicCorrection.phi_sq_proper
+GIFT.Foundations.K3HarmonicCorrection.phi_sq_from_coxeter
+GIFT.Foundations.K3HarmonicCorrection.phi_sq_eq_two_b2
+GIFT.Foundations.K3HarmonicCorrection.psi_sq_proper
+GIFT.Foundations.K3HarmonicCorrection.psi_sq_from_phi
+GIFT.Foundations.K3HarmonicCorrection.psi_sq_eq_PSL27
+GIFT.Foundations.K3HarmonicCorrection.k3_harmonic_correction_certificate
 
 # ══════════════════════════════════════════════════════════════
 # Conformal Rigidity
@@ -580,7 +729,7 @@ GIFT.Spectral.ConnesBridge.first_3_connes_product_eq_coxeter_E8
 GIFT.Spectral.ConnesBridge.connes_bridge_certificate
 
 # ══════════════════════════════════════════════════════════════
-# Certificate System (v3.3.23 modular structure)
+# Certificate System (v3.3.25 modular structure, 26 conjuncts)
 # ══════════════════════════════════════════════════════════════
 GIFT.Certificate.Foundations.statement
 GIFT.Certificate.Foundations.certified
