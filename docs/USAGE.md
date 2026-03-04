@@ -282,9 +282,9 @@ print_verification_report()
 ### Joyce Existence
 
 ```python
-from gift_core.analysis import JoyceCertificate, verify_pinn_bounds
+from gift_core.analysis import JoyceCertificate, verify_joyce_bounds
 
-assert verify_pinn_bounds()  # K7 admits torsion-free G2!
+assert verify_joyce_bounds()  # K7 admits torsion-free G2!
 cert = JoyceCertificate.verify()
 print(cert.safety_margin)    # ~20.4x
 ```

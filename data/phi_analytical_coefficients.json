@@ -43,9 +43,8 @@
     "fourier_modes": "<20"
   },
   "notes": [
-    "This is a template file.",
-    "Run: python scripts/train_gift_pinn.py to train the model",
-    "Run: python scripts/extract_analytical.py checkpoint.pt to extract coefficients",
-    "The trained model will output actual coefficients in the output directory."
+    "Template file for analytical G2 metric coefficients.",
+    "See scripts/verify_analytical_metric.py for validation.",
+    "The analytical metric supersedes the PINN training pipeline (removed in v3.3.25)."
   ]
 }

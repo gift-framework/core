@@ -18,7 +18,7 @@ from .intervals import (
 
 from .joyce_certificate import (
     JoyceCertificate,
-    verify_pinn_bounds,
+    verify_joyce_bounds,
 )
 
 __all__ = [
@@ -33,5 +33,5 @@ __all__ = [
     'CONTRACTION_K',
     # Joyce certificate
     'JoyceCertificate',
-    'verify_pinn_bounds',
+    'verify_joyce_bounds',
 ]

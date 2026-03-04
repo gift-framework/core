@@ -2,7 +2,7 @@
 Interval arithmetic for verified numerical bounds.
 
 This module provides exact rational interval arithmetic for verifying
-PINN-computed bounds against Joyce's existence threshold.
+analytical metric bounds against Joyce's existence threshold.
 """
 
 from fractions import Fraction
@@ -69,7 +69,7 @@ IntervalBound = Interval
 
 
 # =============================================================================
-# PINN Certified Bounds (from training)
+# Certified Bounds (analytical metric)
 # =============================================================================
 
 # Torsion bound: ||T(φ₀)|| ∈ [0.00139, 0.00141]
@@ -87,7 +87,7 @@ LIPSCHITZ_BOUND = Interval(
     Fraction(10, 10000)   # 0.0010
 )
 
-# det(g) from PINN (should match 65/32 = 2.03125)
+# det(g) from analytical metric (exact: 65/32 = 2.03125)
 DET_G_BOUND = Interval(
     Fraction(203124, 100000),  # 2.03124
     Fraction(203126, 100000)   # 2.03126
@@ -115,7 +115,7 @@ def det_g_error() -> Fraction:
 
 
 def verify_torsion_below_threshold() -> bool:
-    """Verify that PINN torsion is below Joyce threshold."""
+    """Verify that torsion bound is below Joyce threshold."""
     return TORSION_BOUND.hi < JOYCE_THRESHOLD.lo
 
 

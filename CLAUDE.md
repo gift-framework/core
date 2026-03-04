@@ -67,8 +67,8 @@ gift-framework/core/
 │
 ├── gift_core/              # Python package
 │   ├── __init__.py         # Exports (update when adding constants!)
-│   ├── _version.py         # Version string (3.3.23)
-│   ├── constants.py        # All certified constants
+│   ├── _version.py         # Version string (3.3.25)
+│   ├── constants/          # Certified constants (algebra, topology, structural, physics, cosmology)
 │   ├── sequences/          # [v2.0] Fibonacci, Lucas embeddings
 │   ├── primes/             # [v2.0] Prime Atlas functions
 │   ├── monster/            # [v2.0] Monster group connections
@@ -151,9 +151,9 @@ abbrev all_relations_certified := all_13_relations_certified
 
 ### 2. Update Python Exports
 
-When adding new constants to `constants.py`:
+When adding new constants:
 
-1. Add to `gift_core/constants.py`
+1. Add to appropriate file in `gift_core/constants/` (algebra, topology, structural, physics, or cosmology)
 2. Import in `gift_core/__init__.py`
 3. Add to `__all__` list in `gift_core/__init__.py`
 4. Bump version in `gift_core/_version.py`
@@ -234,7 +234,7 @@ python -c "from gift_core import *; print(GAMMA_GIFT)"
    - `Certificate/Predictions.lean` — physical predictions, observables
    - `Certificate/Spectral.lean` — spectral gap, TCS, selection
 3. **Lean**: Add conjunct to the sub-module's `def statement : Prop`
-4. **Python**: Add constants to `gift_core/constants.py`
+4. **Python**: Add constants to appropriate file in `gift_core/constants/`
 5. **Python**: Export in `gift_core/__init__.py`
 6. **Python**: Add tests in `tests/`
 7. **Docs**: Update `README.md`
@@ -483,7 +483,7 @@ The name `chi_K7` is kept for backwards compatibility but `two_b2` is preferred.
 ### Joyce Existence Theorem
 - Complete Lean 4 formalization via Banach fixed-point theorem
 - K7 admits torsion-free G2 structure: `theorem k7_admits_torsion_free_g2`
-- PINN bounds: ||T|| < 0.00141 vs threshold 0.0288 (20x margin)
+- Analytical metric bounds: ||T|| < 0.00141 vs threshold 0.0288 (20x margin)
 
 ### Sobolev Spaces
 - H^k formalization with dimension-specific embeddings
@@ -496,7 +496,7 @@ The name `chi_K7` is kept for backwards compatibility but `two_b2` is preferred.
 
 ### Python Analysis Module
 - `gift_core.analysis`: JoyceCertificate, Interval arithmetic
-- Quick verification: `verify_pinn_bounds()` → True
+- Quick verification: `verify_joyce_bounds()` → True
 
 ---
 
@@ -1909,7 +1909,7 @@ Formalizes the gap between torsion-free G₂ structures and G₂ holonomy:
 
 Connected to `Certificate/Foundations.lean` via 7 abbrevs.
 
-Key insight from Phase 3 PINN training: **torsion-free (∇φ=0) is necessary but NOT sufficient for G₂ holonomy**. The curvature must additionally lie in g₂ ⊂ so(7) (Ambrose-Singer theorem). Phase 3 v20 status: AS ratio ≈ 4.0, hol_rank = 21 (target 14).
+Key insight: **torsion-free (nabla phi=0) is necessary but NOT sufficient for G2 holonomy**. The curvature must additionally lie in g2 subset so(7) (Ambrose-Singer theorem). The analytical metric now supersedes the PINN approach.
 
 ---
 

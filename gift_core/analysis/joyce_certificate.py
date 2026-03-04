@@ -2,7 +2,7 @@
 Joyce theorem certificate verification.
 
 This module verifies all conditions of Joyce's perturbation theorem
-for the K7 manifold using PINN-computed bounds.
+for the K7 manifold using certified analytical metric bounds.
 """
 
 from dataclasses import dataclass
@@ -66,8 +66,8 @@ class JoyceCertificate:
   Status: {status}"""
 
 
-def verify_pinn_bounds() -> bool:
-    """Quick verification of PINN bounds for Joyce theorem."""
+def verify_joyce_bounds() -> bool:
+    """Quick verification of Joyce theorem bounds for the analytical metric."""
     cert = JoyceCertificate.verify()
     return cert.is_valid()
 
@@ -90,8 +90,8 @@ def get_torsion_info() -> dict:
 def get_det_g_info() -> dict:
     """Get detailed det(g) information."""
     return {
-        'pinn_lo': float(DET_G_BOUND.lo),
-        'pinn_hi': float(DET_G_BOUND.hi),
+        'bound_lo': float(DET_G_BOUND.lo),
+        'bound_hi': float(DET_G_BOUND.hi),
         'exact': float(DET_G_TARGET),
         'width': float(DET_G_BOUND.width()),
         'accurate': verify_det_g_accurate(),

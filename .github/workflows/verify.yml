@@ -44,6 +44,5 @@ jobs:
           fi
 
   # NOTE: Coq verification removed in v3.3.14
-  # Coq code archived to .archive/COQ-v1.7.0/ (75 relations, arithmetic-only proofs)
-  # Lean 4 is now the sole proof assistant (250+ relations, real mathematics via Mathlib)
-  # Coq may be restored when Lean reaches axiom-free zero-sorry status
+  # Coq code removed in v3.3.25 (was archived, 75 relations, arithmetic-only proofs)
+  # Lean 4 is the sole proof assistant (455+ relations, real mathematics via Mathlib)

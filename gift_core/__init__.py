@@ -4,7 +4,7 @@ GIFT Core - Formally Verified Mathematical Constants.
 All values proven in Lean 4.
 455+ certified relations, modular certificate structure.
 
-v3.3.23 Features:
+v3.3.25 Features:
 - Certificate Modularization: Foundations / Predictions / Spectral pillars
 - Spectral Theory: Mass gap λ₁ = 14/99, TCS bounds, Yang-Mills connection
 - Selection Principle: Canonical neck length L* from variational argument
@@ -153,10 +153,10 @@ from gift_core.numerical_observations import (
 )
 
 # =============================================================================
-# LEGACY COMPATIBILITY (from old constants.py)
+# LEGACY COMPATIBILITY
 # =============================================================================
 
-# These aliases ensure backward compatibility with existing code
+# Backward compatibility aliases
 from gift_core.constants.physics import (
     SIN2_THETA_W as WEINBERG_ANGLE,
 )
@@ -221,12 +221,12 @@ try:
     from gift_core.analysis import (
         Interval, JoyceCertificate,
         TORSION_BOUND, JOYCE_THRESHOLD,
-        verify_pinn_bounds,
+        verify_joyce_bounds,
     )
 except ImportError:
     Interval = JoyceCertificate = None
     TORSION_BOUND = JOYCE_THRESHOLD = None
-    verify_pinn_bounds = None
+    verify_joyce_bounds = None
 
 # =============================================================================
 # __all__ - Public API

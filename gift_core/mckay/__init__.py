@@ -95,9 +95,9 @@ PHI_RATIOS: Dict[str, Tuple[int, int, float]] = {
 # ADE CLASSIFICATION
 # =============================================================================
 
-ADE_BINARY_ORDERS: Dict[str, int] = {
-    "A_n": "n+1",      # Cyclic
-    "D_n": "4(n-2)",   # Binary dihedral
+ADE_BINARY_ORDERS = {
+    "A_n": "n+1",      # Cyclic (parametric)
+    "D_n": "4(n-2)",   # Binary dihedral (parametric)
     "E_6": 24,         # Binary tetrahedral
     "E_7": 48,         # Binary octahedral
     "E_8": 120,        # Binary icosahedral
