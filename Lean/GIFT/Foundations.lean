@@ -43,6 +43,12 @@ import GIFT.Foundations.SpectralScaling
 import GIFT.Foundations.PoincareDuality
 -- Ambrose-Singer theorem and holonomy diagnostics (torsion-free vs G₂ holonomy gap)
 import GIFT.Foundations.AmbroseSinger
+-- Explicit G₂ metric: 169-parameter Chebyshev-Cholesky on K₇ (v4.0)
+import GIFT.Foundations.ExplicitG2Metric
+-- Newton-Kantorovich certification: h = 6.65e-8 < 0.5, unconditional (v4.0)
+import GIFT.Foundations.NewtonKantorovich
+-- K3 harmonic correction: torsion reduction ×2995, 1D floor (v4.0)
+import GIFT.Foundations.K3HarmonicCorrection
 
 namespace GIFT.Foundations
 
@@ -307,6 +313,60 @@ export AmbroseSinger (
   g2_perp_is_standard_rep holonomy_manifold_ratio so7_triple_K7
   -- Master certificate
   ambrose_singer_certificate)
+
+-- Explicit G₂ Metric: 169-param Chebyshev-Cholesky (v4.0)
+export ExplicitG2Metric (
+  -- Parametrization structure
+  chebyshev_K chebyshev_modes cholesky_entries cholesky_diagonal cholesky_offdiag
+  n_chebyshev_params n_acyl_params n_params_total
+  -- Key identities
+  n_params_total_value n_params_eq_alpha_sum_sq
+  chebyshev_params_eq_PSL27 chebyshev_params_eq_rank_b2
+  cholesky_offdiag_eq_b2 cholesky_entries_value
+  -- Compression
+  compression_chebyshev compression_spd
+  compression_chebyshev_value compression_spd_value
+  -- Index convention
+  K3_dim S1_fibers neck_dim index_decomposition
+  -- Master certificate
+  explicit_g2_metric_certificate)
+
+-- Newton-Kantorovich: h = 6.65e-8 < 0.5, unconditional (v4.0)
+export NewtonKantorovich (
+  -- NK bounds
+  h_bound_num h_bound_den nk_contraction_certified nk_safety_margin
+  -- Joyce iteration
+  joyce_steps torsion_reduction_factor
+  initial_torsion_num initial_torsion_den final_torsion_num final_torsion_den
+  torsion_decreases
+  -- Existence and uniqueness
+  proximity_num proximity_den proximity_small
+  -- Joyce threshold
+  final_torsion_below_joyce joyce_margin
+  -- Certificate structure
+  NKCertificate gift_nk_certificate
+  -- Master certificate
+  newton_kantorovich_certificate)
+
+-- K3 Harmonic Correction: torsion reduction, 1D floor (v4.0)
+export K3HarmonicCorrection (
+  -- Torsion classes
+  dim_W1 dim_W7 dim_W14 dim_W27 torsion_space_total
+  -- Distribution
+  tau3_frac_num tau3_frac_den tau3_dominates
+  -- dφ/d*φ ratio
+  dphi_ratio_num dphi_ratio_den dphi_ratio_eq_weyl
+  -- K3 fiber
+  K3_torsion_frac_num K3_torsion_frac_den K3_torsion_small
+  K3_verification_points K3_euler K3_euler_factorial
+  -- Reduction chain
+  n_steps reduction_factor T0_num T0_den T5_num T5_den
+  -- 1D floor
+  headroom_num headroom_den near_optimal
+  -- Calibration
+  phi_sq_proper psi_sq_proper phi_sq_eq_two_b2 psi_sq_eq_PSL27
+  -- Master certificate
+  k3_harmonic_correction_certificate)
 
 -- Poincare Duality: total Betti, H* = 1 + 2*dim_K7^2, holonomy chain, torsion
 export PoincareDuality (
