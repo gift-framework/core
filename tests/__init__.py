@@ -1,1 +1,0 @@
-"""GIFT Core tests."""
