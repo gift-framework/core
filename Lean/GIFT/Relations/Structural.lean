@@ -149,6 +149,28 @@ theorem H_star_from_betti_sum : b2 + b3 + 1 = H_star := by native_decide
 theorem exceptional_identity : dim_E8 - H_star - dim_J3O - b2 - p2 = 99 := by native_decide
 
 -- =============================================================================
+-- HARMONIC 3-FORM DECOMPOSITION (from Explicit G₂ Metric paper §4)
+-- =============================================================================
+
+/-- b₃ = C(7,3) + 2b₂ = 35 + 42: generic 3-forms + self-dual/anti-self-dual -/
+theorem b3_harmonic_decomposition : b3 = Nat.choose 7 3 + two_b2 := by native_decide
+
+/-- b₃ = 35 + 21 + 21 = C(7,3) + b₂ + b₂ (three sectors of harmonic 3-forms) -/
+theorem b3_three_sectors : b3 = 35 + b2 + b2 := by native_decide
+
+/-- b₃ - C(7,3) = 2b₂ = 42 -/
+theorem b3_minus_C73 : b3 - Nat.choose 7 3 = two_b2 := by native_decide
+
+/-- b₃ - dim(G₂) = 63 = 3 × 21 = N_gen × b₂ = dim(SU(8)) -/
+theorem b3_minus_G2_eq_63 : b3 - dim_G2 = 63 := by native_decide
+
+/-- 63 = 3 × 21: the SU(8) complement decomposes as N_gen copies of b₂ -/
+theorem sixty_three_factorization : 63 = N_gen * b2 := by native_decide
+
+/-- dim(G₂) × (dim(G₂) + 1) / 2 = 105: symmetric bilinear forms on G₂ rep -/
+theorem G2_symmetric_forms : dim_G2 * (dim_G2 + 1) / 2 = 105 := by native_decide
+
+-- =============================================================================
 -- PSL(2,7) = 168: FANO PLANE SYMMETRY (from S1 Section 0.4)
 -- =============================================================================
 
@@ -230,7 +252,11 @@ theorem all_structural_relations_v32 :
     (N_gen * (b3 - b2) = PSL27_order) ∧
     -- Betti relations
     (b3 - b2 = 56) ∧
-    (b2 + b3 = dim_K7 * dim_G2) := by
+    (b2 + b3 = dim_K7 * dim_G2) ∧
+    -- Harmonic 3-form decomposition (v3.3.27)
+    (b3 = 35 + b2 + b2) ∧
+    (b3 - dim_G2 = 63) ∧
+    (dim_G2 * (dim_G2 + 1) / 2 = 105) := by
   repeat (first | constructor | native_decide | rfl)
 
 end GIFT.Relations.Structural

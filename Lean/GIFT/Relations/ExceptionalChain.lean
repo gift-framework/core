@@ -174,6 +174,19 @@ theorem chain_prime_indices :
   rfl
 
 -- =============================================================================
+-- E₈ → E₇ × SU(2) BRANCHING (from Spectral paper §2)
+-- =============================================================================
+
+/-- E₈ branching: b₂ + b₃ + dim(G₂) = 2 × fund(E₇) = 112 -/
+theorem betti_G2_eq_two_fund_E7 : b2 + b3 + dim_G2 = 2 * dim_fund_E7 := by native_decide
+
+/-- E₈ → E₇ × SU(2) branching rule: 248 = 133 + 3 + 112 -/
+theorem E8_E7_SU2_branching : dim_E8 = dim_E7 + dim_SU2 + 2 * dim_fund_E7 := by native_decide
+
+/-- The 112 in the branching: 2 × 56 = 112 -/
+theorem two_fund_E7 : 2 * dim_fund_E7 = 112 := by native_decide
+
+-- =============================================================================
 -- CROSS-RELATIONS AND CONSISTENCY
 -- =============================================================================
 
@@ -194,7 +207,7 @@ theorem fund_E7_topological : dim_fund_E7 = rank_E8 * dim_K7 := by native_decide
 -- MASTER CERTIFICATE
 -- =============================================================================
 
-/-- All 10 exceptional chain relations certified -/
+/-- All exceptional chain relations certified (12 total, v3.3.27) -/
 theorem all_exceptional_chain_relations_certified :
     -- Relation 66: tau_num = dim(K7) x dim(E8xE8)
     (dim_K7 * dim_E8xE8 = 3472) ∧
@@ -215,7 +228,10 @@ theorem all_exceptional_chain_relations_certified :
     -- Relation 74: dim(E6) = b3 + 1
     (b3 + 1 = dim_E6) ∧
     -- Relation 75: Exceptional chain
-    (dim_E6 = 6 * prime_6 ∧ dim_E7 = 7 * prime_8 ∧ dim_E8 = 8 * prime_11) := by
+    (dim_E6 = 6 * prime_6 ∧ dim_E7 = 7 * prime_8 ∧ dim_E8 = 8 * prime_11) ∧
+    -- E₈ → E₇ × SU(2) branching (v3.3.27)
+    (b2 + b3 + dim_G2 = 2 * dim_fund_E7) ∧
+    (dim_E8 = dim_E7 + dim_SU2 + 2 * dim_fund_E7) := by
   repeat (first | constructor | native_decide | rfl)
 
 end GIFT.Relations.ExceptionalChain

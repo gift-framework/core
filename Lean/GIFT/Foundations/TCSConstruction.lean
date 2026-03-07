@@ -168,14 +168,17 @@ theorem b3_decomposition : K7_b3 = Nat.choose 7 3 + 2 * K7_b2 := by native_decid
 /-!
 ## Euler Characteristic
 
-For a compact 7-manifold with Poincaré duality:
-  χ = Σ (-1)^i bᵢ = b₀ - b₁ + b₂ - b₃ + b₄ - b₅ + b₆ - b₇
-    = 2(b₀ - b₁ + b₂ - b₃)  [using Poincaré duality]
+For a compact oriented 7-manifold with Poincaré duality (bₖ = b_{7-k}):
+  χ = b₀ - b₁ + b₂ - b₃ + b₄ - b₅ + b₆ - b₇
+    = b₀ - b₁ + b₂ - b₃ + b₃ - b₂ + b₁ - b₀ = 0
+
+This is a general result: compact oriented odd-dimensional manifolds always have χ = 0.
 -/
 
-def K7_euler : Int := 2 * ((K7_b0 : Int) - K7_b1 + K7_b2 - K7_b3)
+def K7_euler : Int :=
+  (K7_b0 : Int) - K7_b1 + K7_b2 - K7_b3 + K7_b3 - K7_b2 + K7_b1 - K7_b0
 
-theorem K7_euler_eq : K7_euler = -110 := by native_decide
+theorem K7_euler_eq : K7_euler = 0 := by native_decide
 
 /-!
 ## Summary: What's DERIVED (v3.2)
@@ -187,7 +190,7 @@ DERIVED (rigorously):
 - b₂ = 11 + 10 = 21 (from TCS: Quintic + CI)
 - b₃ = 40 + 37 = 77 (from TCS: Quintic + CI)
 - H* = 1 + 21 + 77 = 99 (definition)
-- χ = 2(1 - 0 + 21 - 77) = -110 (Poincaré duality)
+- χ = 1 - 0 + 21 - 77 + 77 - 21 + 0 - 1 = 0 (Poincaré duality)
 - b₂ = C(7,2) (graph theory: edges in K₇)
 
 Building block data (from Calabi-Yau geometry):
