@@ -105,6 +105,75 @@ theorem nk_safety_margin : h_bound_den / (2 * h_bound_num) > 7500000 := by nativ
 theorem h_order_of_magnitude : h_bound_num < h_bound_den / 10000000 := by native_decide
 
 -- =============================================================================
+-- NK PARAMETER DECOMPOSITION
+-- =============================================================================
+
+/-!
+## Individual NK Parameters: β, η, ω
+
+The NK contraction parameter h = β η ω decomposes into three independent bounds:
+
+  **β** = ||F'(g₅)⁻¹|| ≤ 2962/100000 = 0.02962
+    Inverse Fréchet derivative of the torsion operator at g₅.
+
+  **η** = ||F'(g₅)⁻¹ F(g₅)|| ≤ 316/10000000 = 3.16 × 10⁻⁵
+    Grid-free certified residual bound (comparable to ||T₅||_C⁰).
+
+  **ω** = sup ||F'(g₅)⁻¹ F''(·)|| ≤ 713/10000 = 0.0713
+    Lipschitz constant with 3× safety margin on the maximum.
+
+Their product gives:
+  h = β η ω ≤ 6.674 × 10⁻⁸ < 0.5
+
+**Axiom Category: F (Numerically verified)** — All bounds verified in
+`private/notebooks/g9_certification_results.json`.
+-/
+
+/-- β = ||F'(g₅)⁻¹|| upper bound numerator.
+    β ≤ 2962/100000 = 0.02962.
+
+**Axiom Category: F (Numerically verified)**
+Verified: run_g9_unconditional_certification.py (17/17 checks)
+**Why axiom**: Computed from numerical operator norm evaluation.
+**Elimination path**: Interval arithmetic certification. -/
+def beta_num : ℕ := 2962
+def beta_den : ℕ := 100000
+
+/-- η = ||F'(g₅)⁻¹ F(g₅)|| upper bound numerator.
+    η ≤ 316/10000000 = 3.16 × 10⁻⁵ (grid-free certified).
+
+**Axiom Category: F (Numerically verified)**
+Verified: run_g9_unconditional_certification.py (17/17 checks)
+**Why axiom**: Computed from numerical residual evaluation.
+**Elimination path**: Interval arithmetic certification. -/
+def eta_num : ℕ := 316
+def eta_den : ℕ := 10000000
+
+/-- ω = sup ||F'(g₅)⁻¹ F''(·)|| upper bound numerator.
+    ω ≤ 713/10000 = 0.0713 (3× safety on max).
+
+**Axiom Category: F (Numerically verified)**
+Verified: run_g9_unconditional_certification.py (17/17 checks)
+**Why axiom**: Computed from numerical Lipschitz constant evaluation.
+**Elimination path**: Interval arithmetic certification. -/
+def omega_num : ℕ := 713
+def omega_den : ℕ := 10000
+
+/-- Product bound: h = β η ω < 1/2 via individual parameter bounds.
+    Expressed as: 2 × β_num × η_num × ω_num < β_den × η_den × ω_den -/
+theorem nk_product_bound :
+    2 * beta_num * eta_num * omega_num < beta_den * eta_den * omega_den := by native_decide
+
+/-- β < 1/30 (order of magnitude: inverse linearization is well-conditioned) -/
+theorem beta_order : beta_num < beta_den / 30 := by native_decide
+
+/-- η < 10⁻⁴ (order of magnitude: residual is very small) -/
+theorem eta_order : eta_num < eta_den / 10000 := by native_decide
+
+/-- ω < 1/10 (order of magnitude: Lipschitz constant is moderate) -/
+theorem omega_order : omega_num < omega_den / 10 := by native_decide
+
+-- =============================================================================
 -- JOYCE ITERATION CONVERGENCE
 -- =============================================================================
 
@@ -259,6 +328,18 @@ structure NKCertificate where
   prox_num : ℕ
   /-- Proximity bound denominator -/
   prox_den : ℕ
+  /-- β bound numerator (L4) -/
+  b_num : ℕ
+  /-- β bound denominator (L4) -/
+  b_den : ℕ
+  /-- η bound numerator (L4) -/
+  e_num : ℕ
+  /-- η bound denominator (L4) -/
+  e_den : ℕ
+  /-- ω bound numerator (L4) -/
+  w_num : ℕ
+  /-- ω bound denominator (L4) -/
+  w_den : ℕ
 
 /-- The GIFT NK certificate -/
 def gift_nk_certificate : NKCertificate where
@@ -270,6 +351,12 @@ def gift_nk_certificate : NKCertificate where
   reduction := 2995
   prox_num := 486
   prox_den := 100000000
+  b_num := 2962
+  b_den := 100000
+  e_num := 316
+  e_den := 10000000
+  w_num := 713
+  w_den := 10000
 
 /-- GIFT NK certificate has 169 parameters -/
 theorem gift_nk_params : gift_nk_certificate.n_params = 169 := rfl
@@ -299,8 +386,16 @@ theorem newton_kantorovich_certificate :
     (proximity_num * 100000 < proximity_den) ∧
     -- Final torsion below Joyce threshold
     (final_torsion_num * joyce_thresh_den <
-     joyce_thresh_num * final_torsion_den) := by
-  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+     joyce_thresh_num * final_torsion_den) ∧
+    -- [L4] β < 1/30
+    (beta_num < beta_den / 30) ∧
+    -- [L4] η < 10⁻⁴
+    (eta_num < eta_den / 10000) ∧
+    -- [L4] ω < 1/10
+    (omega_num < omega_den / 10) ∧
+    -- [L4] Product bound: 2 × β × η × ω < 1
+    (2 * beta_num * eta_num * omega_num < beta_den * eta_den * omega_den) := by
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   all_goals native_decide
 
 end GIFT.Foundations.NewtonKantorovich

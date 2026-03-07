@@ -12,7 +12,7 @@ Lean/GIFT/
 ├── Core.lean                # Constants (dim_E8, b2, b3, H*, ...)
 ├── Certificate/             # Modular certificate system [v3.3.25]
 │   ├── Core.lean            # Master: Foundations ∧ Predictions ∧ Spectral
-│   ├── Foundations.lean     # E₈, G₂, octonions, K₇, Joyce, NK cert (26 conjuncts)
+│   ├── Foundations.lean     # E₈, G₂, octonions, K₇, Joyce, NK cert (28 conjuncts)
 │   ├── Predictions.lean     # 33+ relations, ~50 observables (48 conjuncts)
 │   └── Spectral.lean        # Mass gap 14/99, TCS, selection (23 conjuncts)
 ├── Certificate.lean         # Backward-compat wrapper (legacy aliases)
@@ -24,8 +24,8 @@ Lean/GIFT/
 │   ├── OctonionBridge.lean  # R8-R7 connection via octonions
 │   ├── AmbroseSinger.lean   # Holonomy diagnostics (so(7)=g₂⊕g₂⊥)
 │   ├── ExplicitG2Metric.lean # 169-param Chebyshev-Cholesky [v3.3.25]
-│   ├── NewtonKantorovich.lean # NK cert: h=6.65e-8 < 0.5 [v3.3.25]
-│   ├── K3HarmonicCorrection.lean # ×2995 torsion reduction [v3.3.25]
+│   ├── NewtonKantorovich.lean # NK cert: h=β·η·ω < 0.5, decomposed [v3.3.28]
+│   ├── K3HarmonicCorrection.lean # ×2995 torsion, T₀-T₅ monotone [v3.3.28]
 │   ├── NumericalBounds.lean # Taylor series bounds (axiom-free)
 │   ├── GoldenRatioPowers.lean # φ power bounds
 │   ├── PoincareDuality.lean # H*=1+2*dim_K7², holonomy chain

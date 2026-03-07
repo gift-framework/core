@@ -447,6 +447,12 @@ abbrev nk_below_joyce := GIFT.Foundations.NewtonKantorovich.final_torsion_below_
 /-- Newton-Kantorovich master certificate -/
 abbrev nk_cert := GIFT.Foundations.NewtonKantorovich.newton_kantorovich_certificate
 
+-- NK parameter decomposition (L4)
+abbrev nk_beta_order := GIFT.Foundations.NewtonKantorovich.beta_order
+abbrev nk_eta_order := GIFT.Foundations.NewtonKantorovich.eta_order
+abbrev nk_omega_order := GIFT.Foundations.NewtonKantorovich.omega_order
+abbrev nk_product := GIFT.Foundations.NewtonKantorovich.nk_product_bound
+
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- K3 HARMONIC CORRECTION (torsion reduction ×2995, v4.0)
 -- ═══════════════════════════════════════════════════════════════════════════════
@@ -468,6 +474,9 @@ abbrev k3_phi_sq := GIFT.Foundations.K3HarmonicCorrection.phi_sq_eq_two_b2
 
 /-- K3 harmonic correction master certificate -/
 abbrev k3_cert := GIFT.Foundations.K3HarmonicCorrection.k3_harmonic_correction_certificate
+
+-- Joyce iteration table (L4)
+abbrev joyce_monotone := GIFT.Foundations.K3HarmonicCorrection.joyce_full_monotone
 
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- FOUNDATIONS MASTER CERTIFICATE
@@ -540,13 +549,21 @@ def statement : Prop :=
      GIFT.Foundations.K3HarmonicCorrection.dim_W7 +
      GIFT.Foundations.K3HarmonicCorrection.dim_W14 +
      GIFT.Foundations.K3HarmonicCorrection.dim_W27 = dim_K7 * dim_K7) ∧
-    (GIFT.Foundations.K3HarmonicCorrection.phi_sq_proper = 2 * b2)
+    (GIFT.Foundations.K3HarmonicCorrection.phi_sq_proper = 2 * b2) ∧
+    -- [L4] NK decomposition: β < 1/30
+    (GIFT.Foundations.NewtonKantorovich.beta_num <
+     GIFT.Foundations.NewtonKantorovich.beta_den / 30) ∧
+    -- [L4] Joyce monotone convergence: T₁ < T₀
+    (GIFT.Foundations.K3HarmonicCorrection.T1_num *
+     GIFT.Foundations.K3HarmonicCorrection.T0_den <
+     GIFT.Foundations.K3HarmonicCorrection.T0_num *
+     GIFT.Foundations.K3HarmonicCorrection.T1_den)
 
 theorem certified : statement := by
   refine ⟨rfl, rfl, rfl, rfl, rfl, rfl, ?_, ?_,
          GIFT.Joyce.k7_admits_torsion_free_g2, ?_, ?_,
          rfl, ?_, ?_, rfl, rfl, rfl, rfl, rfl, ?_, ?_,
-         ?_, ?_, ?_, ?_, ?_⟩
+         ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   all_goals native_decide
 
 end GIFT.Certificate.Foundations

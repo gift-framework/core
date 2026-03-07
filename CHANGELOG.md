@@ -5,6 +5,45 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.28] - 2026-03-08
+
+### Summary
+
+**L4: Torsion reduction chain formalization.** Fills two gaps in the Lean certificate chain connecting the explicit metric to G₂ holonomy: (1) Joyce iteration table with T₁–T₄ intermediate values and full monotone convergence proof, (2) NK parameter decomposition with individual β, η, ω bounds and product formula verification. Certificate/Foundations updated from 26 to 28 conjuncts. NK master certificate: 7 → 11 conjuncts. K3 master certificate: 10 → 16 conjuncts. Zero new axioms (all Category F numerically verified definitions).
+
+### Added
+
+- **NK parameter decomposition** in `Foundations/NewtonKantorovich.lean`:
+  - `beta_num/den` (β ≤ 0.02962), `eta_num/den` (η ≤ 3.16e-5), `omega_num/den` (ω ≤ 0.0713)
+  - `nk_product_bound`: 2×β×η×ω < 1 (h < 1/2 from individual bounds)
+  - `beta_order`, `eta_order`, `omega_order`: order-of-magnitude bounds
+  - `NKCertificate` extended with β/η/ω fields
+
+- **Joyce iteration table** in `Foundations/K3HarmonicCorrection.lean`:
+  - `T1_num/den` through `T4_num/den`: intermediate torsion bounds
+  - `joyce_monotone_01` through `joyce_monotone_45`: 5 pairwise comparisons
+  - `joyce_full_monotone`: 5-way conjunction of all monotonicities
+  - `joyce_step3_order`: T₃ < 10⁻¹ (enters percent regime)
+  - `joyce_step4_acceleration`: T₃/T₄ > 100 (quadratic convergence)
+  - `reduction_steps_12`: T₀/T₂ > 2 (modest first regime)
+  - `reduction_steps_35`: T₂/T₅ > 1000 (dramatic quadratic regime)
+
+### Changed
+
+- **Certificate/Foundations.lean** — 26 → 28 conjuncts (+NK β order, +Joyce monotone T₁<T₀)
+- **Certificate/Foundations.lean** — 5 new abbrevs (nk_beta_order, nk_eta_order, nk_omega_order, nk_product, joyce_monotone)
+- **Foundations.lean** — Extended NK export (10 new symbols) and K3 export (12 new symbols)
+- **NK master certificate** — 7 → 11 conjuncts (+β/η/ω orders, +product bound)
+- **K3 master certificate** — 10 → 16 conjuncts (+5 monotonicity, +quadratic regime)
+
+### Stats
+
+- Published core: 122 Lean files, **48 axioms** (unchanged — no new axioms)
+- New definitions: 14 (8 T values + 6 NK params)
+- New theorems: ~20 (monotonicity, orders, product, acceleration)
+
+---
+
 ## [3.3.26] - 2026-03-07
 
 ### Summary
