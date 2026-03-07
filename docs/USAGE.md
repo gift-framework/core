@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.3.25).
+Complete documentation for the `giftpy` Python package (v3.3.26).
 
 ## Installation
 
@@ -41,6 +41,27 @@ print(K7.two_b2)                # 42 (structural invariant)
 from gift_core import verify
 print(verify())          # True
 ```
+
+## New in v3.3.26
+
+### Axiom Audit and Cleanup
+
+Systematic audit of all axioms against S1-S17 computed results. Published core reduced from 68 to **48 axioms**:
+
+- **Removed** `K7_spectral_bound` (FALSE: claimed MassGap ≥ 14/99, computed λ₁ = 0.1244)
+- **Removed** `langlais_spectral_density` + `eigenvalue_count` (superseded by S1-S5)
+- **Moved** to `Exploratory/`: AdaptiveGIFT (5 axioms), SelbergBridge (4), ConnesBridge (8)
+
+```lean
+-- These are now in Exploratory/ (Riemann/Connes research line, CLOSED):
+import GIFT.Exploratory.MollifiedSum   -- AdaptiveGIFT
+import GIFT.Exploratory.Spectral       -- SelbergBridge, ConnesBridge
+
+-- Certificate/Spectral cleaned: 27 → 23 conjuncts (Connes section removed)
+#check GIFT.Certificate.Spectral.certified   -- still proves all 23 conjuncts
+```
+
+---
 
 ## New in v3.3.25
 
@@ -109,18 +130,18 @@ import GIFT.Foundations.AmbroseSinger
 
 **Key insight**: Torsion-free (nabla phi = 0) is NECESSARY but NOT SUFFICIENT for G₂ holonomy. The curvature must additionally lie in g₂ subset so(7) (Ambrose-Singer theorem).
 
-### Axiom Classification (87/87 tagged)
+### Axiom Classification (48 published, 84 total)
 
-All axioms now carry category labels:
+All axioms carry category labels. After v3.3.26 audit:
 
-| Category | Count | Description | Example |
-|----------|-------|-------------|---------|
-| A | ~5 | Definitions | `CompactManifold.volume_pos` |
-| B | ~15 | Standard results | `cheeger_inequality` (Cheeger 1970) |
-| C | ~25 | Geometric structure | `ProductNeckMetric` |
-| D | ~8 | Literature axioms | `langlais_spectral_density` |
-| E | ~12 | GIFT claims | `universality_conjecture` |
-| F | ~22 | Numerically verified | `gamma_1_approx` |
+| Category | Published | Exploratory | Description |
+|----------|-----------|-------------|-------------|
+| A | ~5 | — | Definitions |
+| B | ~12 | ~3 | Standard results (Cheeger, Selberg, Weil) |
+| C | ~12 | — | Geometric structure |
+| D | ~4 | ~6 | Literature axioms (CGN 2024, Connes 2026) |
+| E | ~6 | ~5 | GIFT claims |
+| F | ~9 | ~22 | Numerically verified (zeta zeros, etc.) |
 
 ---
 
@@ -191,8 +212,9 @@ import GIFT.Spectral
 -- TCS Bounds (v3.3.12)
 #check tcs_spectral_bounds          -- c₁/L² ≤ λ₁ ≤ c₂/L²
 
--- Connes Bridge (v3.3.18)
-#check connes_bridge_certificate    -- 19-conjunct master certificate
+-- Connes Bridge (moved to Exploratory/ in v3.3.26)
+-- import GIFT.Exploratory.Spectral.ConnesBridge
+-- #check connes_bridge_certificate
 ```
 
 ### Geometry (v3.3.4+, axiom-free)

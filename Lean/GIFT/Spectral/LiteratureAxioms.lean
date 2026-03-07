@@ -110,32 +110,9 @@ theorem K3_S1_dim : K3_S1.dim = 5 := rfl
 -- SPECTRAL DENSITY (LANGLAIS THEOREM 2.7)
 -- ============================================================================
 
-/-- Eigenvalue counting function Λ_q(s) for q-forms.
-
-Axiomatized: counts eigenvalues ev of Δ_q with ev ≤ s.
-Full implementation requires Mathlib spectral theory.
-
-**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
-opaque eigenvalue_count (K : TCSManifold) (q : ℕ) (s : ℝ) : ℕ
-
-/-- Langlais Theorem 2.7: Spectral density formula.
-
-**Axiom Category: D (Literature)** - PEER-REVIEWED
-
-**Citation:** Langlais, P. (2024). "Spectral density of TCS manifolds"
-Commun. Math. Phys., Theorem 2.7
-
-For a TCS family (M_T, g_T) with cross-section X:
-  Λ_q(s) = 2(b_{q-1}(X) + b_q(X))√s + O(1)
-
-The coefficient is TOPOLOGICAL, depending only on Betti numbers.
-
-**Elimination path:** Full TCS spectral analysis formalization (~6 months work)
--/
-axiom langlais_spectral_density (K : TCSManifold) (X : CrossSection)
-    (q : ℕ) (hq : q > 0) (hq' : q ≤ X.dim) :
-  ∃ C : ℝ, ∀ s : ℝ, s > 0 →
-    |(eigenvalue_count K q s : ℝ) - 2 * (X.betti ⟨q-1, by omega⟩ + X.betti ⟨q, by omega⟩) * Real.sqrt s| ≤ C
+-- [REMOVED v4.0] eigenvalue_count and langlais_spectral_density:
+-- Superseded by S1-S5 explicit eigenvalue computation on K7.
+-- The spectral density formula is now directly verified numerically.
 
 /-- Spectral density coefficient for q-forms on K3 × S¹.
 

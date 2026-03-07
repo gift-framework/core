@@ -55,7 +55,7 @@ import GIFT.Spectral.PhysicalSpectralGap
 import GIFT.MollifiedSum.Sum
 import GIFT.MollifiedSum.Mollifier
 
-namespace GIFT.Spectral.SelbergBridge
+namespace GIFT.Exploratory.Spectral.SelbergBridge
 
 open GIFT.Core
 open GIFT.Spectral.SpectralTheory
@@ -328,4 +328,4 @@ theorem selberg_bridge_certificate :
   · native_decide
   · native_decide
 
-end GIFT.Spectral.SelbergBridge
+end GIFT.Exploratory.Spectral.SelbergBridge

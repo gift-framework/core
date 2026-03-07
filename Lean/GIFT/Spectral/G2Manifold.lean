@@ -260,11 +260,8 @@ theorem G2_laplacian_decomposition (_M : G2HolonomyManifold) :
 axiom G2_spectral_constraint (M : G2HolonomyManifold) :
   ∃ (c : ℝ), c > 0 ∧ MassGap M.base ≥ c
 
-/-- For K7, the constraint involves dim(G2) and H*.
-
-**Axiom Category: E (GIFT Claim)** — Central GIFT spectral prediction. -/
-axiom K7_spectral_bound :
-  MassGap K7.g2base.base ≥ (GIFT.Core.dim_G2 : ℝ) / GIFT.Core.H_star
+-- [REMOVED v4.0] K7_spectral_bound: claimed MassGap ≥ 14/99, contradicted by
+-- computed λ₁ = 0.1244 (S1). The 14/99 was a vestige of a closed research line.
 
 -- ============================================================================
 -- CERTIFICATE

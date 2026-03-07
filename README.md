@@ -3,7 +3,7 @@
 [![Formal Verification](https://github.com/gift-framework/core/actions/workflows/verify.yml/badge.svg)](https://github.com/gift-framework/core/actions/workflows/verify.yml)
 [![PyPI](https://img.shields.io/pypi/v/giftpy)](https://pypi.org/project/giftpy/)
 
-Formally verified mathematical relations from the GIFT framework. 455+ certified relations, 87 axioms classified (A-F), all theorems proven in **Lean 4** (146 files, 2656 build jobs).
+Formally verified mathematical relations from the GIFT framework. 455+ certified relations, **48 published axioms** (84 total incl. exploratory), all theorems proven in **Lean 4** (147 files, 2657 build jobs).
 
 ## Structure
 
@@ -14,7 +14,7 @@ Lean/GIFT/
 │   ├── Core.lean            # Master: Foundations ∧ Predictions ∧ Spectral
 │   ├── Foundations.lean     # E₈, G₂, octonions, K₇, Joyce, NK cert (26 conjuncts)
 │   ├── Predictions.lean     # 33+ relations, ~50 observables (48 conjuncts)
-│   └── Spectral.lean        # Mass gap 14/99, TCS, selection (27 conjuncts)
+│   └── Spectral.lean        # Mass gap 14/99, TCS, selection (23 conjuncts)
 ├── Certificate.lean         # Backward-compat wrapper (legacy aliases)
 │
 ├── Foundations/              # Mathematical foundations (23 files)
@@ -41,14 +41,12 @@ Lean/GIFT/
 │   ├── HodgeStarCompute.lean # Explicit Hodge star (Levi-Civita)
 │   └── HodgeStarR7.lean     # ⋆, ψ=⋆φ PROVEN, TorsionFree
 │
-├── Spectral/                # Spectral gap theory (14 files) [v3.3.17]
+├── Spectral/                # Spectral gap theory (12 files) [v3.3.26]
 │   ├── PhysicalSpectralGap.lean # ev₁ = 13/99 (zero axioms)
-│   ├── SelbergBridge.lean   # Trace formula: MollifiedSum <-> Spectral
 │   ├── SelectionPrinciple.lean # κ = π²/14, building blocks
 │   ├── TCSBounds.lean       # Model Theorem: ev₁ ~ 1/L²
 │   ├── NeckGeometry.lean    # TCS structure, H1-H6 hypotheses
 │   ├── CheegerInequality.lean # Cheeger-Buser bounds
-│   ├── ConnesBridge.lean    # Noncommutative geometry connection
 │   ├── UniversalLaw.lean    # λ₁ × H* = dim(G₂)
 │   ├── MassGapRatio.lean    # 14/99 bare algebraic
 │   ├── YangMills.lean       # Gauge theory connection
@@ -57,8 +55,7 @@ Lean/GIFT/
 ├── MollifiedSum/            # Mollified Dirichlet polynomial [v3.3.16]
 │   ├── Mollifier.lean       # Cosine-squared kernel w(x)
 │   ├── Sum.lean             # S_w(T) as Finset.sum over primes
-│   ├── Adaptive.lean        # Adaptive cutoff θ(T) = θ₀ + θ₁/log T
-│   └── AdaptiveGIFT.lean    # GIFT-specific adaptive parameters
+│   └── Adaptive.lean        # Adaptive cutoff θ(T) = θ₀ + θ₁/log T
 │
 ├── Relations/               # Physical predictions (21 files)
 │   ├── GaugeSector.lean, LeptonSector.lean, NeutrinoSector.lean, QuarkSector.lean
@@ -70,12 +67,14 @@ Lean/GIFT/
 ├── Algebraic/               # Octonions, Betti numbers, G₂, SO(16)
 ├── Hierarchy/               # Dimensional gap, absolute masses, E₆ cascade
 │
-├── Exploratory/             # Number-theoretic curiosities [v3.3.25]
+├── Exploratory/             # Not in published papers [v3.3.26]
 │   ├── Sequences/           # Fibonacci, Lucas embeddings
 │   ├── Primes/              # Prime Atlas (direct, derived, Heegner)
 │   ├── Moonshine/           # Monster group, j-invariant, supersingular
 │   ├── McKay/               # McKay correspondence, golden emergence
-│   └── Zeta/                # Riemann zeta correspondences (conjectures)
+│   ├── Zeta/                # Riemann zeta correspondences (conjectures)
+│   ├── MollifiedSum/        # GIFT adaptive cutoff (Riemann line, closed)
+│   └── Spectral/            # Selberg/Connes bridges (Riemann line, closed)
 │
 ├── Joyce.lean               # Joyce existence theorem
 ├── Sobolev.lean             # Sobolev embedding
@@ -115,4 +114,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.3.25*
+*GIFT Core v3.3.26*

@@ -5,6 +5,39 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.26] - 2026-03-07
+
+### Summary
+
+**Axiom audit and cleanup: 68 → 48 published axioms.** Systematic audit of all axioms against S1-S17 computed results. Removed 1 false axiom (`K7_spectral_bound`: claimed MassGap ≥ 14/99, contradicted by computed λ₁ = 0.1244). Removed 2 redundant items (`langlais_spectral_density`, `eigenvalue_count`: superseded by explicit computation). Moved 3 files (17 axioms) from closed Riemann/Connes research line to `Exploratory/`: AdaptiveGIFT, SelbergBridge, ConnesBridge. Certificate/Spectral cleaned: 27 → 23 conjuncts. Build: 2657 jobs, zero incomplete proofs.
+
+### Removed
+
+- **`K7_spectral_bound`** axiom from `Spectral/G2Manifold.lean` — FALSE: claimed MassGap ≥ 14/99 ≈ 0.1414, but S1 computation gives λ₁ = 0.1244 (12% discrepancy). Vestige of closed research line.
+- **`langlais_spectral_density`** axiom from `Spectral/LiteratureAxioms.lean` — REDUNDANT: superseded by S1-S5 explicit eigenvalue computation on K7.
+- **`eigenvalue_count`** opaque from `Spectral/LiteratureAxioms.lean` — REDUNDANT: only used by `langlais_spectral_density`.
+
+### Changed
+
+- **Exploratory/ directory** — Moved 3 files (17 axioms) from closed Riemann/Connes research line:
+  - `MollifiedSum/AdaptiveGIFT.lean` → `Exploratory/MollifiedSum/` (5 axioms)
+  - `Spectral/SelbergBridge.lean` → `Exploratory/Spectral/` (4 axioms)
+  - `Spectral/ConnesBridge.lean` → `Exploratory/Spectral/` (8 axioms)
+
+- **Certificate/Spectral.lean** — Removed 9 ConnesBridge abbrevs and 4 Connes statement conjuncts (27 → 23)
+- **Certificate/Core.lean** — Updated docstring (removed "Connes bridge" reference)
+- **Spectral.lean** — Removed SelbergBridge/ConnesBridge imports and re-exports
+- **MollifiedSum.lean** — Removed AdaptiveGIFT import, open, `gift_parameters_certified` theorem
+- **GIFT.lean** — Added `Exploratory.MollifiedSum` and `Exploratory.Spectral` imports
+
+### Stats
+
+- Published core: 118 Lean files, **48 axioms** (was 68)
+- Exploratory: 29 Lean files, 36 axioms
+- Build: 2657 jobs (up from 2656)
+
+---
+
 ## [3.3.25] - 2026-03-04
 
 ### Summary

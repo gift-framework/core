@@ -1,6 +1,6 @@
 -- GIFT: Geometric Integration of Fundamental Topologies
 -- Main entry point for Lean 4 formalization
--- Version: 3.3.25 (455+ certified relations, modular certificate, Exploratory separation)
+-- Version: 3.3.26 (455+ certified relations, 48 published axioms, axiom audit cleanup)
 
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- CORE & RELATIONS
@@ -52,6 +52,8 @@ import GIFT.Exploratory.Primes       -- Prime Atlas (direct, derived, Heegner)
 import GIFT.Exploratory.Moonshine    -- Monstrous moonshine (Monster, j-invariant)
 import GIFT.Exploratory.McKay        -- McKay correspondence, Golden emergence
 import GIFT.Exploratory.Zeta         -- Riemann zeta correspondences (conjectures)
+import GIFT.Exploratory.MollifiedSum -- GIFT adaptive cutoff (Riemann line, closed)
+import GIFT.Exploratory.Spectral     -- Selberg/Connes bridges (Riemann line, closed)
 
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- CERTIFICATE (modular: Foundations / Predictions / Spectral)

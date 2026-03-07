@@ -28,7 +28,7 @@ import Mathlib.Data.Rat.Defs
 import Mathlib.Tactic.NormNum
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
 
-namespace GIFT.MollifiedSum.AdaptiveGIFT
+namespace GIFT.Exploratory.MollifiedSum.AdaptiveGIFT
 
 open GIFT.Core
 open GIFT.MollifiedSum.Sum
@@ -301,4 +301,4 @@ theorem adaptive_gift_certificate :
   · unfold gift_theta_inf; norm_num
   · native_decide
 
-end GIFT.MollifiedSum.AdaptiveGIFT
+end GIFT.Exploratory.MollifiedSum.AdaptiveGIFT

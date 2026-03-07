@@ -13,7 +13,6 @@ The complete spectral gap programme:
 - Cheeger inequality, Yang-Mills prediction
 - Refined bounds, literature axioms
 - Spectral scaling on the TCS neck
-- Connes bridge (Weil positivity connection)
 -/
 
 namespace GIFT.Certificate.Spectral
@@ -228,9 +227,6 @@ abbrev lit_cross_section := GIFT.Spectral.LiteratureAxioms.CrossSection
 /-- K3 x S^1 cross-section -/
 abbrev lit_K3_S1 := GIFT.Spectral.LiteratureAxioms.K3_S1
 
-/-- Langlais spectral density formula (Langlais 2024) -/
-abbrev lit_langlais := GIFT.Spectral.LiteratureAxioms.langlais_spectral_density
-
 /-- CGN no small eigenvalues (Crowley-Goette-Nordstrom 2024) -/
 abbrev lit_cgn_no_small := GIFT.Spectral.LiteratureAxioms.cgn_no_small_eigenvalues
 
@@ -283,37 +279,6 @@ abbrev G2_factored := GIFT.Foundations.SpectralScaling.dim_G2_pontryagin_manifol
 abbrev scaling_cert := GIFT.Foundations.SpectralScaling.spectral_scaling_certificate
 
 -- ═══════════════════════════════════════════════════════════════════════════════
--- CONNES BRIDGE (Weil positivity <-> GIFT)
--- ═══════════════════════════════════════════════════════════════════════════════
-
-/-- Connes' 6-prime list -/
-abbrev connes_primes := GIFT.Spectral.ConnesBridge.connes_primes_list
-
-/-- 6 = h(G₂) Coxeter number -/
-abbrev connes_coxeter := GIFT.Spectral.ConnesBridge.connes_count_eq_coxeter_G2
-
-/-- Largest Connes prime = 13 = physical gap numerator -/
-abbrev connes_gap_num := GIFT.Spectral.ConnesBridge.largest_connes_prime_eq_gap_num
-
-/-- All Connes primes < dim(G₂) = 14 -/
-abbrev connes_below_G2 := GIFT.Spectral.ConnesBridge.all_connes_primes_below_dimG2
-
-/-- sum(primes) - dim(G₂) = 41 - 14 = 27 = dim(J3(O)) -/
-abbrev connes_jordan := GIFT.Spectral.ConnesBridge.connes_sum_minus_dimG2_eq_jordan
-
-/-- 2 x 3 x 5 = 30 = h(E₈) -/
-abbrev connes_coxeter_E8 := GIFT.Spectral.ConnesBridge.first_3_connes_product_eq_coxeter_E8
-
-/-- 2 x 3 x 5 x 7 = 210 = dim(K₇) x h(E₈) -/
-abbrev connes_K7_E8 := GIFT.Spectral.ConnesBridge.first_4_connes_product_eq_dimK7_times_coxeter
-
-/-- Pell equation: 99^2 - 50 x 14^2 = 1 and 14 - 1 = 13 -/
-abbrev connes_pell := GIFT.Spectral.ConnesBridge.pell_and_connes
-
-/-- Connes Bridge master certificate -/
-abbrev connes_bridge_cert := GIFT.Spectral.ConnesBridge.connes_bridge_certificate
-
--- ═══════════════════════════════════════════════════════════════════════════════
 -- SPECTRAL MASTER CERTIFICATE
 -- ═══════════════════════════════════════════════════════════════════════════════
 
@@ -323,7 +288,6 @@ abbrev connes_bridge_cert := GIFT.Spectral.ConnesBridge.connes_bridge_certificat
 - TCS spectral bounds: c_1/L^2 <= lambda_1 <= c_2/L^2
 - Selection principle: L^2 = (pi^2/14) x 99
 - Spectral-Holonomy Principle: lambda_1 x H* = dim(G₂)
-- Connes bridge: 6 primes < dim(G₂) with sum - 14 = 27
 - Pell equation: 99^2 - 50 x 14^2 = 1
 -/
 def statement : Prop :=
@@ -359,11 +323,6 @@ def statement : Prop :=
     (40 : Nat) + 37 = 77 ∧
     -- H* formula
     (1 + 21 + 77 = 99) ∧
-    -- Connes bridge
-    (GIFT.Spectral.ConnesBridge.connes_primes_list.length = 6) ∧
-    (6 = GIFT.Core.h_G2) ∧
-    ((41 : Nat) - 14 = GIFT.Core.dim_J3O) ∧
-    (2 * 3 * 5 = GIFT.Core.h_E8) ∧
     -- Pell equation
     (99 * 99 - 50 * (14 * 14) = 1) ∧
     -- Spectral scaling: 1^2 + 2^2 + 3^2 = dim(G₂)

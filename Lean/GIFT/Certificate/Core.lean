@@ -14,7 +14,7 @@ Structure:
 - **Predictions**: 33+ published dimensionless derivations, V5.0 observables,
   Fano selection, sector classification, hierarchy
 - **Spectral**: Mass gap 14/99, TCS bounds, selection principle,
-  Cheeger inequality, Yang-Mills, Connes bridge
+  Cheeger inequality, Yang-Mills, spectral scaling
 
 Replaces the legacy monolithic Certificate.lean.
 -/

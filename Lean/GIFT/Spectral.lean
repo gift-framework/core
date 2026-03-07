@@ -35,12 +35,6 @@ The key insight: the mass gap is determined by TOPOLOGY, not dynamics.
 ### Literature Axioms (Langlais 2024, CGN 2024)
 - `LiteratureAxioms`: Spectral density formula, no small eigenvalues
 
-### Selberg Bridge (v3.3.16)
-- `SelbergBridge`: Trace formula connecting MollifiedSum to Spectral
-
-### Connes Bridge (v3.3.17)
-- `ConnesBridge`: Weil quadratic form connecting Connes' approach to GIFT
-
 ### Applications
 - `CheegerInequality`: Cheeger-Buser bounds
 - `YangMills`: Connection to Clay Millennium Prize
@@ -78,12 +72,6 @@ import GIFT.Spectral.RefinedSpectralBounds
 
 -- Literature Axioms (Langlais 2024, CGN 2024)
 import GIFT.Spectral.LiteratureAxioms
-
--- Selberg Bridge: MollifiedSum <-> Spectral connection (v3.3.16)
-import GIFT.Spectral.SelbergBridge
-
--- Connes Bridge: Weil positivity <-> GIFT mollified sum (v3.3.17)
-import GIFT.Spectral.ConnesBridge
 
 -- Applications
 import GIFT.Spectral.CheegerInequality
@@ -276,8 +264,6 @@ export LiteratureAxioms (
   K3_betti
   K3_S1
   K3_S1_dim
-  eigenvalue_count
-  langlais_spectral_density
   density_coefficient_K3S1
   K3_S1_density_coeff_2
   K3_S1_density_coeff_3
@@ -321,48 +307,6 @@ export PhysicalSpectralGap (
   pell_equation
   -- Certificate
   physical_spectral_gap_certificate
-)
-
--- ============================================================================
--- RE-EXPORTS: SELBERG BRIDGE (v3.3.16)
--- ============================================================================
-
-export SelbergBridge (
-  -- Trace formula types
-  LengthSpectrum
-  geodesicLength
-  geodesicAmplitude
-  -- Cross-module identities
-  kmax_equals_N_gen
-  physical_spectral_equals_alpha_sum
-  spectral_gap_in_kernel_support
-  -- Certificate
-  selberg_bridge_certificate
-)
-
--- ============================================================================
--- RE-EXPORTS: CONNES BRIDGE (v3.3.17)
--- ============================================================================
-
-export ConnesBridge (
-  -- Connes' 6-prime set
-  connes_primes_list
-  connes_primes_card
-  connes_primes_all_prime
-  connes_primes_bounded
-  -- Algebraic identities
-  connes_count_eq_coxeter_G2
-  largest_connes_prime_eq_gap_num
-  largest_connes_prime_eq_alpha_sum
-  all_connes_primes_below_dimG2
-  connes_sum_minus_dimG2_eq_jordan
-  first_3_connes_product_eq_coxeter_E8
-  first_4_connes_product_eq_dimK7_times_coxeter
-  gift_theta_components
-  gift_theta_correction_components
-  pell_and_connes
-  -- Certificate
-  connes_bridge_certificate
 )
 
 -- ============================================================================
@@ -420,8 +364,6 @@ Spectral/
 ├── SelectionPrinciple.lean      # kappa = pi^2/14, building blocks
 ├── RefinedSpectralBounds.lean   # H7 hypothesis, pi^2 coefficient
 ├── LiteratureAxioms.lean        # Literature axioms (Langlais, CGN)
-├── SelbergBridge.lean           # Trace formula: MollifiedSum <-> Spectral
-├── ConnesBridge.lean            # Weil positivity: Connes <-> GIFT
 ├── CheegerInequality.lean       # Cheeger-Buser bounds
 └── YangMills.lean               # Clay Prize connection
 ```
@@ -446,7 +388,7 @@ See `GIFT/Foundations/PiBounds.lean` for full documentation and elimination path
 | `NeckMinimality` | Isoperimetric bound on neck | Coarea formula |
 | `spectral_upper_bound` | Rayleigh quotient bound | L² space formalization |
 | `neck_dominates` | Neck controls Cheeger | Cut classification |
-| `langlais_spectral_density` | Spectral counting formula | Langlais 2024 |
+| `langlais_spectral_density` | [REMOVED v4.0] Superseded by S1-S5 |
 | `cgn_no_small_eigenvalues` | No small eigenvalues | CGN 2024 |
 | `cgn_cheeger_lower_bound` | Cheeger lower bound | CGN 2024 |
 | `canonical_neck_length_conjecture` | L² ~ H* conjecture | GIFT conjecture |
@@ -454,15 +396,8 @@ See `GIFT/Foundations/PiBounds.lean` for full documentation and elimination path
 | `universality_conjecture` | λ₁·H* = dim(G₂) for all TCS | Geometric analysis |
 | `localization_lemma` | Eigenfunction localization | Mazzeo-Melrose |
 | `spectral_lower_bound_refined` | pi^2/L^2 - exp correction | Poincare + localization |
-| `trace_formula` | Selberg trace formula | Microlocal analysis |
-| `geodesic_prime_correspondence` | l_gamma = c log(p) | TCS geodesic analysis |
-| `geometric_side_matches_mollified` | Geom. side ~ S_w(T) | Stationary phase on K7 |
-| `weil_positivity_equiv_RH` | Weil positivity ↔ RH | Connes 2026 |
-| `connes_6_prime_50_zeros` | 6 primes → 50 zeros | Connes 2026 §5 |
-| `connes_convergence_to_Xi` | Truncation → Ξ | Connes 2026 §6 |
-| `prolate_optimal_localization` | Prolate operators | Slepian-Landau-Pollak |
-| `gift_theta_asymptotic_advantage` | θ(T)=10/7 advantage | connes_comparison.py |
-| `mollified_sum_convergence_matches_weil` | S_w ~ Weil | Structural matching |
+| `trace_formula` | [MOVED v4.0] → Exploratory/Spectral/SelbergBridge |
+| `weil_positivity_equiv_RH` | [MOVED v4.0] → Exploratory/Spectral/ConnesBridge |
 -/
 
 end GIFT.Spectral

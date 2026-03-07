@@ -60,18 +60,18 @@ import GIFT.Core
 import GIFT.Spectral.SpectralTheory
 import GIFT.Spectral.G2Manifold
 import GIFT.Spectral.PhysicalSpectralGap
-import GIFT.Spectral.SelbergBridge
+import GIFT.Exploratory.Spectral.SelbergBridge
 import GIFT.MollifiedSum.Sum
 import GIFT.MollifiedSum.Mollifier
 import GIFT.MollifiedSum.Adaptive
 import Mathlib.Data.Nat.Prime.Basic
 
-namespace GIFT.Spectral.ConnesBridge
+namespace GIFT.Exploratory.Spectral.ConnesBridge
 
 open GIFT.Core
 open GIFT.Spectral.SpectralTheory
 open GIFT.Spectral.PhysicalSpectralGap
-open GIFT.Spectral.SelbergBridge
+open GIFT.Exploratory.Spectral.SelbergBridge
 open GIFT.MollifiedSum.Sum
 open GIFT.MollifiedSum.Mollifier
 open GIFT.MollifiedSum.Adaptive
@@ -479,4 +479,4 @@ theorem connes_bridge_certificate :
   · native_decide
   · native_decide
 
-end GIFT.Spectral.ConnesBridge
+end GIFT.Exploratory.Spectral.ConnesBridge
