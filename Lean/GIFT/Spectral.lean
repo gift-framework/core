@@ -73,6 +73,12 @@ import GIFT.Spectral.RefinedSpectralBounds
 -- Literature Axioms (Langlais 2024, CGN 2024)
 import GIFT.Spectral.LiteratureAxioms
 
+-- Computed Spectrum (Spectral Physics paper results, v3.3.29)
+import GIFT.Spectral.ComputedSpectrum
+
+-- Spectral Democracy (generation universality, v3.3.30)
+import GIFT.Spectral.SpectralDemocracy
+
 -- Applications
 import GIFT.Spectral.CheegerInequality
 import GIFT.Spectral.YangMills
@@ -310,6 +316,72 @@ export PhysicalSpectralGap (
 )
 
 -- ============================================================================
+-- RE-EXPORTS: COMPUTED SPECTRUM (v3.3.29, Spectral Physics paper)
+-- ============================================================================
+
+export ComputedSpectrum (
+  -- Q22 intersection form
+  Q22_pos
+  Q22_neg
+  Q22_total
+  Q22_signature_sum
+  SD_eq_N_gen
+  Q22_total_eq_b2_plus_1
+  Q22_neg_structural
+  -- SD/ASD eigenvalue gap
+  min_SD_num
+  min_SD_den
+  max_ASD_num
+  max_ASD_den
+  sd_asd_gap_large
+  sd_eigenvalue_order
+  asd_eigenvalue_small
+  -- Gauge coupling B-test
+  B_test_num
+  B_test_den
+  B_above_7_5
+  B_close_to_7_5
+  B_deviation_exact
+  -- Coupling deviation bounds
+  sin2w_exp_num
+  sin2w_exp_den
+  sin2w_theory_below_exp
+  sin2w_deviation_small
+  alpha_s_exp_num
+  alpha_s_exp_den
+  alpha_s_theory_below_exp
+  alpha_s_deviation_small
+  -- Master certificate
+  computed_spectrum_certificate
+)
+
+-- ============================================================================
+-- RE-EXPORTS: SPECTRAL DEMOCRACY (v3.3.30, generation universality)
+-- ============================================================================
+
+export SpectralDemocracy (
+  -- SD eigenvalue data
+  sd_ev_1_num
+  sd_ev_2_num
+  sd_ev_3_num
+  sd_ev_den
+  -- Democracy bounds
+  sd_spread
+  sd_spread_value
+  sd_sum
+  sd_sum_value
+  sd_mean_exact
+  sd_spread_small
+  sd_all_above_threshold
+  sd_mean_near_five
+  -- Generation universality
+  sd_coupling_ratio_near_unity
+  sd_count_eq_N_gen
+  -- Master certificate
+  spectral_democracy_certificate
+)
+
+-- ============================================================================
 -- RE-EXPORTS: CHEEGER INEQUALITY
 -- ============================================================================
 
@@ -359,6 +431,8 @@ Spectral/
 ├── UniversalLaw.lean            # ev₁ x H* = dim(G₂) - h
 ├── MassGapRatio.lean            # 14/99 bare algebraic
 ├── PhysicalSpectralGap.lean     # 13/99 physical (zero axioms)
+├── ComputedSpectrum.lean        # Q22 sig, SD/ASD gap, B-test, couplings [v3.3.29]
+├── SpectralDemocracy.lean      # Generation universality, SD spread [v3.3.30]
 ├── NeckGeometry.lean            # TCS structure, hypotheses (H1)-(H6)
 ├── TCSBounds.lean               # Model Theorem: ev₁ ~ 1/L^2
 ├── SelectionPrinciple.lean      # kappa = pi^2/14, building blocks

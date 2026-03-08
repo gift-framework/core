@@ -279,6 +279,45 @@ abbrev G2_factored := GIFT.Foundations.SpectralScaling.dim_G2_pontryagin_manifol
 abbrev scaling_cert := GIFT.Foundations.SpectralScaling.spectral_scaling_certificate
 
 -- ═══════════════════════════════════════════════════════════════════════════════
+-- COMPUTED SPECTRUM (v3.3.29, Spectral Physics paper)
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+open GIFT.Spectral.ComputedSpectrum
+
+/-- Q22: 3 SD forms = 3 fermion generations -/
+abbrev cs_SD_eq_N_gen := GIFT.Spectral.ComputedSpectrum.SD_eq_N_gen
+
+/-- SD/ASD eigenvalue gap > 2000x -/
+abbrev cs_gap_large := GIFT.Spectral.ComputedSpectrum.sd_asd_gap_large
+
+/-- B-test close to 7/5 -/
+abbrev cs_B_close := GIFT.Spectral.ComputedSpectrum.B_close_to_7_5
+
+/-- sin2 theta_W deviation < 0.3% -/
+abbrev cs_sin2w_small := GIFT.Spectral.ComputedSpectrum.sin2w_deviation_small
+
+/-- Computed spectrum master certificate -/
+abbrev cs_certificate := GIFT.Spectral.ComputedSpectrum.computed_spectrum_certificate
+
+-- ═══════════════════════════════════════════════════════════════════════════════
+-- SPECTRAL DEMOCRACY (v3.3.30, generation universality)
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+open GIFT.Spectral.SpectralDemocracy
+
+/-- SD eigenvalue spread < 2% of mean -/
+abbrev sd_spread_small := GIFT.Spectral.SpectralDemocracy.sd_spread_small
+
+/-- All three SD eigenvalues above threshold -/
+abbrev sd_all_above := GIFT.Spectral.SpectralDemocracy.sd_all_above_threshold
+
+/-- Max/min coupling ratio < 1.02 (democracy) -/
+abbrev sd_democracy := GIFT.Spectral.SpectralDemocracy.sd_coupling_ratio_near_unity
+
+/-- Spectral democracy master certificate -/
+abbrev sd_certificate := GIFT.Spectral.SpectralDemocracy.spectral_democracy_certificate
+
+-- ═══════════════════════════════════════════════════════════════════════════════
 -- SPECTRAL MASTER CERTIFICATE
 -- ═══════════════════════════════════════════════════════════════════════════════
 
@@ -289,6 +328,8 @@ abbrev scaling_cert := GIFT.Foundations.SpectralScaling.spectral_scaling_certifi
 - Selection principle: L^2 = (pi^2/14) x 99
 - Spectral-Holonomy Principle: lambda_1 x H* = dim(G₂)
 - Pell equation: 99^2 - 50 x 14^2 = 1
+- Computed spectrum: Q22 signature, SD/ASD gap, B-test (v3.3.29)
+- Spectral democracy: SD spread < 2%, coupling ratio < 1.02 (v3.3.30)
 -/
 def statement : Prop :=
     -- Mass gap ratio = dim(G₂)/H*
@@ -328,9 +369,28 @@ def statement : Prop :=
     -- Spectral scaling: 1^2 + 2^2 + 3^2 = dim(G₂)
     (1 + 4 + 9 = 14) ∧
     -- Division: H* = dim_K₇ x dim_G₂ + 1
-    (7 * 14 + 1 = 99)
+    (7 * 14 + 1 = 99) ∧
+    -- [L5] Q22: 3 SD forms = 3 generations
+    (GIFT.Spectral.ComputedSpectrum.Q22_pos = N_gen) ∧
+    -- [L5] SD/ASD eigenvalue gap > 2000x
+    (GIFT.Spectral.ComputedSpectrum.min_SD_num *
+     GIFT.Spectral.ComputedSpectrum.max_ASD_den > 2000 *
+     GIFT.Spectral.ComputedSpectrum.max_ASD_num *
+     GIFT.Spectral.ComputedSpectrum.min_SD_den) ∧
+    -- [L5] B-test: B > 7/5
+    (GIFT.Spectral.ComputedSpectrum.B_test_num * 5 > 7 *
+     GIFT.Spectral.ComputedSpectrum.B_test_den) ∧
+    -- [L6] Spectral democracy: SD spread < 2% of mean
+    (GIFT.Spectral.SpectralDemocracy.sd_spread * 100 < 2 *
+     GIFT.Spectral.SpectralDemocracy.sd_ev_2_num) ∧
+    -- [L6] Coupling ratio near unity: max/min < 1.02
+    (GIFT.Spectral.SpectralDemocracy.sd_ev_1_num * 100 < 102 *
+     GIFT.Spectral.SpectralDemocracy.sd_ev_3_num) ∧
+    -- [L6] SD count = N_gen
+    (N_gen = 3)
 
 theorem certified : statement := by
-  repeat (first | constructor | native_decide | rfl | norm_num)
+  refine ⟨rfl, rfl, rfl, rfl, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  all_goals native_decide
 
 end GIFT.Certificate.Spectral
