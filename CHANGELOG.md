@@ -5,6 +5,64 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.30] - 2026-03-08
+
+### Summary
+
+**L6: Spectral democracy + PDG 2025 update.** Formalizes generation universality from the SD eigenvalue near-degeneracy of Q₂₂: spread < 2% of mean, coupling ratio < 1.02, all three SD eigenvalues > 4.5. Updates sin²θ_W experimental value from PDG 2024 (0.23122) to PDG 2025 (0.23129), deviation bound from < 0.2% to < 0.3%. Certificate/Spectral updated from 26 to 29 conjuncts. Zero new axioms.
+
+### Added
+
+- **`Spectral/SpectralDemocracy.lean`** — new file with 3 sections:
+  - SD eigenvalue data: λ₁=4.863, λ₂=4.821, λ₃=4.779 (Category F)
+  - Democracy bounds: `sd_spread_small` (< 2%), `sd_all_above_threshold` (> 4.5), `sd_mean_near_five`
+  - Generation universality: `sd_coupling_ratio_near_unity` (max/min < 1.02)
+  - `spectral_democracy_certificate`: 8-conjunct master certificate
+
+### Changed
+
+- **`Spectral/ComputedSpectrum.lean`** — sin²θ_W updated: PDG 2024 → PDG 2025 (23122 → 23129), deviation bound 0.2% → 0.3%
+- **Certificate/Spectral.lean** — 26 → 29 conjuncts (+SD spread, +coupling ratio, +N_gen)
+- **Certificate/Spectral.lean** — 4 new abbrevs (sd_spread_small, sd_all_above, sd_democracy, sd_certificate)
+- **Spectral.lean** — Added SpectralDemocracy import + 16-symbol re-export block
+
+### Stats
+
+- Published core: 124 Lean files (123 → 124), **48 axioms** (unchanged — no new axioms)
+- New definitions: 8 (SD eigenvalues, spread, sum)
+- New theorems: ~10 (democracy bounds, universality, master certificate)
+
+---
+
+## [3.3.29] - 2026-03-08
+
+### Summary
+
+**L5: Computed Spectral Physics formalization.** Formalizes headline numerical results from the Spectral Physics paper (S6-S17): Q22 intersection form signature (3,19) with SD=N_gen, SD/ASD eigenvalue gap >2000x (mass hierarchy origin), gauge coupling B-test at 0.24% of 7/5, sin2 theta_W and alpha_s deviation bounds vs PDG (<0.2%). New file `Spectral/ComputedSpectrum.lean` with 12-conjunct master certificate. Certificate/Spectral updated from 23 to 26 conjuncts. Zero new axioms (all Category F numerically verified definitions).
+
+### Added
+
+- **`Spectral/ComputedSpectrum.lean`** — new file with 4 sections:
+  - Q22 intersection form: signature (3,19), `SD_eq_N_gen`, `Q22_total_eq_b2_plus_1`
+  - SD/ASD eigenvalue gap: `sd_asd_gap_large` (>2000x), geometric mass hierarchy
+  - Gauge coupling B-test: `B_above_7_5`, `B_close_to_7_5` (<0.3%), `B_deviation_exact` (=165)
+  - Coupling deviations: `sin2w_deviation_small` (<0.2%), `alpha_s_deviation_small` (<0.3% squared)
+  - `computed_spectrum_certificate`: 12-conjunct master certificate
+
+### Changed
+
+- **Certificate/Spectral.lean** — 23 → 26 conjuncts (+Q22 SD=N_gen, +SD/ASD gap, +B-test)
+- **Certificate/Spectral.lean** — 5 new abbrevs (cs_SD_eq_N_gen, cs_gap_large, cs_B_close, cs_sin2w_small, cs_certificate)
+- **Spectral.lean** — Added ComputedSpectrum import + 30-symbol re-export block
+
+### Stats
+
+- Published core: 123 Lean files (122 → 123), **48 axioms** (unchanged — no new axioms)
+- New definitions: 16 (Q22 counts, eigenvalue bounds, B-test, coupling values)
+- New theorems: ~15 (signature, gap, B-test, deviations, master certificate)
+
+---
+
 ## [3.3.28] - 2026-03-08
 
 ### Summary

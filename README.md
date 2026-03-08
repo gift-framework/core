@@ -14,7 +14,7 @@ Lean/GIFT/
 │   ├── Core.lean            # Master: Foundations ∧ Predictions ∧ Spectral
 │   ├── Foundations.lean     # E₈, G₂, octonions, K₇, Joyce, NK cert (28 conjuncts)
 │   ├── Predictions.lean     # 33+ relations, ~50 observables (48 conjuncts)
-│   └── Spectral.lean        # Mass gap 14/99, TCS, selection (23 conjuncts)
+│   └── Spectral.lean        # Mass gap 14/99, TCS, selection, computed spectrum (26 conjuncts)
 ├── Certificate.lean         # Backward-compat wrapper (legacy aliases)
 │
 ├── Foundations/              # Mathematical foundations (23 files)
@@ -41,8 +41,9 @@ Lean/GIFT/
 │   ├── HodgeStarCompute.lean # Explicit Hodge star (Levi-Civita)
 │   └── HodgeStarR7.lean     # ⋆, ψ=⋆φ PROVEN, TorsionFree
 │
-├── Spectral/                # Spectral gap theory (12 files) [v3.3.26]
+├── Spectral/                # Spectral gap theory (13 files) [v3.3.29]
 │   ├── PhysicalSpectralGap.lean # ev₁ = 13/99 (zero axioms)
+│   ├── ComputedSpectrum.lean # Q22 sig, SD/ASD gap, B-test, couplings [v3.3.29]
 │   ├── SelectionPrinciple.lean # κ = π²/14, building blocks
 │   ├── TCSBounds.lean       # Model Theorem: ev₁ ~ 1/L²
 │   ├── NeckGeometry.lean    # TCS structure, H1-H6 hypotheses

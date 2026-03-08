@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.3.28).
+Complete documentation for the `giftpy` Python package (v3.3.29).
 
 ## Installation
 
@@ -41,6 +41,37 @@ print(K7.two_b2)                # 42 (structural invariant)
 from gift_core import verify
 print(verify())          # True
 ```
+
+## New in v3.3.29
+
+### Computed Spectral Physics (L5)
+
+Formalization of headline numerical results from the Spectral Physics paper:
+
+```lean
+import GIFT.Spectral.ComputedSpectrum
+
+-- Q22 intersection form: 3 SD forms = 3 fermion generations
+#check GIFT.Spectral.ComputedSpectrum.SD_eq_N_gen           -- Q22_pos = N_gen
+#check GIFT.Spectral.ComputedSpectrum.Q22_total_eq_b2_plus_1 -- Q22_total = b2 + 1
+
+-- SD/ASD eigenvalue gap > 2000x (geometric mass hierarchy origin)
+#check GIFT.Spectral.ComputedSpectrum.sd_asd_gap_large      -- gap > 2000x
+#check GIFT.Spectral.ComputedSpectrum.sd_eigenvalue_order   -- smallest SD > 1
+#check GIFT.Spectral.ComputedSpectrum.asd_eigenvalue_small  -- largest ASD < 0.01
+
+-- Gauge coupling B-test: B = 7/5 at 0.24%
+#check GIFT.Spectral.ComputedSpectrum.B_above_7_5           -- B > 7/5
+#check GIFT.Spectral.ComputedSpectrum.B_deviation_exact     -- deviation = 165/70000
+
+-- Coupling deviations vs PDG
+#check GIFT.Spectral.ComputedSpectrum.sin2w_deviation_small -- sin2 theta_W < 0.2%
+#check GIFT.Spectral.ComputedSpectrum.alpha_s_deviation_small -- alpha_s < 0.3% (squared)
+```
+
+Certificate/Spectral: 23 → 26 conjuncts. Zero new axioms. File count: 122 → 123.
+
+---
 
 ## New in v3.3.28
 
