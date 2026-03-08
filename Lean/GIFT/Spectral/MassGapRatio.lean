@@ -155,7 +155,8 @@ theorem measured_lambda1_satisfies_cheeger :
 -- COMPARISON WITH NUMERICAL RESULT
 -- ============================================================================
 
-/-- PINN-measured lambda_1 = 0.1406 (scaled by 10000) -/
+/-- PINN-measured lambda_1 = 0.1406 (scaled by 10000).
+    Note: superseded by Neumann eigenvalue 0.1244 in ComputedSpectrum.lean. -/
 def lambda1_measured_scaled : Nat := 1406
 
 /-- Theoretical prediction = 14/99 = 0.1414... (scaled by 10000) -/

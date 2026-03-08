@@ -79,6 +79,9 @@ import GIFT.Spectral.ComputedSpectrum
 -- Spectral Democracy (generation universality, v3.3.30)
 import GIFT.Spectral.SpectralDemocracy
 
+-- Computed Yukawa (Wilson line mass ratios, v3.3.31)
+import GIFT.Spectral.ComputedYukawa
+
 -- Applications
 import GIFT.Spectral.CheegerInequality
 import GIFT.Spectral.YangMills
@@ -351,8 +354,41 @@ export ComputedSpectrum (
   alpha_s_exp_den
   alpha_s_theory_below_exp
   alpha_s_deviation_small
+  -- Neumann spectral gap
+  lambda1_neumann_num
+  lambda1_neumann_den
+  lambda1_above_cheeger
+  lambda1_below_bare
+  lambda1_near_physical
   -- Master certificate
   computed_spectrum_certificate
+)
+
+-- ============================================================================
+-- RE-EXPORTS: COMPUTED YUKAWA (v3.3.31, Wilson line mass ratios)
+-- ============================================================================
+
+export ComputedYukawa (
+  -- Predicted mass ratios
+  yukawa_tau_mu_num
+  yukawa_tau_mu_den
+  yukawa_tau_e
+  yukawa_mu_e_num
+  yukawa_mu_e_den
+  -- Experimental values
+  exp_tau_mu_num
+  exp_tau_mu_den
+  exp_tau_e_num
+  exp_tau_e_den
+  exp_mu_e_num
+  exp_mu_e_den
+  -- Deviation bounds
+  tau_mu_below_exp
+  tau_mu_deviation_small
+  tau_e_deviation_small
+  mu_e_deviation_small
+  -- Master certificate
+  yukawa_mass_ratio_certificate
 )
 
 -- ============================================================================
@@ -433,6 +469,7 @@ Spectral/
 ├── PhysicalSpectralGap.lean     # 13/99 physical (zero axioms)
 ├── ComputedSpectrum.lean        # Q22 sig, SD/ASD gap, B-test, couplings [v3.3.29]
 ├── SpectralDemocracy.lean      # Generation universality, SD spread [v3.3.30]
+├── ComputedYukawa.lean         # Wilson line mass ratios [v3.3.31]
 ├── NeckGeometry.lean            # TCS structure, hypotheses (H1)-(H6)
 ├── TCSBounds.lean               # Model Theorem: ev₁ ~ 1/L^2
 ├── SelectionPrinciple.lean      # kappa = pi^2/14, building blocks

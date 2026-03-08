@@ -6,6 +6,7 @@
 --   2. SD/ASD eigenvalue gap > 2000x — geometric origin of mass hierarchy
 --   3. Gauge coupling B-test: B = 7/5 at 0.24% — coupling consistency
 --   4. sin2 theta_W and alpha_s deviation bounds vs experiment
+--   5. Neumann spectral gap lambda_1 = 0.1244 — computed eigenvalue
 --
 -- All results are Category F (numerically verified definitions) with
 -- native_decide proofs. Zero new axioms.
@@ -66,9 +67,9 @@ theorem Q22_neg_structural : Q22_neg + N_gen = b2 + 1 := by native_decide
 ## SD/ASD Eigenvalue Gap
 
 The eigenvalue gap between self-dual and anti-self-dual forms is enormous:
-  - Smallest SD eigenvalue: |lambda_SD_min| >= 4.863
+  - Smallest SD eigenvalue: |lambda_SD_min| >= 4.779
   - Largest ASD eigenvalue: |lambda_ASD_max| <= 0.00219
-  - Gap ratio >= 2210x
+  - Gap ratio >= 2180x
 
 This gap has a geometric origin (Hodge star acting on K3 signature (3,19))
 and provides the GIFT mechanism for the fermion mass hierarchy.
@@ -76,11 +77,11 @@ and provides the GIFT mechanism for the fermion mass hierarchy.
 Source: `k7_harmonic_2forms_results.json`, Spectral paper S4.
 -/
 
-/-- Smallest SD eigenvalue lower bound numerator: |lambda_SD_min| >= 4863/1000
+/-- Smallest SD eigenvalue lower bound numerator: |lambda_SD_min| >= 4779/1000
 
 **Axiom Category: F (Numerically verified)**
-Source: k7_harmonic_2forms_results.json (actual = 4.863) -/
-def min_SD_num : ℕ := 4863
+Source: k7_harmonic_2forms_results.json (actual = 4.779, the third SD eigenvalue) -/
+def min_SD_num : ℕ := 4779
 
 /-- Smallest SD eigenvalue lower bound denominator -/
 def min_SD_den : ℕ := 1000
@@ -207,10 +208,55 @@ theorem alpha_s_deviation_small :
     3 * (2 * alpha_s_exp_den * alpha_s_exp_den) := by native_decide
 
 -- =============================================================================
+-- SECTION 5: COMPUTED SPECTRAL GAP
+-- =============================================================================
+
+/-!
+## Computed Spectral Gap
+
+The Neumann spectral gap lambda_1 is computed on the analytical metric
+via finite-difference discretization (N=800, domain [-2,3]).
+
+  lambda_1 (Neumann) = 0.12440
+
+This supersedes the earlier PINN graph-Laplacian estimate (0.1406).
+Compared with GIFT predictions:
+  - Bare ratio: 14/99 = 0.14141 (lambda_1 is 12% below)
+  - Physical ratio: 13/99 = 0.13131 (lambda_1 is 5.3% below)
+
+Source: `K7_spectrum_neumann_results.json`
+-/
+
+/-- Neumann spectral gap numerator: lambda_1 = 0.1244
+
+**Axiom Category: F (Numerically verified)**
+Source: K7_spectrum_neumann_results.json (actual = 0.12440) -/
+def lambda1_neumann_num : ℕ := 1244
+
+/-- Neumann spectral gap denominator -/
+def lambda1_neumann_den : ℕ := 10000
+
+/-- lambda_1 exceeds the Cheeger lower bound 49/9801:
+    1244/10000 > 49/9801, i.e. 1244 x 9801 > 49 x 10000 -/
+theorem lambda1_above_cheeger :
+    lambda1_neumann_num * 9801 > 49 * lambda1_neumann_den := by native_decide
+
+/-- lambda_1 is below the bare GIFT ratio 14/99:
+    1244/10000 < 14/99, i.e. 1244 x 99 < 14 x 10000 -/
+theorem lambda1_below_bare :
+    lambda1_neumann_num * 99 < 14 * lambda1_neumann_den := by native_decide
+
+/-- lambda_1 close to physical ratio 13/99: deviation < 6%.
+    |13/99 - 1244/10000| / (13/99) = (130000 - 123156) / 130000 = 6844/130000 = 5.26% -/
+theorem lambda1_near_physical :
+    (13 * lambda1_neumann_den - lambda1_neumann_num * 99) * 100 <
+    6 * 13 * lambda1_neumann_den := by native_decide
+
+-- =============================================================================
 -- MASTER CERTIFICATE
 -- =============================================================================
 
-/-- Computed spectrum master certificate: 12 conjuncts covering all
+/-- Computed spectrum master certificate: 15 conjuncts covering all
     headline results from the Spectral Physics paper.
 
     1-3: Q22 intersection form structure
@@ -239,8 +285,14 @@ theorem computed_spectrum_certificate :
      (12 * alpha_s_exp_num) * (12 * alpha_s_exp_num)) ∧
     (((12 * alpha_s_exp_num) * (12 * alpha_s_exp_num) -
       2 * alpha_s_exp_den * alpha_s_exp_den) * 1000 <
-     3 * (2 * alpha_s_exp_den * alpha_s_exp_den)) := by
-  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+     3 * (2 * alpha_s_exp_den * alpha_s_exp_den)) ∧
+    -- Neumann spectral gap: Cheeger < lambda_1 < bare
+    (lambda1_neumann_num * 9801 > 49 * lambda1_neumann_den) ∧
+    (lambda1_neumann_num * 99 < 14 * lambda1_neumann_den) ∧
+    -- lambda_1 near physical ratio (< 6%)
+    ((13 * lambda1_neumann_den - lambda1_neumann_num * 99) * 100 <
+     6 * 13 * lambda1_neumann_den) := by
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   all_goals native_decide
 
 end GIFT.Spectral.ComputedSpectrum

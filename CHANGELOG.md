@@ -5,6 +5,42 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.31] - 2026-03-08
+
+### Summary
+
+**L7: Tier C closure — min_SD bugfix, computed spectral gap, Yukawa mass ratios.** Fixes min_SD_num documentation bug (4863→4779: was max, not min SD eigenvalue). Adds Neumann spectral gap λ₁ = 0.1244 with Cheeger/bare bounds. New `ComputedYukawa.lean` with Wilson line mass ratios (tau/mu < 2%, tau/e < 3%, mu/e < 1% vs experiment). Certificate/Spectral: 29 → 33 conjuncts. Zero new axioms. Tier A/B/C gap analysis fully complete.
+
+### Added
+
+- **`Spectral/ComputedYukawa.lean`** — new file with 3 sections:
+  - Predicted mass ratios: m_τ/m_μ=16.54, m_τ/m_e=3403, m_μ/m_e=205.7 (Wilson line mechanism)
+  - Experimental values (CODATA 2022): m_τ/m_μ=16.818, m_τ/m_e=3477.23, m_μ/m_e=206.768
+  - Deviation bounds: `tau_mu_deviation_small` (<2%), `tau_e_deviation_small` (<3%), `mu_e_deviation_small` (<1%)
+  - `yukawa_mass_ratio_certificate`: 8-conjunct master certificate
+
+- **Computed spectral gap** in `Spectral/ComputedSpectrum.lean` (Section 5):
+  - `lambda1_neumann_num/den = 1244/10000` (Neumann eigenvalue, supersedes PINN 0.1406)
+  - `lambda1_above_cheeger`: λ₁ > Cheeger bound 49/9801
+  - `lambda1_below_bare`: λ₁ < bare ratio 14/99
+  - `lambda1_near_physical`: λ₁ within 6% of physical ratio 13/99
+
+### Changed
+
+- **`Spectral/ComputedSpectrum.lean`** — Fixed `min_SD_num`: 4863→4779 (was max, not min SD eigenvalue; bugbot finding). Certificate 12→15 conjuncts.
+- **Certificate/Spectral.lean** — 29 → 33 conjuncts (+λ₁ bounds, +Yukawa deviations)
+- **Certificate/Spectral.lean** — 5 new abbrevs (cs_lambda1_cheeger/bare, yk_tau_mu_small, yk_mu_e_small, yk_certificate)
+- **Spectral.lean** — Added ComputedYukawa import + 17-symbol re-export block, +5 λ₁ exports
+- **Spectral/MassGapRatio.lean** — Docstring: PINN value superseded by Neumann
+
+### Stats
+
+- Published core: 125 Lean files (124 → 125), **48 axioms** (unchanged)
+- New definitions: 14 (spectral gap, Yukawa ratios, experimental values)
+- New theorems: ~12 (bounds, deviations, certificates)
+
+---
+
 ## [3.3.30] - 2026-03-08
 
 ### Summary
