@@ -318,6 +318,31 @@ abbrev sd_democracy := GIFT.Spectral.SpectralDemocracy.sd_coupling_ratio_near_un
 abbrev sd_certificate := GIFT.Spectral.SpectralDemocracy.spectral_democracy_certificate
 
 -- ═══════════════════════════════════════════════════════════════════════════════
+-- COMPUTED SPECTRAL GAP (v3.3.31, Neumann eigenvalue)
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+/-- Neumann spectral gap above Cheeger bound -/
+abbrev cs_lambda1_cheeger := GIFT.Spectral.ComputedSpectrum.lambda1_above_cheeger
+
+/-- Neumann spectral gap below bare ratio -/
+abbrev cs_lambda1_bare := GIFT.Spectral.ComputedSpectrum.lambda1_below_bare
+
+-- ═══════════════════════════════════════════════════════════════════════════════
+-- COMPUTED YUKAWA (v3.3.31, Wilson line mass ratios)
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+open GIFT.Spectral.ComputedYukawa
+
+/-- Yukawa tau/mu deviation < 2% -/
+abbrev yk_tau_mu_small := GIFT.Spectral.ComputedYukawa.tau_mu_deviation_small
+
+/-- Yukawa mu/e deviation < 1% -/
+abbrev yk_mu_e_small := GIFT.Spectral.ComputedYukawa.mu_e_deviation_small
+
+/-- Yukawa master certificate -/
+abbrev yk_certificate := GIFT.Spectral.ComputedYukawa.yukawa_mass_ratio_certificate
+
+-- ═══════════════════════════════════════════════════════════════════════════════
 -- SPECTRAL MASTER CERTIFICATE
 -- ═══════════════════════════════════════════════════════════════════════════════
 
@@ -328,8 +353,9 @@ abbrev sd_certificate := GIFT.Spectral.SpectralDemocracy.spectral_democracy_cert
 - Selection principle: L^2 = (pi^2/14) x 99
 - Spectral-Holonomy Principle: lambda_1 x H* = dim(G₂)
 - Pell equation: 99^2 - 50 x 14^2 = 1
-- Computed spectrum: Q22 signature, SD/ASD gap, B-test (v3.3.29)
+- Computed spectrum: Q22 signature, SD/ASD gap, B-test, lambda_1 (v3.3.29/31)
 - Spectral democracy: SD spread < 2%, coupling ratio < 1.02 (v3.3.30)
+- Yukawa mass ratios: tau/mu < 2%, mu/e < 1% (v3.3.31)
 -/
 def statement : Prop :=
     -- Mass gap ratio = dim(G₂)/H*
@@ -387,10 +413,28 @@ def statement : Prop :=
     (GIFT.Spectral.SpectralDemocracy.sd_ev_1_num * 100 < 102 *
      GIFT.Spectral.SpectralDemocracy.sd_ev_3_num) ∧
     -- [L6] SD count = N_gen
-    (N_gen = 3)
+    (N_gen = 3) ∧
+    -- [L7] Neumann spectral gap: Cheeger < lambda_1 < bare
+    (GIFT.Spectral.ComputedSpectrum.lambda1_neumann_num * 9801 > 49 *
+     GIFT.Spectral.ComputedSpectrum.lambda1_neumann_den) ∧
+    (GIFT.Spectral.ComputedSpectrum.lambda1_neumann_num * 99 < 14 *
+     GIFT.Spectral.ComputedSpectrum.lambda1_neumann_den) ∧
+    -- [L7] Yukawa: tau/mu < 2%, mu/e < 1%
+    ((GIFT.Spectral.ComputedYukawa.exp_tau_mu_num *
+      GIFT.Spectral.ComputedYukawa.yukawa_tau_mu_den -
+      GIFT.Spectral.ComputedYukawa.yukawa_tau_mu_num *
+      GIFT.Spectral.ComputedYukawa.exp_tau_mu_den) * 100 <
+     2 * GIFT.Spectral.ComputedYukawa.exp_tau_mu_num *
+     GIFT.Spectral.ComputedYukawa.yukawa_tau_mu_den) ∧
+    ((GIFT.Spectral.ComputedYukawa.exp_mu_e_num *
+      GIFT.Spectral.ComputedYukawa.yukawa_mu_e_den -
+      GIFT.Spectral.ComputedYukawa.yukawa_mu_e_num *
+      GIFT.Spectral.ComputedYukawa.exp_mu_e_den) * 100 <
+     1 * GIFT.Spectral.ComputedYukawa.exp_mu_e_num *
+     GIFT.Spectral.ComputedYukawa.yukawa_mu_e_den)
 
 theorem certified : statement := by
-  refine ⟨rfl, rfl, rfl, rfl, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  refine ⟨rfl, rfl, rfl, rfl, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   all_goals native_decide
 
 end GIFT.Certificate.Spectral
