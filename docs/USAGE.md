@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.3.26).
+Complete documentation for the `giftpy` Python package (v3.3.28).
 
 ## Installation
 
@@ -41,6 +41,35 @@ print(K7.two_b2)                # 42 (structural invariant)
 from gift_core import verify
 print(verify())          # True
 ```
+
+## New in v3.3.28
+
+### Torsion Reduction Chain (L4)
+
+Full formalization of the torsion chain connecting the explicit metric to G₂ holonomy:
+
+```lean
+import GIFT.Foundations.NewtonKantorovich
+import GIFT.Foundations.K3HarmonicCorrection
+
+-- NK parameter decomposition: h = β · η · ω
+#check GIFT.Foundations.NewtonKantorovich.beta_num       -- 2962 (β ≤ 0.02962)
+#check GIFT.Foundations.NewtonKantorovich.eta_num        -- 316  (η ≤ 3.16e-5)
+#check GIFT.Foundations.NewtonKantorovich.omega_num      -- 713  (ω ≤ 0.0713)
+#check GIFT.Foundations.NewtonKantorovich.nk_product_bound  -- 2×β×η×ω < 1
+
+-- Joyce iteration table: T₀ > T₁ > T₂ > T₃ > T₄ > T₅
+#check GIFT.Foundations.K3HarmonicCorrection.joyce_full_monotone  -- 5-way conjunction
+#check GIFT.Foundations.K3HarmonicCorrection.joyce_step4_acceleration  -- T₃/T₄ > 100
+
+-- Two convergence regimes
+#check GIFT.Foundations.K3HarmonicCorrection.reduction_steps_12  -- T₀/T₂ > 2 (linear)
+#check GIFT.Foundations.K3HarmonicCorrection.reduction_steps_35  -- T₂/T₅ > 1000 (quadratic)
+```
+
+Certificate/Foundations: 26 → 28 conjuncts. NK master: 7 → 11. K3 master: 10 → 16. Zero new axioms.
+
+---
 
 ## New in v3.3.26
 

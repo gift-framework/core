@@ -345,6 +345,9 @@ export NewtonKantorovich (
   final_torsion_below_joyce joyce_margin
   -- Certificate structure
   NKCertificate gift_nk_certificate
+  -- NK parameter decomposition (L4)
+  beta_num beta_den eta_num eta_den omega_num omega_den
+  nk_product_bound beta_order eta_order omega_order
   -- Master certificate
   newton_kantorovich_certificate)
 
@@ -361,6 +364,10 @@ export K3HarmonicCorrection (
   K3_verification_points K3_euler K3_euler_factorial
   -- Reduction chain
   n_steps reduction_factor T0_num T0_den T5_num T5_den
+  -- Joyce iteration table (L4)
+  T1_num T1_den T2_num T2_den T3_num T3_den T4_num T4_den
+  joyce_full_monotone joyce_step4_acceleration
+  reduction_steps_12 reduction_steps_35
   -- 1D floor
   headroom_num headroom_den near_optimal
   -- Calibration
