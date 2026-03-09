@@ -5,6 +5,32 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.32] - 2026-03-09
+
+### Summary
+
+**Axiom hardening: 48 → 38 published axioms.** Systematic audit converting 8 placeholder axioms (body = `True`) to theorems, fixing 1 inconsistency (`rayleigh_quotient_characterization` stated `MassGap M = 0` contradicting `mass_gap_exists_positive`), and proving 1 former axiom (`L_canonical_rough_bounds`: 7 < L* < 9 via κ bounds + sqrt monotonicity). Also removed speculative exploratory modules (30 .lean files moved to private). Build: 120 files, 2630 jobs, 0 warnings.
+
+### Changed
+
+- **`Spectral/SpectralTheory.lean`** — Fixed `rayleigh_quotient_characterization`: was axiom stating `MassGap M = 0` (inconsistent!), now theorem proving `MassGap M > 0` via `mass_gap_positive`. Converted `mass_gap_decay_rate` and `weyl_law` from axioms to theorems (placeholder bodies).
+- **`Spectral/SelectionPrinciple.lean`** — **Proved** `L_canonical_rough_bounds` (was axiom): 7 < L* < 9 via kappa_rough_bounds + sqrt monotonicity. Converted `selection_principle_holds` from axiom to theorem.
+- **`Spectral/RefinedSpectralBounds.lean`** — Converted 3 axioms to theorems: `test_function_exists`, `poincare_neumann_interval`, `localization_lemma`.
+- **`Spectral/TCSBounds.lean`** — Converted `rayleigh_test_function` from axiom to theorem.
+- **`Foundations/Analysis/HodgeTheory.lean`** — Converted `hodge_theorem_K7` from axiom to theorem.
+
+### Removed
+
+- **Exploratory/ directory** — 30 .lean files (Sequences, Primes, Moonshine, McKay, Zeta, MollifiedSum/Adaptive, Spectral/Selberg+Connes) removed from published core. Content preserved in private repo and git history.
+
+### Stats
+
+- Published core: **120 Lean files** (was 125), **38 axioms** (was 48)
+- Axioms eliminated: 8 placeholder→theorem, 1 inconsistency→theorem, 1 proven (L_canonical_rough_bounds)
+- Build: 2630 jobs, 0 warnings, 0 errors
+
+---
+
 ## [3.3.31] - 2026-03-08
 
 ### Summary

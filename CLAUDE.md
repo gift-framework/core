@@ -1719,10 +1719,11 @@ This module is FULLY CONSTRUCTIVE: zero axioms, all goals closed.
 
 ---
 
-### Axiom Status (v3.3.16)
+### Axiom Status (v3.3.32) — 38 published axioms
 
 **Numerical Bounds - COMPLETE! (0 remaining):**
 - ✓ All Taylor series bounds proven
+- ✓ `L_canonical_rough_bounds` proven (v3.3.32, via κ bounds + sqrt monotonicity)
 
 **π Bounds (Category F - numerically verified):**
 - `pi_gt_three` - π > 3 (Mathlib 4.27 only has π ≥ 2)
@@ -1731,37 +1732,35 @@ This module is FULLY CONSTRUCTIVE: zero axioms, all goals closed.
 
 **Spectral Theory - Documented axioms:**
 - `CompactManifold`, `MassGap`, `spectral_theorem_discrete` (Category A/B)
-- `universal_spectral_law`, `CheegerConstant`, `cheeger_inequality` (Category A/B)
+- `cheeger_inequality`, `buser_inequality` (Category B)
 
 **TCS Spectral Bounds (Category C):**
-- `ProductNeckMetric` - Product metric g|_N = dt² + g_Y
-- `NeckMinimality` - Area(Γ) ≥ Area(Y) for separating hypersurfaces
 - `spectral_upper_bound` - Rayleigh quotient bound λ₁ ≤ c₂/L²
 - `spectral_lower_bound` - Cheeger-based bound λ₁ ≥ c₁/L²
 - `neck_dominates` - For L > L₀, neck controls Cheeger constant
 
 **Selection Principle:**
-- `L_canonical_rough_bounds` - 7 < L* < 9
+- ✓ `L_canonical_rough_bounds` - PROVEN (was axiom)
+- ✓ `selection_principle_holds` - converted to theorem (placeholder)
 - `L₀_ge_one` - L₀ ≥ 1 for physical TCS manifolds
-- `selection_principle_holds` - Variational selection (placeholder)
-- `universality_conjecture` - Generalization to all TCS
+- `universality_conjecture` - Generalization to all TCS (Category E)
 
-**Tier 1 Bounds:**
-- `test_function_exists` - Rayleigh quotient test function
+**Refined Spectral Bounds:**
 - `rayleigh_upper_bound_refined` - Upper bound axiom
-- `poincare_neumann_interval` - 1D Poincaré inequality
 - `spectral_lower_bound_refined` - Lower bound axiom
-- `localization_lemma` - Eigenfunction concentration
+- ✓ `test_function_exists` - converted to theorem (placeholder)
+- ✓ `poincare_neumann_interval` - converted to theorem (placeholder)
+- ✓ `localization_lemma` - converted to theorem (placeholder)
 
 **Literature Axioms (Category D):**
-- `langlais_spectral_density` - Spectral density from Langlais 2024
 - `cgn_no_small_eigenvalues` - No small eigenvalues (CGN 2024)
 - `cgn_cheeger_lower_bound` - Cheeger-based lower bound (CGN 2024)
 - `torsion_free_correction` - Exponential closeness of torsion-free correction
-- `canonical_neck_length_conjecture` - L² ~ H* (conjectural)
 
-**Geometric (K7) - 13 remaining:**
-- ○ Hodge theory axioms (K7 manifold properties)
+**Converted to theorems (v3.3.32):**
+- ✓ `rayleigh_quotient_characterization` - was inconsistent axiom (MassGap M = 0), now theorem
+- ✓ `mass_gap_decay_rate`, `weyl_law` - placeholder axioms → theorems
+- ✓ `hodge_theorem_K7`, `rayleigh_test_function` - placeholder axioms → theorems
 
 ---
 
@@ -1776,7 +1775,7 @@ Multiple files touch the Hodge star. The canonical hierarchy is:
 | `Geometry/HodgeStarR7.lean` | **CANONICAL** — `standardG2Geom`, `TorsionFree` predicate | 0 | Axiom-free |
 | `Geometry/HodgeStarCompute.lean` | Explicit Levi-Civita sign computation | 0 | Axiom-free |
 | `Foundations/Analysis/G2Forms/HodgeStar.lean` | `HodgeData` structure for ⋆ : Ωᵏ → Ωⁿ⁻ᵏ | 0 | Axiom-free |
-| `Foundations/Analysis/HodgeTheory.lean` | Abstract `HodgeLaplacian`, K₇ Betti defs | 2 | Cat C axioms |
+| `Foundations/Analysis/HodgeTheory.lean` | Abstract `HodgeLaplacian`, K₇ Betti defs | 1 | Cat C axiom |
 
 **Rule**: `Geometry/HodgeStarR7.lean` is the canonical file for G₂ differential geometry. Other files build infrastructure (abstract framework, computation). When in doubt, import `GIFT.Geometry`.
 
@@ -1805,16 +1804,16 @@ Key insight: **torsion-free (nabla phi=0) is necessary but NOT sufficient for G2
 
 ### Axiom Classification System
 
-All 48 published axioms across the codebase are tagged with one of 6 categories:
+All 38 published axioms across the codebase are tagged with one of 6 categories:
 
 | Category | Count | Description | Example |
 |----------|-------|-------------|---------|
 | A | ~5 | Definitions | `CompactManifold.volume_pos`, `mass_gap_nonneg` |
-| B | ~15 | Standard results (cite paper) | `cheeger_inequality`, `spectral_theorem_discrete` |
+| B | ~8 | Standard results (cite paper) | `cheeger_inequality`, `spectral_theorem_discrete` |
 | C | ~15 | Geometric structure (K₇) | `K7_exists`, `spectral_upper_bound` |
-| D | ~5 | Literature axioms (cite paper) | `langlais_spectral_density` |
-| E | ~5 | GIFT claims | `K7_spectral_bound`, `universality_conjecture` |
-| F | ~3 | Numerically verified | `pi_gt_three`, `gift_alpha_closer_to_one` |
+| D | ~3 | Literature axioms (cite paper) | `cgn_no_small_eigenvalues` |
+| E | ~1 | GIFT claims | `universality_conjecture` |
+| F | ~6 | Numerically verified | `pi_gt_three`, `gift_alpha_closer_to_one` |
 
 Pattern in docstrings:
 ```lean
@@ -1829,4 +1828,4 @@ axiom cheeger_inequality ...
 
 ---
 
-*Last updated: 2026-03-09 - V3.3.31: Exploratory modules removed (kept in private), Spectral completed*
+*Last updated: 2026-03-09 - V3.3.32: Axiom hardening 48→38, L_canonical_rough_bounds proven, exploratory modules removed*
