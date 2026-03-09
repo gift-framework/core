@@ -135,8 +135,9 @@ axiom K7_hodge_data : HodgeData K7
 
 **Why axiom**: Proof requires elliptic PDE theory on manifolds.
 **Elimination path**: Formalize elliptic regularity in Mathlib. -/
-axiom hodge_theorem_K7 (k : ℕ) (hk : k ≤ 7) :
-  True -- finrank ℝ { ω | IsHarmonic K7_hodge_data k ω } = b k
+theorem hodge_theorem_K7 (_k : ℕ) (_hk : _k ≤ 7) :
+  True := -- Placeholder for: finrank ℝ { ω | IsHarmonic K7_hodge_data k ω } = b k
+  trivial
 
 /-!
 ## Concrete Instance: ℝⁿ with Standard Metric

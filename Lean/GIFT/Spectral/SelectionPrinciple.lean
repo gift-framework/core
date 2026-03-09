@@ -226,8 +226,39 @@ theorem L_canonical_pos : L_canonical > 0 := by
 /-- Rough bounds on L*: sqrt(9*99/14) < L* < sqrt(10*99/14)
     i.e., sqrt(63.6) < L* < sqrt(70.7), so roughly 7.9 < L* < 8.5
 
-**Axiom Category: F (Numerically verified)** — Interval arithmetic computation. -/
-axiom L_canonical_rough_bounds : (7 : ℝ) < L_canonical ∧ L_canonical < 9
+**Proven** from pi_squared_gt_9, pi_squared_lt_10, and sqrt monotonicity.
+Former axiom (Category F), eliminated v3.3.31. -/
+theorem L_canonical_rough_bounds : (7 : ℝ) < L_canonical ∧ L_canonical < 9 := by
+  unfold L_canonical
+  have hL2_pos : (0 : ℝ) < L_squared_canonical := L_squared_canonical_pos
+  -- Step 1: Bounds on L_squared_canonical
+  have hL2_gt_49 : (49 : ℝ) < L_squared_canonical := by
+    have hk := kappa_rough_bounds.1  -- 9/14 < kappa
+    have hH : (H_star : ℝ) = 99 := by
+      have := Algebraic.BettiNumbers.H_star_eq; simp only [this]; norm_num
+    unfold L_squared_canonical; rw [hH]
+    -- 49 < kappa * 99, since kappa > 9/14 and 9/14 * 99 = 891/14 > 49
+    nlinarith
+  have hL2_lt_81 : L_squared_canonical < (81 : ℝ) := by
+    have hk := kappa_rough_bounds.2  -- kappa < 10/14
+    have hH : (H_star : ℝ) = 99 := by
+      have := Algebraic.BettiNumbers.H_star_eq; simp only [this]; norm_num
+    unfold L_squared_canonical; rw [hH]
+    -- kappa * 99 < 81, since kappa < 10/14 and 10/14 * 99 = 990/14 < 81
+    nlinarith
+  -- Step 2: Convert to sqrt bounds via monotonicity
+  constructor
+  · -- 7 < sqrt(L²): since 49 < L² and sqrt(49) = 7
+    calc (7 : ℝ) = Real.sqrt 49 := by
+          rw [show (49 : ℝ) = 7 ^ 2 from by norm_num, Real.sqrt_sq (by norm_num : (7:ℝ) ≥ 0)]
+      _ < Real.sqrt L_squared_canonical :=
+          Real.sqrt_lt_sqrt (by norm_num) hL2_gt_49
+  · -- sqrt(L²) < 9: since L² < 81 and sqrt(81) = 9
+    calc Real.sqrt L_squared_canonical
+        < Real.sqrt 81 :=
+          Real.sqrt_lt_sqrt (le_of_lt hL2_pos) hL2_lt_81
+      _ = 9 := by
+          rw [show (81 : ℝ) = 9 ^ 2 from by norm_num, Real.sqrt_sq (by norm_num : (9:ℝ) ≥ 0)]
 
 -- ============================================================================
 -- SPECTRAL GAP FROM SELECTION
@@ -250,8 +281,9 @@ TCS G2 manifolds with fixed topology (b2, b3), the canonical one
 minimizes some geometric functional at L^2 = kappa * H*.
 
 **Axiom Category: E (GIFT Claim)** — Variational selection principle (pending proof). -/
-axiom selection_principle_holds (K : TCSManifold) :
-    K.neckLength ^ 2 = L_squared_canonical → True  -- placeholder constraint
+theorem selection_principle_holds (K : TCSManifold) :
+    K.neckLength ^ 2 = L_squared_canonical → True := -- placeholder constraint
+  fun _ => trivial
 
 /-- From selection, spectral gap equals GIFT prediction.
 

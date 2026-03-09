@@ -128,8 +128,9 @@ We construct f : K → ℝ as:
 Then orthogonalize: f ↦ f - f̄ where f̄ = ∫f dV.
 
 **Axiom Category: C (Geometric structure)** — Test function construction on TCS neck. -/
-axiom rayleigh_test_function (K : TCSManifold) (hyp : TCSHypotheses K) :
-  ∃ (_ : Type), True  -- Placeholder for L² function
+theorem rayleigh_test_function (K : TCSManifold) (_hyp : TCSHypotheses K) :
+  ∃ (_ : Type), True := -- Placeholder for L² function
+  ⟨PUnit, trivial⟩
 
 /-- Gradient energy of test function: ∫|∇f|² = 4·Vol(N)/L².
 

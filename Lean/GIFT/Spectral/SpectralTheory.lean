@@ -215,8 +215,9 @@ theorem mass_gap_positive (M : CompactManifold) : MassGap M > 0 := by
 /-- Mass gap determines the decay rate of eigenfunctions.
 
 **Axiom Category: B (Standard Result)** — Heat kernel decay estimate. -/
-axiom mass_gap_decay_rate (M : CompactManifold) :
-  ∀ (t : ℝ), t > 0 → ∃ C > 0, True  -- Placeholder for heat kernel decay
+theorem mass_gap_decay_rate (_M : CompactManifold) :
+  ∀ (_t : ℝ), _t > 0 → ∃ C > 0, True := -- Placeholder for heat kernel decay
+  fun _ _ => ⟨1, one_pos, trivial⟩
 
 -- ============================================================================
 -- EIGENVALUE COUNTING
@@ -236,8 +237,9 @@ For n = 7: C_7 = ω_7 / (4π)^(7/2) where ω_7 = π^(7/2) / Γ(9/2)
 
 **Elimination path:** Requires Mathlib heat kernel theory.
 -/
-axiom weyl_law (M : CompactManifold) (ev : ℝ) (hev : ev > 0) :
-  ∃ (_ : ℕ), True  -- Placeholder for eigenvalue count
+theorem weyl_law (_M : CompactManifold) (_ev : ℝ) (_hev : _ev > 0) :
+  ∃ (_ : ℕ), True := -- Placeholder for eigenvalue count
+  ⟨0, trivial⟩
 
 -- ============================================================================
 -- CONNECTION TO GIFT CONSTANTS
@@ -273,8 +275,11 @@ This is the key to Cheeger-type bounds and variational methods.
 
 **Elimination path:** Requires Mathlib Sobolev spaces on manifolds.
 -/
-axiom rayleigh_quotient_characterization (M : CompactManifold) :
-  MassGap M = 0  -- Placeholder: actual statement needs L² space formalization
+theorem rayleigh_quotient_characterization (M : CompactManifold) :
+  MassGap M > 0 := mass_gap_positive M
+  -- Note: Full Rayleigh quotient statement (λ₁ = inf{∫|∇f|²/∫|f|²})
+  -- requires L² space formalization. Current statement re-derives positivity
+  -- from mass_gap_exists_positive to avoid inconsistency.
 
 -- ============================================================================
 -- CERTIFICATE
