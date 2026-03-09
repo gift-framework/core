@@ -56,24 +56,14 @@ gift-framework/core/
 │   │   │   └── BettiNumbers.lean
 │   │   │
 │   │   ├── Relations/      # Physical predictions (15+ files)
-│   │   ├── Exploratory/    # Number-theoretic curiosities (not in papers)
-│   │   │   ├── Sequences/  # Fibonacci, Lucas embeddings
-│   │   │   ├── Primes/     # Prime Atlas (DirectPrimes, DerivedPrimes)
-│   │   │   ├── Moonshine/  # Monster group, j-invariant, supersingular
-│   │   │   ├── McKay/      # McKay correspondence, golden emergence
-│   │   │   └── Zeta/       # Riemann zeta correspondences (conjectures)
 │   │   └── Joyce.lean      # Joyce existence theorem
 │   └── lakefile.toml
 │
 ├── gift_core/              # Python package
 │   ├── __init__.py         # Exports (update when adding constants!)
-│   ├── _version.py         # Version string (3.3.25)
+│   ├── _version.py         # Version string (3.3.31)
 │   ├── constants/          # Certified constants (algebra, topology, structural, physics, cosmology)
-│   ├── sequences/          # [v2.0] Fibonacci, Lucas embeddings
-│   ├── primes/             # [v2.0] Prime Atlas functions
-│   ├── monster/            # [v2.0] Monster group connections
-│   ├── mckay/              # [v2.0] McKay correspondence
-│   ├── analysis/           # [v3.0] Joyce certificate, intervals
+│   ├── analysis/           # Joyce certificate, intervals
 │   └── ...
 │
 └── .github/workflows/      # CI/CD
@@ -441,29 +431,6 @@ The value 42 = 2*b2 = p2 * N_gen * dim_K7 is a **structural invariant**, not chi
 The name `chi_K7` is kept for backwards compatibility but `two_b2` is preferred.
 
 ---
-
----
-
-## V2.0 New Features
-
-### Sequence Embeddings
-- Complete Fibonacci embedding: F_3-F_12 = GIFT constants
-- Complete Lucas embedding: L_0-L_9 = GIFT constants
-- Recurrence proofs: alpha_sum = rank + Weyl, etc.
-
-### Prime Atlas
-- **100% coverage** of all primes < 200
-- Three-generator structure (b3, H*, dim_E8)
-- All 9 Heegner numbers GIFT-expressible
-
-### Golden Ratio Derivation
-- Three independent paths: McKay, Fibonacci, G2 spectrum
-- Cosmological phi^2: Omega_DE/Omega_DM = 21/8 ~ phi^2
-
-### Monster & McKay
-- Monster dimension: 196883 = 47 x 59 x 71 (all GIFT-expressible)
-- j-invariant: 744 = 3 x 248 = N_gen x dim_E8
-- McKay correspondence: E8 <-> Icosahedron <-> phi
 
 ---
 
@@ -1419,66 +1386,6 @@ axiom MassGap (M : CompactManifold) : ℝ
 
 ---
 
-## V3.3.10: GIFT-Zeta Correspondences & Monster-Zeta Moonshine
-
-### Module: `Zeta/` + `Moonshine/Supersingular.lean` + `Moonshine/MonsterZeta.lean`
-
-New modules formalizing connections between Riemann zeta zeros and GIFT constants.
-
-| File | Content |
-|------|---------|
-| `Zeta/Basic.lean` | `gamma : ℕ+ → ℝ` axiomatized, `lambda` spectral param |
-| `Zeta/Correspondences.lean` | 5 primary correspondences (γ₁~14, γ₂~21, etc.) |
-| `Zeta/Spectral.lean` | Spectral interpretation axiom |
-| `Zeta/MultiplesOf7.lean` | Structure: all correspondences are multiples of 7 |
-| `Moonshine/Supersingular.lean` | 15 supersingular primes GIFT-expressible |
-| `Moonshine/MonsterZeta.lean` | Monster-Zeta Moonshine hypothesis |
-
-### 41. Duplicate Definitions Across Namespaces
-
-**Problem**: Same name defined in multiple modules causes "Ambiguous term" errors.
-
-```lean
--- MonsterDimension.lean
-def monster_dim : Nat := 196883
-
--- Supersingular.lean
-theorem monster_dim : 47 * 59 * 71 = 196883 := ...
-
--- When both opened:
-open MonsterDimension Supersingular
-theorem foo : monster_dim = 196883 := ...  -- ERROR: Ambiguous!
-```
-
-**Solution**: Use qualified names.
-
-```lean
-theorem foo : MonsterDimension.monster_dim = 196883 := rfl
-```
-
-**Known conflicts in v3.3.10:**
-
-| Name | Defined in | Also in |
-|------|-----------|---------|
-| `monster_dim` | `MonsterDimension` (def) | `Supersingular` (theorem) |
-| `monster_dim_gift` | `MonsterDimension` | `Supersingular` |
-| `prime_47/59/71` | `MonsterDimension` | `Supersingular` |
-| `j_constant_E8` | `JInvariant` | `MonsterZeta` |
-
-### 42. Noncomputable Abbrevs for Axiom-Based Definitions
-
-**Problem**: `abbrev` to an axiom fails code generation.
-
-```lean
-axiom gamma : ℕ+ → ℝ  -- Riemann zeta zeros
-
--- BAD - "not supported by code generator"
-abbrev zeta_gamma := gamma
-
--- GOOD - mark as noncomputable
-noncomputable abbrev zeta_gamma := gamma
-```
-
 ### 43. `decide` for Finite Decidable Propositions
 
 **Problem**: `native_decide` sometimes fails on list membership checks.
@@ -1853,12 +1760,6 @@ This module is FULLY CONSTRUCTIVE: zero axioms, all goals closed.
 - `torsion_free_correction` - Exponential closeness of torsion-free correction
 - `canonical_neck_length_conjecture` - L² ~ H* (conjectural)
 
-**Zeta Correspondences (Category F):**
-- `gamma : ℕ+ → ℝ` - Riemann zeta zeros (empirical)
-- `gamma_positive`, `gamma_increasing` - Basic properties
-- `gamma1_approx` ... `gamma107_approx` - Numerical approximations
-- `spectral_from_correspondence_bound` - Spectral interpretation
-
 **Geometric (K7) - 13 remaining:**
 - ○ Hodge theory axioms (K7 manifold properties)
 
@@ -1904,16 +1805,16 @@ Key insight: **torsion-free (nabla phi=0) is necessary but NOT sufficient for G2
 
 ### Axiom Classification System
 
-All 87 axioms across the codebase are tagged with one of 6 categories:
+All 48 published axioms across the codebase are tagged with one of 6 categories:
 
 | Category | Count | Description | Example |
 |----------|-------|-------------|---------|
 | A | ~5 | Definitions | `CompactManifold.volume_pos`, `mass_gap_nonneg` |
 | B | ~15 | Standard results (cite paper) | `cheeger_inequality`, `spectral_theorem_discrete` |
-| C | ~25 | Geometric structure (K₇) | `K7_exists`, `spectral_upper_bound` |
-| D | ~8 | Literature axioms (cite paper) | `langlais_spectral_density`, `connes_6_prime_50_zeros` |
-| E | ~12 | GIFT claims | `K7_spectral_bound`, `universality_conjecture` |
-| F | ~22 | Numerically verified | `gamma_1_approx`, `gift_alpha_closer_to_one` |
+| C | ~15 | Geometric structure (K₇) | `K7_exists`, `spectral_upper_bound` |
+| D | ~5 | Literature axioms (cite paper) | `langlais_spectral_density` |
+| E | ~5 | GIFT claims | `K7_spectral_bound`, `universality_conjecture` |
+| F | ~3 | Numerically verified | `pi_gt_three`, `gift_alpha_closer_to_one` |
 
 Pattern in docstrings:
 ```lean
@@ -1928,4 +1829,4 @@ axiom cheeger_inequality ...
 
 ---
 
-*Last updated: 2026-03-04 - V3.3.25: ExplicitG2Metric, NewtonKantorovich, K3HarmonicCorrection, Exploratory/ separation (24 files moved)*
+*Last updated: 2026-03-09 - V3.3.31: Exploratory modules removed (kept in private), Spectral completed*

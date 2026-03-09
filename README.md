@@ -3,18 +3,18 @@
 [![Formal Verification](https://github.com/gift-framework/core/actions/workflows/verify.yml/badge.svg)](https://github.com/gift-framework/core/actions/workflows/verify.yml)
 [![PyPI](https://img.shields.io/pypi/v/giftpy)](https://pypi.org/project/giftpy/)
 
-Formally verified mathematical relations from the GIFT framework. 455+ certified relations, **48 published axioms** (84 total incl. exploratory), all theorems proven in **Lean 4** (147 files, 2657 build jobs).
+Formally verified mathematical relations from the GIFT framework. 455+ certified relations, **48 published axioms**, all theorems proven in **Lean 4** (125 files, 2660 build jobs).
 
 ## Structure
 
 ```
 Lean/GIFT/
 ├── Core.lean                # Constants (dim_E8, b2, b3, H*, ...)
-├── Certificate/             # Modular certificate system [v3.3.25]
+├── Certificate/             # Modular certificate system
 │   ├── Core.lean            # Master: Foundations ∧ Predictions ∧ Spectral
 │   ├── Foundations.lean     # E₈, G₂, octonions, K₇, Joyce, NK cert (28 conjuncts)
 │   ├── Predictions.lean     # 33+ relations, ~50 observables (48 conjuncts)
-│   └── Spectral.lean        # Mass gap 14/99, TCS, selection, computed spectrum (26 conjuncts)
+│   └── Spectral.lean        # Mass gap, TCS, computed spectrum, democracy (33 conjuncts)
 ├── Certificate.lean         # Backward-compat wrapper (legacy aliases)
 │
 ├── Foundations/              # Mathematical foundations (23 files)
@@ -23,9 +23,9 @@ Lean/GIFT/
 │   ├── G2CrossProduct.lean  # 7D cross product, Fano plane
 │   ├── OctonionBridge.lean  # R8-R7 connection via octonions
 │   ├── AmbroseSinger.lean   # Holonomy diagnostics (so(7)=g₂⊕g₂⊥)
-│   ├── ExplicitG2Metric.lean # 169-param Chebyshev-Cholesky [v3.3.25]
-│   ├── NewtonKantorovich.lean # NK cert: h=β·η·ω < 0.5, decomposed [v3.3.28]
-│   ├── K3HarmonicCorrection.lean # ×2995 torsion, T₀-T₅ monotone [v3.3.28]
+│   ├── ExplicitG2Metric.lean # 169-param Chebyshev-Cholesky
+│   ├── NewtonKantorovich.lean # NK cert: h=β·η·ω < 0.5, decomposed
+│   ├── K3HarmonicCorrection.lean # ×2995 torsion, T₀-T₅ monotone
 │   ├── NumericalBounds.lean # Taylor series bounds (axiom-free)
 │   ├── GoldenRatioPowers.lean # φ power bounds
 │   ├── PoincareDuality.lean # H*=1+2*dim_K7², holonomy chain
@@ -35,15 +35,17 @@ Lean/GIFT/
 │   └── Analysis/            # G₂ forms, Hodge theory, Sobolev
 │       └── G2Forms/         # d, ⋆, TorsionFree, Bridge
 │
-├── Geometry/                # Axiom-free DG infrastructure [v3.3.7]
+├── Geometry/                # Axiom-free DG infrastructure
 │   ├── Exterior.lean        # Λ*(ℝ⁷) exterior algebra
 │   ├── DifferentialFormsR7.lean # DiffForm, d, d²=0
 │   ├── HodgeStarCompute.lean # Explicit Hodge star (Levi-Civita)
 │   └── HodgeStarR7.lean     # ⋆, ψ=⋆φ PROVEN, TorsionFree
 │
-├── Spectral/                # Spectral gap theory (13 files) [v3.3.29]
+├── Spectral/                # Spectral gap theory (16 files)
 │   ├── PhysicalSpectralGap.lean # ev₁ = 13/99 (zero axioms)
-│   ├── ComputedSpectrum.lean # Q22 sig, SD/ASD gap, B-test, couplings [v3.3.29]
+│   ├── ComputedSpectrum.lean # Q22 sig, SD/ASD gap, B-test, couplings
+│   ├── ComputedYukawa.lean  # Yukawa mass ratios (tau:mu:e)
+│   ├── SpectralDemocracy.lean # SD spread <2%, coupling ratio <1.02
 │   ├── SelectionPrinciple.lean # κ = π²/14, building blocks
 │   ├── TCSBounds.lean       # Model Theorem: ev₁ ~ 1/L²
 │   ├── NeckGeometry.lean    # TCS structure, H1-H6 hypotheses
@@ -53,7 +55,7 @@ Lean/GIFT/
 │   ├── YangMills.lean       # Gauge theory connection
 │   └── LiteratureAxioms.lean, G2Manifold.lean, RefinedSpectralBounds.lean, SpectralTheory.lean
 │
-├── MollifiedSum/            # Mollified Dirichlet polynomial [v3.3.16]
+├── MollifiedSum/            # Mollified Dirichlet polynomial
 │   ├── Mollifier.lean       # Cosine-squared kernel w(x)
 │   ├── Sum.lean             # S_w(T) as Finset.sum over primes
 │   └── Adaptive.lean        # Adaptive cutoff θ(T) = θ₀ + θ₁/log T
@@ -67,15 +69,6 @@ Lean/GIFT/
 ├── Observables/             # PMNS, CKM, quark masses, cosmology
 ├── Algebraic/               # Octonions, Betti numbers, G₂, SO(16)
 ├── Hierarchy/               # Dimensional gap, absolute masses, E₆ cascade
-│
-├── Exploratory/             # Not in published papers [v3.3.26]
-│   ├── Sequences/           # Fibonacci, Lucas embeddings
-│   ├── Primes/              # Prime Atlas (direct, derived, Heegner)
-│   ├── Moonshine/           # Monster group, j-invariant, supersingular
-│   ├── McKay/               # McKay correspondence, golden emergence
-│   ├── Zeta/                # Riemann zeta correspondences (conjectures)
-│   ├── MollifiedSum/        # GIFT adaptive cutoff (Riemann line, closed)
-│   └── Spectral/            # Selberg/Connes bridges (Riemann line, closed)
 │
 ├── Joyce.lean               # Joyce existence theorem
 ├── Sobolev.lean             # Sobolev embedding
@@ -115,4 +108,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.3.26*
+*GIFT Core v3.3.31*

@@ -46,15 +46,6 @@ import GIFT.Spectral
 
 import GIFT.MollifiedSum   -- Cosine-squared kernel, mollified sum S_w(T)
 
--- Exploratory modules (not in published papers, separate from Certificate)
-import GIFT.Exploratory.Sequences    -- Fibonacci, Lucas embeddings
-import GIFT.Exploratory.Primes       -- Prime Atlas (direct, derived, Heegner)
-import GIFT.Exploratory.Moonshine    -- Monstrous moonshine (Monster, j-invariant)
-import GIFT.Exploratory.McKay        -- McKay correspondence, Golden emergence
-import GIFT.Exploratory.Zeta         -- Riemann zeta correspondences (conjectures)
-import GIFT.Exploratory.MollifiedSum -- GIFT adaptive cutoff (Riemann line, closed)
-import GIFT.Exploratory.Spectral     -- Selberg/Connes bridges (Riemann line, closed)
-
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- CERTIFICATE (modular: Foundations / Predictions / Spectral)
 -- ═══════════════════════════════════════════════════════════════════════════════

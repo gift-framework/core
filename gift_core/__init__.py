@@ -4,15 +4,12 @@ GIFT Core - Formally Verified Mathematical Constants.
 All values proven in Lean 4.
 455+ certified relations, modular certificate structure.
 
-v3.3.25 Features:
+v3.3.31 Features:
 - Certificate Modularization: Foundations / Predictions / Spectral pillars
 - Spectral Theory: Mass gap λ₁ = 14/99, TCS bounds, Yang-Mills connection
-- Selection Principle: Canonical neck length L* from variational argument
+- Computed Spectrum: Q₂₂ signature (3,19), SD/ASD gap >2000×
+- Spectral Democracy: SD spread <2%, coupling ratio <1.02
 - G₂ Geometry: Axiom-free Hodge star, ψ=⋆φ proven
-- Selberg Bridge: Mollified Dirichlet polynomial, trace formula
-- Zeta Correspondences: γ₁~14, γ₂~21, γ₂₀~77, γ₁₀₇~248
-- Monster-Zeta Moonshine: Ogg's Jack Daniels Problem answer
-- Supersingular Primes: All 15 GIFT-expressible
 - E8 Roots: 240 vectors in R^8 with full operations
 - Fano Plane: Octonion multiplication and G₂ cross product
 
@@ -188,33 +185,6 @@ try:
     NUMPY_AVAILABLE = True
 except ImportError:
     pass
-
-# =============================================================================
-# EXISTING MODULES (preserved from v3.1)
-# =============================================================================
-
-# Sequences (Fibonacci, Lucas)
-try:
-    from gift_core.sequences import (
-        fib, lucas,
-        FIBONACCI_GIFT, LUCAS_GIFT,
-        fibonacci_index, lucas_index,
-    )
-except ImportError:
-    fib = lucas = None
-    FIBONACCI_GIFT = LUCAS_GIFT = None
-
-# Primes
-try:
-    from gift_core.primes import (
-        DIRECT_PRIMES, DERIVED_PRIMES, HSTAR_PRIMES, E8_PRIMES,
-        prime_expression, is_gift_prime,
-        # Backwards compatibility (deprecated)
-        TIER1_PRIMES, TIER2_PRIMES, TIER3_PRIMES, TIER4_PRIMES,
-    )
-except ImportError:
-    DIRECT_PRIMES = DERIVED_PRIMES = HSTAR_PRIMES = E8_PRIMES = None
-    TIER1_PRIMES = TIER2_PRIMES = TIER3_PRIMES = TIER4_PRIMES = None
 
 # Analysis (Joyce certificate)
 try:

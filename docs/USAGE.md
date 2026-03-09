@@ -110,16 +110,7 @@ Systematic audit of all axioms against S1-S17 computed results. Published core r
 
 - **Removed** `K7_spectral_bound` (FALSE: claimed MassGap ≥ 14/99, computed λ₁ = 0.1244)
 - **Removed** `langlais_spectral_density` + `eigenvalue_count` (superseded by S1-S5)
-- **Moved** to `Exploratory/`: AdaptiveGIFT (5 axioms), SelbergBridge (4), ConnesBridge (8)
-
-```lean
--- These are now in Exploratory/ (Riemann/Connes research line, CLOSED):
-import GIFT.Exploratory.MollifiedSum   -- AdaptiveGIFT
-import GIFT.Exploratory.Spectral       -- SelbergBridge, ConnesBridge
-
--- Certificate/Spectral cleaned: 27 → 23 conjuncts (Connes section removed)
-#check GIFT.Certificate.Spectral.certified   -- still proves all 23 conjuncts
-```
+- **Removed**: AdaptiveGIFT, SelbergBridge, ConnesBridge (Riemann/Connes research line, CLOSED)
 
 ---
 
@@ -145,23 +136,6 @@ import GIFT.Foundations.K3HarmonicCorrection
 -- K3 harmonic correction: ×2995 torsion reduction
 #check GIFT.Foundations.K3HarmonicCorrection.torsion_space_total   -- 1+7+14+27 = 49
 #check GIFT.Foundations.K3HarmonicCorrection.K3_torsion_small      -- K3 < 0.1%
-```
-
-### Exploratory Module Separation
-
-Number-theoretic curiosities (not in published papers) moved to `Exploratory/`:
-
-```lean
--- Old: import GIFT.Moonshine.MonsterCoxeter
--- New:
-import GIFT.Exploratory.Moonshine.MonsterCoxeter
-
--- All exploratory modules:
-import GIFT.Exploratory.Sequences    -- Fibonacci, Lucas
-import GIFT.Exploratory.Primes       -- Prime Atlas
-import GIFT.Exploratory.Moonshine    -- Monster group, j-invariant
-import GIFT.Exploratory.McKay        -- McKay correspondence
-import GIFT.Exploratory.Zeta         -- Riemann zeta correspondences
 ```
 
 ---
@@ -190,18 +164,18 @@ import GIFT.Foundations.AmbroseSinger
 
 **Key insight**: Torsion-free (nabla phi = 0) is NECESSARY but NOT SUFFICIENT for G₂ holonomy. The curvature must additionally lie in g₂ subset so(7) (Ambrose-Singer theorem).
 
-### Axiom Classification (48 published, 84 total)
+### Axiom Classification (48 published)
 
-All axioms carry category labels. After v3.3.26 audit:
+All axioms carry category labels:
 
-| Category | Published | Exploratory | Description |
-|----------|-----------|-------------|-------------|
-| A | ~5 | — | Definitions |
-| B | ~12 | ~3 | Standard results (Cheeger, Selberg, Weil) |
-| C | ~12 | — | Geometric structure |
-| D | ~4 | ~6 | Literature axioms (CGN 2024, Connes 2026) |
-| E | ~6 | ~5 | GIFT claims |
-| F | ~9 | ~22 | Numerically verified (zeta zeros, etc.) |
+| Category | Count | Description |
+|----------|-------|-------------|
+| A | ~5 | Definitions |
+| B | ~15 | Standard results (Cheeger, Weil) |
+| C | ~15 | Geometric structure |
+| D | ~5 | Literature axioms (CGN 2024) |
+| E | ~5 | GIFT claims |
+| F | ~3 | Numerically verified |
 
 ---
 
@@ -272,9 +246,6 @@ import GIFT.Spectral
 -- TCS Bounds (v3.3.12)
 #check tcs_spectral_bounds          -- c₁/L² ≤ λ₁ ≤ c₂/L²
 
--- Connes Bridge (moved to Exploratory/ in v3.3.26)
--- import GIFT.Exploratory.Spectral.ConnesBridge
--- #check connes_bridge_certificate
 ```
 
 ### Geometry (v3.3.4+, axiom-free)
@@ -286,16 +257,6 @@ import GIFT.Geometry
 #check HodgeStarR7.psi_eq_star_phi
 #check HodgeStarCompute.hodgeStar_invol_3  -- ⋆⋆ = +1 PROVEN
 #check HodgeStarR7.standardG2Geom_torsionFree
-```
-
-### Moonshine (Exploratory)
-
-```lean
-import GIFT.Exploratory.Moonshine.MonsterCoxeter
-
--- Monster dimension from Coxeter numbers
-#check monster_dim_coxeter_formula
--- (77-6) × (77-18) × (77-30) = 71 × 59 × 47 = 196883
 ```
 
 ---
