@@ -1,7 +1,7 @@
 # GIFT Framework Status
 
-**Version**: 3.3.25
-**Date**: 2026-03-04
+**Version**: 3.3.31
+**Date**: 2026-03-09
 **Proof Systems**: Lean 4 (v4.27.0 + Mathlib v4.27.0)
 
 ---
@@ -14,15 +14,15 @@ GIFT (Geometric Information Field Theory) derives Standard Model parameters from
 
 ## 1. Current State
 
-### 1.1 Modular Certificate Structure (v3.3.25)
+### 1.1 Modular Certificate Structure
 
 The certificate system is organized into three pillars:
 
 | Pillar | File | Conjuncts | Content |
 |--------|------|-----------|---------|
-| **Foundations** | `Certificate/Foundations.lean` | 26 | E₈ roots, G₂ cross product, octonions, K₇, Joyce, NK cert, K3 torsion |
+| **Foundations** | `Certificate/Foundations.lean` | 28 | E₈ roots, G₂ cross product, octonions, K₇, Joyce, NK cert, K3 torsion |
 | **Predictions** | `Certificate/Predictions.lean` | 48 | 33+ published relations, ~50 observables, Fano selection, tau bounds, SO(16) |
-| **Spectral** | `Certificate/Spectral.lean` | 27 | Mass gap 14/99, TCS bounds, selection principle, literature axioms |
+| **Spectral** | `Certificate/Spectral.lean` | 33 | Mass gap 14/99, TCS bounds, computed spectrum, Yukawa ratios |
 | **Master** | `Certificate/Core.lean` | — | `Foundations.statement ∧ Predictions.statement ∧ Spectral.statement` |
 
 ### 1.2 Formal Verification Status
@@ -52,13 +52,15 @@ All theorems proven, no axioms remaining:
 - `psi_eq_star_phi` proven, `hodgeStar_invol_3` proven
 - `TorsionFree` predicate: `(dφ = 0) ∧ (dψ = 0)`
 
-#### Spectral Theory (v3.3.17+)
+#### Spectral Theory
 
 - Mass gap ratio 14/99 (algebraic, zero axioms)
 - Physical spectral gap ev₁ = 13/99 (zero axioms)
 - TCS manifold structure with Cheeger-Buser bounds
 - Selection principle with building block asymmetry
-- Selberg bridge: mollified Dirichlet polynomial
+- Computed spectrum: Q₂₂ signature (3,19), SD/ASD gap >2000×
+- Spectral democracy: SD spread <2%, coupling ratio <1.02
+- Yukawa mass ratios: τ/μ <2%, μ/e <1%
 
 ---
 
@@ -83,20 +85,20 @@ Build: `uvx leanblueprint pdf` / `uvx leanblueprint web`
 ```
 Lean/GIFT/
   Core.lean                    # Source of truth for constants
-  Certificate/                 # Modular certificate system (v3.3.23)
+  Certificate/                 # Modular certificate system
     Core.lean                  # Master: Foundations ∧ Predictions ∧ Spectral
     Foundations.lean            # E₈, G₂, octonions, K₇, Joyce
     Predictions.lean           # 33+ relations, observables
-    Spectral.lean              # Mass gap 14/99, TCS, selection
+    Spectral.lean              # Mass gap, TCS, spectrum, Yukawa
   Certificate.lean             # Backward-compat wrapper (legacy aliases)
-  Foundations/                  # Mathematical foundations (23 files)
+  Foundations/                  # Mathematical foundations
     RootSystems.lean           # E₈ roots in ℝ⁸
     E8Lattice.lean             # E₈ lattice formalization
     G2CrossProduct.lean        # 7D cross product
     OctonionBridge.lean        # R8-R7 connection
-    ExplicitG2Metric.lean      # 169-param Chebyshev-Cholesky [v3.3.25]
-    NewtonKantorovich.lean     # NK cert: h=6.65e-8 [v3.3.25]
-    K3HarmonicCorrection.lean  # x2995 torsion reduction [v3.3.25]
+    ExplicitG2Metric.lean      # 169-param Chebyshev-Cholesky
+    NewtonKantorovich.lean     # NK cert: h=6.65e-8
+    K3HarmonicCorrection.lean  # ×2995 torsion reduction
     NumericalBounds.lean       # Taylor series bounds
     GoldenRatioPowers.lean     # φ powers
     PoincareDuality.lean       # H*=1+2*dim_K7^2
@@ -105,21 +107,15 @@ Lean/GIFT/
     TCSPiecewiseMetric.lean    # Building block asymmetry
     Analysis/                  # G₂ forms infrastructure
   Geometry/                    # Axiom-free DG infrastructure
-  Spectral/                    # 14 files: spectral gap theory
+  Spectral/                    # Spectral gap theory, computed spectrum, Yukawa
   MollifiedSum/                # Cosine-squared kernel, S_w(T)
-  Relations/                   # 21 files: physical predictions
+  Relations/                   # Physical predictions
   Observables/                 # PMNS, CKM, quark masses, cosmology
   Algebraic/                   # Octonions, Betti numbers
   Hierarchy/                   # Dimensional gap, golden ratio
-  Exploratory/                 # Number-theoretic curiosities (not in papers) [v3.3.25]
-    Sequences/                 # Fibonacci, Lucas embeddings
-    Primes/                    # Prime Atlas
-    Moonshine/                 # Monster group, j-invariant
-    McKay/                     # McKay correspondence
-    Zeta/                      # Riemann zeta correspondences
 
 gift_core/                     # Python package (giftpy)
-  _version.py                  # Version 3.3.25
+  _version.py                  # Version 3.3.31
   constants/                   # All certified constants
   roots.py                     # E₈ root system (240 vectors)
   fano.py                      # Fano plane, G₂ cross product
@@ -133,20 +129,15 @@ gift_core/                     # Python package (giftpy)
 
 | Version | Date | Highlights |
 |---------|------|------------|
-| 3.3.25 | 2026-03-04 | Explicit G₂ metric + Exploratory separation |
+| 3.3.31 | 2026-03-08 | Tier C closure: Neumann gap, Yukawa mass ratios, exploratory cleanup |
+| 3.3.30 | 2026-03-08 | Spectral democracy: SD spread <2%, coupling ratio <1.02 |
+| 3.3.29 | 2026-03-08 | Computed spectrum: Q₂₂ (3,19), SD/ASD gap, B-test |
+| 3.3.28 | 2026-03-08 | Torsion chain: NK decomposition, Joyce convergence |
+| 3.3.27 | 2026-03-07 | Tier A arithmetic theorems, K7 Euler fix |
+| 3.3.26 | 2026-03-07 | Axiom audit: 68→48 published axioms |
+| 3.3.25 | 2026-03-04 | Explicit G₂ metric formalization |
 | 3.3.24 | 2026-02-23 | Ambrose-Singer holonomy diagnostics |
 | 3.3.23 | 2026-02-22 | Certificate modularization (monolithic → 3 pillars) |
-| 3.3.22 | 2026-02-21 | Poincare duality, holonomy chain |
-| 3.3.21 | 2026-02-20 | Spectral scaling, Neumann eigenvalue hierarchy |
-| 3.3.20 | 2026-02-19 | TCS piecewise metric, conformal rigidity, G₂ metric properties |
-| 3.3.19 | 2026-02-13 | Spectral axiom cleanup (8 ad-hoc axioms removed) |
-| 3.3.17 | — | Complete spectral theory module |
-| 3.3.16 | — | Mollified sum, numerical axiom reduction |
-| 3.3.10 | — | GIFT-Zeta correspondences, Monster-Zeta moonshine |
-| 3.3.6  | 2026-01-15 | Numerical bounds via Taylor series |
-| 3.1.12 | 2025-12-30 | E8_basis_generates proven |
-| 2.0.0  | — | 165 relations + sequences/primes/monster |
-| 1.0.0  | — | 13 original relations |
 
 ---
 
@@ -162,4 +153,4 @@ GIFT bridges three active research programs:
 
 ---
 
-*Updated: 2026-03-04*
+*Updated: 2026-03-09*

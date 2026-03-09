@@ -30,7 +30,7 @@ gift-framework/core/
 │   ├── GIFT.lean           # Main entry point
 │   ├── GIFT/
 │   │   ├── Core.lean       # Source of truth for constants
-│   │   ├── Certificate/    # Modular certificate system (v3.3.23)
+│   │   ├── Certificate/    # Modular certificate system
 │   │   │   ├── Core.lean       # Master: Foundations ∧ Predictions ∧ Spectral
 │   │   │   ├── Foundations.lean # E₈, G₂, octonions, K₇, Joyce
 │   │   │   ├── Predictions.lean # 33+ published relations, observables
