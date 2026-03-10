@@ -24,6 +24,7 @@ import GIFT.Hierarchy.VacuumStructure
 import GIFT.Hierarchy.E6Cascade
 import GIFT.Hierarchy.AbsoluteMasses
 import GIFT.Hierarchy.TCSGaugeBreaking
+import GIFT.Hierarchy.GaugeBundleData
 
 /-!
 # GIFT Hierarchy Module
@@ -157,6 +158,22 @@ export TCSGaugeBreaking (
   SO10_to_SU5_branching
   SU5_to_SM_branching
   tcs_gauge_breaking_certified
+)
+
+export GaugeBundleData (
+  gauge_kinetic_cond_num
+  gauge_kinetic_cond_den
+  gauge_universality
+  yukawa_rank
+  yukawa_rank_eq_ngen
+  mass_ev1_num
+  mass_ev2_num
+  mass_ev3_num
+  mass_hierarchy_12
+  mass_hierarchy_23
+  n_associative_cycles
+  instantons_suppressed
+  gauge_bundle_data_certified
 )
 
 end GIFT.Hierarchy

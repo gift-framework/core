@@ -3,7 +3,7 @@
 [![Formal Verification](https://github.com/gift-framework/core/actions/workflows/verify.yml/badge.svg)](https://github.com/gift-framework/core/actions/workflows/verify.yml)
 [![PyPI](https://img.shields.io/pypi/v/giftpy)](https://pypi.org/project/giftpy/)
 
-Formally verified mathematical relations from the GIFT framework. 455+ certified relations, **38 published axioms**, all theorems proven in **Lean 4** (123 files, 2633 build jobs).
+Formally verified mathematical relations from the GIFT framework. 455+ certified relations, **38 published axioms**, all theorems proven in **Lean 4** (124 files, 2634 build jobs).
 
 ## Structure
 
@@ -13,7 +13,7 @@ Lean/GIFT/
 ├── Certificate/             # Modular certificate system
 │   ├── Core.lean            # Master: Foundations ∧ Predictions ∧ Spectral
 │   ├── Foundations.lean     # E₈, G₂, octonions, K₇, Joyce, NK cert, orthonormality, gauge (34 conjuncts)
-│   ├── Predictions.lean     # 33+ relations, ~50 observables (46 conjuncts)
+│   ├── Predictions.lean     # 33+ relations, ~50 observables (50 conjuncts)
 │   └── Spectral.lean        # Mass gap, TCS, computed spectrum, Weyl law (37 conjuncts)
 ├── Certificate.lean         # Backward-compat wrapper (legacy aliases)
 │
@@ -70,7 +70,7 @@ Lean/GIFT/
 │
 ├── Observables/             # PMNS, CKM, quark masses, cosmology
 ├── Algebraic/               # Octonions, Betti numbers, G₂, SO(16)
-├── Hierarchy/               # Dimensional gap, absolute masses, E₆ cascade, TCS gauge breaking
+├── Hierarchy/               # Dimensional gap, absolute masses, E₆ cascade, TCS gauge breaking, gauge bundle data
 │
 ├── Joyce.lean               # Joyce existence theorem
 ├── Sobolev.lean             # Sobolev embedding
@@ -110,4 +110,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.3.35*
+*GIFT Core v3.3.36*

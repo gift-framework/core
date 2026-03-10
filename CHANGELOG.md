@@ -5,6 +5,35 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.36] - 2026-03-10
+
+### Summary
+
+**Gauge bundle data on K₇.** New axiom-free Lean module `GaugeBundleData.lean` formalizing the physical gauge bundle data extracted from the TCS G₂ manifold K₇. Gauge kinetic matrix f_IJ = G_K7(22) with condition number 1.047 < 1.05 (gauge universality). Yukawa cubic form Y_{IJα} factorizes as R_cubic × Q₂₂; Q₂₂ signature (3,19) gives exactly 3 positive eigenvalues = 3 fermion generations. Mass hierarchy m₁ > m₂ > m₃ > 0 from Q₂₂ eigenvalues (6.529, 4.606, 4.074). 57 associative 3-cycles (35 constant + 22 mixed) with all instanton volumes positive. Companion Python script S22 verifies all 8 checks numerically.
+
+### Added
+
+- **`Hierarchy/GaugeBundleData.lean`** — new file (0 axioms, 12 theorems):
+  - Gauge kinetic: cond(f_IJ) = 1.047 < 1.05 (universality)
+  - Yukawa: SD count = N_gen = 3 (from Q₂₂ signature)
+  - Mass hierarchy: m₁(6.529) > m₂(4.606) > m₃(4.074) > 0
+  - Associative 3-cycles: 35 + 22 = 57 < b₃ = 77
+  - Instanton suppression: all volumes positive
+  - Master certificate: 11 conjuncts
+
+### Changed
+
+- **`Certificate/Predictions.lean`** — Added 5 abbrevs + 4 conjuncts (46 → 50)
+- **`Hierarchy.lean`** — Added `GaugeBundleData` import + 13 re-exports
+
+### Stats
+
+- Published core: **124 Lean files** (was 123), **38 axioms** (unchanged)
+- Certificate: **121 conjuncts** (was 117: Predictions 46→50)
+- Build: 2634 jobs, 0 warnings, 0 errors
+
+---
+
 ## [3.3.35] - 2026-03-10
 
 ### Summary

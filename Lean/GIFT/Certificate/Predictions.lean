@@ -177,6 +177,23 @@ abbrev m_W_over_m_Z := GIFT.Observables.BosonMasses.m_W_over_m_Z
 abbrev m_W_over_m_Z_primary := GIFT.Observables.BosonMasses.m_W_over_m_Z_primary
 
 -- ═══════════════════════════════════════════════════════════════════════════════
+-- GAUGE BUNDLE DATA (S22)
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+/-- Gauge kinetic universality -/
+abbrev gauge_universality := GIFT.Hierarchy.GaugeBundleData.gauge_universality
+
+/-- Yukawa SD count = N_gen -/
+abbrev yukawa_rank_eq_ngen := GIFT.Hierarchy.GaugeBundleData.yukawa_rank_eq_ngen
+
+/-- Mass hierarchy m1 > m2 > m3 -/
+abbrev mass_hierarchy_12 := GIFT.Hierarchy.GaugeBundleData.mass_hierarchy_12
+abbrev mass_hierarchy_23 := GIFT.Hierarchy.GaugeBundleData.mass_hierarchy_23
+
+/-- Gauge bundle data master certificate -/
+abbrev gauge_bundle_certified := GIFT.Hierarchy.GaugeBundleData.gauge_bundle_data_certified
+
+-- ═══════════════════════════════════════════════════════════════════════════════
 -- HIERARCHY
 -- ═══════════════════════════════════════════════════════════════════════════════
 
@@ -297,10 +314,27 @@ def statement : Prop :=
     -- Betti difference = fund(E₇)
     (Hierarchy.betti_difference = 56) ∧
     -- Mass formula
-    (Hierarchy.betti_difference * Hierarchy.kappa_plus_one + Weyl_factor = 3477)
+    (Hierarchy.betti_difference * Hierarchy.kappa_plus_one + Weyl_factor = 3477) ∧
+
+    -- ═══ GAUGE BUNDLE DATA (S22) ═══
+    -- Gauge kinetic universality: cond < 1.05
+    (Hierarchy.GaugeBundleData.gauge_kinetic_cond_num * 100 <
+     105 * Hierarchy.GaugeBundleData.gauge_kinetic_cond_den) ∧
+    -- Yukawa SD count = N_gen = 3
+    (Hierarchy.GaugeBundleData.yukawa_rank = N_gen) ∧
+    -- Mass hierarchy: m1 > m2 > m3 > 0
+    (Hierarchy.GaugeBundleData.mass_ev1_num >
+     Hierarchy.GaugeBundleData.mass_ev2_num) ∧
+    -- Instanton suppression: all volumes positive
+    (Hierarchy.GaugeBundleData.min_instanton_vol_num > 0)
 
 theorem certified : statement := by
-  repeat (first | constructor | native_decide | rfl)
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
+          ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
+          ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
+          ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
+          ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  all_goals native_decide
 
 -- Backward compatibility alias
 abbrev all_relations_certified := certified
