@@ -5,6 +5,34 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.35] - 2026-03-10
+
+### Summary
+
+**7D Weyl law on compact G₂ manifold.** New axiom-free Lean module `ComputedWeylLaw.lean` certifying the first 7D Weyl law verification on K₇. Extended fiber channel enumeration (57,578 channels, up from ~120 with L1 norm truncation) yields 22,671 distinct eigenvalues below λ=20. The measured Weyl exponent α=3.46 matches the expected 7/2=3.5 within 1.1%. Level spacing statistics confirm Poisson (integrable), consistent with the adiabatic separability of the spectrum. Companion Python script S21 computes the full unified spectrum via Richardson-extrapolated Sturm-Liouville solver + adiabatic approximation.
+
+### Added
+
+- **`Spectral/ComputedWeylLaw.lean`** — new file (0 axioms, 8 theorems):
+  - Weyl exponent: 346/100 = 3.46 (within 2% of 3.50)
+  - KK states below λ=20: 22,671 (>1000 target)
+  - Fiber channels: 57,578 (>50,000)
+  - Effective volume: 538,412 (coordinate units)
+  - Master certificate: 7 conjuncts
+
+### Changed
+
+- **`Certificate/Spectral.lean`** — Added 4 abbrevs + 4 conjuncts (33 → 37)
+- **`Spectral.lean`** — Added `ComputedWeylLaw` import + 18 re-exports
+
+### Stats
+
+- Published core: **123 Lean files** (was 122), **38 axioms** (unchanged)
+- Certificate: **117 conjuncts** (was 113: Spectral 33→37)
+- Build: 2633 jobs, 0 warnings, 0 errors
+
+---
+
 ## [3.3.34] - 2026-03-10
 
 ### Summary

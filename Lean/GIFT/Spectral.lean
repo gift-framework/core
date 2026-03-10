@@ -82,6 +82,9 @@ import GIFT.Spectral.SpectralDemocracy
 -- Computed Yukawa (Wilson line mass ratios, v3.3.31)
 import GIFT.Spectral.ComputedYukawa
 
+-- Computed 7D Weyl Law (unified spectrum, v3.3.35)
+import GIFT.Spectral.ComputedWeylLaw
+
 -- Applications
 import GIFT.Spectral.CheegerInequality
 import GIFT.Spectral.YangMills
@@ -418,6 +421,34 @@ export SpectralDemocracy (
 )
 
 -- ============================================================================
+-- RE-EXPORTS: COMPUTED WEYL LAW (v3.3.35, 7D Weyl law)
+-- ============================================================================
+
+export ComputedWeylLaw (
+  -- Weyl exponent
+  weyl_exponent_num
+  weyl_exponent_den
+  weyl_exponent_expected_num
+  weyl_exponent_expected_den
+  weyl_exponent_close
+  weyl_exponent_above_3
+  weyl_exponent_below_4
+  -- KK state count
+  n_kk_states_below_20
+  n_fiber_channels
+  n_states_large
+  n_states_very_large
+  n_channels_large
+  -- Effective volume
+  vol_effective_num
+  vol_effective_den
+  vol_positive
+  vol_gt_one
+  -- Master certificate
+  computed_weyl_law_certificate
+)
+
+-- ============================================================================
 -- RE-EXPORTS: CHEEGER INEQUALITY
 -- ============================================================================
 
@@ -470,6 +501,7 @@ Spectral/
 ├── ComputedSpectrum.lean        # Q22 sig, SD/ASD gap, B-test, couplings [v3.3.29]
 ├── SpectralDemocracy.lean      # Generation universality, SD spread [v3.3.30]
 ├── ComputedYukawa.lean         # Wilson line mass ratios [v3.3.31]
+├── ComputedWeylLaw.lean        # 7D Weyl law verification [v3.3.35]
 ├── NeckGeometry.lean            # TCS structure, hypotheses (H1)-(H6)
 ├── TCSBounds.lean               # Model Theorem: ev₁ ~ 1/L^2
 ├── SelectionPrinciple.lean      # kappa = pi^2/14, building blocks

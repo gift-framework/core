@@ -343,6 +343,24 @@ abbrev yk_mu_e_small := GIFT.Spectral.ComputedYukawa.mu_e_deviation_small
 abbrev yk_certificate := GIFT.Spectral.ComputedYukawa.yukawa_mass_ratio_certificate
 
 -- ═══════════════════════════════════════════════════════════════════════════════
+-- COMPUTED 7D WEYL LAW (v3.3.35, unified spectrum)
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+open GIFT.Spectral.ComputedWeylLaw
+
+/-- 7D Weyl exponent within 2% of 3.5 -/
+abbrev wl_exponent_close := GIFT.Spectral.ComputedWeylLaw.weyl_exponent_close
+
+/-- KK states below lambda=20 exceed 1000 -/
+abbrev wl_states_large := GIFT.Spectral.ComputedWeylLaw.n_states_large
+
+/-- Effective volume is positive -/
+abbrev wl_vol_positive := GIFT.Spectral.ComputedWeylLaw.vol_positive
+
+/-- 7D Weyl law master certificate -/
+abbrev wl_certificate := GIFT.Spectral.ComputedWeylLaw.computed_weyl_law_certificate
+
+-- ═══════════════════════════════════════════════════════════════════════════════
 -- SPECTRAL MASTER CERTIFICATE
 -- ═══════════════════════════════════════════════════════════════════════════════
 
@@ -356,6 +374,7 @@ abbrev yk_certificate := GIFT.Spectral.ComputedYukawa.yukawa_mass_ratio_certific
 - Computed spectrum: Q22 signature, SD/ASD gap, B-test, lambda_1 (v3.3.29/31)
 - Spectral democracy: SD spread < 2%, coupling ratio < 1.02 (v3.3.30)
 - Yukawa mass ratios: tau/mu < 2%, mu/e < 1% (v3.3.31)
+- 7D Weyl law: exponent 3.46 within 2% of 3.5, >22000 KK states (v3.3.35)
 -/
 def statement : Prop :=
     -- Mass gap ratio = dim(G₂)/H*
@@ -431,10 +450,22 @@ def statement : Prop :=
       GIFT.Spectral.ComputedYukawa.yukawa_mu_e_num *
       GIFT.Spectral.ComputedYukawa.exp_mu_e_den) * 100 <
      1 * GIFT.Spectral.ComputedYukawa.exp_mu_e_num *
-     GIFT.Spectral.ComputedYukawa.yukawa_mu_e_den)
+     GIFT.Spectral.ComputedYukawa.yukawa_mu_e_den) ∧
+    -- [P3] 7D Weyl exponent within 2% of 3.5
+    ((GIFT.Spectral.ComputedWeylLaw.weyl_exponent_expected_num -
+      GIFT.Spectral.ComputedWeylLaw.weyl_exponent_num) *
+     GIFT.Spectral.ComputedWeylLaw.weyl_exponent_den * 100 <
+     2 * GIFT.Spectral.ComputedWeylLaw.weyl_exponent_expected_num *
+     GIFT.Spectral.ComputedWeylLaw.weyl_exponent_den) ∧
+    -- [P3] KK states > 1000
+    (GIFT.Spectral.ComputedWeylLaw.n_kk_states_below_20 > 1000) ∧
+    -- [P3] Effective volume positive
+    (GIFT.Spectral.ComputedWeylLaw.vol_effective_num > 0) ∧
+    -- [P3] Fiber channels > 50000
+    (GIFT.Spectral.ComputedWeylLaw.n_fiber_channels > 50000)
 
 theorem certified : statement := by
-  refine ⟨rfl, rfl, rfl, rfl, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  refine ⟨rfl, rfl, rfl, rfl, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   all_goals native_decide
 
 end GIFT.Certificate.Spectral

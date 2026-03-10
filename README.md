@@ -3,7 +3,7 @@
 [![Formal Verification](https://github.com/gift-framework/core/actions/workflows/verify.yml/badge.svg)](https://github.com/gift-framework/core/actions/workflows/verify.yml)
 [![PyPI](https://img.shields.io/pypi/v/giftpy)](https://pypi.org/project/giftpy/)
 
-Formally verified mathematical relations from the GIFT framework. 455+ certified relations, **38 published axioms**, all theorems proven in **Lean 4** (122 files, 2632 build jobs).
+Formally verified mathematical relations from the GIFT framework. 455+ certified relations, **38 published axioms**, all theorems proven in **Lean 4** (123 files, 2633 build jobs).
 
 ## Structure
 
@@ -13,8 +13,8 @@ Lean/GIFT/
 ├── Certificate/             # Modular certificate system
 │   ├── Core.lean            # Master: Foundations ∧ Predictions ∧ Spectral
 │   ├── Foundations.lean     # E₈, G₂, octonions, K₇, Joyce, NK cert, orthonormality, gauge (34 conjuncts)
-│   ├── Predictions.lean     # 33+ relations, ~50 observables (48 conjuncts)
-│   └── Spectral.lean        # Mass gap, TCS, computed spectrum, democracy (33 conjuncts)
+│   ├── Predictions.lean     # 33+ relations, ~50 observables (46 conjuncts)
+│   └── Spectral.lean        # Mass gap, TCS, computed spectrum, Weyl law (37 conjuncts)
 ├── Certificate.lean         # Backward-compat wrapper (legacy aliases)
 │
 ├── Foundations/              # Mathematical foundations (23 files)
@@ -42,10 +42,11 @@ Lean/GIFT/
 │   ├── HodgeStarCompute.lean # Explicit Hodge star (Levi-Civita)
 │   └── HodgeStarR7.lean     # ⋆, ψ=⋆φ PROVEN, TorsionFree
 │
-├── Spectral/                # Spectral gap theory (16 files)
+├── Spectral/                # Spectral gap theory (17 files)
 │   ├── PhysicalSpectralGap.lean # ev₁ = 13/99 (zero axioms)
 │   ├── ComputedSpectrum.lean # Q22 sig, SD/ASD gap, B-test, couplings
 │   ├── ComputedYukawa.lean  # Yukawa mass ratios (tau:mu:e)
+│   ├── ComputedWeylLaw.lean # 7D Weyl law: α=3.46, 22K+ KK states
 │   ├── SpectralDemocracy.lean # SD spread <2%, coupling ratio <1.02
 │   ├── SelectionPrinciple.lean # κ = π²/14, building blocks
 │   ├── TCSBounds.lean       # Model Theorem: ev₁ ~ 1/L²
@@ -109,4 +110,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.3.33*
+*GIFT Core v3.3.35*
