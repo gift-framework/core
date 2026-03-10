@@ -5,6 +5,35 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.37] - 2026-03-10
+
+### Summary
+
+**Associative cycle volumes & instanton mass hierarchy.** New axiom-free Lean module `AssociativeVolumes.lean` formalizing the Acharya-Witten M2-brane instanton mechanism: Y_ijk ~ exp(-Vol(Sigma_ijk)). Refined s-dependent volumes for all 57 associative 3-cycles on K₇. Optimal cross-type assignment (e=constant, mu=constant, tau=mixed) gives volume differences dV(e-tau)=8.63 within 5.9% of ln(3477)=8.15 and dV(e-mu)=3.27 within 15.9% of ln(16.82)=2.82 — both within 20% targets. Combined S10 (non-adiabatic) + S23 (instanton) mechanism with perturbative alpha=0.0027 reproduces all 3 lepton mass ratios within 1% of observed values. Companion Python script S23 verifies all 6 checks numerically.
+
+### Added
+
+- **`Hierarchy/AssociativeVolumes.lean`** — new file (0 axioms, 19 theorems):
+  - SD cycle volumes: Vol_e(11.109) > Vol_mu(7.838) > Vol_tau(2.476) > 0
+  - Volume differences within 20% of ln(mass ratio) targets
+  - Combined S10+S23: tau/e=3482 (1%), tau/mu=16.78 (1%), mu/e=207.5 (1%)
+  - Instanton correction perturbative: alpha=0.0027 < 0.01
+  - Consistency with S22 cycle count (57)
+  - Master certificate: 14 conjuncts
+
+### Changed
+
+- **`Certificate/Predictions.lean`** — Added 6 abbrevs + 3 conjuncts (50 → 53)
+- **`Hierarchy.lean`** — Added `AssociativeVolumes` import + 12 re-exports
+
+### Stats
+
+- Published core: **125 Lean files** (was 124), **38 axioms** (unchanged)
+- Certificate: **124 conjuncts** (was 121: Predictions 50→53)
+- Build: 2635 jobs, 0 warnings, 0 errors
+
+---
+
 ## [3.3.36] - 2026-03-10
 
 ### Summary

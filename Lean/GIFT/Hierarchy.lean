@@ -25,6 +25,7 @@ import GIFT.Hierarchy.E6Cascade
 import GIFT.Hierarchy.AbsoluteMasses
 import GIFT.Hierarchy.TCSGaugeBreaking
 import GIFT.Hierarchy.GaugeBundleData
+import GIFT.Hierarchy.AssociativeVolumes
 
 /-!
 # GIFT Hierarchy Module
@@ -174,6 +175,20 @@ export GaugeBundleData (
   n_associative_cycles
   instantons_suppressed
   gauge_bundle_data_certified
+)
+
+export AssociativeVolumes (
+  vol_sd1_num
+  vol_sd2_num
+  vol_sd3_num
+  vol_hierarchy_12
+  vol_hierarchy_23
+  vol_hierarchy_3_pos
+  delta_vol_13_num
+  delta_vol_13_positive
+  dv13_close_lower
+  dv13_close_upper
+  associative_volumes_certified
 )
 
 end GIFT.Hierarchy

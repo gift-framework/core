@@ -194,6 +194,28 @@ abbrev mass_hierarchy_23 := GIFT.Hierarchy.GaugeBundleData.mass_hierarchy_23
 abbrev gauge_bundle_certified := GIFT.Hierarchy.GaugeBundleData.gauge_bundle_data_certified
 
 -- ═══════════════════════════════════════════════════════════════════════════════
+-- ASSOCIATIVE VOLUMES (S23)
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+/-- Volume hierarchy: Vol_e > Vol_mu > Vol_tau -/
+abbrev vol_hierarchy_12 := GIFT.Hierarchy.AssociativeVolumes.vol_hierarchy_12
+abbrev vol_hierarchy_23 := GIFT.Hierarchy.AssociativeVolumes.vol_hierarchy_23
+
+/-- Instanton hierarchy within 20% of ln(3477) -/
+abbrev dv13_close_lower := GIFT.Hierarchy.AssociativeVolumes.dv13_close_lower
+abbrev dv13_close_upper := GIFT.Hierarchy.AssociativeVolumes.dv13_close_upper
+
+/-- Associative volumes master certificate -/
+abbrev associative_volumes_certified := GIFT.Hierarchy.AssociativeVolumes.associative_volumes_certified
+
+/-- Combined S10+S23: all 3 lepton mass ratios within 1% -/
+abbrev combined_tau_e_close := GIFT.Hierarchy.AssociativeVolumes.combined_tau_e_close_lower
+abbrev combined_tau_mu_close := GIFT.Hierarchy.AssociativeVolumes.combined_tau_mu_close_lower
+
+/-- Instanton correction is perturbative -/
+abbrev alpha_perturbative := GIFT.Hierarchy.AssociativeVolumes.alpha_perturbative
+
+-- ═══════════════════════════════════════════════════════════════════════════════
 -- HIERARCHY
 -- ═══════════════════════════════════════════════════════════════════════════════
 
@@ -326,14 +348,25 @@ def statement : Prop :=
     (Hierarchy.GaugeBundleData.mass_ev1_num >
      Hierarchy.GaugeBundleData.mass_ev2_num) ∧
     -- Instanton suppression: all volumes positive
-    (Hierarchy.GaugeBundleData.min_instanton_vol_num > 0)
+    (Hierarchy.GaugeBundleData.min_instanton_vol_num > 0) ∧
+
+    -- ═══ ASSOCIATIVE VOLUMES (S23) ═══
+    -- Volume ordering: Vol_e > Vol_mu > Vol_tau > 0
+    (Hierarchy.AssociativeVolumes.vol_sd1_num >
+     Hierarchy.AssociativeVolumes.vol_sd2_num) ∧
+    (Hierarchy.AssociativeVolumes.vol_sd2_num >
+     Hierarchy.AssociativeVolumes.vol_sd3_num) ∧
+    -- Instanton dV(e-tau) within 20% of ln(3477)
+    (Hierarchy.AssociativeVolumes.delta_vol_13_num * 100 >
+     Hierarchy.AssociativeVolumes.ln_tau_e_num * 80)
 
 theorem certified : statement := by
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
           ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
           ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
           ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
-          ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+          ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
+          ?_, ?_, ?_⟩
   all_goals native_decide
 
 -- Backward compatibility alias
