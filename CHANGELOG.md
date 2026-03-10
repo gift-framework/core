@@ -5,6 +5,37 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.34] - 2026-03-10
+
+### Summary
+
+**TCS gauge breaking: E₈ × E₈ → SM on K₇.** New axiom-free Lean module `TCSGaugeBreaking.lean` formalizing the complete gauge symmetry breaking chain from M-theory to the Standard Model. Proves π₁(K₇) = 1 (Wilson lines trivial), K3 lattice decomposition N₁(11)+N₂(10)+1=22, E₈→E₆×SU(3) branching 248=78+8+162 with N_gen=3, full chain E₆→SO(10)→SU(5)→SM(12), and anomaly cancellation. Companion Python script S20 verifies all 10 checks numerically. Build: 122 files, 2632 jobs, 0 new axioms.
+
+### Added
+
+- **`Hierarchy/TCSGaugeBreaking.lean`** — new file (0 axioms, 14 theorems):
+  - π₁(K₇) = 1: trivial fundamental group, b₁ = 0
+  - K3 lattice: 3U ⊕ 2(-E₈), rank 22, signature (3,19)
+  - TCS sublattice: N₁(11) + N₂(10) + killed(1) = 22
+  - Standard embedding: E₈ → E₆ × SU(3), 248 = 78 + 8 + 2×27×3
+  - N_gen = 3 from dim(fund SU(3))
+  - Breaking chain: E₆(78) → SO(10)(45) → SU(5)(24) → SM(12)
+  - Anomaly: 6 checks, tadpole χ(K₇)/2 = 0
+  - Master certificate: 10 conjuncts
+
+### Changed
+
+- **`Certificate/Foundations.lean`** — Added 5 abbrevs + 3 conjuncts (31 → 34)
+- **`Hierarchy.lean`** — Added `TCSGaugeBreaking` import + exports
+
+### Stats
+
+- Published core: **122 Lean files** (was 121), **38 axioms** (unchanged)
+- Certificate: **113 conjuncts** (was 110: Foundations 31→34)
+- Build: 2632 jobs, 0 warnings, 0 errors
+
+---
+
 ## [3.3.33] - 2026-03-10
 
 ### Summary

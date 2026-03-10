@@ -23,6 +23,7 @@ import GIFT.Hierarchy.DimensionalGap
 import GIFT.Hierarchy.VacuumStructure
 import GIFT.Hierarchy.E6Cascade
 import GIFT.Hierarchy.AbsoluteMasses
+import GIFT.Hierarchy.TCSGaugeBreaking
 
 /-!
 # GIFT Hierarchy Module
@@ -140,6 +141,22 @@ export AbsoluteMasses (
   y_tau_formula
   y_tau_value
   mass_formulas_verified
+)
+
+export TCSGaugeBreaking (
+  pi1_K7_order
+  pi1_K7_trivial
+  N1_rank
+  N2_rank
+  lattice_rank_decomposition
+  E8_to_E6_SU3_check
+  N_gen_from_SU3
+  dim_SO10
+  dim_SU5
+  E6_to_SO10_branching
+  SO10_to_SU5_branching
+  SU5_to_SM_branching
+  tcs_gauge_breaking_certified
 )
 
 end GIFT.Hierarchy

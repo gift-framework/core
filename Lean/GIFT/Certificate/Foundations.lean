@@ -11,6 +11,7 @@ import GIFT.Foundations.AmbroseSinger
 import GIFT.Foundations.ExplicitG2Metric
 import GIFT.Foundations.NewtonKantorovich
 import GIFT.Foundations.K3HarmonicCorrection
+import GIFT.Hierarchy.TCSGaugeBreaking
 
 import GIFT.Sobolev
 import GIFT.DifferentialForms
@@ -489,6 +490,25 @@ abbrev k7_orth_cond := GIFT.Foundations.Analysis.K7Orthonormality.G_K3_cond_gt_o
 abbrev k7_orth_cert := GIFT.Foundations.Analysis.K7Orthonormality.k7_orthonormality_certificate
 
 -- ═══════════════════════════════════════════════════════════════════════════════
+-- TCS GAUGE BREAKING (E₈ × E₈ → SM via K₇)
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+/-- π₁(K₇) = {1} (simply connected, Wilson lines trivial) -/
+abbrev tcs_pi1_trivial := GIFT.Hierarchy.TCSGaugeBreaking.pi1_K7_trivial
+
+/-- TCS sublattice decomposition: 11 + 10 + 1 = 22 -/
+abbrev tcs_lattice_decomp := GIFT.Hierarchy.TCSGaugeBreaking.lattice_rank_decomposition
+
+/-- E₈ → E₆ × SU(3) branching with N_gen = 3 -/
+abbrev tcs_E8_branching := GIFT.Hierarchy.TCSGaugeBreaking.E8_to_E6_SU3_check
+
+/-- N_gen = 3 from SU(3) holonomy factor -/
+abbrev tcs_N_gen := GIFT.Hierarchy.TCSGaugeBreaking.N_gen_from_SU3
+
+/-- TCS gauge breaking master certificate -/
+abbrev tcs_gauge_cert := GIFT.Hierarchy.TCSGaugeBreaking.tcs_gauge_breaking_certified
+
+-- ═══════════════════════════════════════════════════════════════════════════════
 -- FOUNDATIONS MASTER CERTIFICATE
 -- ═══════════════════════════════════════════════════════════════════════════════
 
@@ -508,6 +528,7 @@ open GIFT.Joyce GIFT.Sobolev GIFT.IntervalArithmetic
 - **Explicit G₂ metric**: 169-param Chebyshev-Cholesky, SPD, det=65/32
 - **Newton-Kantorovich**: h < 1/2, unconditional certification
 - **K3 harmonic correction**: torsion reduction ×2995, τ₃-dominated
+- **TCS gauge breaking**: π₁=1, N₁(11)+N₂(10)+1=22, E₈→E₆×SU(3), N_gen=3
 -/
 def statement : Prop :=
     -- E₈ root system: 112 + 128 = 240, rank = 8
@@ -572,14 +593,21 @@ def statement : Prop :=
     (GIFT.Foundations.Analysis.K7Orthonormality.n_K3_basis = 22) ∧
     (GIFT.Foundations.Analysis.K7Orthonormality.n_extending = 21) ∧
     (GIFT.Foundations.Analysis.K7Orthonormality.n_constant_3forms +
-     2 * GIFT.Foundations.Analysis.K7Orthonormality.n_extending = 77)
+     2 * GIFT.Foundations.Analysis.K7Orthonormality.n_extending = 77) ∧
+    -- [v4.0] TCS gauge breaking: π₁ = 1, lattice decomposition, E₈ branching
+    (GIFT.Hierarchy.TCSGaugeBreaking.pi1_K7_order = 1) ∧
+    (GIFT.Hierarchy.TCSGaugeBreaking.N1_rank +
+     GIFT.Hierarchy.TCSGaugeBreaking.N2_rank +
+     GIFT.Hierarchy.TCSGaugeBreaking.n_killed = 22) ∧
+    (dim_E8 = dim_E6 + dim_SU3 + 2 * dim_J3O * N_gen)
 
 theorem certified : statement := by
   refine ⟨rfl, rfl, rfl, rfl, rfl, rfl, ?_, ?_,
          GIFT.Joyce.k7_admits_torsion_free_g2, ?_, ?_,
          rfl, ?_, ?_, rfl, rfl, rfl, rfl, rfl, ?_, ?_,
          ?_, ?_, ?_, ?_, ?_, ?_, ?_,
-         rfl, rfl, ?_⟩
+         rfl, rfl, ?_,
+         rfl, ?_, ?_⟩
   all_goals native_decide
 
 end GIFT.Certificate.Foundations
