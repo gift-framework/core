@@ -5,6 +5,34 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.33] - 2026-03-10
+
+### Summary
+
+**K7 harmonic form orthonormality verification.** New axiom-free Lean module `K7Orthonormality.lean` recording L2 Gram matrices for harmonic 2-forms (22x22, cond 1.05) and 3-forms (77x77, cond 7.66). All positive definite, Gram-Schmidt orthonormalization to machine precision. Validates `omega2_basis_orthonormal` / `omega3_basis_orthonormal` axioms and confirms Yukawa coupling normalization is well-posed. Build: 121 files, 2631 jobs, 0 axioms added.
+
+### Added
+
+- **`Foundations/Analysis/K7Orthonormality.lean`** — new file (0 axioms, 13 theorems):
+  - G_K3(22x22): cond = 1.0523, min eval = 0.9739, off-diag = 0.0118
+  - G_K7(22x22): cond = 1.0471, min eval = 0.7327 (radial overlaps R11=R22=0.75)
+  - G_35(35x35): cond = 7.6621, min eval = 1.647 (anisotropic 7D metric)
+  - G_77(77x77): cross-block = 6.5e-5 (T2 isotropy), PD
+  - Master certificate: 9 conjuncts (dimensions, condition bounds, consistency)
+
+### Changed
+
+- **`Certificate/Foundations.lean`** — Added 2 abbrevs (`k7_orth_cond`, `k7_orth_cert`) + 3 conjuncts (28 → 31)
+- **`Foundations/Analysis.lean`** — Added `K7Orthonormality` import
+
+### Stats
+
+- Published core: **121 Lean files** (was 120), **38 axioms** (unchanged)
+- Certificate: **110 conjuncts** (was 107: Foundations 28→31)
+- Build: 2631 jobs, 0 warnings, 0 errors
+
+---
+
 ## [3.3.32] - 2026-03-09
 
 ### Summary

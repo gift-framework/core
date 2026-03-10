@@ -479,6 +479,16 @@ abbrev k3_cert := GIFT.Foundations.K3HarmonicCorrection.k3_harmonic_correction_c
 abbrev joyce_monotone := GIFT.Foundations.K3HarmonicCorrection.joyce_full_monotone
 
 -- ═══════════════════════════════════════════════════════════════════════════════
+-- K7 ORTHONORMALITY (L2 Gram matrices, Gram-Schmidt, v4.0)
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+/-- G_K3(22) condition > 1 -/
+abbrev k7_orth_cond := GIFT.Foundations.Analysis.K7Orthonormality.G_K3_cond_gt_one
+
+/-- K7 orthonormality master certificate -/
+abbrev k7_orth_cert := GIFT.Foundations.Analysis.K7Orthonormality.k7_orthonormality_certificate
+
+-- ═══════════════════════════════════════════════════════════════════════════════
 -- FOUNDATIONS MASTER CERTIFICATE
 -- ═══════════════════════════════════════════════════════════════════════════════
 
@@ -557,13 +567,19 @@ def statement : Prop :=
     (GIFT.Foundations.K3HarmonicCorrection.T1_num *
      GIFT.Foundations.K3HarmonicCorrection.T0_den <
      GIFT.Foundations.K3HarmonicCorrection.T0_num *
-     GIFT.Foundations.K3HarmonicCorrection.T1_den)
+     GIFT.Foundations.K3HarmonicCorrection.T1_den) ∧
+    -- [v4.0] K7 orthonormality: Gram matrix dimensions
+    (GIFT.Foundations.Analysis.K7Orthonormality.n_K3_basis = 22) ∧
+    (GIFT.Foundations.Analysis.K7Orthonormality.n_extending = 21) ∧
+    (GIFT.Foundations.Analysis.K7Orthonormality.n_constant_3forms +
+     2 * GIFT.Foundations.Analysis.K7Orthonormality.n_extending = 77)
 
 theorem certified : statement := by
   refine ⟨rfl, rfl, rfl, rfl, rfl, rfl, ?_, ?_,
          GIFT.Joyce.k7_admits_torsion_free_g2, ?_, ?_,
          rfl, ?_, ?_, rfl, rfl, rfl, rfl, rfl, ?_, ?_,
-         ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+         ?_, ?_, ?_, ?_, ?_, ?_, ?_,
+         rfl, rfl, ?_⟩
   all_goals native_decide
 
 end GIFT.Certificate.Foundations

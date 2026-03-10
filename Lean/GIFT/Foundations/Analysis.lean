@@ -17,6 +17,7 @@ import GIFT.Foundations.Analysis.HarmonicForms
 import GIFT.Foundations.Analysis.G2TensorForm
 import GIFT.Foundations.Analysis.JoyceAnalytic
 import GIFT.Foundations.Analysis.AnalyticalFoundations
+import GIFT.Foundations.Analysis.K7Orthonormality
 
 namespace GIFT.Foundations.Analysis
 
@@ -60,6 +61,10 @@ This module collects advanced analytical foundations for GIFT:
 ## Analytical Foundations (AnalyticalFoundations.lean)
 - Master certificate for Sobolev, Elliptic, IFT
 - PINN bounds verification
+
+## K7 Orthonormality (K7Orthonormality.lean)
+- L2 Gram matrices for harmonic 2-forms and 3-forms
+- Positive definiteness, condition bounds, Gram-Schmidt
 -/
 
 -- Note: This module bundles imports only. Access definitions via their
