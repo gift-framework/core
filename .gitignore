@@ -75,3 +75,4 @@ home_page/Gemfile.lock
 # OS
 .DS_Store
 Thumbs.db
+blueprint/src/web.paux

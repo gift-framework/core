@@ -1,33 +1,514 @@
-/* GIFT Blueprint - Custom CSS Styles
- * Vertical lines on theorem statements and proofs
+/* GIFT Blueprint — Dark Modern Theme
+ * Overrides default plasTeX/leanblueprint theme
+ * Dark background, uniform rounded nodes, compact grid layout
  */
 
+/* ===== Typography ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #e2e8f0;
+    background-color: #0f172a;
+    height: 100vh;
+}
+
+code, kbd, pre, samp, code.verb {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* ===== Header ===== */
+body > header {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    color: #e2e8f0;
+    padding: 0.5rem 1.2rem;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+    height: auto;
+    min-height: 2.8rem;
+    z-index: 10;
+    border-bottom: 1px solid #1e293b;
+}
+
+header a.toc,
+header a {
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+    font-size: 0.85rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 4px;
+    transition: background 0.2s, color 0.2s;
+    text-decoration: none;
+}
+
+header a:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+}
+
+header a:visited {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+h1#doc_title {
+    color: #f1f5f9;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+    letter-spacing: -0.01em;
+}
+
+/* ===== Wrapper & Content ===== */
+div.wrapper {
+    background-color: #0f172a;
+}
+
+div.content {
+    background-color: #0f172a;
+}
+
+/* ===== Graph Container ===== */
+div#graph {
+    width: 100%;
+    height: calc(100vh - 3rem);
+    background: #0f172a;
+    border: none;
+    overflow: auto;
+}
+
+div#graph svg {
+    background: transparent !important;
+}
+
+/* ===== Legend Panel ===== */
+#Legend {
+    position: relative;
+    z-index: 5;
+}
+
+#Legend span.title {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    background: #1e293b;
+    padding: 0.35rem 0.7rem;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    transition: border-color 0.2s;
+    margin-right: 0;
+}
+
+#Legend span.title:hover {
+    border-color: #4ade80;
+}
+
+#Legend div.btn {
+    margin-left: 0;
+    margin-top: 0;
+}
+
+div.bar {
+    background: #94a3b8;
+    width: 14px;
+    height: 2px;
+    border-radius: 1px;
+    margin-top: 3px;
+}
+
+#Legend dl {
+    position: absolute;
+    top: 2.5rem;
+    left: 0.5rem;
+    font-size: 0.82rem;
+    max-width: 380px;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    padding: 0.8rem 1rem;
+    line-height: 1.6;
+}
+
+#Legend dt {
+    font-weight: 600;
+    color: #f1f5f9;
+    font-size: 0.78rem;
+}
+
+#Legend dt::after {
+    content: ":";
+    color: #475569;
+}
+
+#Legend dd {
+    color: #94a3b8;
+    font-size: 0.78rem;
+    margin-left: 0.3rem;
+    margin-right: 0.6rem;
+}
+
+/* ===== Graph Nodes (SVG) ===== */
+.node {
+    cursor: pointer;
+    transition: filter 0.15s;
+}
+
+.node:hover polygon,
+.node:hover rect {
+    filter: brightness(1.3) drop-shadow(0 0 6px rgba(74, 222, 128, 0.3));
+}
+
+.node text {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 10px !important;
+}
+
+/* Soften edges */
+.edge path {
+    opacity: 0.35;
+    transition: opacity 0.15s;
+}
+
+.edge:hover path {
+    opacity: 0.9;
+    stroke-width: 1.5px;
+}
+
+.edge polygon {
+    opacity: 0.35;
+}
+
+.edge:hover polygon {
+    opacity: 0.9;
+}
+
+/* ===== Modal (Node Detail Popup) ===== */
+div.dep-modal-container {
+    z-index: 20;
+    margin-top: 4rem;
+    width: 92vw;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
+
+div.dep-modal-content {
+    font-family: 'Inter', sans-serif;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    padding: 1rem 1.5rem 0.8rem;
+    max-height: 70vh;
+    overflow-y: auto;
+    color: #e2e8f0;
+}
+
+div.dep-modal-content a {
+    color: #60a5fa;
+    text-decoration: none;
+    transition: color 0.15s;
+}
+
+div.dep-modal-content a:hover {
+    color: #93c5fd;
+    text-decoration: underline;
+}
+
+button.dep-closebtn {
+    font-size: 1.1rem;
+    color: #64748b;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.2rem;
+    border-radius: 4px;
+    transition: background 0.15s, color 0.15s;
+}
+
+button.dep-closebtn:hover {
+    background: #334155;
+    color: #f1f5f9;
+}
+
+/* ===== Theorem/Definition Headings in Modals ===== */
+div[class$="_thmheading"] {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: #f1f5f9;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid #334155;
+    margin-bottom: 0.5rem;
+}
+
+span[class$="_thmcaption"] {
+    text-transform: uppercase;
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    color: #64748b;
+    margin-right: 0.3rem;
+}
+
+span[class$="_thmlabel"] {
+    font-weight: 700;
+    color: #4ade80;
+    margin-left: 0.2rem;
+    margin-right: 0.3rem;
+}
+
+span[class$="_thmtitle"] {
+    font-weight: 600;
+    color: #f1f5f9;
+}
+
+span[class$="_thmtitle"]:before {
+    content: "(";
+    color: #475569;
+}
+
+span[class$="_thmtitle"]:after {
+    content: ")";
+    color: #475569;
+}
+
+div[class$="_thmcontent"] {
+    font-weight: 400;
+    color: #cbd5e1;
+    line-height: 1.6;
+    padding: 0.5rem 0 0.3rem 0.8rem;
+    margin-left: 0;
+}
+
+/* ===== Content Pages: Theorem Blocks ===== */
 div.theorem_thmcontent {
-    border-left: .15rem solid #2563eb;
+    border-left: 3px solid #3b82f6;
+    padding-left: 1rem;
 }
 
 div.proposition_thmcontent {
-    border-left: .15rem solid #2563eb;
+    border-left: 3px solid #3b82f6;
+    padding-left: 1rem;
 }
 
 div.lemma_thmcontent {
-    border-left: .1rem solid #3b82f6;
+    border-left: 2px solid #60a5fa;
+    padding-left: 1rem;
 }
 
 div.corollary_thmcontent {
-    border-left: .1rem solid #3b82f6;
+    border-left: 2px solid #60a5fa;
+    padding-left: 1rem;
 }
 
 div.definition_thmcontent {
-    border-left: .1rem solid #10b981;
+    border-left: 2px solid #4ade80;
+    padding-left: 1rem;
 }
 
 div.proof_content {
-    border-left: .08rem solid grey;
+    border-left: 2px solid #334155;
+    padding-left: 1rem;
+    color: #94a3b8;
 }
 
-/* GIFT-specific styling */
+/* ===== Links (LaTeX, Lean, Issue) ===== */
+a.latex_link, a.lean_link, a.issue_link {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 0.75rem;
+    font-style: normal;
+    padding: 0.12rem 0.45rem;
+    border-radius: 3px;
+    transition: background 0.15s;
+}
+
+a.latex_link {
+    color: #c4b5fd;
+    background: rgba(124, 58, 237, 0.15);
+    margin-left: 0.5rem;
+}
+
+a.latex_link:hover {
+    background: rgba(124, 58, 237, 0.25);
+}
+
+a.lean_link {
+    color: #6ee7b7;
+    background: rgba(16, 185, 129, 0.12);
+}
+
+a.lean_link:hover {
+    background: rgba(16, 185, 129, 0.22);
+}
+
+a.issue_link {
+    color: #fcd34d;
+    background: rgba(245, 158, 11, 0.12);
+}
+
+a.issue_link:hover {
+    background: rgba(245, 158, 11, 0.22);
+}
+
+/* ===== Tooltip ===== */
+.tooltip {
+    font-family: 'Inter', sans-serif;
+}
+
+ul.tooltip_list {
+    border: 1px solid #334155;
+    border-radius: 6px;
+    background: #1e293b;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    padding: 0.3rem 0;
+}
+
+ul.tooltip_list li {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.8rem;
+    color: #cbd5e1;
+    transition: background 0.1s;
+}
+
+ul.tooltip_list li:hover {
+    background: #334155;
+}
+
+/* ===== Statements Container ===== */
+div#statements {
+    background-color: #1e293b;
+    border-top: 1px solid #334155;
+}
+
+/* ===== GIFT-specific ===== */
 .gift-constant {
-    color: #7c3aed;
-    font-weight: bold;
+    color: #c4b5fd;
+    font-weight: 600;
+}
+
+/* ===== GitHub Link ===== */
+a.github_link {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    text-decoration: none;
+    padding: 0.12rem 0.45rem;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.05);
+    transition: background 0.15s, color 0.15s;
+}
+
+a.github_link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+}
+
+/* ===== Scrollbar (Dark) ===== */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+}
+
+/* ===== Table of Contents (Content Pages) ===== */
+nav.toc {
+    background-color: #0f172a;
+    border-right: 1px solid #1e293b;
+}
+
+.toc ul a {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    color: #94a3b8;
+    transition: color 0.15s, background 0.15s;
+}
+
+.toc ul a:hover {
+    background: #1e293b;
+    color: #f1f5f9;
+}
+
+.toc ul li {
+    background-color: #0f172a;
+}
+
+.toc ul li.current {
+    background-color: rgba(59, 130, 246, 0.1);
+}
+
+.toc ul li.current > a {
+    color: #60a5fa;
+    font-weight: 600;
+}
+
+/* ===== Navigation Footer ===== */
+nav.prev_up_next {
+    background: #1e293b;
+    border-top: 1px solid #334155;
+    box-shadow: none;
+}
+
+nav.prev_up_next a {
+    color: #94a3b8;
+    font-size: 130%;
+    transition: color 0.15s;
+    text-shadow: none;
+}
+
+nav.prev_up_next a:hover {
+    color: #4ade80;
+}
+
+/* ===== Breadcrumbs ===== */
+ul.breadcrumbs a {
+    color: #64748b;
+}
+
+/* ===== Tables ===== */
+table {
+    background: #1e293b;
+    color: #e2e8f0;
+}
+
+table th {
+    color: #f1f5f9;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    div.dep-modal-container {
+        width: 96vw;
+        margin-top: 3.5rem;
+    }
+
+    #Legend span.title {
+        font-size: 0.72rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    #Legend dl {
+        max-width: 90vw;
+    }
 }
