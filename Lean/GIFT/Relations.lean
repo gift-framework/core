@@ -23,6 +23,15 @@ def delta_CP : Nat := 7 * dim_G2 + H_star
 
 theorem delta_CP_certified : delta_CP = 197 := rfl
 
+/-- Corrected δ_CP numerator: 197 × 62 = 12214 (with compactification factor) -/
+def delta_CP_corrected_num : Nat := delta_CP * (dim_E8 / 4)
+
+/-- Corrected δ_CP denominator: dim(E₈)/4 + dim(K₇) = 69 -/
+def delta_CP_corrected_den : Nat := dim_E8 / 4 + dim_K7
+
+theorem delta_CP_corrected_certified :
+    delta_CP_corrected_num = 12214 ∧ delta_CP_corrected_den = 69 := by native_decide
+
 /-- Tau hierarchy parameter numerator: (496 * 21) -/
 def tau_num : Nat := dim_E8xE8 * b2
 

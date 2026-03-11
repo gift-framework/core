@@ -13,6 +13,7 @@ import GIFT.Relations.NeutrinoSector
 import GIFT.Relations.LeptonSector
 import GIFT.Relations.Cosmology
 import GIFT.Relations.MassFactorization
+import GIFT.Relations.CompactificationCorrection
 
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- MATHEMATICAL FOUNDATIONS

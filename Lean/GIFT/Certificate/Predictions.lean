@@ -17,6 +17,7 @@ import GIFT.Relations.SO16Relations
 import GIFT.Relations.LandauerDarkEnergy
 import GIFT.Relations.V33Additions
 import GIFT.Relations.TauBounds
+import GIFT.Relations.CompactificationCorrection
 import GIFT.Relations.G2MetricProperties
 import GIFT.Relations.FanoSelectionPrinciple
 import GIFT.Relations.OverDetermination
@@ -59,6 +60,7 @@ open GIFT.Relations.SO16Relations
 open GIFT.Relations.LandauerDarkEnergy
 open GIFT.Relations.V33
 open GIFT.Relations.TauBounds
+open GIFT.Relations.CompactificationCorrection
 open GIFT.Observables
 
 -- ═══════════════════════════════════════════════════════════════════════════════
@@ -82,6 +84,9 @@ abbrev exceptional_chain := GIFT.Relations.ExceptionalChain.all_exceptional_chai
 
 /-- Structural relations -/
 abbrev structural := GIFT.Relations.Structural.all_structural_relations_certified
+
+/-- Compactification correction: δ_CP = 197 × 62/69 = 12214/69 ≈ 177.01° -/
+abbrev compactification_correction := GIFT.Relations.CompactificationCorrection.certificate_certified
 
 /-- Quark sector relations -/
 abbrev quark_sector := GIFT.Relations.QuarkSector.all_quark_sector_relations_certified
@@ -358,7 +363,15 @@ def statement : Prop :=
      Hierarchy.AssociativeVolumes.vol_sd3_num) ∧
     -- Instanton dV(e-tau) within 20% of ln(3477)
     (Hierarchy.AssociativeVolumes.delta_vol_13_num * 100 >
-     Hierarchy.AssociativeVolumes.ln_tau_e_num * 80)
+     Hierarchy.AssociativeVolumes.ln_tau_e_num * 80) ∧
+
+    -- ═══ COMPACTIFICATION CORRECTION (S27) ═══
+    -- δ_CP corrected = 12214/69 ≈ 177.01°
+    (Relations.delta_CP_corrected_num = 12214) ∧
+    (Relations.delta_CP_corrected_den = 69) ∧
+    -- Closeness: 12214 = 177 × 69 + 1
+    (CompactificationCorrection.delta_CP_corrected_num =
+     177 * CompactificationCorrection.delta_CP_corrected_den + 1)
 
 theorem certified : statement := by
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
@@ -366,7 +379,7 @@ theorem certified : statement := by
           ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
           ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
           ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
-          ?_, ?_, ?_⟩
+          ?_, ?_, ?_, ?_, ?_, ?_⟩
   all_goals native_decide
 
 -- Backward compatibility alias
