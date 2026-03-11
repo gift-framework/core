@@ -98,6 +98,7 @@ jobs:
             mkdir -p home_page
             cp blueprint/print/print.pdf home_page/blueprint.pdf
             leanblueprint web
+            python3 blueprint/src/postprocess.py
             cp -r blueprint/web home_page/blueprint
 
       - name: Check declarations in blueprint exist in Lean
