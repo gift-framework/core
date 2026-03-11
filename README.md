@@ -3,7 +3,7 @@
 [![Formal Verification](https://github.com/gift-framework/core/actions/workflows/verify.yml/badge.svg)](https://github.com/gift-framework/core/actions/workflows/verify.yml)
 [![PyPI](https://img.shields.io/pypi/v/giftpy)](https://pypi.org/project/giftpy/)
 
-Formally verified mathematical relations from the GIFT framework. 455+ certified relations, **38 published axioms**, all theorems proven in **Lean 4** (125 files, 2635 build jobs).
+Formally verified mathematical relations from the GIFT framework. 460+ certified relations, **38 published axioms**, all theorems proven in **Lean 4** (126 files, 2636 build jobs).
 
 ## Structure
 
@@ -13,7 +13,7 @@ Lean/GIFT/
 ├── Certificate/             # Modular certificate system
 │   ├── Core.lean            # Master: Foundations ∧ Predictions ∧ Spectral
 │   ├── Foundations.lean     # E₈, G₂, octonions, K₇, Joyce, NK cert, orthonormality, gauge (34 conjuncts)
-│   ├── Predictions.lean     # 33+ relations, ~50 observables (53 conjuncts)
+│   ├── Predictions.lean     # 33+ relations, ~50 observables (56 conjuncts)
 │   └── Spectral.lean        # Mass gap, TCS, computed spectrum, Weyl law (37 conjuncts)
 ├── Certificate.lean         # Backward-compat wrapper (legacy aliases)
 │
@@ -62,10 +62,11 @@ Lean/GIFT/
 │   ├── Sum.lean             # S_w(T) as Finset.sum over primes
 │   └── Adaptive.lean        # Adaptive cutoff θ(T) = θ₀ + θ₁/log T
 │
-├── Relations/               # Physical predictions (21 files)
+├── Relations/               # Physical predictions (22 files)
 │   ├── GaugeSector.lean, LeptonSector.lean, NeutrinoSector.lean, QuarkSector.lean
 │   ├── Cosmology.lean, MassFactorization.lean, YukawaDuality.lean
 │   ├── ExceptionalGroups.lean, ExceptionalChain.lean, SO16Relations.lean
+│   ├── CompactificationCorrection.lean  # δ_CP = 197×62/69 ≈ 177.01°
 │   └── Structural.lean, BaseDecomposition.lean, IrrationalSector.lean, ...
 │
 ├── Observables/             # PMNS, CKM, quark masses, cosmology
@@ -110,4 +111,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.3.37*
+*GIFT Core v3.3.38*

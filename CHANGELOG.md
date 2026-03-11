@@ -5,6 +5,39 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.38] - 2026-03-11
+
+### Summary
+
+**δ_CP compactification correction + blueprint dark theme.** New axiom-free Lean module `CompactificationCorrection.lean` formalizing the δ_CP correction factor 62/69 = dim(E₈)/(dim(E₈) + 4·dim(K₇)), refining the raw prediction δ_CP = 197° to 12214/69 ≈ 177.01° (NuFIT 6.0: 177°, deviation 0.008%). Blueprint dependency graph upgraded to dark theme with uniform rounded nodes, compact layout, and post-processing pipeline.
+
+### Added
+
+- **`Relations/CompactificationCorrection.lean`** — new file (0 axioms, 6 theorems):
+  - Compactification factor: 62/69 = gauge DOF / total DOF
+  - Structural derivations: 62 = dim(E₈)/4, 69 = dim(E₈)/4 + dim(K₇)
+  - Closeness bound: |12214/69 - 177| = 1/69 < 0.015
+  - Master certificate: 6 conjuncts, all `native_decide`
+- **`blueprint/src/postprocess.py`** — DOT graph dark theme transformer
+- **`blueprint/build.sh`** — wrapper: `leanblueprint web` + postprocess
+
+### Changed
+
+- **`Relations.lean`** — Added `delta_CP_corrected_num/den` definitions
+- **`Certificate/Predictions.lean`** — Added import, abbrev, +3 conjuncts (53 → 56)
+- **`GIFT.lean`** — Added `CompactificationCorrection` import
+- **`blueprint/src/extra_styles.css`** — Dark navy theme (#0f172a), Inter font, uniform rounded nodes
+- **`.github/workflows/blueprint.yml`** — Added postprocess step for dark theme on deploy
+
+### Stats
+
+- Published core: **126 Lean files** (was 125), **38 axioms** (unchanged)
+- Certificate: **127 conjuncts** (was 124: Predictions 53→56)
+- Build: 2636 jobs, 0 warnings, 0 errors
+- Blueprint: 393 nodes, 510 edges, dark theme
+
+---
+
 ## [3.3.37] - 2026-03-10
 
 ### Summary
