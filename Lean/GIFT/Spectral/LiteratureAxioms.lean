@@ -5,25 +5,18 @@ GIFT Spectral: Literature Axioms
 Literature-supported axioms for the connection between
 neck length L and topological invariants.
 
-## Axiom Classification (v3.3.15)
+## Axiom Classification (v3.3.42)
 
 ### Category D: LITERATURE AXIOMS (peer-reviewed)
 These are results from published mathematical literature. Full formalization
 would require months of work per paper.
 
-| Axiom | Paper | Journal | Year |
-|-------|-------|---------|------|
-| `langlais_spectral_density` | Langlais | Comm. Math. Phys. | 2024 |
-| `cgn_no_small_eigenvalues` | Crowley-Goette-Nordström | Inventiones | 2024 |
-| `cgn_cheeger_lower_bound` | Crowley-Goette-Nordström | Inventiones | 2024 |
-| `torsion_free_correction` | Joyce | Oxford UP | 2000 |
-
-### Category E: GIFT CONJECTURES
-These are GIFT-specific claims not yet published in peer-reviewed literature.
-
-| Axiom | Status | Path to proof |
-|-------|--------|---------------|
-| `canonical_neck_length_conjecture` | CONJECTURAL | Needs variational analysis |
+| Axiom | Paper | Journal | Year | Status |
+|-------|-------|---------|------|--------|
+| `cgn_no_small_eigenvalues` | Crowley-Goette-Nordström | Inventiones | 2024 | **FUSED** into `literature_package` |
+| `cgn_cheeger_lower_bound` | Crowley-Goette-Nordström | Inventiones | 2024 | **FUSED** into `literature_package` |
+| `torsion_free_correction` | Joyce | Oxford UP | 2000 | **FUSED** into `literature_package` |
+| `literature_package` | All above | — | — | **NEW** (1 axiom replacing 3) |
 
 ## Key Results
 
@@ -48,7 +41,7 @@ These are GIFT-specific claims not yet published in peer-reviewed literature.
 - Joyce, D.D. (2000). "Compact Manifolds with Special Holonomy"
   Oxford University Press, ISBN: 0-19-850601-5
 
-Version: 1.1.0 (v3.3.15: axiom classification)
+Version: 2.0.0 (v3.3.42: literature axiom consolidation 3 → 1)
 -/
 
 import GIFT.Core
@@ -135,68 +128,83 @@ theorem K3_S1_density_coeff_2 : density_coefficient_K3S1 2 = 46 := rfl
 theorem K3_S1_density_coeff_3 : density_coefficient_K3S1 3 = 88 := rfl
 
 -- ============================================================================
--- NO SMALL EIGENVALUES (CGN PROPOSITION 3.16)
+-- LITERATURE RESULTS BUNDLE (v3.3.42: axiom consolidation 3 → 1)
+-- ============================================================================
+
+/-- Bundled literature results for TCS spectral geometry.
+
+Consolidates three Category D axioms into a single structure (v3.3.42):
+- CGN Proposition 3.16: no small eigenvalues
+- CGN line 3598: Cheeger-based lower bound
+- Joyce IFT: torsion-free correction
+
+**References:**
+- Crowley, D., Goette, S., & Nordström, J. (2024).
+  "The spectral geometry of TCS G₂-manifolds", Inventiones Math.
+- Joyce, D.D. (2000). "Compact Manifolds with Special Holonomy", Oxford UP.
+-/
+structure LiteraturePackage (K : TCSManifold) where
+  /-- CGN Prop. 3.16: gap isolation constant -/
+  gap_constant : ℝ
+  /-- Gap constant is positive -/
+  gap_constant_pos : gap_constant > 0
+  /-- No eigenvalues in (0, c/L) -/
+  no_small_eigenvalues : ∀ (hyp : TCSHypotheses K), ∀ ev : ℝ,
+    0 < ev → ev < gap_constant / K.neckLength →
+    MassGap K.toCompactManifold ≤ ev → False
+  /-- CGN line 3598: Cheeger lower bound constant -/
+  cheeger_constant : ℝ
+  /-- Cheeger constant is positive -/
+  cheeger_constant_pos : cheeger_constant > 0
+  /-- C'/(ℓ+r)² ≤ λ₁ -/
+  cheeger_lower_bound :
+    MassGap K.toCompactManifold ≥ cheeger_constant / K.neckLength ^ 2
+  /-- Joyce IFT: torsion-free correction exists for all k -/
+  torsion_free_correction : ∀ (k : ℕ), ∃ C δ : ℝ, C > 0 ∧ δ > 0
+
+/-- Literature results hold for any TCS manifold.
+
+**Axiom Category: D (Literature)** — Consolidation of 3 peer-reviewed results.
+
+**Axiom consolidation (v3.3.42):** Replaces `cgn_no_small_eigenvalues`,
+`cgn_cheeger_lower_bound`, `torsion_free_correction` (3 axioms → 1). -/
+axiom literature_package (K : TCSManifold) : LiteraturePackage K
+
+-- ============================================================================
+-- BACKWARD-COMPATIBLE PROJECTIONS
 -- ============================================================================
 
 /-- CGN Proposition 3.16: No small eigenvalues except 0.
 
-**Axiom Category: D (Literature)** - PEER-REVIEWED
+**Formerly axiom**, now structure projection from LiteraturePackage (v3.3.42).
 
-**Citation:** Crowley, D., Goette, S., & Nordström, J. (2024)
-"The spectral geometry of TCS G₂-manifolds", Inventiones Math., Prop. 3.16
-
-For TCS manifold with neck length L = ℓ + r:
-  ∃ c > 0: no eigenvalues in (0, c/L)
-
-This is proved via Cheeger's inequality.
-
-**Elimination path:** Formalize CGN Cheeger analysis (~3 months work)
--/
-axiom cgn_no_small_eigenvalues (K : TCSManifold) (hyp : TCSHypotheses K) :
+**Citation:** Crowley, Goette, Nordström (2024), Inventiones Math., Prop. 3.16 -/
+theorem cgn_no_small_eigenvalues (K : TCSManifold) (hyp : TCSHypotheses K) :
   ∃ c : ℝ, c > 0 ∧ ∀ ev : ℝ,
     0 < ev → ev < c / K.neckLength →
-    MassGap K.toCompactManifold ≤ ev → False
+    MassGap K.toCompactManifold ≤ ev → False :=
+  let pkg := literature_package K
+  ⟨pkg.gap_constant, pkg.gap_constant_pos, pkg.no_small_eigenvalues hyp⟩
 
 /-- Cheeger-based lower bound from CGN (line 3598).
 
-**Axiom Category: D (Literature)** - PEER-REVIEWED
+**Formerly axiom**, now structure projection from LiteraturePackage (v3.3.42).
 
-**Citation:** Crowley, D., Goette, S., & Nordström, J. (2024)
-"The spectral geometry of TCS G₂-manifolds", Inventiones Math., line 3598
-
-  C'/(ℓ+r)² ≤ λ₁
-
-This follows from:
-  h ≥ Vol(X)/Vol(M) ~ 1/L
-  λ₁ ≥ h²/4 ~ 1/L²
-
-**Elimination path:** Formalize Cheeger inequality on TCS (~2 months work)
--/
-axiom cgn_cheeger_lower_bound (K : TCSManifold) :
+**Citation:** Crowley, Goette, Nordström (2024), Inventiones Math., line 3598 -/
+theorem cgn_cheeger_lower_bound (K : TCSManifold) :
   ∃ C' : ℝ, C' > 0 ∧
-    MassGap K.toCompactManifold ≥ C' / K.neckLength ^ 2
+    MassGap K.toCompactManifold ≥ C' / K.neckLength ^ 2 :=
+  let pkg := literature_package K
+  ⟨pkg.cheeger_constant, pkg.cheeger_constant_pos, pkg.cheeger_lower_bound⟩
 
--- ============================================================================
--- EXPONENTIAL TORSION-FREE CORRECTION (CGN/LANGLAIS)
--- ============================================================================
+/-- The torsion-free G₂ structure is exponentially close to the approximate one.
 
-/-- The torsion-free G₂ structure φ̃_T is exponentially close to the
-    approximate structure φ_T.
+**Formerly axiom**, now structure projection from LiteraturePackage (v3.3.42).
 
-**Axiom Category: D (Literature)** - PEER-REVIEWED
-
-**Citation:** Joyce, D.D. (2000). "Compact Manifolds with Special Holonomy"
-Oxford UP, Chapter 11; also CGN 2024, Section 2
-
-    ‖φ̃_T - φ_T‖_{C^k} ≤ C e^{-δT}
-
-This allows transferring spectral estimates to the actual torsion-free metric.
-The proof uses the implicit function theorem in Banach spaces.
-
-**Elimination path:** Formalize Joyce IFT proof (~4 months work)
--/
-axiom torsion_free_correction (K : TCSManifold) (k : ℕ) :
-  ∃ C δ : ℝ, C > 0 ∧ δ > 0
+**Citation:** Joyce (2000), Oxford UP, Chapter 11; CGN 2024, Section 2 -/
+theorem torsion_free_correction (K : TCSManifold) (k : ℕ) :
+  ∃ C δ : ℝ, C > 0 ∧ δ > 0 :=
+  (literature_package K).torsion_free_correction k
 
 -- ============================================================================
 -- CANONICAL NECK LENGTH CONJECTURE

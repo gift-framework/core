@@ -282,6 +282,8 @@ export LiteratureAxioms (
   density_coefficient_K3S1
   K3_S1_density_coeff_2
   K3_S1_density_coeff_3
+  LiteraturePackage
+  literature_package
   cgn_no_small_eigenvalues
   cgn_cheeger_lower_bound
   torsion_free_correction
