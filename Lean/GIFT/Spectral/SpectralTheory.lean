@@ -93,15 +93,25 @@ opaque CompactManifold : Type
 **Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
 opaque CompactManifold.dim : CompactManifold → ℕ
 
-/-- A compact manifold has finite volume.
+/-- Inhabited instance for positive real subtype (needed for opaque declarations). -/
+noncomputable instance : Inhabited {x : ℝ // x > 0} := ⟨⟨1, one_pos⟩⟩
 
-**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
-noncomputable opaque CompactManifold.volume : CompactManifold → ℝ
+/-- Auxiliary: Volume bundled with positivity.
+
+A compact Riemannian manifold has finite positive volume. -/
+noncomputable opaque CompactManifold.volume_aux : CompactManifold → {x : ℝ // x > 0}
+
+/-- A compact manifold has finite positive volume.
+
+**Formerly opaque**, now def projecting from positive-valued opaque (v3.3.41). -/
+noncomputable def CompactManifold.volume (M : CompactManifold) : ℝ :=
+  (CompactManifold.volume_aux M).val
 
 /-- Volume is positive.
 
-**Axiom Category: A (Definition)** — Property of compact Riemannian manifolds. -/
-axiom CompactManifold.volume_pos (M : CompactManifold) : M.volume > 0
+**Formerly axiom**, now theorem via subtype projection (v3.3.41). -/
+theorem CompactManifold.volume_pos (M : CompactManifold) : M.volume > 0 :=
+  (CompactManifold.volume_aux M).property
 
 -- ============================================================================
 -- LAPLACE-BELTRAMI OPERATOR (axiom-based)
@@ -169,9 +179,6 @@ axiom spectral_theorem_discrete (M : CompactManifold) :
 -- ============================================================================
 -- MASS GAP DEFINITION
 -- ============================================================================
-
-/-- Inhabited instance for positive real subtype (needed for opaque declarations). -/
-noncomputable instance : Inhabited {x : ℝ // x > 0} := ⟨⟨1, one_pos⟩⟩
 
 /-- Auxiliary: Mass gap bundled with positivity (subtype projection pattern).
 

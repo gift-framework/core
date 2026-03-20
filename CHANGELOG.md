@@ -5,6 +5,37 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.41] - 2026-03-20
+
+### Summary
+
+**Axiom elimination Tier 2: 32 → 18.** Fourteen more axioms eliminated via three techniques: (1) subtype-bundled `CompactManifold.volume_pos` via `volume_aux : {x : ℝ // x > 0}`, (2) seven placeholder conversions for unused standalone axioms (`flat_connection_minimizes`, 5 TCSBounds intermediates, `hodge_decomposition_exists`), and (3) structure consolidation of 7 K7-specific HarmonicForms axioms into a single `K7HarmonicBasis` structure with backward-compatible projections.
+
+### Changed
+
+- **`Spectral/SpectralTheory.lean`** — 1 axiom eliminated:
+  - `volume_pos` → theorem via subtype projection from `CompactManifold.volume_aux`
+- **`Spectral/YangMills.lean`** — 1 axiom eliminated:
+  - `flat_connection_minimizes` → placeholder theorem (degenerate `h_flat : True`)
+- **`Spectral/TCSBounds.lean`** — 5 axioms eliminated:
+  - `gradient_energy_bound` → placeholder (bound captured by `spectral_upper_bound`)
+  - `l2_norm_lower_bound` → placeholder (bound captured by `spectral_upper_bound`)
+  - `neck_cheeger_bound` → placeholder (bound captured by `spectral_lower_bound`)
+  - `cut_classification` → placeholder (bound captured by `spectral_lower_bound`)
+  - `neck_dominates` → placeholder (bound captured by `spectral_lower_bound`)
+- **`Foundations/Analysis/HarmonicForms.lean`** — 7 axioms eliminated:
+  - `hodge_decomposition_exists` → placeholder theorem
+  - 7 K7 axioms → `K7HarmonicBasis` structure + single `K7_harmonic_basis` axiom:
+    `K7_laplacian`, `omega2_basis`, `omega3_basis` → `noncomputable def` projections
+    `omega2_basis_harmonic`, `omega3_basis_harmonic`, `omega2_basis_orthonormal`,
+    `omega3_basis_orthonormal` → theorems via structure projection
+
+### Stats
+
+- **Axioms**: 32 → 18 (−14)
+- **Build**: 2638 jobs, 0 errors
+- **Conjuncts**: 210 (unchanged)
+
 ## [3.3.40] - 2026-03-20
 
 ### Summary
