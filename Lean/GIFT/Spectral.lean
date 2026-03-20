@@ -85,6 +85,9 @@ import GIFT.Spectral.ComputedYukawa
 -- Computed 7D Weyl Law (unified spectrum, v3.3.35)
 import GIFT.Spectral.ComputedWeylLaw
 
+-- Spectral Invariants (heat kernel, zeta, bounds, b₁=0, v3.3.39)
+import GIFT.Spectral.SpectralInvariants
+
 -- Applications
 import GIFT.Spectral.CheegerInequality
 import GIFT.Spectral.YangMills
@@ -449,6 +452,45 @@ export ComputedWeylLaw (
 )
 
 -- ============================================================================
+-- RE-EXPORTS: SPECTRAL INVARIANTS (v3.3.39, heat kernel, zeta, bounds)
+-- ============================================================================
+
+export SpectralInvariants (
+  -- Heat kernel coefficients
+  a0_1d_num
+  a0_1d_den
+  a1_1d
+  a0_positive
+  a1_exceeds_a0
+  -- Spectral zeta function
+  zeta_prime_0_num
+  zeta_prime_0_den
+  log_det_order
+  zeta_prime_large
+  det_order_large
+  -- Spectral bounds
+  zhong_yang_D_num
+  zhong_yang_D_den
+  cheeger_h_num
+  cheeger_h_den
+  ratio_K7_circle_num
+  ratio_K7_circle_den
+  cheeger_sub_unit
+  K7_eigenvalue_below_flat
+  -- b₁ = 0 spectral confirmation
+  b1_max_gap_scaled
+  b1_gap_scale_exp
+  b1_spectral_confirmed
+  b1_channels_tested
+  -- Spectrum size
+  n_eigenvalues_distinct
+  n_states_total
+  n_states_eq_K7_cubed
+  -- Master certificate
+  spectral_invariants_certificate
+)
+
+-- ============================================================================
 -- RE-EXPORTS: CHEEGER INEQUALITY
 -- ============================================================================
 
@@ -507,6 +549,7 @@ Spectral/
 ├── SelectionPrinciple.lean      # kappa = pi^2/14, building blocks
 ├── RefinedSpectralBounds.lean   # H7 hypothesis, pi^2 coefficient
 ├── LiteratureAxioms.lean        # Literature axioms (Langlais, CGN)
+├── SpectralInvariants.lean      # Heat kernel, zeta, bounds, b₁=0 [v3.3.39]
 ├── CheegerInequality.lean       # Cheeger-Buser bounds
 └── YangMills.lean               # Clay Prize connection
 ```

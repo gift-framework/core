@@ -361,6 +361,27 @@ abbrev wl_vol_positive := GIFT.Spectral.ComputedWeylLaw.vol_positive
 abbrev wl_certificate := GIFT.Spectral.ComputedWeylLaw.computed_weyl_law_certificate
 
 -- ═══════════════════════════════════════════════════════════════════════════════
+-- SPECTRAL INVARIANTS (v3.3.39, heat kernel, zeta, bounds, b₁=0)
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+open GIFT.Spectral.SpectralInvariants
+
+/-- Heat kernel a₀ positive -/
+abbrev si_a0_positive := GIFT.Spectral.SpectralInvariants.a0_positive
+
+/-- Spectral zeta large -/
+abbrev si_zeta_large := GIFT.Spectral.SpectralInvariants.zeta_prime_large
+
+/-- b₁ = 0 spectral confirmation -/
+abbrev si_b1_confirmed := GIFT.Spectral.SpectralInvariants.b1_spectral_confirmed
+
+/-- Total states = dim(K₇)³ -/
+abbrev si_states_cubed := GIFT.Spectral.SpectralInvariants.n_states_eq_K7_cubed
+
+/-- Spectral invariants master certificate -/
+abbrev si_certificate := GIFT.Spectral.SpectralInvariants.spectral_invariants_certificate
+
+-- ═══════════════════════════════════════════════════════════════════════════════
 -- SPECTRAL MASTER CERTIFICATE
 -- ═══════════════════════════════════════════════════════════════════════════════
 
@@ -375,6 +396,7 @@ abbrev wl_certificate := GIFT.Spectral.ComputedWeylLaw.computed_weyl_law_certifi
 - Spectral democracy: SD spread < 2%, coupling ratio < 1.02 (v3.3.30)
 - Yukawa mass ratios: tau/mu < 2%, mu/e < 1% (v3.3.31)
 - 7D Weyl law: exponent 3.46 within 2% of 3.5, >22000 KK states (v3.3.35)
+- Spectral invariants: heat kernel a₀>0, |ζ'(0)|>100, Cheeger<1, b₁=0, 343=7³ (v3.3.39)
 -/
 def statement : Prop :=
     -- Mass gap ratio = dim(G₂)/H*
@@ -462,10 +484,19 @@ def statement : Prop :=
     -- [P3] Effective volume positive
     (GIFT.Spectral.ComputedWeylLaw.vol_effective_num > 0) ∧
     -- [P3] Fiber channels > 50000
-    (GIFT.Spectral.ComputedWeylLaw.n_fiber_channels > 50000)
+    (GIFT.Spectral.ComputedWeylLaw.n_fiber_channels > 50000) ∧
+    -- [v3.3.39] Spectral invariants: heat kernel, zeta, b₁=0
+    (GIFT.Spectral.SpectralInvariants.a0_1d_num > 0) ∧
+    (GIFT.Spectral.SpectralInvariants.zeta_prime_0_num >
+     100 * GIFT.Spectral.SpectralInvariants.zeta_prime_0_den) ∧
+    (GIFT.Spectral.SpectralInvariants.cheeger_h_num <
+     GIFT.Spectral.SpectralInvariants.cheeger_h_den) ∧
+    (GIFT.Spectral.SpectralInvariants.b1_max_gap_scaled <
+     10 ^ (GIFT.Spectral.SpectralInvariants.b1_gap_scale_exp - 1)) ∧
+    (GIFT.Spectral.SpectralInvariants.n_states_total = dim_K7 ^ 3)
 
 theorem certified : statement := by
-  refine ⟨rfl, rfl, rfl, rfl, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  refine ⟨rfl, rfl, rfl, rfl, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   all_goals native_decide
 
 end GIFT.Certificate.Spectral

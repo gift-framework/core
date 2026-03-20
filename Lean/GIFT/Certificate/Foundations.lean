@@ -11,6 +11,7 @@ import GIFT.Foundations.AmbroseSinger
 import GIFT.Foundations.ExplicitG2Metric
 import GIFT.Foundations.NewtonKantorovich
 import GIFT.Foundations.K3HarmonicCorrection
+import GIFT.Foundations.MetricEigenvalues
 import GIFT.Hierarchy.TCSGaugeBreaking
 
 import GIFT.Sobolev
@@ -509,6 +510,28 @@ abbrev tcs_N_gen := GIFT.Hierarchy.TCSGaugeBreaking.N_gen_from_SU3
 abbrev tcs_gauge_cert := GIFT.Hierarchy.TCSGaugeBreaking.tcs_gauge_breaking_certified
 
 -- ═══════════════════════════════════════════════════════════════════════════════
+-- METRIC EIGENVALUE FORMULAS (topological, torsion-verified, v3.3.39)
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+/-- g_ss = 19/6 from topology -/
+abbrev metric_g_ss := GIFT.Foundations.MetricEigenvalues.g_ss_num_from_topology
+
+/-- g_T² = 7/6 from topology -/
+abbrev metric_g_T2 := GIFT.Foundations.MetricEigenvalues.g_T2_from_topology
+
+/-- g_K3 = 64/77 from topology -/
+abbrev metric_g_K3 := GIFT.Foundations.MetricEigenvalues.g_K3_from_topology
+
+/-- gamma² = 135/4 from topology -/
+abbrev metric_gamma_sq := GIFT.Foundations.MetricEigenvalues.gamma_sq_from_topology
+
+/-- Torsion minimum: forced fractions lower torsion -/
+abbrev metric_torsion_min := GIFT.Foundations.MetricEigenvalues.torsion_forced_lower
+
+/-- Metric eigenvalues master certificate -/
+abbrev metric_eigenvalues_cert := GIFT.Foundations.MetricEigenvalues.metric_eigenvalues_certificate
+
+-- ═══════════════════════════════════════════════════════════════════════════════
 -- FOUNDATIONS MASTER CERTIFICATE
 -- ═══════════════════════════════════════════════════════════════════════════════
 
@@ -529,6 +552,7 @@ open GIFT.Joyce GIFT.Sobolev GIFT.IntervalArithmetic
 - **Newton-Kantorovich**: h < 1/2, unconditional certification
 - **K3 harmonic correction**: torsion reduction ×2995, τ₃-dominated
 - **TCS gauge breaking**: π₁=1, N₁(11)+N₂(10)+1=22, E₈→E₆×SU(3), N_gen=3
+- **Metric eigenvalues**: g_ss=19/6, g_T²=7/6, g_K3=64/77, torsion minimum (v3.3.39)
 -/
 def statement : Prop :=
     -- E₈ root system: 112 + 128 = 240, rank = 8
@@ -599,7 +623,15 @@ def statement : Prop :=
     (GIFT.Hierarchy.TCSGaugeBreaking.N1_rank +
      GIFT.Hierarchy.TCSGaugeBreaking.N2_rank +
      GIFT.Hierarchy.TCSGaugeBreaking.n_killed = 22) ∧
-    (dim_E8 = dim_E6 + dim_SU3 + 2 * dim_J3O * N_gen)
+    (dim_E8 = dim_E6 + dim_SU3 + 2 * dim_J3O * N_gen) ∧
+    -- [v3.3.39] Metric eigenvalue exact fractions
+    (GIFT.Foundations.MetricEigenvalues.g_ss_num = D_bulk + rank_E8) ∧
+    (GIFT.Foundations.MetricEigenvalues.g_ss_den = 3 * p2) ∧
+    (GIFT.Foundations.MetricEigenvalues.g_T2_num * (3 * GIFT.Foundations.K3HarmonicCorrection.K3_euler) =
+     4 * b2 * GIFT.Foundations.MetricEigenvalues.g_T2_den) ∧
+    (GIFT.Foundations.MetricEigenvalues.g_K3_den = b3) ∧
+    (GIFT.Foundations.MetricEigenvalues.torsion_forced_num <
+     GIFT.Foundations.MetricEigenvalues.torsion_baseline_num)
 
 theorem certified : statement := by
   refine ⟨rfl, rfl, rfl, rfl, rfl, rfl, ?_, ?_,
@@ -607,7 +639,8 @@ theorem certified : statement := by
          rfl, ?_, ?_, rfl, rfl, rfl, rfl, rfl, ?_, ?_,
          ?_, ?_, ?_, ?_, ?_, ?_, ?_,
          rfl, rfl, ?_,
-         rfl, ?_, ?_⟩
+         rfl, ?_, ?_,
+         ?_, ?_, ?_, ?_, ?_⟩
   all_goals native_decide
 
 end GIFT.Certificate.Foundations

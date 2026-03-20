@@ -5,6 +5,44 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.39] - 2026-03-20
+
+### Summary
+
+**Metric eigenvalue exact formulas + spectral invariants.** Two new axiom-free Lean modules formalizing results from the session of 19-20 March 2026. `MetricEigenvalues.lean` encodes the PSLQ-discovered topological formulas for all G₂ metric eigenvalues (g_ss=19/6, g_T²=7/6, g_K3=64/77, γ²=135/4), with torsion minimum verification proving the exact fractions are closer to the torsion-free limit than the Chebyshev K=5 optimization. `SpectralInvariants.lean` formalizes the first heat kernel, spectral zeta, and spectral bounds ever computed on a compact G₂ manifold, plus the spectral confirmation that b₁(K₇)=0.
+
+### Added
+
+- **`Foundations/MetricEigenvalues.lean`** — new file (0 axioms, 15 conjuncts):
+  - Metric eigenvalue exact fractions: g_ss=19/6, g_T²=7/6, g_K3=64/77, γ²=135/4
+  - Topological derivations from (D_bulk, rank(E₈), b₂, b₃, χ(K3), dim(E₈))
+  - Coprimality: all four fractions irreducible (gcd = 1)
+  - Numerical match bounds (g_ss < 0.04%, g_T² < 0.20%)
+  - Torsion minimum: forced fractions lower torsion (178259 < 178351, −0.052%)
+  - Structural identities: shared denominator h(G₂)=6, numerator sum 2α_sum=26
+- **`Spectral/SpectralInvariants.lean`** — new file (0 axioms, 10 conjuncts):
+  - Heat kernel MP coefficients: a₀=64.53 (1D effective length), a₁=4112
+  - Spectral zeta: |ζ'(0)|=294.8, det'(Δ) ~ 10¹²⁸ (first on compact G₂)
+  - Zhong-Yang diameter bound D ≤ 8.90, Cheeger isoperimetric h ≤ 0.706
+  - K₇/circle eigenvalue ratio 0.079 (13× below flat)
+  - b₁=0 spectral confirmation: all 3 one-form channels, gaps < 10⁻¹⁰
+  - Spectrum size: 343 = 7³ total states, 100 distinct eigenvalues
+
+### Changed
+
+- **`Spectral.lean`** — Added `SpectralInvariants` import + 28 re-exports
+- **`Certificate/Foundations.lean`** — Added import, 6 abbrevs, +5 conjuncts
+- **`Certificate/Spectral.lean`** — Added 5 abbrevs, +5 conjuncts
+- **`gift_core/_version.py`** — 3.3.38 → 3.3.39
+
+### Stats
+
+- Published core: **128 Lean files** (was 126), **38 axioms** (unchanged)
+- Certificate: **~210 conjuncts** (was ~185: Foundations +5, Spectral +5, sub-certs +25)
+- Build: 2638 jobs, 0 warnings, 0 errors
+
+---
+
 ## [3.3.38] - 2026-03-11
 
 ### Summary
