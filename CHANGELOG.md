@@ -5,6 +5,33 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.40] - 2026-03-20
+
+### Summary
+
+**Axiom elimination: 38 → 32.** Six axioms converted to theorems via subtype projection pattern and structure field promotion. The technique replaces `noncomputable opaque foo : ℝ` + `axiom foo_nonneg : foo ≥ 0` with `noncomputable opaque foo_aux : {x : ℝ // x ≥ 0}` + `noncomputable def foo := foo_aux.val` + `theorem foo_nonneg := foo_aux.property`, eliminating the axiom without losing any information.
+
+### Changed
+
+- **`Spectral/CheegerInequality.lean`** — 2 axioms eliminated:
+  - `cheeger_nonneg` → theorem via subtype projection from `CheegerConstant_aux`
+  - `cheeger_positive` → theorem via subtype projection from `CheegerConstant_aux`
+- **`Spectral/SpectralTheory.lean`** — 1 axiom eliminated:
+  - `mass_gap_exists_positive` → theorem via subtype projection from `MassGap_aux`
+  - `mass_gap_is_infimum` retained (complex subtype not `Inhabited`)
+- **`Spectral/YangMills.lean`** — 2 axioms eliminated:
+  - `yang_mills_nonneg` → theorem via subtype projection from `YangMillsAction_aux`
+  - `mass_gap_nonneg` → theorem via `first_excited_energy_aux` ordering constraint
+- **`Spectral/NeckGeometry.lean`** — 1 axiom eliminated:
+  - `L₀_ge_one` → theorem derived from new `TCSHypotheses.neckLengthBound` field
+  - `TCSHypotheses` structure gains `neckLengthBound` field (H7)
+
+### Stats
+
+- **Axioms**: 38 → 32 (−6)
+- **Build**: 2638 jobs, 0 errors
+- **Conjuncts**: 210 (unchanged)
+
 ## [3.3.39] - 2026-03-20
 
 ### Summary

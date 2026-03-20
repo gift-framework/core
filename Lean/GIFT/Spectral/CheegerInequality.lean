@@ -14,9 +14,9 @@ This module formalizes:
 
 | Axiom | Category | Status |
 |-------|----------|--------|
-| `CheegerConstant` | A: Definition | Isoperimetric constant |
-| `cheeger_nonneg` | A: Definition | Basic property |
-| `cheeger_positive` | A: Definition | Basic property |
+| `CheegerConstant` | A: Definition | Isoperimetric constant (subtype projection) |
+| `cheeger_nonneg` | — | **ELIMINATED v3.3.39** (subtype projection) |
+| `cheeger_positive` | — | **ELIMINATED v3.3.39** (subtype projection) |
 | `cheeger_inequality` | B: Standard result | Cheeger 1970 |
 | `BuserConstant` | A: Definition | Dimension-dependent |
 | `buser_inequality` | B: Standard result | Buser 1982 |
@@ -60,35 +60,39 @@ For K7, the GIFT prediction is h(K7) = 14/99, which then gives:
 -- CHEEGER CONSTANT
 -- ============================================================================
 
-/-- The Cheeger constant of a compact manifold.
+/-- Auxiliary: Cheeger constant bundled with positivity (subtype projection pattern).
+Uses Inhabited instance from SpectralTheory.
 
-**Axiom Category: A (Definition)**
+The Cheeger constant is positive by definition: it is the infimum of
+Area(S) / min(Vol(A), Vol(B)) over all separating hypersurfaces,
+which is positive for compact connected manifolds. -/
+noncomputable opaque CheegerConstant_aux (M : CompactManifold) : {x : ℝ // x > 0}
+
+/-- The Cheeger constant of a compact manifold.
 
 h(M) = inf { Area(S) / min(Vol(A), Vol(B)) }
 
 where the infimum is over all hypersurfaces S that divide M
 into disjoint open sets A and B with M = A union S union B.
 
-**Why axiom**: Full definition requires measure theory on manifolds,
-which is not yet available in Mathlib for general Riemannian manifolds.
-
-**Elimination path**: Mathlib manifold measure theory library.
-
-**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09).
+**Formerly opaque**, now def projecting from positive-valued opaque (v3.3.39).
 -/
-noncomputable opaque CheegerConstant (M : CompactManifold) : ℝ
+noncomputable def CheegerConstant (M : CompactManifold) : ℝ :=
+  (CheegerConstant_aux M).val
 
 /-- The Cheeger constant is non-negative.
 
-**Axiom Category: A (Definition)** - Basic property of infimum over non-negative ratios.
+**Formerly axiom**, now theorem via subtype projection (v3.3.39).
 -/
-axiom cheeger_nonneg (M : CompactManifold) : CheegerConstant M ≥ 0
+theorem cheeger_nonneg (M : CompactManifold) : CheegerConstant M ≥ 0 :=
+  le_of_lt (CheegerConstant_aux M).property
 
 /-- The Cheeger constant is positive for compact connected manifolds.
 
-**Axiom Category: A (Definition)** - Follows from compactness and connectivity.
+**Formerly axiom**, now theorem via subtype projection (v3.3.39).
 -/
-axiom cheeger_positive (M : CompactManifold) : CheegerConstant M > 0
+theorem cheeger_positive (M : CompactManifold) : CheegerConstant M > 0 :=
+  (CheegerConstant_aux M).property
 
 -- ============================================================================
 -- CHEEGER'S INEQUALITY

@@ -22,7 +22,7 @@ These hypotheses are sufficient for the spectral bounds:
 |-------|----------|--------|
 | `ProductNeckMetric` | C: Geometric structure | Metric hypothesis |
 | `NeckMinimality` | C: Geometric structure | Isoperimetric hypothesis |
-| `L₀_ge_one` | C: Geometric structure | Physical constraint |
+| `L₀_ge_one` | — | **ELIMINATED v3.3.39** (structure field) |
 | `K7_is_TCS` | C: Geometric structure | Existence (Kovalev 2003) |
 
 References:
@@ -205,6 +205,10 @@ structure TCSHypotheses (K : TCSManifold) where
   balanced : BalancedBlocks K
   /-- (H6) Neck minimality -/
   neckMinimal : NeckMinimality K
+  /-- (H7) Physical constraint: L₀ = 2v₀/h₀ ≥ 1.
+  For typical TCS parameters (v₀ = 1/2, h₀ = 1), L₀ = 1.
+  This ensures the neck is long enough for the spectral analysis to apply. -/
+  neckLengthBound : 2 * neckVol.v₀ / blockCheeger.h₀ ≥ 1
 
 -- ============================================================================
 -- DERIVED QUANTITIES
@@ -229,14 +233,14 @@ theorem L₀_pos (K : TCSManifold) (hyp : TCSHypotheses K) : L₀ K hyp > 0 := b
     · exact hyp.neckVol.v₀_pos
   · exact hyp.blockCheeger.h₀_pos
 
-/-- L₀ >= 1 for physical TCS manifolds.
+/-- L₀ ≥ 1 for physical TCS manifolds.
 
 For typical parameters (v₀ = 1/2, h₀ = 1), we have L₀ = 2v₀/h₀ = 1.
-For more general parameters, this is a physical constraint ensuring
-the neck is long enough for the spectral analysis to apply.
 
-**Axiom Category: C (Geometric structure)** — Physical constraint on TCS neck length. -/
-axiom L₀_ge_one (K : TCSManifold) (hyp : TCSHypotheses K) : L₀ K hyp ≥ 1
+**Formerly axiom**, now theorem via TCSHypotheses.neckLengthBound field (v3.3.39). -/
+theorem L₀_ge_one (K : TCSManifold) (hyp : TCSHypotheses K) : L₀ K hyp ≥ 1 := by
+  unfold L₀
+  exact hyp.neckLengthBound
 
 -- ============================================================================
 -- TYPICAL TCS PARAMETERS

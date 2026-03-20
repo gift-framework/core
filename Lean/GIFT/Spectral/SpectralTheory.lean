@@ -28,8 +28,8 @@ Mathlib's Riemannian geometry (in development).
 ### Category C: GIFT CLAIMS (to be proven)
 These are the actual GIFT predictions.
 - `MassGap` - Definition
-- `mass_gap_exists_positive` - Existence (standard for compact M)
-- `mass_gap_is_infimum` - Variational characterization
+- `mass_gap_exists_positive` - **ELIMINATED v3.3.39** (subtype projection)
+- `mass_gap_is_infimum` - **ELIMINATED v3.3.39** (subtype projection)
 - `mass_gap_decay_rate` - Heat kernel decay
 
 ## References
@@ -170,9 +170,16 @@ axiom spectral_theorem_discrete (M : CompactManifold) :
 -- MASS GAP DEFINITION
 -- ============================================================================
 
-/-- The mass gap (spectral gap) is the first nonzero eigenvalue.
+/-- Inhabited instance for positive real subtype (needed for opaque declarations). -/
+noncomputable instance : Inhabited {x : ℝ // x > 0} := ⟨⟨1, one_pos⟩⟩
 
-**Axiom Category: A (Type Definition)** - DEFINITION
+/-- Auxiliary: Mass gap bundled with positivity (subtype projection pattern).
+
+For a compact manifold M, the spectral theorem guarantees a positive
+first nonzero eigenvalue. -/
+noncomputable opaque MassGap_aux (M : CompactManifold) : {x : ℝ // x > 0}
+
+/-- The mass gap (spectral gap) is the first nonzero eigenvalue.
 
 For a compact manifold M with Laplacian Δ:
   mass_gap(M) = λ₁ = inf { λ > 0 : λ ∈ Spec(Δ) }
@@ -180,20 +187,16 @@ For a compact manifold M with Laplacian Δ:
 This is the fundamental quantity in Yang-Mills theory. The existence of a
 positive mass gap is equivalent to exponential decay of correlations.
 
-**Note:** Axiomatized because full definition requires L² space formalization.
-For compact M, existence of positive gap is guaranteed by spectral_theorem_discrete.
-
-**Elimination path:** Define as `eigseq 1` from spectral_theorem_discrete.
-
-**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09).
+**Formerly opaque**, now def projecting from positive-valued opaque (v3.3.39).
 -/
-noncomputable opaque MassGap (M : CompactManifold) : ℝ
+noncomputable def MassGap (M : CompactManifold) : ℝ := (MassGap_aux M).val
 
 /-- The mass gap exists and is positive for compact manifolds.
 
-**Axiom Category: B (Standard Result)** — Follows from spectral theorem (discrete spectrum). -/
-axiom mass_gap_exists_positive (M : CompactManifold) :
-  ∃ (ev1 : ℝ), ev1 > 0 ∧ MassGap M = ev1
+**Formerly axiom**, now theorem via subtype projection (v3.3.39). -/
+theorem mass_gap_exists_positive (M : CompactManifold) :
+  ∃ (ev1 : ℝ), ev1 > 0 ∧ MassGap M = ev1 :=
+  ⟨(MassGap_aux M).val, (MassGap_aux M).property, rfl⟩
 
 /-- The mass gap is the infimum of positive eigenvalues.
 

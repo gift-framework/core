@@ -17,14 +17,14 @@ This module formalizes:
 | `SU` | A: Definition | SU(N) constructor |
 | `Connection` | A: Definition | Gauge field type |
 | `Curvature` | A: Definition | Field strength type |
-| `YangMillsAction` | A: Definition | Action functional |
-| `yang_mills_nonneg` | A: Definition | Basic property |
+| `YangMillsAction` | A: Definition | Action functional (subtype projection) |
+| `yang_mills_nonneg` | — | **ELIMINATED v3.3.39** (subtype projection) |
 | `flat_connection_minimizes` | B: Standard result | Variational principle |
 | `YangMillsHamiltonian` | A: Definition | Quantum operator type |
 | `vacuum` | A: Definition | Ground state type |
 | `vacuum_energy` | A: Definition | Ground state energy |
 | `first_excited_energy` | A: Definition | Excited state energy |
-| `mass_gap_nonneg` | A: Definition | Basic property |
+| `mass_gap_nonneg` | — | **ELIMINATED v3.3.39** (subtype projection) |
 | `GIFT_mass_gap_relation` | E: GIFT claim | Δ = λ₁ × Λ_QCD |
 
 **Note**: Most axioms here are DEFINITIONS (Category A), not claims.
@@ -119,21 +119,32 @@ opaque Curvature {G : CompactSimpleGroup} {M : CompactManifold}
 -- YANG-MILLS FUNCTIONAL
 -- ============================================================================
 
+/-- Inhabited instance for non-negative real subtype (needed for opaque declarations). -/
+instance : Inhabited {x : ℝ // x ≥ 0} := ⟨⟨0, le_refl 0⟩⟩
+
+/-- Auxiliary: Yang-Mills action bundled with non-negativity.
+
+S_YM[A] = integral_M |F_A|^2 dvol ≥ 0, since the integrand is non-negative. -/
+noncomputable opaque YangMillsAction_aux {G : CompactSimpleGroup} {M : CompactManifold}
+    (A : Connection G M) : {x : ℝ // x ≥ 0}
+
 /-- The Yang-Mills action functional.
 
     S_YM[A] = integral_M |F_A|^2 dvol
 
     where F_A is the curvature of the connection A.
-**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09).
+
+**Formerly opaque**, now def projecting from non-negative opaque (v3.3.39).
 -/
-noncomputable opaque YangMillsAction {G : CompactSimpleGroup} {M : CompactManifold}
-    (A : Connection G M) : ℝ
+noncomputable def YangMillsAction {G : CompactSimpleGroup} {M : CompactManifold}
+    (A : Connection G M) : ℝ := (YangMillsAction_aux A).val
 
 /-- Yang-Mills action is non-negative.
 
-**Axiom Category: B (Standard Result)** — Non-negativity of the curvature norm integral. -/
-axiom yang_mills_nonneg {G : CompactSimpleGroup} {M : CompactManifold}
-    (A : Connection G M) : YangMillsAction A ≥ 0
+**Formerly axiom**, now theorem via subtype projection (v3.3.39). -/
+theorem yang_mills_nonneg {G : CompactSimpleGroup} {M : CompactManifold}
+    (A : Connection G M) : YangMillsAction A ≥ 0 :=
+  (YangMillsAction_aux A).property
 
 /-- Flat connections minimize the action (S = 0).
 
@@ -163,11 +174,23 @@ opaque vacuum {G : CompactSimpleGroup} {M : CompactManifold}
 noncomputable opaque vacuum_energy {G : CompactSimpleGroup} {M : CompactManifold}
     (H : YangMillsHamiltonian G M) : ℝ
 
+/-- Inhabited instance for ordered energy subtype (needed for opaque declaration). -/
+noncomputable instance {G : CompactSimpleGroup} {M : CompactManifold}
+    {H : YangMillsHamiltonian G M} : Inhabited {x : ℝ // x ≥ vacuum_energy H} :=
+  ⟨⟨vacuum_energy H, le_refl _⟩⟩
+
+/-- Auxiliary: First excited state energy bundled with E₁ ≥ E₀ ordering.
+
+By the spectral theorem for self-adjoint operators, the first excited state
+energy is at least as large as the vacuum energy. -/
+noncomputable opaque first_excited_energy_aux {G : CompactSimpleGroup} {M : CompactManifold}
+    (H : YangMillsHamiltonian G M) : {x : ℝ // x ≥ vacuum_energy H}
+
 /-- First excited state energy.
 
-**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
-noncomputable opaque first_excited_energy {G : CompactSimpleGroup} {M : CompactManifold}
-    (H : YangMillsHamiltonian G M) : ℝ
+**Formerly opaque**, now def projecting from ordered opaque (v3.3.39). -/
+noncomputable def first_excited_energy {G : CompactSimpleGroup} {M : CompactManifold}
+    (H : YangMillsHamiltonian G M) : ℝ := (first_excited_energy_aux H).val
 
 -- ============================================================================
 -- MASS GAP DEFINITION
@@ -185,9 +208,11 @@ noncomputable def YangMillsMassGap {G : CompactSimpleGroup} {M : CompactManifold
 
 /-- The mass gap is non-negative.
 
-**Axiom Category: A (Definition)** — E₁ ≥ E₀ by construction. -/
-axiom mass_gap_nonneg {G : CompactSimpleGroup} {M : CompactManifold}
-    (H : YangMillsHamiltonian G M) : YangMillsMassGap H ≥ 0
+**Formerly axiom**, now theorem: E₁ ≥ E₀ via subtype projection (v3.3.39). -/
+theorem mass_gap_nonneg {G : CompactSimpleGroup} {M : CompactManifold}
+    (H : YangMillsHamiltonian G M) : YangMillsMassGap H ≥ 0 := by
+  unfold YangMillsMassGap first_excited_energy
+  linarith [(first_excited_energy_aux H).property]
 
 -- ============================================================================
 -- GIFT CONNECTION: SPECTRAL GAP → MASS GAP
