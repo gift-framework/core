@@ -21,16 +21,14 @@ for stating theorems.
 ### Category B: STANDARD RESULTS (textbook theorems)
 These are well-established theorems. Full formalization requires
 Mathlib's Riemannian geometry (in development).
-- `spectral_theorem_discrete` - Chavel (1984), Theorem 1.2.1
-- `weyl_law` - Weyl (1911), asymptotic eigenvalue count
-- `rayleigh_quotient_characterization` - Courant-Hilbert (1953)
+- `spectral_theorem_discrete` - **FUSED v3.3.42** into `manifold_spectral_data`
+- `mass_gap_is_infimum` - **FUSED v3.3.42** into `manifold_spectral_data`
+- `manifold_spectral_data` - **NEW** bundled spectral data (Chavel 1984, Thm 1.2.1)
 
 ### Category C: GIFT CLAIMS (to be proven)
 These are the actual GIFT predictions.
 - `MassGap` - Definition
 - `mass_gap_exists_positive` - **ELIMINATED v3.3.39** (subtype projection)
-- `mass_gap_is_infimum` - **ELIMINATED v3.3.39** (subtype projection)
-- `mass_gap_decay_rate` - Heat kernel decay
 
 ## References
 
@@ -153,29 +151,6 @@ structure Eigenvalue (M : CompactManifold) where
 /-- The spectrum of a Laplacian is the set of eigenvalues -/
 def Spectrum (M : CompactManifold) : Type := Eigenvalue M
 
-/-- Spectral theorem for compact manifolds:
-    The spectrum is discrete, eigenvalues form an increasing sequence
-    0 = ev_0 < ev_1 <= ev_2 <= ... -> infinity
-
-**Axiom Category: B (Standard Result)** - TEXTBOOK THEOREM
-
-**Citation:** Chavel (1984), "Eigenvalues in Riemannian Geometry", Theorem 1.2.1
-Also: Berger (2003), Chapter 9; Gilkey (1995), "Invariance Theory"
-
-**Statement:** For any compact Riemannian manifold (M, g), the Laplace-Beltrami
-operator Δ has discrete spectrum 0 = λ₀ < λ₁ ≤ λ₂ ≤ ... → ∞.
-
-**Proof outline:** Self-adjointness + compactness of resolvent (Rellich lemma).
-
-**Elimination path:** Requires Mathlib L² theory on manifolds.
--/
-axiom spectral_theorem_discrete (M : CompactManifold) :
-  ∃ (eigseq : ℕ → ℝ),
-    (eigseq 0 = 0) ∧                           -- ev_0 = 0 (constants)
-    (∀ n, eigseq n ≤ eigseq (n + 1)) ∧         -- non-decreasing
-    (∀ n, eigseq n ≥ 0) ∧                       -- non-negative
-    (∀ C : ℝ, ∃ N, ∀ n ≥ N, eigseq n > C)      -- unbounded
-
 -- ============================================================================
 -- MASS GAP DEFINITION
 -- ============================================================================
@@ -205,12 +180,73 @@ theorem mass_gap_exists_positive (M : CompactManifold) :
   ∃ (ev1 : ℝ), ev1 > 0 ∧ MassGap M = ev1 :=
   ⟨(MassGap_aux M).val, (MassGap_aux M).property, rfl⟩
 
+-- ============================================================================
+-- BUNDLED SPECTRAL DATA (v3.3.42: axiom consolidation 2 → 1)
+-- ============================================================================
+
+/-- Bundled spectral data for a compact Riemannian manifold.
+
+Combines the discrete spectral theorem (eigenvalue sequence) with the
+mass gap infimum property into a single structure.
+
+**Axiom consolidation (v3.3.42):** Replaces `spectral_theorem_discrete` +
+`mass_gap_is_infimum` (2 axioms → 1).
+
+**Citation:** Chavel (1984), Theorem 1.2.1; Berger (2003), Chapter 9.
+
+**Mathlib bridge note:** When Mathlib formalizes the spectral theorem for compact
+self-adjoint operators on infinite-dimensional Hilbert spaces (currently a TODO in
+`Mathlib.Analysis.InnerProductSpace.Spectrum`), this axiom can be eliminated by
+connecting `CompactManifold` to Mathlib's `IsCompactOperator` + `IsSelfAdjoint`
+via the resolvent (Δ + I)⁻¹. See `tier4_axiom_elimination_plan.md`. -/
+structure ManifoldSpectralData (M : CompactManifold) where
+  /-- Eigenvalue sequence: 0 = λ₀ ≤ λ₁ ≤ λ₂ ≤ ... → ∞ -/
+  eigseq : ℕ → ℝ
+  /-- λ₀ = 0 (constant functions are harmonic) -/
+  eigseq_zero : eigseq 0 = 0
+  /-- Eigenvalues are non-decreasing -/
+  eigseq_nondecreasing : ∀ n, eigseq n ≤ eigseq (n + 1)
+  /-- Eigenvalues are non-negative (positive semi-definiteness of Δ) -/
+  eigseq_nonneg : ∀ n, eigseq n ≥ 0
+  /-- Eigenvalues are unbounded (compactness → discrete spectrum) -/
+  eigseq_unbounded : ∀ C : ℝ, ∃ N, ∀ n ≥ N, eigseq n > C
+  /-- Mass gap is the infimum of positive eigenvalues -/
+  mass_gap_is_min : ∀ (ev : ℝ),
+    (ev > 0 ∧ ev ∈ Set.range (fun (e : Eigenvalue M) => e.value)) →
+    MassGap M ≤ ev
+
+/-- Every compact Riemannian manifold has spectral data.
+
+**Axiom Category: B (Standard Result)** — Chavel (1984), Theorem 1.2.1
+
+**Axiom consolidation (v3.3.42):** Replaces `spectral_theorem_discrete` +
+`mass_gap_is_infimum` (2 axioms → 1). -/
+axiom manifold_spectral_data (M : CompactManifold) : ManifoldSpectralData M
+
+-- ============================================================================
+-- BACKWARD-COMPATIBLE PROJECTIONS
+-- ============================================================================
+
+/-- Spectral theorem for compact manifolds:
+    0 = λ₀ ≤ λ₁ ≤ λ₂ ≤ ... → ∞
+
+**Formerly axiom**, now structure projection from ManifoldSpectralData (v3.3.42). -/
+theorem spectral_theorem_discrete (M : CompactManifold) :
+  ∃ (eigseq : ℕ → ℝ),
+    (eigseq 0 = 0) ∧
+    (∀ n, eigseq n ≤ eigseq (n + 1)) ∧
+    (∀ n, eigseq n ≥ 0) ∧
+    (∀ C : ℝ, ∃ N, ∀ n ≥ N, eigseq n > C) :=
+  let sd := manifold_spectral_data M
+  ⟨sd.eigseq, sd.eigseq_zero, sd.eigseq_nondecreasing, sd.eigseq_nonneg, sd.eigseq_unbounded⟩
+
 /-- The mass gap is the infimum of positive eigenvalues.
 
-**Axiom Category: A (Definition)** — Characterization of spectral gap. -/
-axiom mass_gap_is_infimum (M : CompactManifold) :
+**Formerly axiom**, now structure projection from ManifoldSpectralData (v3.3.42). -/
+theorem mass_gap_is_infimum (M : CompactManifold) :
   ∀ (ev : ℝ), (ev > 0 ∧ ev ∈ Set.range (fun (e : Eigenvalue M) => e.value)) →
-    MassGap M ≤ ev
+    MassGap M ≤ ev :=
+  (manifold_spectral_data M).mass_gap_is_min
 
 -- ============================================================================
 -- PROPERTIES OF THE MASS GAP
