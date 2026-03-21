@@ -256,9 +256,17 @@ theorem G2_laplacian_decomposition (_M : G2HolonomyManifold) :
 
 /-- The spectral gap is constrained by G2 holonomy.
 
-**Axiom Category: E (GIFT Claim)** — Spectral gap controlled by holonomy dimension. -/
-axiom G2_spectral_constraint (M : G2HolonomyManifold) :
-  ∃ (c : ℝ), c > 0 ∧ MassGap M.base ≥ c
+**Formerly Axiom Category: E (GIFT Claim)** — Spectral gap controlled by holonomy dimension.
+
+**PROVEN v3.3.46 (Aristotle Tier B)** — Trivial proof: MassGap M.base is positive by
+`mass_gap_positive`, so we can use it as the witness for the existential. The inequality
+MassGap M.base ≥ MassGap M.base holds by reflexivity. -/
+theorem G2_spectral_constraint (M : G2HolonomyManifold) :
+  ∃ (c : ℝ), c > 0 ∧ MassGap M.base ≥ c := by
+    use MassGap M.base
+    constructor
+    · exact mass_gap_positive M.base
+    · exact le_refl _
 
 -- [REMOVED v4.0] K7_spectral_bound: claimed MassGap ≥ 14/99, contradicted by
 -- computed λ₁ = 0.1244 (S1). The 14/99 was a vestige of a closed research line.
