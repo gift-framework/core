@@ -19,8 +19,8 @@ This is the "Model Theorem" establishing the 1/L² scaling of the spectral gap.
 | `spectral_upper_bound` | C: Geometric structure | Rayleigh quotient |
 | `neck_cheeger_bound` | — | **ELIMINATED v3.3.41** (placeholder) |
 | `cut_classification` | — | **ELIMINATED v3.3.41** (placeholder) |
-| `neck_dominates` | — | **ELIMINATED v3.3.41** (placeholder) |
-| `spectral_lower_bound` | C: Geometric structure | Cheeger-based bound |
+| `neck_dominates` | C: Geometric structure | Cheeger constant ≥ 2v₀/L |
+| `spectral_lower_bound` | — | **ELIMINATED v3.3.47** (theorem via Cheeger + neck dominance) |
 
 ## Proof Strategy
 
@@ -194,30 +194,71 @@ theorem cut_classification (K : TCSManifold) (_hyp : TCSHypotheses K) :
 
 When L > L₀ = 2v₀/h₀, we have 2v₀/L < h₀, so the minimum in
   h(K) = min(h₀, 2v₀/L)
-is achieved by the neck term.
+is achieved by the neck term:
 
-**Formerly axiom**, now placeholder (bound captured by spectral_lower_bound) (v3.3.41). -/
-theorem neck_dominates (K : TCSManifold) (hyp : TCSHypotheses K)
-    (_hL : K.neckLength > L₀ K hyp) :
-  True :=
-  trivial
+1. Any separating hypersurface Σ either passes through a block or stays in the neck.
+2. Case A (through block): isoperimetric ratio ≥ h₀ by (H4).
+3. Case B (through neck): Area(Σ) ≥ Area(Y) by (H6) neck minimality,
+   and min(Vol(A), Vol(B)) ≤ Vol(N)/2, giving ratio ≥ 2·Area(Y)/Vol(N) ≥ 2v₀/L.
+4. Since L > L₀ = 2v₀/h₀ implies 2v₀/L < h₀, the neck case is the minimum.
 
-/-- Spectral lower bound via Cheeger inequality.
+Result: CheegerConstant(K) ≥ 2v₀/L.
+
+**Axiom Category: C (Geometric structure)** — Neck dominance for Cheeger constant.
+**Why axiom**: Requires co-area formula and manifold measure theory not yet in Mathlib.
+**Elimination path**: Formalize isoperimetric classification on TCS decompositions.
+-/
+axiom neck_dominates (K : TCSManifold) (hyp : TCSHypotheses K)
+    (hL : K.neckLength > L₀ K hyp) :
+    CheegerConstant K.toCompactManifold ≥ 2 * hyp.neckVol.v₀ / K.neckLength
+
+/-- Algebraic identity: (2v₀/L)² / 4 = v₀² / L².
+
+Used in the spectral lower bound proof to convert the Cheeger bound
+into the c₁/L² form. -/
+theorem cheeger_algebra (v₀ L : ℝ) (hL : L ≠ 0) :
+    (2 * v₀ / L) ^ 2 / 4 = v₀ ^ 2 / L ^ 2 := by
+  field_simp
+  ring
+
+/-- Spectral lower bound via Cheeger inequality and neck dominance.
 
 For L > L₀:
-1. h(K) ≥ 2v₀/L (by neck_dominates)
-2. λ₁ ≥ h²/4 (by Cheeger inequality)
-3. λ₁ ≥ (2v₀/L)²/4 = v₀²/L²
+1. h(K) ≥ 2v₀/L (by `neck_dominates`)
+2. λ₁ ≥ h²/4 (by `cheeger_inequality`)
+3. h² ≥ (2v₀/L)² (by monotonicity of squaring on nonneg reals)
+4. (2v₀/L)²/4 = v₀²/L² (by `cheeger_algebra`)
 
-Axiomatized: Full proof requires combining Cheeger inequality with
-monotonicity of squaring, which involves nonlinear arithmetic on
-transcendental (real) inequalities. The algebraic structure is:
-  λ₁ ≥ h²/4 ≥ (2v₀/L)²/4 = v₀²/L²
+Conclusion: λ₁ ≥ v₀²/L² = c₁/L².
 
-**Axiom Category: C (Geometric structure)** — Cheeger-based spectral lower bound. -/
-axiom spectral_lower_bound (K : TCSManifold) (hyp : TCSHypotheses K)
+**Formerly axiom**, now theorem via Cheeger inequality + neck dominance.
+
+**Proof credit**: Aristotle AI (Harmonics.fun), 2026-03-21.
+**Axiom reduction**: spectral_lower_bound eliminated (swapped for neck_dominates). -/
+theorem spectral_lower_bound (K : TCSManifold) (hyp : TCSHypotheses K)
     (hL : K.neckLength > L₀ K hyp) :
-    MassGap K.toCompactManifold ≥ c₁ K hyp / K.neckLength ^ 2
+    MassGap K.toCompactManifold ≥ c₁ K hyp / K.neckLength ^ 2 := by
+  -- Step 1: Cheeger inequality gives λ₁ ≥ h²/4
+  have h_cheeger := cheeger_inequality K.toCompactManifold
+  -- Step 2: Neck dominance gives h ≥ 2v₀/L
+  have h_neck := neck_dominates K hyp hL
+  -- Step 3: h ≥ 0 (Cheeger constant is non-negative)
+  have h_nonneg := cheeger_nonneg K.toCompactManifold
+  -- Step 4: 2v₀/L ≥ 0
+  have hv₀L_nonneg : 2 * hyp.neckVol.v₀ / K.neckLength ≥ 0 :=
+    div_nonneg (mul_nonneg (by norm_num) (le_of_lt hyp.neckVol.v₀_pos))
+      (le_of_lt K.neckLength_pos)
+  -- Step 5: h² ≥ (2v₀/L)² by monotonicity of squaring
+  have h_sq : (CheegerConstant K.toCompactManifold) ^ 2 ≥
+      (2 * hyp.neckVol.v₀ / K.neckLength) ^ 2 :=
+    sq_le_sq' (by linarith) h_neck
+  -- Step 6: Algebraic identity (2v₀/L)²/4 = v₀²/L²
+  have h_alg : (2 * hyp.neckVol.v₀ / K.neckLength) ^ 2 / 4 =
+      hyp.neckVol.v₀ ^ 2 / K.neckLength ^ 2 := by
+    field_simp; ring
+  -- Chain: MassGap ≥ h²/4 ≥ (2v₀/L)²/4 = v₀²/L² = c₁/L²
+  unfold c₁
+  linarith
 
 -- ============================================================================
 -- MAIN THEOREM: TCS SPECTRAL BOUNDS
