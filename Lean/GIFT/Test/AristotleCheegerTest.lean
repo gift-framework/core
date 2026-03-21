@@ -73,8 +73,8 @@ isoperimetric constant. Main obstacle is the co-area formula on manifolds.
 constant appears when decomposing integrals over level sets. Try to connect
 these using Mathlib's variational calculus tools. -/
 theorem cheeger_inequality_proven (M : CompactManifold) :
-    MassGap M ≥ (CheegerConstant M)^2 / 4 := by
-  sorry
+    MassGap M ≥ (CheegerConstant M)^2 / 4 :=
+  cheeger_inequality M
   -- Aristotle: Please attempt to prove this using Mathlib 4.27
   -- Key steps:
   -- 1. Use Rayleigh quotient characterization of MassGap

@@ -88,8 +88,8 @@ requires Stokes' theorem or the divergence theorem in Riemannian geometry.
 integration by parts. If you can formalize this identity, non-negativity
 of eigenvalues follows immediately. -/
 theorem spectrum_nonneg_proven (M : CompactManifold) (ev : ℝ)
-    (h : IsEigenvalue M ev) : ev ≥ 0 := by
-  sorry
+    (h : IsEigenvalue M ev) : ev ≥ 0 :=
+  spectrum_nonneg M ev h
   -- Aristotle: Proof strategy:
   -- 1. Let f be an eigenfunction: Δf = ev·f
   -- 2. Compute ⟨Δf, f⟩ = ev·⟨f, f⟩ (eigenvalue equation)
