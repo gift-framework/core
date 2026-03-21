@@ -5,6 +5,60 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.44] - 2026-03-21
+
+### Summary
+
+**CRITICAL FIX: Axiom inconsistency discovered by Aristotle AI.** The `Eigenvalue` structure was freely constructible from any non-negative real, creating a logical contradiction with `mass_gap_positive`. This allowed proving `False` from the axioms, making the system inconsistent. Fixed by adding `IsEigenvalue` predicate to restrict `Eigenvalue` to actual spectrum. **Axioms: 18 (14 + 4 new for IsEigenvalue predicate).**
+
+### Fixed
+
+- **`Spectral/SpectralTheory.lean`** — Eliminated axiom inconsistency:
+  - Added `IsEigenvalue (M : CompactManifold) (ev : ℝ) : Prop` predicate (new axiom)
+  - Added 3 supporting axioms: `spectrum_countable`, `spectrum_nonneg`, `zero_eigenvalue`
+  - Updated `Eigenvalue` structure to include `is_eigenvalue : IsEigenvalue M value` field
+  - Fixed `ManifoldSpectralData.mass_gap_is_min` to use predicate: `∀ ev, (ev > 0 ∧ IsEigenvalue M ev) → MassGap M ≤ ev`
+  - Added `eigseq_is_spectrum` field to connect eigenvalue sequence to actual spectrum
+  - **Inconsistency eliminated**: Can no longer construct `Eigenvalue` with arbitrary values
+
+### Changed
+
+- **`Test/AristotleAxiomTest.lean`** — Updated to verify consistency:
+  - Removed False proof (spectral_axiom_contradiction)
+  - Added `spectral_axiom_consistent` theorem documenting the fix
+  - Documented historical context and future Mathlib elimination path
+
+### Stats
+
+- **Axioms**: 18 (+4 from v3.3.41, net +4 to fix inconsistency)
+- **Build**: 8014 jobs, 0 errors
+- **Conjuncts**: 210 (unchanged)
+
+### Details
+
+The old `Eigenvalue` structure:
+```lean
+structure Eigenvalue (M : CompactManifold) where
+  value : ℝ
+  nonneg : value ≥ 0  -- ❌ Allows ANY ℝ ≥ 0
+```
+
+Created `Set.range (fun e : Eigenvalue M => e.value) = Set.Ici 0`, making `mass_gap_is_min` require `MassGap M ≤ ev` for ALL `ev > 0`. This forced `MassGap M ≤ 0`, contradicting `mass_gap_positive : MassGap M > 0`.
+
+**Discovery**: Aristotle AI (Harmonics.ai) automated theorem prover detected this inconsistency on 2026-03-21 and proved `False` from the axioms using:
+```lean
+lemma spectral_axiom_contradiction (M : CompactManifold) : False := by
+  have sd := manifold_spectral_data M
+  have hmid : MassGap M / 2 > 0 := by linarith [mass_gap_positive M]
+  have hmem : MassGap M / 2 ∈ Set.range ... := ⟨⟨MassGap M / 2, le_of_lt hmid⟩, rfl⟩
+  have hle := sd.mass_gap_is_min (MassGap M / 2) ⟨hmid, hmem⟩
+  linarith  -- MassGap M ≤ MassGap M / 2 AND MassGap M > 0 → False
+```
+
+**Fix**: The new `IsEigenvalue` predicate restricts `Eigenvalue` to actual spectrum. Now `mass_gap_is_min` requires a proof of `IsEigenvalue M ev`, not just `ev ≥ 0`. The contradiction no longer follows.
+
+**Future work**: Eliminate `IsEigenvalue` axiom by connecting to Mathlib's `LinearMap.IsSymmetric.eigenvectorBasis` via compact self-adjoint operator framework. See `EIGENVALUE_FIX_PLAN.md`.
+
 ## [3.3.41] - 2026-03-20
 
 ### Summary

@@ -141,11 +141,43 @@ opaque LaplaceBeltrami.canonical (M : CompactManifold) : LaplaceBeltrami M
 -- SPECTRUM (axiom-based)
 -- ============================================================================
 
-/-- An eigenvalue of the Laplacian -/
+/-- An eigenvalue is an actual eigenvalue of the Laplace-Beltrami operator.
+
+This is a predicate representing the spectrum of Δ : L²(M) → L²(M).
+For a CompactManifold M, IsEigenvalue M ev holds if ev is in the discrete
+spectrum of the Laplace-Beltrami operator.
+
+**Axiom Category: A (Definition)** — Restricts Eigenvalue type to actual spectrum.
+
+**Future work**: Connect to Mathlib's `LinearMap.IsSymmetric.eigenvectorBasis`
+to eliminate this axiom via spectral theorem. -/
+axiom IsEigenvalue (M : CompactManifold) (ev : ℝ) : Prop
+
+/-- The spectrum is discrete (at most countable).
+
+**Axiom Category: B (Standard Result)** — Standard spectral theory. -/
+axiom spectrum_countable (M : CompactManifold) :
+  Set.Countable {ev : ℝ | IsEigenvalue M ev}
+
+/-- The spectrum is bounded below by 0.
+
+**Axiom Category: B (Standard Result)** — Positive semi-definiteness of Δ. -/
+axiom spectrum_nonneg (M : CompactManifold) (ev : ℝ) (h : IsEigenvalue M ev) :
+  ev ≥ 0
+
+/-- Zero is always an eigenvalue (constant functions).
+
+**Axiom Category: B (Standard Result)** — Harmonic constants. -/
+axiom zero_eigenvalue (M : CompactManifold) :
+  IsEigenvalue M 0
+
+/-- An eigenvalue of the Laplacian bundled with its property. -/
 structure Eigenvalue (M : CompactManifold) where
   /-- The eigenvalue itself -/
   value : ℝ
-  /-- Eigenvalue is non-negative (from positive semi-definiteness) -/
+  /-- Proof that this is an actual eigenvalue -/
+  is_eigenvalue : IsEigenvalue M value
+  /-- Eigenvalue is non-negative (follows from is_eigenvalue) -/
   nonneg : value ≥ 0
 
 /-- The spectrum of a Laplacian is the set of eigenvalues -/
@@ -192,6 +224,10 @@ mass gap infimum property into a single structure.
 **Axiom consolidation (v3.3.42):** Replaces `spectral_theorem_discrete` +
 `mass_gap_is_infimum` (2 axioms → 1).
 
+**Consistency fix (v3.3.44):** Added `IsEigenvalue` predicate to restrict
+the `Eigenvalue` type to actual spectrum, eliminating the logical contradiction
+discovered by Aristotle AI where any ℝ ≥ 0 could be constructed as an eigenvalue.
+
 **Citation:** Chavel (1984), Theorem 1.2.1; Berger (2003), Chapter 9.
 
 **Mathlib bridge note:** When Mathlib formalizes the spectral theorem for compact
@@ -210,10 +246,11 @@ structure ManifoldSpectralData (M : CompactManifold) where
   eigseq_nonneg : ∀ n, eigseq n ≥ 0
   /-- Eigenvalues are unbounded (compactness → discrete spectrum) -/
   eigseq_unbounded : ∀ C : ℝ, ∃ N, ∀ n ≥ N, eigseq n > C
-  /-- Mass gap is the infimum of positive eigenvalues -/
+  /-- All eigseq values are actual eigenvalues -/
+  eigseq_is_spectrum : ∀ n, IsEigenvalue M (eigseq n)
+  /-- Mass gap is the infimum of positive eigenvalues (FIXED: uses IsEigenvalue predicate) -/
   mass_gap_is_min : ∀ (ev : ℝ),
-    (ev > 0 ∧ ev ∈ Set.range (fun (e : Eigenvalue M) => e.value)) →
-    MassGap M ≤ ev
+    (ev > 0 ∧ IsEigenvalue M ev) → MassGap M ≤ ev
 
 /-- Every compact Riemannian manifold has spectral data.
 
@@ -242,10 +279,10 @@ theorem spectral_theorem_discrete (M : CompactManifold) :
 
 /-- The mass gap is the infimum of positive eigenvalues.
 
-**Formerly axiom**, now structure projection from ManifoldSpectralData (v3.3.42). -/
+**Formerly axiom**, now structure projection from ManifoldSpectralData (v3.3.42).
+**Fixed (v3.3.44)**: Uses `IsEigenvalue` predicate instead of `Set.range`. -/
 theorem mass_gap_is_infimum (M : CompactManifold) :
-  ∀ (ev : ℝ), (ev > 0 ∧ ev ∈ Set.range (fun (e : Eigenvalue M) => e.value)) →
-    MassGap M ≤ ev :=
+  ∀ (ev : ℝ), (ev > 0 ∧ IsEigenvalue M ev) → MassGap M ≤ ev :=
   (manifold_spectral_data M).mass_gap_is_min
 
 -- ============================================================================
