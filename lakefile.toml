@@ -2,7 +2,7 @@
 # The actual Lean project is in Lean/
 
 name = "GIFT"
-version = "3.3.42b"
+version = "3.3.43"
 defaultTargets = ["GIFT"]
 
 [leanOptions]
