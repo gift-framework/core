@@ -17,6 +17,10 @@ code, kbd, pre, samp, code.verb {
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    color: #ffffff;
+}
+
 /* ===== Header ===== */
 body > header {
     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
