@@ -443,16 +443,18 @@ nav.toc {
     border-right: 1px solid #1e293b;
 }
 
-.toc ul a {
+.toc ul a,
+.local_toc ul a {
     font-family: 'Inter', sans-serif;
     font-size: 0.88rem;
-    color: #94a3b8;
+    color: #94a3b8 !important;  /* Override default dark color */
     transition: color 0.15s, background 0.15s;
 }
 
-.toc ul a:hover {
+.toc ul a:hover,
+.local_toc ul a:hover {
     background: #1e293b;
-    color: #f1f5f9;
+    color: #f1f5f9 !important;
 }
 
 .toc ul li {
