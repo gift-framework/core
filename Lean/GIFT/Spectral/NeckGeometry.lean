@@ -116,7 +116,7 @@ The metric is the product of the line metric and the cross-section metric.
 
 Axiomatized: requires differential geometry formalization.
 
-**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09).
+**Former axiom, now opaque** (opaque refactoring 2026-02-09).
 -/
 opaque ProductNeckMetric (K : TCSManifold) : Prop
 
@@ -181,7 +181,7 @@ projection argument: π_Y : N → Y is 1-Lipschitz.
 
 Axiomatized: requires measure theory on manifolds.
 
-**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09).
+**Former axiom, now opaque** (opaque refactoring 2026-02-09).
 -/
 opaque NeckMinimality (K : TCSManifold) : Prop
 

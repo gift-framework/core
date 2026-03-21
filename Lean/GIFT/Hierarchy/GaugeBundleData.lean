@@ -13,8 +13,8 @@
 -- All results are Category F (numerically verified definitions) with
 -- native_decide proofs. Zero new axioms.
 --
--- Source: gauge_bundle_data_results.json (S22)
--- Cross-refs: S19 (orthonormality), S20 (TCS gauge breaking)
+-- Source: gauge_bundle_data_results.json (gauge_bundle computation)
+-- Cross-refs: gauge_breaking (orthonormality), gauge_breaking (TCS gauge breaking)
 
 import GIFT.Core
 import GIFT.Hierarchy.TCSGaugeBreaking
@@ -35,7 +35,7 @@ The gauge kinetic matrix f_IJ = G_K7(22) from the L2 inner product
 of harmonic 2-forms on K7. Its condition number measures gauge
 coupling universality.
 
-Source: `k7_orthonormality_results.json` (S19), reinterpreted in S22.
+Source: `k7_orthonormality_results.json` (gauge_breaking), reinterpreted in gauge_bundle computation.
 -/
 
 /-- Gauge kinetic condition number numerator: cond = 1.047 = 1047/1000
@@ -70,7 +70,7 @@ in the adiabatic TCS approximation as:
 The mass matrix is proportional to Q22, whose signature (3,19) gives
 exactly 3 positive eigenvalues = 3 fermion generations.
 
-Source: `gauge_bundle_data_results.json` (S22).
+Source: `gauge_bundle_data_results.json` (gauge_bundle computation).
 -/
 
 /-- Number of self-dual (positive) Yukawa eigenvalues = N_gen
@@ -106,9 +106,9 @@ The 3 positive eigenvalues of the Yukawa matrix give the mass hierarchy:
 
 The ratio m1/m3 = 1.60 is the geometric hierarchy from the Q22
 intersection form. The large observed hierarchy (m_tau/m_e = 3403)
-requires the non-adiabatic Wilson-line coupling from S10.
+requires the non-adiabatic Wilson-line coupling from the wilson_line computation.
 
-Source: `gauge_bundle_data_results.json` (S22).
+Source: `gauge_bundle_data_results.json` (gauge_bundle computation).
 -/
 
 /-- Mass eigenvalue 1 (numerator, units of 1000): m1 = 6.529 -/
@@ -148,7 +148,7 @@ From the TCS structure:
 M2-branes wrapping these cycles give instanton amplitudes
 A_k ~ exp(-Vol(Σ_k)). All volumes are positive = all suppressed.
 
-Source: `gauge_bundle_data_results.json` (S22).
+Source: `gauge_bundle_data_results.json` (gauge_bundle computation).
 -/
 
 /-- Number of associative 3-cycles on K7

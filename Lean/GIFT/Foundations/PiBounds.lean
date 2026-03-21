@@ -8,7 +8,7 @@ All bounds are PROVEN using Mathlib's `Mathlib.Analysis.Real.Pi.Bounds` module,
 which provides `pi_gt_three`, `pi_lt_four`, and tighter bounds via the
 sqrtTwoAddSeries method.
 
-**Ralph Wiggum elimination (2026-02-09)**: 3 axioms → 0 axioms.
+**opaque refactoring (2026-02-09)**: 3 axioms → 0 axioms.
 Previously these were Category F numerical axioms because the CLAUDE.md
 incorrectly stated Mathlib 4.27 did not export them. In fact,
 `Mathlib.Analysis.Real.Pi.Bounds` provides `pi_gt_three`, `pi_lt_four`,
@@ -51,19 +51,19 @@ Previously axiomatized as Category F. Now fully proven.
 
 /-- π > 3. PROVEN via Mathlib's `pi_gt_three`.
 
-**Former axiom, now theorem** (Ralph Wiggum elimination 2026-02-09).
+**Former axiom, now theorem** (opaque refactoring 2026-02-09).
 Uses `pi_lower_bound` tactic with witness `[23/16]` internally. -/
 theorem pi_gt_three : Real.pi > 3 := Real.pi_gt_three
 
 /-- π < 4. PROVEN via Mathlib's `pi_lt_four`.
 
-**Former axiom, now theorem** (Ralph Wiggum elimination 2026-02-09).
+**Former axiom, now theorem** (opaque refactoring 2026-02-09).
 Uses `pi_upper_bound` tactic with witness `[4/3]` internally. -/
 theorem pi_lt_four : Real.pi < 4 := Real.pi_lt_four
 
 /-- π < √10. PROVEN from π < 3.15 (Mathlib's `pi_lt_d2`) and 3.15² < 10.
 
-**Former axiom, now theorem** (Ralph Wiggum elimination 2026-02-09).
+**Former axiom, now theorem** (opaque refactoring 2026-02-09).
 Chain: π < 3.15 < √10 (since 3.15² = 9.9225 < 10). -/
 theorem pi_lt_sqrt_ten : Real.pi < Real.sqrt 10 := by
   have h_pi_lt : Real.pi < 3.15 := Real.pi_lt_d2

@@ -5,6 +5,74 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.47] - 2026-03-21
+
+### Summary
+
+**DOUBLE AXIOM ELIMINATION: IsEigenvalue + spectrum_nonneg.** The `IsEigenvalue` axiom (predicate introduced in v3.3.44 to fix inconsistency) is now a **definition** — an eigenvalue is simply a value that appears in the spectral sequence. With this, `spectrum_nonneg` becomes a trivial theorem. The `ManifoldSpectralData` structure is decoupled from the eigenvalue predicate, breaking the circular dependency. **Axioms: 11 (-2 from v3.3.46).**
+
+### Changed
+
+- **`Spectral/SpectralTheory.lean`** — Converted `IsEigenvalue` from axiom to def:
+  ```lean
+  def IsEigenvalue (M : CompactManifold) (ev : ℝ) : Prop :=
+    ∃ n, (manifold_spectral_data M).eigseq n = ev
+  ```
+  Key insight: the eigenvalue sequence IS the complete spectrum, so "being an eigenvalue" = "appearing in the sequence".
+
+- **`Spectral/SpectralTheory.lean`** — Converted `spectrum_nonneg` from axiom to theorem:
+  ```lean
+  theorem spectrum_nonneg (M : CompactManifold) (ev : ℝ) (h : IsEigenvalue M ev) :
+      ev ≥ 0 := by
+    obtain ⟨n, rfl⟩ := h
+    exact (manifold_spectral_data M).eigseq_nonneg n
+  ```
+  Proof: every eigenvalue = eigseq n for some n, and eigseq n ≥ 0 by positive semi-definiteness.
+
+- **`Spectral/SpectralTheory.lean`** — Restructured `ManifoldSpectralData`:
+  - Removed `eigseq_is_spectrum` field (now trivial theorem)
+  - Removed `eigseq_complete` field (now trivial theorem)
+  - Changed `mass_gap_is_min` to use sequence indices directly:
+    `∀ n, eigseq n > 0 → MassGap M ≤ eigseq n`
+  - All backward-compatible API (`eigseq_is_spectrum`, `eigseq_complete`, `mass_gap_is_infimum`) preserved as derived theorems
+
+### Stats
+
+- **Axioms**: 11 (-2 from v3.3.46: IsEigenvalue + spectrum_nonneg eliminated)
+- **Build**: 8025 jobs, 0 errors
+- **Conjuncts**: 210 (unchanged)
+
+### Credits
+
+- **Aristotle AI** (Harmonics.fun): Original discovery of IsEigenvalue inconsistency (v3.3.44) led to the predicate axiom, which is now fully eliminated
+- **Claude Opus 4.6**: Designed the decoupling strategy and implemented the restructuring
+
+### Details
+
+The v3.3.44 fix added `IsEigenvalue` as an axiom to prevent arbitrary eigenvalue construction. But this created a circular dependency: `ManifoldSpectralData` referenced `IsEigenvalue` (in `eigseq_is_spectrum`, `eigseq_complete`, `mass_gap_is_min`), and `IsEigenvalue` was defined independently. The v3.3.47 restructuring breaks this cycle by:
+
+1. **Decoupling**: `ManifoldSpectralData` no longer mentions `IsEigenvalue`
+2. **Defining**: `IsEigenvalue M ev := ∃ n, eigseq n = ev` (def, not axiom)
+3. **Deriving**: All previous API becomes trivially provable
+
+This is the final axiom elimination in the spectral theory module. The remaining axiom (`manifold_spectral_data`) encodes the spectral theorem itself, which requires Mathlib's compact self-adjoint operator theory to eliminate.
+
+## [3.3.46] - 2026-03-21
+
+### Summary
+
+**Aristotle Tier B Part 1: 3 spectral axioms eliminated.** Eliminated `G2_spectral_constraint`, `rayleigh_upper_bound_refined`, and `spectral_lower_bound_refined` by converting them from standalone axioms to theorems derived from existing spectral infrastructure. Added 12 Aristotle test files documenting elimination strategies for all remaining axioms. **Axioms: 13 (-3 from v3.3.45).**
+
+### Changed
+
+- Converted 3 axioms to theorems via Aristotle-guided proofs
+- Added 12 `Test/Aristotle*.lean` test files for systematic axiom elimination
+
+### Stats
+
+- **Axioms**: 13 (-3 from v3.3.45)
+- **Build**: 8025 jobs, 0 errors
+
 ## [3.3.45] - 2026-03-21
 
 ### Summary

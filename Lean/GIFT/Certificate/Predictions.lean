@@ -182,7 +182,7 @@ abbrev m_W_over_m_Z := GIFT.Observables.BosonMasses.m_W_over_m_Z
 abbrev m_W_over_m_Z_primary := GIFT.Observables.BosonMasses.m_W_over_m_Z_primary
 
 -- ═══════════════════════════════════════════════════════════════════════════════
--- GAUGE BUNDLE DATA (S22)
+-- GAUGE BUNDLE DATA (gauge_bundle)
 -- ═══════════════════════════════════════════════════════════════════════════════
 
 /-- Gauge kinetic universality -/
@@ -199,7 +199,7 @@ abbrev mass_hierarchy_23 := GIFT.Hierarchy.GaugeBundleData.mass_hierarchy_23
 abbrev gauge_bundle_certified := GIFT.Hierarchy.GaugeBundleData.gauge_bundle_data_certified
 
 -- ═══════════════════════════════════════════════════════════════════════════════
--- ASSOCIATIVE VOLUMES (S23)
+-- ASSOCIATIVE VOLUMES (instanton_volume)
 -- ═══════════════════════════════════════════════════════════════════════════════
 
 /-- Volume hierarchy: Vol_e > Vol_mu > Vol_tau -/
@@ -213,7 +213,7 @@ abbrev dv13_close_upper := GIFT.Hierarchy.AssociativeVolumes.dv13_close_upper
 /-- Associative volumes master certificate -/
 abbrev associative_volumes_certified := GIFT.Hierarchy.AssociativeVolumes.associative_volumes_certified
 
-/-- Combined S10+S23: all 3 lepton mass ratios within 1% -/
+/-- Combined wilson_line + instanton_volume: all 3 lepton mass ratios within 1% -/
 abbrev combined_tau_e_close := GIFT.Hierarchy.AssociativeVolumes.combined_tau_e_close_lower
 abbrev combined_tau_mu_close := GIFT.Hierarchy.AssociativeVolumes.combined_tau_mu_close_lower
 
@@ -343,7 +343,7 @@ def statement : Prop :=
     -- Mass formula
     (Hierarchy.betti_difference * Hierarchy.kappa_plus_one + Weyl_factor = 3477) ∧
 
-    -- ═══ GAUGE BUNDLE DATA (S22) ═══
+    -- ═══ GAUGE BUNDLE DATA (gauge_bundle) ═══
     -- Gauge kinetic universality: cond < 1.05
     (Hierarchy.GaugeBundleData.gauge_kinetic_cond_num * 100 <
      105 * Hierarchy.GaugeBundleData.gauge_kinetic_cond_den) ∧
@@ -355,7 +355,7 @@ def statement : Prop :=
     -- Instanton suppression: all volumes positive
     (Hierarchy.GaugeBundleData.min_instanton_vol_num > 0) ∧
 
-    -- ═══ ASSOCIATIVE VOLUMES (S23) ═══
+    -- ═══ ASSOCIATIVE VOLUMES (instanton_volume) ═══
     -- Volume ordering: Vol_e > Vol_mu > Vol_tau > 0
     (Hierarchy.AssociativeVolumes.vol_sd1_num >
      Hierarchy.AssociativeVolumes.vol_sd2_num) ∧
@@ -365,7 +365,7 @@ def statement : Prop :=
     (Hierarchy.AssociativeVolumes.delta_vol_13_num * 100 >
      Hierarchy.AssociativeVolumes.ln_tau_e_num * 80) ∧
 
-    -- ═══ COMPACTIFICATION CORRECTION (S27) ═══
+    -- ═══ COMPACTIFICATION CORRECTION (algebraic_formula / PSLQ residual) ═══
     -- δ_CP corrected = 12214/69 ≈ 177.01°
     (Relations.delta_CP_corrected_num = 12214) ∧
     (Relations.delta_CP_corrected_den = 69) ∧

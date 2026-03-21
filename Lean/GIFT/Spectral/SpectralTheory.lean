@@ -9,7 +9,7 @@ This module provides the abstract framework for spectral theory:
 - Spectral theorem for compact manifolds (discrete spectrum)
 - Mass gap definition as first nonzero eigenvalue
 
-## Axiom Classification (v3.3.15)
+## Axiom Classification (v3.3.47)
 
 ### Category A: TYPE DEFINITIONS (irreducible)
 These define mathematical objects, not claims. They are the vocabulary
@@ -24,6 +24,8 @@ Mathlib's Riemannian geometry (in development).
 - `spectral_theorem_discrete` - **FUSED v3.3.42** into `manifold_spectral_data`
 - `mass_gap_is_infimum` - **FUSED v3.3.42** into `manifold_spectral_data`
 - `manifold_spectral_data` - **NEW** bundled spectral data (Chavel 1984, Thm 1.2.1)
+- `IsEigenvalue` - **ELIMINATED v3.3.47** (axiom → def from eigseq)
+- `spectrum_nonneg` - **ELIMINATED v3.3.47** (axiom → theorem from eigseq)
 
 ### Category C: GIFT CLAIMS (to be proven)
 These are the actual GIFT predictions.
@@ -35,9 +37,9 @@ These are the actual GIFT predictions.
 - Chavel, I. (1984). Eigenvalues in Riemannian Geometry, Ch. 1-2
 - Berger, M. (2003). A Panoramic View of Riemannian Geometry, Ch. 9
 - Courant, R. & Hilbert, D. (1953). Methods of Mathematical Physics, Vol. 1
-- Weyl, H. (1911). "Über die asymptotische Verteilung der Eigenwerte"
+- Weyl, H. (1911). "Uber die asymptotische Verteilung der Eigenwerte"
 
-Version: 1.1.0 (v3.3.15: axiom classification)
+Version: 1.2.0 (v3.3.47: IsEigenvalue + spectrum_nonneg elimination)
 -/
 
 import GIFT.Core
@@ -82,13 +84,13 @@ For GIFT, we only need:
 
 **Elimination path:** Mathlib.Geometry.Manifold.Instances.Real (when completed)
 
-**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09).
+**Former axiom, now opaque** (opaque refactoring 2026-02-09).
 -/
 opaque CompactManifold : Type
 
 /-- Dimension of a compact manifold.
 
-**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+**Former axiom, now opaque** (opaque refactoring 2026-02-09). -/
 opaque CompactManifold.dim : CompactManifold → ℕ
 
 /-- Inhabited instance for positive real subtype (needed for opaque declarations). -/
@@ -134,46 +136,8 @@ instance (M : CompactManifold) : Inhabited (LaplaceBeltrami M) := ⟨⟨PUnit, T
 
 /-- Every compact manifold has a canonical Laplacian.
 
-**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+**Former axiom, now opaque** (opaque refactoring 2026-02-09). -/
 opaque LaplaceBeltrami.canonical (M : CompactManifold) : LaplaceBeltrami M
-
--- ============================================================================
--- SPECTRUM (axiom-based)
--- ============================================================================
-
-/-- An eigenvalue is an actual eigenvalue of the Laplace-Beltrami operator.
-
-This is a predicate representing the spectrum of Δ : L²(M) → L²(M).
-For a CompactManifold M, IsEigenvalue M ev holds if ev is in the discrete
-spectrum of the Laplace-Beltrami operator.
-
-**Axiom Category: A (Definition)** — Restricts Eigenvalue type to actual spectrum.
-
-**Future work**: Connect to Mathlib's `LinearMap.IsSymmetric.eigenvectorBasis`
-to eliminate this axiom via spectral theorem. -/
-axiom IsEigenvalue (M : CompactManifold) (ev : ℝ) : Prop
-
--- Spectrum countability: now theorem (see below after ManifoldSpectralData)
-
-/-- The spectrum is bounded below by 0.
-
-**Axiom Category: B (Standard Result)** — Positive semi-definiteness of Δ. -/
-axiom spectrum_nonneg (M : CompactManifold) (ev : ℝ) (h : IsEigenvalue M ev) :
-  ev ≥ 0
-
--- Zero eigenvalue: now theorem (see below after ManifoldSpectralData)
-
-/-- An eigenvalue of the Laplacian bundled with its property. -/
-structure Eigenvalue (M : CompactManifold) where
-  /-- The eigenvalue itself -/
-  value : ℝ
-  /-- Proof that this is an actual eigenvalue -/
-  is_eigenvalue : IsEigenvalue M value
-  /-- Eigenvalue is non-negative (follows from is_eigenvalue) -/
-  nonneg : value ≥ 0
-
-/-- The spectrum of a Laplacian is the set of eigenvalues -/
-def Spectrum (M : CompactManifold) : Type := Eigenvalue M
 
 -- ============================================================================
 -- MASS GAP DEFINITION
@@ -205,20 +169,22 @@ theorem mass_gap_exists_positive (M : CompactManifold) :
   ⟨(MassGap_aux M).val, (MassGap_aux M).property, rfl⟩
 
 -- ============================================================================
--- BUNDLED SPECTRAL DATA (v3.3.42: axiom consolidation 2 → 1)
+-- BUNDLED SPECTRAL DATA (v3.3.42: axiom consolidation, v3.3.47: decoupled)
 -- ============================================================================
 
 /-- Bundled spectral data for a compact Riemannian manifold.
 
-Combines the discrete spectral theorem (eigenvalue sequence) with the
-mass gap infimum property into a single structure.
+Encodes the discrete spectral theorem: the Laplacian on a compact manifold
+has eigenvalues 0 = λ₀ ≤ λ₁ ≤ λ₂ ≤ ... → ∞ forming a complete sequence.
 
 **Axiom consolidation (v3.3.42):** Replaces `spectral_theorem_discrete` +
 `mass_gap_is_infimum` (2 axioms → 1).
 
-**Consistency fix (v3.3.44):** Added `IsEigenvalue` predicate to restrict
-the `Eigenvalue` type to actual spectrum, eliminating the logical contradiction
-discovered by Aristotle AI where any ℝ ≥ 0 could be constructed as an eigenvalue.
+**Decoupling (v3.3.47):** Removed `IsEigenvalue`-dependent fields
+(`eigseq_is_spectrum`, `eigseq_complete`, `mass_gap_is_min` with predicate).
+The `IsEigenvalue` predicate is now DEFINED as membership in `eigseq`,
+so these properties become trivial theorems. The mass gap infimum property
+is stated directly on sequence indices.
 
 **Citation:** Chavel (1984), Theorem 1.2.1; Berger (2003), Chapter 9.
 
@@ -238,13 +204,8 @@ structure ManifoldSpectralData (M : CompactManifold) where
   eigseq_nonneg : ∀ n, eigseq n ≥ 0
   /-- Eigenvalues are unbounded (compactness → discrete spectrum) -/
   eigseq_unbounded : ∀ C : ℝ, ∃ N, ∀ n ≥ N, eigseq n > C
-  /-- All eigseq values are actual eigenvalues -/
-  eigseq_is_spectrum : ∀ n, IsEigenvalue M (eigseq n)
-  /-- Every eigenvalue appears in the sequence (completeness) -/
-  eigseq_complete : ∀ (ev : ℝ), IsEigenvalue M ev → ∃ n, eigseq n = ev
-  /-- Mass gap is the infimum of positive eigenvalues (FIXED: uses IsEigenvalue predicate) -/
-  mass_gap_is_min : ∀ (ev : ℝ),
-    (ev > 0 ∧ IsEigenvalue M ev) → MassGap M ≤ ev
+  /-- Mass gap is the infimum of positive eigenvalues in the sequence -/
+  mass_gap_is_min : ∀ n, eigseq n > 0 → MassGap M ≤ eigseq n
 
 /-- Every compact Riemannian manifold has spectral data.
 
@@ -255,42 +216,102 @@ structure ManifoldSpectralData (M : CompactManifold) where
 axiom manifold_spectral_data (M : CompactManifold) : ManifoldSpectralData M
 
 -- ============================================================================
--- PROVEN THEOREMS (formerly axioms, eliminated via ManifoldSpectralData)
+-- EIGENVALUE PREDICATE (v3.3.47: axiom → def via spectral sequence)
 -- ============================================================================
+
+/-- An eigenvalue is a value that appears in the spectral sequence.
+
+For a CompactManifold M, `IsEigenvalue M ev` holds iff `ev` appears in the
+discrete eigenvalue sequence of the Laplace-Beltrami operator.
+
+**Formerly axiom** (v3.3.44), now def via ManifoldSpectralData (v3.3.47).
+
+The key insight: the eigseq IS the complete spectrum by the spectral theorem
+for compact manifolds. So "being an eigenvalue" is exactly "appearing in the
+sequence". This eliminates the circular dependency where `ManifoldSpectralData`
+referenced `IsEigenvalue` and vice versa.
+
+**Proof credit**: Aristotle AI + Claude Opus 4.6, 2026-03-21.
+**Axiom reduction**: 13 → 12 axioms. -/
+def IsEigenvalue (M : CompactManifold) (ev : ℝ) : Prop :=
+  ∃ n, (manifold_spectral_data M).eigseq n = ev
+
+/-- The spectrum is bounded below by 0.
+
+**Formerly axiom** (v3.3.44), now theorem via ManifoldSpectralData (v3.3.47).
+
+Every eigenvalue ev = eigseq n for some n (by definition of IsEigenvalue),
+and eigseq n ≥ 0 by positive semi-definiteness of the Laplacian.
+
+**Proof credit**: Aristotle AI + Claude Opus 4.6, 2026-03-21.
+**Axiom reduction**: 12 → 11 axioms. -/
+theorem spectrum_nonneg (M : CompactManifold) (ev : ℝ) (h : IsEigenvalue M ev) :
+    ev ≥ 0 := by
+  obtain ⟨n, rfl⟩ := h
+  exact (manifold_spectral_data M).eigseq_nonneg n
+
+-- ============================================================================
+-- SPECTRUM STRUCTURES
+-- ============================================================================
+
+/-- An eigenvalue of the Laplacian bundled with its property. -/
+structure Eigenvalue (M : CompactManifold) where
+  /-- The eigenvalue itself -/
+  value : ℝ
+  /-- Proof that this is an actual eigenvalue -/
+  is_eigenvalue : IsEigenvalue M value
+  /-- Eigenvalue is non-negative (follows from is_eigenvalue) -/
+  nonneg : value ≥ 0
+
+/-- The spectrum of a Laplacian is the set of eigenvalues -/
+def Spectrum (M : CompactManifold) : Type := Eigenvalue M
+
+-- ============================================================================
+-- PROVEN THEOREMS (formerly axioms or structure fields)
+-- ============================================================================
+
+/-- All eigseq values are eigenvalues.
+
+**Formerly a structure field** of ManifoldSpectralData, now trivial from the
+definition of IsEigenvalue as membership in eigseq (v3.3.47). -/
+theorem eigseq_is_spectrum (M : CompactManifold) (n : ℕ) :
+    IsEigenvalue M ((manifold_spectral_data M).eigseq n) :=
+  ⟨n, rfl⟩
+
+/-- Every eigenvalue appears in the sequence (completeness).
+
+**Formerly a structure field** of ManifoldSpectralData, now trivial from the
+definition of IsEigenvalue (v3.3.47). -/
+theorem eigseq_complete (M : CompactManifold) (ev : ℝ) (h : IsEigenvalue M ev) :
+    ∃ n, (manifold_spectral_data M).eigseq n = ev := h
 
 /-- The spectrum is discrete (at most countable).
 
-**Formerly axiom**, now theorem via `eigseq_complete` field (v3.3.45, Aristotle AI).
+**Formerly axiom**, now theorem (v3.3.45, Aristotle AI).
 
-The eigenvalue set `{ev : ℝ | IsEigenvalue M ev}` is contained in
-`Set.range (manifold_spectral_data M).eigseq` by the `eigseq_complete` field.
-Since `ℕ` is countable, `Set.range eigseq` is countable, and any subset
-of a countable set is countable.
+The eigenvalue set `{ev : ℝ | IsEigenvalue M ev}` equals
+`Set.range (manifold_spectral_data M).eigseq` by definition. Since `ℕ` is
+countable, `Set.range eigseq` is countable.
 
 **Proof credit**: Aristotle AI (Harmonics.fun), 2026-03-21.
 **Axiom reduction**: 18 → 17 axioms. -/
 theorem spectrum_countable (M : CompactManifold) :
     Set.Countable {ev : ℝ | IsEigenvalue M ev} := by
   apply Set.Countable.mono _ (Set.countable_range (manifold_spectral_data M).eigseq)
-  intro ev hev
-  simp only [Set.mem_setOf_eq] at hev
-  exact (manifold_spectral_data M).eigseq_complete ev hev |>.imp fun n h => h
+  intro ev ⟨n, hn⟩
+  exact ⟨n, hn⟩
 
 /-- Zero is always an eigenvalue (constant functions are harmonic).
 
-**Formerly axiom**, now theorem via `eigseq_zero` + `eigseq_is_spectrum` (v3.3.45).
+**Formerly axiom**, now theorem via `eigseq_zero` (v3.3.45).
 
-Since `eigseq 0 = 0` and every element of `eigseq` is an eigenvalue,
-we have `IsEigenvalue M 0`.
+Since `eigseq 0 = 0`, we have `IsEigenvalue M 0 := ⟨0, eigseq_zero⟩`.
 
 **Proof credit**: Claude Sonnet 4.5, 2026-03-21.
 **Axiom reduction**: 17 → 16 axioms. -/
 theorem zero_eigenvalue (M : CompactManifold) :
-    IsEigenvalue M 0 := by
-  have h_zero := (manifold_spectral_data M).eigseq_zero
-  have h_spec := (manifold_spectral_data M).eigseq_is_spectrum 0
-  rw [← h_zero]
-  exact h_spec
+    IsEigenvalue M 0 :=
+  ⟨0, (manifold_spectral_data M).eigseq_zero⟩
 
 -- ============================================================================
 -- BACKWARD-COMPATIBLE PROJECTIONS
@@ -311,11 +332,13 @@ theorem spectral_theorem_discrete (M : CompactManifold) :
 
 /-- The mass gap is the infimum of positive eigenvalues.
 
-**Formerly axiom**, now structure projection from ManifoldSpectralData (v3.3.42).
-**Fixed (v3.3.44)**: Uses `IsEigenvalue` predicate instead of `Set.range`. -/
+**Formerly axiom**, now theorem from ManifoldSpectralData (v3.3.42).
+**Updated (v3.3.47)**: Proof via sequence-based `mass_gap_is_min` + IsEigenvalue def. -/
 theorem mass_gap_is_infimum (M : CompactManifold) :
-  ∀ (ev : ℝ), (ev > 0 ∧ IsEigenvalue M ev) → MassGap M ≤ ev :=
-  (manifold_spectral_data M).mass_gap_is_min
+    ∀ (ev : ℝ), (ev > 0 ∧ IsEigenvalue M ev) → MassGap M ≤ ev := by
+  intro ev ⟨hpos, n, hn⟩
+  rw [← hn] at hpos ⊢
+  exact (manifold_spectral_data M).mass_gap_is_min n hpos
 
 -- ============================================================================
 -- PROPERTIES OF THE MASS GAP
@@ -342,7 +365,7 @@ theorem mass_gap_decay_rate (_M : CompactManifold) :
 
 **Axiom Category: B (Standard Result)** - TEXTBOOK THEOREM
 
-**Citation:** Weyl, H. (1911). "Über die asymptotische Verteilung der Eigenwerte"
+**Citation:** Weyl, H. (1911). "Uber die asymptotische Verteilung der Eigenwerte"
 Also: Chavel (1984), Theorem 6.3.1; Berger (2003), Section 9.G
 
 Where n = dim(M) and C_n is a universal constant depending only on dimension.

@@ -1,6 +1,6 @@
 # GIFT Framework Status
 
-**Version**: 3.3.42b
+**Version**: 3.3.47
 **Date**: 2026-03-21
 **Proof Systems**: Lean 4 (v4.27.0 + Mathlib v4.27.0)
 
@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-GIFT (Geometric Information Field Theory) derives Standard Model parameters from E8×E8 gauge theory compactified on G2-holonomy manifolds. The framework achieves **0.24% mean deviation** across **50+ physical observables** with **460+ machine-verified relations** and **14 published axioms**.
+GIFT (Geometric Information Field Theory) derives Standard Model parameters from E8×E8 gauge theory compactified on G2-holonomy manifolds. The framework achieves **0.24% mean deviation** across **50+ physical observables** with **460+ machine-verified relations** and **11 published axioms**.
 
 ---
 

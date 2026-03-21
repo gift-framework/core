@@ -134,7 +134,7 @@ For n = 7, C_7 is approximately 10-20 (depends on Ricci curvature).
 
 **Why axiom**: Explicit value depends on Ricci curvature bounds.
 
-**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09).
+**Former axiom, now opaque** (opaque refactoring 2026-02-09).
 -/
 noncomputable opaque BuserConstant (n : ℕ) : ℝ
 

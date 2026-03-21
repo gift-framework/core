@@ -84,7 +84,7 @@ def IsHarmonic {M : Type*} {hd : HodgeData M} (lap : HodgeLaplacian M hd)
 
 /-- K7: Joyce's compact G2-manifold.
 
-**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+**Former axiom, now opaque** (opaque refactoring 2026-02-09). -/
 opaque K7 : Type
 
 /-- Betti numbers of K7 -/

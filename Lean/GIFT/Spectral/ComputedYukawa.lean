@@ -26,7 +26,7 @@ open GIFT.Core
 /-!
 ## Wilson Line Mass Ratios
 
-The non-adiabatic Yukawa mechanism (S10, S15) produces rank-3 couplings
+The non-adiabatic Yukawa mechanism (wilson_line, lepton_hierarchy) produces rank-3 couplings
 via Wilson line perturbation on the K7 geometry. The best-fit mass ratios
 from position optimization (c = 0.452):
 

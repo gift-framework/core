@@ -89,7 +89,7 @@ first excited state in the quantum theory.
 
 /-- A compact simple Lie group (gauge group).
 
-**Former axiom, now def+irreducible** (Ralph Wiggum elimination 2026-02-09).
+**Former axiom, now def+irreducible** (opaque refactoring 2026-02-09).
 Uses def+irreducible instead of opaque to provide Inhabited instance
 needed by downstream opaque declarations (SU, etc.). -/
 def CompactSimpleGroup : Type := PUnit
@@ -98,7 +98,7 @@ attribute [irreducible] CompactSimpleGroup
 
 /-- SU(N) as a gauge group.
 
-**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+**Former axiom, now opaque** (opaque refactoring 2026-02-09). -/
 opaque SU : ℕ → CompactSimpleGroup
 
 /-- The gauge group for QCD: SU(3) -/
@@ -106,12 +106,12 @@ noncomputable def SU3 : CompactSimpleGroup := SU 3
 
 /-- A connection (gauge field) on a principal bundle.
 
-**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+**Former axiom, now opaque** (opaque refactoring 2026-02-09). -/
 opaque Connection (G : CompactSimpleGroup) (M : CompactManifold) : Type
 
 /-- The curvature (field strength) of a connection.
 
-**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+**Former axiom, now opaque** (opaque refactoring 2026-02-09). -/
 opaque Curvature {G : CompactSimpleGroup} {M : CompactManifold}
     (A : Connection G M) : Type
 
@@ -163,18 +163,18 @@ theorem flat_connection_minimizes {G : CompactSimpleGroup} {M : CompactManifold}
 
 /-- The quantum Yang-Mills Hamiltonian (abstract).
 
-**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+**Former axiom, now opaque** (opaque refactoring 2026-02-09). -/
 opaque YangMillsHamiltonian (G : CompactSimpleGroup) (M : CompactManifold) : Type
 
 /-- The vacuum state (ground state).
 
-**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+**Former axiom, now opaque** (opaque refactoring 2026-02-09). -/
 opaque vacuum {G : CompactSimpleGroup} {M : CompactManifold}
     (H : YangMillsHamiltonian G M) : Type
 
 /-- The vacuum energy.
 
-**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+**Former axiom, now opaque** (opaque refactoring 2026-02-09). -/
 noncomputable opaque vacuum_energy {G : CompactSimpleGroup} {M : CompactManifold}
     (H : YangMillsHamiltonian G M) : ℝ
 

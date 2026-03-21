@@ -224,7 +224,7 @@ theorem K7_H_star : b 0 + b 2 + b 3 = 99 := rfl
 
 /-- de Rham cohomology group Hᵏ(M).
 
-**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+**Former axiom, now opaque** (opaque refactoring 2026-02-09). -/
 opaque deRham (M : Type*) (k : ℕ) : Type*
 
 /-- Hodge isomorphism: ℋᵏ(M) ≅ Hᵏ_dR(M).

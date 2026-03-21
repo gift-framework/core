@@ -14,8 +14,8 @@
 -- All results are Category F (numerically verified definitions) with
 -- native_decide proofs. Zero new axioms.
 --
--- Source: associative_volumes_results.json (S23)
--- Cross-refs: S22 (gauge bundle data), S10 (non-adiabatic)
+-- Source: associative_volumes_results.json (instanton_volume computation)
+-- Cross-refs: gauge_bundle (gauge bundle data), wilson_line (non-adiabatic)
 
 import GIFT.Core
 import GIFT.Hierarchy.GaugeBundleData
@@ -38,7 +38,7 @@ The optimal generation assignment uses cross-type volumes:
   mu wraps second constant cycle: Vol = 7.838
   tau (heaviest) wraps smallest mixed cycle: Vol = 2.476
 
-Source: `associative_volumes_results.json` (S23).
+Source: `associative_volumes_results.json` (instanton_volume computation).
 -/
 
 /-- SD1 cycle volume numerator: Vol_e = 11.109 = 111090/10000
@@ -142,25 +142,25 @@ theorem dv12_close_upper :
     delta_vol_12_num * 100 < ln_tau_mu_num * 120 := by native_decide
 
 -- =============================================================================
--- SECTION 3: CONSISTENCY WITH S22
+-- SECTION 3: CONSISTENCY WITH GAUGE BUNDLE
 -- =============================================================================
 
-/-- Associative cycle count matches S22: 57 cycles -/
+/-- Associative cycle count matches gauge_bundle: 57 cycles -/
 theorem associative_count_consistent :
     GaugeBundleData.n_associative_cycles = 57 := by native_decide
 
 -- =============================================================================
--- SECTION 4: COMBINED MECHANISM (S10 + S23)
+-- SECTION 4: COMBINED MECHANISM (wilson_line + instanton_volume)
 -- =============================================================================
 
 /-!
 ## Combined Non-Adiabatic + Instanton Mechanism
 
-The S10 non-adiabatic mechanism (Sturm-Liouville profiles) provides
-the correct mass hierarchy FORM (internal ratios), while the S23
-instanton mechanism provides a perturbative correction.
+The wilson_line non-adiabatic mechanism (Sturm-Liouville profiles) provides
+the correct mass hierarchy FORM (internal ratios), while the instanton_volume
+mechanism provides a perturbative correction.
 
-Combined: Y_ijk ~ M_ij(S10) * exp(-alpha * Vol(Sigma_k))
+Combined: Y_ijk ~ M_ij(wilson_line) * exp(-alpha * Vol(Sigma_k))
 
 Key result: alpha = e^K = exp(K_0) = Vol(K7)^(-3) = 0.002763
 (geometric, derived from K7 Kaehler potential — zero free parameters)
@@ -170,19 +170,19 @@ This gives:
   m_tau/m_mu = 16.69 (observed: 16.82, within 1%)
   m_mu/m_e   = 208.8 (observed: 206.8, within 1%)
 
-Source: Combined S10 + S23 with alpha = e^K from S9.
+Source: Combined wilson_line + instanton_volume with alpha = e^K from S9.
 -/
 
 /-- Combined m_tau/m_e prediction: 3485 (with alpha = e^K)
 
 **Axiom Category: F (Numerically verified)**
-Source: Combined S10 + S23 analysis, alpha = e^K -/
+Source: Combined wilson_line + instanton_volume analysis, alpha = e^K -/
 def combined_tau_e : ℕ := 3485
 
 /-- Combined m_tau/m_mu numerator: 16.69 = 1669/100
 
 **Axiom Category: F (Numerically verified)**
-Source: Combined S10 + S23 analysis, alpha = e^K -/
+Source: Combined wilson_line + instanton_volume analysis, alpha = e^K -/
 def combined_tau_mu_num : ℕ := 1669
 
 /-- Combined m_tau/m_mu denominator -/
@@ -191,7 +191,7 @@ def combined_tau_mu_den : ℕ := 100
 /-- Combined m_mu/m_e numerator: 208.8 = 2088/10
 
 **Axiom Category: F (Numerically verified)**
-Source: Combined S10 + S23 analysis, alpha = e^K -/
+Source: Combined wilson_line + instanton_volume analysis, alpha = e^K -/
 def combined_mu_e_num : ℕ := 2088
 
 /-- Combined m_mu/m_e denominator -/
@@ -257,9 +257,9 @@ Combines all associative volume and combined mechanism results.
 Verifies:
 - Volume ordering: Vol_e > Vol_mu > Vol_tau > 0
 - Instanton dV within 20% of targets
-- Combined S10+S23: all 3 mass ratios within 1% of observed
+- Combined wilson_line + instanton_volume: all 3 mass ratios within 1% of observed
 - Instanton correction perturbative (alpha < 0.01)
-- Consistent with S22 cycle count
+- Consistent with gauge_bundle cycle count
 -/
 def associative_volumes_certificate : Prop :=
     -- Volume ordering
@@ -281,7 +281,7 @@ def associative_volumes_certificate : Prop :=
     (combined_mu_e_num * 100 < 2068 * 101) ∧
     -- Instanton perturbative
     (alpha_inst_num * 100 < alpha_inst_den) ∧
-    -- Consistency with S22
+    -- Consistency with gauge_bundle
     (GaugeBundleData.n_associative_cycles = 57)
 
 theorem associative_volumes_certified : associative_volumes_certificate := by

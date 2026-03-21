@@ -10,7 +10,7 @@
 -- Previous attempt (K7_full_KK_tower.py, S3) used L1 norm <= 3 for fiber
 -- channels, yielding only ~120 channels and a measured exponent of 1.81.
 --
--- This module certifies results from S21 (run_k7_spectrum_unified.py):
+-- This module certifies results from k7_spectrum_unified (run_k7_spectrum_unified.py):
 -- extended fiber enumeration with V_fiber < 50 yields ~57,000 channels
 -- and a measured exponent of 3.46 (1.1% deviation from 3.5).
 --
@@ -20,7 +20,7 @@
 -- References:
 --   - de La Fourniere, B. (2026). "GIFT Spectral Geometry."
 --     DOI: 10.5281/zenodo.18920368
---   - Source: k7_spectrum_unified_results.json (S21)
+--   - Source: k7_spectrum_unified_results.json (spectral computation)
 
 import GIFT.Core
 
@@ -43,7 +43,7 @@ Measured via weighted log-log fit on 22,671 distinct energy levels:
   alpha_fit = 3.46 (expected 3.50)
   deviation = 1.14%
 
-Source: `k7_spectrum_unified_results.json`, S21.
+Source: `k7_spectrum_unified_results.json` (spectral computation).
 -/
 
 /-- Measured Weyl exponent numerator: alpha = 3.46 = 346/100
@@ -88,7 +88,7 @@ below lambda = 20, with 210,060 states counting multiplicity.
 This massively exceeds the previous count of ~1,700 from L1 norm
 truncation.
 
-Source: `k7_spectrum_unified_results.json`, S21.
+Source: `k7_spectrum_unified_results.json` (spectral computation).
 -/
 
 /-- Number of distinct KK states below lambda = 20
@@ -125,7 +125,7 @@ The Weyl formula gives:
 The effective volume extracted from the fit is large (~538,000 in
 coordinate units), reflecting the 6D fiber volume contribution.
 
-Source: `k7_spectrum_unified_results.json`, S21.
+Source: `k7_spectrum_unified_results.json` (spectral computation).
 -/
 
 /-- Effective volume numerator: Vol_eff ~ 538412 = 53841230/100
@@ -148,7 +148,7 @@ theorem vol_gt_one : vol_effective_num > vol_effective_den := by native_decide
 -- =============================================================================
 
 /-- Computed 7D Weyl law master certificate: 7 conjuncts covering the
-    headline result from S21.
+    headline result from the spectral computation (k7_spectrum_unified).
 
     1-3: Weyl exponent close to 3.5, in range [3.0, 4.0]
     4-5: KK state count > 1000, fiber channels > 50000

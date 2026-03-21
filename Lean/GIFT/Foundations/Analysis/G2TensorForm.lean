@@ -49,7 +49,7 @@ G2 = { g ∈ GL(7,ℝ) | g · φ₀ = φ₀ }
 
 /-- Action of GL(7) on 3-forms (via pullback).
 
-**Former axiom, now opaque def** (Ralph Wiggum elimination 2026-02-09).
+**Former axiom, now opaque def** (opaque refactoring 2026-02-09).
 The full implementation requires matrix inverse and multilinear map composition
 from Mathlib. For now, declared as opaque to eliminate the axiom while preserving
 the same interface. The concrete implementation would be:
@@ -63,7 +63,7 @@ def G2_stabilizer : Set (Fin 7 → Fin 7 → ℝ) :=
 
 /-- G2 Lie algebra as tangent space to G2 stabilizer.
 
-**Former axiom, now def** (Ralph Wiggum elimination 2026-02-09).
+**Former axiom, now def** (opaque refactoring 2026-02-09).
 Defined as the unit type for now; the full definition would be
 the kernel of the linearized stabilizer condition. -/
 def g2_lie_algebra : Type := Unit

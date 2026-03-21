@@ -4,7 +4,7 @@ import GIFT.Core
 # Compactification Correction for δ_CP
 
 GIFT v3.3 predicted δ_CP = 7 × dim(G₂) + H* = 197°, matching NuFIT 5.2.
-PSLQ residual analysis (S27) discovered the relative deviation
+PSLQ residual analysis (algebraic_formula computation) discovered the relative deviation
 r = (197 - 177)/177 ≈ 0.113 matches dim(G₂)/(dim(E₈)/2) = 14/124 to 0.08%.
 
 This implies a compactification correction factor:

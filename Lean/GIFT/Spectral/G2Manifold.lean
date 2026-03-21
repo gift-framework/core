@@ -57,7 +57,7 @@ space of 2-forms is what connects dim(G2) to spectral properties.
 
 /-- G2 as an abstract group.
 
-**Former axiom, now opaque** (Ralph Wiggum elimination 2026-02-09). -/
+**Former axiom, now opaque** (opaque refactoring 2026-02-09). -/
 opaque G2_group : Type
 
 /-- Dimension of G2 = 14 (from GIFT.Core) -/
@@ -68,7 +68,7 @@ theorem G2_rank_is_2 : GIFT.Core.rank_G2 = 2 := rfl
 
 /-- G2 embeds in SO(7).
 
-**Former axiom, now theorem** (Ralph Wiggum elimination 2026-02-09). -/
+**Former axiom, now theorem** (opaque refactoring 2026-02-09). -/
 theorem G2_embed_SO7 : True := trivial  -- Placeholder for embedding
 
 /-- Codimension of G2 in SO(7) = 21 - 14 = 7 -/
@@ -250,7 +250,7 @@ theorem physical_spectral_product_G2_components :
 
 /-- G2 holonomy implies the Laplacian respects the G2 decomposition.
 
-**Former axiom, now theorem** (Ralph Wiggum elimination 2026-02-09). -/
+**Former axiom, now theorem** (opaque refactoring 2026-02-09). -/
 theorem G2_laplacian_decomposition (_M : G2HolonomyManifold) :
   True := trivial  -- Placeholder: Laplacian commutes with G2 action
 

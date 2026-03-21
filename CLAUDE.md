@@ -61,7 +61,7 @@ gift-framework/core/
 │
 ├── gift_core/              # Python package
 │   ├── __init__.py         # Exports (update when adding constants!)
-│   ├── _version.py         # Version string (3.3.42b)
+│   ├── _version.py         # Version string (3.3.47)
 │   ├── constants/          # Certified constants (algebra, topology, structural, physics, cosmology)
 │   ├── analysis/           # Joyce certificate, intervals
 │   └── ...
