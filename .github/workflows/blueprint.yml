@@ -8,14 +8,14 @@ on:
       - "GIFT/**/*.lean"
       - "lean-toolchain"
       - "lakefile.lean"
-      - "contrib/blueprint/**"
+      - "blueprint/**"
       - "contrib/homepage/**"
   pull_request:
     branches:
       - main
     paths:
       - "GIFT/**/*.lean"
-      - "contrib/blueprint/**"
+      - "blueprint/**"
   workflow_dispatch:
 
 concurrency:
@@ -92,17 +92,17 @@ jobs:
               --config-settings="--global-option=-L/usr/lib/graphviz/" \
               --config-settings="--global-option=-R/usr/lib/graphviz/"
             pip install leanblueprint
-            cd $GITHUB_WORKSPACE/contrib/blueprint
+            cd $GITHUB_WORKSPACE
             leanblueprint pdf
-            mkdir -p ../homepage
-            cp print/print.pdf ../homepage/blueprint.pdf
+            mkdir -p contrib/homepage
+            cp blueprint/print/print.pdf contrib/homepage/blueprint.pdf
             leanblueprint web
-            python3 src/postprocess.py
-            cp -r web ../homepage/blueprint
+            python3 blueprint/src/postprocess.py
+            cp -r blueprint/web contrib/homepage/blueprint
 
       - name: Check declarations in blueprint exist in Lean
         run: |
-          ~/.elan/bin/lake exe checkdecls contrib/blueprint/lean_decls || echo "Warning: Some declarations not found"
+          ~/.elan/bin/lake exe checkdecls blueprint/lean_decls || echo "Warning: Some declarations not found"
 
       - name: Setup Ruby
         if: ${{ steps.check_homepage.outputs.exists == 'true' }}

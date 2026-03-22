@@ -68,8 +68,8 @@ All theorems proven, no axioms remaining:
 
 ### 2.1 Blueprint
 
-Location: `contrib/blueprint/`
-Build: `cd contrib/blueprint && uvx leanblueprint pdf` / `uvx leanblueprint web`
+Location: `blueprint/`
+Build: `uvx leanblueprint pdf` / `uvx leanblueprint web`
 
 ### 2.2 CI/CD
 
@@ -106,9 +106,11 @@ GIFTTest/                        # Lean test files (Aristotle tests)
 
 contrib/
   python/gift_core/              # Python package (giftpy on PyPI)
-  blueprint/                     # Leanblueprint dependency graph
+  python/gift_core/              # Python package (giftpy on PyPI)
   homepage/                      # GitHub Pages / Jekyll site
   docs/                          # Extended documentation
+
+blueprint/                       # Leanblueprint dependency graph (root-level, Lean convention)
 ```
 
 ---

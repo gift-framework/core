@@ -46,8 +46,8 @@ tests/
 .lake/
 
 # Blueprint (generated)
-contrib/blueprint/web/
-contrib/blueprint/print/
+blueprint/web/
+blueprint/print/
 contrib/homepage/blueprint/
 contrib/homepage/blueprint.pdf
 contrib/homepage/docs/
@@ -62,4 +62,4 @@ contrib/homepage/Gemfile.lock
 # OS
 .DS_Store
 Thumbs.db
-contrib/blueprint/src/web.paux
+blueprint/src/web.paux

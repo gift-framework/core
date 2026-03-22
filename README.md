@@ -37,11 +37,12 @@ GIFT/                           # Lean 4 formalization (root library)
 
 GIFTTest/                       # Lean test files
 
+blueprint/                      # Leanblueprint dependency graph
+
 contrib/                        # Non-Lean assets
 ├── python/                     # Python package (giftpy on PyPI)
 │   └── gift_core/              # Certified constants export
 ├── homepage/                   # GitHub Pages / Jekyll site
-├── blueprint/                  # Leanblueprint dependency graph
 └── docs/                       # Extended documentation
 ```
 

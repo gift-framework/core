@@ -10,8 +10,8 @@ This directory contains documentation for the GIFT Core formal verification proj
 ## Quick Links
 
 - [GitHub Repository](https://github.com/gift-framework/core)
-- [Blueprint (web)](../blueprint/)
-- [API Documentation](../blueprint/docs/)
+- [Blueprint (web)](../../blueprint/)
+- [API Documentation](../../blueprint/docs/)
 
 ## Version
 
