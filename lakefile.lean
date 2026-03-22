@@ -1,9 +1,7 @@
 import Lake
 open Lake DSL
 
-package «GIFT» where
-  version := v"3.3.47"
-  keywords := #["mathematics", "physics", "G2", "E8", "holonomy", "formal-verification"]
+package «GIFT»
 
 require mathlib from git
   "https://github.com/leanprover-community/mathlib4.git" @ "v4.27.0"
