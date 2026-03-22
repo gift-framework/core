@@ -26,49 +26,38 @@ See **Terminology Standards** section below for complete reference.
 
 ```
 gift-framework/core/
-├── Lean/                    # Lean 4 formal proofs
-│   ├── GIFT.lean           # Main entry point
-│   ├── GIFT/
-│   │   ├── Core.lean       # Source of truth for constants
-│   │   ├── Certificate/    # Modular certificate system
-│   │   │   ├── Core.lean       # Master: Foundations ∧ Predictions ∧ Spectral
-│   │   │   ├── Foundations.lean # E₈, G₂, octonions, K₇, Joyce
-│   │   │   ├── Predictions.lean # 33+ published relations, observables
-│   │   │   └── Spectral.lean   # Mass gap 14/99, TCS, selection
-│   │   ├── Certificate.lean # Backward-compat wrapper (legacy aliases)
-│   │   │
-│   │   ├── Algebra.lean    # E₈, G₂, E₇, F₄, E₆ constants
-│   │   ├── Topology.lean   # Betti numbers, H*, p₂
-│   │   ├── Geometry.lean   # K₇, J₃(𝕆)
-│   │   │
-│   │   ├── Foundations/    # Mathematical foundations
-│   │   │   ├── RootSystems.lean      # E₈ roots in ℝ⁸
-│   │   │   ├── E8Lattice.lean        # E₈ lattice formalization (R8)
-│   │   │   ├── G2CrossProduct.lean   # 7D cross product (R7)
-│   │   │   ├── OctonionBridge.lean   # R8-R7 connection via octonions
-│   │   │   ├── AmbroseSinger.lean    # Holonomy diagnostics (v3.3.24)
-│   │   │   ├── Analysis/             # Hodge theory, Sobolev (research)
-│   │   │   └── ...
-│   │   │
-│   │   ├── Algebraic/      # Octonion-based derivation
-│   │   │   ├── Octonions.lean
-│   │   │   ├── G2.lean
-│   │   │   └── BettiNumbers.lean
-│   │   │
-│   │   ├── Relations/      # Physical predictions (15+ files)
-│   │   └── Joyce.lean      # Joyce existence theorem
-│   └── lakefile.toml
-│
-├── gift_core/              # Python package
-│   ├── __init__.py         # Exports (update when adding constants!)
-│   ├── _version.py         # Version string (3.3.47)
-│   ├── constants/          # Certified constants (algebra, topology, structural, physics, cosmology)
-│   ├── analysis/           # Joyce certificate, intervals
+├── GIFT.lean               # Main entry point (root-level, Lean 4 standard)
+├── GIFT/                   # Lean 4 formal proofs (140 files)
+│   ├── Core.lean           # Source of truth for constants
+│   ├── Certificate/        # Modular certificate system
+│   │   ├── Core.lean       # Master: Foundations ∧ Predictions ∧ Spectral
+│   │   ├── Foundations.lean # E₈, G₂, octonions, K₇, Joyce
+│   │   ├── Predictions.lean # 33+ published relations, observables
+│   │   └── Spectral.lean   # Mass gap 14/99, TCS, selection
+│   ├── Foundations/         # Mathematical foundations
+│   ├── Geometry/            # Axiom-free DG infrastructure
+│   ├── Spectral/            # Spectral gap theory
+│   ├── Relations/           # Physical predictions (22 files)
 │   └── ...
+├── GIFTTest/               # Lean test files (Aristotle tests)
+├── lakefile.lean           # Lake build config (Lean 4 standard)
+├── lean-toolchain          # leanprover/lean4:v4.27.0
+├── lake-manifest.json      # Dependency lock file
+│
+├── contrib/                # Non-Lean assets
+│   ├── python/             # Python package (giftpy on PyPI)
+│   │   ├── gift_core/      # Certified constants export
+│   │   └── pyproject.toml
+│   ├── homepage/           # GitHub Pages / Jekyll site
+│   ├── blueprint/          # Leanblueprint dependency graph
+│   ├── docs/               # Extended documentation
+│   ├── CLAUDE.md           # This file
+│   └── CHANGELOG.md
 │
 └── .github/workflows/      # CI/CD
     ├── verify.yml          # Lean 4 verification
-    └── publish.yml         # PyPI publish on release
+    ├── publish.yml         # PyPI publish on release
+    └── blueprint.yml       # Leanblueprint generation
 ```
 
 ---
@@ -141,10 +130,10 @@ abbrev all_relations_certified := all_13_relations_certified
 
 When adding new constants:
 
-1. Add to appropriate file in `gift_core/constants/` (algebra, topology, structural, physics, or cosmology)
-2. Import in `gift_core/__init__.py`
-3. Add to `__all__` list in `gift_core/__init__.py`
-4. Bump version in `gift_core/_version.py`
+1. Add to appropriate file in `contrib/python/gift_core/constants/` (algebra, topology, structural, physics, or cosmology)
+2. Import in `contrib/python/gift_core/__init__.py`
+3. Add to `__all__` list in `contrib/python/gift_core/__init__.py`
+4. Bump version in `contrib/python/gift_core/_version.py`
 
 ### 3. Version Bumping (SemVer)
 
@@ -198,7 +187,7 @@ theorem qux : ... := by
 
 ```bash
 # Lean 4
-cd Lean && lake build
+lake build
 
 # Quick verification of constants
 python -c "from gift_core import *; print(GAMMA_GIFT)"
@@ -208,16 +197,16 @@ python -c "from gift_core import *; print(GAMMA_GIFT)"
 
 ## Adding New Certified Relations
 
-1. **Lean**: Create/update file in `Lean/GIFT/Relations/`
+1. **Lean**: Create/update file in `GIFT/Relations/`
 2. **Lean**: Add import + abbrev to appropriate `Certificate/` sub-module:
    - `Certificate/Foundations.lean` — math infrastructure (E₈, G₂, K₇, Joyce)
    - `Certificate/Predictions.lean` — physical predictions, observables
    - `Certificate/Spectral.lean` — spectral gap, TCS, selection
 3. **Lean**: Add conjunct to the sub-module's `def statement : Prop`
-4. **Python**: Add constants to appropriate file in `gift_core/constants/`
-5. **Python**: Export in `gift_core/__init__.py`
+4. **Python**: Add constants to appropriate file in `contrib/python/gift_core/constants/`
+5. **Python**: Export in `contrib/python/gift_core/__init__.py`
 6. **Docs**: Update `README.md`
-8. **Version**: Bump in `gift_core/_version.py`
+8. **Version**: Bump in `contrib/python/gift_core/_version.py`
 
 ---
 

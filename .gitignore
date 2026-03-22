@@ -40,39 +40,26 @@ ENV/
 htmlcov/
 .pytest_cache/
 .hypothesis/
+tests/
 
 # Lean
 .lake/
-Lean/.lake/
-Lean/lake-packages/
-Lean/build/
-lake-manifest.json
-
-# Coq
-COQ/*.vo
-COQ/*.vok
-COQ/*.vos
-COQ/*.glob
-COQ/.*.aux
-COQ/CoqMakefile
-COQ/CoqMakefile.conf
-COQ/.coqdeps.d
 
 # Blueprint (generated)
-blueprint/web/
-blueprint/print/
-home_page/blueprint/
-home_page/blueprint.pdf
-home_page/docs/
+contrib/blueprint/web/
+contrib/blueprint/print/
+contrib/homepage/blueprint/
+contrib/homepage/blueprint.pdf
+contrib/homepage/docs/
 .jekyll-out/
 
 # Jekyll
-home_page/_site/
-home_page/.sass-cache/
-home_page/.jekyll-cache/
-home_page/Gemfile.lock
+contrib/homepage/_site/
+contrib/homepage/.sass-cache/
+contrib/homepage/.jekyll-cache/
+contrib/homepage/Gemfile.lock
 
 # OS
 .DS_Store
 Thumbs.db
-blueprint/src/web.paux
+contrib/blueprint/src/web.paux
