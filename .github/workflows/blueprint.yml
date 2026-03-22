@@ -92,13 +92,13 @@ jobs:
               --config-settings="--global-option=-L/usr/lib/graphviz/" \
               --config-settings="--global-option=-R/usr/lib/graphviz/"
             pip install leanblueprint
-            cd $GITHUB_WORKSPACE
-            leanblueprint pdf --blueprint-dir contrib/blueprint
-            mkdir -p contrib/homepage
-            cp contrib/blueprint/print/print.pdf contrib/homepage/blueprint.pdf
-            leanblueprint web --blueprint-dir contrib/blueprint
-            python3 contrib/blueprint/src/postprocess.py
-            cp -r contrib/blueprint/web contrib/homepage/blueprint
+            cd $GITHUB_WORKSPACE/contrib/blueprint
+            leanblueprint pdf
+            mkdir -p ../homepage
+            cp print/print.pdf ../homepage/blueprint.pdf
+            leanblueprint web
+            python3 src/postprocess.py
+            cp -r web ../homepage/blueprint
 
       - name: Check declarations in blueprint exist in Lean
         run: |
