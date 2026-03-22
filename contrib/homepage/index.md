@@ -8,7 +8,7 @@ GIFT derives Standard Model parameters from E₈ × E₈ gauge theory compactifi
 
 ## Quick Links
 
-* [**GIFT Blueprint v3.3.47**]({{ site.baseurl }}/gift_blueprint.html) - Dependency graph visualization
+* [**GIFT Blueprint v3.4.0**]({{ site.baseurl }}/gift_blueprint.html) - Dependency graph visualization
 * [Blueprint (web)]({{ site.baseurl }}/blueprint/) - Lean blueprint with proofs
 * [Blueprint (pdf)]({{ site.baseurl }}/blueprint.pdf) - Downloadable PDF
 * [Dependency Graph]({{ site.baseurl }}/blueprint/dep_graph_document.html) - Proof dependencies
@@ -26,9 +26,10 @@ GIFT derives Standard Model parameters from E₈ × E₈ gauge theory compactifi
 
 ```
 gift-framework/core/
-├── Lean/           # Lean 4 formal proofs (455+ relations)
-├── blueprint/      # Mathematical documentation
-└── gift_core/      # Python package
+├── GIFT/           # Lean 4 formal proofs (460+ relations)
+├── GIFTTest/       # Lean test files
+├── contrib/        # Python package, blueprint, docs
+└── lakefile.lean   # Lake build configuration
 ```
 
 ## Getting Started
@@ -39,7 +40,7 @@ git clone https://github.com/gift-framework/core.git
 cd core
 
 # Build Lean proofs
-cd Lean && lake build
+lake build
 
 # Install Python package
 pip install giftpy

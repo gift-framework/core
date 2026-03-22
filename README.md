@@ -75,4 +75,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](contrib/CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.3.47*
+*GIFT Core v3.4.0*

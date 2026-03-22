@@ -63,7 +63,7 @@ theorem zero_eigenvalue_is_proven (M : CompactManifold) :
 /-
 ## What Changed in the Codebase
 
-**File**: `core/Lean/GIFT/Spectral/SpectralTheory.lean`
+**File**: `core/GIFT/Spectral/SpectralTheory.lean`
 
 **Converted axiom to theorem** (line ~279):
 ```lean
