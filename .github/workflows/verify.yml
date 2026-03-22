@@ -3,7 +3,7 @@ name: Formal Verification
 on:
   push:
     branches: [main]
-    paths: ['Lean/**']
+    paths: ['GIFT/**', 'GIFTTest/**', 'lakefile.lean', 'lean-toolchain']
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -13,9 +13,6 @@ jobs:
   lean:
     name: Lean 4 Verification
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: Lean
     steps:
       - uses: actions/checkout@v4
 
@@ -27,8 +24,8 @@ jobs:
       - name: Cache .lake
         uses: actions/cache@v4
         with:
-          path: Lean/.lake
-          key: lean-${{ hashFiles('Lean/lakefile.toml') }}
+          path: .lake
+          key: lean-${{ hashFiles('lakefile.lean') }}
 
       - name: Build
         run: |
@@ -38,11 +35,7 @@ jobs:
 
       - name: Verify zero sorry
         run: |
-          if grep -r "sorry" GIFT/ --include="*.lean"; then
+          if grep -r "sorry" GIFT/ GIFTTest/ --include="*.lean"; then
             echo "ERROR: Found sorry!"
             exit 1
           fi
-
-  # NOTE: Coq verification removed in v3.3.14
-  # Coq code removed in v3.3.25 (was archived, 75 relations, arithmetic-only proofs)
-  # Lean 4 is the sole proof assistant (455+ relations, real mathematics via Mathlib)

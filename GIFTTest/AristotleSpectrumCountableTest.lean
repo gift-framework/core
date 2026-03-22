@@ -56,7 +56,7 @@ theorem spectrum_countable_is_proven (M : CompactManifold) :
 /-
 ## What Changed in the Codebase
 
-**File**: `core/Lean/GIFT/Spectral/SpectralTheory.lean`
+**File**: `core/GIFT/Spectral/SpectralTheory.lean`
 
 **Added field to ManifoldSpectralData** (line ~251):
 ```lean

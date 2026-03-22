@@ -5,17 +5,16 @@ on:
     branches:
       - main
     paths:
-      - "Lean/**/*.lean"
+      - "GIFT/**/*.lean"
       - "lean-toolchain"
-      - "lakefile.toml"
-      - "lake-manifest.json"
+      - "lakefile.lean"
       - "blueprint/**"
-      - "home_page/**"
+      - "contrib/homepage/**"
   pull_request:
     branches:
       - main
     paths:
-      - "Lean/**/*.lean"
+      - "GIFT/**/*.lean"
       - "blueprint/**"
   workflow_dispatch:
 
@@ -68,16 +67,16 @@ jobs:
             sleep $((i * 10))
           done
 
-      - name: Check for home_page folder
-        id: check_home_page
+      - name: Check for homepage folder
+        id: check_homepage
         run: |
-          if [ -d home_page ]; then
+          if [ -d contrib/homepage ]; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
           else
             echo "exists=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Build blueprint and copy to home_page/blueprint
+      - name: Build blueprint and copy to homepage
         uses: xu-cheng/texlive-action@v2
         with:
           docker_image: ghcr.io/xu-cheng/texlive-full:20250101
@@ -95,42 +94,42 @@ jobs:
             pip install leanblueprint
             cd $GITHUB_WORKSPACE
             leanblueprint pdf
-            mkdir -p home_page
-            cp blueprint/print/print.pdf home_page/blueprint.pdf
+            mkdir -p contrib/homepage
+            cp blueprint/print/print.pdf contrib/homepage/blueprint.pdf
             leanblueprint web
             python3 blueprint/src/postprocess.py
-            cp -r blueprint/web home_page/blueprint
+            cp -r blueprint/web contrib/homepage/blueprint
 
       - name: Check declarations in blueprint exist in Lean
         run: |
           ~/.elan/bin/lake exe checkdecls blueprint/lean_decls || echo "Warning: Some declarations not found"
 
       - name: Setup Ruby
-        if: ${{ steps.check_home_page.outputs.exists == 'true' }}
+        if: ${{ steps.check_homepage.outputs.exists == 'true' }}
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2'
           bundler-cache: false
 
       - name: Build Jekyll site
-        if: ${{ steps.check_home_page.outputs.exists == 'true' }}
+        if: ${{ steps.check_homepage.outputs.exists == 'true' }}
         run: |
-          cd home_page
+          cd contrib/homepage
           rm -f Gemfile.lock || true
           bundle config set --local path vendor/bundle
           bundle install --jobs 4 --retry 3
-          JEKYLL_ENV=production bundle exec jekyll build -d ../.jekyll-out/site
+          JEKYLL_ENV=production bundle exec jekyll build -d ../../.jekyll-out/site
 
       - name: Prepare Pages artifact (with Jekyll)
-        if: ${{ steps.check_home_page.outputs.exists == 'true' }}
+        if: ${{ steps.check_homepage.outputs.exists == 'true' }}
         run: |
           ls -la .jekyll-out/site || true
 
       - name: Prepare Pages artifact (without Jekyll)
-        if: ${{ steps.check_home_page.outputs.exists == 'false' }}
+        if: ${{ steps.check_homepage.outputs.exists == 'false' }}
         run: |
           mkdir -p .jekyll-out/site
-          cp -r home_page/* .jekyll-out/site/ || true
+          cp -r contrib/homepage/* .jekyll-out/site/ || true
 
       - name: Upload Pages artifact
         if: github.ref == 'refs/heads/main'

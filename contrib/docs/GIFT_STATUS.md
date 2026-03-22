@@ -1,7 +1,7 @@
 # GIFT Framework Status
 
-**Version**: 3.3.47
-**Date**: 2026-03-21
+**Version**: 3.4.0
+**Date**: 2026-03-22
 **Proof Systems**: Lean 4 (v4.27.0 + Mathlib v4.27.0)
 
 ---
@@ -83,44 +83,34 @@ Build: `uvx leanblueprint pdf` / `uvx leanblueprint web`
 ## 3. Key Files
 
 ```
-Lean/GIFT/
-  Core.lean                    # Source of truth for constants
-  Certificate/                 # Modular certificate system
-    Core.lean                  # Master: Foundations ∧ Predictions ∧ Spectral
-    Foundations.lean            # E₈, G₂, octonions, K₇, Joyce
-    Predictions.lean           # 33+ relations, observables
-    Spectral.lean              # Mass gap, TCS, spectrum, Yukawa
-  Certificate.lean             # Backward-compat wrapper (legacy aliases)
-  Foundations/                  # Mathematical foundations
-    RootSystems.lean           # E₈ roots in ℝ⁸
-    E8Lattice.lean             # E₈ lattice formalization
-    G2CrossProduct.lean        # 7D cross product
-    OctonionBridge.lean        # R8-R7 connection
-    ExplicitG2Metric.lean      # 169-param Chebyshev-Cholesky
-    NewtonKantorovich.lean     # NK cert: h=6.65e-8
-    K3HarmonicCorrection.lean  # ×2995 torsion reduction
-    NumericalBounds.lean       # Taylor series bounds
-    GoldenRatioPowers.lean     # φ powers
-    PoincareDuality.lean       # H*=1+2*dim_K7^2
-    ConformalRigidity.lean     # G₂ rep theory, metric uniqueness
-    SpectralScaling.lean       # Neumann eigenvalue hierarchy
-    TCSPiecewiseMetric.lean    # Building block asymmetry
-    Analysis/                  # G₂ forms infrastructure
-  Geometry/                    # Axiom-free DG infrastructure
-  Spectral/                    # Spectral gap theory, computed spectrum, Yukawa
-  MollifiedSum/                # Cosine-squared kernel, S_w(T)
-  Relations/                   # Physical predictions
-  Observables/                 # PMNS, CKM, quark masses, cosmology
-  Algebraic/                   # Octonions, Betti numbers
-  Hierarchy/                   # Dimensional gap, golden ratio
+GIFT/                            # Lean 4 formalization (root-level)
+  Core.lean                      # Source of truth for constants
+  Certificate/                   # Modular certificate system
+    Core.lean                    # Master: Foundations ∧ Predictions ∧ Spectral
+    Foundations.lean              # E₈, G₂, octonions, K₇, Joyce
+    Predictions.lean             # 33+ relations, observables
+    Spectral.lean                # Mass gap, TCS, spectrum, Yukawa
+  Foundations/                   # Mathematical foundations
+    RootSystems.lean             # E₈ roots in ℝ⁸
+    ExplicitG2Metric.lean        # 169-param Chebyshev-Cholesky
+    NewtonKantorovich.lean       # NK cert: h=6.65e-8
+    NumericalBounds.lean         # Taylor series bounds
+    Analysis/                    # G₂ forms infrastructure
+  Geometry/                      # Axiom-free DG infrastructure
+  Spectral/                      # Spectral gap theory, computed spectrum, Yukawa
+  Relations/                     # Physical predictions
+  Observables/                   # PMNS, CKM, quark masses, cosmology
+  Hierarchy/                     # Dimensional gap, golden ratio
 
-gift_core/                     # Python package (giftpy)
-  _version.py                  # Version 3.3.31
-  constants/                   # All certified constants
-  roots.py                     # E₈ root system (240 vectors)
-  fano.py                      # Fano plane, G₂ cross product
-  verify.py                    # Verification suite
-  relations.py                 # Proven relations
+GIFTTest/                        # Lean test files (Aristotle tests)
+
+contrib/
+  python/gift_core/              # Python package (giftpy on PyPI)
+  python/gift_core/              # Python package (giftpy on PyPI)
+  homepage/                      # GitHub Pages / Jekyll site
+  docs/                          # Extended documentation
+
+blueprint/                       # Leanblueprint dependency graph (root-level, Lean convention)
 ```
 
 ---
@@ -129,6 +119,8 @@ gift_core/                     # Python package (giftpy)
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| 3.4.0 | 2026-03-22 | Lean 4 standard layout: GIFT/ at root, lakefile.lean, contrib/, GIFTTest/ |
+| 3.3.47 | 2026-03-21 | Aristotle Tier C: 13 → 11 axioms, IsEigenvalue + spectrum_nonneg eliminated |
 | 3.3.31 | 2026-03-08 | Tier C closure: Neumann gap, Yukawa mass ratios, exploratory cleanup |
 | 3.3.30 | 2026-03-08 | Spectral democracy: SD spread <2%, coupling ratio <1.02 |
 | 3.3.29 | 2026-03-08 | Computed spectrum: Q₂₂ (3,19), SD/ASD gap, B-test |
@@ -153,4 +145,4 @@ GIFT bridges three active research programs:
 
 ---
 
-*Updated: 2026-03-09*
+*Updated: 2026-03-22*

@@ -335,7 +335,7 @@ print(cert.safety_margin)    # ~20.4x
 ## Building Proofs Locally
 
 ```bash
-cd Lean && lake build
+lake build
 ```
 
 ## Blueprint

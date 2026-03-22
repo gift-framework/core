@@ -5,6 +5,35 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.0] - 2026-03-22
+
+### Summary
+
+**LEAN 4 STANDARD LAYOUT.** Complete repository restructuring to comply with official Lean 4 project conventions (Lake, Reservoir, community standards). Zero Lean source code changes — only file moves and configuration.
+
+### Changed
+
+- **Lean code at root**: `Lean/GIFT.lean` → `GIFT.lean`, `Lean/GIFT/` → `GIFT/` (140 files)
+- **Standard test directory**: `GIFT/Test/` → `GIFTTest/` (12 Aristotle test files)
+- **Lake config**: `lakefile.toml` → `lakefile.lean` (standard format, with `lean_lib` declarations)
+- **Non-Lean isolation**: Python, homepage, blueprint, docs, CLAUDE.md → `contrib/` directory
+  - `gift_core/` → `contrib/python/gift_core/`
+  - `home_page/` → `contrib/homepage/`
+  - `blueprint/` → `contrib/blueprint/`
+  - `docs/` → `contrib/docs/`
+- **Reservoir compliance**: `lake-manifest.json` committed (was gitignored)
+- **CI workflows**: All 3 workflows updated for new paths (verify, publish, blueprint)
+- **Build command**: `lake build` from root (no more `cd Lean`)
+- **Dead links fixed**: 6 stale path references updated across docs and test files
+
+### Root structure (post-refactor)
+
+```
+GIFT.lean          lakefile.lean      LICENSE
+GIFT/              lean-toolchain     README.md
+GIFTTest/          lake-manifest.json contrib/
+```
+
 ## [3.3.47] - 2026-03-21
 
 ### Summary

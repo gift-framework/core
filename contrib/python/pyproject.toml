@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "giftpy"
 dynamic = ["version"]
 description = "GIFT mathematical core - Formally verified constants (Lean 4)"
-readme = "README.md"
+readme = "../../README.md"
 license = {text = "MIT"}
 authors = [
     {name = "Brieuc de La Fourniere", email = "brieuc@bdelaf.com"}
@@ -34,7 +34,7 @@ dependencies = []
 Homepage = "https://github.com/gift-framework/core"
 Documentation = "https://github.com/gift-framework/GIFT"
 Repository = "https://github.com/gift-framework/core"
-"Lean Proofs" = "https://github.com/gift-framework/core/tree/main/Lean"
+"Lean Proofs" = "https://github.com/gift-framework/core/tree/main/GIFT"
 
 [project.optional-dependencies]
 dev = ["pytest>=7.0", "pytest-cov", "black", "ruff"]
