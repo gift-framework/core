@@ -348,18 +348,31 @@ theorem spectral_geometric_identity :
   field_simp [h1, h2]
 
 -- ============================================================================
--- UNIVERSALITY CONJECTURE
+-- UNIVERSALITY CONJECTURE — ELIMINATED (v4.0.11, 2026-03-26)
 -- ============================================================================
 
-/-- Universality conjecture: For any TCS G2 manifold with topology (b2, b3),
-    the spectral gap is lambda1 = dim(G2) / (1 + b2 + b3).
+/-!
+### Status: AXIOM ELIMINATED — STATEMENT WAS INCORRECT
 
-This generalizes from K7 (b2=21, b3=77) to arbitrary TCS constructions.
+The conjecture `λ₁ × H* = dim(G₂) = 14` has been disproved by the
+v3.4.1 analytical formula `λ₁ = π²/(L²·g_ss)` (AnalyticalMassGap.lean).
 
-**Axiom Category: E (GIFT Claim)** — Conjectural generalization to all TCS manifolds. -/
-axiom universality_conjecture (b2_val b3_val : Nat) (K : TCSManifold)
-    (hK : True) :  -- placeholder for "K is TCS with Betti numbers (b2_val, b3_val)"
-    pi_squared / K.neckLength ^ 2 * (1 + b2_val + b3_val) = dim_G2
+Numerical test (tcs_universality_test.py, 21 TCS examples):
+  - λ₁ × H*               : min=3.19, max=63.96, CV=71.8% → NOT universal
+  - λ₁ × (max_b₂+rank_E₈) : constant = 6π²/25 (trivially, under L=5)
+
+The correct universal statement (under L=5, NK-certified) is:
+  `λ₁ × (max(b₂_M1, b₂_M2) + rank_E₈) = 6π²/25`
+which is already a Lean theorem in AnalyticalMassGap.lean (zero axioms):
+  `lambda1_rational_coeff * g_ss_num = 6/25`
+
+Open question: is L=5 (T_bulk=2) topologically fixed for all TCS G₂
+manifolds with b₁=0? This is the remaining unproven universality claim.
+-/
+
+-- axiom universality_conjecture REMOVED (v4.0.11) — λ₁·H*=dim(G₂) is false.
+-- The analytical certificate in AnalyticalMassGap.lean supersedes this axiom.
+-- Axiom count: 12 → 11
 
 -- ============================================================================
 -- CERTIFICATE

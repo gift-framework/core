@@ -237,7 +237,7 @@ export SelectionPrinciple (
   spectral_geometric_identity
   -- Axioms
   selection_principle_holds
-  universality_conjecture
+  -- universality_conjecture REMOVED v4.0.11 (λ₁·H*=dim(G₂) disproved)
   -- Certificate
   selection_principle_certificate
 )
@@ -581,7 +581,7 @@ See `GIFT/Foundations/PiBounds.lean` for full documentation and elimination path
 | `cgn_cheeger_lower_bound` | Cheeger lower bound | CGN 2024 |
 | `canonical_neck_length_conjecture` | L² ~ H* conjecture | GIFT conjecture |
 | `selection_principle_holds` | L² = κ·H* selection | Variational proof |
-| `universality_conjecture` | λ₁·H* = dim(G₂) for all TCS | Geometric analysis |
+| `universality_conjecture` | [REMOVED v4.0.11] λ₁·H*=dim(G₂) is FALSE (CV=71.8%). Correct: λ₁·(max_b₂+8)=6π²/25 (AnalyticalMassGap.lean, 0 axioms) |
 | `localization_lemma` | Eigenfunction localization | Mazzeo-Melrose |
 | `spectral_lower_bound_refined` | pi^2/L^2 - exp correction | Poincare + localization |
 | `trace_formula` | [MOVED v4.0] → Exploratory/Spectral/SelbergBridge |
