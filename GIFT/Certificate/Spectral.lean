@@ -543,9 +543,9 @@ def statement : Prop :=
      10 ^ (GIFT.Spectral.SpectralInvariants.b1_gap_scale_exp - 1)) ∧
     (GIFT.Spectral.SpectralInvariants.n_states_total = dim_K7 ^ 3) ∧
     -- [KK] b₃ = 11 × n (octonion identity, brane gap lower bound)
-    (GIFT.Spectral.KKSpectralBridge.b3 = 11 * GIFT.Spectral.KKSpectralBridge.n) ∧
+    (GIFT.Spectral.OctonionMassGap.b3 = 11 * GIFT.Spectral.OctonionMassGap.n) ∧
     -- [KK] b₁ = 0 → mass_gap_ratio_num = 14 (no massless KK modes)
-    (GIFT.Spectral.KKSpectralBridge.mass_gap_ratio_num = 14) ∧
+    (GIFT.Spectral.MassGapRatio.mass_gap_ratio_num = 14) ∧
     -- [KK] NK stability: g_ss > 0
     ((19 : ℚ) / 6 > 0)
 
