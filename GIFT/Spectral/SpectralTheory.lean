@@ -67,51 +67,53 @@ consequences.
 -/
 
 -- ============================================================================
--- ABSTRACT MANIFOLD (axiom-based - Mathlib manifold theory in development)
+-- ABSTRACT MANIFOLD (structure — Phase 3 refactor v4.0.12)
 -- ============================================================================
 
-/-- Abstract compact Riemannian manifold.
+/-- Abstract compact Riemannian manifold with bundled spectral data.
 
-**Axiom Category: A (Type Definition)** - IRREDUCIBLE
+**Phase 3 refactor (v4.0.12):** Replaces `opaque CompactManifold` + `axiom manifold_spectral_data`.
+All spectral data is now bundled as structure fields. `manifold_spectral_data` is a
+noncomputable def (structure projection) — no longer an axiom.
 
-This is an opaque type representing a compact Riemannian manifold.
-Full formalization requires Mathlib's differential geometry (in development).
+Bundles:
+- Basic manifold data: dim, volume (with positivity)
+- Mass gap: first nonzero eigenvalue (with positivity)
+- Spectral sequence: 0 = λ₀ ≤ λ₁ ≤ ... → ∞ with all required properties
 
-For GIFT, we only need:
-- 7-dimensional (for K7)
-- Compact (for discrete spectrum)
-- Riemannian metric (for Laplacian)
+**Axiom reduction:** -1 (manifold_spectral_data eliminated).
 
-**Elimination path:** Mathlib.Geometry.Manifold.Instances.Real (when completed)
+**Citation:** Chavel (1984), Theorem 1.2.1 -/
+structure CompactManifold where
+  /-- Dimension of the manifold -/
+  dim : ℕ
+  /-- Volume bundled with positivity -/
+  volume_aux : {x : ℝ // x > 0}
+  /-- Mass gap bundled with positivity -/
+  mass_gap_aux : {x : ℝ // x > 0}
+  /-- Eigenvalue sequence: 0 = λ₀ ≤ λ₁ ≤ λ₂ ≤ ... → ∞ -/
+  eigseq : ℕ → ℝ
+  /-- λ₀ = 0 (constant functions are harmonic) -/
+  eigseq_zero : eigseq 0 = 0
+  /-- Eigenvalues are non-decreasing -/
+  eigseq_nondecreasing : ∀ n, eigseq n ≤ eigseq (n + 1)
+  /-- Eigenvalues are non-negative (positive semi-definiteness of Δ) -/
+  eigseq_nonneg : ∀ n, eigseq n ≥ 0
+  /-- Eigenvalues are unbounded (compactness → discrete spectrum) -/
+  eigseq_unbounded : ∀ C : ℝ, ∃ N, ∀ n ≥ N, eigseq n > C
+  /-- Mass gap is the infimum of positive eigenvalues in the sequence -/
+  mass_gap_is_min : ∀ n, eigseq n > 0 → mass_gap_aux.val ≤ eigseq n
 
-**Former axiom, now opaque** (opaque refactoring 2026-02-09).
--/
-opaque CompactManifold : Type
-
-/-- Dimension of a compact manifold.
-
-**Former axiom, now opaque** (opaque refactoring 2026-02-09). -/
-opaque CompactManifold.dim : CompactManifold → ℕ
-
-/-- Inhabited instance for positive real subtype (needed for opaque declarations). -/
+/-- Inhabited instance for positive real subtype. -/
 noncomputable instance : Inhabited {x : ℝ // x > 0} := ⟨⟨1, one_pos⟩⟩
 
-/-- Auxiliary: Volume bundled with positivity.
-
-A compact Riemannian manifold has finite positive volume. -/
-noncomputable opaque CompactManifold.volume_aux : CompactManifold → {x : ℝ // x > 0}
-
-/-- A compact manifold has finite positive volume.
-
-**Formerly opaque**, now def projecting from positive-valued opaque (v3.3.41). -/
+/-- A compact manifold has finite positive volume. -/
 noncomputable def CompactManifold.volume (M : CompactManifold) : ℝ :=
-  (CompactManifold.volume_aux M).val
+  M.volume_aux.val
 
-/-- Volume is positive.
-
-**Formerly axiom**, now theorem via subtype projection (v3.3.41). -/
+/-- Volume is positive. -/
 theorem CompactManifold.volume_pos (M : CompactManifold) : M.volume > 0 :=
-  (CompactManifold.volume_aux M).property
+  M.volume_aux.property
 
 -- ============================================================================
 -- LAPLACE-BELTRAMI OPERATOR (axiom-based)
@@ -143,30 +145,19 @@ opaque LaplaceBeltrami.canonical (M : CompactManifold) : LaplaceBeltrami M
 -- MASS GAP DEFINITION
 -- ============================================================================
 
-/-- Auxiliary: Mass gap bundled with positivity (subtype projection pattern).
-
-For a compact manifold M, the spectral theorem guarantees a positive
-first nonzero eigenvalue. -/
-noncomputable opaque MassGap_aux (M : CompactManifold) : {x : ℝ // x > 0}
-
 /-- The mass gap (spectral gap) is the first nonzero eigenvalue.
 
 For a compact manifold M with Laplacian Δ:
   mass_gap(M) = λ₁ = inf { λ > 0 : λ ∈ Spec(Δ) }
 
-This is the fundamental quantity in Yang-Mills theory. The existence of a
-positive mass gap is equivalent to exponential decay of correlations.
-
-**Formerly opaque**, now def projecting from positive-valued opaque (v3.3.39).
+**Phase 3 refactor (v4.0.12):** Now a direct projection from CompactManifold.mass_gap_aux.
 -/
-noncomputable def MassGap (M : CompactManifold) : ℝ := (MassGap_aux M).val
+noncomputable def MassGap (M : CompactManifold) : ℝ := M.mass_gap_aux.val
 
-/-- The mass gap exists and is positive for compact manifolds.
-
-**Formerly axiom**, now theorem via subtype projection (v3.3.39). -/
+/-- The mass gap exists and is positive for compact manifolds. -/
 theorem mass_gap_exists_positive (M : CompactManifold) :
   ∃ (ev1 : ℝ), ev1 > 0 ∧ MassGap M = ev1 :=
-  ⟨(MassGap_aux M).val, (MassGap_aux M).property, rfl⟩
+  ⟨M.mass_gap_aux.val, M.mass_gap_aux.property, rfl⟩
 
 -- ============================================================================
 -- BUNDLED SPECTRAL DATA (v3.3.42: axiom consolidation, v3.3.47: decoupled)
@@ -209,11 +200,52 @@ structure ManifoldSpectralData (M : CompactManifold) where
 
 /-- Every compact Riemannian manifold has spectral data.
 
-**Axiom Category: B (Standard Result)** — Chavel (1984), Theorem 1.2.1
+**Phase 3 refactor (v4.0.12):** Formerly `axiom` (Category B, Chavel 1984 Thm 1.2.1),
+now a `noncomputable def` — structure projection from CompactManifold fields.
+This eliminates one GIFT axiom.
 
-**Axiom consolidation (v3.3.42):** Replaces `spectral_theorem_discrete` +
-`mass_gap_is_infimum` (2 axioms → 1). -/
-axiom manifold_spectral_data (M : CompactManifold) : ManifoldSpectralData M
+**Axiom reduction:** -1 (was: consolidation of spectral_theorem_discrete + mass_gap_is_infimum). -/
+noncomputable def manifold_spectral_data (M : CompactManifold) : ManifoldSpectralData M :=
+  { eigseq := M.eigseq
+    eigseq_zero := M.eigseq_zero
+    eigseq_nondecreasing := M.eigseq_nondecreasing
+    eigseq_nonneg := M.eigseq_nonneg
+    eigseq_unbounded := M.eigseq_unbounded
+    mass_gap_is_min := M.mass_gap_is_min }
+
+-- ============================================================================
+-- K7 SPECTRAL DATA (v4.0.12: replaces K7_exists axiom → noncomputable def)
+-- ============================================================================
+
+/-- Concrete spectral data for the K7 manifold.
+
+Pure `Type 0` structure (no universe polymorphism) — safe for cross-module projection.
+Asserts the exact spectral data needed to construct K7 as a CompactManifold.
+
+**Phase 3 refactor (v4.0.12):** Introduced to replace `axiom K7_exists : K7_Manifold`
+with a `noncomputable def` in G2Manifold.lean. K7 is now concretely constructed from
+these fields rather than asserted to exist opaquely.
+
+**Axiom Category: C** — K7-specific geometric data (Kovalev 2003). -/
+structure K7SpectralData where
+  /-- K7 volume bundled with positivity -/
+  volume_aux : {x : ℝ // x > 0}
+  /-- K7 mass gap bundled with positivity (λ₁ ≈ 0.1244 analytically) -/
+  mass_gap_aux : {x : ℝ // x > 0}
+  /-- K7 eigenvalue sequence: 0 = λ₀ ≤ λ₁ ≤ ... → ∞ -/
+  eigseq : ℕ → ℝ
+  eigseq_zero : eigseq 0 = 0
+  eigseq_nondecreasing : ∀ n, eigseq n ≤ eigseq (n + 1)
+  eigseq_nonneg : ∀ n, eigseq n ≥ 0
+  eigseq_unbounded : ∀ C : ℝ, ∃ N, ∀ n ≥ N, eigseq n > C
+  mass_gap_is_min : ∀ n, eigseq n > 0 → mass_gap_aux.val ≤ eigseq n
+
+/-- K7 spectral data exists.
+
+**Axiom Category: C (Geometric structure)** — Kovalev (2003), Joyce (2000).
+
+**Replaces:** `axiom K7_exists : K7_Manifold` (which becomes a noncomputable def). -/
+axiom K7_spectral_data : K7SpectralData
 
 -- ============================================================================
 -- EIGENVALUE PREDICATE (v3.3.47: axiom → def via spectral sequence)

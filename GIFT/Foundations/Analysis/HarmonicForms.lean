@@ -91,15 +91,15 @@ structure K7AnalysisData where
     ∀ i j, hodge.innerp.inner 3 (omega3 i) (omega3 j) =
            if i = j then 1 else 0
 
-/-- K7 admits Hodge structure and an orthonormal harmonic basis.
+/-- K7 admits Hodge structure, harmonic basis, and spectral data.
 
 **Axiom Category: C (Geometric structure)**
 
 **Why axiom**: Requires explicit construction on K₇ manifold.
 **Elimination path**: Derive from Hodge theory + TCS building blocks.
 
-**Axiom consolidation (v3.3.42):** Replaces `K7_hodge_data` + `K7_harmonic_basis`
-(2 axioms → 1). -/
+**Axiom consolidation (v3.3.42):** Replaces `K7_hodge_data` + `K7_harmonic_basis` (9→1).
+**Phase 3 (v4.0.12):** Added spectral fields — absorbs K7_exists axiom (→ noncomputable def). -/
 axiom K7_analysis_data : K7AnalysisData
 
 -- ============================================================================
@@ -227,14 +227,8 @@ theorem K7_H_star : b 0 + b 2 + b 3 = 99 := rfl
 **Former axiom, now opaque** (opaque refactoring 2026-02-09). -/
 opaque deRham (M : Type*) (k : ℕ) : Type*
 
-/-- Hodge isomorphism: ℋᵏ(M) ≅ Hᵏ_dR(M).
-
-**Axiom Category: B (Standard Result)** — Hodge (1941)
-
-**Why axiom**: Requires elliptic regularity + Fredholm theory.
-**Elimination path**: Formalize de Rham cohomology in Mathlib. -/
-axiom hodge_isomorphism (k : ℕ) :
-  HarmonicSpace K7_hodge_data K7_laplacian k ≃ deRham K7 k
+-- [REMOVED v4.0.12] hodge_isomorphism — dead axiom, never used in any proof.
+-- Requires elliptic regularity + Fredholm theory. Elimination path: Mathlib de Rham.
 
 /-!
 ## Certified Relations

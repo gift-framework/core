@@ -271,16 +271,8 @@ theorem symmetric_block_constant :
 -- CONNECTION TO K7
 -- ============================================================================
 
-/-- K7 can be constructed as a TCS manifold.
-
-The Joyce-Kovalev construction produces compact G₂ manifolds
-via twisted connected sums of asymptotically cylindrical Calabi-Yau 3-folds
-crossed with S¹.
-
-Axiomatized: full construction requires Calabi-Yau formalization.
-
-**Axiom Category: C (Geometric structure)** — Kovalev (2003) -/
-axiom K7_is_TCS : ∃ (K : TCSManifold), K.toCompactManifold.dim = 7
+-- [REMOVED v4.0.12] K7_is_TCS — dead axiom, never used in any proof.
+-- K7's TCS construction is documented in G2Manifold.lean (K7_TCS_derivation theorem).
 
 -- ============================================================================
 -- CERTIFICATE

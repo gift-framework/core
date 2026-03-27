@@ -141,23 +141,8 @@ noncomputable opaque BuserConstant (n : ℕ) : ℝ
 /-- Buser constant for dimension 7 -/
 noncomputable def C_7 : ℝ := BuserConstant 7
 
-/-- Buser's Inequality (1982):
-
-**Axiom Category: B (Standard result)** - Buser 1982
-
-For a compact Riemannian n-manifold M with Ricci >= -(n-1)K:
-  lambda_1(M) <= C(n, K, diam(M)) * h(M)
-
-For Ricci-flat manifolds (like K7), this simplifies.
-
-**Reference**: Buser, P. (1982). "A note on the isoperimetric constant."
-Annales scientifiques de l'École Normale Supérieure 15(2):213-230.
-
-**Why axiom**: Proof requires Ricci curvature comparison theorems.
-**Elimination path**: Mathlib Riemannian comparison geometry.
--/
-axiom buser_inequality (M : CompactManifold) (n : ℕ) (hn : M.dim = n) :
-  MassGap M ≤ BuserConstant n * CheegerConstant M
+-- [REMOVED v4.0.12] buser_inequality — dead axiom, never used in any proof.
+-- Requires Ricci curvature comparison theorems. Elimination path: Mathlib comparison geometry.
 
 -- ============================================================================
 -- APPLICATION TO K7
