@@ -1,28 +1,27 @@
 /-
-GIFT Spectral: Yang-Mills Bridge
-=================================
+GIFT Spectral: Kaluza-Klein Spectral Bridge
+============================================
 
-Conditional theorem: Yang-Mills 4D mass gap from G₂ holonomy.
+Conditional theorem: 4D Yang-Mills mass gap from G₂ holonomy via KK reduction.
 
-The Clay Millennium Yang-Mills problem reduces, in the GIFT framework,
-to a single axiom: validity of Kaluza-Klein effective field theory.
-
-All other ingredients are certified:
+All spectral ingredients are certified:
   - b₁(K₇) = 0          [SpectralInvariants.b1_spectral_confirmed]
   - λ₁(K₇) > 0          [ComputedSpectrum.lambda1_above_cheeger]
   - λ₁ = 6π²/475        [AnalyticalMassGap.analytical_mass_gap_certificate]
   - 0 free parameters   [NK-certified metric, 169→0 params]
 
-The residual axiom KK_YM_EFT:
+The single residual axiom KK_YM_EFT:
   "At scales E << R⁻¹, the 4D effective theory of Yang-Mills on ℝ⁴ × K₇
    is pure Yang-Mills on ℝ⁴ with mass gap Δ = λ₁^{1/2} / R."
 
-This is NOT M-theory — it is classical KK reduction (Kaluza 1921, Klein 1926)
+This is standard classical KK reduction (Kaluza 1921, Klein 1926)
 applied to Yang-Mills on a Riemannian product manifold. Formalisation is
 in progress (cf. Bär-Ginoux-Pfäffle 2007 for wave equations on manifolds).
 
-Paper IV (working sketch), 2026-03-24
-Version: 0.1.0 (pre-BIRS DANGER workshop)
+Additional certified result: the 1/√11 identity — b₃ = 11n where n=7=dim(Im 𝕆).
+This gives a lower bound on the brane mass gap purely from octonion structure.
+
+Version: 1.1.0 (2026-03-27, renamed from YangMillsBridge)
 -/
 
 import GIFT.Core
@@ -31,7 +30,7 @@ import GIFT.Spectral.OctonionMassGap
 import GIFT.Spectral.SpectralInvariants
 import GIFT.Spectral.ComputedSpectrum
 
-namespace GIFT.Spectral.YangMillsBridge
+namespace GIFT.Spectral.KKSpectralBridge
 
 open GIFT.Core
 open GIFT.Spectral.MassGapRatio
@@ -121,9 +120,9 @@ theorem gap_topologically_protected :
     GIFT_mass_gap_MeV > 28 ∧ GIFT_mass_gap_MeV < 29 := mass_gap_prediction
 
 /-!
-## Step 3b: The 1/√11 identity (new — 2026-03-24)
+## Step 3b: The 1/√11 identity
 
-A new algebraic identity discovered during the associative cycle computation:
+A certified algebraic identity:
 
   b₃ = 11 × n   where n = 7 = dim(Im 𝕆)
 
@@ -133,7 +132,7 @@ This gives the minimum associative volume:
 The factor 1/√11 is entirely octonionique:
   11 = b₃/n = (n-1)(n+4)/6   for n=7
 
-The Yang-Mills mass gap lower bound:
+The brane mass gap lower bound:
   m_g ≥ T_M2 × Vol(K₇)^{1/2} / √11 > 0
 -/
 
@@ -162,40 +161,29 @@ theorem octonion_eleven_identity :
     Nat.choose n 3 / n = 5 ∧ n - 1 = 6 := by
   refine ⟨?_, ?_, ?_, ?_, ?_⟩ <;> native_decide
 
-/-- The positivity of the brane gap follows from b₃ > 0 and Vol > 0.
-    Formally: m_g ≥ T_M2 × √(Vol(K₇)/11) > 0. -/
+/-- The positivity of the brane gap follows from b₃ > 0 and Vol > 0. -/
 theorem brane_gap_positive_from_b3 :
-    -- b₃ = 11·n > 0  →  1/√11 > 0  →  V_min > 0  →  m_g > 0
-    -- The algebraic part: 11 > 0
     (11 : ℕ) > 0 ∧
-    -- b₃/n = 11 (the denominator of the gap bound)
     b3 / n = 11 ∧
-    -- n > 0 (compactness of Im 𝕆)
     n > 0 := by
   refine ⟨by norm_num, ?_, ?_⟩ <;> native_decide
 
 /-!
 ## Step 4: The residual axiom
 
-This is the ONLY remaining gap between GIFT and a full Clay proof.
-Everything else is certified above or in existing modules.
--/
-
-/-!
-### KK_YM_EFT axiom
+**Axiom Category: B (Standard result)** — Kaluza (1921), Klein (1926).
 
 Mathematical content:
   At energy scales E << R^{-1} (below the first KK mode), the
   4D effective theory of Yang-Mills on ℝ⁴ × K₇ is pure Yang-Mills
   on ℝ⁴ with mass gap Δ = √λ₁ × R^{-1}.
 
-This is standard physics (Kaluza 1921, Klein 1926) but has not been
-formalized in Lean for the Yang-Mills case. The scalar case is in
-Bär-Ginoux-Pfäffle 2007 (wave equations on Lorentzian manifolds).
+This is standard physics but has not been formalized in Lean for the
+Yang-Mills case. The scalar case is in Bär-Ginoux-Pfäffle 2007.
 
-Elimination path:
+**Elimination path**:
 1. Formalize KK truncation for Yang-Mills (differential geometry)
-2. Use NK stability (Theorem 3.2) to extend classical → quantum
+2. Use NK stability to extend classical → quantum
 3. Apply Wilsonian EFT (rigorous for super-renormalizable theories)
 -/
 axiom KK_YM_EFT :
@@ -207,16 +195,16 @@ axiom KK_YM_EFT :
     ∃ (Δ : ℚ), Δ = GIFT_mass_gap_MeV ∧ Δ > 0
 
 /-!
-## Master Theorem: Yang-Mills Mass Gap (conditional)
+## Master Theorem: 4D mass gap (conditional on KK_YM_EFT)
 
-Given KK_YM_EFT, the Yang-Mills mass gap is:
+Given KK_YM_EFT, the 4D mass gap is:
   Δ = 14/99 × 200 MeV = 2800/99 MeV ≈ 28.28 MeV
 
 This is entirely determined by n = 7 = dim(Im 𝕆).
 -/
 
-/-- Yang-Mills mass gap from G₂ holonomy (conditional on KK_YM_EFT) -/
-theorem yang_mills_mass_gap_GIFT :
+/-- 4D mass gap from G₂ holonomy (conditional on KK_YM_EFT) -/
+theorem kk_mass_gap_GIFT :
     ∃ (Δ : ℚ),
     -- Value from octonions
     Δ = 2 * n * 200 / (2 * n ^ 2 + 1) ∧
@@ -236,33 +224,11 @@ theorem yang_mills_mass_gap_GIFT :
   · rw [hΔ_eq]; exact mass_gap_prediction.2
 
 /-!
-## Axiom Inventory
-
-GIFT now has 11 axioms total (was 12; `universality` eliminated 2026-03-26):
-
-| Axiom | Content | Elimination path |
-|-------|---------|-----------------|
-| KK_YM_EFT | KK reduction of YM → 4D gap | Bär-Ginoux-Pfäffle + NK stability |
-| 2 Cheeger/Buser | Spectral-isoperimetric | Full Riemannian geometry in Lean |
-| 2 TCS | K₇ construction validity | Joyce existence theorem |
-| spectral_data | λ₁ = certified value | Exact eigenvalue computation |
-| G₂ manifold | K₇ admits G₂ structure | TCS construction |
-| K7_TCS | TCS pieces combine correctly | Mayer-Vietoris |
-| K7_analysis | Analytical properties | PDE on manifolds |
-| literature | CGN 2024 no-small-eigenvalues | Direct proof |
-| Hodge iso | Harmonic ↔ cohomology | Elliptic PDE |
-
-**Eliminated (v4.0.11):** `universality` (λ₁·H*=dim(G₂) for all TCS) was
-disproved: under λ₁=6π²/(L²·g_ss), the product λ₁·H* varies by 20× across
-TCS families (CV=71.8%). The correct invariant is λ₁·(max_b₂+8)=6π²/25,
-already a Lean theorem in AnalyticalMassGap.lean (zero axioms).
-
-KK_YM_EFT is the only axiom whose elimination would constitute a
-contribution to the Clay Millennium Problem.
+## Certificate
 -/
 
-/-- Complete Yang-Mills bridge certificate -/
-theorem yang_mills_bridge_certificate :
+/-- KK spectral bridge certificate (algebraic part — no KK_YM_EFT needed) -/
+theorem kk_spectral_bridge_certificate :
     -- Topological ingredients (all certified)
     n = 7 ∧
     mass_gap_ratio_num = 14 ∧
@@ -274,9 +240,10 @@ theorem yang_mills_bridge_certificate :
     GIFT_mass_gap_MeV > 28 ∧ GIFT_mass_gap_MeV < 29 ∧
     -- NK stability (0 moduli)
     (19 : ℚ) / 6 > 0 ∧
-    -- Residual axiom count
-    True := by
-  refine ⟨rfl, rfl, rfl, ?_, ?_, ?_, ?_, ?_, trivial⟩
+    -- 1/√11 identity
+    b3 = 11 * n ∧
+    b3 / n = 11 := by
+  refine ⟨rfl, rfl, rfl, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   all_goals native_decide
 
-end GIFT.Spectral.YangMillsBridge
+end GIFT.Spectral.KKSpectralBridge

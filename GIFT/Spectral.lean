@@ -92,6 +92,9 @@ import GIFT.Spectral.SpectralInvariants
 import GIFT.Spectral.CheegerInequality
 import GIFT.Spectral.YangMills
 
+-- KK spectral bridge: 4D mass gap conditional on KK reduction (v3.4.2)
+import GIFT.Spectral.KKSpectralBridge
+
 namespace GIFT.Spectral
 
 -- ============================================================================
@@ -520,6 +523,19 @@ export YangMills (
   yang_mills_certificate
 )
 
+-- ============================================================================
+-- RE-EXPORTS: KK SPECTRAL BRIDGE
+-- ============================================================================
+
+export KKSpectralBridge (
+  KK_YM_EFT
+  no_massless_kk_modes
+  b3_eq_11_mul_n
+  octonion_eleven_identity
+  kk_mass_gap_GIFT
+  kk_spectral_bridge_certificate
+)
+
 /-!
 ## Quick Reference
 
@@ -553,7 +569,8 @@ Spectral/
 ├── LiteratureAxioms.lean        # Literature axioms (Langlais, CGN)
 ├── SpectralInvariants.lean      # Heat kernel, zeta, bounds, b₁=0 [v3.3.39]
 ├── CheegerInequality.lean       # Cheeger-Buser bounds
-└── YangMills.lean               # Clay Prize connection
+├── YangMills.lean               # Yang-Mills formulation
+└── KKSpectralBridge.lean        # KK reduction → 4D mass gap (conditional)
 ```
 
 ## Axiom Summary

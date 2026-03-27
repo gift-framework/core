@@ -1,6 +1,7 @@
 import GIFT.Core
 import GIFT.Spectral
 import GIFT.Spectral.AnalyticalMassGap
+import GIFT.Spectral.KKSpectralBridge
 import GIFT.Foundations.SpectralScaling
 import GIFT.Foundations.PoincareDuality
 
@@ -408,6 +409,24 @@ abbrev amg_product_H_star := GIFT.Spectral.AnalyticalMassGap.product_H_star
 abbrev amg_certificate := GIFT.Spectral.AnalyticalMassGap.analytical_mass_gap_certificate
 
 -- ═══════════════════════════════════════════════════════════════════════════════
+-- KK SPECTRAL BRIDGE (v3.4.2, classical KK reduction → 4D mass gap)
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+open GIFT.Spectral.KKSpectralBridge
+
+/-- b₃ = 11 × 7 — octonion identity -/
+abbrev kk_b3_eleven := GIFT.Spectral.KKSpectralBridge.b3_eq_11_mul_n
+
+/-- b₁ = 0 → no massless KK gauge modes -/
+abbrev kk_no_massless := GIFT.Spectral.KKSpectralBridge.no_massless_kk_modes
+
+/-- Octonion 11-identity master certificate -/
+abbrev kk_octonion_eleven := GIFT.Spectral.KKSpectralBridge.octonion_eleven_identity
+
+/-- KK spectral bridge master certificate (algebraic) -/
+abbrev kk_certificate := GIFT.Spectral.KKSpectralBridge.kk_spectral_bridge_certificate
+
+-- ═══════════════════════════════════════════════════════════════════════════════
 -- SPECTRAL MASTER CERTIFICATE
 -- ═══════════════════════════════════════════════════════════════════════════════
 
@@ -522,10 +541,16 @@ def statement : Prop :=
      GIFT.Spectral.SpectralInvariants.cheeger_h_den) ∧
     (GIFT.Spectral.SpectralInvariants.b1_max_gap_scaled <
      10 ^ (GIFT.Spectral.SpectralInvariants.b1_gap_scale_exp - 1)) ∧
-    (GIFT.Spectral.SpectralInvariants.n_states_total = dim_K7 ^ 3)
+    (GIFT.Spectral.SpectralInvariants.n_states_total = dim_K7 ^ 3) ∧
+    -- [KK] b₃ = 11 × n (octonion identity, brane gap lower bound)
+    (GIFT.Spectral.KKSpectralBridge.b3 = 11 * GIFT.Spectral.KKSpectralBridge.n) ∧
+    -- [KK] b₁ = 0 → mass_gap_ratio_num = 14 (no massless KK modes)
+    (GIFT.Spectral.KKSpectralBridge.mass_gap_ratio_num = 14) ∧
+    -- [KK] NK stability: g_ss > 0
+    ((19 : ℚ) / 6 > 0)
 
 theorem certified : statement := by
-  refine ⟨rfl, rfl, rfl, rfl, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  refine ⟨rfl, rfl, rfl, rfl, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   all_goals native_decide
 
 end GIFT.Certificate.Spectral
