@@ -26,9 +26,9 @@ What is CERTIFIED in this file (0 incomplete proofs):
   - phi0_metric: Bryant's identity ∑ φ₀(i,a,b)φ₀(j,a,b) = 6δᵢⱼ (native_decide via ℤ)
   - L_phi0_fullrank: rank(L_φ₀) = 35 → dim(g₂) = 14 (rational right-inverse, native_decide)
 
-What is DEFERRED (documented axioms with proof sketch):
-  - g2_subset_SO7: needs 7D cross-product Lagrange identity (PhysLean/Hitchin)
-  - g2_det_one: needs Lie group connectivity argument
+What is DEFERRED to G2Bform.lean (via the 7-form contraction):
+  - g2_subset_SO7: proved from g2_det_mul_gram axiom (7-form transformation law)
+  - g2_det_one: proved from g2_det_mul_gram + det^9=1 + positivity
 
 This is the foundation for a Mathlib upstream contribution.
 
@@ -398,27 +398,8 @@ theorem phi0_metric (i j : Fin 7) :
   rw [cast_sum, phi0_metric_Z_univ i j]
   split_ifs <;> push_cast <;> norm_num
 
-/-- G₂ ⊆ SO(7): matrices preserving φ₀ preserve the standard inner product.
-
-**Key lemma** (proved above): `phi0_metric` establishes `∑_{a,b} φ₀(i,a,b)φ₀(j,a,b) = 6δᵢⱼ`.
-
-**Remaining gap**: To close the proof, one needs either:
-- 7d cross-product Lagrange identity: `|u×v|² = |u|²|v|² − ⟨u,v⟩²` (PhysLean path)
-- Hitchin stable-form naturality: `g_{A*φ} = A* g_φ` (longer term)
-
-Both imply: A preserves φ₀ → A preserves the metric → A^T A = I.
-
-**Axiom Category: B (Standard result)** — Bryant (1987), Joyce (2000).
-**Elimination path**: Add PhysLean as dep for `G2_cross_norm`, or formalize Hitchin. -/
-axiom g2_subset_SO7 {A : Matrix (Fin 7) (Fin 7) ℝ} (hA : isG2Matrix A) :
-    A.transpose * A = 1
-
-/-- G₂ elements have determinant 1 (G₂ is connected, det(id) = 1).
-
-**Axiom Category: B (Standard result)** — G₂ is a connected compact Lie group.
-**Elimination path**: Follows from g2_subset_SO7 + connectedness (longer term). -/
-axiom g2_det_one {A : Matrix (Fin 7) (Fin 7) ℝ} (hA : isG2Matrix A) :
-    A.det = 1
+/-! g2_subset_SO7 and g2_det_one are now THEOREMS in G2Bform.lean,
+proved from the single axiom g2_det_mul_gram (7-form transformation law). -/
 
 /-!
 ## Dimension Formula: dim(g₂) = 14
@@ -558,6 +539,161 @@ theorem L_phi0_fullrank :
     ∃ B : Matrix (Fin 35) (Fin 35) ℚ,
     (L_sub.map (algebraMap ℤ ℚ)) * B = 1 :=
   ⟨L_sub_inv, L_sub_invertible⟩
+
+/-!
+## g₂ ⊆ so(7): The Lie Algebra is Skew-Symmetric
+
+Every infinitesimal G₂ symmetry X ∈ g₂ satisfies X + Xᵀ = 0, proving g₂ ⊆ so(7)
+at the Lie algebra level.
+
+**Proof strategy**: Certificate-based. We encode the linearization map L (35×49 over ℤ),
+the symmetrization matrix S (28×49 over ℤ), and a certificate C (28×35 over ℚ) such that
+C · L = S. This identity (verified by `native_decide`) means: every symmetry condition
+X_{ij}+X_{ji}=0 is a ℚ-linear combination of the L_φ₀ equations. Since those vanish on
+any X ∈ g₂, we conclude X + Xᵀ = 0.
+-/
+
+/-- The 35 ordered triples (i<j<k) in lexicographic order, indexing the L equations. -/
+private def ordered_triple : Fin 35 → Fin 7 × Fin 7 × Fin 7 := fun n =>
+  match n.val with
+  | 0 => (0, 1, 2) | 1 => (0, 1, 3) | 2 => (0, 1, 4) | 3 => (0, 1, 5) | 4 => (0, 1, 6)
+  | 5 => (0, 2, 3) | 6 => (0, 2, 4) | 7 => (0, 2, 5) | 8 => (0, 2, 6)
+  | 9 => (0, 3, 4) | 10 => (0, 3, 5) | 11 => (0, 3, 6) | 12 => (0, 4, 5) | 13 => (0, 4, 6)
+  | 14 => (0, 5, 6)
+  | 15 => (1, 2, 3) | 16 => (1, 2, 4) | 17 => (1, 2, 5) | 18 => (1, 2, 6)
+  | 19 => (1, 3, 4) | 20 => (1, 3, 5) | 21 => (1, 3, 6) | 22 => (1, 4, 5) | 23 => (1, 4, 6)
+  | 24 => (1, 5, 6)
+  | 25 => (2, 3, 4) | 26 => (2, 3, 5) | 27 => (2, 3, 6) | 28 => (2, 4, 5) | 29 => (2, 4, 6)
+  | 30 => (2, 5, 6)
+  | 31 => (3, 4, 5) | 32 => (3, 4, 6) | 33 => (3, 5, 6) | 34 => (4, 5, 6)
+  | _ => (0, 1, 2)
+
+/-- The full linearization matrix L: gl(7,ℤ) → (∧³ℤ⁷)* (35×49).
+    L[row, 7p+q] = δ(q,i)·φ₀(p,j,k) + δ(q,j)·φ₀(i,p,k) + δ(q,k)·φ₀(i,j,p)
+    where (i,j,k) = ordered_triple row. -/
+private def L_full : Matrix (Fin 35) (Fin 49) ℤ := fun row col =>
+  match row.val, col.val with
+  | 0, 0 => 1 | 0, 8 => 1 | 0, 16 => 1
+  | 1, 17 => 1 | 1, 29 => -1 | 1, 35 => 1
+  | 2, 18 => 1 | 2, 22 => 1 | 2, 42 => -1
+  | 3, 19 => 1 | 3, 21 => -1 | 3, 43 => -1
+  | 4, 20 => 1 | 4, 28 => 1 | 4, 36 => 1
+  | 5, 10 => -1 | 5, 30 => -1 | 5, 42 => -1
+  | 6, 11 => -1 | 6, 23 => 1 | 6, 35 => -1
+  | 7, 12 => -1 | 7, 28 => 1 | 7, 44 => -1
+  | 8, 13 => -1 | 8, 21 => 1 | 8, 37 => 1
+  | 9, 0 => 1 | 9, 24 => 1 | 9, 32 => 1
+  | 10, 7 => 1 | 10, 33 => 1 | 10, 45 => -1
+  | 11, 14 => -1 | 11, 34 => 1 | 11, 38 => 1
+  | 12, 14 => -1 | 12, 26 => -1 | 12, 46 => -1
+  | 13, 7 => -1 | 13, 27 => -1 | 13, 39 => 1
+  | 14, 0 => 1 | 14, 40 => 1 | 14, 48 => 1
+  | 15, 3 => 1 | 15, 37 => -1 | 15, 43 => -1
+  | 16, 4 => 1 | 16, 36 => -1 | 16, 44 => 1
+  | 17, 5 => 1 | 17, 23 => 1 | 17, 29 => 1
+  | 18, 6 => 1 | 18, 22 => 1 | 18, 30 => -1
+  | 19, 1 => 1 | 19, 39 => 1 | 19, 45 => 1
+  | 20, 8 => 1 | 20, 24 => 1 | 20, 40 => 1
+  | 21, 15 => -1 | 21, 31 => -1 | 21, 41 => 1
+  | 22, 15 => -1 | 22, 25 => 1 | 22, 47 => -1
+  | 23, 8 => -1 | 23, 32 => -1 | 23, 48 => -1
+  | 24, 1 => 1 | 24, 27 => -1 | 24, 33 => -1
+  | 25, 2 => 1 | 25, 38 => 1 | 25, 46 => -1
+  | 26, 9 => 1 | 26, 31 => -1 | 26, 47 => -1
+  | 27, 16 => -1 | 27, 24 => -1 | 27, 48 => -1
+  | 28, 16 => -1 | 28, 32 => -1 | 28, 40 => -1
+  | 29, 9 => -1 | 29, 25 => -1 | 29, 41 => -1
+  | 30, 2 => 1 | 30, 26 => -1 | 30, 34 => 1
+  | 31, 5 => 1 | 31, 11 => -1 | 31, 17 => -1
+  | 32, 6 => 1 | 32, 10 => -1 | 32, 18 => 1
+  | 33, 3 => 1 | 33, 13 => 1 | 33, 19 => 1
+  | 34, 4 => 1 | 34, 12 => 1 | 34, 20 => -1
+  | _, _ => 0
+
+/-- Symmetrization matrix S (28×49 over ℤ).
+    Row r encodes X_{i,j} + X_{j,i} = 0 for the r-th pair (i,j) with i ≤ j.
+    For i=j: S has coefficient 1 at (i,i), encoding X_{ii} = 0.
+    For i<j: S has coefficient 1 at (i,j) and (j,i), encoding X_{ij}+X_{ji} = 0. -/
+private def S_sym : Matrix (Fin 28) (Fin 49) ℤ := fun row col =>
+  match row.val, col.val with
+  | 0, 0 => 1
+  | 1, 1 => 1 | 1, 7 => 1
+  | 2, 2 => 1 | 2, 14 => 1
+  | 3, 3 => 1 | 3, 21 => 1
+  | 4, 4 => 1 | 4, 28 => 1
+  | 5, 5 => 1 | 5, 35 => 1
+  | 6, 6 => 1 | 6, 42 => 1
+  | 7, 8 => 1
+  | 8, 9 => 1 | 8, 15 => 1
+  | 9, 10 => 1 | 9, 22 => 1
+  | 10, 11 => 1 | 10, 29 => 1
+  | 11, 12 => 1 | 11, 36 => 1
+  | 12, 13 => 1 | 12, 43 => 1
+  | 13, 16 => 1
+  | 14, 17 => 1 | 14, 23 => 1
+  | 15, 18 => 1 | 15, 30 => 1
+  | 16, 19 => 1 | 16, 37 => 1
+  | 17, 20 => 1 | 17, 44 => 1
+  | 18, 24 => 1
+  | 19, 25 => 1 | 19, 31 => 1
+  | 20, 26 => 1 | 20, 38 => 1
+  | 21, 27 => 1 | 21, 45 => 1
+  | 22, 32 => 1
+  | 23, 33 => 1 | 23, 39 => 1
+  | 24, 34 => 1 | 24, 46 => 1
+  | 25, 40 => 1
+  | 26, 41 => 1 | 26, 47 => 1
+  | 27, 48 => 1
+  | _, _ => 0
+
+/-- Certificate C (28×35 over ℚ): each symmetry condition is a ℚ-linear combination
+    of the L equations. Verified: C · L = S. -/
+private def C_cert : Matrix (Fin 28) (Fin 35) ℚ := fun row col =>
+  match row.val, col.val with
+  | 0, 0 => (1:ℚ)/3 | 0, 9 => (1:ℚ)/3 | 0, 14 => (1:ℚ)/3
+  | 0, 20 => (-1:ℚ)/6 | 0, 23 => (1:ℚ)/6 | 0, 27 => (1:ℚ)/6 | 0, 28 => (1:ℚ)/6
+  | 1, 10 => (1:ℚ)/2 | 1, 13 => (-1:ℚ)/2 | 1, 19 => (1:ℚ)/2 | 1, 24 => (1:ℚ)/2
+  | 2, 11 => (-1:ℚ)/2 | 2, 12 => (-1:ℚ)/2 | 2, 25 => (1:ℚ)/2 | 2, 30 => (1:ℚ)/2
+  | 3, 3 => (-1:ℚ)/2 | 3, 8 => (1:ℚ)/2 | 3, 15 => (1:ℚ)/2 | 3, 33 => (1:ℚ)/2
+  | 4, 4 => (1:ℚ)/2 | 4, 7 => (1:ℚ)/2 | 4, 16 => (1:ℚ)/2 | 4, 34 => (1:ℚ)/2
+  | 5, 1 => (1:ℚ)/2 | 5, 6 => (-1:ℚ)/2 | 5, 17 => (1:ℚ)/2 | 5, 31 => (1:ℚ)/2
+  | 6, 2 => (-1:ℚ)/2 | 6, 5 => (-1:ℚ)/2 | 6, 18 => (1:ℚ)/2 | 6, 32 => (1:ℚ)/2
+  | 7, 0 => (1:ℚ)/3 | 7, 9 => (-1:ℚ)/6 | 7, 14 => (-1:ℚ)/6
+  | 7, 20 => (1:ℚ)/3 | 7, 23 => (-1:ℚ)/3 | 7, 27 => (1:ℚ)/6 | 7, 28 => (1:ℚ)/6
+  | 8, 21 => (-1:ℚ)/2 | 8, 22 => (-1:ℚ)/2 | 8, 26 => (1:ℚ)/2 | 8, 29 => (-1:ℚ)/2
+  | 9, 2 => (1:ℚ)/2 | 9, 5 => (-1:ℚ)/2 | 9, 18 => (1:ℚ)/2 | 9, 32 => (-1:ℚ)/2
+  | 10, 1 => (-1:ℚ)/2 | 10, 6 => (-1:ℚ)/2 | 10, 17 => (1:ℚ)/2 | 10, 31 => (-1:ℚ)/2
+  | 11, 4 => (1:ℚ)/2 | 11, 7 => (-1:ℚ)/2 | 11, 16 => (-1:ℚ)/2 | 11, 34 => (1:ℚ)/2
+  | 12, 3 => (-1:ℚ)/2 | 12, 8 => (-1:ℚ)/2 | 12, 15 => (-1:ℚ)/2 | 12, 33 => (1:ℚ)/2
+  | 13, 0 => (1:ℚ)/3 | 13, 9 => (-1:ℚ)/6 | 13, 14 => (-1:ℚ)/6
+  | 13, 20 => (-1:ℚ)/6 | 13, 23 => (1:ℚ)/6 | 13, 27 => (-1:ℚ)/3 | 13, 28 => (-1:ℚ)/3
+  | 14, 1 => (1:ℚ)/2 | 14, 6 => (1:ℚ)/2 | 14, 17 => (1:ℚ)/2 | 14, 31 => (-1:ℚ)/2
+  | 15, 2 => (1:ℚ)/2 | 15, 5 => (-1:ℚ)/2 | 15, 18 => (-1:ℚ)/2 | 15, 32 => (1:ℚ)/2
+  | 16, 3 => (1:ℚ)/2 | 16, 8 => (1:ℚ)/2 | 16, 15 => (-1:ℚ)/2 | 16, 33 => (1:ℚ)/2
+  | 17, 4 => (1:ℚ)/2 | 17, 7 => (-1:ℚ)/2 | 17, 16 => (1:ℚ)/2 | 17, 34 => (-1:ℚ)/2
+  | 18, 0 => (-1:ℚ)/6 | 18, 9 => (1:ℚ)/3 | 18, 14 => (-1:ℚ)/6
+  | 18, 20 => (1:ℚ)/3 | 18, 23 => (1:ℚ)/6 | 18, 27 => (-1:ℚ)/3 | 18, 28 => (1:ℚ)/6
+  | 19, 21 => (-1:ℚ)/2 | 19, 22 => (1:ℚ)/2 | 19, 26 => (-1:ℚ)/2 | 19, 29 => (-1:ℚ)/2
+  | 20, 11 => (1:ℚ)/2 | 20, 12 => (-1:ℚ)/2 | 20, 25 => (1:ℚ)/2 | 20, 30 => (-1:ℚ)/2
+  | 21, 10 => (-1:ℚ)/2 | 21, 13 => (-1:ℚ)/2 | 21, 19 => (1:ℚ)/2 | 21, 24 => (-1:ℚ)/2
+  | 22, 0 => (-1:ℚ)/6 | 22, 9 => (1:ℚ)/3 | 22, 14 => (-1:ℚ)/6
+  | 22, 20 => (-1:ℚ)/6 | 22, 23 => (-1:ℚ)/3 | 22, 27 => (1:ℚ)/6 | 22, 28 => (-1:ℚ)/3
+  | 23, 10 => (1:ℚ)/2 | 23, 13 => (1:ℚ)/2 | 23, 19 => (1:ℚ)/2 | 23, 24 => (-1:ℚ)/2
+  | 24, 11 => (1:ℚ)/2 | 24, 12 => (-1:ℚ)/2 | 24, 25 => (-1:ℚ)/2 | 24, 30 => (1:ℚ)/2
+  | 25, 0 => (-1:ℚ)/6 | 25, 9 => (-1:ℚ)/6 | 25, 14 => (1:ℚ)/3
+  | 25, 20 => (1:ℚ)/3 | 25, 23 => (1:ℚ)/6 | 25, 27 => (1:ℚ)/6 | 25, 28 => (-1:ℚ)/3
+  | 26, 21 => (1:ℚ)/2 | 26, 22 => (-1:ℚ)/2 | 26, 26 => (-1:ℚ)/2 | 26, 29 => (-1:ℚ)/2
+  | 27, 0 => (-1:ℚ)/6 | 27, 9 => (-1:ℚ)/6 | 27, 14 => (1:ℚ)/3
+  | 27, 20 => (-1:ℚ)/6 | 27, 23 => (-1:ℚ)/3 | 27, 27 => (-1:ℚ)/3 | 27, 28 => (1:ℚ)/6
+  | _, _ => 0
+
+/-- **Core certificate**: C · L = S over ℚ, verified by `native_decide`.
+
+This 28×49 matrix equation (1372 entries, each a sum of ≤35 ℚ products) certifies that
+every symmetry condition X_{ij}+X_{ji}=0 is a ℚ-linear combination of the 35 L_{φ₀} equations.
+Combined with rank(L) = 35 (from `L_phi0_fullrank`), this proves g₂ ⊆ so(7). -/
+private theorem cert_CL_eq_S :
+    C_cert * (L_full.map (algebraMap ℤ ℚ)) = S_sym.map (algebraMap ℤ ℚ) := by native_decide
 
 /-!
 ## Certificate: What Is Certified in This Module
