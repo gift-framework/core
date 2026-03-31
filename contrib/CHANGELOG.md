@@ -5,6 +5,30 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.5] - 2026-03-31
+
+### Summary
+
+**G₂ MATHLIB STEP 5: g2_det_mul_gram PROVEN.** The last G₂-specific axiom is eliminated. `g2_det_mul_gram` (the seven-form transformation law det(A)·(AᵀA)=I) is now a fully machine-verified theorem. G₂ ⊆ SO(7) and det=1 follow as corollaries with zero axioms. Total axiom count: **8 → 7** (all remaining axioms are physical data or literature results).
+
+### Changed
+
+- **`GIFT/Algebraic/G2Bform.lean`** — `g2_det_mul_gram` promoted from `axiom` to `theorem`:
+  - New definitions: `OmegaZ`, `Omega` (7-form via `Equiv.Perm (Fin 7)` sum, cleaner than BformZ)
+  - `OmegaZ_eq`: Ω = 144·δ certified by `native_decide` (7! = 5040 signed products over ℤ)
+  - `sum_fun_det_eq_det_mul_sum_perm`: key factorization — non-injective functions give det=0, injective functions biject with `Equiv.Perm`, pulling out `A.det`
+  - `OmegaA_expansion`: OmegaA(i,j) = det(A) · 144 · (AᵀA)ᵢⱼ
+  - `OmegaA_eq_Omega`: for G₂ matrices, Ω is preserved (direct from isG2Matrix)
+  - `g2_det_mul_gram`: combines the above — proved via `linarith` after cancelling 144
+  - All downstream theorems (`g2_det_ne_zero`, `g2_det_pow9`, `g2_det_eq_one`, `g2_subset_SO7`, `g2_det_one`) preserved unchanged
+
+- **`README.md`**: axiom count 8 → 7
+
+### Build
+
+- 7888 jobs, 0 errors, 0 sorry, **7 axioms** (all Category B/C/D — physical data or literature)
+- Proof by Aristotle (project 3aa65be9, 2026-03-31)
+
 ## [3.4.4] - 2026-03-30
 
 ### Summary
