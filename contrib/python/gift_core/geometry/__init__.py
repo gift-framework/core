@@ -7,9 +7,10 @@ Submodules:
     certification: Newton-Kantorovich rigorous certification
 """
 
+from .manifold import G2Manifold
 from .tcs import TCSManifold
 from .metric import ChebyshevMetric
 from .holonomy import G2Structure
 from .certification import NKCertification
 
-__all__ = ["TCSManifold", "ChebyshevMetric", "G2Structure", "NKCertification"]
+__all__ = ["G2Manifold", "TCSManifold", "ChebyshevMetric", "G2Structure", "NKCertification"]
