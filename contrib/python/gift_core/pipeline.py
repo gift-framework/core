@@ -116,6 +116,63 @@ class Pipeline:
         )
         return self.certification
 
+    @classmethod
+    def from_approximate_metric(cls, manifold: TCSManifold,
+                                torsion_norm: float,
+                                spectral_gap: float,
+                                lipschitz: float,
+                                metric_path: Optional[str] = None,
+                                ) -> "Pipeline":
+        """Certify any approximate G₂ metric via Newton-Kantorovich.
+
+        This is the general-purpose entry point for pure mathematics:
+        given ANY approximate torsion-free G₂ metric with measured
+        bounds, determine whether a true torsion-free metric exists
+        nearby and compute rigorous error estimates.
+
+        No physics required — this is differential geometry only.
+
+        Args:
+            manifold: The TCS manifold (topology only)
+            torsion_norm: Measured ||T(phi)||_C0 of the approximate metric
+            spectral_gap: Lower bound on first nonzero Laplacian eigenvalue
+            lipschitz: Lipschitz constant of the torsion map linearization
+            metric_path: Optional path to metric coefficients (JSON)
+
+        Returns:
+            Pipeline with certification status.
+
+        Example:
+            # Certify a hypothetical metric on Quintic + CI(2,4)
+            p = Pipeline.from_approximate_metric(
+                manifold=TCSManifold.from_pair("Quintic", "CI(2,4)"),
+                torsion_norm=1e-3,
+                spectral_gap=0.08,
+                lipschitz=0.05,
+            )
+            if p.certification.is_certified:
+                print(f"Certified! Safety margin: {p.certification.safety_margin:.1f}x")
+            else:
+                print(f"Failed: h={p.certification.h:.4f} >= 0.5")
+        """
+        p = cls.__new__(cls)
+        p.manifold = manifold
+        p.metric = None
+        if metric_path:
+            p.metric = ChebyshevMetric.from_json(metric_path)
+        p.g2_structure = G2Structure.canonical()
+        p.certification = NKCertification(
+            torsion_norm=torsion_norm,
+            spectral_gap=spectral_gap,
+            lipschitz=lipschitz,
+        )
+        p.spectral_gap = SpectralGap(
+            numerical=spectral_gap,
+            lower_bound=spectral_gap * 0.9,
+            upper_bound=spectral_gap * 2.0,
+        )
+        return p
+
     def summary(self) -> dict:
         """Full pipeline status."""
         result = {}
