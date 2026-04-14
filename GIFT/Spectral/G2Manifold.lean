@@ -109,14 +109,12 @@ theorem G2_manifold_dim (M : G2HolonomyManifold) : M.base.dim = GIFT.Core.dim_K7
 
 /-- K7 is the specific G2-holonomy manifold from the TCS construction.
 
-    Built from two asymptotically cylindrical Calabi-Yau 3-folds:
-    - M1: Quintic in CP4 (b2=11, b3=40)
-    - M2: CI(2,2,2) in CP6 (b2=10, b3=37)
+    NK-certified Betti numbers: b₂=21, b₃=77, H*=99.
 
-    Resulting Betti numbers:
-    - b2(K7) = 11 + 10 = 21
-    - b3(K7) = 40 + 37 = 77
-    - H* = 1 + 21 + 77 = 99
+    NOTE (2026-04-14): Building block identification is an open problem.
+    The arithmetic witnesses M1_candidate (b2=11, b3=40) and
+    M2_candidate (b2=10, b3=37) are placeholders only; no geometric
+    TCS realization of (21,77) is known. See TCSConstruction.lean.
 -/
 structure K7_Manifold where
   /-- The underlying G2 manifold -/

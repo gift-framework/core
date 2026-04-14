@@ -1,9 +1,13 @@
 -- GIFT Foundations: TCS Piecewise Metric Structure
 -- Algebraic properties of the piecewise-constant G₂ metric on K₇
 --
--- On the TCS manifold K₇ = M₁ ∪ M₂, the analytical metric is:
---   g(t) = G           for t < 3/4  (left: quintic building block)
---   g(t) = Jᵀ G J      for t > 3/4  (right: CI building block, Kovalev twist)
+-- On a hypothetical TCS manifold K₇ = M₁ ∪ M₂, the analytical metric is:
+--   g(t) = G           for t < 3/4  (left building block)
+--   g(t) = Jᵀ G J      for t > 3/4  (right building block, Kovalev twist)
+--
+-- NOTE (2026-04-14): The building block identification is an open problem.
+-- M₁ and M₂ are ARITHMETIC PLACEHOLDERS with (b₂,b₃) = (11,40) and (10,37).
+-- See TCSConstruction.lean for details.
 --
 -- The Kovalev twist J is an involutory orthogonal matrix arising from the
 -- automorphism group of the Fano plane PG(2,2).
@@ -37,8 +41,8 @@ open GIFT.Foundations.TCSConstruction hiding H_star
 /-!
 ## Building block asymmetry
 
-The two ACyl Calabi-Yau 3-fold building blocks M₁ (quintic in CP⁴) and
-M₂ (complete intersection CI(2,2,2) in CP⁶) have asymmetric Betti numbers.
+The two candidate building blocks M₁ and M₂ (arithmetic placeholders;
+see TCSConstruction.lean) have asymmetric Betti numbers.
 
 The b₃ asymmetry b₃(M₁) - b₃(M₂) = 3 equals N_gen, connecting the
 piecewise metric structure to fermion generation counting.
@@ -70,8 +74,8 @@ The remarkable result is:
   H*(M₁) = 1 + 11 + 40 = 52 = dim(F₄)
 
 where F₄ is the 52-dimensional exceptional Lie algebra, the automorphism
-group of the exceptional Jordan algebra J₃(𝕆). This connects the quintic
-building block to Jordan algebra structure.
+group of the exceptional Jordan algebra J₃(𝕆). This connects the first
+arithmetic witness to Jordan algebra structure.
 
 Furthermore:
   H*(M₂) = 1 + 10 + 37 = 48 = h(G₂) × rank(E₈)
@@ -79,13 +83,13 @@ Furthermore:
 where h(G₂) = 6 is the Coxeter number of G₂.
 -/
 
-/-- Effective degrees of freedom of M₁ (quintic building block) -/
+/-- Effective degrees of freedom of M₁ (arithmetic placeholder, b₂=11, b₃=40) -/
 def H_star_M1 : ℕ := 1 + M1_quintic.b2 + M1_quintic.b3
 
 /-- H*(M₁) = 52 -/
 theorem H_star_M1_value : H_star_M1 = 52 := by native_decide
 
-/-- H*(M₁) = dim(F₄): the quintic block carries F₄ degrees of freedom -/
+/-- H*(M₁) = dim(F₄): M₁ arithmetic witness carries F₄ degrees of freedom -/
 theorem H_star_M1_eq_dim_F4 : H_star_M1 = dim_F4 := by native_decide
 
 /-- Effective degrees of freedom of M₂ (CI building block) -/

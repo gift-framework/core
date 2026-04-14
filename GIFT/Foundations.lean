@@ -114,12 +114,12 @@ Derives: b₂ = 21 = 7 + 14 from G₂ representation theory!
    - AS constraints: 147 = dim(K₇) × b₂ per point
    - Phase 3 diagnostic: hol_rank = 21 (target: 14)
 
-6. **TCSConstruction.lean** (v3.4 update)
-   - K7 as Twisted Connected Sum of CY3 building blocks
-   - M₁ = Quintic in CP⁴ (b₂=11, b₃=40)
-   - M₂ = CI(2,2,2) in CP⁶ (b₂=10, b₃=37)
-   - b₂ = 11 + 10 = 21 (DERIVED from TCS)
-   - b₃ = 40 + 37 = 77 (DERIVED from TCS)
+6. **TCSConstruction.lean** (corrected 2026-04-14)
+   - Abstract TCS framework (ACyl_CY3, TCS_b2/TCS_b3 formulas)
+   - Arithmetic witnesses: M1_candidate (b₂=11, b₃=40), M2_candidate (b₂=10, b₃=37)
+   - b₂=21, b₃=77 certified by NK metric (not derived from TCS)
+   - Building block identification is an OPEN PROBLEM
+   - Orthogonal TCS excluded by parity (b₂+b₃=98 even, CHNP Lemma 6.7)
    - H* = 1 + 21 + 77 = 99
 
 ## Export Key Theorems
