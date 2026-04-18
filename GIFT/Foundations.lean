@@ -49,6 +49,8 @@ import GIFT.Foundations.ExplicitG2Metric
 import GIFT.Foundations.NewtonKantorovich
 -- K3 harmonic correction: torsion reduction ×2995, 1D floor (v4.0)
 import GIFT.Foundations.K3HarmonicCorrection
+-- K3 NK certificate: CI(2,2,2) Donaldson k=4, h=7.83e-2 ×6.4 (v2.2, 2026-04-18)
+import GIFT.Foundations.K3NewtonKantorovich
 
 namespace GIFT.Foundations
 
