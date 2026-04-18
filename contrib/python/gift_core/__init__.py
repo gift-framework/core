@@ -2,7 +2,7 @@
 GIFT Core - Formally Verified Mathematical Constants.
 
 All values proven in Lean 4.
-460+ certified relations, 11 published axioms, modular certificate structure.
+460+ certified relations, 4 published axioms, modular certificate structure.
 
 v3.4.11 Features:
 - Certificate Modularization: Foundations / Predictions / Spectral pillars
