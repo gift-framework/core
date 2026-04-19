@@ -5,6 +5,71 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.12] - 2026-04-19
+
+### Summary
+
+**Interval-arithmetic certificates from Phase 1b + Phase 3 imported as
+Lean axioms (Tier 1.1 of the Lean structural upgrade path).**
+
+The new `GIFT/Foundations/IntervalCertificates.lean` imports the outputs
+of two Colab interval-arith verification notebooks (Phase 1b + Phase 3)
+as formal Lean axioms with explicit numerical bracket content. This is
+strictly stronger than the pre-existing Category F axioms in
+`MetricEigenvalues.lean`, which proved only trivial integer identities
+via `native_decide` without physical interval content.
+
+**Main prediction chain unchanged**: the 4 published axioms on the main
+prediction chain are preserved. The 22 new axioms are scoped to
+interval certificates on the K3 block of g* at s = 0.5 — a side-channel
+for numerical geometric claims, not the gauge / mass / coupling
+predictions.
+
+**Key derived theorems** (all zero-`sorry`, proved via `linarith` on the
+bracket axioms):
+- `det_g_at_half_near_65_32` — det(g(0.5)) = 65/32 to better than 10⁻¹²
+- `K3_eigenvalues_positive` — all four λᵢ strictly positive
+- `K3_eigenvalues_strict_order` — λ₀ < λ₁ < λ₂ < λ₃
+- `r_0_ne_neg_three_halves`, `r_1_ne_zero`, `r_2_ne_one_half` —
+  **the naive ratio pattern (-3/2, 0, 1/2, 1) is formally falsified**
+  (each target value lies outside the certified interval for its ratio)
+- `naive_pattern_falsified` — master rejection theorem
+- `dev_0_small`, `dev_1_small`, `dev_2_small` — 1-parameter signature
+  bounds showing dev_2 ≤ 10⁻³ while dev_0, dev_1 ≈ 0.024
+- `interval_certificates_master` — conjunction certificate
+
+### Added
+
+**`GIFT/Foundations/IntervalCertificates.lean`** — new file, 328 lines:
+- 11 real-valued declarations (`axiom K3_eigenvalue_i : ℝ`, etc.)
+- 11 interval bracket axioms (Category F, Colab-cert source cited,
+  widths ~1.6 × 10⁻¹²)
+- 1 PSLQ-null meta-axiom (placeholder)
+- 12 derived theorems (pattern falsification, 1-parameter signature,
+  master certificate)
+
+**`GIFT/Foundations.lean`** — added `import IntervalCertificates`.
+
+### Epistemology
+
+This addition closes the "rigor-rule" pipeline established in the private
+research repo (`feedback_rigor_verification.md`):
+
+    phase → Colab interval-arith notebook → certificate JSON
+          → `IntervalCertificates.lean` axiom → derived Lean theorem
+
+Future phases (Phase 3A Picard–Fuchs, future NK iterations, etc.) plug
+into the same pipeline: each new interval-cert notebook contributes one
+or more axioms to `IntervalCertificates.lean` with explicit brackets.
+
+### Sanity
+
+- Full `lake build` passes (8380 jobs, 0 warnings).
+- Zero `sorry`.
+- Main prediction chain axiom count unchanged: 4.
+- New axioms are Category F (numerical certificate), none used by
+  gauge / mass / coupling prediction theorems.
+
 ## [3.4.11] - 2026-04-18
 
 ### Summary
