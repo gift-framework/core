@@ -51,6 +51,8 @@ import GIFT.Foundations.NewtonKantorovich
 import GIFT.Foundations.K3HarmonicCorrection
 -- K3 NK certificate: CI(2,2,2) Donaldson k=4, h=7.83e-2 ×6.4 (v2.2, 2026-04-18)
 import GIFT.Foundations.K3NewtonKantorovich
+-- Interval certificates: Phase 1b + Phase 3 Colab interval-arith brackets (2026-04-19)
+import GIFT.Foundations.IntervalCertificates
 
 namespace GIFT.Foundations
 
