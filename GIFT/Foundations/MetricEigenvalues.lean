@@ -22,11 +22,13 @@
 
 import GIFT.Core
 import GIFT.Foundations.K3HarmonicCorrection
+import GIFT.Foundations.IntervalCertificates
 
 namespace GIFT.Foundations.MetricEigenvalues
 
 open GIFT.Core
 open GIFT.Foundations.K3HarmonicCorrection (K3_euler)
+open GIFT.Foundations.IntervalCertificates (K3_mean)
 
 -- =============================================================================
 -- SECTION 1: METRIC COMPONENT EXACT FORMULAS
@@ -49,10 +51,19 @@ Source: `analytical_derivations.json`, `torsion_exact_fractions.json`
 
 -- g_ss = (D_bulk + rank_E8) / (3 × p2) = 19/6
 
-/-- g_ss numerator: the seam metric component = 19/6
+/-- g_ss numerator: the seam metric component = 19/6.
 
-**Axiom Category: F (Numerically verified)**
-Source: analytical_derivations.json (actual = 3.1656, formula = 3.1667, dev = 0.034%) -/
+**Axiom Category: F (Numerically verified, rational approximation)**
+
+Status: close rational approximation to the seam block eigenvalue of g*.
+- Measured g_ss at s=0.5: 3.165598 (Phase 1 PSLQ block-eigenvalue,
+  diagonal_pslq_v2.py, milestone_2026_04_19_g_star_phases.md)
+- Rational formula: 19/6 ≈ 3.166667
+- Relative deviation: -3.4 × 10⁻⁴ (theory slightly above measured)
+- Interval-certified mean width ~10⁻¹² at s=0.5
+  (colab_phase3_interval_cert.ipynb, Colab-verified 2026-04-19)
+
+Source: analytical_derivations.json, phase1_pslq_results.md. -/
 def g_ss_num : ℕ := 19
 
 /-- g_ss denominator -/
@@ -74,10 +85,18 @@ theorem g_ss_coprime : Nat.gcd g_ss_num g_ss_den = 1 := by native_decide
 
 -- g_T² = (4 × b2) / (3 × chi(K3)) = 84/72 = 7/6
 
-/-- g_T² numerator: the T² fiber metric component = 7/6
+/-- g_T² numerator: the T² fiber metric component = 7/6.
 
-**Axiom Category: F (Numerically verified)**
-Source: analytical_derivations.json (actual = 1.1690, formula = 1.1667, dev = 0.199%) -/
+**Axiom Category: F (Numerically verified, rational approximation)**
+
+Status: close rational approximation to the T² block eigenvalue of g*.
+- Measured g_T² at s=0.5: 1.168996 (Phase 1 PSLQ block-eigenvalue)
+- Rational formula: 7/6 ≈ 1.166667
+- Relative deviation: +2.0 × 10⁻³ (measured slightly above theory)
+- Interval-certified width ~10⁻¹² at s=0.5
+  (colab_phase3_interval_cert.ipynb, Colab-verified 2026-04-19)
+
+Source: analytical_derivations.json, phase1_pslq_results.md. -/
 def g_T2_num : ℕ := 7
 
 /-- g_T² denominator -/
@@ -98,21 +117,45 @@ theorem g_T2_den_eq_coxeter : g_T2_den = h_G2 := by native_decide
 theorem g_T2_coprime : Nat.gcd g_T2_num g_T2_den = 1 := by native_decide
 
 -- g_K3 = (dim_E8 + rank_E8) / (4 × b3) = 256/308 = 64/77
+--
+-- NOTE (2026-04-19 Phase 3): 64/77 is a *rational approximation* to the mean
+-- K3 block eigenvalue of g*, NOT an exact identity. Phase 3 interval
+-- certification measured the mean at 0.827798 vs 64/77 ≈ 0.831169
+-- (rel err 4.1 × 10⁻³). The cross-product theorem below is a pure integer
+-- identity (19712 = 19712); the approximation claim is stated as an axiom
+-- bridging to `IntervalCertificates.K3_mean`.
 
-/-- g_K3 numerator: the mean K3 fiber metric eigenvalue = 64/77
+/-- g_K3 numerator: the topological rational approximation to the mean K3
+    fiber metric eigenvalue = 64/77.
 
-**Axiom Category: F (Numerically verified)**
-Source: analytical_derivations.json (actual mean = 0.8278, formula = 0.8312, dev = 0.407%) -/
+**Axiom Category: F (Numerically verified, rational approximation)**
+
+Status: RATIONAL APPROXIMATION, not exact identity.
+- Measured mean K3 eigenvalue at s=0.5: 0.827798 (Phase 3 interval cert,
+  colab_phase3_interval_cert.ipynb, Colab-verified 2026-04-19, width ~10⁻¹²)
+- Rational formula: 64/77 ≈ 0.831169
+- Relative deviation: 4.1 × 10⁻³
+- Triple (19/6)(7/6)²(64/77)⁴ = 2.057 ≠ 65/32 = 2.031 (1.27% off)
+- Det-consistency-forced value (1755/3724)^(1/4) has no closed form in the
+  TCS basis {1, √n : n ≤ 110} at 15-digit precision (Phase 3d HP PSLQ null).
+
+Source: colab_phase3_interval_cert.ipynb, phase1_pslq_results.md,
+milestone_2026_04_19_g_star_phases.md. -/
 def g_K3_num : ℕ := 64
 
 /-- g_K3 denominator -/
 def g_K3_den : ℕ := 77
 
-/-- g_K3 derives from E₈ structure and third Betti number:
-    64/77 = (dim(E₈) + rank(E₈)) / (4 × b₃) = 256/308
+/-- **Pure integer identity** (not a physical claim): the rational 64/77
+    is algebraically equal to (dim(E₈) + rank(E₈)) / (4 × b₃) = 256/308.
 
-    Proof via cross-multiplication: 64 × 4 × b3 = (dim_E8 + rank_E8) × 77
-    i.e. 64 × 308 = 256 × 77 = 19712 -/
+    Cross-multiplication: 64 × 4 × b3 = (dim_E8 + rank_E8) × 77
+    i.e. 64 × 308 = 256 × 77 = 19712 = 19712. ✓
+
+    This theorem asserts arithmetic equality of two ℕ expressions. It does
+    NOT assert that the mean K3 block eigenvalue of g* equals 64/77. For
+    the physical (approximate) identification, see
+    `g_K3_rational_approximates_K3_mean` below. -/
 theorem g_K3_from_topology :
     g_K3_num * (4 * b3) = (dim_E8 + rank_E8) * g_K3_den := by native_decide
 
@@ -125,12 +168,30 @@ theorem g_K3_num_power_of_2 : g_K3_num = 2 ^ 6 := by native_decide
 /-- g_K3 is irreducible: gcd(64, 77) = 1 -/
 theorem g_K3_coprime : Nat.gcd g_K3_num g_K3_den = 1 := by native_decide
 
+/-- **Axiom Category F (Phase 3 interval cert).**
+    The mean K3 block eigenvalue of g* at s = 0.5 deviates from the
+    topological rational 64/77 by at most 5 × 10⁻³ (measured: 3.37 × 10⁻³).
+    This is the precise formulation of the "64/77 approximates g_K3" claim:
+    it is a bounded-deviation statement, NOT an identity.
+    Source: `colab_phase3_interval_cert.ipynb`, Colab-verified 2026-04-19.
+    Eigenvalue brackets have width ~10⁻¹²; the 5 × 10⁻³ bound is
+    dominated by the physical rational-approximation gap, not by
+    numerical uncertainty. -/
+axiom g_K3_rational_approximates_K3_mean :
+  |K3_mean - (g_K3_num : ℝ) / g_K3_den| ≤ (5 : ℝ) / 1000
+
 -- γ² = (2 × b3 − b2 + 2) / 4 = 135/4
 
-/-- γ² numerator: the ACyl decay exponent squared = 135/4
+/-- γ² numerator: the ACyl decay exponent squared = 135/4.
 
-**Axiom Category: F (Numerically verified)**
-Source: analytical_derivations.json (actual γ = 5.8113, formula γ = 5.8095, dev = 0.031%) -/
+**Axiom Category: F (Numerically verified, PSLQ-matched)**
+
+Status: PSLQ-matched rational for γ² (decay rate of ACyl Ricci-flat end).
+- Measured γ: 5.8113, formula γ = √(135/4) ≈ 5.8095
+- Relative deviation: +3.1 × 10⁻⁴
+- PSLQ match reported at 0.06% in phase1_pslq_results.md
+
+Source: analytical_derivations.json, phase1_pslq_results.md. -/
 def gamma_sq_num : ℕ := 135
 
 /-- γ² denominator -/
@@ -162,10 +223,14 @@ Convention: actual metric values are encoded as integer ratios at sufficient
 precision (6 significant figures).
 -/
 
-/-- Optimized g_ss value numerator: 3.165587 ≈ 3165587/1000000
+/-- Optimized g_ss value numerator: 3.165587 ≈ 3165587/1000000.
 
 **Axiom Category: F (Numerically verified)**
-Source: metric_169.json (s=0.5 midpoint) -/
+
+Source: `metric_169.json` (s=0.5 midpoint, Chebyshev K=5 optimum).
+Phase 3 interval cert at s=0.5 reports 3.165598 (width ~10⁻¹²,
+colab_phase3_interval_cert.ipynb, Colab-verified 2026-04-19); the
+two values differ by ~10⁻⁵, consistent with pre- vs post-NK optimization. -/
 def g_ss_actual_num : ℕ := 3165587
 def g_ss_actual_den : ℕ := 1000000
 
@@ -182,9 +247,13 @@ theorem g_ss_deviation_small :
     (g_ss_num * g_ss_actual_den - g_ss_den * g_ss_actual_num) * 10000 <
     4 * g_ss_num * g_ss_actual_den := by native_decide
 
-/-- Optimized g_T² value: 1.168998 ≈ 1168998/1000000
+/-- Optimized g_T² value: 1.168998 ≈ 1168998/1000000.
 
-**Axiom Category: F (Numerically verified)** -/
+**Axiom Category: F (Numerically verified)**
+
+Source: `metric_169.json` (s=0.5 midpoint).
+Phase 3 interval cert at s=0.5: 1.168996 (width ~10⁻¹²,
+colab_phase3_interval_cert.ipynb, Colab-verified 2026-04-19). -/
 def g_T2_actual_num : ℕ := 1168998
 def g_T2_actual_den : ℕ := 1000000
 
@@ -220,15 +289,24 @@ Source: `torsion_exact_fractions.json`
 -/
 
 /-- Torsion norm with K=5 optimized metric (baseline): 178351/10000000
+    (= 1.78351 × 10⁻²).
 
 **Axiom Category: F (Numerically verified)**
-Source: torsion_exact_fractions.json -/
+
+Source: `torsion_exact_fractions.json` (pre-NK, K=5 Chebyshev optimum).
+Independent of the Phase 1b+3 interval-certification pipeline, which
+operates on the NK-iterated fixed point (9 Joyce iterations, torsion
+reduced 18837× further — see colab_phase3_interval_cert.ipynb). -/
 def torsion_baseline_num : ℕ := 178351
 
 /-- Torsion norm with exact fractions forced: 178259/10000000
+    (= 1.78259 × 10⁻², 0.052% below baseline).
 
 **Axiom Category: F (Numerically verified)**
-Source: torsion_exact_fractions.json -/
+
+Source: `torsion_exact_fractions.json`. The forced-fraction torsion is
+still at the K=5 Chebyshev level; genuine NK optimization (Phase 3)
+drives torsion orders of magnitude lower (T_C0 ≲ 10⁻⁶). -/
 def torsion_forced_num : ℕ := 178259
 
 /-- Common denominator for torsion values -/
