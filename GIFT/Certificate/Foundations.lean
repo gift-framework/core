@@ -522,7 +522,7 @@ abbrev metric_g_T2 := GIFT.Foundations.MetricEigenvalues.g_T2_from_topology
 /-- g_K3 = 64/77 from topology -/
 abbrev metric_g_K3 := GIFT.Foundations.MetricEigenvalues.g_K3_from_topology
 
-/-- gamma² = 135/4 from topology -/
+/-- gamma² ≈ 135/4 (rational approx); true formula: γ² = 24π²/7 = 4π²r₂N/n (T² Laplacian) -/
 abbrev metric_gamma_sq := GIFT.Foundations.MetricEigenvalues.gamma_sq_from_topology
 
 /-- Torsion minimum: forced fractions lower torsion -/

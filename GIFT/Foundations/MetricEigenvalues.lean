@@ -9,7 +9,7 @@
 --   1. g_ss = 19/6 = (D_bulk + rank(E₈)) / (3 × rank(G₂))
 --   2. g_T² = 7/6 = (4 × b₂) / (3 × χ(K3))
 --   3. g_K3 = 64/77 = (dim(E₈) + rank(E₈)) / (4 × b₃)
---   4. γ² = 135/4 = (2b₃ − b₂ + 2) / 4
+--   4. γ² = 24π²/7 = 4π²r₂N/n (T² Laplacian); rational approx 135/4 (0.26% off)
 --   5. Forcing exact fractions LOWERS torsion by 0.052% vs K=5 optimized
 --
 -- All rational identifications are numerically verified with
@@ -166,24 +166,24 @@ theorem g_K3_rational_approximates_K3_mean :
   unfold g_K3_num g_K3_den
   constructor <;> linarith [hb.1, hb.2]
 
--- γ² = (2 × b3 − b2 + 2) / 4 = 135/4
+-- γ² = 4π²r₂N/n = 24π²/7 ≈ 33.839 (T² Hodge Laplacian; H¹(K3)=0 → first transverse mode = λ₁(T²))
+-- Rational approximation 135/4 = 33.75 (0.26% from 24π²/7). NK-computed γ = 5.8113 is 0.1% below
+-- 2π√(6/7) ≈ 5.817 due to 0.2% NK proximity of g_T2. (2026-04-23: 135/4 derivation was a coincidence.)
 
-/-- γ² numerator: the ACyl decay exponent squared = 135/4.
+/-- γ² numerator of rational approximation 135/4 ≈ 24π²/7.
 
-Integer-relation match (PSLQ) for γ² (decay rate of the asymptotically
-cylindrical Ricci-flat end):
-- Measured γ: 5.8113; formula γ = √(135/4) ≈ 5.8095.
-- Relative deviation: +3.1 × 10⁻⁴. -/
+**Axiom Category: F (Rational approximation to transcendental 24π²/7)**
+True structural formula: γ² = 4π²·r₂N/n = 24π²/7; γ = 2π√(r₂N/n) = 2π√(6/7) ≈ 5.817.
+Rational 135/4 is 0.26% from 24π²/7. NK-computed γ = 5.8113 (0.1% NK proximity gap).
+Source: gamma_spectral_derivation.md (2026-04-23) -/
 def gamma_sq_num : ℕ := 135
 
 /-- γ² denominator -/
 def gamma_sq_den : ℕ := 4
 
-/-- γ² derives from Betti numbers:
-    135 = 2 × b₃ − b₂ + 2 = 154 − 21 + 2
-
-    Using addition to avoid Nat subtraction:
-    gamma_sq_num + b2 = 2 * b3 + 2 -/
+/-- Arithmetic identity: 135 + b₂ = 2 × b₃ + 2 (i.e., 135 + 21 = 156 = 2×77 + 2).
+    NOTE: this is a coincidental Betti-number relation, NOT a derivation of γ.
+    The true origin is T² spectral theory: γ² = 4π²/g_T2 = 24π²/7. -/
 theorem gamma_sq_from_topology :
     gamma_sq_num + b2 = 2 * b3 + 2 := by native_decide
 
@@ -359,7 +359,7 @@ theorem det_g_from_metric : det_g_num = 65 ∧ det_g_den = 32 := ⟨rfl, rfl⟩
     1-2: g_ss = 19/6 from topology
     3-4: g_T² = 7/6 from topology
     5-6: g_K3 = 64/77 from topology
-    7-8: γ² = 135/4 from topology
+    7-8: γ² ≈ 135/4 (rational approx to 24π²/7; true formula = T² Laplacian)
     9: Torsion minimum (forced < baseline)
     10-13: Coprimality (all four fractions irreducible)
     14-15: Structural identities -/
