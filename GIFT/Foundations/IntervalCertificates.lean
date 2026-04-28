@@ -417,13 +417,37 @@ This is recorded here as a meta-level statement; no logical content
 beyond the null-search summary is asserted.
 -/
 
-/-- **Null integer-relation result (meta).** The deviation ratios
-    (r_0, r_1, r_2) and the anisotropy σ do NOT admit a short integer
-    linear combination in the basis
-    {1, √2, √3, √5, √7, √11, √13, √19, √77, π, ln 2, ε_k, ε_k², σ}
-    with coefficients |c| ≤ 200 at tolerance 10⁻¹⁰. This axiom carries
-    no formal content (a placeholder for the external PSLQ search
-    report). -/
+/-- **Null integer-relation result (meta).** Three independent PSLQ searches
+    return null:
+
+    1. **K3 eigenvalue ratios** (r_0, r_1, r_2) and σ in basis
+       {1, √p (p ≤ 77), π, ln 2, ε_k, ε_k², σ}, |c| ≤ 200, tol 10⁻¹⁰:
+       NULL. Extended to {1, √p (p ≤ 997), 195 elements}, |c| ≤ 10000,
+       tol 10⁻⁹: NULL (Phase 1b, 2026-04-19).
+
+    2. **g_K3 exhaustive** (826 PSLQ attempts, 2026-04-25):
+       g_K3 = 0.82779835... tested against algebraic ≤ deg 6, Γ at CM
+       points, lemniscate, ζ(2–5), modular, joint bases. ALL NULL.
+       Source: canonical/results/gk3_pslq_exhaustive.json.
+
+    3. **CI(2,2,2) K3 Frobenius periods** (40 attempts, 2026-04-25):
+       ϖ₀(z) = ₃F₂(1/2,1/2,1/2;1,1;64z) at 12 z-values, DPS=55,
+       basis {1, π, log2, log3, ζ(3), w₀, w₁, w₂, w₁/w₀, w₂/w₀, logz},
+       |c| ≤ 50: NULL at all z.
+       Source: canonical/results/ci222_pslq_scan.json.
+
+    Verdict: no short algebraic or transcendental closed form for the K3
+    eigenvalue ratios, g_K3, or the NK fixed-point signature δ ≈ 0.02379
+    in any basis tested (866+ total attempts).
+
+    **Universality meta-result** (2026-04-20): perturbing G₀ and re-running
+    Joyce iteration shows the APPROXIMATE pattern class (−3/2, 0, 1/2, 1)
+    is universal (geometric, confirmed by Donaldson Route III), but the
+    EXACT ratios r_i are cymyc-basin-specific (vary at 10⁻³ across seeds).
+    Exact PSLQ on R_REF is therefore structurally futile — the target
+    values depend on the specific point in G₂ moduli space.
+    Sources: canonical/results/phase3a_universality_perturb.json,
+             canonical/notes/phase3a_universality_verdict.md. -/
 axiom PSLQ_null_in_TCS_basis :
   True  -- placeholder; no formal content beyond the statement above
 

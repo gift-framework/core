@@ -185,7 +185,7 @@ theorem delta_K3_cert_below_joyce :
     delta_K3_cert_num * 10 < delta_K3_cert_den := by native_decide
 
 -- =============================================================================
--- MASTER CERTIFICATE
+-- MASTER CERTIFICATE (v2.2)
 -- =============================================================================
 
 /-- CI(2,2,2) K3 NK master certificate. All properties of the v2.2 certification. -/
@@ -203,6 +203,149 @@ theorem ci222_k3_nk_certificate_valid :
     -- [6] δ_K3_cert < Joyce threshold ε₀ = 0.1
     (delta_K3_cert_num * 10 < delta_K3_cert_den) := by
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
+  all_goals native_decide
+
+-- =============================================================================
+-- IMPROVED CERTIFICATE (v3.0 hardcore, 2026-04-28)
+-- =============================================================================
+
+/-!
+## Hardcore Retraining: v3.0 (2026-04-28)
+
+Same surface CI(2,2,2), same k=4, same 126 sections, same 31,752 parameters.
+Improved training protocol eliminates the generalization gap:
+
+| Parameter      | v2.2     | v3.0 hardcore |
+|----------------|----------|---------------|
+| N_OPT (train)  | 2,000    | 12,000        |
+| LBFGS steps    | 80       | 400           |
+| Pool resample  | none     | every 8 steps |
+| Pools seen     | 1        | 49            |
+| Distinct K3 pts| ~2,000   | ~600,000      |
+| Best step      | —        | 391 of 400    |
+
+Result:
+  η_L² = 6.63 × 10⁻³ (held-out test, 2,000 points)  [v2.2: 1.596 × 10⁻²]
+  Overfit ratio: ×1.30 (σ_test/σ_train)               [v2.2: ×3.4]
+  Honest digits: ~2.18                                  [v2.2: ~1.80]
+
+Using SAME conservative β_Lap and ω_L² bounds (geometric, surface-dependent):
+  h_Lap_v3 = β_Lap · η_v3 · ω_L² = 5.6595 × 6.63e-3 × 0.867
+           ≈ 3.25 × 10⁻²  PASS  (margin ×15.4)       [v2.2: ×6.4]
+
+The β and ω bounds are properties of the K3 surface and degree-k sections,
+not of the specific trained H matrix. They remain valid upper bounds for any
+approximate solution on the same (surface, k) pair.
+
+Source: canonical/results/nk_retrain_v3_k4.json (2026-04-28, laptop, 2h50)
+
+### Higher-k honest precision (v5 Cholesky+SVD, Colab A100)
+
+| k  | σ_test_best | Digits | Architecture    |
+|----|-------------|--------|-----------------|
+| 4  | 6.63e-3     | 2.18   | v3 full-H       |
+| 4  | 5.00e-2     | 1.30   | v5 Cholesky+SVD |
+| 8  | 4.56e-2     | 1.34   | v5 Cholesky+SVD |
+| 10 | 1.15e-1     | 0.94   | v5 Cholesky+SVD |
+
+NK pure precision ceiling: ~2.2 honest digits on consumer hardware.
+64/77 verification (gap 0.41%) requires ~2.4 digits — just out of reach.
+Industrial cymyc-jax pipeline or alternative parametrization needed for more.
+-/
+
+/-- v3 η_L² numerator (6.63 × 10⁻³, rounded UP from 6.629 × 10⁻³) -/
+def eta_v3_num : ℕ := 663
+
+/-- v3 η_L² denominator -/
+def eta_v3_den : ℕ := 100000
+
+/-- v3 h_Lap numerator: ⌈β_Lap × η_v3 × ω_L²⌉ at this scale.
+    56595/10000 × 663/100000 × 867/1000 = 32531994495/10¹² ≤ 3254/100000. -/
+def h_Lap_v3_num : ℕ := 3254
+
+/-- v3 h_Lap denominator -/
+def h_Lap_v3_den : ℕ := 100000
+
+/-- v3 Laplacian source PASSES: h_Lap < 1/2 with margin ×15.4.
+    3254 × 2 = 6508 < 100000. -/
+theorem ci222_k3_v3_lap_passes : h_Lap_v3_num * 2 < h_Lap_v3_den := by native_decide
+
+/-- v3 η is strictly smaller than v2.2 η (×2.4 improvement).
+    663 × 100000 = 66300000 < 1596 × 100000 = 159600000. -/
+theorem v3_eta_improves_v2 :
+    eta_v3_num * ci222_k3_nk_certificate.eta_den <
+    ci222_k3_nk_certificate.eta_num * eta_v3_den := by native_decide
+
+/-- v3 h_Lap is strictly smaller than v2.2 h_Lap (margin ×6.4 → ×15.4).
+    3254 × 100000 = 325400000 < 7830 × 100000 = 783000000. -/
+theorem v3_h_Lap_improves_v2 :
+    h_Lap_v3_num * ci222_k3_nk_certificate.h_Lap_den <
+    ci222_k3_nk_certificate.h_Lap_num * h_Lap_v3_den := by native_decide
+
+/-- v3 η satisfies the tighter bound η < 7/1000 (0.7%). -/
+theorem ci222_k3_v3_eta_bound :
+    eta_v3_num * 1000 < eta_v3_den * 7 := by native_decide
+
+-- =============================================================================
+-- v3 δ_K3 CONNECTION TO G₂ CERT
+-- =============================================================================
+
+/-!
+## Improved δ_K3 with v3 η (2026-04-28)
+
+With η_v3 = 6.63 × 10⁻³:
+  δ_K3_cert_v3 ≤ C_red × η_v3 = 0.881 × 6.63e-3 ≈ 5.84 × 10⁻³
+
+This is 2.4× tighter than the v2.2 bound (1.41 × 10⁻²) and
+17× below the Joyce threshold ε₀ = 0.1.
+-/
+
+/-- δ_K3_cert_v3 ≤ C_red × η_v3: numerator = 881 × 663 = 584,103 -/
+def delta_K3_cert_v3_num : ℕ := C_red_num * eta_v3_num
+/-- δ_K3_cert_v3 denominator = 1000 × 100000 = 100,000,000 -/
+def delta_K3_cert_v3_den : ℕ := C_red_den * eta_v3_den
+
+/-- δ_K3_cert_v3 < Joyce threshold ε₀ = 0.1 (margin ×17.1).
+    584103 × 10 = 5841030 < 100000000. -/
+theorem delta_K3_cert_v3_below_joyce :
+    delta_K3_cert_v3_num * 10 < delta_K3_cert_v3_den := by native_decide
+
+/-- v3 δ_K3 is strictly smaller than v2.2 δ_K3 (×2.4 improvement).
+    584103 × 100000000 < 1406076 × 100000000.
+    (Note: delta_K3_cert_num = C_red_num * 1596 = 881 × 1596 = 1406076,
+     delta_K3_cert_den = C_red_den * 100000 = 100000000.) -/
+theorem delta_K3_v3_improves_v2 :
+    delta_K3_cert_v3_num * delta_K3_cert_den <
+    delta_K3_cert_num * delta_K3_cert_v3_den := by native_decide
+
+/-- δ_K3_cert_v3 < 1/100 = 0.01 (sub-percent Fréchet propagation).
+    584103 × 100 = 58410300 < 100000000. -/
+theorem delta_K3_cert_v3_below_one_percent :
+    delta_K3_cert_v3_num * 100 < delta_K3_cert_v3_den := by native_decide
+
+-- =============================================================================
+-- MASTER CERTIFICATE (v3.0 extended)
+-- =============================================================================
+
+/-- CI(2,2,2) K3 NK master certificate, extended with v3.0 hardcore results.
+    Includes all v2.2 properties plus the v3.0 improvements. -/
+theorem ci222_k3_nk_certificate_v3_master :
+    -- [1] v2.2 Lap source: h_Lap < 1/2
+    (ci222_k3_nk_certificate.h_Lap_num * 2 < ci222_k3_nk_certificate.h_Lap_den) ∧
+    -- [2] v2.2 Jac source: h_Jac < 1/2
+    (ci222_k3_nk_certificate.h_Jac_num * 2 < ci222_k3_nk_certificate.h_Jac_den) ∧
+    -- [3] v3.0 Lap source: h_Lap_v3 < 1/2 (margin ×15.4)
+    (h_Lap_v3_num * 2 < h_Lap_v3_den) ∧
+    -- [4] v3.0 η strictly improves v2.2 (×2.4)
+    (eta_v3_num * ci222_k3_nk_certificate.eta_den <
+     ci222_k3_nk_certificate.eta_num * eta_v3_den) ∧
+    -- [5] v3.0 δ_K3 < Joyce ε₀ = 0.1 (margin ×17.1)
+    (delta_K3_cert_v3_num * 10 < delta_K3_cert_v3_den) ∧
+    -- [6] v3.0 δ_K3 < 1% (sub-percent Fréchet propagation)
+    (delta_K3_cert_v3_num * 100 < delta_K3_cert_v3_den) ∧
+    -- [7] k=2 Jac FAILS: certificate is selective
+    ¬ (15526 * 2 < 10000) := by
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   all_goals native_decide
 
 end GIFT.Foundations.K3NewtonKantorovich
