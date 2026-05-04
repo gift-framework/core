@@ -53,6 +53,8 @@ import GIFT.Foundations.K3HarmonicCorrection
 import GIFT.Foundations.K3NewtonKantorovich
 -- Interval certificates: interval-arithmetic brackets
 import GIFT.Foundations.IntervalCertificates
+-- Joyce-Karigiannis Z₂³ orbifold construction: topological/lattice gate for (b₂,b₃)=(21,77)
+import GIFT.Foundations.JoyceKarigiannisConstruction
 
 namespace GIFT.Foundations
 
