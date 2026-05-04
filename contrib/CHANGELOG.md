@@ -5,6 +5,96 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.14] - 2026-05-04
+
+### Summary
+
+**New module: `JoyceKarigiannisConstruction.lean` — topological gate
+for `(b₂, b₃) = (21, 77)`.**
+
+Lean-formalizes the four-phase computer-assisted audit (private
+`canonical/scripts/jk_*.py` + `canonical/results/jk_*.json`,
+2026-05-04) showing that the Joyce-Karigiannis Z₂³ orbifold
+T³ × K3 / Z₂³ resolves to a smooth compact 7-manifold N with the
+GIFT topological signature.
+
+This is the **first explicit constructive route** for `(21, 77)`.
+Replaces the v3.4.13 statement that the pair "does not appear in any
+known compact G₂ construction" — see updated comments in
+`TCSConstruction.lean`.
+
+### Added
+
+**`GIFT/Foundations/JoyceKarigiannisConstruction.lean` (293 lines):**
+
+- Phase 1 — V4 symplectic screen on CI(2,2,2) :
+  24 K3-fixed points → 12 V4-orbits → 12 T³ components.
+- Phase 2 — anti-symplectic obstruction :
+  `det(τ) / det(R) ≡ 1` for all P⁵ diagonals, forcing the Z₂³
+  realisation to use intrinsic K3 lattice automorphisms.
+- Phase 2b — K3 lattice abstract existence :
+  Nikulin σ₁ = E₈-swap (trace 6, eigenspaces (14, 8)),
+  Mukai V4 ⊂ M₂₃, Garbagnati-Sarti criterion verified for
+  (g, k) = (2, 2) and (1, 1).
+- Phase 4 — Betti formula :
+  b₂(N) = 0 + 21 = 21, b₃(N) = 22 + 55 = 77, χ(N) = 0.
+- Master theorem `jk_z23_construction_realizes_gift_betti` proves
+  `phase4.b2N = GIFT.Core.b2 ∧ phase4.b3N = GIFT.Core.b3` by
+  `native_decide`.
+- `JKConstructionScope` makes the honest scope explicit :
+  topological gate `True`, smooth metric / torsion-free / explicit
+  CI(2,2,2)-specific realisation all `False`.
+
+**Reproducibility flags (no new axioms)** : Bool fields encode
+literature citations (Mukai 1988, Garbagnati-Sarti 2009) without
+introducing axioms. The Lean proofs are pure `native_decide` over
+the integer data shipped in the JSON results.
+
+### Changed
+
+**`GIFT/Foundations/TCSConstruction.lean`:**
+
+- Module header updated : the pair `(21, 77)` IS realised by an
+  explicit construction (JK orbifold), although not via TCS itself.
+  Orthogonal-TCS parity exclusion remains valid as a TCS-specific
+  result.
+- Status summary updated to cross-reference
+  `JoyceKarigiannisConstruction.lean` for the realised route.
+- TCS arithmetic witnesses (`M1_candidate`, `M2_candidate`) kept as
+  parity sanity check; flagged explicitly as not a geometric TCS
+  derivation.
+
+**`GIFT/Foundations.lean`:**
+
+- New import of `GIFT.Foundations.JoyceKarigiannisConstruction`.
+
+### Build
+
+- 8381 jobs clean.
+- Axiom count unchanged : **15 total** (4 main-chain + 11
+  interval-certificate). No axioms added by the JK module.
+- 0 sorry.
+
+### Honest scope
+
+This release verifies the topological/lattice gate ONLY :
+- No closed-form metric (no compact G₂ has one in any framework).
+- No torsion-free analytic certificate from JK 2017 gluing (the
+  smooth analytic statement is deferred to literature).
+- No explicit polynomial coordinate model of the Z₂³ action on a
+  Picard-rank-1, η² = 8 K3 (existence via Mukai/G-S, not constructed
+  in moduli).
+
+### Related (private, not in this release)
+
+The parallel Donaldson K3-fibration route closed the cellular
+b₃ = 77 lock via a singular orbifold all-ones Fano cell with Z₂
+stabilizer, but the smooth resolution gate is genuinely deep
+(Picard-Lefschetz parity obstruction not killed automatically by
+[z₀:z₁]↦[-z₀:-z₁] = identity in projective coordinates). The
+Donaldson smooth resolution remains an open analytic question and
+is descoped from the critical path now that the JK route closes.
+
 ## [3.4.13] - 2026-04-20
 
 ### Summary

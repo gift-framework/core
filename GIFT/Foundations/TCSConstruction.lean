@@ -8,13 +8,18 @@
 -- - b₂(K7) = 21
 -- - b₃(K7) = 77
 --
--- What is an OPEN PROBLEM (as of 2026-04-14):
--- - Identifying specific semi-Fano 3-fold building blocks whose ACyl CY3s
---   realize (b₂, b₃) = (21, 77) via TCS.
--- - The pair (21, 77) does NOT appear in any known compact G₂ construction
---   in the literature (CHNP, Kovalev, etc.).
+-- TCS-specific status (this module's domain):
 -- - Orthogonal TCS is EXCLUDED for (21, 77) by parity: b₂+b₃ = 98 is even,
 --   but orthogonal TCS always gives odd b₂+b₃ (CHNP Lemma 6.7).
+-- - Identifying specific semi-Fano 3-fold building blocks whose ACyl CY3s
+--   realize (b₂, b₃) = (21, 77) via TCS remains OPEN.
+--
+-- Status outside TCS (resolved 2026-05-04):
+-- - The pair (21, 77) IS realized by an explicit Joyce-Karigiannis (JK)
+--   Z₂³ orbifold construction T³ × K3 / Z₂³ (Phase 1-4 audit, see
+--   `JoyceKarigiannisConstruction.lean`). The arithmetic witnesses below
+--   are kept as a sanity check on parity and as a baseline; they remain
+--   pure arithmetic placeholders, not a geometric TCS derivation.
 --
 -- What is provided below:
 -- - The abstract TCS framework (ACyl_CY3 structure, TCS_b2/TCS_b3 formulas)
@@ -264,9 +269,16 @@ ARITHMETIC WITNESSES (do NOT constitute a geometric derivation):
 EXCLUDED:
 - Orthogonal TCS is excluded for (21, 77) by parity (b₂+b₃ = 98 is even)
 
-OPEN PROBLEM:
+REALIZED OUTSIDE TCS (2026-05-04):
+- Joyce-Karigiannis Z₂³ orbifold construction T³ × K3 / Z₂³ realizes
+  (b₂, b₃) = (21, 77) at the topological/lattice level (Mukai 1988 +
+  Garbagnati-Sarti 2009 + 4-phase audit).
+  See `JoyceKarigiannisConstruction.lean`.
+
+OPEN within TCS specifically:
 - Identifying semi-Fano 3-fold building blocks for a TCS construction
-  realizing (b₂, b₃) = (21, 77)
+  realizing (b₂, b₃) = (21, 77) (likely impossible by parity; superseded
+  by the JK route).
 -/
 
 /-- Master arithmetic consistency check.
