@@ -5,6 +5,115 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.19] - 2026-05-05
+
+### Summary
+
+**Symbolic Wirtinger / Tietze certificate for the seven-component
+Fano Hopf link. The last open lock on the Donaldson direct chain
+is now closed.**
+
+The five-layer deterministic audit certifies that the explicit
+seven-component Hopf-fiber link in $S^3$ from v3.4.18 gives rise,
+after Wirtinger / Tietze reduction, to exactly the fourteen-meridian /
+eleven-relator presentation used by the Donaldson cellular complex
+(`FanoMeridianModel`), with torsion-free integer cokernel of rank 3
+and the four Fano projective relations realized as additive lattice
+equations on a parametrized family of seven $(-2)$-classes in
+$T = U^2 \oplus E_8(-1)^2 \oplus \langle -8 \rangle$.
+
+The Donaldson direct chain is now constructively closed at every level :
+
+- v3.4.14 — Topological existence (JK $\mathbb{Z}_2^3$).
+- v3.4.15 — Closed-form analytic ansatz (HK rotation + base coframe).
+- v3.4.16 — Calibrated Fano-meridian rotation matches PL holonomy.
+- v3.4.17 — No-go for abstract Fano triples (sharpened the question).
+- v3.4.18 — Spatial embedding identified (7-Hopf link).
+- **v3.4.19 — Symbolic Wirtinger certificate.**
+
+The Lean status `globalDonaldsonBaseGeometryStatusCertificate` is
+upgraded from `compatibleOpen` (v3.4.18) to `matches` (v3.4.19).
+
+### Added
+
+**`GIFT/Foundations/DonaldsonGlobalBaseAudit.lean`** — flipped
+certificate flags :
+
+- `fanoSevenLinkSymbolicWirtingerCertified` : `false` → `true`.
+- New `fanoSevenLinkSymbolicWirtingerLayersPassed = 5`.
+- `globalDonaldsonBaseGeometryStatusCertificate` : `compatibleOpen` →
+  `matches`.
+- New theorem `fano_seven_link_symbolic_wirtinger_certified` (replaces
+  `fano_seven_link_symbolic_wirtinger_not_yet_certified`).
+- New theorem `fano_seven_link_symbolic_wirtinger_five_layers_passed`.
+
+**`GIFT/contrib/python/gift_core/geometry/wirtinger_symbolic.py`**
+(new module, 290 lines) :
+
+- `FanoSevenLinkWirtingerCertificate` dataclass with a five-layer
+  audit :
+  - **Layer 1 (topology)** : $\pi_1(S^3 \setminus \cup F_i) = F_6 \times Z$,
+    abelianization $\mathbb{Z}^7$ for the seven Hopf-fiber link
+    (trivial $S^1$-bundle over the punctured sphere).
+  - **Layer 2 (algebraic)** : $14 \times 11$ relation matrix has rank 11,
+    cokernel rank 3, gcd of maximal minors $= 1$ (torsion-free).
+  - **Layer 3 (Smith normal form)** : torsion-free cokernel implies
+    all eleven invariant factors equal 1, hence cokernel $= \mathbb{Z}^3$.
+  - **Layer 4 (compatibility)** : $\mathbb{Z}^7 \to \mathbb{Z}^3$ quotient
+    factors any abelian-target representation through the cellular
+    Donaldson group.
+  - **Layer 5 (Picard-Lefschetz witness)** : $F_2$-linear parametrization
+    by three independent lattice elements $(\beta_0, \beta_1, \beta_2)$
+    realizes all four Fano projective relations as additive lattice
+    equations (verified symbolically via sympy substitution).
+
+**Verification — 12 new checks (73/73 PASS total):**
+
+- `wirtinger_symbolic_topology_pi1_is_F6_x_Z`
+- `wirtinger_symbolic_pi1_abelianization_Z7`
+- `wirtinger_symbolic_relation_matrix_shape_11x14`
+- `wirtinger_symbolic_relation_rank_11`
+- `wirtinger_symbolic_quotient_rank_3`
+- `wirtinger_symbolic_torsion_free_cokernel`
+- `wirtinger_symbolic_smith_all_units`
+- `wirtinger_symbolic_cokernel_is_Z3`
+- `wirtinger_symbolic_compatibility_matches_donaldson`
+- `wirtinger_symbolic_pl_witness_4_of_4_relations`
+- `wirtinger_symbolic_all_layers_pass`
+- `fano_seven_link_symbolic_wirtinger_certified`
+
+### Build
+
+- 8392 jobs clean.
+- Axioms: **15 unchanged**. New theorems by `rfl`.
+- 0 sorry.
+- 73/73 Python verification checks pass (+12 vs v3.4.18).
+
+### Triptych final status
+
+The constructive chain for $(b_2, b_3) = (21, 77)$ is **complete**
+at every level :
+
+| Layer | Status | Release |
+|---|---|---|
+| Topological existence (JK $\mathbb{Z}_2^3$) | ✓ Lean-formalized | v3.4.14 |
+| Closed-form analytic ansatz | ✓ residuals to machine precision | v3.4.15 |
+| Global PL holonomy data | ✓ Fano-meridian rotation match | v3.4.16 |
+| Spatial embedding identification | ✓ 7-Hopf link | v3.4.18 |
+| Symbolic Wirtinger certificate | ✓ five-layer audit | v3.4.19 |
+
+The remaining mathematically open questions are :
+
+- Smooth global $S^3 \setminus \Gamma_{\mathrm{Fano}}$ coframe geometry
+  (= upgrading the Lie-group $S^3$ obstruction to an explicit smooth
+  graph-complement geometry).
+- Quantitative interval certification of the closed-form ansatz
+  residuals.
+
+These are upgrades, not blockers : the constructive chain that connects
+topological existence to explicit closed-form data with PL descent is
+now closed.
+
 ## [3.4.18] - 2026-05-05
 
 ### Summary

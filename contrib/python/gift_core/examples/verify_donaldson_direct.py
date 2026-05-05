@@ -16,6 +16,9 @@ from gift_core.geometry.donaldson import (
     solve_rotating_coframe_profile,
     solve_signed_radial_profile,
 )
+from gift_core.geometry.wirtinger_symbolic import (
+    audit_fano_seven_link_symbolic_wirtinger,
+)
 
 
 def verify() -> dict[str, bool]:
@@ -41,6 +44,7 @@ def verify() -> dict[str, bool]:
         report["name"]: report
         for report in spatial_audit["candidates"]
     }
+    wirtinger_symbolic = audit_fano_seven_link_symbolic_wirtinger()
 
     return {
         "fano_relation_rank_11": meridians.relation_rank == 11,
@@ -110,6 +114,18 @@ def verify() -> dict[str, bool]:
         "fano_meridian_rotation_order_two": meridian_audit["target_order_two_error"] < 1e-12,
         "fano_meridian_base_coframe_cancels_dphi": meridian_report["max_abs_combined_rotation_base_dphi"] < 1e-12,
         "fano_meridian_bianchi_single_axis_zero": meridian_report["base_coframe"]["max_abs_ddtheta_residual"] < 1e-12,
+        "wirtinger_symbolic_topology_pi1_is_F6_x_Z": wirtinger_symbolic["topology"]["pi1_structure"] == "F_6 x Z",
+        "wirtinger_symbolic_pi1_abelianization_Z7": wirtinger_symbolic["topology"]["pi1_abelianization"] == "Z^7",
+        "wirtinger_symbolic_relation_matrix_shape_11x14": tuple(wirtinger_symbolic["algebraic"]["relation_matrix_shape"]) == (11, 14),
+        "wirtinger_symbolic_relation_rank_11": wirtinger_symbolic["algebraic"]["relation_rank"] == 11,
+        "wirtinger_symbolic_quotient_rank_3": wirtinger_symbolic["algebraic"]["quotient_rank"] == 3,
+        "wirtinger_symbolic_torsion_free_cokernel": wirtinger_symbolic["algebraic"]["torsion_free_cokernel"] is True,
+        "wirtinger_symbolic_smith_all_units": wirtinger_symbolic["smith_normal_form"]["all_unit_invariants"] is True,
+        "wirtinger_symbolic_cokernel_is_Z3": wirtinger_symbolic["smith_normal_form"]["cokernel_decomposition"] == "Z^3",
+        "wirtinger_symbolic_compatibility_matches_donaldson": wirtinger_symbolic["compatibility"]["matches_v3_4_15_donaldson_quotient"] is True,
+        "wirtinger_symbolic_pl_witness_4_of_4_relations": wirtinger_symbolic["picard_lefschetz_witness"]["all_fano_relations_satisfied"] is True,
+        "wirtinger_symbolic_all_layers_pass": wirtinger_symbolic["all_layers_pass"] is True,
+        "fano_seven_link_symbolic_wirtinger_certified": wirtinger_symbolic["certificate_status"] == "fano_seven_link_symbolic_wirtinger_certified",
     }
 
 
