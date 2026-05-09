@@ -14,11 +14,15 @@ from gift_core.geometry.k3_explicit import (
     EllipticK3WeierstrassFull2Torsion,
     GIFTCandidateProfile,
     JKBettiPredictor,
+    K3Lattice,
     K3ReducibleSexticDoubleCover,
     K3SexticDoubleCover,
     KummerK3Model,
     PhaseA1MasterAudit,
+    TwoElementaryLatticeRAD,
+    Z2CubedLatticeAction,
     audit_phase_a1_master,
+    nikulin_admits_primitive_embedding_in_K3,
     nikulin_g_k_from_rad,
 )
 
@@ -56,6 +60,13 @@ def verify() -> dict[str, bool]:
     # Weierstrass elliptic K3 skeleton.
     weierstrass = EllipticK3WeierstrassFull2Torsion()
     weierstrass_report = weierstrass.predicted_full_betti()
+
+    # Lattice-Torelli safety net (per GPT council #7, piste 5).
+    k3_lattice = K3Lattice()
+    lattice_action = Z2CubedLatticeAction()
+    lattice_check = lattice_action.consistency_check()
+    lattice_derived_profile = lattice_action.derived_candidate_profile()
+    lattice_match = lattice_derived_profile.matches(target)
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -152,6 +163,63 @@ def verify() -> dict[str, bool]:
         is True,
         "master_audit_candidate_profile_implemented": master["lean_bool_certificates"][
             "phase_a1_gift_candidate_profile_implemented"
+        ]
+        is True,
+        # Lattice-Torelli safety net checks.
+        "k3_lattice_rank_22": k3_lattice.rank == 22,
+        "k3_lattice_signature_3_19": k3_lattice.signature == (3, 19),
+        "k3_lattice_unimodular": k3_lattice.is_unimodular is True,
+        "k3_lattice_even": k3_lattice.is_even is True,
+        "k3_lattice_determinant_minus_one": k3_lattice.determinant == -1,
+        "nikulin_11_7_1_primitive_embed_in_K3": nikulin_admits_primitive_embedding_in_K3(
+            11, 7, 1
+        )
+        is True,
+        "nikulin_11_9_1_primitive_embed_in_K3": nikulin_admits_primitive_embedding_in_K3(
+            11, 9, 1
+        )
+        is True,
+        "nikulin_22_0_0_excluded_above_rank_21": nikulin_admits_primitive_embedding_in_K3(
+            22, 0, 0
+        )
+        is False,
+        "two_elementary_11_7_1_g_k_is_2_2": TwoElementaryLatticeRAD(
+            11, 7, 1
+        ).fixed_locus_g_k
+        == (2, 2),
+        "two_elementary_11_9_1_g_k_is_1_1": TwoElementaryLatticeRAD(
+            11, 9, 1
+        ).fixed_locus_g_k
+        == (1, 1),
+        "lattice_action_all_primitive_embeddings_exist": lattice_check[
+            "all_primitive_embeddings_exist"
+        ]
+        is True,
+        "lattice_action_v4_mukai_compatible": lattice_check[
+            "V4_symplectic_mukai_compatible"
+        ]
+        is True,
+        "lattice_action_predicted_jk_betti_21_77": lattice_check["predicted_jk_betti"]
+        == (21, 77),
+        "lattice_action_matches_gift_target_full": lattice_match["all_match"] is True,
+        "lattice_level_existence_certified_TRUE": lattice_check[
+            "lattice_level_existence_certified"
+        ]
+        is True,
+        "master_audit_lattice_level_existence_certified": master[
+            "lean_bool_certificates"
+        ]["phase_a1_lattice_level_existence_certified"]
+        is True,
+        "master_audit_k3_lattice_gram_unimodular_even": master["lean_bool_certificates"][
+            "phase_a1_k3_lattice_explicit_gram_matrix_unimodular_even"
+        ]
+        is True,
+        "master_audit_nikulin_11_7_1_certified": master["lean_bool_certificates"][
+            "phase_a1_nikulin_primitive_embedding_11_7_1_certified"
+        ]
+        is True,
+        "master_audit_nikulin_11_9_1_certified": master["lean_bool_certificates"][
+            "phase_a1_nikulin_primitive_embedding_11_9_1_certified"
         ]
         is True,
     }
