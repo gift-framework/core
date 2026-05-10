@@ -24,6 +24,7 @@ from gift_core.geometry.k3_explicit import (
     KummerK3Model,
     PhaseA1MasterAudit,
     TwoElementaryLatticeRAD,
+    TauNaiveAntiSymplecticCandidate,
     V4Z2TorsionTranslations,
     Z2CubedExplicit15x15Matrices,
     Z2CubedLatticeAction,
@@ -133,6 +134,11 @@ def verify() -> dict[str, bool]:
     # Iter #13: V_4 = ⟨T_A, T_B⟩ symplectic via 2-torsion translations.
     A_c, B_c = gift_15_7_1_AB_coefficients()
     iter13 = V4Z2TorsionTranslations(A_coeffs=A_c, B_coeffs=B_c).audit()
+
+    # Iter #14: τ_naive anti-symplectic candidate framework.
+    iter14 = TauNaiveAntiSymplecticCandidate(
+        A_coeffs=A_c, B_coeffs=B_c
+    ).audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -823,6 +829,75 @@ def verify() -> dict[str, bool]:
         "master_audit_iter13_complete": master["lean_bool_certificates"][
             "phase_a2_iter13_complete"
         ]
+        is True,
+        # Iter #14 (Phase A.2): τ_naive framework + honest diagnostic.
+        "iter14_tau_naive_squared_eq_id": iter14["involutivity"][
+            "tau_naive_squared_eq_id_x"
+        ]
+        is True
+        and iter14["involutivity"]["tau_naive_squared_eq_id_y"] is True
+        and iter14["involutivity"]["tau_naive_squared_eq_id_t"] is True,
+        "iter14_tau_naive_is_involution": iter14["tau_naive_is_involution"]
+        is True,
+        "iter14_tau_naive_commutes_with_T_1": iter14[
+            "commutativity_with_V_4"
+        ]["tau_naive_commutes_with_T_1_x"]
+        is True
+        and iter14["commutativity_with_V_4"]["tau_naive_commutes_with_T_1_y"]
+        is True,
+        "iter14_tau_naive_commutes_with_T_A": iter14[
+            "commutativity_with_V_4"
+        ]["tau_naive_commutes_with_T_A_x"]
+        is True
+        and iter14["commutativity_with_V_4"]["tau_naive_commutes_with_T_A_y"]
+        is True,
+        "iter14_tau_naive_commutes_with_T_B": iter14[
+            "commutativity_with_V_4"
+        ]["tau_naive_commutes_with_T_B_x"]
+        is True
+        and iter14["commutativity_with_V_4"]["tau_naive_commutes_with_T_B_y"]
+        is True,
+        "iter14_tau_naive_commutes_with_V_4": iter14[
+            "tau_naive_commutes_with_V_4"
+        ]
+        is True,
+        "iter14_tau_naive_is_anti_symplectic": iter14[
+            "tau_naive_is_anti_symplectic"
+        ]
+        is True,
+        "iter14_z2_cubed_abelian_extension_holds": iter14[
+            "Z_2_cubed_abelian_extension_of_V_4_holds"
+        ]
+        is True,
+        "iter14_framework_complete": iter14["iter_14_framework_complete"]
+        is True,
+        "iter14_geometric_match_pending_honest_no_go": iter14[
+            "iter_14_geometric_match_pending"
+        ]
+        is True,
+        "master_audit_iter14_tau_naive_involution": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter14_tau_naive_is_involution"]
+        is True,
+        "master_audit_iter14_tau_naive_commutes_v4": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter14_tau_naive_commutes_with_V_4"]
+        is True,
+        "master_audit_iter14_tau_naive_anti_symplectic": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter14_tau_naive_is_anti_symplectic"]
+        is True,
+        "master_audit_iter14_z2_cubed_abelian_holds": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter14_z2_cubed_abelian_extension_holds"]
+        is True,
+        "master_audit_iter14_framework_complete": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter14_framework_complete"]
+        is True,
+        "master_audit_iter14_geometric_pending_honest": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter14_tau_naive_geometric_match_pending_honest"]
         is True,
     }
 
