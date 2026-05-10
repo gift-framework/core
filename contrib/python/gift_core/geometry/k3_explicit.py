@@ -5522,14 +5522,39 @@ class PhaseA1MasterAudit:
                 "phase_a2_iter16_search_complete": iter_16[
                     "iter_16_search_complete"
                 ],
+                # Per GPT council #10: split master Bool into two explicit-
+                # scope Bools to remove ambiguity. The original
+                # `phase_a1_explicit_model_realizes_gift_betti` is
+                # MATRIX-LEVEL (driven by iter #11 numerical matrix
+                # certificate); the GEOMETRIC fixed-loci match on the
+                # Weierstrass model is NOT yet established (per iter
+                # #15A-#16 diagnostics).
+                "phase_a1_matrix_level_realizes_gift_betti": any_geometric_model_matches,
+                "phase_a2_geometric_weierstrass_realizes_gift_fixed_loci": (
+                    # FALSE per iter #15A diagnostic: τ_naive is in the
+                    # trivial NS lattice class, not iter #11's class.
+                    # Per iter #15B+C+#16: V_4-coset is insufficient,
+                    # σ(t) = -t is ruled out, and σ ∈ {c-t, c/t} need
+                    # iter #17 Gröbner search or P2 lattice-Torelli pivot.
+                    False
+                ),
                 "phase_a1_explicit_model_realizes_gift_betti": any_geometric_model_matches,
             },
             "honest_status": {
                 "explicit_model_with_21_77_certified": any_geometric_model_matches,
                 "lattice_level_with_21_77_certified": any_model_matches_at_lattice_level,
                 "headline": (
-                    "Phase A.2 iter #16 complete: search for (A, B)"
-                    " admitting compatible Möbius base involution gives"
+                    "Phase A.2 iter #16 complete (per GPT council #10"
+                    " bool-naming refinement): two explicit-scope Bools"
+                    " — `phase_a1_matrix_level_realizes_gift_betti` ="
+                    " TRUE (driven by iter #11 numerical matrix cert),"
+                    " and `phase_a2_geometric_weierstrass_realizes_"
+                    "gift_fixed_loci` = FALSE (honest; iter #15A-#16"
+                    " diagnostics rule out τ_naive and V_4-coset as"
+                    " geometric reps of iter #11 τ; σ(t) = -t ruled"
+                    " out; σ ∈ {c-t, c/t} open via Gröbner search). |"
+                    " Phase A.2 iter #16: search for (A, B) admitting"
+                    " compatible Möbius base involution gives"
                     " STRUCTURAL OBSTRUCTIONS. σ(t) = -t RULED OUT"
                     " (full A↔B swap forces ord_t(A-B) ≥ 2 at t=0,"
                     " conflicting with I_0^* simple-zero condition)."

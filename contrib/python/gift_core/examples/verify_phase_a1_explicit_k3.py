@@ -1068,6 +1068,17 @@ def verify() -> dict[str, bool]:
             "phase_a2_iter16_search_complete"
         ]
         is True,
+        # Per GPT council #10: explicit-scope Bool split to remove
+        # ambiguity between matrix-level and geometric-Weierstrass
+        # certifications.
+        "matrix_level_realizes_gift_betti_TRUE": master[
+            "lean_bool_certificates"
+        ]["phase_a1_matrix_level_realizes_gift_betti"]
+        is True,
+        "geometric_weierstrass_realizes_gift_fixed_loci_FALSE_honest": master[
+            "lean_bool_certificates"
+        ]["phase_a2_geometric_weierstrass_realizes_gift_fixed_loci"]
+        is False,
     }
 
 
