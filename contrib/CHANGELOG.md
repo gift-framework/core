@@ -5,6 +5,74 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.20] - 2026-05-10
+
+### Summary
+
+**Phase A.1 explicit K3 model — algebraic-counting certificate. Master Bool flipped TRUE.**
+
+After a 10-iteration session (2026-05-09 → 2026-05-10), the explicit
+$\mathbb{Z}_2^3 = \langle \tau, \sigma_A, \sigma_B \rangle$ action on the
+Clingher–Malmendier $(15, 7, 1)$ NS lattice
+$L = H \oplus E_7(-1) \oplus A_1(-1)^6$ realises all four anti-symplectic
+involutions with the GIFT-correct invariant lattice profile
+$\{(11, 7, 1), (11, 9, 1)^{\times 3}\}$ at the algebraic-counting level.
+The JK Betti predictor on this profile yields $(b_2, b_3) = (21, 77)$.
+
+| Anti-sym | Fixed sublattice | $(r, a, \delta)$ | $(g, k)$ |
+|---|---|---|---|
+| $\tau$ | $H \oplus D_4(-1) \oplus A_1(-1)^5$ | $(11, 7, 1)$ | $(2, 2)$ |
+| $\tau\sigma_A$ | $H \oplus A_1(-1)^9$ | $(11, 9, 1)$ | $(1, 1)$ |
+| $\tau\sigma_B$ | $H \oplus A_1(-1)^9$ | $(11, 9, 1)$ | $(1, 1)$ |
+| $\tau\sigma_A\sigma_B$ | $H \oplus A_1(-1)^9$ | $(11, 9, 1)$ | $(1, 1)$ |
+
+Master Bool `phase_a1_explicit_model_realizes_gift_betti = true`.
+**40 TRUE / 0 FALSE Lean Bools** in `PhaseA1MasterAudit`.
+
+### Added
+
+- `contrib/python/gift_core/geometry/k3_explicit.py` (~3500 lines) —
+  explicit $\mathbb{Z}_2^3$ on Clingher–Malmendier $(15,7,1)$, primitive
+  embedding of $\tau$-invariant $(11,7,1)$, Mukai
+  $V_4 = \langle \sigma_A, \sigma_B \rangle$, JK Betti predictor →
+  $(21,77)$.
+- `contrib/python/gift_core/examples/verify_phase_a1_explicit_k3.py` —
+  129/129 PASS standalone verification.
+
+### Changed
+
+`PhaseA1MasterAudit` reaches first-ever 40 TRUE / 0 FALSE state. Three
+sub-Bools (`v4_mukai_compatible`, `tau_invariant_consistent`,
+`all_anti_syms_match`) all green.
+
+### Notes — Honest scope
+
+Certificate at the **algebraic-counting level**: $(a, \delta)$ values
+computed from the structural decomposition $L = P \oplus D \oplus Q$.
+Pending: iter #11 (explicit 15×15 integer-matrix construction with
+numerical verification of involutivity, mutual commutativity, and
+fixed-sublattice gram), and Phase A.2 (geometric realisation via
+explicit Weierstrass $A(t), B(t)$ from Clingher–Malmendier
+arXiv:2109.01929).
+
+### Phenomenology — $\delta_{CP} = 197°$ in NuFIT 6.0
+
+The leptonic CP prediction
+$\delta_{CP}^{\text{GIFT}} = \dim(K_7)\cdot\dim(G_2) + H^* = 98 + 99 = 197°$
+lies inside the 1σ contour of the **NuFIT 6.0 NO global fit**
+(best fit 212°, 1σ [171°, 238°]; Esteban et al., arXiv:2410.05380).
+Definitive falsification path: T2HK (arXiv:2505.15019) combined with
+external cross-section constraints (Pinheiro–Urrea, arXiv:2604.20956),
+since DUNE alone cannot cleanly resolve 197° from CP-conserving values.
+
+### Build status
+
+- 8392 Lake jobs, exit 0
+- 144 `.lean` files, 15 axioms (unchanged from v3.4.19), 0 sorry
+- 129/129 Phase A.1 verify PASS
+
+---
+
 ## [3.4.19] - 2026-05-05
 
 ### Summary
