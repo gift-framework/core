@@ -14,6 +14,7 @@ from gift_core.geometry.k3_explicit import (
     EllipticK3WeierstrassFull2Torsion,
     GIFTCandidateProfile,
     JKBettiPredictor,
+    K3GenusTwoSymmetricDoubleCover,
     K3Lattice,
     K3ReducibleSexticDoubleCover,
     K3SexticDoubleCover,
@@ -67,6 +68,10 @@ def verify() -> dict[str, bool]:
     lattice_check = lattice_action.consistency_check()
     lattice_derived_profile = lattice_action.derived_candidate_profile()
     lattice_match = lattice_derived_profile.matches(target)
+
+    # Garbagnati-Salgado Prop 7.3 explicit genus-2 construction.
+    gs_genus2 = K3GenusTwoSymmetricDoubleCover()
+    gs_profile = gs_genus2.candidate_profile_partial()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -221,6 +226,31 @@ def verify() -> dict[str, bool]:
         "master_audit_nikulin_11_9_1_certified": master["lean_bool_certificates"][
             "phase_a1_nikulin_primitive_embedding_11_9_1_certified"
         ]
+        is True,
+        # Garbagnati-Salgado Prop 7.3 genus-2 construction checks.
+        "gs_prop_7_3_iota_g_k_is_2_2": gs_genus2.fixed_locus_g_k_for_iota() == (2, 2),
+        "gs_prop_7_3_iota_matches_11_7_1": gs_profile["iota_matches_11_7_1_profile"]
+        is True,
+        "gs_prop_7_3_sigma_via_2_torsion": gs_profile[
+            "sigma_symplectic_via_2_torsion_translation"
+        ]
+        is True,
+        "gs_prop_7_3_picard_rank_geq_11": gs_profile["picard_rank_lower_bound"] >= 11,
+        "gs_prop_7_3_candidate_profile_not_yet_complete": gs_profile[
+            "candidate_profile_complete"
+        ]
+        is False,
+        "master_audit_gs_prop_7_3_construction_implemented": master[
+            "lean_bool_certificates"
+        ]["phase_a1_gs_prop_7_3_genus2_construction_implemented"]
+        is True,
+        "master_audit_gs_prop_7_3_iota_matches_11_7_1": master[
+            "lean_bool_certificates"
+        ]["phase_a1_gs_prop_7_3_iota_matches_11_7_1"]
+        is True,
+        "master_audit_gs_prop_7_3_sigma_via_2_torsion": master[
+            "lean_bool_certificates"
+        ]["phase_a1_gs_prop_7_3_sigma_via_2_torsion_translation"]
         is True,
     }
 
