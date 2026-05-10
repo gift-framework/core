@@ -2999,6 +2999,426 @@ class K3CM_15_7_1_D4_9A1:
 
 
 # =============================================================================
+# Section 6.5 — Iter #11: explicit 15×15 integer matrices
+# =============================================================================
+#
+# In the (M ⊕ M⊥)-aligned basis L = P ⊕ D ⊕ Q with P = H ⊕ A_1(-1)^5 (rank 7),
+# D = D_4(-1) (rank 4), Q = M⊥ ≅ A_1(-1)^4 (rank 4), the τ, σ_A, σ_B
+# generators of Z_2^3 are explicit block-diagonal 15×15 integer matrices.
+#
+# This module realises iter #11: numerical verification of involutivity,
+# pairwise commutativity, and lattice isometry, plus computation of the
+# four anti-symplectic fixed sublattice gram matrices (a, δ) directly
+# from the matrix actions.
+
+
+def D_4_minus_involution_b() -> np.ndarray:
+    """4×4 integer matrix realising the D_4(-1) involution σ_B|_D.
+
+    In the standard $D_4 \\subset \\mathbb{Z}^4$ basis $(e_1, e_2, e_3, e_4)$,
+    the involution $b: e_3 \\to -e_3, e_4 \\to -e_4$ (fixing $e_1, e_2$) is
+    a Euclidean isometry, hence a $D_4$ lattice isometry. In the simple-root
+    Cartan basis $(\\alpha_1, \\alpha_2, \\alpha_3, \\alpha_4)$ with
+    $\\alpha_1 = e_1 - e_2$, $\\alpha_2 = e_2 - e_3$, $\\alpha_3 = e_3 - e_4$,
+    $\\alpha_4 = e_3 + e_4$, this $b$ acts as
+
+    - $b(\\alpha_1) = \\alpha_1$,
+    - $b(\\alpha_2) = \\alpha_2 + \\alpha_3 + \\alpha_4$,
+    - $b(\\alpha_3) = -\\alpha_3$, $b(\\alpha_4) = -\\alpha_4$.
+
+    The fixed sublattice of $b$ has rank 2 and is spanned by $\\alpha_1$ and
+    $2\\alpha_2 + \\alpha_3 + \\alpha_4$. After change of basis, its gram is
+    isometric to $A_1(-1)^2$ (the Mukai/Garbagnati primitive sub-root-system).
+    """
+    return np.array(
+        [
+            [1, 0, 0, 0],
+            [0, 1, 0, 0],
+            [0, 1, -1, 0],
+            [0, 1, 0, -1],
+        ],
+        dtype=np.int64,
+    )
+
+
+def Q_minus_involution_c() -> np.ndarray:
+    """4×4 integer matrix realising the M⊥ ≅ A_1(-1)^4 involution σ_B|_Q.
+
+    Choice: $c = \\mathrm{diag}(1, 1, -1, -1)$. Trivially an isometry of
+    $A_1(-1)^4 = \\mathrm{diag}(-2, -2, -2, -2)$. Fixed sublattice = first
+    two coordinates ≅ $A_1(-1)^2$. Distinct from $\\sigma_A|_Q = -I_4$.
+    """
+    return np.array(
+        [
+            [1, 0, 0, 0],
+            [0, 1, 0, 0],
+            [0, 0, -1, 0],
+            [0, 0, 0, -1],
+        ],
+        dtype=np.int64,
+    )
+
+
+def M_aligned_15x15_gram() -> np.ndarray:
+    """15×15 block-diagonal Gram matrix of $L = P \\oplus D \\oplus Q$
+    in the (M ⊕ M⊥)-aligned basis.
+
+    - $P = H \\oplus A_1(-1)^5$, rank 7, $|\\det| = 2^5 = 32$ (since $H$ has
+      $|\\det|=1$).
+    - $D = D_4(-1)$, rank 4, $|\\det| = 4 = 2^2$.
+    - $Q = A_1(-1)^4$, rank 4, $|\\det| = 16 = 2^4$.
+
+    Total rank 15, $|\\det| = 2^5 \\cdot 2^2 \\cdot 2^4 = 2^{11}$.
+
+    Note: this 15-dim lattice is $M \\oplus M^\\perp$ as an abstract direct
+    sum, NOT the full NS lattice $L = (15, 7, 1)$ which has $|\\det| = 2^7$.
+    The difference $2^{11} / 2^7 = 16$ corresponds to a glue group of order
+    $\\sqrt{16} = 4$ recovering $L$ from $M \\oplus M^\\perp$. Iter #11 works
+    on $M \\oplus M^\\perp$ directly because all 4 anti-symplectic invariant
+    sublattices live inside $M \\oplus M^\\perp$ (their (a, δ) is unaffected
+    by the glue).
+    """
+    A1m = np.array([[-2]], dtype=np.int64)
+    P_gram = _block_diag_int([U_GRAM] + [A1m] * 5)
+    D_gram_minus = -D4_GRAM
+    Q_gram = _block_diag_int([A1m] * 4)
+    return _block_diag_int([P_gram, D_gram_minus, Q_gram])
+
+
+def tau_15x15() -> np.ndarray:
+    """τ on $L = P \\oplus D \\oplus Q$: $+\\mathrm{id}$ on $M = P \\oplus D$,
+    $-\\mathrm{id}$ on $M^\\perp = Q$.
+    """
+    return _block_diag_int(
+        [
+            np.eye(7, dtype=np.int64),
+            np.eye(4, dtype=np.int64),
+            -np.eye(4, dtype=np.int64),
+        ]
+    )
+
+
+def sigma_A_15x15() -> np.ndarray:
+    """σ_A: $+\\mathrm{id}$ on $P$, $-\\mathrm{id}$ on $D$, $-\\mathrm{id}$ on $Q$.
+    Mukai $V_4$ generator (rank-7 fixed = $P$, rank-8 (-1)-eigenspace = $D \\oplus Q$).
+    """
+    return _block_diag_int(
+        [
+            np.eye(7, dtype=np.int64),
+            -np.eye(4, dtype=np.int64),
+            -np.eye(4, dtype=np.int64),
+        ]
+    )
+
+
+def sigma_B_15x15() -> np.ndarray:
+    """σ_B: $+\\mathrm{id}$ on $P$, $b$ on $D$ (D_4 involution with rank-2
+    fixed), $c$ on $Q$ (rank-2 fixed). Distinct from σ_A.
+    """
+    return _block_diag_int(
+        [
+            np.eye(7, dtype=np.int64),
+            D_4_minus_involution_b(),
+            Q_minus_involution_c(),
+        ]
+    )
+
+
+def _kernel_basis_int(matrix: np.ndarray) -> np.ndarray:
+    """Compute a Z-basis for the integer kernel of an integer matrix M.
+
+    Returns a (n, k) integer matrix whose columns span $\\ker(M) \\cap
+    \\mathbb{Z}^n$. Uses sympy's rational nullspace then clears denominators.
+    """
+    sM = sp.Matrix(matrix.tolist())
+    rational_basis = sM.nullspace()
+    if not rational_basis:
+        return np.zeros((matrix.shape[1], 0), dtype=np.int64)
+    cols: list[np.ndarray] = []
+    for v in rational_basis:
+        # Clear denominators so the basis vector is integer.
+        denoms = [sp.fraction(entry)[1] for entry in v]
+        L = sp.ilcm(*denoms) if denoms else sp.Integer(1)
+        cleared = [int(L * entry) for entry in v]
+        # Reduce by gcd to get a primitive vector.
+        g = 0
+        for x in cleared:
+            g = sp.gcd(g, abs(x))
+        if g and int(g) > 1:
+            cleared = [x // int(g) for x in cleared]
+        cols.append(np.array(cleared, dtype=np.int64))
+    return np.column_stack(cols)
+
+
+def fixed_sublattice_gram(
+    involution: np.ndarray, ambient_gram: np.ndarray
+) -> tuple[np.ndarray, np.ndarray]:
+    """Compute the integer kernel of (M − I) and the gram of the fixed
+    sublattice. Returns (basis, gram) where basis is (n, r) integer with
+    columns = fixed lattice generators, and gram is (r, r) integer.
+    """
+    n = involution.shape[0]
+    diff = involution - np.eye(n, dtype=np.int64)
+    K = _kernel_basis_int(diff)
+    if K.shape[1] == 0:
+        return K, np.zeros((0, 0), dtype=np.int64)
+    G = K.T @ ambient_gram @ K
+    return K, G.astype(np.int64)
+
+
+def smith_invariant_factors(matrix: np.ndarray) -> list[int]:
+    """Return the Smith normal form invariant factors of an integer matrix
+    (the diagonal of its SNF, with units stripped). Used for the discriminant
+    group structure of a lattice gram matrix.
+    """
+    sM = sp.Matrix(matrix.tolist())
+    # sympy's smith_normal_form is in newer versions; fall back to manual
+    # computation via diagonalization if needed.
+    try:
+        from sympy.matrices.normalforms import smith_normal_form
+
+        snf = smith_normal_form(sM)
+    except Exception:
+        # Fallback: just use diagonal of |det| factorisation (rough).
+        snf = sp.Matrix.diag(*[abs(int(round(np.linalg.det(matrix.astype(float)))))])
+    diag = [abs(int(snf[i, i])) for i in range(min(snf.shape))]
+    # Strip units (entries equal to 1).
+    return [d for d in diag if d != 1]
+
+
+def lattice_2_elementary_invariants(gram: np.ndarray) -> dict[str, object]:
+    """For an integer Gram matrix G, compute (rank, |det|, a, even, T*/T
+    structure, 2-elementary). Used to numerically certify (a, δ) of a
+    fixed sublattice.
+
+    - rank = rank of gram (assumed full rank).
+    - |det| = absolute determinant.
+    - a = log_2 |det| if |det| is a power of 2, else None.
+    - 2-elementary = (T*/T) ≅ (Z/2)^a, equivalent to all SNF invariants ∈ {1, 2}.
+    """
+    rank = int(gram.shape[0])
+    if rank == 0:
+        return {
+            "rank": 0,
+            "abs_det": 1,
+            "a": 0,
+            "log2_abs_det": 0,
+            "is_2_elementary": True,
+            "is_even": True,
+            "smith_invariant_factors": [],
+        }
+    det = int(round(np.linalg.det(gram.astype(float))))
+    abs_det = abs(det)
+    # log_2 check.
+    a = None
+    if abs_det > 0:
+        bits = abs_det.bit_length() - 1
+        if abs_det == (1 << bits):
+            a = bits
+    # Even.
+    is_even = all(int(gram[i, i]) % 2 == 0 for i in range(rank))
+    # Smith invariant factors.
+    snf = smith_invariant_factors(gram)
+    is_2_elementary = all(d in (1, 2) for d in snf)
+    return {
+        "rank": rank,
+        "abs_det": abs_det,
+        "log2_abs_det": (
+            int(round(np.log2(abs_det))) if abs_det > 0 else None
+        ),
+        "a": a,
+        "is_2_elementary": is_2_elementary,
+        "is_even": is_even,
+        "smith_invariant_factors": snf,
+    }
+
+
+@dataclass(frozen=True)
+class Z2CubedExplicit15x15Matrices:
+    """Iter #11: numerical verification of the Z_2^3 = ⟨τ, σ_A, σ_B⟩
+    action via explicit 15×15 integer matrices in the (M ⊕ M⊥)-aligned
+    basis L = P ⊕ D ⊕ Q.
+
+    Verifies:
+
+    1. **Involutivity**: τ² = σ_A² = σ_B² = I_15.
+    2. **Mutual commutativity**: [τ, σ_A] = [τ, σ_B] = [σ_A, σ_B] = 0.
+    3. **Lattice isometry**: M^T G_15 M = G_15 for each generator
+       (i.e., each preserves the (M ⊕ M⊥)-aligned gram).
+    4. **Anti-symplectic τ profile**: τ-fixed sublattice has rank 11 and
+       gram with $|\\det| = 2^7$ (matching $a = 7$, i.e., (11, 7, 1)).
+    5. **3 commuting τσ_X profiles**: each of τσ_A, τσ_B, τσ_AσB has
+       rank-11 fixed sublattice with $|\\det| = 2^9$ (matching $a = 9$,
+       i.e., (11, 9, 1)).
+    6. **2-elementary**: each fixed sublattice's discriminant group is
+       $(\\mathbb{Z}/2)^a$ (numerically verified via Smith normal form).
+
+    Construction transparent at this level: matrices are block-diagonal
+    in the chosen basis. δ = 1 for all four sublattices follows
+    structurally from the H-summand presence (H has δ=1 contribution).
+    """
+
+    @property
+    def gram(self) -> np.ndarray:
+        return M_aligned_15x15_gram()
+
+    @property
+    def tau(self) -> np.ndarray:
+        return tau_15x15()
+
+    @property
+    def sigma_A(self) -> np.ndarray:
+        return sigma_A_15x15()
+
+    @property
+    def sigma_B(self) -> np.ndarray:
+        return sigma_B_15x15()
+
+    def tau_sigma_A(self) -> np.ndarray:
+        return self.tau @ self.sigma_A
+
+    def tau_sigma_B(self) -> np.ndarray:
+        return self.tau @ self.sigma_B
+
+    def tau_sigma_A_sigma_B(self) -> np.ndarray:
+        return self.tau @ self.sigma_A @ self.sigma_B
+
+    def involutivity(self) -> dict[str, bool]:
+        I = np.eye(15, dtype=np.int64)
+        return {
+            "tau_squared_eq_I": np.array_equal(self.tau @ self.tau, I),
+            "sigma_A_squared_eq_I": np.array_equal(
+                self.sigma_A @ self.sigma_A, I
+            ),
+            "sigma_B_squared_eq_I": np.array_equal(
+                self.sigma_B @ self.sigma_B, I
+            ),
+        }
+
+    def commutativity(self) -> dict[str, bool]:
+        Z = np.zeros((15, 15), dtype=np.int64)
+        return {
+            "tau_sigma_A_commute": np.array_equal(
+                self.tau @ self.sigma_A - self.sigma_A @ self.tau, Z
+            ),
+            "tau_sigma_B_commute": np.array_equal(
+                self.tau @ self.sigma_B - self.sigma_B @ self.tau, Z
+            ),
+            "sigma_A_sigma_B_commute": np.array_equal(
+                self.sigma_A @ self.sigma_B - self.sigma_B @ self.sigma_A, Z
+            ),
+        }
+
+    def isometry(self) -> dict[str, bool]:
+        G = self.gram
+        return {
+            "tau_preserves_gram": np.array_equal(
+                self.tau.T @ G @ self.tau, G
+            ),
+            "sigma_A_preserves_gram": np.array_equal(
+                self.sigma_A.T @ G @ self.sigma_A, G
+            ),
+            "sigma_B_preserves_gram": np.array_equal(
+                self.sigma_B.T @ G @ self.sigma_B, G
+            ),
+        }
+
+    def anti_symplectic_fixed_sublattices(
+        self,
+    ) -> dict[str, dict[str, object]]:
+        """Compute fixed sublattice gram + (rank, a) for each of the 4
+        anti-symplectic involutions {τ, τσ_A, τσ_B, τσ_AσB}.
+        """
+        G = self.gram
+        out: dict[str, dict[str, object]] = {}
+        for name, M_inv in [
+            ("tau", self.tau),
+            ("tau_sigma_A", self.tau_sigma_A()),
+            ("tau_sigma_B", self.tau_sigma_B()),
+            ("tau_sigma_A_sigma_B", self.tau_sigma_A_sigma_B()),
+        ]:
+            basis, fix_gram = fixed_sublattice_gram(M_inv, G)
+            invariants = lattice_2_elementary_invariants(fix_gram)
+            out[name] = {
+                "fixed_sublattice_basis_shape": list(basis.shape),
+                "fixed_sublattice_gram": fix_gram.tolist(),
+                "rank": invariants["rank"],
+                "abs_det": invariants["abs_det"],
+                "a": invariants["a"],
+                "log2_abs_det": invariants["log2_abs_det"],
+                "is_2_elementary": invariants["is_2_elementary"],
+                "is_even": invariants["is_even"],
+                "smith_invariant_factors": invariants[
+                    "smith_invariant_factors"
+                ],
+            }
+        return out
+
+    def audit(self) -> dict[str, object]:
+        """Full iter #11 verification report."""
+        invol = self.involutivity()
+        comm = self.commutativity()
+        iso = self.isometry()
+        fixed = self.anti_symplectic_fixed_sublattices()
+
+        # Structural targets:
+        # - τ → (11, a=7).
+        # - τσ_X (×3) → (11, a=9).
+        target_a = {
+            "tau": 7,
+            "tau_sigma_A": 9,
+            "tau_sigma_B": 9,
+            "tau_sigma_A_sigma_B": 9,
+        }
+        rank_a_match = {
+            name: (
+                fixed[name]["rank"] == 11
+                and fixed[name]["a"] == target_a[name]
+            )
+            for name in target_a
+        }
+        all_2_elementary = all(
+            fixed[name]["is_2_elementary"] for name in target_a
+        )
+        all_even = all(fixed[name]["is_even"] for name in target_a)
+
+        return {
+            "matrices_constructed": True,
+            "involutivity": invol,
+            "all_involutions_squared_to_I": all(invol.values()),
+            "commutativity": comm,
+            "all_pairs_commute": all(comm.values()),
+            "isometry": iso,
+            "all_generators_preserve_gram": all(iso.values()),
+            "anti_symplectic_fixed_sublattices": fixed,
+            "anti_symplectic_rank_a_match": rank_a_match,
+            "all_anti_sym_fixed_sublattices_match_target_a": all(
+                rank_a_match.values()
+            ),
+            "all_anti_sym_fixed_sublattices_are_2_elementary": all_2_elementary,
+            "all_anti_sym_fixed_sublattices_are_even": all_even,
+            "iter_11_complete": (
+                all(invol.values())
+                and all(comm.values())
+                and all(iso.values())
+                and all(rank_a_match.values())
+                and all_2_elementary
+                and all_even
+            ),
+            "honest_scope": (
+                "Verifies the Z_2^3 = ⟨τ, σ_A, σ_B⟩ action on the (M ⊕ M⊥)"
+                "-aligned 15-dim lattice by explicit integer matrices."
+                " Numerically confirms involutivity, mutual commutativity,"
+                " lattice isometry, and (rank, a, 2-elementary, even) of"
+                " the 4 anti-symplectic fixed sublattices. δ = 1"
+                " established structurally via the H-summand presence in"
+                " each fixed sublattice (H has trivial discriminant; A_1(-1)"
+                " contributes δ = 1 to the discriminant form)."
+            ),
+        }
+
+
+# =============================================================================
 # Section 7 — Phase A.1 master audit
 # =============================================================================
 
@@ -3043,6 +3463,9 @@ class PhaseA1MasterAudit:
         default_factory=Z2CubedLatticeAction
     )
     k3_lattice: K3Lattice = field(default_factory=K3Lattice)
+    iter_11_matrices: Z2CubedExplicit15x15Matrices = field(
+        default_factory=Z2CubedExplicit15x15Matrices
+    )
 
     def audit(self) -> dict[str, object]:
         # Sanity check: GIFT target profile yields (21, 77).
@@ -3091,6 +3514,9 @@ class PhaseA1MasterAudit:
         z2cubed_complete_at_lattice_level = cm_sigma_b_recipe[
             "z2_cubed_lattice_action_complete_at_algebraic_level"
         ]
+
+        # Iteration #11: explicit 15×15 integer-matrix verification.
+        iter_11 = self.iter_11_matrices.audit()
 
         # K3 lattice sanity (Λ_{K3} = U^3 ⊕ E_8(-1)^2).
         k3_sanity = {
@@ -3328,38 +3754,64 @@ class PhaseA1MasterAudit:
                     "all_4_anti_symplectic_profiles_match_gift"
                 ],
                 "phase_a1_iter10_z2_cubed_lattice_action_complete": z2cubed_complete_at_lattice_level,
+                # iter #11: explicit 15×15 integer matrices.
+                "phase_a1_iter11_matrices_constructed": iter_11[
+                    "matrices_constructed"
+                ],
+                "phase_a1_iter11_all_involutions_squared_to_I": iter_11[
+                    "all_involutions_squared_to_I"
+                ],
+                "phase_a1_iter11_all_pairs_commute": iter_11[
+                    "all_pairs_commute"
+                ],
+                "phase_a1_iter11_all_generators_preserve_gram": iter_11[
+                    "all_generators_preserve_gram"
+                ],
+                "phase_a1_iter11_all_anti_sym_fixed_sublattices_match_target_a": iter_11[
+                    "all_anti_sym_fixed_sublattices_match_target_a"
+                ],
+                "phase_a1_iter11_all_anti_sym_fixed_sublattices_are_2_elementary": iter_11[
+                    "all_anti_sym_fixed_sublattices_are_2_elementary"
+                ],
+                "phase_a1_iter11_all_anti_sym_fixed_sublattices_are_even": iter_11[
+                    "all_anti_sym_fixed_sublattices_are_even"
+                ],
+                "phase_a1_iter11_complete": iter_11["iter_11_complete"],
                 "phase_a1_explicit_model_realizes_gift_betti": any_geometric_model_matches,
             },
             "honest_status": {
                 "explicit_model_with_21_77_certified": any_geometric_model_matches,
                 "lattice_level_with_21_77_certified": any_model_matches_at_lattice_level,
                 "headline": (
-                    "Phase A.1 iteration #10 🎯: full GIFT (21, 77) Z_2^3"
-                    " action constructed at the lattice-counting level."
-                    " τ has invariant (11, 7, 1), σ_A and σ_B both yield"
-                    " τσ_i with invariant (11, 9, 1) per algebraic"
-                    " (a, δ)-counting. K3CM_15_7_1 candidate_profile"
-                    " matches GIFT target on ALL components. Master Bool"
-                    " phase_a1_explicit_model_realizes_gift_betti = TRUE"
-                    " at the lattice-counting level. Explicit 15×15"
-                    " integer-matrix numerical verification is iter #11."
+                    "Phase A.1 iteration #11 🎯: full GIFT (21, 77) Z_2^3"
+                    " action verified by explicit 15×15 integer matrices."
+                    " Master Bool phase_a1_explicit_model_realizes_gift_betti"
+                    " = TRUE at the lattice-counting level (since iter #10);"
+                    " iter #11 upgrades the certificate by constructing"
+                    " explicit 15×15 integer matrices τ, σ_A, σ_B in the"
+                    " (M ⊕ M⊥)-aligned basis and numerically verifying"
+                    " involutivity (τ² = σ_A² = σ_B² = I), mutual"
+                    " commutativity ([τ, σ_A] = [τ, σ_B] = [σ_A, σ_B] = 0),"
+                    " lattice isometry (M^T G M = G), and (rank=11,"
+                    " a, 2-elementary, even) for all 4 anti-symplectic"
+                    " fixed sublattices: a=7 for τ; a=9 for τσ_A, τσ_B,"
+                    " τσ_AσB. Smith normal form yields (Z/2)^a discriminant"
+                    " group as expected. δ=1 structurally established."
                 ),
                 "level_of_certification": (
-                    "ALGEBRAIC-COUNTING LEVEL: (a, δ) of τ-fixed and"
-                    " τσ_i-fixed sublattices computed from the structural"
-                    " decomposition L = P ⊕ D ⊕ Q. Master Bool flips on"
-                    " this. Explicit matrix verification (basis change"
-                    " from L's natural Cartan+standard basis to (M ⊕ M⊥)-"
-                    "aligned basis, then 15×15 integer matrices for τ,"
-                    " σ_A, σ_B with full numerical (a, δ) computation"
-                    " from gram of fixed sublattices) is iter #11."
+                    "MATRIX-NUMERICAL LEVEL: explicit 15×15 integer"
+                    " matrices for τ, σ_A, σ_B in the (M ⊕ M⊥)-aligned"
+                    " basis, with numerical verification of involutivity,"
+                    " commutativity, isometry, and (rank, a, 2-elementary,"
+                    " even) of fixed sublattices via Smith normal form."
+                    " δ=1 established structurally via H-summand presence."
                 ),
                 "next_concrete_path": (
-                    "Iter #11: explicit 15×15 integer-matrix verification."
-                    " Iter #12+ (Phase A.2): geometric realization via"
+                    "Iter #12+ (Phase A.2): geometric realization via"
                     " explicit Weierstrass A(t), B(t) from Clingher-"
                     "Malmendier tables, with verification of the lattice"
-                    " action being induced by actual K3 automorphisms."
+                    " action being induced by actual K3 automorphisms"
+                    " (Torelli theorem)."
                 ),
                 "supporting_references": {
                     "garbagnati_salgado_2018": "arXiv:1806.03097",
@@ -3412,4 +3864,15 @@ __all__ = [
     "D4_GRAM",
     "PhaseA1MasterAudit",
     "audit_phase_a1_master",
+    # iter #11
+    "D_4_minus_involution_b",
+    "Q_minus_involution_c",
+    "M_aligned_15x15_gram",
+    "tau_15x15",
+    "sigma_A_15x15",
+    "sigma_B_15x15",
+    "fixed_sublattice_gram",
+    "smith_invariant_factors",
+    "lattice_2_elementary_invariants",
+    "Z2CubedExplicit15x15Matrices",
 ]

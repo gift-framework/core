@@ -22,6 +22,7 @@ from gift_core.geometry.k3_explicit import (
     KummerK3Model,
     PhaseA1MasterAudit,
     TwoElementaryLatticeRAD,
+    Z2CubedExplicit15x15Matrices,
     Z2CubedLatticeAction,
     audit_phase_a1_master,
     branch_a_quick_kill_diagnostic,
@@ -116,6 +117,10 @@ def verify() -> dict[str, bool]:
     cm_157_match_iter10 = (
         cm_157_profile_iter10.matches(target) if cm_157_profile_iter10 else None
     )
+
+    # Iter #11: explicit 15×15 integer matrices.
+    iter11 = Z2CubedExplicit15x15Matrices().audit()
+    iter11_fixed = iter11["anti_symplectic_fixed_sublattices"]
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -535,6 +540,153 @@ def verify() -> dict[str, bool]:
         is True,
         "master_audit_iter10_z2_cubed_complete": master["lean_bool_certificates"][
             "phase_a1_iter10_z2_cubed_lattice_action_complete"
+        ]
+        is True,
+        # Iter #11: explicit 15×15 integer matrices.
+        "iter11_matrices_constructed": iter11["matrices_constructed"] is True,
+        "iter11_tau_squared_eq_I": iter11["involutivity"]["tau_squared_eq_I"]
+        is True,
+        "iter11_sigma_A_squared_eq_I": iter11["involutivity"][
+            "sigma_A_squared_eq_I"
+        ]
+        is True,
+        "iter11_sigma_B_squared_eq_I": iter11["involutivity"][
+            "sigma_B_squared_eq_I"
+        ]
+        is True,
+        "iter11_all_involutions_squared_to_I": iter11[
+            "all_involutions_squared_to_I"
+        ]
+        is True,
+        "iter11_tau_sigma_A_commute": iter11["commutativity"][
+            "tau_sigma_A_commute"
+        ]
+        is True,
+        "iter11_tau_sigma_B_commute": iter11["commutativity"][
+            "tau_sigma_B_commute"
+        ]
+        is True,
+        "iter11_sigma_A_sigma_B_commute": iter11["commutativity"][
+            "sigma_A_sigma_B_commute"
+        ]
+        is True,
+        "iter11_all_pairs_commute": iter11["all_pairs_commute"] is True,
+        "iter11_tau_preserves_gram": iter11["isometry"]["tau_preserves_gram"]
+        is True,
+        "iter11_sigma_A_preserves_gram": iter11["isometry"][
+            "sigma_A_preserves_gram"
+        ]
+        is True,
+        "iter11_sigma_B_preserves_gram": iter11["isometry"][
+            "sigma_B_preserves_gram"
+        ]
+        is True,
+        "iter11_all_generators_preserve_gram": iter11[
+            "all_generators_preserve_gram"
+        ]
+        is True,
+        "iter11_tau_fixed_rank_11": iter11_fixed["tau"]["rank"] == 11,
+        "iter11_tau_fixed_a_eq_7": iter11_fixed["tau"]["a"] == 7,
+        "iter11_tau_fixed_log2_det_eq_7": iter11_fixed["tau"]["log2_abs_det"]
+        == 7,
+        "iter11_tau_fixed_2_elementary": iter11_fixed["tau"]["is_2_elementary"]
+        is True,
+        "iter11_tau_fixed_even": iter11_fixed["tau"]["is_even"] is True,
+        "iter11_tau_sigma_A_fixed_rank_11": iter11_fixed["tau_sigma_A"]["rank"]
+        == 11,
+        "iter11_tau_sigma_A_fixed_a_eq_9": iter11_fixed["tau_sigma_A"]["a"]
+        == 9,
+        "iter11_tau_sigma_A_fixed_log2_det_eq_9": iter11_fixed["tau_sigma_A"][
+            "log2_abs_det"
+        ]
+        == 9,
+        "iter11_tau_sigma_A_fixed_2_elementary": iter11_fixed["tau_sigma_A"][
+            "is_2_elementary"
+        ]
+        is True,
+        "iter11_tau_sigma_A_fixed_even": iter11_fixed["tau_sigma_A"][
+            "is_even"
+        ]
+        is True,
+        "iter11_tau_sigma_B_fixed_rank_11": iter11_fixed["tau_sigma_B"]["rank"]
+        == 11,
+        "iter11_tau_sigma_B_fixed_a_eq_9": iter11_fixed["tau_sigma_B"]["a"]
+        == 9,
+        "iter11_tau_sigma_B_fixed_log2_det_eq_9": iter11_fixed["tau_sigma_B"][
+            "log2_abs_det"
+        ]
+        == 9,
+        "iter11_tau_sigma_B_fixed_2_elementary": iter11_fixed["tau_sigma_B"][
+            "is_2_elementary"
+        ]
+        is True,
+        "iter11_tau_sigma_B_fixed_even": iter11_fixed["tau_sigma_B"][
+            "is_even"
+        ]
+        is True,
+        "iter11_tau_sigma_A_sigma_B_fixed_rank_11": iter11_fixed[
+            "tau_sigma_A_sigma_B"
+        ]["rank"]
+        == 11,
+        "iter11_tau_sigma_A_sigma_B_fixed_a_eq_9": iter11_fixed[
+            "tau_sigma_A_sigma_B"
+        ]["a"]
+        == 9,
+        "iter11_tau_sigma_A_sigma_B_fixed_log2_det_eq_9": iter11_fixed[
+            "tau_sigma_A_sigma_B"
+        ]["log2_abs_det"]
+        == 9,
+        "iter11_tau_sigma_A_sigma_B_fixed_2_elementary": iter11_fixed[
+            "tau_sigma_A_sigma_B"
+        ]["is_2_elementary"]
+        is True,
+        "iter11_tau_sigma_A_sigma_B_fixed_even": iter11_fixed[
+            "tau_sigma_A_sigma_B"
+        ]["is_even"]
+        is True,
+        "iter11_all_anti_sym_match_target_a": iter11[
+            "all_anti_sym_fixed_sublattices_match_target_a"
+        ]
+        is True,
+        "iter11_all_anti_sym_2_elementary": iter11[
+            "all_anti_sym_fixed_sublattices_are_2_elementary"
+        ]
+        is True,
+        "iter11_all_anti_sym_even": iter11[
+            "all_anti_sym_fixed_sublattices_are_even"
+        ]
+        is True,
+        "iter11_complete_master_bool": iter11["iter_11_complete"] is True,
+        "master_audit_iter11_matrices_constructed": master[
+            "lean_bool_certificates"
+        ]["phase_a1_iter11_matrices_constructed"]
+        is True,
+        "master_audit_iter11_all_involutions_squared_to_I": master[
+            "lean_bool_certificates"
+        ]["phase_a1_iter11_all_involutions_squared_to_I"]
+        is True,
+        "master_audit_iter11_all_pairs_commute": master[
+            "lean_bool_certificates"
+        ]["phase_a1_iter11_all_pairs_commute"]
+        is True,
+        "master_audit_iter11_all_generators_preserve_gram": master[
+            "lean_bool_certificates"
+        ]["phase_a1_iter11_all_generators_preserve_gram"]
+        is True,
+        "master_audit_iter11_all_anti_sym_target_a_match": master[
+            "lean_bool_certificates"
+        ]["phase_a1_iter11_all_anti_sym_fixed_sublattices_match_target_a"]
+        is True,
+        "master_audit_iter11_all_anti_sym_2_elementary": master[
+            "lean_bool_certificates"
+        ]["phase_a1_iter11_all_anti_sym_fixed_sublattices_are_2_elementary"]
+        is True,
+        "master_audit_iter11_all_anti_sym_even": master[
+            "lean_bool_certificates"
+        ]["phase_a1_iter11_all_anti_sym_fixed_sublattices_are_even"]
+        is True,
+        "master_audit_iter11_complete": master["lean_bool_certificates"][
+            "phase_a1_iter11_complete"
         ]
         is True,
     }
