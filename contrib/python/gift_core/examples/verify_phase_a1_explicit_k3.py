@@ -12,6 +12,7 @@ from __future__ import annotations
 
 from gift_core.geometry.k3_explicit import (
     EllipticK3WeierstrassFull2Torsion,
+    GIFT15_7_1WeierstrassRealisation,
     GIFTCandidateProfile,
     JKBettiPredictor,
     K3CM_15_7_1_D4_9A1,
@@ -121,6 +122,11 @@ def verify() -> dict[str, bool]:
     # Iter #11: explicit 15×15 integer matrices.
     iter11 = Z2CubedExplicit15x15Matrices().audit()
     iter11_fixed = iter11["anti_symplectic_fixed_sublattices"]
+
+    # Iter #12: explicit Weierstrass A(t), B(t) for the D_4 + 9 A_1 fiber
+    # configuration of the (15, 7, 1) profile.
+    iter12 = GIFT15_7_1WeierstrassRealisation().audit()
+    iter12_config = iter12["configuration_summary"]
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -687,6 +693,49 @@ def verify() -> dict[str, bool]:
         is True,
         "master_audit_iter11_complete": master["lean_bool_certificates"][
             "phase_a1_iter11_complete"
+        ]
+        is True,
+        # Iter #12 (Phase A.2): explicit Weierstrass D_4 + 9 A_1.
+        "iter12_discriminant_degree_eq_24": iter12["discriminant_degree_24"]
+        is True,
+        "iter12_one_I_0_star_fiber": iter12_config["I_0_star_count"] == 1,
+        "iter12_nine_I_2_fibers": iter12_config["I_2_count"] == 9,
+        "iter12_no_unsupported_fiber_pattern": iter12_config[
+            "unsupported_pattern_count"
+        ]
+        == 0,
+        "iter12_total_root_lattice_rank_eq_13": iter12_config[
+            "total_root_lattice_rank_from_singular_fibers"
+        ]
+        == 13,
+        "iter12_total_disc_order_eq_24": iter12_config[
+            "total_discriminant_order"
+        ]
+        == 24,
+        "iter12_matches_15_7_1_target": iter12_config["matches_15_7_1_target"]
+        is True,
+        "iter12_picard_rank_from_singular_fibers_eq_15": iter12[
+            "picard_rank_from_singular_fibers_eq_15"
+        ]
+        is True,
+        "master_audit_iter12_weierstrass_AB_explicit": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter12_weierstrass_AB_explicit"]
+        is True,
+        "master_audit_iter12_discriminant_degree_24": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter12_discriminant_degree_24"]
+        is True,
+        "master_audit_iter12_singular_fibers_match": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter12_singular_fibers_match_D4_plus_9A1"]
+        is True,
+        "master_audit_iter12_total_root_lattice_rank_13": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter12_total_root_lattice_rank_eq_13"]
+        is True,
+        "master_audit_iter12_picard_rank_15": master["lean_bool_certificates"][
+            "phase_a2_iter12_picard_rank_from_singular_fibers_eq_15"
         ]
         is True,
     }
