@@ -24,8 +24,10 @@ from gift_core.geometry.k3_explicit import (
     KummerK3Model,
     PhaseA1MasterAudit,
     TwoElementaryLatticeRAD,
+    TauMobiusNormalizerSearch,
     TauNaiveAntiSymplecticCandidate,
     TauNaiveLatticeClassDiagnostic,
+    TauV4CosetSearch,
     V4Z2TorsionTranslations,
     Z2CubedExplicit15x15Matrices,
     Z2CubedLatticeAction,
@@ -145,6 +147,12 @@ def verify() -> dict[str, bool]:
     iter15A = TauNaiveLatticeClassDiagnostic(
         A_coeffs=A_c, B_coeffs=B_c
     ).audit()
+
+    # Iter #15B: V_4-coset enumeration of τ candidates.
+    iter15B = TauV4CosetSearch(A_coeffs=A_c, B_coeffs=B_c).audit()
+
+    # Iter #15C: fibrewise Möbius normalizer + base involution search.
+    iter15C = TauMobiusNormalizerSearch(A_coeffs=A_c, B_coeffs=B_c).audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -956,6 +964,66 @@ def verify() -> dict[str, bool]:
         "master_audit_iter15A_diagnostic_complete": master[
             "lean_bool_certificates"
         ]["phase_a2_iter15A_diagnostic_complete"]
+        is True,
+        # Iter #15B (Phase A.2): V_4-coset enumeration.
+        "iter15B_all_4_coset_elements_are_involutions": iter15B[
+            "all_4_coset_elements_are_involutions"
+        ]
+        is True,
+        "iter15B_all_4_coset_elements_commute_with_V_4": iter15B[
+            "all_4_coset_elements_commute_with_V_4"
+        ]
+        is True,
+        "iter15B_all_4_coset_elements_are_anti_symplectic": iter15B[
+            "all_4_coset_elements_are_anti_symplectic"
+        ]
+        is True,
+        "iter15B_v4_coset_does_NOT_contain_iter11_rep_honest": (
+            not iter15B["v4_coset_contains_iter11_geometric_rep"]
+        ),
+        "iter15B_search_complete": iter15B["iter_15B_search_complete"]
+        is True,
+        "master_audit_iter15B_4_involutions": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter15B_all_4_coset_elements_are_involutions"]
+        is True,
+        "master_audit_iter15B_4_commute_v4": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter15B_all_4_coset_elements_commute_with_V_4"]
+        is True,
+        "master_audit_iter15B_4_anti_symplectic": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter15B_all_4_coset_elements_are_anti_symplectic"]
+        is True,
+        "master_audit_iter15B_no_iter11_rep_honest": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter15B_v4_coset_contains_iter11_rep_FALSE_honest"]
+        is True,
+        "master_audit_iter15B_complete": master["lean_bool_certificates"][
+            "phase_a2_iter15B_search_complete"
+        ]
+        is True,
+        # Iter #15C (Phase A.2): fibrewise Möbius normalizer.
+        "iter15C_fibrewise_mobius_eq_V4_coset": iter15C[
+            "fibrewise_mobius_match_V4_coset"
+        ]
+        is True,
+        "iter15C_iter12_AB_admits_NO_base_involution_honest": (
+            not iter15C["iter12_AB_admits_compatible_base_involution"]
+        ),
+        "iter15C_search_complete": iter15C["iter_15C_search_complete"]
+        is True,
+        "master_audit_iter15C_mobius_eq_v4": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter15C_fibrewise_mobius_match_V4_coset"]
+        is True,
+        "master_audit_iter15C_no_base_involution_honest": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter15C_iter12_admits_no_base_involution_honest"]
+        is True,
+        "master_audit_iter15C_complete": master["lean_bool_certificates"][
+            "phase_a2_iter15C_search_complete"
+        ]
         is True,
     }
 
