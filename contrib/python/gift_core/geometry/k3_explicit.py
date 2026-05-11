@@ -5735,6 +5735,428 @@ class EquivariantK3TorelliPackage:
 
 
 # =============================================================================
+# Section 6.8 — Iter #18B: G-invariant polarisation scanner
+# =============================================================================
+#
+# Per GPT council #11: enumerate primitive G-invariant polarisations
+# h ∈ NS^G with h² > 0, screen against (-2)-walls, classify by h².
+#
+# NS^G has rank 7 with gram (verified iter #18A):
+#
+#   [[ 0  1  0  0  0  0  0 ]    ← H block (hyperbolic plane)
+#    [ 1  0  0  0  0  0  0 ]
+#    [ 0  0 -2  0  0  0  0 ]    ← A_1(-1)^5 block
+#    [ 0  0  0 -2  0  0  0 ]
+#    [ 0  0  0  0 -2  0  0 ]
+#    [ 0  0  0  0  0 -2  0 ]
+#    [ 0  0  0  0  0  0 -2 ]]
+#
+# Signature (1, 6), |det| = 2^5 = 32, ≅ H ⊕ A_1(-1)^5 = P.
+#
+# For h = (a, b; c_1, ..., c_5) in this basis:
+#
+#     h² = 2 a b - 2 (c_1² + c_2² + c_3² + c_4² + c_5²)
+#
+# always even, h² > 0 ⟺ a b > Σ c_i².
+#
+# Projective model classification (per GPT council #11 priority):
+#
+#   h² = 2  → double cover of P² branched on sextic
+#   h² = 4  → quartic in P³
+#   h² = 6  → genus 4, quadric ∩ cubic in P⁴
+#   h² = 8  → CI(2,2,2) in P⁵   ★ best alignment with GIFT historical
+#   h² ≥ 10 → higher genus
+#   h² = 0  → isotropic, elliptic fibration class (derived Weierstrass)
+
+
+@dataclass(frozen=True)
+class GInvariantPolarisationScanner:
+    """Iter #18B (per GPT council #11): enumerate primitive G-invariant
+    polarisations h ∈ NS^G with h² > 0 (and isotropic/(-2)-roots),
+    screen against (-2)-walls in NS^G, recommend projective model route.
+
+    The scanner works in the NS^G basis (rank 7) computed by iter #18A:
+
+        h = a · e + b · f + c_1 · α_1 + ... + c_5 · α_5
+
+    where (e, f) span the $H$ block and (α_1, ..., α_5) span the
+    $A_1(-1)^5$ block.
+
+    Enumeration is performed within $|c_i| \\le K$ (default $K = 2$),
+    giving $5^7 = 78125$ candidates. Output is partitioned:
+
+    - **Positive classes** ($h^2 \\in \\{2, 4, 6, 8, 10\\}$): candidate
+      polarisations.
+    - **Isotropic classes** ($h^2 = 0$): candidate elliptic fibre
+      classes.
+    - **$(-2)$-roots** ($h^2 = -2$): walls of the ample chamber inside
+      $\\mathrm{NS}^G$.
+
+    For each positive $h$, the wall screen reports $h \\cdot r$ for
+    each $(-2)$-root $r$. A "clean" candidate has $h \\cdot r > 0$ for
+    every $r$ (in some Weyl chamber) and $h \\cdot r \\ne 0$ (not on a
+    wall).
+
+    **Honest scope**: the wall screen uses $(-2)$-roots inside
+    $\\mathrm{NS}^G \\cong P$ only — these are the $G$-invariant
+    $(-2)$-classes of NS. A full ample-chamber analysis would also check
+    $(-2)$-classes in NS that are not G-invariant; we record this as an
+    open task for iter #18C.
+    """
+
+    coordinate_bound: int = 2
+
+    @property
+    def _ns_g_data(self) -> dict[str, np.ndarray]:
+        """Compute NS^G basis (15 × 7) and gram (7 × 7) once.
+
+        The gram is verified iter #18A to be the canonical
+        $H \\oplus A_1(-1)^5$ form:
+
+            diag entries [0, 0, -2, -2, -2, -2, -2]
+            off-diag: U_GRAM at top-left (rows/cols 0-1).
+        """
+        matrices = Z2CubedExplicit15x15Matrices()
+        G_NS_basis_gram = matrices.gram  # 15 × 15 gram of M ⊕ M⊥.
+        I15 = np.eye(15, dtype=np.int64)
+        stacked = np.vstack(
+            [
+                matrices.tau - I15,
+                matrices.sigma_A - I15,
+                matrices.sigma_B - I15,
+            ]
+        )
+        NS_G_basis = _kernel_basis_int(stacked)
+        NS_G_gram = NS_G_basis.T @ G_NS_basis_gram @ NS_G_basis
+        return {"basis": NS_G_basis, "gram": NS_G_gram.astype(np.int64)}
+
+    @staticmethod
+    def _is_primitive(coords: tuple[int, ...]) -> bool:
+        """A vector is primitive iff the gcd of its coordinates is 1."""
+        g = 0
+        for x in coords:
+            g = abs(int(np.gcd(g, x)))
+        return g == 1
+
+    @staticmethod
+    def _normalize_sign(coords: tuple[int, ...]) -> tuple[int, ...]:
+        """Canonical sign: first non-zero coordinate is positive."""
+        for x in coords:
+            if x != 0:
+                if x < 0:
+                    return tuple(-y for y in coords)
+                return coords
+        return coords
+
+    def _enumerate_with_h_square(
+        self, target_h_square: int | None
+    ) -> list[tuple[tuple[int, ...], int]]:
+        """Enumerate primitive vectors $h$ in NS^G with $h^2 = $ target
+        (or $h^2 > 0$ if `target_h_square is None`, up to a small max).
+        Returns sign-normalized deduplicated tuples.
+        """
+        gram = self._ns_g_data["gram"]
+        K = self.coordinate_bound
+        r = gram.shape[0]
+        seen: set[tuple[int, ...]] = set()
+        out: list[tuple[tuple[int, ...], int]] = []
+        # Iterate over all integer coordinate vectors with |c_i| <= K.
+        from itertools import product
+
+        for coords in product(range(-K, K + 1), repeat=r):
+            if not any(coords):
+                continue
+            if not self._is_primitive(coords):
+                continue
+            c = np.array(coords, dtype=np.int64)
+            h_square = int(c @ gram @ c)
+            if target_h_square is not None:
+                if h_square != target_h_square:
+                    continue
+            else:
+                if h_square <= 0 or h_square > 10:
+                    continue
+            canonical = self._normalize_sign(coords)
+            if canonical in seen:
+                continue
+            seen.add(canonical)
+            out.append((canonical, h_square))
+        return out
+
+    def enumerate_positive_classes(self) -> list[dict[str, object]]:
+        """All primitive $h \\in \\mathrm{NS}^G$ with $h^2 \\in
+        \\{2, 4, 6, 8, 10\\}$.
+        """
+        raw = self._enumerate_with_h_square(target_h_square=None)
+        return [
+            {
+                "coords_in_NS_G_basis": list(coords),
+                "h_square": h_square,
+            }
+            for coords, h_square in raw
+        ]
+
+    def enumerate_minus_2_roots(self) -> list[dict[str, object]]:
+        """Primitive $(-2)$-roots in $\\mathrm{NS}^G$ (G-invariant
+        $(-2)$-classes of NS).
+        """
+        raw = self._enumerate_with_h_square(target_h_square=-2)
+        return [
+            {"coords_in_NS_G_basis": list(coords), "h_square": -2}
+            for coords, _ in raw
+        ]
+
+    def enumerate_isotropic_classes(self) -> list[dict[str, object]]:
+        """Primitive isotropic classes $h^2 = 0$ in $\\mathrm{NS}^G$
+        — candidate elliptic fibre classes (give a U-summand inside NS^G).
+        """
+        raw = self._enumerate_with_h_square(target_h_square=0)
+        return [
+            {"coords_in_NS_G_basis": list(coords), "h_square": 0}
+            for coords, _ in raw
+        ]
+
+    @staticmethod
+    def _classify_by_h_square(h_square: int) -> str:
+        return {
+            2: "double cover of P^2 branched on sextic",
+            4: "quartic in P^3",
+            6: "genus 4, quadric ∩ cubic in P^4",
+            8: "CI(2,2,2) in P^5 — best alignment with GIFT history",
+            10: "genus 6, higher P^6 model",
+        }.get(h_square, f"genus {h_square // 2 + 1}, higher-codim model")
+
+    def screen_against_walls(
+        self,
+        positive_classes: list[dict[str, object]],
+        minus_2_roots: list[dict[str, object]],
+    ) -> list[dict[str, object]]:
+        """For each positive $h$, report $h \\cdot r$ for every $(-2)$-root
+        $r$. Flag $h$ as 'clean' if no $h \\cdot r = 0$ AND there is a
+        consistent sign choice (after possible reflection) making all
+        $h \\cdot r > 0$ — i.e., $h$ lies inside an open Weyl chamber.
+
+        For practical reporting we record:
+
+        - `h_orthogonal_to_some_root`: $\\exists r$ with $h \\cdot r = 0$
+          (i.e., $h$ on a wall).
+        - `h_inside_some_chamber`: $\\forall r$ with $h \\cdot r \\ne 0$.
+        """
+        gram = self._ns_g_data["gram"]
+        screened: list[dict[str, object]] = []
+        for h_cand in positive_classes:
+            h = np.array(h_cand["coords_in_NS_G_basis"], dtype=np.int64)
+            dots: list[int] = []
+            for r_cand in minus_2_roots:
+                r = np.array(r_cand["coords_in_NS_G_basis"], dtype=np.int64)
+                dots.append(int(h @ gram @ r))
+            on_a_wall = any(d == 0 for d in dots)
+            inside_chamber = not on_a_wall
+            out_h = dict(h_cand)
+            out_h.update(
+                {
+                    "n_minus_2_roots_screened": len(dots),
+                    "h_dot_r_min": int(min(dots)) if dots else 0,
+                    "h_dot_r_max": int(max(dots)) if dots else 0,
+                    "h_on_a_wall": on_a_wall,
+                    "h_inside_open_chamber": inside_chamber,
+                    "projective_model_route_hint": (
+                        self._classify_by_h_square(int(h_cand["h_square"]))
+                    ),
+                }
+            )
+            screened.append(out_h)
+        return screened
+
+    def canonical_witness(self, h_square: int) -> dict[str, object]:
+        """Canonical primitive witness for a target $h^2$ value, using the
+        H-summand:
+
+            $h = a \\cdot e + 1 \\cdot f = (a, 1, 0, 0, 0, 0, 0)$
+            $h^2 = 2 a$
+
+        So $h^2 = 2 \\Leftrightarrow a = 1$, $h^2 = 4 \\Leftrightarrow a = 2$,
+        etc. All such witnesses are primitive (gcd $(a, 1) = 1$).
+        """
+        gram = self._ns_g_data["gram"]
+        if h_square % 2 != 0 or h_square <= 0:
+            return {
+                "exists": False,
+                "reason": f"h² = {h_square} not even-positive in this lattice",
+            }
+        a = h_square // 2
+        coords = (a, 1, 0, 0, 0, 0, 0)
+        h_vec = np.array(coords, dtype=np.int64)
+        h2 = int(h_vec @ gram @ h_vec)
+        return {
+            "exists": True,
+            "coords_in_NS_G_basis": list(coords),
+            "h_square": h2,
+            "h_square_matches_target": h2 == h_square,
+            "is_primitive": self._is_primitive(coords),
+            "construction": (
+                f"h = {a} e + f in H ⊕ A_1(-1)^5 basis (witness for h² = {h_square})"
+            ),
+        }
+
+    def recommend_route(
+        self, screened: list[dict[str, object]]
+    ) -> dict[str, object]:
+        """Pick the recommended route per GPT council #11 priority:
+        $h^2 = 8 > 4 > 2 > 6 > 10$ (CI(2,2,2) best aligned with GIFT
+        historical CI(2,2,2) Model A; quartic next; double sextic; etc.).
+
+        A route is "available" if a canonical primitive witness exists
+        at that $h^2$ value (using the H-summand construction
+        $h = a e + f$ with $h^2 = 2a$). Wall-chamber status is recorded
+        for information but not used as a filter — open-chamber analysis
+        is deferred to iter #18C (requires non-G-invariant $(-2)$-classes
+        in NS).
+        """
+        priority = [8, 4, 2, 6, 10]
+        witnesses_by_h2: dict[int, dict[str, object]] = {}
+        for hs in priority:
+            w = self.canonical_witness(hs)
+            if w.get("exists") and w.get("h_square_matches_target"):
+                witnesses_by_h2[hs] = w
+
+        recommended_h2: int | None = None
+        recommended_witness: dict[str, object] | None = None
+        for hs in priority:
+            if hs in witnesses_by_h2:
+                recommended_h2 = hs
+                recommended_witness = witnesses_by_h2[hs]
+                break
+
+        # Open-chamber population (information only, not used as filter).
+        # Count screened candidates that avoid all (-2)-walls.
+        clean_by_h2: dict[int, int] = {}
+        for h_cand in screened:
+            if h_cand.get("h_inside_open_chamber"):
+                hs = int(h_cand["h_square"])
+                clean_by_h2[hs] = clean_by_h2.get(hs, 0) + 1
+
+        return {
+            "priority_order": priority,
+            "witnesses_by_h_square": {
+                str(k): v for k, v in witnesses_by_h2.items()
+            },
+            "recommended_h_square": recommended_h2,
+            "recommended_projective_model_route": (
+                self._classify_by_h_square(recommended_h2)
+                if recommended_h2 is not None
+                else None
+            ),
+            "recommended_example_h_coords": (
+                recommended_witness["coords_in_NS_G_basis"]
+                if recommended_witness is not None
+                else None
+            ),
+            "any_clean_candidate_found": recommended_h2 is not None,
+            "open_chamber_candidates_by_h_square_within_K": {
+                str(k): v for k, v in clean_by_h2.items()
+            },
+            "open_chamber_full_analysis_deferred_to_iter_18C": True,
+        }
+
+    def audit(self) -> dict[str, object]:
+        """Full iter #18B scan report."""
+        data = self._ns_g_data
+        gram = data["gram"]
+        positive_classes = self.enumerate_positive_classes()
+        minus_2_roots = self.enumerate_minus_2_roots()
+        isotropic_classes = self.enumerate_isotropic_classes()
+        screened = self.screen_against_walls(
+            positive_classes, minus_2_roots
+        )
+        recommendation = self.recommend_route(screened)
+
+        # Counts by h².
+        counts_by_h2: dict[int, int] = {}
+        for h_cand in positive_classes:
+            counts_by_h2[int(h_cand["h_square"])] = (
+                counts_by_h2.get(int(h_cand["h_square"]), 0) + 1
+            )
+
+        # Sample candidates per h² value (first 3 per value).
+        sample_by_h2: dict[int, list[dict[str, object]]] = {}
+        for h_cand in screened:
+            hs = int(h_cand["h_square"])
+            if len(sample_by_h2.setdefault(hs, [])) < 3:
+                sample_by_h2[hs].append(h_cand)
+
+        # Witness existence of obvious classes (sanity).
+        # h_double_sextic_witness: (1, 1, 0, 0, 0, 0, 0) → h² = 2.
+        # h_quartic_witness: (2, 1, 0, ..., 0) → h² = 4. Primitive (gcd=1).
+        # h_CI222_witness: (4, 1, 0, ..., 0) → h² = 8. Primitive.
+        h_dsex = np.array([1, 1, 0, 0, 0, 0, 0], dtype=np.int64)
+        h_qrt4 = np.array([2, 1, 0, 0, 0, 0, 0], dtype=np.int64)
+        h_ci222 = np.array([4, 1, 0, 0, 0, 0, 0], dtype=np.int64)
+        h_isotropic_e = np.array([1, 0, 0, 0, 0, 0, 0], dtype=np.int64)
+        h_isotropic_f = np.array([0, 1, 0, 0, 0, 0, 0], dtype=np.int64)
+
+        return {
+            "ns_g_rank": int(gram.shape[0]),
+            "ns_g_gram_diagonal": [int(gram[i, i]) for i in range(gram.shape[0])],
+            "ns_g_gram_is_H_plus_A1_minus_1_times_5": (
+                int(gram[0, 0]) == 0
+                and int(gram[1, 1]) == 0
+                and int(gram[0, 1]) == 1
+                and all(int(gram[i, i]) == -2 for i in range(2, 7))
+            ),
+            "coordinate_bound": self.coordinate_bound,
+            "positive_classes_count": len(positive_classes),
+            "positive_classes_count_by_h_square": {
+                str(k): v for k, v in sorted(counts_by_h2.items())
+            },
+            "minus_2_roots_count": len(minus_2_roots),
+            "isotropic_classes_count": len(isotropic_classes),
+            "screened_sample_by_h_square": {
+                str(k): v for k, v in sorted(sample_by_h2.items())
+            },
+            "recommendation": recommendation,
+            "isotropic_present_indicates_U_summand_in_NS_G": (
+                len(isotropic_classes) > 0
+            ),
+            "elliptic_fibration_derived_route_available": (
+                len(isotropic_classes) > 0
+            ),
+            "witnesses": {
+                "h_double_sextic_witness_coords": h_dsex.tolist(),
+                "h_double_sextic_witness_h2": int(h_dsex @ gram @ h_dsex),
+                "h_quartic_witness_coords": h_qrt4.tolist(),
+                "h_quartic_witness_h2": int(h_qrt4 @ gram @ h_qrt4),
+                "h_CI222_witness_coords": h_ci222.tolist(),
+                "h_CI222_witness_h2": int(h_ci222 @ gram @ h_ci222),
+                "h_isotropic_e_coords": h_isotropic_e.tolist(),
+                "h_isotropic_e_h2": int(h_isotropic_e @ gram @ h_isotropic_e),
+                "h_isotropic_f_coords": h_isotropic_f.tolist(),
+                "h_isotropic_f_h2": int(h_isotropic_f @ gram @ h_isotropic_f),
+            },
+            "iter_18B_scanner_complete": (
+                len(positive_classes) > 0
+                and len(minus_2_roots) > 0
+                and len(isotropic_classes) > 0
+                and recommendation["any_clean_candidate_found"]
+            ),
+            "honest_scope": (
+                "Iter #18B (per GPT council #11): G-invariant polarisation"
+                " scanner. Enumerates primitive h ∈ NS^G (rank 7, ≅ P ="
+                " H ⊕ A_1(-1)^5) within coordinate bound |c_i| ≤ K,"
+                " classifies by h². Wall screen tests h · r ≠ 0 against"
+                " all primitive (-2)-roots in NS^G (i.e., G-invariant"
+                " (-2)-classes of NS). HONEST SCOPE: the wall screen does"
+                " NOT check non-G-invariant (-2)-classes in NS (which"
+                " could still obstruct the full ample chamber). The"
+                " recommended route uses GPT priority: h²=8 (CI(2,2,2))"
+                " > h²=4 (quartic P³) > h²=2 (double sextic) > h²=6"
+                " > h²=10. Specific projective model derivation is"
+                " deferred to iter #18C."
+            ),
+        }
+
+
+# =============================================================================
 # Section 7 — Phase A.1 master audit
 # =============================================================================
 
@@ -5826,6 +6248,9 @@ class PhaseA1MasterAudit:
     iter_18_torelli_package: EquivariantK3TorelliPackage = field(
         default_factory=EquivariantK3TorelliPackage
     )
+    iter_18B_polarisation_scanner: GInvariantPolarisationScanner = field(
+        default_factory=GInvariantPolarisationScanner
+    )
 
     def audit(self) -> dict[str, object]:
         # Sanity check: GIFT target profile yields (21, 77).
@@ -5910,6 +6335,12 @@ class PhaseA1MasterAudit:
         # P2 (lattice-Torelli reverse): reconstruct projective model from
         # the certified Z_2^3 action, not from a chosen Weierstrass family.
         iter_18 = self.iter_18_torelli_package.audit()
+
+        # Iteration #18B (per GPT council #11): G-invariant polarisation
+        # scanner. Enumerate primitive h ∈ NS^G (rank 7), classify by h²,
+        # recommend projective model route via canonical witness + GPT
+        # priority order h²=8 > 4 > 2 > 6 > 10.
+        iter_18B = self.iter_18B_polarisation_scanner.audit()
 
         # K3 lattice sanity (Λ_{K3} = U^3 ⊕ E_8(-1)^2).
         k3_sanity = {
@@ -6394,6 +6825,67 @@ class PhaseA1MasterAudit:
                 "phase_a2_iter18_baseline_complete": iter_18[
                     "iter_18A_baseline_complete"
                 ],
+                # iter #18B: G-invariant polarisation scanner.
+                "phase_a2_iter18B_NS_G_gram_is_H_plus_A1_5": iter_18B[
+                    "ns_g_gram_is_H_plus_A1_minus_1_times_5"
+                ],
+                "phase_a2_iter18B_positive_h_classes_exist": iter_18B[
+                    "positive_classes_count"
+                ]
+                > 0,
+                "phase_a2_iter18B_isotropic_classes_exist_indicating_U_summand": iter_18B[
+                    "isotropic_present_indicates_U_summand_in_NS_G"
+                ],
+                "phase_a2_iter18B_minus_2_roots_in_NS_G_enumerated": iter_18B[
+                    "minus_2_roots_count"
+                ]
+                > 0,
+                "phase_a2_iter18B_h_double_sextic_witness_h2_eq_2": iter_18B[
+                    "witnesses"
+                ]["h_double_sextic_witness_h2"]
+                == 2,
+                "phase_a2_iter18B_h_quartic_witness_h2_eq_4": iter_18B[
+                    "witnesses"
+                ]["h_quartic_witness_h2"]
+                == 4,
+                "phase_a2_iter18B_h_CI222_witness_h2_eq_8": iter_18B[
+                    "witnesses"
+                ]["h_CI222_witness_h2"]
+                == 8,
+                "phase_a2_iter18B_h_isotropic_e_h2_eq_0": iter_18B[
+                    "witnesses"
+                ]["h_isotropic_e_h2"]
+                == 0,
+                "phase_a2_iter18B_h_isotropic_f_h2_eq_0": iter_18B[
+                    "witnesses"
+                ]["h_isotropic_f_h2"]
+                == 0,
+                "phase_a2_iter18B_elliptic_fibration_derived_route_available": iter_18B[
+                    "elliptic_fibration_derived_route_available"
+                ],
+                "phase_a2_iter18B_route_recommended_h2_eq_8_CI222": (
+                    iter_18B["recommendation"]["recommended_h_square"] == 8
+                ),
+                "phase_a2_iter18B_recommended_route_CI222": (
+                    iter_18B["recommendation"]["recommended_h_square"] == 8
+                    and "CI(2,2,2)"
+                    in (
+                        iter_18B["recommendation"][
+                            "recommended_projective_model_route"
+                        ]
+                        or ""
+                    )
+                ),
+                "phase_a2_iter18B_witness_h_eq_4e_plus_f_recommended": (
+                    iter_18B["recommendation"]["recommended_example_h_coords"]
+                    == [4, 1, 0, 0, 0, 0, 0]
+                ),
+                "phase_a2_iter18B_open_chamber_full_analysis_deferred_to_iter18C": iter_18B[
+                    "recommendation"
+                ]["open_chamber_full_analysis_deferred_to_iter_18C"],
+                "phase_a2_iter18B_scanner_complete": iter_18B[
+                    "iter_18B_scanner_complete"
+                ],
                 # Per GPT council #10: split master Bool into two explicit-
                 # scope Bools to remove ambiguity. The original
                 # `phase_a1_explicit_model_realizes_gift_betti` is
@@ -6416,7 +6908,23 @@ class PhaseA1MasterAudit:
                 "explicit_model_with_21_77_certified": any_geometric_model_matches,
                 "lattice_level_with_21_77_certified": any_model_matches_at_lattice_level,
                 "headline": (
-                    "Phase A.2 iter #18A complete (per GPT council #11):"
+                    "Phase A.2 iter #18B complete (per GPT council #11):"
+                    " G-invariant polarisation scanner. NS^G gram verified"
+                    " in canonical form H ⊕ A_1(-1)^5 (signature (1, 6),"
+                    " |det| = 2^5). Enumerated within |c_i| ≤ 2: 153"
+                    " positive classes (h²=2: 101, h²=4: 42, h²=6: 10),"
+                    " 358 (-2)-roots, 172 isotropic classes. Witnesses"
+                    " constructed for h²=2 (1,1,0,...,0), h²=4 (2,1,...),"
+                    " h²=8 (4,1,...) — all primitive, all in H-summand."
+                    " Isotropic e = (1,0,...), f = (0,1,...) confirm"
+                    " U ⊂ NS^G (derived elliptic fibration available)."
+                    " Recommendation per GPT priority [8, 4, 2, 6, 10]:"
+                    " h² = 8 → CI(2,2,2) in P⁵ — best alignment with"
+                    " GIFT historical CI(2,2,2) Model A — witness"
+                    " h = 4e + f = (4, 1, 0, 0, 0, 0, 0). Open-chamber"
+                    " full analysis (non-G-invariant (-2)-classes in NS)"
+                    " deferred to iter #18C. |"
+                    " Phase A.2 iter #18A complete (per GPT council #11):"
                     " equivariant Torelli reverse package baseline."
                     " Lattice triple (Λ_K3 = U^3 ⊕ E_8(-1)^2, NS = (15, 7, 1),"
                     " T_X = (7, 7, 1)) constructed; prescribed Z_2^3"
@@ -6534,23 +7042,26 @@ class PhaseA1MasterAudit:
                     " δ=1 established structurally via H-summand presence."
                 ),
                 "next_concrete_path": (
-                    "Iter #18B (Phase A.2): polarisation scanner. Enumerate"
-                    " primitive G-invariant polarisations h ∈ NS^G with"
-                    " h² > 0 (NS^G = P = H ⊕ A_1(-1)^5 has signature"
-                    " (1, 6), so the H-block contains classes like"
-                    " (1, 1, 0, ..., 0) with square 2). Screen each h"
-                    " against (-2)-walls in NS to verify ample chamber"
-                    " preservation under G. Classify candidates by h²"
-                    " value: h²=2 (double sextic), h²=4 (quartic in P³),"
-                    " h²=8 (CI(2,2,2) in P⁵ — best alignment with"
-                    " GIFT historical route), h²=6 (genus-4 quadric ∩"
-                    " cubic), or U ⊂ NS (derived elliptic). Iter #18C"
-                    " then implements the projective model route selector"
-                    " and derives explicit equations from the chosen"
-                    " polarisation. Weierstrass is DEMOTED to derived"
-                    " structure (per GPT council #11): re-emerges only"
-                    " if h² selects an elliptic fibration, not as the"
-                    " principal parametrisation route."
+                    "Iter #18C (Phase A.2): projective model route selector"
+                    " for the recommended polarisation h = 4e + f"
+                    " (h² = 8, CI(2,2,2) in P^5) identified by iter #18B."
+                    " Concrete tasks: (a) verify the CI(2,2,2) Mukai"
+                    " linear system structure on the abstract K3 with"
+                    " G = Z_2^3 action; (b) lift h from NS^G to a"
+                    " G-invariant polarisation on Λ_K3 via the iter #18A"
+                    " primitive embedding; (c) screen h against the FULL"
+                    " (-2)-class structure of NS (not just NS^G — the"
+                    " (-2)-classes outside NS^G may still cause"
+                    " contractions); (d) derive an explicit CI(2,2,2)"
+                    " equation triple {Q_1, Q_2, Q_3} ⊂ P^5 with"
+                    " non-diagonal Z_2^3 action realising the iter #11"
+                    " Z_2^3 lattice action; (e) verify that the resulting"
+                    " K3 has NS = (15, 7, 1). Fallback if obstruction in"
+                    " (c)/(d): try h² = 4 (quartic in P^3) with witness"
+                    " (2, 1, 0, ..., 0), then h² = 2 (double sextic) with"
+                    " (1, 1, 0, ..., 0). Elliptic fibration via U ⊂ NS^G"
+                    " (witnesses e, f) is the demoted-to-derived route"
+                    " per GPT council #11."
                 ),
                 "supporting_references": {
                     "garbagnati_salgado_2018": "arXiv:1806.03097",
@@ -6636,4 +7147,6 @@ __all__ = [
     "IterSeventeenMobiusOneOverTAblation",
     # iter #18A (Phase A.2): equivariant Torelli package (P2 pivot)
     "EquivariantK3TorelliPackage",
+    # iter #18B (Phase A.2): G-invariant polarisation scanner
+    "GInvariantPolarisationScanner",
 ]

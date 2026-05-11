@@ -15,6 +15,7 @@ from gift_core.geometry.k3_explicit import (
     EquivariantK3TorelliPackage,
     GIFT15_7_1WeierstrassRealisation,
     GIFTCandidateProfile,
+    GInvariantPolarisationScanner,
     gift_15_7_1_AB_coefficients,
     IterSeventeenMobiusOneOverTAblation,
     JKBettiPredictor,
@@ -168,6 +169,11 @@ def verify() -> dict[str, bool]:
     # T_X = (7, 7, 1)) with prescribed Z_2^3 extension; Torelli step
     # 1 + 2 + 3 (at signature level) verified.
     iter18 = EquivariantK3TorelliPackage().audit()
+
+    # Iter #18B (per GPT council #11): G-invariant polarisation scanner.
+    # Enumerate primitive h ∈ NS^G, classify by h², recommend route via
+    # canonical witness + GPT priority h²=8 > 4 > 2 > 6 > 10.
+    iter18B = GInvariantPolarisationScanner().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -1311,6 +1317,93 @@ def verify() -> dict[str, bool]:
         is False,
         "master_audit_iter18_baseline_complete": master["lean_bool_certificates"][
             "phase_a2_iter18_baseline_complete"
+        ]
+        is True,
+        # Iter #18B: G-invariant polarisation scanner.
+        "iter18B_NS_G_gram_is_H_plus_A1_5_canonical": iter18B[
+            "ns_g_gram_is_H_plus_A1_minus_1_times_5"
+        ]
+        is True,
+        "iter18B_positive_classes_count_geq_100": iter18B[
+            "positive_classes_count"
+        ]
+        >= 100,
+        "iter18B_minus_2_roots_count_positive": iter18B["minus_2_roots_count"] > 0,
+        "iter18B_isotropic_classes_count_positive": iter18B[
+            "isotropic_classes_count"
+        ]
+        > 0,
+        "iter18B_h_double_sextic_witness_h2_eq_2": iter18B["witnesses"][
+            "h_double_sextic_witness_h2"
+        ]
+        == 2,
+        "iter18B_h_quartic_witness_h2_eq_4": iter18B["witnesses"][
+            "h_quartic_witness_h2"
+        ]
+        == 4,
+        "iter18B_h_CI222_witness_h2_eq_8": iter18B["witnesses"][
+            "h_CI222_witness_h2"
+        ]
+        == 8,
+        "iter18B_h_isotropic_e_h2_eq_0": iter18B["witnesses"][
+            "h_isotropic_e_h2"
+        ]
+        == 0,
+        "iter18B_h_isotropic_f_h2_eq_0": iter18B["witnesses"][
+            "h_isotropic_f_h2"
+        ]
+        == 0,
+        "iter18B_U_summand_present_in_NS_G": iter18B[
+            "isotropic_present_indicates_U_summand_in_NS_G"
+        ]
+        is True,
+        "iter18B_elliptic_fibration_derived_route_available": iter18B[
+            "elliptic_fibration_derived_route_available"
+        ]
+        is True,
+        "iter18B_recommended_h_square_eq_8": iter18B["recommendation"][
+            "recommended_h_square"
+        ]
+        == 8,
+        "iter18B_recommended_route_is_CI222": (
+            "CI(2,2,2)"
+            in (
+                iter18B["recommendation"]["recommended_projective_model_route"]
+                or ""
+            )
+        ),
+        "iter18B_recommended_example_h_eq_4e_plus_f": iter18B["recommendation"][
+            "recommended_example_h_coords"
+        ]
+        == [4, 1, 0, 0, 0, 0, 0],
+        "iter18B_open_chamber_full_analysis_deferred_iter18C": iter18B[
+            "recommendation"
+        ]["open_chamber_full_analysis_deferred_to_iter_18C"]
+        is True,
+        "iter18B_scanner_complete": iter18B["iter_18B_scanner_complete"] is True,
+        # Master audit cross-checks for iter #18B.
+        "master_audit_iter18B_NS_G_canonical_form": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18B_NS_G_gram_is_H_plus_A1_5"]
+        is True,
+        "master_audit_iter18B_positive_classes_exist": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18B_positive_h_classes_exist"]
+        is True,
+        "master_audit_iter18B_CI222_witness_h2_8": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18B_h_CI222_witness_h2_eq_8"]
+        is True,
+        "master_audit_iter18B_recommended_CI222": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18B_route_recommended_h2_eq_8_CI222"]
+        is True,
+        "master_audit_iter18B_witness_4e_plus_f": master["lean_bool_certificates"][
+            "phase_a2_iter18B_witness_h_eq_4e_plus_f_recommended"
+        ]
+        is True,
+        "master_audit_iter18B_scanner_complete": master["lean_bool_certificates"][
+            "phase_a2_iter18B_scanner_complete"
         ]
         is True,
     }
