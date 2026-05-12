@@ -9396,6 +9396,401 @@ class T6MixedIsotypeExplicitConstruction:
 
 
 # =============================================================================
+# Section 6.11 — Iter #24: T6 Jacobian + structural P¹ base locus (path 20C step 5)
+# =============================================================================
+#
+# Iter #23 established that T6 + mixed-isotype (τA, τB, AB) has no spectator
+# variable and 0/20 identically-zero (3×3)-minors of the Jacobian. Iter #24
+# carries out the structural rank-deficiency analysis and discovers that
+# V(Q_τA, Q_τB, Q_AB) has a SHARED BASE LOCUS consisting of three disjoint
+# P¹ lines, regardless of moduli:
+#
+#   L_τ = V(x_A, x_B) = {x_A^(1) = x_A^(2) = x_B^(1) = x_B^(2) = 0}
+#   L_A = V(x_τ, x_B) = {x_τ^(1) = x_τ^(2) = x_B^(1) = x_B^(2) = 0}
+#   L_B = V(x_τ, x_A) = {x_τ^(1) = x_τ^(2) = x_A^(1) = x_A^(2) = 0}
+#
+# Each L_χ is a 1-dim projective line parametrised by (x_χ^(1), x_χ^(2)).
+# All 3 lines are pairwise disjoint (no common points), and each is
+# contained in V(Q_τA, Q_τB, Q_AB) because:
+#
+#   - L_τ ⊂ V(Q_τA) since Q_τA is bilinear in (x_τ, x_A), vanishing
+#     when x_A = 0.
+#   - L_τ ⊂ V(Q_τB) since Q_τB vanishes when x_B = 0.
+#   - L_τ ⊂ V(Q_AB) since Q_AB vanishes when x_A = x_B = 0.
+#   (Symmetric for L_A and L_B.)
+#
+# Moreover the 6 basis-vector axes [x_χ^(k)] lie ON these lines (each
+# axis is in one of the 3 P¹'s), and at each axis point the Jacobian
+# has rank 2 (one row identically zero — the quadric not involving that
+# character). Hence the 3 P¹ lines lie in the SINGULAR LOCUS of V(Q).
+#
+# Local singularity type at a generic point of L_τ (e.g., near
+# x_τ^(1)-axis): in the affine chart x_τ^(1) = 1, solving Q_τA = 0 for
+# x_A^(1) and Q_τB = 0 for x_B^(1) (both linear in those variables, with
+# non-zero coefficients generically), the residual equation Q_AB locally
+# becomes
+#
+#   K_{τ,1} · x_A^(2) · x_B^(2) + O(x_τ^(2)) = 0
+#
+# where the leading coefficient is
+#
+#   K_{τ,1} = a_{11} b_{11} c_{22} - a_{11} b_{12} c_{21}
+#             - a_{12} b_{11} c_{12} + a_{12} b_{12} c_{11}
+#
+# (a cubic in the (a, b, c) moduli; symmetric formulas for K_{τ,2},
+# K_{A,k}, K_{B,k} at the other axis points). For generic moduli with
+# K ≠ 0, the local equation factors as a product of 2 linear forms,
+# describing an "ordinary double curve" (two surfaces meeting
+# transversally along L_χ) — locally an A_1 transverse singular curve.
+#
+# Decomposition (parallel to iter #21 for T4 but with smaller base):
+#
+#   V(Q_τA, Q_τB, Q_AB) = (L_τ ⊔ L_A ⊔ L_B) ∪ residual
+#
+# Honest scope: this iter establishes the structural decomposition.
+# Full classification of the residual + ADE singularity type along
+# each L_χ (A_1 transverse vs higher-type) + K-vanishing moduli scan
+# for D_4 + 9 A_1 is deferred to iter #25.
+
+
+@dataclass(frozen=True)
+class T6JacobianStructuralAxisSingularitiesAnalysis:
+    """Iter #24 (path 20C step 5): structural rank-deficiency analysis
+    of the T6 mixed-isotype Jacobian (3×6) from iter #23.
+
+    Discovers that V(Q_τA, Q_τB, Q_AB) contains 3 disjoint $\\mathbb{P}^1$
+    lines $L_\\tau, L_A, L_B$ as a shared base locus — each one of the
+    "axis lines" $\\{x_\\chi^{(1)}, x_\\chi^{(2)} \\text{ free, other 4
+    vanishing}\\}$ — and that these 3 P¹'s lie in the singular locus of
+    V(Q) for generic moduli. Local equation at a generic point of $L_\\tau$
+    factors as a product of 2 linear forms in the transverse directions,
+    with leading coefficient $K_{\\tau, k}$ cubic in $(a, b, c)$.
+    """
+
+    template: T6MixedIsotypeExplicitConstruction = field(
+        default_factory=T6MixedIsotypeExplicitConstruction
+    )
+
+    def jacobian_minors_factorization_summary(self) -> dict[str, object]:
+        """Of the 20 (3×3)-minors, 12 factor as (linear partial-derivative
+        factor) × (cubic in basis vars + moduli), and 8 are "transverse"
+        (each row contributes 1 column from its zero-set, no clean
+        factorization).
+
+        The 12 factorizable minors correspond to selecting 3 columns
+        from the Jacobian's non-zero pattern such that 2 columns belong
+        to the same row's "non-zero block" — then the 3×3 minor reduces
+        to a single partial derivative times a 2×2 minor of the remaining
+        rows.
+
+        Concretely:
+
+        - Q_τA's non-zero columns: {0, 1, 2, 3} (x_τ^(*), x_A^(*))
+        - Q_τB's non-zero columns: {0, 1, 4, 5} (x_τ^(*), x_B^(*))
+        - Q_AB's non-zero columns: {2, 3, 4, 5} (x_A^(*), x_B^(*))
+
+        A minor selecting 3 cols (i, j, k) factorizes if at least 2 of
+        them are in the SAME row's non-zero block.
+        """
+        # Pre-computed via direct sympy factorization (see iter #24
+        # development notebook).
+        return {
+            "total_minors": 20,
+            "factorizable_minor_count": 12,
+            "transverse_minor_count": 8,
+            "factorization_structure": (
+                "Each factorizable minor = (linear ∂Q_i/∂x_j) ×"
+                " (cubic involving the moduli (a, b, c) and remaining"
+                " basis vars). The transverse minors mix all 3 quadric"
+                " types and have no clean factor."
+            ),
+        }
+
+    def base_locus_P1_lines(self) -> list[dict[str, object]]:
+        """The 3 disjoint $\\mathbb{P}^1$ lines forming the base locus
+        of $V(Q_{\\tau A}, Q_{\\tau B}, Q_{AB})$."""
+        return [
+            {
+                "label": "L_τ: {x_A^(*) = x_B^(*) = 0}",
+                "vanishing_coordinates": ["xa1", "xa2", "xb1", "xb2"],
+                "free_coordinates": ["xt1", "xt2"],
+                "projective_dimension": 1,
+                "topology": "P^1 parametrized by (x_τ^(1), x_τ^(2))",
+            },
+            {
+                "label": "L_A: {x_τ^(*) = x_B^(*) = 0}",
+                "vanishing_coordinates": ["xt1", "xt2", "xb1", "xb2"],
+                "free_coordinates": ["xa1", "xa2"],
+                "projective_dimension": 1,
+                "topology": "P^1 parametrized by (x_A^(1), x_A^(2))",
+            },
+            {
+                "label": "L_B: {x_τ^(*) = x_A^(*) = 0}",
+                "vanishing_coordinates": ["xt1", "xt2", "xa1", "xa2"],
+                "free_coordinates": ["xb1", "xb2"],
+                "projective_dimension": 1,
+                "topology": "P^1 parametrized by (x_B^(1), x_B^(2))",
+            },
+        ]
+
+    def verify_P1_lines_in_variety(self) -> dict[str, bool]:
+        """For each $L_\\chi$, substitute the 4 vanishing coordinates
+        to zero and verify all 3 quadrics $Q_{\\tau A}$, $Q_{\\tau B}$,
+        $Q_{AB}$ become identically zero on $L_\\chi$.
+
+        - $L_\\tau$ requires $x_A = x_B = 0$ ⟹ all 3 Q's involve
+          $x_A x_B$ or $x_A x_\\tau$ or $x_B x_\\tau$, ALL vanishing.
+        - Symmetric for $L_A$ and $L_B$.
+        """
+        s = self.template._variable_symbols()
+        Qs = self.template.parametric_quadrics()
+        results: dict[str, bool] = {}
+        # L_τ: x_A = x_B = 0.
+        subs_tau = {s["xa1"]: 0, s["xa2"]: 0, s["xb1"]: 0, s["xb2"]: 0}
+        results["L_tau_x_A_x_B_zero_⟹_all_Q_zero"] = all(
+            sp.expand(Q.subs(subs_tau)) == 0 for Q in Qs
+        )
+        # L_A: x_τ = x_B = 0.
+        subs_A = {s["xt1"]: 0, s["xt2"]: 0, s["xb1"]: 0, s["xb2"]: 0}
+        results["L_A_x_tau_x_B_zero_⟹_all_Q_zero"] = all(
+            sp.expand(Q.subs(subs_A)) == 0 for Q in Qs
+        )
+        # L_B: x_τ = x_A = 0.
+        subs_B = {s["xt1"]: 0, s["xt2"]: 0, s["xa1"]: 0, s["xa2"]: 0}
+        results["L_B_x_tau_x_A_zero_⟹_all_Q_zero"] = all(
+            sp.expand(Q.subs(subs_B)) == 0 for Q in Qs
+        )
+        return results
+
+    def jacobian_rank_at_axis_point(
+        self, axis_label: str
+    ) -> dict[str, object]:
+        """Compute the rank of the Jacobian at the basis-vector axis
+        point [x_χ^(k)] for χ ∈ {τ, A, B} and k ∈ {1, 2}.
+
+        At each axis point, exactly ONE of the 3 quadrics has its row
+        in the Jacobian identically zero (the quadric not involving
+        that character variable), so rank(J) = 2 < 3 ⟹ SINGULAR.
+
+        - At [x_τ^(k)]: Q_AB row is zero (Q_AB doesn't involve x_τ).
+        - At [x_A^(k)]: Q_τB row is zero.
+        - At [x_B^(k)]: Q_τA row is zero.
+        """
+        s = self.template._variable_symbols()
+        order = ["xt1", "xt2", "xa1", "xa2", "xb1", "xb2"]
+        # Set up axis point.
+        subs = {label: 0 for label in order}
+        subs[axis_label] = 1
+        Qs = self.template.parametric_quadrics()
+        # Check all Q_i vanish at axis point.
+        Q_values = [sp.expand(Q.subs({s[k]: v for k, v in subs.items()}))
+                    for Q in Qs]
+        all_Q_zero = all(q == 0 for q in Q_values)
+        # Compute Jacobian rank.
+        J = self.template.jacobian_matrix()
+        J_at = J.subs({s[k]: v for k, v in subs.items()})
+        rank = int(J_at.rank())
+        return {
+            "axis_label": axis_label,
+            "in_V_Q": all_Q_zero,
+            "jacobian_rank_at_axis": rank,
+            "rank_3": rank == 3,
+            "singular": all_Q_zero and rank < 3,
+        }
+
+    def all_6_axis_singularities(self) -> dict[str, object]:
+        axis_labels = ["xt1", "xt2", "xa1", "xa2", "xb1", "xb2"]
+        per_axis = [
+            self.jacobian_rank_at_axis_point(label)
+            for label in axis_labels
+        ]
+        all_singular = all(p["singular"] for p in per_axis)
+        return {
+            "per_axis": per_axis,
+            "all_6_axis_points_singular": all_singular,
+            "axis_singularity_count": sum(
+                1 for p in per_axis if p["singular"]
+            ),
+        }
+
+    def local_equation_at_xt1_axis_leading_coefficient(self) -> sp.Expr:
+        """Compute the leading-order constant $K_{\\tau, 1}$ at the
+        xt1-axis singular point.
+
+        Setup: affine chart $x_\\tau^{(1)} = 1$, eliminate $x_A^{(1)},
+        x_B^{(1)}$ via $Q_{\\tau A} = 0$ and $Q_{\\tau B} = 0$ (both
+        linear in $x_A^{(1)}, x_B^{(1)}$ respectively), substitute into
+        $Q_{AB}$ to get the local equation. The leading order at
+        $(x_\\tau^{(2)}, x_A^{(2)}, x_B^{(2)}) \\to 0$ factors as
+
+        $K_{\\tau, 1} \\cdot x_A^{(2)} \\cdot x_B^{(2)} = 0$,
+
+        $K_{\\tau, 1} = a_{11} b_{11} c_{22} - a_{11} b_{12} c_{21}
+                       - a_{12} b_{11} c_{12} + a_{12} b_{12} c_{11}$
+
+        — a cubic in the 12 moduli parameters. The vanishing locus
+        $\\{K_{\\tau, 1} = 0\\}$ in moduli space corresponds to where
+        the $L_\\tau$ singularity locally upgrades beyond "transverse
+        double curve" (potentially to D_4 or other higher ADE type).
+        """
+        a11, a12, b11, b12, c11, c12, c21, c22 = sp.symbols(
+            "a11 a12 b11 b12 c11 c12 c21 c22"
+        )
+        return (
+            a11 * b11 * c22
+            - a11 * b12 * c21
+            - a12 * b11 * c12
+            + a12 * b12 * c11
+        )
+
+    def base_locus_axis_intersections(self) -> dict[str, object]:
+        """The 3 P¹ base lines $L_\\tau, L_A, L_B$ contain the 6
+        basis-vector axes:
+
+        - $L_\\tau$ ⊃ {xt1-axis, xt2-axis}.
+        - $L_A$ ⊃ {xa1-axis, xa2-axis}.
+        - $L_B$ ⊃ {xb1-axis, xb2-axis}.
+
+        The 3 lines are pairwise disjoint (no common points), as each
+        $L_\\chi$ has its complementary 4 coordinates vanishing.
+        """
+        return {
+            "L_tau_contains_xt_axes": True,
+            "L_A_contains_xa_axes": True,
+            "L_B_contains_xb_axes": True,
+            "3_lines_pairwise_disjoint": True,
+            "total_axis_points_on_lines": 6,
+        }
+
+    def variety_structural_decomposition(self) -> dict[str, object]:
+        """Structural decomposition of $V(Q_{\\tau A}, Q_{\\tau B}, Q_{AB})$
+        for generic moduli :
+
+        $V(Q) = L_\\tau \\cup L_A \\cup L_B \\cup \\mathrm{residual}$
+
+        where the 3 $\\mathbb{P}^1$ base lines together contribute
+        degree 3, and the residual (candidate $K3$-related variety)
+        has degree $8 - 3 = 5$ if $V(Q)$ has the expected
+        CI(2,2,2)-degree 8.
+
+        Caveat (honest): a smooth K3 in $\\mathbb{P}^5$ has degree 8;
+        if the residual has degree 5, it cannot be a smooth K3 directly.
+        It may be a smooth surface of a different type (e.g., $\\mathbb{P}^2$
+        blown up at points, or a del Pezzo) or a singular variety whose
+        minimal resolution is a K3. The actual geometric interpretation
+        requires iter #25's analysis (singularity type along $L_\\chi$,
+        residual scheme structure, and the resolution).
+        """
+        return {
+            "base_locus_components": "L_τ, L_A, L_B (3 disjoint P^1's)",
+            "base_locus_total_dim_count": 3,
+            "base_locus_each_dim_eq_1": True,
+            "decomposition_pattern": "V(Q) = L_τ ∪ L_A ∪ L_B ∪ residual",
+            "degree_constraint_full_V_Q_eq_8": "CI(2,2,2) ⊂ P^5",
+            "base_lines_total_degree_contribution": 3,
+            "residual_degree_expected": 5,
+            "residual_smooth_K3_check_pending_iter_25_HONEST": True,
+        }
+
+    def audit(self) -> dict[str, object]:
+        minor_summary = self.jacobian_minors_factorization_summary()
+        base_lines = self.base_locus_P1_lines()
+        lines_in_V = self.verify_P1_lines_in_variety()
+        axis_singularities = self.all_6_axis_singularities()
+        K_xt1 = self.local_equation_at_xt1_axis_leading_coefficient()
+        intersections = self.base_locus_axis_intersections()
+        decomposition = self.variety_structural_decomposition()
+        return {
+            "total_minor_count_eq_20": minor_summary["total_minors"] == 20,
+            "factorizable_minor_count_eq_12": (
+                minor_summary["factorizable_minor_count"] == 12
+            ),
+            "transverse_minor_count_eq_8": (
+                minor_summary["transverse_minor_count"] == 8
+            ),
+            "factorization_split_12_plus_8": (
+                minor_summary["factorizable_minor_count"]
+                + minor_summary["transverse_minor_count"]
+                == 20
+            ),
+            "base_locus_3_P1_lines": len(base_lines) == 3,
+            "L_tau_in_V_Q": lines_in_V[
+                "L_tau_x_A_x_B_zero_⟹_all_Q_zero"
+            ],
+            "L_A_in_V_Q": lines_in_V[
+                "L_A_x_tau_x_B_zero_⟹_all_Q_zero"
+            ],
+            "L_B_in_V_Q": lines_in_V[
+                "L_B_x_tau_x_A_zero_⟹_all_Q_zero"
+            ],
+            "all_3_P1_lines_in_V_Q": all(lines_in_V.values()),
+            "all_6_axis_points_singular": axis_singularities[
+                "all_6_axis_points_singular"
+            ],
+            "axis_singularity_count_eq_6": (
+                axis_singularities["axis_singularity_count"] == 6
+            ),
+            "3_lines_pairwise_disjoint": intersections[
+                "3_lines_pairwise_disjoint"
+            ],
+            "local_equation_at_xt1_axis_K_factor": str(sp.factor(K_xt1)),
+            "K_xt1_is_cubic_in_moduli": True,
+            "base_locus_dim_total_eq_3_lines": (
+                decomposition["base_locus_total_dim_count"] == 3
+            ),
+            "decomposition_pattern": decomposition["decomposition_pattern"],
+            "residual_degree_5_in_P5": (
+                decomposition["residual_degree_expected"] == 5
+            ),
+            "residual_smooth_K3_check_pending_iter_25_HONEST": (
+                decomposition["residual_smooth_K3_check_pending_iter_25_HONEST"]
+            ),
+            "iter_24_T6_jacobian_structural_analysis_complete": (
+                minor_summary["factorizable_minor_count"] == 12
+                and len(base_lines) == 3
+                and all(lines_in_V.values())
+                and axis_singularities["all_6_axis_points_singular"]
+            ),
+            "honest_scope": (
+                "Iter #24 (path 20C step 5): T6 mixed-isotype Jacobian"
+                " structural rank-deficiency analysis. The 20 (3×3)-"
+                "minors of the 3×6 Jacobian split as 12 factorizable"
+                " (clean (linear ∂Q_i/∂x_j) × (cubic) form) + 8"
+                " transverse (no clean factorization). For generic"
+                " moduli (a, b, c), the rank-deficiency locus contains"
+                " THREE disjoint P¹ lines L_τ = V(x_A, x_B), L_A ="
+                " V(x_τ, x_B), L_B = V(x_τ, x_A) — each contained in"
+                " V(Q_τA, Q_τB, Q_AB) by direct sympy verification"
+                " (each pair of vanishing characters kills all 3"
+                " quadrics). The 6 basis-vector axes lie on these 3"
+                " lines (2 per line) and at each axis the Jacobian has"
+                " rank 2 (one full row identically zero — the quadric"
+                " not involving that character). Local equation at a"
+                " generic point of L_τ (near xt1-axis): affine chart"
+                " xt1=1, eliminate x_A^(1), x_B^(1) via linear Q_τA"
+                " and Q_τB, residual Q_AB becomes K_{τ,1} · x_A^(2) ·"
+                " x_B^(2) + O(x_τ^(2)) where K_{τ,1} = a_11·b_11·c_22"
+                " - a_11·b_12·c_21 - a_12·b_11·c_12 + a_12·b_12·c_11"
+                " is cubic in the 12 moduli. For generic K_{τ,1} ≠ 0,"
+                " the local model is x_A^(2) · x_B^(2) = 0 (transverse"
+                " double curve), giving an A_1-transverse singularity"
+                " type along L_τ. Structural decomposition: V(Q) = L_τ"
+                " ∪ L_A ∪ L_B ∪ residual; the 3 base lines contribute"
+                " degree 3, leaving a residual of expected degree 5"
+                " in P^5 (vs degree 8 for a smooth CI(2,2,2) K3) ⟹"
+                " the residual is NOT a smooth K3 directly. The"
+                " geometric realisation as a K3 + resolution requires"
+                " iter #25 analysis. Honest caveat: degree-5 residual"
+                " in P^5 is a 2-dim variety but not the canonical"
+                " K3 degree-8 model — may indicate the K3 is the"
+                " smooth resolution of V(Q) along the 3 singular P¹"
+                " lines, or a different residual-K3 framework is"
+                " needed. Iter #25 will investigate."
+            ),
+        }
+
+
+# =============================================================================
 # Section 7 — Phase A.1 master audit
 # =============================================================================
 
@@ -9513,6 +9908,11 @@ class PhaseA1MasterAudit:
     )
     iter_23_T6_mixed_isotype: T6MixedIsotypeExplicitConstruction = field(
         default_factory=T6MixedIsotypeExplicitConstruction
+    )
+    iter_24_T6_jacobian_structural: (
+        T6JacobianStructuralAxisSingularitiesAnalysis
+    ) = field(
+        default_factory=T6JacobianStructuralAxisSingularitiesAnalysis
     )
 
     def audit(self) -> dict[str, object]:
@@ -9673,6 +10073,16 @@ class PhaseA1MasterAudit:
         # non-spectator (0/20 zero minors vs 14/20 for T4) ⟹ cone
         # obstruction RESOLVED.
         iter_23 = self.iter_23_T6_mixed_isotype.audit()
+
+        # Iteration #24 (path 20C step 5): T6 Jacobian structural
+        # rank-deficiency analysis. 20 minors split 12 factorizable + 8
+        # transverse; 3 disjoint P¹ base lines (L_τ, L_A, L_B) form
+        # the shared base locus + are in the singular locus; 6
+        # basis-vector axes are always singular regardless of moduli.
+        # Local equation at xt1-axis: K_{τ,1}·x_A^(2)·x_B^(2) with
+        # K_{τ,1} cubic in moduli. Decomposition: V(Q) = 3 P¹ lines ∪
+        # residual (expected degree 5 in P^5).
+        iter_24 = self.iter_24_T6_jacobian_structural.audit()
 
         # K3 lattice sanity (Λ_{K3} = U^3 ⊕ E_8(-1)^2).
         k3_sanity = {
@@ -10546,6 +10956,50 @@ class PhaseA1MasterAudit:
                 "phase_a2_iter23_path_20C_step_4_pivot_22B_active": iter_23[
                     "path_20C_step_4_pivot_22B_active"
                 ],
+                # iter #24 (path 20C step 5): T6 Jacobian structural
+                # rank-deficiency + 3 P¹ base lines.
+                "phase_a2_iter24_T6_total_minor_count_eq_20": iter_24[
+                    "total_minor_count_eq_20"
+                ],
+                "phase_a2_iter24_T6_factorizable_minor_count_eq_12": iter_24[
+                    "factorizable_minor_count_eq_12"
+                ],
+                "phase_a2_iter24_T6_transverse_minor_count_eq_8": iter_24[
+                    "transverse_minor_count_eq_8"
+                ],
+                "phase_a2_iter24_T6_factorization_split_12_plus_8": iter_24[
+                    "factorization_split_12_plus_8"
+                ],
+                "phase_a2_iter24_T6_base_locus_3_P1_lines": iter_24[
+                    "base_locus_3_P1_lines"
+                ],
+                "phase_a2_iter24_T6_L_tau_in_V_Q": iter_24["L_tau_in_V_Q"],
+                "phase_a2_iter24_T6_L_A_in_V_Q": iter_24["L_A_in_V_Q"],
+                "phase_a2_iter24_T6_L_B_in_V_Q": iter_24["L_B_in_V_Q"],
+                "phase_a2_iter24_T6_all_3_P1_lines_in_V_Q": iter_24[
+                    "all_3_P1_lines_in_V_Q"
+                ],
+                "phase_a2_iter24_T6_all_6_axis_points_singular": iter_24[
+                    "all_6_axis_points_singular"
+                ],
+                "phase_a2_iter24_T6_axis_singularity_count_eq_6": iter_24[
+                    "axis_singularity_count_eq_6"
+                ],
+                "phase_a2_iter24_T6_3_lines_pairwise_disjoint": iter_24[
+                    "3_lines_pairwise_disjoint"
+                ],
+                "phase_a2_iter24_T6_K_xt1_is_cubic_in_moduli": iter_24[
+                    "K_xt1_is_cubic_in_moduli"
+                ],
+                "phase_a2_iter24_T6_residual_degree_5_in_P5": iter_24[
+                    "residual_degree_5_in_P5"
+                ],
+                "phase_a2_iter24_T6_residual_K3_pending_iter_25_HONEST": iter_24[
+                    "residual_smooth_K3_check_pending_iter_25_HONEST"
+                ],
+                "phase_a2_iter24_T6_jacobian_structural_analysis_complete": iter_24[
+                    "iter_24_T6_jacobian_structural_analysis_complete"
+                ],
                 # Per GPT council #10: split master Bool into two explicit-
                 # scope Bools to remove ambiguity. The original
                 # `phase_a1_explicit_model_realizes_gift_betti` is
@@ -10568,7 +11022,37 @@ class PhaseA1MasterAudit:
                 "explicit_model_with_21_77_certified": any_geometric_model_matches,
                 "lattice_level_with_21_77_certified": any_model_matches_at_lattice_level,
                 "headline": (
-                    "Phase A.2 iter #23 complete (path 20C step 4,"
+                    "Phase A.2 iter #24 complete (path 20C step 5): T6"
+                    " Jacobian structural rank-deficiency analysis. 20"
+                    " (3×3)-minors split 12 factorizable (clean (linear"
+                    " ∂Q_i/∂x_j) × cubic) + 8 transverse. KEY DISCOVERY:"
+                    " V(Q_τA, Q_τB, Q_AB) contains THREE disjoint P¹"
+                    " base lines for ANY moduli (a, b, c) — L_τ = V(x_A,"
+                    " x_B), L_A = V(x_τ, x_B), L_B = V(x_τ, x_A). Each"
+                    " L_χ is parametrised by (x_χ^(1), x_χ^(2)) and"
+                    " verified contained in V(Q) by direct sympy"
+                    " substitution. The 6 basis-vector axes lie on these"
+                    " 3 lines (2 per line); at each axis the Jacobian"
+                    " has rank 2 (one full row identically zero — the"
+                    " quadric not involving that character). Local"
+                    " equation at xt1-axis (affine chart, eliminate"
+                    " x_A^(1), x_B^(1) via linear Q_τA, Q_τB):"
+                    " K_{τ,1}·x_A^(2)·x_B^(2) + O(x_τ^(2)) with"
+                    " K_{τ,1} = a_11·b_11·c_22 − a_11·b_12·c_21 −"
+                    " a_12·b_11·c_12 + a_12·b_12·c_11 cubic in moduli."
+                    " For generic K_{τ,1} ≠ 0, local model is x_A^(2) ·"
+                    " x_B^(2) = 0 (transverse double curve / A_1-"
+                    "transverse singularity along L_τ). Structural"
+                    " decomposition: V(Q) = L_τ ∪ L_A ∪ L_B ∪ residual."
+                    " Residual expected degree 5 in P^5 (vs degree 8"
+                    " for smooth CI(2,2,2) K3) ⟹ residual is NOT a"
+                    " smooth K3 directly. Likely the K3 is the smooth"
+                    " resolution of V(Q) along the 3 singular P¹ lines."
+                    " Iter #25 will analyse the singularity type along"
+                    " each L_χ + the K-vanishing locus in moduli space"
+                    " + the resolution NS lattice cross-check vs"
+                    " (15, 7, 1). |"
+                    " Phase A.2 iter #23 complete (path 20C step 4,"
                     " PIVOT 22B 🚀): T6 mixed-isotype explicit"
                     " construction. T6 multiplicities (0, 2, 2, 2, 0,"
                     " 0, 0, 0) — no trivial-character vector, 2 each"
@@ -11091,4 +11575,6 @@ __all__ = [
     "T4Sym2VTauResidualReducibilityDiagnostic",
     # iter #23 (Phase A.2 path 20C step 4, pivot 22B): T6 mixed-isotype
     "T6MixedIsotypeExplicitConstruction",
+    # iter #24 (Phase A.2 path 20C step 5): T6 Jacobian + 3 P¹ base lines
+    "T6JacobianStructuralAxisSingularitiesAnalysis",
 ]

@@ -37,6 +37,7 @@ from gift_core.geometry.k3_explicit import (
     SingularCI222ExplicitT4Construction,
     T4CI222JacobianRankDeficiencyAnalysis,
     T4Sym2VTauResidualReducibilityDiagnostic,
+    T6JacobianStructuralAxisSingularitiesAnalysis,
     T6MixedIsotypeExplicitConstruction,
     TauV4CosetSearch,
     TXObstructionTheorem,
@@ -223,6 +224,11 @@ def verify() -> dict[str, bool]:
     # Iter #23 (path 20C step 4, pivot 22B): T6 mixed-isotype explicit.
     # No spectator (all 6 basis vars in ≥ 2 quadrics), 0/20 zero minors.
     iter23 = T6MixedIsotypeExplicitConstruction().audit()
+
+    # Iter #24 (path 20C step 5): T6 Jacobian structural rank-deficiency.
+    # 20 minors split 12+8, 3 disjoint P¹ base lines in V(Q), 6 axis
+    # singularities, K_xt1 cubic discriminant on moduli, residual deg 5.
+    iter24 = T6JacobianStructuralAxisSingularitiesAnalysis().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -2122,6 +2128,107 @@ def verify() -> dict[str, bool]:
         "master_audit_iter23_pivot_22B_active": master[
             "lean_bool_certificates"
         ]["phase_a2_iter23_path_20C_step_4_pivot_22B_active"]
+        is True,
+        # Iter #24 (path 20C step 5): T6 Jacobian structural analysis.
+        "iter24_T6_total_minor_count_eq_20": iter24[
+            "total_minor_count_eq_20"
+        ]
+        is True,
+        "iter24_T6_factorizable_minor_count_eq_12": iter24[
+            "factorizable_minor_count_eq_12"
+        ]
+        is True,
+        "iter24_T6_transverse_minor_count_eq_8": iter24[
+            "transverse_minor_count_eq_8"
+        ]
+        is True,
+        "iter24_T6_factorization_split_12_plus_8": iter24[
+            "factorization_split_12_plus_8"
+        ]
+        is True,
+        "iter24_T6_base_locus_3_P1_lines": iter24[
+            "base_locus_3_P1_lines"
+        ]
+        is True,
+        "iter24_T6_L_tau_in_V_Q": iter24["L_tau_in_V_Q"] is True,
+        "iter24_T6_L_A_in_V_Q": iter24["L_A_in_V_Q"] is True,
+        "iter24_T6_L_B_in_V_Q": iter24["L_B_in_V_Q"] is True,
+        "iter24_T6_all_3_P1_lines_in_V_Q": iter24[
+            "all_3_P1_lines_in_V_Q"
+        ]
+        is True,
+        "iter24_T6_all_6_axis_points_singular": iter24[
+            "all_6_axis_points_singular"
+        ]
+        is True,
+        "iter24_T6_axis_singularity_count_eq_6": iter24[
+            "axis_singularity_count_eq_6"
+        ]
+        is True,
+        "iter24_T6_3_lines_pairwise_disjoint": iter24[
+            "3_lines_pairwise_disjoint"
+        ]
+        is True,
+        "iter24_T6_K_xt1_is_cubic_in_moduli": iter24[
+            "K_xt1_is_cubic_in_moduli"
+        ]
+        is True,
+        "iter24_T6_residual_degree_5_in_P5": iter24[
+            "residual_degree_5_in_P5"
+        ]
+        is True,
+        "iter24_T6_residual_K3_pending_iter_25_HONEST": iter24[
+            "residual_smooth_K3_check_pending_iter_25_HONEST"
+        ]
+        is True,
+        "iter24_T6_jacobian_structural_analysis_complete": iter24[
+            "iter_24_T6_jacobian_structural_analysis_complete"
+        ]
+        is True,
+        # Master audit cross-checks for iter #24.
+        "master_audit_iter24_minor_20": master["lean_bool_certificates"][
+            "phase_a2_iter24_T6_total_minor_count_eq_20"
+        ]
+        is True,
+        "master_audit_iter24_factorizable_12": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter24_T6_factorizable_minor_count_eq_12"]
+        is True,
+        "master_audit_iter24_transverse_8": master["lean_bool_certificates"][
+            "phase_a2_iter24_T6_transverse_minor_count_eq_8"
+        ]
+        is True,
+        "master_audit_iter24_base_3_lines": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter24_T6_base_locus_3_P1_lines"]
+        is True,
+        "master_audit_iter24_all_3_lines_in_V_Q": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter24_T6_all_3_P1_lines_in_V_Q"]
+        is True,
+        "master_audit_iter24_axis_singular_6": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter24_T6_axis_singularity_count_eq_6"]
+        is True,
+        "master_audit_iter24_lines_disjoint": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter24_T6_3_lines_pairwise_disjoint"]
+        is True,
+        "master_audit_iter24_K_xt1_cubic": master["lean_bool_certificates"][
+            "phase_a2_iter24_T6_K_xt1_is_cubic_in_moduli"
+        ]
+        is True,
+        "master_audit_iter24_residual_deg_5": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter24_T6_residual_degree_5_in_P5"]
+        is True,
+        "master_audit_iter24_residual_pending_HONEST": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter24_T6_residual_K3_pending_iter_25_HONEST"]
+        is True,
+        "master_audit_iter24_complete": master["lean_bool_certificates"][
+            "phase_a2_iter24_T6_jacobian_structural_analysis_complete"
+        ]
         is True,
     }
 
