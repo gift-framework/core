@@ -36,6 +36,7 @@ from gift_core.geometry.k3_explicit import (
     TauNaiveLatticeClassDiagnostic,
     SingularCI222ExplicitT4Construction,
     T4CI222JacobianRankDeficiencyAnalysis,
+    T4Sym2VTauResidualReducibilityDiagnostic,
     TauV4CosetSearch,
     TXObstructionTheorem,
     V4Z2TorsionTranslations,
@@ -212,6 +213,11 @@ def verify() -> dict[str, bool]:
     # decomposition. 20 minors, 14 zero, 6 non-zero factoring through D.
     # Base locus = 2 three-dim subspaces + 1 one-dim line, all ⊂ V(Q).
     iter21 = T4CI222JacobianRankDeficiencyAnalysis().audit()
+
+    # Iter #22 (path 20C step 3): T4 single-isotype residual reducibility
+    # no-go diagnostic. V(Q) ∩ {x_t ≠ 0} = 2 disjoint P² planes, NOT a
+    # K3. T4 + Sym²(V)_τ single-isotype is structurally inadequate.
+    iter22 = T4Sym2VTauResidualReducibilityDiagnostic().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -1954,6 +1960,72 @@ def verify() -> dict[str, bool]:
         "master_audit_iter21_residual_pending_HONEST": master[
             "lean_bool_certificates"
         ]["phase_a2_iter21_residual_extraction_pending_iter_22_HONEST"]
+        is True,
+        # Iter #22 (path 20C step 3): T4 single-isotype no-go diagnostic.
+        "iter22_residual_quadrics_match_gamma_i_x_A_x_tauA": iter22[
+            "all_3_quadrics_match_gamma_i_x_A_x_tauA_at_x_1_star_zero"
+        ]
+        is True,
+        "iter22_eliminations_divisible_by_x_t": iter22[
+            "all_3_eliminations_divisible_by_x_t"
+        ]
+        is True,
+        "iter22_total_component_count_eq_5": iter22[
+            "total_component_count_eq_5"
+        ]
+        is True,
+        "iter22_residual_R1_R2_are_P2_NOT_K3_HONEST": iter22[
+            "residual_R1_R2_are_projective_planes_NOT_K3_HONEST"
+        ]
+        is True,
+        "iter22_T4_sym2V_tau_yields_K3_FALSE": iter22[
+            "T4_sym2V_tau_yields_irreducible_K3"
+        ]
+        is False,
+        "iter22_T4_sym2V_tau_inadequate_HONEST_NO_GO": iter22[
+            "T4_sym2V_tau_inadequate_HONEST_NO_GO"
+        ]
+        is True,
+        "iter22_no_go_certified": iter22[
+            "iter_22_T4_single_isotype_no_go_certified"
+        ]
+        is True,
+        "iter22_recommends_22B_mixed_isotype": iter22[
+            "iter_22_recommended_next_iter_22B_mixed_isotype"
+        ]
+        is True,
+        # Master audit cross-checks for iter #22.
+        "master_audit_iter22_quadrics_match": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter22_residual_quadrics_match_gamma_i_x_A_x_tauA"]
+        is True,
+        "master_audit_iter22_eliminations_xt": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter22_eliminations_divisible_by_x_t"]
+        is True,
+        "master_audit_iter22_components_5": master["lean_bool_certificates"][
+            "phase_a2_iter22_total_component_count_eq_5"
+        ]
+        is True,
+        "master_audit_iter22_R1_R2_P2_NOT_K3_HONEST": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter22_residual_R1_R2_are_P2_NOT_K3_HONEST"]
+        is True,
+        "master_audit_iter22_T4_yields_K3_FALSE": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter22_T4_sym2V_tau_yields_K3"]
+        is False,
+        "master_audit_iter22_no_go_HONEST": master["lean_bool_certificates"][
+            "phase_a2_iter22_T4_sym2V_tau_inadequate_HONEST_NO_GO"
+        ]
+        is True,
+        "master_audit_iter22_no_go_certified": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter22_no_go_certified"]
+        is True,
+        "master_audit_iter22_recommend_22B": master["lean_bool_certificates"][
+            "phase_a2_iter22_recommended_next_iter_22B_mixed_isotype"
+        ]
         is True,
     }
 

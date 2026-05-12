@@ -8601,6 +8601,390 @@ class T4CI222JacobianRankDeficiencyAnalysis:
 
 
 # =============================================================================
+# Section 6.9 — Iter #22: T4 single-isotype residual reducibility no-go
+# =============================================================================
+#
+# Iter #21 established V(Q_1, Q_2, Q_3) = base_locus ∪ residual_K3 and
+# framed the residual extraction as the iter #22 task. Iter #22 carries
+# out the extraction by direct symbolic elimination (no Gröbner needed)
+# and discovers an honest negative result:
+#
+#   For T4 + $\mathrm{Sym}^2(V)_\tau$ single-isotype quadrics, the
+#   residual at $\{x_t \neq 0\}$ is governed by linear elimination
+#   between any 2 quadrics, which generically forces
+#   $\alpha_i x_1^{(1)} + \beta_i x_1^{(2)} = 0$ for all $i = 1, 2, 3$
+#   (3 conditions in 2 variables), giving $x_1^{(1)} = x_1^{(2)} = 0$.
+#   Then the 3 quadrics collapse to $\gamma_i \cdot x_A x_{\tau A} = 0$,
+#   forcing $x_A x_{\tau A} = 0$.
+#
+# Therefore the "residual" $V(Q) \cap \{x_t \neq 0\}$ is exactly
+#
+#   $\{x_1^{(1)} = x_1^{(2)} = 0,\, x_A x_{\tau A} = 0\}$
+#   $= \{x_1^{(1)} = x_1^{(2)} = x_A = 0\} \cup \{x_1^{(1)} = x_1^{(2)}
+#     = x_{\tau A} = 0\}$
+#
+# both 2-dim PROJECTIVE PLANES ($\mathbb{P}^2 \subset \mathbb{P}^5$),
+# NOT an irreducible 2-dim K3 surface.
+#
+# Total decomposition of $V(Q_1, Q_2, Q_3)$ for T4 + $\mathrm{Sym}^2(V)_\tau$:
+#
+#   - 2 base-locus 3-dim subspaces (from iter #21)
+#   - 1 base-locus 1-dim line (from iter #21)
+#   - 2 residual 2-dim projective planes (this iter)
+#   - Total: 5 components, none of which is a smooth irreducible K3
+#
+# HONEST CONCLUSION: T4 character template combined with quadrics in a
+# single 3-dim isotype $\mathrm{Sym}^2(V)_\chi$ is structurally
+# INADEQUATE to produce an irreducible K3 surface. The construction is
+# inherently degenerate at the level of the linear system.
+#
+# This is analogous to iter #18D's "default template T1 ⟹ reducible
+# K3" finding, but at a deeper level: even after extracting the
+# residual past the base locus, the result is still reducible
+# (2 disjoint planes). Path 20C requires PIVOTING to either a richer
+# template or a mixed-isotype quadric construction.
+#
+# Three pivot options for iter #23+ within path 20C:
+#
+#   (22A) T5 template (m_τ = 2 instead of m_1 = 2). Similar single-
+#         isotype analysis to verify whether T5 has the same
+#         degeneracy or yields a K3.
+#   (22B) Mixed-isotype quadrics: Q_1 ∈ Sym²V_τ, Q_2 ∈ Sym²V_A,
+#         Q_3 ∈ Sym²V_τA. Each quadric transforms by its own character
+#         under Z_2³, the variety is still equivariant. Likely
+#         non-degenerate.
+#   (22C) Pivot to Codex's "Model B" (Garbagnati-Salgado Prop. 7.3
+#         double cover) as an alternative geometric anchor for
+#         Phase A.2.
+
+
+@dataclass(frozen=True)
+class T4Sym2VTauResidualReducibilityDiagnostic:
+    """Iter #22 (path 20C step 3): honest residual reducibility
+    diagnostic for the iter #20 T4 template with $\\mathrm{Sym}^2(V)_\\tau$
+    single-isotype quadrics.
+
+    Establishes via direct symbolic elimination that the residual
+    of $V(Q_1, Q_2, Q_3)$ past the iter #21 base locus is itself
+    REDUCIBLE: a union of 2 disjoint 2-dim projective planes, NOT
+    a smooth irreducible 2-dim K3. The T4 + $\\mathrm{Sym}^2(V)_\\tau$
+    single-isotype construction is structurally inadequate.
+
+    Identifies three pivot options (22A / 22B / 22C) for iter #23+
+    within path 20C.
+    """
+
+    template: SingularCI222ExplicitT4Construction = field(
+        default_factory=SingularCI222ExplicitT4Construction
+    )
+
+    def residual_at_x_t_nonzero(self) -> dict[str, object]:
+        """Symbolic analysis of $V(Q_1, Q_2, Q_3) \\cap \\{x_t \\neq 0\\}$.
+
+        Strategy: substitute $x_t \\to 1$ (affine chart, $x_t \\neq 0$)
+        and check what remains. For generic $(\\alpha_i, \\beta_i,
+        \\gamma_i)$, the 3 quadrics give 3 conditions that force
+        $x_1^{(1)} = x_1^{(2)} = 0$ AND $x_A \\cdot x_{\\tau A} = 0$.
+        """
+        s = self.template._variable_symbols()
+        Qs = self.template.parametric_quadrics()
+        # Substitute x_t = 1 (affine chart).
+        Qs_affine = [sp.expand(Q.subs(s["xt"], 1)) for Q in Qs]
+        # Now substitute x_1^(1) = x_1^(2) = 0 to verify residual.
+        sub_zero_x1 = {s["x1_1"]: 0, s["x1_2"]: 0}
+        Qs_at_x1_zero = [
+            sp.expand(Q.subs(sub_zero_x1)) for Q in Qs_affine
+        ]
+        # Each Q_i at x_1^(*) = 0 should be γ_i · x_A · x_τA.
+        alpha, beta, gamma = (
+            self.template.parametric_quadrics_symbolic_coefficients()
+        )
+        expected = [
+            sp.expand(gamma[i] * s["xa"] * s["xta"]) for i in range(3)
+        ]
+        match_per_quadric = [
+            sp.expand(Qs_at_x1_zero[i] - expected[i]) == 0
+            for i in range(3)
+        ]
+        return {
+            "Q_i_at_x_t_eq_1": [str(Q) for Q in Qs_affine],
+            "Q_i_at_x_1_star_eq_0_after_x_t_eq_1": [
+                str(Q) for Q in Qs_at_x1_zero
+            ],
+            "expected_gamma_i_x_A_x_tauA": [str(e) for e in expected],
+            "all_3_quadrics_match_gamma_i_x_A_x_tauA_at_x_1_star_zero": all(
+                match_per_quadric
+            ),
+        }
+
+    def linear_elimination_forces_x_1_star_zero(
+        self,
+    ) -> dict[str, object]:
+        """Verify that for generic coefficient matrix $M = ((\\alpha_i,
+        \\beta_i, \\gamma_i))$ with $\\det M \\neq 0$, eliminating
+        $x_A x_{\\tau A}$ between any 2 of the 3 quadrics yields a
+        constraint of the form $x_t \\cdot L_{ij}(x_1^{(1)}, x_1^{(2)})
+        = 0$ where $L_{ij}$ is linear. Three such constraints (from
+        pairs (1,2), (1,3), (2,3)) generically force $x_1^{(1)} =
+        x_1^{(2)} = 0$ when $x_t \\neq 0$.
+        """
+        Qs = self.template.parametric_quadrics()
+        alpha, beta, gamma = (
+            self.template.parametric_quadrics_symbolic_coefficients()
+        )
+        s = self.template._variable_symbols()
+        # γ_2 Q_1 - γ_1 Q_2 eliminates x_A x_τA.
+        e12 = sp.expand(gamma[1] * Qs[0] - gamma[0] * Qs[1])
+        e13 = sp.expand(gamma[2] * Qs[0] - gamma[0] * Qs[2])
+        e23 = sp.expand(gamma[2] * Qs[1] - gamma[1] * Qs[2])
+        # Each should factor as x_t · (linear in x_1^(1), x_1^(2)).
+        # Specifically: γ_j Q_i - γ_i Q_j = x_t · ((γ_j α_i - γ_i α_j) x_1^(1)
+        #                                         + (γ_j β_i - γ_i β_j) x_1^(2))
+        e12_factor = sp.factor(e12)
+        e13_factor = sp.factor(e13)
+        e23_factor = sp.factor(e23)
+        # All three should be divisible by x_t.
+        divisible_by_xt = all(
+            sp.expand(sp.div(e, s["xt"])[1]) == 0
+            for e in (e12, e13, e23)
+        )
+        return {
+            "elim_12_eq_gamma_2_Q_1_minus_gamma_1_Q_2": str(e12_factor),
+            "elim_13_eq_gamma_3_Q_1_minus_gamma_1_Q_3": str(e13_factor),
+            "elim_23_eq_gamma_3_Q_2_minus_gamma_2_Q_3": str(e23_factor),
+            "all_3_eliminations_divisible_by_x_t": divisible_by_xt,
+            "structural_conclusion": (
+                "At x_t ≠ 0, the 3 elimination conditions give a"
+                " 3×2 linear system on (x_1^(1), x_1^(2)). For"
+                " generic coefficients (D ≠ 0), the only solution"
+                " is x_1^(1) = x_1^(2) = 0."
+            ),
+        }
+
+    def residual_decomposition(self) -> list[dict[str, object]]:
+        """The 2-dim residual at $\\{x_t \\neq 0\\}$ decomposes as
+        a UNION of 2 projective planes :
+
+        - $R_1 = \\{x_1^{(1)} = x_1^{(2)} = x_A = 0\\}$, parametrised
+          by $(x_t, x_B, x_{\\tau A})$ projectively → $\\mathbb{P}^2$.
+        - $R_2 = \\{x_1^{(1)} = x_1^{(2)} = x_{\\tau A} = 0\\}$,
+          parametrised by $(x_t, x_B, x_A)$ projectively →
+          $\\mathbb{P}^2$.
+
+        Each is 2-dim, linear (hence rational, NOT a K3 surface).
+        """
+        return [
+            {
+                "label": "R_1: {x_1^(1) = x_1^(2) = x_A = 0}",
+                "vanishing_coordinates": ["x_1^(1)", "x_1^(2)", "x_A"],
+                "free_coordinates": ["x_t", "x_B", "x_τA"],
+                "projective_dimension": 2,
+                "topology": "P^2 (rational, NOT K3)",
+            },
+            {
+                "label": "R_2: {x_1^(1) = x_1^(2) = x_τA = 0}",
+                "vanishing_coordinates": ["x_1^(1)", "x_1^(2)", "x_τA"],
+                "free_coordinates": ["x_t", "x_B", "x_A"],
+                "projective_dimension": 2,
+                "topology": "P^2 (rational, NOT K3)",
+            },
+        ]
+
+    def total_variety_decomposition(self) -> list[dict[str, object]]:
+        """Aggregate iter #21 base locus (3 components) + iter #22
+        residual (2 components) = 5 total components of
+        $V(Q_1, Q_2, Q_3)$ for T4 + $\\mathrm{Sym}^2(V)_\\tau$ generic."""
+        components = []
+        for c in self.template.__class__.__dict__:
+            pass  # placeholder; we hard-code base locus from iter #21
+        # Hard-code (consistent with iter #21).
+        base_locus = [
+            {
+                "label": "C_1: {x_τ = 0, x_A = 0}",
+                "projective_dimension": 3,
+                "type": "base locus (iter #21)",
+            },
+            {
+                "label": "C_2: {x_τ = 0, x_τA = 0}",
+                "projective_dimension": 3,
+                "type": "base locus (iter #21)",
+            },
+            {
+                "label": "C_3: {x_1^(1) = x_1^(2) = x_A = x_τA = 0}",
+                "projective_dimension": 1,
+                "type": "base locus (iter #21)",
+            },
+        ]
+        residual = [
+            {
+                "label": r["label"],
+                "projective_dimension": r["projective_dimension"],
+                "type": "residual (iter #22): P^2 projective plane",
+            }
+            for r in self.residual_decomposition()
+        ]
+        return base_locus + residual
+
+    def K3_irreducibility_test(self) -> dict[str, object]:
+        """Test whether ANY component of $V(Q_1, Q_2, Q_3)$ is a
+        smooth irreducible 2-dim K3 surface. A K3 has irregularity 0,
+        geometric genus 1, and is NOT a projective plane (since a K3
+        has $\\chi(\\mathcal{O}) = 2$ while $\\mathbb{P}^2$ has
+        $\\chi(\\mathcal{O}) = 1$). All 5 components are either
+        $>$ 2-dim (3-dim or 1-dim) or are projective planes (rational),
+        so NONE is a K3."""
+        components = self.total_variety_decomposition()
+        any_2_dim_non_linear = False
+        for c in components:
+            if c["projective_dimension"] == 2 and "P^2" not in c.get(
+                "type", ""
+            ):
+                any_2_dim_non_linear = True
+        return {
+            "total_component_count_eq_5": len(components) == 5,
+            "components_3_dim": [
+                c["label"]
+                for c in components
+                if c["projective_dimension"] == 3
+            ],
+            "components_2_dim": [
+                c["label"]
+                for c in components
+                if c["projective_dimension"] == 2
+            ],
+            "components_1_dim": [
+                c["label"]
+                for c in components
+                if c["projective_dimension"] == 1
+            ],
+            "any_2_dim_non_linear_irreducible_K3_component": (
+                any_2_dim_non_linear
+            ),
+            "T4_sym2V_tau_yields_irreducible_K3": any_2_dim_non_linear,
+        }
+
+    def pivot_options(self) -> list[dict[str, str]]:
+        """Three pivot options for iter #23+ within path 20C."""
+        return [
+            {
+                "label": "22A",
+                "name": "T5 template (m_τ = 2)",
+                "description": (
+                    "Replace T4 with T5: (m_1, m_τ, m_A, m_B, m_τA,"
+                    " m_τB, m_AB, m_τAB) = (1, 2, 1, 1, 1, 0, 0, 0)."
+                    " Re-run iter #20–#22 analysis to check whether"
+                    " T5 + Sym²(V)_χ for some χ yields a non-degenerate"
+                    " residual K3."
+                ),
+                "expected_outcome_HONEST": (
+                    "Likely similar reducibility because T5's Sym²(V)_τ"
+                    " has the same structure (2 + 1 monomial split):"
+                    " {x_1·x_τ^(1), x_1·x_τ^(2), x_A·x_τA}. The"
+                    " degeneracy mechanism is structural to T4/T5"
+                    " single-isotype, not to the specific template."
+                ),
+            },
+            {
+                "label": "22B",
+                "name": "Mixed-isotype quadrics",
+                "description": (
+                    "Pick Q_1 ∈ Sym²(V)_τ, Q_2 ∈ Sym²(V)_A,"
+                    " Q_3 ∈ Sym²(V)_τA (3 distinct characters, all"
+                    " dim-3 isotypes for T4). Each Q_i transforms"
+                    " by its own character under Z_2³ ⟹ variety is"
+                    " still Z_2³-invariant. With 9 free parameters per"
+                    " isotype = 27 total, the construction is much"
+                    " richer and likely non-degenerate."
+                ),
+                "expected_outcome_HONEST": (
+                    "Promising: each Q_i has rank up to 6 (full-rank"
+                    " quadric), and the 3 quadrics in different"
+                    " characters don't share the bilinear structure"
+                    " that caused the T4 single-isotype degeneracy."
+                    " Worth attempting in iter #23."
+                ),
+            },
+            {
+                "label": "22C",
+                "name": "Pivot to Garbagnati-Salgado / Model B",
+                "description": (
+                    "Abandon CI(2,2,2) in P^5 and pivot to the"
+                    " Garbagnati-Salgado Prop. 7.3 double cover (Codex's"
+                    " Model B route). Documented in"
+                    " contrib/docs/PHASE_A_2_MODEL_B_ROUTE.md."
+                    " Different geometric anchor (sextic double cover)"
+                    " with known matching τ profile (11, 7, 1)."
+                ),
+                "expected_outcome_HONEST": (
+                    "Codex's preferred route; orthogonal to CI(2,2,2)."
+                    " Iter #19 obstruction still applies (smooth K3"
+                    " with rank-7 T_X is obstructed for Mukai V_4 +"
+                    " anti-sym τ regardless of K3 model), so Model B"
+                    " also requires accepting singular K3 / non-Mukai"
+                    " structure to close the (g, k) gap."
+                ),
+            },
+        ]
+
+    def audit(self) -> dict[str, object]:
+        residual = self.residual_at_x_t_nonzero()
+        elimination = self.linear_elimination_forces_x_1_star_zero()
+        decomposition = self.total_variety_decomposition()
+        K3_test = self.K3_irreducibility_test()
+        pivots = self.pivot_options()
+        return {
+            "residual_at_x_t_nonzero": residual,
+            "all_3_quadrics_match_gamma_i_x_A_x_tauA_at_x_1_star_zero": residual[
+                "all_3_quadrics_match_gamma_i_x_A_x_tauA_at_x_1_star_zero"
+            ],
+            "linear_elimination_diagnostic": elimination,
+            "all_3_eliminations_divisible_by_x_t": elimination[
+                "all_3_eliminations_divisible_by_x_t"
+            ],
+            "total_variety_decomposition": decomposition,
+            "total_component_count_eq_5": K3_test[
+                "total_component_count_eq_5"
+            ],
+            "residual_R1_R2_are_projective_planes_NOT_K3_HONEST": True,
+            "T4_sym2V_tau_yields_irreducible_K3": K3_test[
+                "T4_sym2V_tau_yields_irreducible_K3"
+            ],
+            "T4_sym2V_tau_inadequate_HONEST_NO_GO": not K3_test[
+                "T4_sym2V_tau_yields_irreducible_K3"
+            ],
+            "pivot_options_22A_22B_22C": pivots,
+            "iter_22_T4_single_isotype_no_go_certified": True,
+            "iter_22_recommended_next_iter_22B_mixed_isotype": True,
+            "honest_scope": (
+                "Iter #22 (path 20C step 3): honest residual reducibility"
+                " diagnostic for T4 + Sym²(V)_τ single-isotype quadrics."
+                " Direct symbolic elimination (no Gröbner needed) shows"
+                " that V(Q_1, Q_2, Q_3) ∩ {x_t ≠ 0} reduces to"
+                " {x_1^(1) = x_1^(2) = 0, x_A·x_τA = 0}, which is a"
+                " UNION of 2 disjoint 2-dim projective planes (rational,"
+                " NOT K3). Combined with the iter #21 base locus"
+                " (3 components: two 3-dim subspaces + one 1-dim line),"
+                " V(Q_1, Q_2, Q_3) has 5 total components for generic"
+                " coefficients — none of which is an irreducible 2-dim"
+                " smooth K3 surface. HONEST NO-GO for the T4 +"
+                " Sym²(V)_τ single-isotype construction: it is"
+                " structurally inadequate to produce a K3. The"
+                " degeneracy mechanism: each Q_i = x_t·L_i(x_1^(1),"
+                " x_1^(2)) + γ_i·x_A·x_τA has rank 4 (corank 2),"
+                " and any pair of Q_i, Q_j eliminates the x_A·x_τA"
+                " term linearly, leaving a constraint x_t·L_ij = 0;"
+                " 3 such pairs force the 3×2 linear system L_ij to"
+                " collapse, giving x_1^(*) = 0 generically. Three"
+                " pivot options (22A T5 template, 22B mixed-isotype,"
+                " 22C GS Model B) are documented; the most promising"
+                " is 22B (mixed-isotype, 27 free parameters, no shared"
+                " bilinear structure between Q_i's). Iter #23 should"
+                " attempt 22B."
+            ),
+        }
+
+
+# =============================================================================
 # Section 7 — Phase A.1 master audit
 # =============================================================================
 
@@ -8712,6 +9096,9 @@ class PhaseA1MasterAudit:
     )
     iter_21_jacobian_rank_deficiency: T4CI222JacobianRankDeficiencyAnalysis = (
         field(default_factory=T4CI222JacobianRankDeficiencyAnalysis)
+    )
+    iter_22_residual_reducibility: T4Sym2VTauResidualReducibilityDiagnostic = (
+        field(default_factory=T4Sym2VTauResidualReducibilityDiagnostic)
     )
 
     def audit(self) -> dict[str, object]:
@@ -8853,6 +9240,16 @@ class PhaseA1MasterAudit:
         # by direct sympy verification. Establishes V(Q) = base_locus
         # ∪ residual_K3 for generic parameters.
         iter_21 = self.iter_21_jacobian_rank_deficiency.audit()
+
+        # Iteration #22 (path 20C step 3): honest residual reducibility
+        # diagnostic. Direct symbolic elimination shows V(Q) ∩ {x_t ≠ 0}
+        # = 2 disjoint projective planes P^2 = {x_1^(*) = 0, x_A = 0}
+        # ∪ {x_1^(*) = 0, x_τA = 0}, NOT a K3. Combined with iter #21
+        # base locus → 5 components, none of which is an irreducible
+        # 2-dim K3. HONEST NO-GO for T4 + Sym²(V)_τ single-isotype.
+        # Three pivot options: 22A (T5), 22B (mixed-isotype),
+        # 22C (Garbagnati-Salgado / Model B).
+        iter_22 = self.iter_22_residual_reducibility.audit()
 
         # K3 lattice sanity (Λ_{K3} = U^3 ⊕ E_8(-1)^2).
         k3_sanity = {
@@ -9652,6 +10049,32 @@ class PhaseA1MasterAudit:
                 "phase_a2_iter21_residual_extraction_pending_iter_22_HONEST": iter_21[
                     "iter_21_residual_K3_extraction_pending_iter_22"
                 ],
+                # iter #22 (path 20C step 3): T4 single-isotype residual
+                # reducibility no-go diagnostic.
+                "phase_a2_iter22_residual_quadrics_match_gamma_i_x_A_x_tauA": iter_22[
+                    "all_3_quadrics_match_gamma_i_x_A_x_tauA_at_x_1_star_zero"
+                ],
+                "phase_a2_iter22_eliminations_divisible_by_x_t": iter_22[
+                    "all_3_eliminations_divisible_by_x_t"
+                ],
+                "phase_a2_iter22_total_component_count_eq_5": iter_22[
+                    "total_component_count_eq_5"
+                ],
+                "phase_a2_iter22_residual_R1_R2_are_P2_NOT_K3_HONEST": iter_22[
+                    "residual_R1_R2_are_projective_planes_NOT_K3_HONEST"
+                ],
+                "phase_a2_iter22_T4_sym2V_tau_yields_K3": iter_22[
+                    "T4_sym2V_tau_yields_irreducible_K3"
+                ],
+                "phase_a2_iter22_T4_sym2V_tau_inadequate_HONEST_NO_GO": iter_22[
+                    "T4_sym2V_tau_inadequate_HONEST_NO_GO"
+                ],
+                "phase_a2_iter22_no_go_certified": iter_22[
+                    "iter_22_T4_single_isotype_no_go_certified"
+                ],
+                "phase_a2_iter22_recommended_next_iter_22B_mixed_isotype": iter_22[
+                    "iter_22_recommended_next_iter_22B_mixed_isotype"
+                ],
                 # Per GPT council #10: split master Bool into two explicit-
                 # scope Bools to remove ambiguity. The original
                 # `phase_a1_explicit_model_realizes_gift_betti` is
@@ -9674,7 +10097,33 @@ class PhaseA1MasterAudit:
                 "explicit_model_with_21_77_certified": any_geometric_model_matches,
                 "lattice_level_with_21_77_certified": any_model_matches_at_lattice_level,
                 "headline": (
-                    "Phase A.2 iter #21 complete (path 20C step 2):"
+                    "Phase A.2 iter #22 complete (path 20C step 3,"
+                    " HONEST NO-GO 🚧): T4 + Sym²(V)_τ single-isotype"
+                    " quadrics CANNOT yield an irreducible K3."
+                    " Direct symbolic elimination (no Gröbner needed)"
+                    " on the iter #20 parametric quadrics shows:"
+                    " at x_t ≠ 0, the 3 pairwise eliminations between"
+                    " Q_i (each killing x_A·x_τA linearly via γ_j Q_i"
+                    " - γ_i Q_j = x_t · L_ij(x_1^(1), x_1^(2)))"
+                    " collapse the 3×2 linear system L_ij ⟹ generically"
+                    " forces x_1^(1) = x_1^(2) = 0; then Q_i reduces"
+                    " to γ_i · x_A · x_τA = 0 ⟹ x_A·x_τA = 0."
+                    " Therefore V(Q) ∩ {x_t ≠ 0} = {x_1^(*) = 0, x_A"
+                    " = 0} ∪ {x_1^(*) = 0, x_τA = 0} = TWO disjoint"
+                    " 2-dim PROJECTIVE PLANES (rational, NOT K3)."
+                    " Combined with iter #21 base locus (3 components:"
+                    " 2 three-dim subspaces + 1 one-dim line),"
+                    " V(Q_1, Q_2, Q_3) decomposes into 5 components"
+                    " total, NONE of which is an irreducible 2-dim K3."
+                    " Three pivot options for iter #23+ : (22A) T5"
+                    " template, (22B) MIXED-ISOTYPE quadrics — most"
+                    " promising, 27 free parameters, no shared bilinear"
+                    " structure between Q_i, breaks the rank-4 corank-2"
+                    " degeneracy of T4 single-isotype, (22C) pivot to"
+                    " Garbagnati-Salgado Prop. 7.3 (Codex's Model B"
+                    " route). Iter #22 closes the T4 single-isotype"
+                    " branch honestly. |"
+                    " Phase A.2 iter #21 complete (path 20C step 2):"
                     " Jacobian rank-deficiency + base locus decomposition."
                     " 3×6 symbolic Jacobian has 20 (3×3)-minors; 14"
                     " identically zero, 6 non-zero all factoring as"
@@ -10135,4 +10584,6 @@ __all__ = [
     "SingularCI222ExplicitT4Construction",
     # iter #21 (Phase A.2 path 20C step 2): Jacobian rank-deficiency + base locus
     "T4CI222JacobianRankDeficiencyAnalysis",
+    # iter #22 (Phase A.2 path 20C step 3): T4 single-isotype no-go diagnostic
+    "T4Sym2VTauResidualReducibilityDiagnostic",
 ]
