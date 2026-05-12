@@ -55,6 +55,8 @@ import GIFT.Foundations.K3NewtonKantorovich
 import GIFT.Foundations.IntervalCertificates
 -- Joyce-Karigiannis Z₂³ orbifold construction: topological/lattice gate for (b₂,b₃)=(21,77)
 import GIFT.Foundations.JoyceKarigiannisConstruction
+-- Phase A.2 iter #19 obstruction ledger: rank-7 T_X obstruction + three re-entry paths
+import GIFT.Foundations.PhaseA2Obstruction
 -- Metric gap closure: typed analytic/torsion-free status and promotion gates
 import GIFT.Foundations.MetricGapClosure
 -- Metric candidate search: finite symbolic search for block Betti signatures
