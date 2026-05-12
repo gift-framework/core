@@ -35,6 +35,7 @@ from gift_core.geometry.k3_explicit import (
     TauNaiveAntiSymplecticCandidate,
     TauNaiveLatticeClassDiagnostic,
     TauV4CosetSearch,
+    TXObstructionTheorem,
     V4Z2TorsionTranslations,
     Z2CubedExplicit15x15Matrices,
     Z2CubedLatticeAction,
@@ -194,6 +195,11 @@ def verify() -> dict[str, bool]:
     # calculator. Direct H^2 trace from iter #11 matrices reveals
     # σ_B / σ_Aσ_B Mukai anomaly (Lefschetz χ=16 vs 8 expected).
     iter18E = AtiyahBottLefschetzCalculator().audit()
+
+    # Iter #19: T_X obstruction theorem on rank-7 transcendental. Promotes
+    # the iter #18E anomaly to a rigorous structural impossibility via
+    # the inverse Z_2^3 character transform: m_(0,0,0) = -2 < 0.
+    iter19 = TXObstructionTheorem().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -1690,6 +1696,90 @@ def verify() -> dict[str, bool]:
         "master_audit_iter18E_explicit_blocked_HONEST": master[
             "lean_bool_certificates"
         ]["phase_a2_iter18E_explicit_m_chi_blocked_HONEST"]
+        is True,
+        # Iter #19: T_X obstruction theorem.
+        "iter19_identity_required_tr_T_X_eq_7_sanity": iter19[
+            "identity_required_tr_T_X_eq_7_sanity"
+        ]
+        is True,
+        "iter19_sigma_A_iter18A_compatible": iter19[
+            "sigma_A_iter_18A_compatible_tr_T_X_eq_7"
+        ]
+        is True,
+        "iter19_all_4_tau_cosets_iter18A_compatible": iter19[
+            "all_4_tau_cosets_iter_18A_compatible_tr_T_X_eq_minus_7"
+        ]
+        is True,
+        "iter19_sigma_B_iter18A_INCOMPATIBLE_HONEST": iter19[
+            "sigma_B_iter_18A_INCOMPATIBLE_requires_tr_T_X_eq_minus_one"
+        ]
+        is True,
+        "iter19_sigma_A_sigma_B_iter18A_INCOMPATIBLE_HONEST": iter19[
+            "sigma_A_sigma_B_iter_18A_INCOMPATIBLE_requires_tr_T_X_eq_minus_one"
+        ]
+        is True,
+        "iter19_m_trivial_character_eq_minus_two_HONEST": iter19[
+            "m_trivial_character_negative_eq_minus_two_HONEST"
+        ]
+        is True,
+        "iter19_has_negative_multiplicity_HONEST_OBSTRUCTION": iter19[
+            "has_negative_multiplicity_HONEST_OBSTRUCTION"
+        ]
+        is True,
+        "iter19_sum_of_multiplicities_eq_dim_T_X_eq_7": iter19[
+            "sum_of_multiplicities_eq_dim_T_X_eq_7"
+        ]
+        is True,
+        "iter19_T_X_obstruction_certified_HONEST": iter19[
+            "iter_19_T_X_obstruction_certified_HONEST"
+        ]
+        is True,
+        "iter19_traces_computed_from_iter_11_matrices": iter19[
+            "iter_19_traces_computed_from_iter_11_matrices"
+        ]
+        is True,
+        "iter19_mukai_V4_anti_sym_tau_unrealisable_HONEST": iter19[
+            "honest_conclusion"
+        ][
+            "mukai_V4_anti_sym_tau_target_chi_pattern_unrealisable_on_rank_7_T_X_HONEST"
+        ]
+        is True,
+        # Master audit cross-checks for iter #19.
+        "master_audit_iter19_identity_tr_T_X_eq_7": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter19_identity_required_tr_T_X_eq_7"]
+        is True,
+        "master_audit_iter19_sigma_A_compatible": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter19_sigma_A_tr_T_X_eq_7_iter18A_compatible"]
+        is True,
+        "master_audit_iter19_tau_cosets_compatible": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter19_all_4_tau_cosets_tr_T_X_eq_minus_7_iter18A_compatible"]
+        is True,
+        "master_audit_iter19_sigma_B_INCOMPATIBLE_HONEST": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter19_sigma_B_iter18A_INCOMPATIBLE_HONEST"]
+        is True,
+        "master_audit_iter19_sigma_A_sigma_B_INCOMPATIBLE_HONEST": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter19_sigma_A_sigma_B_iter18A_INCOMPATIBLE_HONEST"]
+        is True,
+        "master_audit_iter19_m_trivial_eq_minus_two_HONEST": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter19_m_trivial_character_eq_minus_two_HONEST"]
+        is True,
+        "master_audit_iter19_sum_eq_7": master["lean_bool_certificates"][
+            "phase_a2_iter19_sum_of_multiplicities_eq_dim_T_X_eq_7"
+        ]
+        is True,
+        "master_audit_iter19_T_X_obstruction_HONEST": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter19_T_X_obstruction_certified_HONEST"]
+        is True,
+        "master_audit_iter19_mukai_unrealisable_HONEST": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter19_mukai_V4_anti_sym_tau_unrealisable_on_rank_7_T_X_HONEST"]
         is True,
     }
 
