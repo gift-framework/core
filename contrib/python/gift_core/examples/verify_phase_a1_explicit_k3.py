@@ -37,6 +37,7 @@ from gift_core.geometry.k3_explicit import (
     SingularCI222ExplicitT4Construction,
     T4CI222JacobianRankDeficiencyAnalysis,
     T4Sym2VTauResidualReducibilityDiagnostic,
+    T6MixedIsotypeExplicitConstruction,
     TauV4CosetSearch,
     TXObstructionTheorem,
     V4Z2TorsionTranslations,
@@ -218,6 +219,10 @@ def verify() -> dict[str, bool]:
     # no-go diagnostic. V(Q) ∩ {x_t ≠ 0} = 2 disjoint P² planes, NOT a
     # K3. T4 + Sym²(V)_τ single-isotype is structurally inadequate.
     iter22 = T4Sym2VTauResidualReducibilityDiagnostic().audit()
+
+    # Iter #23 (path 20C step 4, pivot 22B): T6 mixed-isotype explicit.
+    # No spectator (all 6 basis vars in ≥ 2 quadrics), 0/20 zero minors.
+    iter23 = T6MixedIsotypeExplicitConstruction().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -2026,6 +2031,97 @@ def verify() -> dict[str, bool]:
         "master_audit_iter22_recommend_22B": master["lean_bool_certificates"][
             "phase_a2_iter22_recommended_next_iter_22B_mixed_isotype"
         ]
+        is True,
+        # Iter #23 (path 20C step 4, pivot 22B): T6 mixed-isotype explicit.
+        "iter23_T6_V_dim_eq_6": iter23["V_dim_eq_6"] is True,
+        "iter23_T6_sym2V_full_dim_21": iter23["sym2V_full_dim_21"] is True,
+        "iter23_T6_sym2V_trivial_dim_9": iter23["sym2V_trivial_dim_9"]
+        is True,
+        "iter23_T6_sym2V_tauA_dim_4": iter23["sym2V_tauA_dim_4"] is True,
+        "iter23_T6_sym2V_tauB_dim_4": iter23["sym2V_tauB_dim_4"] is True,
+        "iter23_T6_sym2V_AB_dim_4": iter23["sym2V_AB_dim_4"] is True,
+        "iter23_T6_three_dim_4_isotypes_exist": iter23[
+            "three_dim_4_isotypes_exist_for_mixed_quadrics"
+        ]
+        is True,
+        "iter23_T6_parametric_quadric_coefficient_count_eq_12": iter23[
+            "parametric_quadric_coefficient_count_eq_12"
+        ]
+        is True,
+        "iter23_T6_all_quadrics_Z2_cubed_equivariant": iter23[
+            "all_quadrics_g_equivariant_under_Z2_cubed"
+        ]
+        is True,
+        "iter23_T6_jacobian_shape_3x6": iter23["jacobian_shape_3x6"]
+        is True,
+        "iter23_T6_jacobian_zero_minor_count_eq_0": iter23[
+            "jacobian_zero_minor_count_eq_0"
+        ]
+        is True,
+        "iter23_T6_zero_minor_strictly_less_than_T4_14": iter23[
+            "jacobian_zero_minor_count_strictly_less_than_T4_14"
+        ]
+        is True,
+        "iter23_T6_cone_obstruction_resolved": iter23[
+            "cone_obstruction_resolved"
+        ]
+        is True,
+        "iter23_T6_all_6_basis_vars_non_spectator": iter23[
+            "all_6_basis_vars_non_spectator"
+        ]
+        is True,
+        "iter23_T6_mixed_isotype_construction_complete": iter23[
+            "iter_23_T6_mixed_isotype_construction_complete"
+        ]
+        is True,
+        "iter23_path_20C_step_4_pivot_22B_active": iter23[
+            "path_20C_step_4_pivot_22B_active"
+        ]
+        is True,
+        # Master audit cross-checks for iter #23.
+        "master_audit_iter23_V_dim_6": master["lean_bool_certificates"][
+            "phase_a2_iter23_T6_V_dim_eq_6"
+        ]
+        is True,
+        "master_audit_iter23_sym2V_full_21": master["lean_bool_certificates"][
+            "phase_a2_iter23_T6_sym2V_full_dim_21"
+        ]
+        is True,
+        "master_audit_iter23_sym2V_decomp": master["lean_bool_certificates"][
+            "phase_a2_iter23_T6_three_dim_4_isotypes_exist"
+        ]
+        is True,
+        "master_audit_iter23_equivariant": master["lean_bool_certificates"][
+            "phase_a2_iter23_T6_all_quadrics_Z2_cubed_equivariant"
+        ]
+        is True,
+        "master_audit_iter23_jacobian_3x6": master["lean_bool_certificates"][
+            "phase_a2_iter23_T6_jacobian_shape_3x6"
+        ]
+        is True,
+        "master_audit_iter23_zero_minors_eq_0": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter23_T6_jacobian_zero_minor_count_eq_0"]
+        is True,
+        "master_audit_iter23_zero_minors_less_than_T4": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter23_T6_zero_minor_strictly_less_than_T4_14"]
+        is True,
+        "master_audit_iter23_cone_resolved": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter23_T6_cone_obstruction_resolved"]
+        is True,
+        "master_audit_iter23_no_spectator": master["lean_bool_certificates"][
+            "phase_a2_iter23_T6_all_6_basis_vars_non_spectator"
+        ]
+        is True,
+        "master_audit_iter23_construction_complete": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter23_T6_mixed_isotype_construction_complete"]
+        is True,
+        "master_audit_iter23_pivot_22B_active": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter23_path_20C_step_4_pivot_22B_active"]
         is True,
     }
 
