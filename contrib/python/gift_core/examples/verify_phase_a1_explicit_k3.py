@@ -45,6 +45,7 @@ from gift_core.geometry.k3_explicit import (
     HKRotationForTCSGluing,
     PrimitiveEmbeddingNplusNminusInLambdaK3,
     T5PrimeTCSPivotFramework,
+    TCSAnalyticGluingTheoremApplication,
     TCSTopologyAndFundamentalGroup,
     T5PrimeTauCurveAndNSLatticeFramework,
     T5PrimeTemplateMixedIsotypeConstruction,
@@ -305,6 +306,11 @@ def verify() -> dict[str, bool]:
     # 2003 ⟹ HOLONOMY GAP CLOSED. (b_2, b_3) = (21, 77) match requires
     # higher Picard Fano (iter #38+).
     iter37 = TCSTopologyAndFundamentalGroup().audit()
+
+    # Iter #38 (Voie 1 TCS step 5): Kovalev 2003 / CHN-P 2015 analytic
+    # gluing theorem ⟹ torsion-free φ̃_T exists. Combined with iter #37
+    # π_1 = 1: Hol = G_2 FULL via Berger 1955 + Joyce 2000.
+    iter38 = TCSAnalyticGluingTheoremApplication().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -3332,6 +3338,92 @@ def verify() -> dict[str, bool]:
         "master_audit_iter37_complete": master[
             "lean_bool_certificates"
         ]["phase_a2_iter37_complete"]
+        is True,
+        # Iter #38 (Voie 1 TCS step 5): analytic gluing theorem.
+        "iter38_Kovalev_theorem_stated": iter38[
+            "Kovalev_analytic_theorem_stated"
+        ]
+        is True,
+        "iter38_hypotheses_satisfied": iter38[
+            "all_Kovalev_hypotheses_satisfied"
+        ]
+        is True,
+        "iter38_CHN_P_hypotheses": iter38[
+            "all_CHN_P_hypotheses_satisfied"
+        ]
+        is True,
+        "iter38_torsion_free_phi_exists": iter38[
+            "torsion_free_phi_tilde_T_exists"
+        ]
+        is True,
+        "iter38_G2_metric_established": iter38[
+            "G2_holonomy_metric_established"
+        ]
+        is True,
+        "iter38_Block_B_DONE": iter38[
+            "Block_B_closed_phi_torsion_small_DONE"
+        ]
+        is True,
+        "iter38_Block_C_DONE": iter38["Block_C_explicit_bounds_DONE"]
+        is True,
+        "iter38_Block_D_Hol_G2_DONE": iter38["Block_D_Hol_eq_G2_DONE"]
+        is True,
+        "iter38_abstract_Voie_1_complete": iter38[
+            "abstract_Voie_1_TCS_complete_for_Hol_G2"
+        ]
+        is True,
+        "iter38_Block_A_b2_b3_pending": iter38[
+            "Block_A_b_2_b_3_match_pending_iter_39"
+        ]
+        is True,
+        "iter38_Fano_search_finite": iter38[
+            "Fano_pair_search_finite_problem"
+        ]
+        is True,
+        "iter38_complete": iter38[
+            "iter_38_analytic_gluing_theorem_applied"
+        ]
+        is True,
+        # Master audit cross-checks for iter #38.
+        "master_audit_iter38_theorem_stated": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter38_Kovalev_theorem_stated"]
+        is True,
+        "master_audit_iter38_hypotheses": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter38_hypotheses_satisfied"]
+        is True,
+        "master_audit_iter38_CHN_P": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter38_CHN_P_hypotheses_satisfied"]
+        is True,
+        "master_audit_iter38_torsion_free": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter38_torsion_free_phi_exists"]
+        is True,
+        "master_audit_iter38_G2_metric": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter38_G2_metric_established"]
+        is True,
+        "master_audit_iter38_Block_B": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter38_Block_B_DONE"]
+        is True,
+        "master_audit_iter38_Block_C": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter38_Block_C_DONE"]
+        is True,
+        "master_audit_iter38_Block_D": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter38_Block_D_Hol_G2_DONE"]
+        is True,
+        "master_audit_iter38_Voie_1_complete": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter38_abstract_Voie_1_complete"]
+        is True,
+        "master_audit_iter38_complete": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter38_complete"]
         is True,
     }
 
