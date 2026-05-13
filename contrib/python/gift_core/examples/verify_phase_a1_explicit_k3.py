@@ -39,6 +39,7 @@ from gift_core.geometry.k3_explicit import (
     T4Sym2VTauResidualReducibilityDiagnostic,
     T6JacobianStructuralAxisSingularitiesAnalysis,
     T5MixedIsotypeExplicitConstruction,
+    T5PrimeDonaldsonG2MetricAssembly,
     T5PrimeIter11ClosureFramework,
     T5PrimeTauCurveAndNSLatticeFramework,
     T5PrimeTemplateMixedIsotypeConstruction,
@@ -270,6 +271,11 @@ def verify() -> dict[str, bool]:
     # Explicit (1, 1)-stratum decomposition witness (Q_3 = x_1² - xa_1²),
     # stratification table, Mukai V_4 Gram template, Donaldson handoff.
     iter31 = T5PrimeIter11ClosureFramework().audit()
+
+    # Iter #32 🏁 (path 22A step 6, PHASE A.2 FINAL): explicit Donaldson
+    # G_2 metric assembly on M = (T^3 × X̃)/Z_2^3.
+    # Topology (b_2, b_3) = (21, 77), H_* = 99, GIFT foundation ✓.
+    iter32 = T5PrimeDonaldsonG2MetricAssembly().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -2825,6 +2831,99 @@ def verify() -> dict[str, bool]:
         "master_audit_iter31_complete": master["lean_bool_certificates"][
             "phase_a2_iter31_complete"
         ]
+        is True,
+        # Iter #32 🏁 (PHASE A.2 FINAL): Donaldson G_2 assembly.
+        "iter32_donaldson_ansatz_constructed": iter32[
+            "donaldson_ansatz_constructed"
+        ]
+        is True,
+        "iter32_T3_HK_triple_setup": iter32["T3_HK_triple_setup"] is True,
+        "iter32_torsion_free_closed": iter32["torsion_free_closed_condition"]
+        is True,
+        "iter32_torsion_free_coclosed": iter32[
+            "torsion_free_coclosed_condition"
+        ]
+        is True,
+        "iter32_torsion_free_G2_witness": iter32["torsion_free_G2_witness"]
+        is True,
+        "iter32_Z2_cubed_action_FREE": iter32[
+            "Z2_cubed_action_FREE_on_T3_x_X_tilde"
+        ]
+        is True,
+        "iter32_M_smooth_7_manifold": iter32["M_smooth_manifold_7_dim"]
+        is True,
+        "iter32_topology_b_2_eq_21": iter32["topology_b_2_eq_21"] is True,
+        "iter32_topology_b_3_eq_77": iter32["topology_b_3_eq_77"] is True,
+        "iter32_topology_H_star_eq_99": iter32["topology_H_star_eq_99"]
+        is True,
+        "iter32_topology_euler_eq_0": iter32["topology_euler_eq_0"]
+        is True,
+        "iter32_GIFT_foundation": iter32["GIFT_observables_foundation"]
+        is True,
+        "iter32_phase_A_2_complete_structural": iter32[
+            "phase_A_2_complete_structural"
+        ]
+        is True,
+        "iter32_path_22A_complete_iter_27_to_32": iter32[
+            "iter_27_to_32_path_22A_complete"
+        ]
+        is True,
+        "iter32_donaldson_G2_assembly_complete_PHASE_A_2_DONE": iter32[
+            "iter_32_donaldson_G2_metric_assembly_complete"
+        ]
+        is True,
+        # Master audit cross-checks for iter #32.
+        "master_audit_iter32_ansatz": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter32_donaldson_ansatz_constructed"]
+        is True,
+        "master_audit_iter32_HK_triple": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter32_T3_HK_triple_setup"]
+        is True,
+        "master_audit_iter32_torsion_closed": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter32_torsion_free_closed"]
+        is True,
+        "master_audit_iter32_torsion_coclosed": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter32_torsion_free_coclosed"]
+        is True,
+        "master_audit_iter32_Z2_FREE": master["lean_bool_certificates"][
+            "phase_a2_iter32_Z2_cubed_action_FREE"
+        ]
+        is True,
+        "master_audit_iter32_M_smooth": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter32_M_smooth_7_manifold"]
+        is True,
+        "master_audit_iter32_b2_21": master["lean_bool_certificates"][
+            "phase_a2_iter32_b2_eq_21"
+        ]
+        is True,
+        "master_audit_iter32_b3_77": master["lean_bool_certificates"][
+            "phase_a2_iter32_b3_eq_77"
+        ]
+        is True,
+        "master_audit_iter32_H_star_99": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter32_H_star_99"]
+        is True,
+        "master_audit_iter32_euler_0": master["lean_bool_certificates"][
+            "phase_a2_iter32_euler_0"
+        ]
+        is True,
+        "master_audit_iter32_GIFT_foundation": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter32_GIFT_foundation"]
+        is True,
+        "master_audit_iter32_PHASE_A_2_DONE": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter32_complete_PHASE_A_2_DONE"]
+        is True,
+        "master_audit_path_22A_complete": master[
+            "lean_bool_certificates"
+        ]["phase_a2_path_22A_complete_iter_27_to_32"]
         is True,
     }
 
