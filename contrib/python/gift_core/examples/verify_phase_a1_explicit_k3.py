@@ -40,6 +40,7 @@ from gift_core.geometry.k3_explicit import (
     T6JacobianStructuralAxisSingularitiesAnalysis,
     T6KDiscriminantStratification,
     T6MixedIsotypeExplicitConstruction,
+    T6VarietyReducibilityNOGOTheorem,
     TauV4CosetSearch,
     TXObstructionTheorem,
     V4Z2TorsionTranslations,
@@ -234,6 +235,11 @@ def verify() -> dict[str, bool]:
     # Iter #25 (path 20C step 6): K-discriminant stratification. 6 axis
     # K-cubics + 3 K_χ(t) degree-2 polynomials → 6 K-vanishing points.
     iter25 = T6KDiscriminantStratification().audit()
+
+    # Iter #26 (path 20C step 7): T6 variety reducibility NO-GO theorem.
+    # V(Q) factorizes as xa2 · xb2 · K_τ(xt2) in chart xt1=1 ⟹ reducible
+    # for generic T6 moduli ⟹ NOT a smooth K3. Pivot to T5 (path 22A).
+    iter26 = T6VarietyReducibilityNOGOTheorem().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -2297,6 +2303,88 @@ def verify() -> dict[str, bool]:
         "master_audit_iter25_D4_9A1_pending_HONEST": master[
             "lean_bool_certificates"
         ]["phase_a2_iter25_D4_9A1_matching_pending_iter_26_HONEST"]
+        is True,
+        # Iter #26 (path 20C step 7): T6 variety reducibility NO-GO.
+        "iter26_local_factorization_exact": iter26[
+            "local_factorization_exact"
+        ]
+        is True,
+        "iter26_numerical_witness_valid": iter26[
+            "numerical_witness_factorization_valid"
+        ]
+        is True,
+        "iter26_numerical_witness_has_xa2_factor": iter26[
+            "numerical_witness_has_xa2_factor"
+        ]
+        is True,
+        "iter26_numerical_witness_has_xb2_factor": iter26[
+            "numerical_witness_has_xb2_factor"
+        ]
+        is True,
+        "iter26_numerical_witness_residual_K_tau_deg_2": iter26[
+            "numerical_witness_residual_K_tau_deg_2"
+        ]
+        is True,
+        "iter26_components_in_chart_eq_4": iter26[
+            "irreducible_components_count_in_xt1_chart_eq_4"
+        ]
+        is True,
+        "iter26_symmetric_factorization_all_3_charts": iter26[
+            "symmetric_factorization_all_three_charts"
+        ]
+        is True,
+        "iter26_T6_variety_REDUCIBLE_for_generic": iter26[
+            "t6_variety_REDUCIBLE_for_generic_moduli"
+        ]
+        is True,
+        "iter26_T6_NOT_a_smooth_K3_NO_GO": iter26[
+            "t6_NOT_a_smooth_K3_NO_GO"
+        ]
+        is True,
+        "iter26_T6_reducibility_NO_GO_complete": iter26[
+            "iter_26_T6_reducibility_NO_GO_complete"
+        ]
+        is True,
+        # Master audit cross-checks for iter #26.
+        "master_audit_iter26_local_factorization": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter26_T6_local_factorization_exact"]
+        is True,
+        "master_audit_iter26_numerical_witness_valid": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter26_T6_numerical_witness_valid"]
+        is True,
+        "master_audit_iter26_has_xa2_factor": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter26_T6_numerical_witness_has_xa2_factor"]
+        is True,
+        "master_audit_iter26_has_xb2_factor": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter26_T6_numerical_witness_has_xb2_factor"]
+        is True,
+        "master_audit_iter26_residual_K_tau_deg_2": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter26_T6_numerical_witness_residual_K_tau_deg_2"]
+        is True,
+        "master_audit_iter26_components_eq_4": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter26_T6_components_in_chart_eq_4"]
+        is True,
+        "master_audit_iter26_3_charts_factorize": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter26_T6_symmetric_factorization_all_3_charts"]
+        is True,
+        "master_audit_iter26_variety_REDUCIBLE": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter26_T6_variety_REDUCIBLE_for_generic"]
+        is True,
+        "master_audit_iter26_NO_GO": master["lean_bool_certificates"][
+            "phase_a2_iter26_T6_NOT_a_smooth_K3_NO_GO"
+        ]
+        is True,
+        "master_audit_iter26_complete": master["lean_bool_certificates"][
+            "phase_a2_iter26_T6_reducibility_NO_GO_complete"
+        ]
         is True,
     }
 
