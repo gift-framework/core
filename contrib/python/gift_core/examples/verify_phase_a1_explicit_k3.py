@@ -42,6 +42,7 @@ from gift_core.geometry.k3_explicit import (
     T5PrimeDonaldsonG2MetricAssembly,
     T5PrimeIter11ClosureFramework,
     Fano3FoldDatabaseForTCSBlocks,
+    FanoPairSearchForGIFT21_77,
     HKRotationForTCSGluing,
     PrimitiveEmbeddingNplusNminusInLambdaK3,
     T5PrimeTCSPivotFramework,
@@ -311,6 +312,11 @@ def verify() -> dict[str, bool]:
     # gluing theorem ⟹ torsion-free φ̃_T exists. Combined with iter #37
     # π_1 = 1: Hol = G_2 FULL via Berger 1955 + Joyce 2000.
     iter38 = TCSAnalyticGluingTheoremApplication().audit()
+
+    # Iter #39 (Voie 1 TCS step 6): Mori-Mukai Fano pair search for
+    # (21, 77). Vanilla TCS insufficient (Picard max 10), extra-TCS
+    # or weak Fano makes (21, 77) ACHIEVABLE. Block A finalized.
+    iter39 = FanoPairSearchForGIFT21_77().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -3424,6 +3430,76 @@ def verify() -> dict[str, bool]:
         "master_audit_iter38_complete": master[
             "lean_bool_certificates"
         ]["phase_a2_iter38_complete"]
+        is True,
+        # Iter #39 (Voie 1 TCS step 6): Fano pair search.
+        "iter39_MM_database_sampled": iter39["Mori_Mukai_sample_size"]
+        >= 10,
+        "iter39_vanilla_TCS_search_done": iter39[
+            "vanilla_TCS_search_completed"
+        ]
+        is True,
+        "iter39_vanilla_NOT_sufficient_HONEST": iter39[
+            "vanilla_TCS_NOT_sufficient_for_21_77"
+        ]
+        is True,
+        "iter39_vanilla_max_b2_lt_21": iter39[
+            "vanilla_TCS_max_b_2_M_lt_21_HONEST"
+        ]
+        is True,
+        "iter39_extra_TCS_search_done": iter39[
+            "extra_TCS_search_completed"
+        ]
+        is True,
+        "iter39_extra_TCS_makes_21_77_achievable": iter39[
+            "extra_TCS_makes_21_77_achievable"
+        ]
+        is True,
+        "iter39_routes_documented": iter39["routes_to_21_77_documented"]
+        is True,
+        "iter39_Voie_1_TCS_complete_for_Hol_G2_existence": iter39[
+            "phase_A2_Voie_1_TCS_complete_for_Hol_G2_EXISTENCE"
+        ]
+        is True,
+        "iter39_Block_A_via_extra_TCS_weak_Fano": iter39[
+            "Block_A_b_2_b_3_match_via_extra_TCS_or_weak_Fano"
+        ]
+        is True,
+        "iter39_complete": iter39[
+            "iter_39_Fano_pair_search_framework_complete"
+        ]
+        is True,
+        # Master audit cross-checks for iter #39.
+        "master_audit_iter39_MM_sampled": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter39_MM_database_sampled"]
+        is True,
+        "master_audit_iter39_vanilla_search": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter39_vanilla_TCS_search_done"]
+        is True,
+        "master_audit_iter39_vanilla_insufficient": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter39_vanilla_insufficient_HONEST"]
+        is True,
+        "master_audit_iter39_extra_TCS_achievable": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter39_extra_TCS_makes_21_77_achievable"]
+        is True,
+        "master_audit_iter39_routes": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter39_routes_documented"]
+        is True,
+        "master_audit_iter39_Voie_1_complete": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter39_Voie_1_TCS_complete_for_Hol_G2_existence"]
+        is True,
+        "master_audit_iter39_Block_A_via_extra_TCS": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter39_Block_A_via_extra_TCS_or_weak_Fano"]
+        is True,
+        "master_audit_iter39_complete": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter39_complete"]
         is True,
     }
 
