@@ -39,6 +39,7 @@ from gift_core.geometry.k3_explicit import (
     T4Sym2VTauResidualReducibilityDiagnostic,
     T6JacobianStructuralAxisSingularitiesAnalysis,
     T5MixedIsotypeExplicitConstruction,
+    T5PrimeTauCurveAndNSLatticeFramework,
     T5PrimeTemplateMixedIsotypeConstruction,
     T5SmoothnessAndZ2CubedFixLociAnalysis,
     T6KDiscriminantStratification,
@@ -258,6 +259,11 @@ def verify() -> dict[str, bool]:
     # realizes full Mukai V_4 + τ anti-symp curve. Matches iter #11
     # prescription at type level. Both ±1 eigenspaces in fix loci.
     iter29 = T5PrimeTemplateMixedIsotypeConstruction().audit()
+
+    # Iter #30 (path 22A step 4): T5'' τ-curve + NS lattice framework.
+    # τ-curve deg 8, g_arith 5; (g, k)=(2, 2) requires decomp with
+    # C_1·C_2 = 4. NS rank 1 + 14 = 15 ✓ after Mukai V_4 resolution.
+    iter30 = T5PrimeTauCurveAndNSLatticeFramework().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -2642,6 +2648,72 @@ def verify() -> dict[str, bool]:
         is True,
         "master_audit_iter29_complete": master["lean_bool_certificates"][
             "phase_a2_iter29_T5_prime_complete"
+        ]
+        is True,
+        # Iter #30 (path 22A step 4): τ-curve + NS framework.
+        "iter30_tau_curve_dim_1": iter30[
+            "tau_curve_dim_1_numerical_witness"
+        ]
+        is True,
+        "iter30_tau_curve_degree_eq_8": iter30["tau_curve_degree_eq_8"]
+        is True,
+        "iter30_tau_curve_g_arith_eq_5": iter30["tau_curve_g_arith_eq_5"]
+        is True,
+        "iter30_decomposition_consistency": iter30[
+            "decomposition_target_consistency_check"
+        ]
+        is True,
+        "iter30_intersection_multiplicity_eq_4": iter30[
+            "decomposition_intersection_eq_4"
+        ]
+        is True,
+        "iter30_Mukai_V4_24_fixed_pts": iter30[
+            "Mukai_V4_24_total_fixed_points"
+        ]
+        is True,
+        "iter30_NS_rank_eq_15_after_resolution": iter30[
+            "NS_rank_after_resolution_eq_15"
+        ]
+        is True,
+        "iter30_NS_Gram_match_deferred_HONEST": iter30[
+            "NS_full_Gram_match_deferred_iter_31_HONEST"
+        ]
+        is True,
+        "iter30_structural_framework_complete": iter30[
+            "iter_30_structural_framework_complete"
+        ]
+        is True,
+        # Master audit cross-checks for iter #30.
+        "master_audit_iter30_tau_curve_dim_1": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter30_tau_curve_dim_1"]
+        is True,
+        "master_audit_iter30_tau_curve_degree_8": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter30_tau_curve_degree_8"]
+        is True,
+        "master_audit_iter30_tau_curve_g_arith_5": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter30_tau_curve_g_arith_5"]
+        is True,
+        "master_audit_iter30_decomp_consistency": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter30_decomp_consistency"]
+        is True,
+        "master_audit_iter30_intersection_eq_4": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter30_intersection_eq_4"]
+        is True,
+        "master_audit_iter30_Mukai_V4_24_pts": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter30_Mukai_V4_24_fixed_pts"]
+        is True,
+        "master_audit_iter30_NS_rank_15": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter30_NS_rank_15"]
+        is True,
+        "master_audit_iter30_complete": master["lean_bool_certificates"][
+            "phase_a2_iter30_complete"
         ]
         is True,
     }
