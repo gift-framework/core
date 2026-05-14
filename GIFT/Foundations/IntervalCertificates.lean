@@ -423,7 +423,7 @@ beyond the null-search summary is asserted.
     1. **K3 eigenvalue ratios** (r_0, r_1, r_2) and σ in basis
        {1, √p (p ≤ 77), π, ln 2, ε_k, ε_k², σ}, |c| ≤ 200, tol 10⁻¹⁰:
        NULL. Extended to {1, √p (p ≤ 997), 195 elements}, |c| ≤ 10000,
-       tol 10⁻⁹: NULL (Phase 1b, 2026-04-19).
+       tol 10⁻⁹: NULL (2026-04-19).
 
     2. **g_K3 exhaustive** (826 PSLQ attempts, 2026-04-25):
        g_K3 = 0.82779835... tested against algebraic ≤ deg 6, Γ at CM

@@ -1,22 +1,21 @@
 /-
-  GIFT Foundations: Lean certificate for the Donaldson 2017
-  K3-fibration topology formula derived in Phase 4 itér 1-2 of the
-  G_2 TCS paper.
+  GIFT Foundations: Lean certificate for the Donaldson (2017)
+  K_3-fibration topology formula.
 
-  The headline theorem of this module is
+  Headline theorem:
 
       b_3(M) = 1 + b_1(Sigma_2(L))
 
-  for a Donaldson Kovalev-Lefschetz K3-fibration `M -> S^3` with
-  smooth K3 fibre (Lambda_K3 = 3U + 2 E_8(-1)), discriminant link L,
-  and uniform monodromy `rho = s_alpha` (reflection in a (-2)-class
-  alpha in the transcendental lattice). Here `Sigma_2(L)` denotes
-  the double cover of `S^3` branched over `L`.
+  for a Donaldson Kovalev-Lefschetz K_3-fibration `M -> S^3` with
+  smooth K_3 fibre (Lambda_K3 = 3U + 2 E_8(-1)), discriminant link
+  `L ⊂ S^3`, and uniform monodromy `rho = s_alpha` (reflection in a
+  (-2)-class alpha in the transcendental lattice). Here `Sigma_2(L)`
+  denotes the double cover of `S^3` branched over `L`.
 
   We do not formalise the analytic / sheaf-theoretic derivation
   (Donaldson 2017 §3.1 SES + localisation LES + double-cover
   identification of group cohomology). Instead, we formalise the
-  topological /combinatorial part by:
+  topological / combinatorial part by:
 
   * defining a `LinkType` inductive describing the topological
     type of `L` to the extent that affects `b_1(Sigma_2(L))`,
@@ -28,19 +27,17 @@
   * defining `b3Donaldson L = 1 + b1Sigma2 L` and
     `b2Donaldson = 21` for the uniform-reflection-monodromy case;
 
-  * proving by `native_decide` the GIFT target match
+  * proving by `native_decide` the target match
     `b3Donaldson <77-unlink> = 77` and two alternative
     configurations that also achieve `(b_2, b_3) = (21, 77)`.
 
   The combinatorial values `b1Sigma2 (unlink k) = k - 1`,
-  `b1Sigma2 hopf = 0`, `b1Sigma2 trefoil = 0` are
-  consequences of Wirtinger presentation arithmetic and standard
-  classical knot theory, NOT formalised here; they enter as
-  definitions and are validated against `donaldson_link_cohomology.py`
-  in the private repo.
+  `b1Sigma2 hopf = 0`, `b1Sigma2 trefoil = 0` are consequences of
+  Wirtinger presentation arithmetic and standard classical knot
+  theory; they enter as definitions and are validated numerically.
 
   This module is a route-agnostic companion to
-  `G2TCSLatticeCertificate.lean`: the K3 lattice data established
+  `G2TCSLatticeCertificate.lean`: the K_3 lattice data established
   there is what feeds the monodromy `rho = s_alpha_1` used in the
   Donaldson framework formalised here.
 -/
@@ -66,7 +63,7 @@ inductive LinkType : Type
 
 For a Wirtinger presentation with `n` generators and constraint
 matrix of rank `r`, the *cocycle dimension* is `n - r`. By the
-Phase 4 itér 2 derivation,
+Wirtinger / double-cover derivation,
   `b_1(Sigma_2(L)) = dim H^1(pi_1, R_sign) = (n - r) - 1`,
 where the `- 1` comes from the universal 1-dimensional coboundary
 (the diagonal `(2w, 2w, ..., 2w)` image).
@@ -111,8 +108,8 @@ result specialised to our setting. -/
 def b2Donaldson : Nat := 21
 
 /-- `b_3(M) = 1 + b_1(Sigma_2(L))` from the Donaldson 2017 §3.1
-Leray short exact sequence combined with our localisation argument
-(Phase 4 itér 1 + 2 derivations). -/
+Leray short exact sequence combined with the localisation argument
+(Wirtinger / branched-double-cover derivation). -/
 def b3Donaldson (L : LinkType) : Nat := 1 + b1Sigma2 L
 
 /-! ## Headline theorems

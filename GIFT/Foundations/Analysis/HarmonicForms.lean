@@ -93,7 +93,7 @@ structure K7AnalysisData where
 
 /-- K7 admits Hodge structure, harmonic basis, and spectral data.
 
-Formerly axiom (v3.4.9). The formal statement requires only that valid Hodge
+Formerly an axiom. The formal statement requires only that valid Hodge
 data with orthonormal harmonic bases exists. No downstream code numerically
 extracts the bases — they are used for type-level indexing (Fin 21, Fin 77).
 
@@ -102,7 +102,7 @@ inner product (Σᵢ ωᵢηᵢ), standard basis vectors (Pi.single i 1).
 
 **Axiom consolidation (v3.3.42):** Replaces `K7_hodge_data` + `K7_harmonic_basis` (9→1).
 **v4.0.12:** Added spectral fields — absorbs K7_exists axiom (→ noncomputable def).
-**Eliminated (v3.4.9):** axiom → noncomputable def via constructive witness. -/
+**Eliminated:** axiom → noncomputable def via constructive witness. -/
 -- Constructive witness components (private, not exported)
 private def k7_bundle : DifferentialFormBundle K7 where
   Omega := fun k => Fin (b k) → ℝ

@@ -23,7 +23,7 @@ Key results:
   - λ₁ = 6π²/475 ≈ 0.12467 (verified 0.05% vs NK Richardson 0.12461)
   - λ₁ × H* = 6π²×99/475 ≈ 12.34 (NOT 14, NOT 13)
 
-Version: 1.0.0 (v3.4.1)
+Version: 1.0.0
 -/
 
 import GIFT.Core

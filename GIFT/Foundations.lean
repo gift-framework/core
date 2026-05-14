@@ -19,9 +19,9 @@ import GIFT.Foundations.TCSConstruction
 -- E₈ lattice and G₂ cross product formalization
 import GIFT.Foundations.E8Lattice
 import GIFT.Foundations.G2CrossProduct
--- v3.4: Mathlib E8 integration
+-- Mathlib E8 integration
 import GIFT.Foundations.E8Mathlib
--- v3.5: Analysis bundle (Hodge, exterior algebra, Joyce)
+-- Analysis bundle (Hodge, exterior algebra, Joyce)
 import GIFT.Foundations.Analysis
 -- Analytical G2 metric definitions for K7
 import GIFT.Foundations.AnalyticalMetric
@@ -45,34 +45,22 @@ import GIFT.Foundations.PoincareDuality
 import GIFT.Foundations.AmbroseSinger
 -- Explicit G₂ metric: 169-parameter Chebyshev-Cholesky on K₇ (v4.0)
 import GIFT.Foundations.ExplicitG2Metric
--- Newton-Kantorovich certification: h = 6.65e-8 < 0.5, unconditional (v4.0)
+-- Newton-Kantorovich certification: h = 6.65e-8 < 0.5, unconditional
 import GIFT.Foundations.NewtonKantorovich
--- K3 harmonic correction: torsion reduction ×2995, 1D floor (v4.0)
+-- K3 harmonic correction: torsion reduction ×2995, 1D floor
 import GIFT.Foundations.K3HarmonicCorrection
--- K3 NK certificate: CI(2,2,2) Donaldson k=4, h=7.83e-2 ×6.4 (v2.2)
+-- K3 NK certificate: CI(2,2,2) Donaldson k=4, h=7.83e-2 (margin ×6.4)
 import GIFT.Foundations.K3NewtonKantorovich
 -- Interval certificates: interval-arithmetic brackets
 import GIFT.Foundations.IntervalCertificates
--- Joyce-Karigiannis Z₂³ orbifold construction: topological/lattice gate for (b₂,b₃)=(21,77)
-import GIFT.Foundations.JoyceKarigiannisConstruction
--- Phase A.2 iter #19 obstruction ledger: rank-7 T_X obstruction + three re-entry paths
-import GIFT.Foundations.PhaseA2Obstruction
 -- G_2 TCS lattice certificate: Prop 6.1 primitive embedding, Prop 6.3 Kovalev matching, §4.1 sign table
 import GIFT.Foundations.G2TCSLatticeCertificate
 -- G_2 Donaldson link cohomology: b_3 = 1 + b_1(Sigma_2(L)) formula + (21, 77) target match
 import GIFT.Foundations.G2DonaldsonLinkCohomology
--- Phase 4 itér 4.4.2 basis change + Phase A.2 iter #31 (c) Mukai V_4 Gram closure
+-- G_2-irrep / Mukai V_4 lattice certificate: H^3(K_7) basis change + NS Gram closure
 import GIFT.Foundations.G2IrrepLatticeCertificate
 -- Metric gap closure: typed analytic/torsion-free status and promotion gates
 import GIFT.Foundations.MetricGapClosure
--- Metric candidate search: finite symbolic search for block Betti signatures
-import GIFT.Foundations.MetricCandidateSearch
--- Metric catalogue sources: Fanography/local Fano data and CHNP gate constraints
-import GIFT.Foundations.MetricCatalogueSources
--- Extra-twisted metric gates retained as negative evidence / search state
-import GIFT.Foundations.ExtraTwistedMetric
-import GIFT.Foundations.ExtraTwistedGeometricCore
-import GIFT.Foundations.ExtraTwistedKernelPromotion
 -- Donaldson K3/coassociative fibration route for b2=21
 import GIFT.Foundations.DonaldsonCoassociativeFibration
 -- K3 automorphism package used by the JK side branch
@@ -193,7 +181,7 @@ export G2Holonomy (dim_G2 dim_G2_is_14 dim_G2_orbit_stabilizer
   b2_K7 b3_K7 K7_b2 K7_b3 K7_H_star b2_structure
   rep_trivial rep_standard rep_adjoint rep_symmetric)
 
--- TCS construction (v3.4: BOTH b₂ and b₃ DERIVED from building blocks)
+-- TCS construction (both b₂ and b₃ DERIVED from building blocks)
 export TCSConstruction (
   -- Building blocks: M₁ (Quintic), M₂ (CI)
   M1_quintic M2_CI M1_b2 M1_b3 M2_b2 M2_b3
@@ -229,7 +217,7 @@ export G2CrossProduct (R7 cross epsilon fano_lines fano_lines_count
   phi0 preserves_cross preserves_phi0
   dim_GL7 orbit_phi0_dim G2_dim_from_stabilizer G2_dim_from_roots)
 
--- E8 Mathlib integration (v3.4)
+-- E8 Mathlib integration
 export E8Mathlib (E8_coxeter E8_coxeter_number E8_rank_val
   E8_roots_from_coxeter gift_E8_roots enumeration_matches_coxeter
   E8_lie_dim E8_dimension_certified E8_dimension_from_coxeter
@@ -467,7 +455,7 @@ theorem E8_dimension_from_roots :
 ```
 Derives: |roots| + rank = 248 from root system structure
 
-### E8 Mathlib Integration (v3.4)
+### E8 Mathlib Integration
 
 New (GIFT.Foundations.E8Mathlib):
 ```

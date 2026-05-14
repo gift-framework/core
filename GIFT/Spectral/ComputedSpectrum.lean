@@ -223,7 +223,7 @@ This supersedes the earlier PINN graph-Laplacian estimate (0.1406).
 Compared with GIFT predictions:
   - Bare algebraic ratio: 14/99 = 0.14141 (lambda_1 is 12% below)
   - Spinor-corrected ratio: 13/99 = 0.13131 (lambda_1 is 5.3% below)
-  - Analytical formula (v3.4.1): 6π²/475 = 0.12467 (lambda_1 matches to 0.05%)
+  - Analytical formula: 6π²/475 = 0.12467 (lambda_1 matches to 0.05%)
 
 Source: `K7_spectrum_neumann_results.json`
 -/

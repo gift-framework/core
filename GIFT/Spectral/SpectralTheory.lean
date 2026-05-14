@@ -242,7 +242,7 @@ structure K7SpectralData where
 
 /-- K7 spectral data exists.
 
-Formerly axiom (v3.4.8). The formal statement requires only that a valid
+Formerly an axiom. The formal statement requires only that a valid
 spectral sequence exists (positive mass gap, non-decreasing, unbounded).
 The actual K7 eigenvalues are not numerically extracted anywhere in the
 formalization — the physical mass gap ratio 14/99 is proven algebraically

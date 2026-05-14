@@ -10,13 +10,13 @@ import GIFT.Foundations.PoincareDuality
 
 The complete spectral gap programme:
 - Algebraic ratio dim(G₂)/H* = 14/99 (topological invariant, NOT the spectral gap)
-- Analytical mass gap: λ₁ = 6π²/475, factorizing topology × geometry (v3.4.1)
+- Analytical mass gap: λ₁ = 6π²/475, factorizing topology × geometry
 - TCS manifold structure and spectral bounds
 - Cheeger inequality, Yang-Mills prediction
 - Refined bounds, literature axioms
 - Spectral scaling on the TCS neck
 
-NOTE (v3.4.1): The ratio 14/99 is an algebraic invariant. The analytical mass gap
+NOTE: The ratio 14/99 is an algebraic invariant. The analytical mass gap
 λ₁ = π²/(L²·g_ss) = 6π²/475 ≈ 0.12467 is irrational and verified to 0.05%.
 See `AnalyticalMassGap.lean` for the formal treatment.
 -/
@@ -388,7 +388,7 @@ abbrev si_states_cubed := GIFT.Spectral.SpectralInvariants.n_states_eq_K7_cubed
 abbrev si_certificate := GIFT.Spectral.SpectralInvariants.spectral_invariants_certificate
 
 -- ═══════════════════════════════════════════════════════════════════════════════
--- ANALYTICAL MASS GAP (v3.4.1)
+-- ANALYTICAL MASS GAP
 -- ═══════════════════════════════════════════════════════════════════════════════
 
 open GIFT.Spectral.AnalyticalMassGap
@@ -409,7 +409,7 @@ abbrev amg_product_H_star := GIFT.Spectral.AnalyticalMassGap.product_H_star
 abbrev amg_certificate := GIFT.Spectral.AnalyticalMassGap.analytical_mass_gap_certificate
 
 -- ═══════════════════════════════════════════════════════════════════════════════
--- KK SPECTRAL BRIDGE (v3.4.2, classical KK reduction → 4D mass gap)
+-- KK SPECTRAL BRIDGE (classical KK reduction → 4D mass gap)
 -- ═══════════════════════════════════════════════════════════════════════════════
 
 open GIFT.Spectral.KKSpectralBridge
@@ -433,7 +433,7 @@ abbrev kk_certificate := GIFT.Spectral.KKSpectralBridge.kk_spectral_bridge_certi
 /-- GIFT Spectral Certificate: the proposition combining the spectral gap programme.
 
 - Algebraic ratio dim(G₂)/H* = 14/99 (topological invariant, irreducible)
-- Analytical mass gap: λ₁ = 6π²/475 with g_ss=19/6, L²=25 (v3.4.1)
+- Analytical mass gap: λ₁ = 6π²/475 with g_ss=19/6, L²=25
 - TCS spectral bounds: c_1/L^2 <= lambda_1 <= c_2/L^2
 - Pell equation: 99^2 - 50 x 14^2 = 1
 - Computed spectrum: Q22 signature, SD/ASD gap, B-test, lambda_1 (v3.3.29/31)
@@ -442,7 +442,7 @@ abbrev kk_certificate := GIFT.Spectral.KKSpectralBridge.kk_spectral_bridge_certi
 - 7D Weyl law: exponent 3.46 within 2% of 3.5, >22000 KK states (v3.3.35)
 - Spectral invariants: heat kernel a₀>0, |ζ'(0)|>100, Cheeger<1, b₁=0, 343=7³ (v3.3.39)
 
-NOTE (v3.4.1): The statement below proves algebraic identities about 14/99 etc.
+NOTE: The statement below proves algebraic identities about 14/99 etc.
 These are TRUE mathematical facts. They do NOT assert λ₁ = 14/99. The analytical
 mass gap λ₁ = 6π²/475 is formalized in AnalyticalMassGap.lean.
 -/

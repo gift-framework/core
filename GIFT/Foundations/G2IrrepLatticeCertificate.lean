@@ -1,31 +1,33 @@
 /-
-  GIFT Foundations: Lean certificate for two structural lattice/irrep
-  results from the Phase 4 itér 4.4.2 + Phase A.2 iter #31 (c) closure work
-  (2026-05-14).
+  GIFT Foundations: Lean certificate for two structural lattice / irrep
+  results on the compact G_2 manifold K_7.
 
-  Part A — basis change NK (35 + 42) ↔ Donaldson (1 + 76) of `H^3(K_7)`:
+  Part A — Basis change between the adiabatic K_3 x T^2 x I decomposition
+  of harmonic 3-forms and the G_2-irrep decomposition:
 
-      77 = 35 (NK constant, s-indep) + 42 (NK T^2 fiber-coupled)
-      77 = 1  (Lambda^3_1 = ⟨phi⟩)  + 76 (Lambda^3_27 harmonic, b^1 = 0)
-      35 = 1 + 34   (Lambda^3_1 + Lambda^3_27 ∩ s-indep)
-      42 = 42       (Lambda^3_27 ∩ s-coupled)
+      H^3(K_7) = R^77
+      adiabatic split:    77 = 35 (s-independent) + 42 (T^2 fiber-coupled)
+      G_2-irrep split:    77 = 1 (Lambda^3_1)    + 76 (Lambda^3_27)        (b^1 = 0)
+      reconciliation:     35 = 1 (Lambda^3_1, ⟨phi⟩) + 34 (Lambda^3_27 ∩ s-indep)
+                          42 = 42 (Lambda^3_27 ∩ s-coupled)
 
-  with the pointwise G_2-irrep decomposition
+  with the pointwise identity
 
-      dim Lambda^3 R^7 = 35 = C(7,3) = 1 + 7 + 27.
+      dim Lambda^3 R^7 = 35 = C(7,3) = 1 + 7 + 27   (G_2-irrep dimensions).
 
-  Part B — Mukai V_4 NS Gram closure (Phase A.2 iter #31 (c)):
+  Part B — Mukai V_4-invariant Neron-Severi lattice closure:
 
       G_simple = diag(8, -2, ..., -2)      rank 15, |det| = 2^17
       L_target = H + E_7(-1) + A_1(-1)^6   rank 15, |det| = 2^7
 
-  Ratio 2^17 / 2^7 = 2^10 = (2^5)^2 decomposes virtually as
-  2^(2+3) × 2^(2+3) (2 halvings H + 3 halvings E_7).
+  The ratio 2^17 / 2^7 = 2^10 = (2^5)^2 decomposes virtually as
+  2^(2+3) x 2^(2+3) (two halvings in H, three halvings in E_7(-1)).
+  By Nikulin (1979) L_target is the unique even lattice with rank 15,
+  signature (1, 14), |det| = 2^7, parity δ = 1; hence L_target equals
+  NS(X-tilde)^{V_4} for a symplectic V_4 action on K_3 (Mukai 1988,
+  Garbagnati-Sarti 2009).
 
   All theorems below are `Nat` arithmetic, verifiable by `native_decide`.
-  The geometric / lattice content is described in companion notes
-  `private/canonical/notes/phase4_iter4_4_2_basis_change.md` and
-  `private/canonical/notes/phase_a2_iter31_mukai_v4_gram_closure.md`.
 -/
 
 import GIFT.Core
@@ -134,7 +136,7 @@ theorem basis_change_total :
       = Harm_L1 + Harm_L7 + Harm_L27 := by
   native_decide
 
-/-! ## Part B — Mukai V_4 NS Gram (Phase A.2 iter #31 (c)) -/
+/-! ## Part B — Mukai V_4-invariant Neron-Severi Gram closure -/
 
 /-! ### Discriminant arithmetic -/
 

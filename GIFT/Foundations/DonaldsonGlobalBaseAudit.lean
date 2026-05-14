@@ -68,7 +68,7 @@ def fanoSevenLinkSmoothDiagramCertified : Bool := true
 def fanoSevenLinkSymbolicWirtingerCertified : Bool := true
 
 /-- Symbolic Wirtinger certificate components, established by the
-    deterministic audit in `gift_core.geometry.wirtinger_symbolic` (v3.4.19).
+    deterministic audit in `gift_core.geometry.wirtinger_symbolic`.
 
     Layer 1 (topology) : π₁(S³ \ ∪ F_i) = F_6 × Z, abelianization Z^7,
     for the seven Hopf-fiber link (trivial S¹-bundle over the punctured

@@ -14,14 +14,14 @@
 
   Basis properties (this file):
     Standard basis orthonormality (proven)
-    Norm and inner product formulas ✓ (PROVEN v3.4 via Mathlib PiLp)
+    Norm and inner product formulas ✓ (PROVEN via Mathlib PiLp)
     E8 integrality and lattice generation (axioms - need case analysis)
 
   Weyl reflection (this file):
     reflect_preserves_lattice (axiom)
 
-  v3.4 Update: A11 (normSq_eq_sum) and A12 (inner_eq_sum) converted from
-  axioms to theorems using Mathlib's EuclideanSpace.norm_eq and PiLp.inner_apply.
+  `normSq_eq_sum` and `inner_eq_sum` are proven theorems using Mathlib's
+  `EuclideanSpace.norm_eq` and `PiLp.inner_apply` (no axioms).
 
   References:
     - Conway & Sloane, "Sphere Packings, Lattices and Groups"
@@ -318,7 +318,7 @@ This follows from case analysis:
 - Half-integer · Half-integer → integer (via even sum conditions)
 - Integer · Half-integer → integer (via even sum condition on integer part)
 
-RESOLVED: v3.4 - converted to theorem via case analysis and helper lemmas.
+RESOLVED: converted to theorem via case analysis and helper lemmas.
 -/
 
 /-- Inner product integrality: E8 vectors have integral inner products (PROVEN via case analysis) -/
@@ -354,7 +354,7 @@ This follows from:
 - Integer vectors: Σnᵢ² ≡ Σnᵢ (mod 2) = 0 (since sum even)
 - Half-integer: vᵢ = nᵢ + 1/2 → Σvᵢ² = Σnᵢ² + Σnᵢ + 2 ≡ 0 (mod 2)
 
-RESOLVED: v3.4 - converted to theorem via case analysis.
+RESOLVED: converted to theorem via case analysis.
 -/
 
 /-- Norm squared evenness: E8 vectors have even norm squared (PROVEN via case analysis) -/
@@ -385,7 +385,7 @@ The Weyl reflection sₐ(v) = v - 2⟨v,α⟩/⟨α,α⟩ · α preserves the la
 For E8 roots with ⟨α,α⟩ = 2, this simplifies to v - ⟨v,α⟩ · α.
 Since ⟨v,α⟩ ∈ ℤ by inner product integrality, the reflection stays in the lattice.
 
-RESOLVED: v3.4 - converted to theorem via lattice closure properties.
+RESOLVED: converted to theorem via lattice closure properties.
 -/
 
 /-- Weyl reflection through root α -/

@@ -1,6 +1,6 @@
 -- =============================================================================
 -- K3 NEWTON-KANTOROVICH CERTIFICATE
--- CI(2,2,2) ⊂ ℙ⁵ — Donaldson algebraic sections, v2.2 (2026-04-18)
+-- CI(2,2,2) ⊂ ℙ⁵ — Donaldson algebraic sections
 -- =============================================================================
 
 import GIFT.Foundations.K3HarmonicCorrection
@@ -61,7 +61,7 @@ structure K3NKCertificate where
   contraction_Jac : h_Jac_num * 2 < h_Jac_den
 
 -- =============================================================================
--- CI(2,2,2) CERTIFICATE (v2.2, 2026-04-18)
+-- CI(2,2,2) CERTIFICATE (initial — k = 4, 2026-04-18)
 -- =============================================================================
 
 /-- CI(2,2,2) K3 NK certificate.
@@ -185,10 +185,11 @@ theorem delta_K3_cert_below_joyce :
     delta_K3_cert_num * 10 < delta_K3_cert_den := by native_decide
 
 -- =============================================================================
--- MASTER CERTIFICATE (v2.2)
+-- MASTER CERTIFICATE (initial)
 -- =============================================================================
 
-/-- CI(2,2,2) K3 NK master certificate. All properties of the v2.2 certification. -/
+/-- CI(2,2,2) K3 NK master certificate.
+    All properties of the initial (smaller training set) certification. -/
 theorem ci222_k3_nk_certificate_valid :
     -- [1] Lap source: h_Lap < 1/2
     (ci222_k3_nk_certificate.h_Lap_num * 2 < ci222_k3_nk_certificate.h_Lap_den) ∧
@@ -206,16 +207,16 @@ theorem ci222_k3_nk_certificate_valid :
   all_goals native_decide
 
 -- =============================================================================
--- IMPROVED CERTIFICATE (v3.0 hardcore, 2026-04-28)
+-- ENHANCED CERTIFICATE (larger training set, 2026-04-28)
 -- =============================================================================
 
 /-!
-## Hardcore Retraining: v3.0 (2026-04-28)
+## Enhanced certificate (2026-04-28)
 
-Same surface CI(2,2,2), same k=4, same 126 sections, same 31,752 parameters.
+Same surface CI(2,2,2), same k = 4, same 126 sections, same 31,752 parameters.
 Improved training protocol eliminates the generalization gap:
 
-| Parameter      | v2.2     | v3.0 hardcore |
+| Parameter      | initial  | enhanced      |
 |----------------|----------|---------------|
 | N_OPT (train)  | 2,000    | 12,000        |
 | LBFGS steps    | 80       | 400           |
@@ -225,13 +226,13 @@ Improved training protocol eliminates the generalization gap:
 | Best step      | —        | 391 of 400    |
 
 Result:
-  η_L² = 6.63 × 10⁻³ (held-out test, 2,000 points)  [v2.2: 1.596 × 10⁻²]
-  Overfit ratio: ×1.30 (σ_test/σ_train)               [v2.2: ×3.4]
-  Honest digits: ~2.18                                  [v2.2: ~1.80]
+  η_L² = 6.63 × 10⁻³ (held-out test, 2,000 points)  [initial: 1.596 × 10⁻²]
+  Overfit ratio: ×1.30 (σ_test/σ_train)               [initial: ×3.4]
+  Honest digits: ~2.18                                  [initial: ~1.80]
 
 Using SAME conservative β_Lap and ω_L² bounds (geometric, surface-dependent):
-  h_Lap_v3 = β_Lap · η_v3 · ω_L² = 5.6595 × 6.63e-3 × 0.867
-           ≈ 3.25 × 10⁻²  PASS  (margin ×15.4)       [v2.2: ×6.4]
+  h_Lap_enhanced = β_Lap · η_enhanced · ω_L² = 5.6595 × 6.63e-3 × 0.867
+                ≈ 3.25 × 10⁻²  PASS  (margin ×15.4)       [initial: ×6.4]
 
 The β and ω bounds are properties of the K3 surface and degree-k sections,
 not of the specific trained H matrix. They remain valid upper bounds for any
@@ -270,13 +271,13 @@ def h_Lap_v3_den : ℕ := 100000
     3254 × 2 = 6508 < 100000. -/
 theorem ci222_k3_v3_lap_passes : h_Lap_v3_num * 2 < h_Lap_v3_den := by native_decide
 
-/-- v3 η is strictly smaller than v2.2 η (×2.4 improvement).
+/-- Enhanced-certificate η is strictly smaller than initial η (×2.4 improvement).
     663 × 100000 = 66300000 < 1596 × 100000 = 159600000. -/
 theorem v3_eta_improves_v2 :
     eta_v3_num * ci222_k3_nk_certificate.eta_den <
     ci222_k3_nk_certificate.eta_num * eta_v3_den := by native_decide
 
-/-- v3 h_Lap is strictly smaller than v2.2 h_Lap (margin ×6.4 → ×15.4).
+/-- Enhanced-certificate h_Lap is strictly smaller than initial h_Lap (margin ×6.4 → ×15.4).
     3254 × 100000 = 325400000 < 7830 × 100000 = 783000000. -/
 theorem v3_h_Lap_improves_v2 :
     h_Lap_v3_num * ci222_k3_nk_certificate.h_Lap_den <
@@ -296,7 +297,7 @@ theorem ci222_k3_v3_eta_bound :
 With η_v3 = 6.63 × 10⁻³:
   δ_K3_cert_v3 ≤ C_red × η_v3 = 0.881 × 6.63e-3 ≈ 5.84 × 10⁻³
 
-This is 2.4× tighter than the v2.2 bound (1.41 × 10⁻²) and
+This is 2.4× tighter than the initial bound (1.41 × 10⁻²) and
 17× below the Joyce threshold ε₀ = 0.1.
 -/
 
@@ -310,7 +311,7 @@ def delta_K3_cert_v3_den : ℕ := C_red_den * eta_v3_den
 theorem delta_K3_cert_v3_below_joyce :
     delta_K3_cert_v3_num * 10 < delta_K3_cert_v3_den := by native_decide
 
-/-- v3 δ_K3 is strictly smaller than v2.2 δ_K3 (×2.4 improvement).
+/-- Enhanced-certificate δ_K3 is strictly smaller than initial δ_K3 (×2.4 improvement).
     584103 × 100000000 < 1406076 × 100000000.
     (Note: delta_K3_cert_num = C_red_num * 1596 = 881 × 1596 = 1406076,
      delta_K3_cert_den = C_red_den * 100000 = 100000000.) -/
@@ -324,24 +325,24 @@ theorem delta_K3_cert_v3_below_one_percent :
     delta_K3_cert_v3_num * 100 < delta_K3_cert_v3_den := by native_decide
 
 -- =============================================================================
--- MASTER CERTIFICATE (v3.0 extended)
+-- MASTER CERTIFICATE (enhanced)
 -- =============================================================================
 
-/-- CI(2,2,2) K3 NK master certificate, extended with v3.0 hardcore results.
-    Includes all v2.2 properties plus the v3.0 improvements. -/
+/-- CI(2,2,2) K3 NK master certificate, extended with the enhanced results.
+    Includes all initial properties plus the enhanced improvements. -/
 theorem ci222_k3_nk_certificate_v3_master :
-    -- [1] v2.2 Lap source: h_Lap < 1/2
+    -- [1] Initial Lap source: h_Lap < 1/2
     (ci222_k3_nk_certificate.h_Lap_num * 2 < ci222_k3_nk_certificate.h_Lap_den) ∧
-    -- [2] v2.2 Jac source: h_Jac < 1/2
+    -- [2] Initial Jac source: h_Jac < 1/2
     (ci222_k3_nk_certificate.h_Jac_num * 2 < ci222_k3_nk_certificate.h_Jac_den) ∧
-    -- [3] v3.0 Lap source: h_Lap_v3 < 1/2 (margin ×15.4)
+    -- [3] Enhanced Lap source: h_Lap_v3 < 1/2 (margin ×15.4)
     (h_Lap_v3_num * 2 < h_Lap_v3_den) ∧
-    -- [4] v3.0 η strictly improves v2.2 (×2.4)
+    -- [4] Enhanced η strictly improves initial (×2.4)
     (eta_v3_num * ci222_k3_nk_certificate.eta_den <
      ci222_k3_nk_certificate.eta_num * eta_v3_den) ∧
-    -- [5] v3.0 δ_K3 < Joyce ε₀ = 0.1 (margin ×17.1)
+    -- [5] Enhanced δ_K3 < Joyce ε₀ = 0.1 (margin ×17.1)
     (delta_K3_cert_v3_num * 10 < delta_K3_cert_v3_den) ∧
-    -- [6] v3.0 δ_K3 < 1% (sub-percent Fréchet propagation)
+    -- [6] Enhanced δ_K3 < 1% (sub-percent Fréchet propagation)
     (delta_K3_cert_v3_num * 100 < delta_K3_cert_v3_den) ∧
     -- [7] k=2 Jac FAILS: certificate is selective
     ¬ (15526 * 2 < 10000) := by

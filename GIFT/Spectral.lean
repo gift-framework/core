@@ -92,7 +92,7 @@ import GIFT.Spectral.SpectralInvariants
 import GIFT.Spectral.CheegerInequality
 import GIFT.Spectral.YangMills
 
--- KK spectral bridge: 4D mass gap conditional on KK reduction (v3.4.2)
+-- KK spectral bridge: 4D mass gap conditional on KK reduction
 import GIFT.Spectral.KKSpectralBridge
 
 namespace GIFT.Spectral

@@ -186,7 +186,7 @@ Yang-Mills case. The scalar case is in Bär-Ginoux-Pfäffle 2007.
 2. Use NK stability to extend classical → quantum
 3. Apply Wilsonian EFT (rigorous for super-renormalizable theories)
 -/
-/-- Formerly axiom (v3.4.8). The formal statement is arithmetically trivial:
+/-- Formerly an axiom. The formal statement is arithmetically trivial:
     GIFT_mass_gap_MeV = 2800/99 > 0. The **physical** content (4D Yang-Mills EFT
     from KK reduction on ℝ⁴ × K₇) is documented above but not captured in the type.
     Eliminating as axiom: the type was always satisfiable by construction. -/

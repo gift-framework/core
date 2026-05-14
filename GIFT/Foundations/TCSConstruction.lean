@@ -14,10 +14,10 @@
 -- - Identifying specific semi-Fano 3-fold building blocks whose ACyl CY3s
 --   realize (b₂, b₃) = (21, 77) via TCS remains OPEN.
 --
--- Status outside TCS (resolved 2026-05-04):
--- - The pair (21, 77) IS realized by an explicit Joyce-Karigiannis (JK)
---   Z₂³ orbifold construction T³ × K3 / Z₂³ (Phase 1-4 audit, see
---   `JoyceKarigiannisConstruction.lean`). The arithmetic witnesses below
+-- Status outside TCS (2026-05-04):
+-- - The pair (21, 77) is also realised at the topological / lattice level
+--   by a Joyce-Karigiannis Z₂³ orbifold construction T³ × K3 / Z₂³
+--   (Mukai 1988 + Garbagnati-Sarti 2009). The arithmetic witnesses below
 --   are kept as a sanity check on parity and as a baseline; they remain
 --   pure arithmetic placeholders, not a geometric TCS derivation.
 --
@@ -270,15 +270,15 @@ EXCLUDED:
 - Orthogonal TCS is excluded for (21, 77) by parity (b₂+b₃ = 98 is even)
 
 REALIZED OUTSIDE TCS (2026-05-04):
-- Joyce-Karigiannis Z₂³ orbifold construction T³ × K3 / Z₂³ realizes
-  (b₂, b₃) = (21, 77) at the topological/lattice level (Mukai 1988 +
-  Garbagnati-Sarti 2009 + 4-phase audit).
-  See `JoyceKarigiannisConstruction.lean`.
+- Joyce-Karigiannis Z₂³ orbifold construction T³ × K3 / Z₂³ realises
+  (b₂, b₃) = (21, 77) at the topological / lattice level
+  (Mukai 1988 + Garbagnati-Sarti 2009).
 
 OPEN within TCS specifically:
 - Identifying semi-Fano 3-fold building blocks for a TCS construction
-  realizing (b₂, b₃) = (21, 77) (likely impossible by parity; superseded
-  by the JK route).
+  realising (b₂, b₃) = (21, 77) (excluded by parity for classical TCS;
+  superseded by Donaldson 2017 K_3-fibration alternative, see
+  `G2DonaldsonLinkCohomology.lean`).
 -/
 
 /-- Master arithmetic consistency check.

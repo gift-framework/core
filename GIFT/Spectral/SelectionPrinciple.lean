@@ -355,7 +355,7 @@ theorem spectral_geometric_identity :
 ### Status: AXIOM ELIMINATED — STATEMENT WAS INCORRECT
 
 The conjecture `λ₁ × H* = dim(G₂) = 14` has been disproved by the
-v3.4.1 analytical formula `λ₁ = π²/(L²·g_ss)` (AnalyticalMassGap.lean).
+the analytical formula `λ₁ = π²/(L²·g_ss)` (AnalyticalMassGap.lean).
 
 Numerical test (tcs_universality_test.py, 21 TCS examples):
   - λ₁ × H*               : min=3.19, max=63.96, CV=71.8% → NOT universal
