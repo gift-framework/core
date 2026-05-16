@@ -59,6 +59,8 @@ import GIFT.Foundations.G2TCSLatticeCertificate
 import GIFT.Foundations.G2DonaldsonLinkCohomology
 -- G_2-irrep / Mukai V_4 lattice certificate: H^3(K_7) basis change + NS Gram closure
 import GIFT.Foundations.G2IrrepLatticeCertificate
+-- K3 Z_2^3-isotype decomposition of H^2(K3)=22 via topological Lefschetz (SD 3 / ASD 19)
+import GIFT.Foundations.K3IsotypeLefschetzCertificate
 -- Metric gap closure: typed analytic/torsion-free status and promotion gates
 import GIFT.Foundations.MetricGapClosure
 -- Donaldson K3/coassociative fibration route for b2=21
