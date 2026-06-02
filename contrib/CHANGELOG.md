@@ -5,6 +5,23 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.25] - 2026-06-02
+
+### Summary
+
+**Academic-terminology cleanup follow-up.** Completes the v3.4.24 purge
+of internal planning labels. No mathematical change, no behavioural
+change, no change to any theorem, definition, axiom, or proof.
+
+- `GIFT/Foundations.lean` : three import comments still carried
+  "(Plan A 2026-05-30)", "(Plan A P0 2026-05-30)" and
+  "(Plan A P1 2026-05-30)" tags next to the `K3ClosedFormWitness`,
+  `K3ClosedFormBoxEnclosures` and `K3KrawczykContainment` imports. The
+  planning tags are removed; the mathematical descriptions (box-local at
+  r=10⁻⁸, ε₃' = 1321/10⁷, trust-boundary narrowing, 28000 strict integer
+  inequalities) are kept.
+- `lake build GIFT.Foundations` : 2535/2535, 0 sorry, axiom set unchanged.
+
 ## [3.4.24] - 2026-06-01
 
 ### Summary
