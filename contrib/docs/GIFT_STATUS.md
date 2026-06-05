@@ -1,14 +1,16 @@
 # GIFT Framework Status
 
 **Version**: 3.4.26
-**Date**: 2026-06-03
+**Date**: 2026-06-05
 **Proof Systems**: Lean 4 (v4.29.0 + Mathlib v4.29.0)
 
 ---
 
 ## Executive Summary
 
-GIFT (Geometric Information Field Theory) derives Standard Model parameters from E8×E8 gauge theory compactified on G2-holonomy manifolds. The framework achieves **0.24% mean deviation** across **50+ physical observables** with **460+ machine-verified relations** and **4 published axioms**.
+GIFT (Geometric Information Field Theory) expresses Standard Model dimensionless parameters as topological invariants of an E8×E8 gauge theory compactified on a G2-holonomy manifold K7 with Betti numbers (b2, b3) = (21, 77). **Zero free parameters.** The parameter-free core is **33 exact relations** among topological integers, each individually correct-or-wrong and none tunable, machine-checked in **Lean 4**: **460+ certified relations**, **15 axioms** (4 on the main prediction chain + 11 interval-arithmetic certificates for the K3 block of g*), **0 `sorry`**.
+
+*Precision (secondary):* **0.92% mean deviation** on the 33 Type-I relations; **95 observables** total, **66 with experimental data** (NuFIT 6.1 / PDG 2024 / Planck 2018 / CODATA 2022).
 
 ---
 
@@ -145,4 +147,4 @@ GIFT bridges three active research programs:
 
 ---
 
-*Updated: 2026-04-11*
+*Updated: 2026-06-05 — headline reframed rigor-first (0 free parameters · 15 axioms 4+11 · 0 sorry · 33 exact relations; precision secondary) per CANONICAL_NUMBERS.*
