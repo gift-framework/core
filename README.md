@@ -3,6 +3,8 @@
 [![Formal Verification](https://github.com/gift-framework/core/actions/workflows/verify.yml/badge.svg)](https://github.com/gift-framework/core/actions/workflows/verify.yml)
 [![PyPI](https://img.shields.io/pypi/v/giftpy)](https://pypi.org/project/giftpy/)
 
+Part of the **[Arithmon program](https://github.com/arithmon)** — the hypothesis that the constants of nature are counts.
+
 Formally verified mathematical relations from the GIFT framework. 460+ certified relations, **15 axioms** (4 logical on the main prediction chain + 11 interval-arithmetic certificates for the K3 block of g*), all theorems proven in **Lean 4** (8391 build jobs).
 
 ## Structure
@@ -74,6 +76,8 @@ For extended observables, publications, and detailed analysis:
 **[gift-framework/GIFT](https://github.com/gift-framework/GIFT)**
 
 ---
+
+> **GIFT is the founding framework of the [Arithmon program](https://github.com/arithmon).**
 
 [Changelog](contrib/CHANGELOG.md) | [MIT License](LICENSE)
 
