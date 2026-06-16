@@ -7,7 +7,7 @@
 -- Key quantities:
 -- - φ⁻² = VEV of K7 vacuum ≈ 0.382
 -- - φ⁻⁵⁴ = (φ⁻²)^27 = Jordan suppression ≈ 1.17 × 10⁻¹¹
--- - 27^φ ≈ 206.77 = m_μ/m_e ratio
+-- - 27^φ ≈ 207.01 = m_μ/m_e prediction (experimental 206.77)
 
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
 import Mathlib.Data.Real.Basic
@@ -214,7 +214,7 @@ theorem phi_inv_54_very_small : phi_inv_54 < (1 : ℝ) / 10^10 := by
 /-!
 ## 27^φ : Muon-Electron Mass Ratio
 
-27^φ ≈ 206.77, matching m_μ/m_e = 206.768...
+27^φ ≈ 207.01 (theoretical), vs experimental m_μ/m_e = 206.768...
 
 The base 27 = dim(J₃(O)) comes from the exceptional Jordan algebra.
 -/
@@ -270,7 +270,7 @@ theorem rpow_27_16185_lt_209 : (27 : ℝ) ^ ((16185 : ℝ) / 10000) < (209 : ℝ
   GIFT.Foundations.NumericalBounds.rpow_27_16185_lt_209_proven
 
 /-- 27^φ bounds: 206 < 27^φ < 209.
-    Numerically verified: φ ≈ 1.618, so 27^1.618 ≈ 206.77
+    Numerically verified: φ ≈ 1.618, so 27^1.618 ≈ 207.01
     Uses rpow monotonicity with proven bounds on boundary values. -/
 theorem jordan_power_phi_bounds : (206 : ℝ) < jordan_power_phi ∧ jordan_power_phi < (209 : ℝ) := by
   unfold jordan_power_phi
