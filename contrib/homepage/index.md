@@ -6,7 +6,7 @@ usemathjax: true
 
 Part of the **[Arithmon program](https://github.com/arithmon)** - the hypothesis that the constants of nature are counts.
 
-GIFT explores whether Standard Model dimensionless parameters may be topological invariants of an E₈ × E₈ gauge theory compactified on a G₂-holonomy manifold K₇, with **zero free parameters**. The parameter-free core is **33 exact relations** among topological integers, machine-checked in Lean 4: **460+ certified relations**, **15 axioms** (4 on the prediction chain + 11 interval-arithmetic K3 certificates), **0 `sorry`**. *Precision (secondary):* 0.92% mean deviation on the 33 Type-I relations (NuFIT 6.1 / PDG 2024 / Planck 2018).
+GIFT explores whether Standard Model dimensionless parameters may be topological invariants of an E₈ × E₈ gauge theory compactified on a G₂-holonomy manifold K₇, with **zero free parameters**. The parameter-free core is **33 exact relations** among topological integers, machine-checked in Lean 4: **460+ certified relations**, **15 axioms** (4 on the prediction chain + 11 interval-arithmetic K3 certificates), **0 `sorry`**. *Precision (secondary):* 0.99% mean deviation on the 33 Type-I relations (NuFIT 6.1 / PDG 2024 / Planck 2018).
 
 ## Quick Links
 

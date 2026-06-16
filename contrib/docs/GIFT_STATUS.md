@@ -10,7 +10,7 @@
 
 GIFT (Geometric Information Field Theory) expresses Standard Model dimensionless parameters as topological invariants of an E8×E8 gauge theory compactified on a G2-holonomy manifold K7 with Betti numbers (b2, b3) = (21, 77). **Zero free parameters.** The parameter-free core is **33 exact relations** among topological integers, each individually correct-or-wrong and none tunable, machine-checked in **Lean 4**: **460+ certified relations**, **15 axioms** (4 on the main prediction chain + 11 interval-arithmetic certificates for the K3 block of g*), **0 `sorry`**.
 
-*Precision (secondary):* **0.92% mean deviation** on the 33 Type-I relations; **95 observables** total, **66 with experimental data** (NuFIT 6.1 / PDG 2024 / Planck 2018 / CODATA 2022).
+*Precision (secondary):* **0.99% mean deviation** on the 33 Type-I relations; **95 observables** total, **66 with experimental data** (NuFIT 6.1 / PDG 2024 / Planck 2018 / CODATA 2022).
 
 GIFT is the founding framework of the [Arithmon program](https://github.com/arithmon), the hypothesis that the constants of nature are counts.
 
